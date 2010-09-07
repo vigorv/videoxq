@@ -1,0 +1,268 @@
+html,body { margin:0; padding:0 }
+body { font:normal 0.75em/1.5em Arial, Helvetica, sans-serif; color:#393939 }
+a { color:#0066ff; text-decoration:underline }
+a:hover { color:#f01616; text-decoration:underline }
+a:focus { outline:none }
+a.dashed { color:#0066ff; text-decoration:none; border-bottom:#0066ff 1px dashed }
+a.dashed:hover { color:#f01616; text-decoration:none; border-bottom:#f01616 1px dashed }
+a img { border:none }
+p { margin:0 0 1em 0; padding:0 }
+.spacer { height:1px; overflow:hidden; clear:both }
+
+form { margin:0; padding:0 }
+.textInput { font:normal 1em Arial, Helvetica, sans-serif; color:#393939; padding:2px; border:#cecece 1px solid }
+.textInput:active { border:#000000 1px solid }
+.textInput:focus { background-color: #eeffee }
+.button { font:normal 1em Arial, Helvetica, sans-serif; color:#393939 }
+
+.mainMenu { margin:0; padding:0 0 0 10px; list-style:none; height:67px; background:#181818 url(/img/mainmenu.gif) 0 0 repeat-x }
+.mainMenu li { margin:0; padding:0 10px; font:26px/57px "Arial Narrow"; color:#FFFFFF; float:left; height:67px }
+.mainMenu li a { color:#FFFFFF }
+.mainMenu li a:hover { color:#87b66a }
+.mainMenu li.active { background:url(/img/mainmenu_a_l.gif) bottom left no-repeat }
+.mainMenu li.active strong { background:url(/img/mainmenu_a_r.gif) bottom right no-repeat; float:left; margin:0 -17px; padding:0 17px; height:67px }
+
+#wrap .viewright { float:right; white-space: nowrap; margin-left: 10px; margin-top: -15px; margin-bottom: -15px; }
+
+.top { height:115px; margin-top: -22px; }
+.top h1 img { vertical-align:bottom }
+.top h1 { float:left; display:inline; margin:15px 0 0 36px; width:122px; height:60px; overflow:hidden; font:bold 42px/60px Impact; color:#4b981b }
+.top h1 a { color:#4b981b; text-decoration:none }
+.top h1 a:hover { color:#4b981b; text-decoration:none }
+.top .userbarWrapper { float:right; width:47%; background:#606060 url(/img/userbar.gif) bottom left repeat-x }
+.top .userbarWrapper .userbar { background:url(/img/userbar2.gif) bottom left no-repeat; padding:0 0 0 54px; height:53px }
+.top .userbarWrapper img { float:left; display:inline; margin:7px 18px 0 0; width:40px }
+.top .userbarWrapper .userRating { float:left; display:inline; width:70px; font:45px/35px "Trebuchet MS"; color:#ababab; height:35px; overflow:hidden; padding:0 0 0 1px; margin:9px 0 0 0 }
+.top .userbarWrapper .userRating em { font-style:normal; display:block; color:#3a3a3a }
+.top .userbarWrapper .userRating span { display:block; margin:-36px 0 0 -1px }
+.top .userbarWrapper .welcome { color:#FFFFFF; float:right; text-align:right; padding:6px 40px 0 0; font-size:0.92em; color:#dfdfdf; width:57% }
+.top .userbarWrapper .welcome a { color:#FFFFFF }
+.top .userbarWrapper .welcome a:hover { color:#dfdfdf }
+.top .userbarWrapper .userLogin { color:#a4a4a4; float:left; width:385px }
+.top .userbarWrapper .userLogin p { float:left; padding:0 13px 0 0; margin:0 }
+.top .userbarWrapper .userLogin a { color:#dfdfdf; font-size:0.92em }
+.top .userbarWrapper .userLogin a:hover { color:#ffffff }
+.top .userbarWrapper .userLogin .textInput { width:150px; font-size:1.5em }
+.top .userbarWrapper .userLogin .button { width:26px; height:27px; margin:18px 0 0 0 }
+
+#top { height:150px; position:relative }
+#top h1 { width:252px; height:80px; overflow:hidden; position:absolute; top:35px; left:56px; margin:0; padding:0 }
+#top .moviesCounter { position:absolute; top:67px; left:360px; font-size:1.08em }
+#top form { height:31px; width:320px; background:#ffffff url(/img/vusic/search_l.gif) 0 0 no-repeat; position:absolute; top:61px; right:70px }
+#top form .textInput { width:270px; position:absolute; left:14px; top:5px; padding:3px 0; border:none; background:#FFFFFF }
+#top form .go { width:32px; height:31px; position:absolute; top:0; left:290px }
+
+ul { margin:0 0 1em 0; padding:0; list-style:none }
+ul li { margin:0 0 0.5em 0; padding:0 0 0 20px }
+ol { margin:0 0 1em 31px; padding:0 }
+ol li { margin:0 0 0.5em 0; padding:0 0 0 0 }
+
+h2 { font-size:1.78em; font-weight:normal; margin:0 0 12px 0; padding:0 }
+h3 { font-size:1.25em; font-weight:normal; margin:0 0 16px 0; line-height:1.25em }
+h4 { font-size:1.17em; font-weight:bold; margin:0 0 3px 0; line-height:1.25em }
+
+#menu { height:77px; margin:0 0 0 46px }
+<!-- #menu { height:77px; margin:-20px 0 -25px 46px } -->
+#menu li { height:31px; line-height:30px; padding:0 18px; font-size:21px; float:left; display:inline; margin:0 10px 0 0 }
+#menu li a { color:#656565 }
+#menu li a:hover { color:#f01616 }
+#menu li.active { padding:0; background:#e2e2e2 url(/img/vusic/menu_l.gif) 0 0 no-repeat }
+#menu li.active a { color:#393939 }
+#menu li.active a:hover { color:#f01616 }
+#menu li.active strong { font-weight:normal; background:url(/img/vusic/menu_r.gif) top right no-repeat; float:left; height:31px; padding:0 18px }
+
+.ratings { width:70px; height:13px; background:url(/img/vusic/stars.gif) 0 0 no-repeat }
+
+#content { padding:0 0 30px 63px; float:left; width:74%; margin:0 0 20px 0 }
+#genres { margin:0 0 60px 0 }
+#genres li { padding-left:0; background:none }
+#genres li.active a { background:#656565; color:#FFFFFF; position:relative; left:-4px; padding:0 4px }
+#genres li.active a:hover { background:#393939; color:#FFFFFF }
+#genres li.all { font-size:1.5em }
+#genres li.search p { margin:0 0 5px 0 }
+#genres li.search .textInput { width:200px; margin:0 0 3px 0 }
+#genres li.search .button { vertical-align:middle; margin:0 12px 0 0 }
+#genres li.search select.textInput { width:92% }
+#genres li.search { padding:0 0 25px 0 }
+#genres li.search .adv-term .textInput { width:2.3em; vertical-align:middle }
+#genres li.search .adv-term select.textInput { width:3.4em }
+#genres li.search .adv { display:none }
+
+.movies { }
+.movies .moviePreviewWrapper { float:left; width:200px; display:inline; margin:0 10px 0 0; height:195px; position:relative; zoom:1 }
+.movies a.moviePreview { display:block }
+.movies .hd { position:absolute; top:-4px; left:-5px; width:30px; height:21px; overflow:hidden; zoom:1 }
+.movies .hd2 { position:absolute; top:-4px; left:25px; width:30px; height:21px; overflow:hidden; zoom:1 }
+.movies .hd3 { position:absolute; top:20px; left:-5px; width:30px; height:21px; overflow:hidden; zoom:1 }
+.movies .hd4 { position:absolute; top:20px; left:25px; width:30px; height:21px; overflow:hidden; zoom:1 }
+
+.movies .hd b { background:#393939; color:#FFFFFF; padding:0 2px }
+.movies .moviePreviewWrapper .poster { width:79px; padding:0 12px 0 0; overflow:hidden; float:left }
+.movies .moviePreviewWrapper .poster img { display:block; margin:0 0 3px 0 }
+.movies .moviePreviewWrapper .poster .imdb { color:#656565; font-size:0.92em }
+.movies .moviePreviewWrapper p { float:left; width:118px; font-size:0.92em; line-height:1.32em; margin:0 }
+.movies .moviePreviewWrapper p span { font-size:1.08em; display:block; margin:4px 0 4px 0; padding-left:7px; position:relative; left:-7px }
+.movies .moviePreviewWrapper p span i { margin:0 0 0 -7px; font-style:normal }
+.movies .moviePreviewWrapper p span strong { font-weight:normal; color:#0066ff; text-decoration:underline }
+.movies .moviePreviewWrapper p em { font-style:normal; color:#656565; display:block; margin:4px 0 0 0 }
+
+.downloadingList { padding:0 50px 0 63px; position:relative; margin:0 0 15px 0; zoom:1; clear:both }
+.downloadingList .moviePreviewWrapper { margin:0 10px 0 0; position:relative; zoom:1; cursor:move; }
+.downloadingList .hd { position:absolute; top:-4px; left:-5px; width:30px; height:21px; overflow:hidden; zoom:1 }
+.downloadingList .hd b { background:#393939; color:#FFFFFF; padding:0 2px }
+.downloadingList .poster { width:79px; padding:0 12px 0 0; overflow:hidden; float:left; margin:0 0 15px 0 }
+.downloadingList .poster img { display:block; margin:0 0 3px 0 }
+.downloadingList .poster .imdb { color:#656565; font-size:0.92em }
+.downloadingList p { float:left; width:50%; font-size:0.92em; line-height:1.32em; margin:0 0 15px 0 }
+.downloadingList p span { font-size:1.08em; display:block; margin:4px 0 4px 0; padding-left:7px; position:relative; left:-7px }
+.downloadingList p span i { margin:0 0 0 -7px; font-style:normal }
+.downloadingList p span strong { font-weight:normal }
+.downloadingList p em { font-style:normal; color:#656565; display:block; margin:4px 0 0 0 }
+.downloadingList .nu { font-size:1.5em; position:absolute; top:0; left:0; width:55px; text-align:right }
+.downloadingList .remove { position:absolute; top:25px; left:32px; }
+
+.listGen { margin:0 0 45px 0; padding:0 50px 0 63px }
+.listGen .textInput { width:250px }
+.listGen .button { font-size:1.17em; font-weight:bold }
+
+.pages { clear:both; line-height:2em; width:95% }
+.pages strong { padding:0 6px }
+.pages a { padding:0 6px }
+
+#footer { height:130px; position:relative; clear:both; }
+<!--
+#footer .copy { position:absolute; top:60px; left:63px; white-space:nowrap;}
+-->
+#footer .copy { position:absolute; top:60px;}
+#footer .design { position:absolute; top:60px; right:60px; text-align:right }
+
+.footer { background:#3a3a3a; padding:19px 0 15px 10px; clear:both; color:#9d9d9d; zoom:1 }
+.footer .media { float:left; width:80%; padding:0 10px 0 0 }
+.footer .media img { float:left }
+.footer h4 { font-size:1.5em; font-weight:normal; margin:0 0 8px 0 }
+.footer h4 a { color:#9d9d9d }
+.footer h4 a:hover { color:#ff9000 }
+.footer .media div { float:left; width:600px; padding:0 0 0 13px; font-size:0.92em; color:#9d9d9d; line-height:1.33em }
+.footer .media div strong { font-weight:normal; font-size:1.25em; line-height:1.33em; display:block; margin:0 0 3px 0 }
+.footer .media div strong a { color:#FFFFFF }
+.footer .media div strong a:hover { color:#ff9000 }
+.footer ul { float:right; padding:0 20px 0 0 }
+.footer ul li { background:none; font-size:0.90em; white-space:nowrap }
+.footer ul li a { color:#FFFFFF }
+.footer ul li a:hover { color:#ff9000 }
+.footer ul li.homepage { padding-top:10px }
+<!--
+.footer .copy { clear:both; padding:0 0 0 28%;}
+-->
+.footer .copy {  padding:0 0 0 0; margin: 0 0 0 -10%;}
+<!--
+.footer .copy span { padding-left:55px; }
+-->
+.footer .copy span {}
+.footer .copy a { color:#9d9d9d }
+.footer .copy a:hover { color:#ff9000 }
+
+.movie .movies { margin:10px 0 0 0 }
+.movie .movies .moviePreviewWrapper .poster { float:left; margin:0 }
+.movie .poster { float:right; margin:0 0 30px 30px }
+.movie { padding:0 10px 0 45px }
+.movie h2 { font-size:1.78em; font-weight:normal; margin:0 0 3px -12px; line-height:1.17em; position:relative; padding:0 0 0 12px; z-index:1 }
+.movie h2 i { font-style:normal; margin:0 0 0 -12px }
+.movie h3 { font-size:1.25em; font-weight:normal; margin:0 0 16px 0; line-height:1.25em }
+.movie h4 { font-size:1.17em; font-weight:bold; margin:0 0 3px 0; line-height:1.25em }
+.movie h4 em { font-style:normal; font-size:0.92em }
+.movie .download { float:right; width:130px; text-align:right }
+.movie .download a.dl { font-size:1.5em; line-height:1.25em }
+.movie .userRate { float:right; text-align:left; position:relative; z-index:10 }
+.movie .fileList { margin:5px 0 20px -30px; padding:0; border:none; border-collapse:collapse }
+.movie .fileList td { padding:0 0 5px 0; margin:0; vertical-align:top }
+.movie .fileList .action { width:30px }
+.movie .fileList .size { padding-right:10px; white-space:nowrap; width:50px }
+.movie .fileList .magnet { padding-left:10px }
+.commentBox { margin:0 0 20px 0; padding:5px 0 0 10px }
+.commentBox .author { margin:0 0 7px -10px }
+.commentBox .author em { color:#656565; font-style:normal; font-size:0.92em }
+.leaveComment { padding:15px 0 0 0; margin:0 0 20px 0 }
+.leaveComment .pl { float:left; padding-right:10px }
+.leaveComment .textInput { width:200px }
+.leaveComment textarea.textInput { width:416px; height:70px }
+.leaveComment label em { color:#656565; font-style:normal }
+
+.vote, .vote li.rated, .vote li a:hover { background: url(/img/vusic/stars.gif) no-repeat 0 0; }
+
+.vote li.rated, .vote li a:hover { background-color:red }
+.vote li a:hover { background-position:0 -26px }
+.vote { background-position: 0 -13px }
+.vote:hover li, .ievote:hover li { background:none }
+.ievote { text-decoration: none !important }
+.vote { width: 70px; overflow: hidden;  position: relative }
+.vote, .vote li, .vote li a { height: 13px; display: block }
+.vote li { position: absolute }
+.vote, .vote li { left: 0; top: 0; list-style: none; margin: 0; padding: 0 }
+.vote li.rating_1   { width: 14px; }
+.vote li.rating_2   { width: 28px; }
+.vote li.rating_3 { width: 42px; }
+.vote li.rating_4  { width: 56px; }
+.vote li.rating_5  { width: 70px; }
+
+.vote li a {
+    overflow: hidden;
+    text-indent: -100px;
+    outline: 0;
+}
+div.ratings { background:url(/img/vusic/stars.gif) 0 -13px no-repeat; height:13px; overflow:hidden }
+.rated_0 div { height:13px; background:none; width:1px }
+.rated_1 div { height:13px; background:url(/img/vusic/stars.gif) 0 0 no-repeat; width:14px }
+.rated_2 div { height:13px; background:url(/img/vusic/stars.gif) 0 0 no-repeat; width:28px }
+.rated_3 div { height:13px; background:url(/img/vusic/stars.gif) 0 0 no-repeat; width:42px }
+.rated_4 div { height:13px; background:url(/img/vusic/stars.gif) 0 0 no-repeat; width:56px }
+.rated_5 div { height:13px; background:url(/img/vusic/stars.gif) 0 0 no-repeat; width:70px }
+
+.you_rated div { background-position:0 -26px }
+
+#faces { padding:0 60px 0 63px; }
+#faces .column { margin:0 0 40px 0; }
+#faces .column div { width:160px; height:160px; float:left; padding:0 40px 0 0 }
+#faces .column h2 { margin:0 0 10px 0; padding:0; }
+#faces .column ul { margin:0 0 30px 0 }
+#faces .column ul li { background:none; padding:0 0 4px 5px; line-height:1.33em; white-space:nowrap;}
+#faces .column ul li a { color:#656565 }
+#faces .column ul li a:hover { color:#f01616 }
+#faces .searchName { margin:0 0 40px 0 }
+#faces .searchName .textInput { width:35% }
+#faces .column .letterColumn { float:left; width:29%; padding:0 3% 0 0; height:auto }
+#faces .column .letterColumn ul li a { color:#0066ff }
+#faces .column .letterColumn ul li a:hover { color:#f01616 }
+
+#searchfaces { padding:0 60px 0 63px; }
+#searchfaces .column { margin:0 0 40px 0; }
+#searchfaces .column div { width:160px;  display:table; float:left; padding:0 40px 0 0 }
+#searchfaces .column h2 { margin:0 0 10px 0; padding:0; }
+#searchfaces .column ul { margin:0 0 30px 0 }
+#searchfaces .column ul li { background:none; padding:0 0 4px 5px; line-height:1.33em; white-space:nowrap;}
+#searchfaces .column ul li a { color:#656565 }
+#searchfaces .column ul li a:hover { color:#f01616 }
+#searchfaces .searchName { margin:0 0 40px 0 }
+#searchfaces .searchName .textInput { width:35% }
+#searchfaces .column .letterColumn { float:left; width:29%; padding:0 3% 0 0; height:auto }
+#searchfaces .column .letterColumn ul li a { color:#0066ff }
+#searchfaces .column .letterColumn ul li a:hover { color:#f01616 }
+
+#face { width:70%; padding:0 0 0 63px }
+#face .dude { float:left; margin:0 20px 20px 0 }
+#face h2 { line-height:1em }
+#face h2 em { font-style:normal; font-size:0.75em }
+#face h3 { font-size:1.17em; font-weight:bold; margin:0 0 8px 0; line-height:1.25em; clear:both }
+#face ol { margin-bottom:20px }
+#face ol li { line-height:1.33em; padding:0 0 4px 0 }
+
+#alphFaces { margin:0 0 30px 0; padding:0 60px 0 63px }
+#alphFaces ul { margin:0 0 15px 0; padding:0 }
+#alphFaces ul li { display:inline; margin:0; padding:0; font-size:1.17em; font-weight:bold }
+#alphFaces ul li a { color:#656565; padding:2px 4px }
+#alphFaces ul li a:hover { color:#f01616 }
+#alphFaces ul li strong { padding:2px 4px; background:#656565; color:#FFFFFF }
+.form-error { border-color:#e5191e }
+#flashMessage, #authMessage { font-weight:bold; padding:0 0 20px 63px }
+#advancedColumn { float:left; width:16% }
+

@@ -1,0 +1,320 @@
+# LANGUAGE translation of CakePHP Application
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  Revision: 19 /app/models/behaviors/bindable.php
+#  Revision: 6311 /app/webroot/test.php
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2008-04-25 18:27+0700\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: /controllers/catalog_item_param_values_controller.php:15;28
+msgid "Invalid CatalogItemParamValue."
+msgstr ""
+
+#: /controllers/catalog_item_param_values_controller.php:38;55
+msgid "The CatalogItemParamValue has been saved"
+msgstr ""
+
+#: /controllers/catalog_item_param_values_controller.php:41;58
+msgid "The CatalogItemParamValue could not be saved. Please, try again."
+msgstr ""
+
+#: /controllers/catalog_item_param_values_controller.php:50
+msgid "Invalid CatalogItemParamValue"
+msgstr ""
+
+#: /controllers/catalog_item_param_values_controller.php:70
+msgid "Invalid id for CatalogItemParamValue"
+msgstr ""
+
+#: /controllers/catalog_item_param_values_controller.php:74
+msgid "CatalogItemParamValue deleted"
+msgstr ""
+
+#: /controllers/catalog_item_params_controller.php:34;48
+msgid "Invalid CatalogItemParam."
+msgstr ""
+
+#: /controllers/catalog_item_params_controller.php:58;75
+msgid "The CatalogItemParam has been saved"
+msgstr ""
+
+#: /controllers/catalog_item_params_controller.php:61;78
+msgid "The CatalogItemParam could not be saved. Please, try again."
+msgstr ""
+
+#: /controllers/catalog_item_params_controller.php:70
+msgid "Invalid CatalogItemParam"
+msgstr ""
+
+#: /controllers/catalog_item_params_controller.php:90
+msgid "Invalid id for CatalogItemParam"
+msgstr ""
+
+#: /controllers/catalog_item_params_controller.php:94
+msgid "CatalogItemParam deleted"
+msgstr ""
+
+#: /controllers/catalog_item_types_controller.php:15;34
+msgid "Invalid CatalogItemType."
+msgstr ""
+
+#: /controllers/catalog_item_types_controller.php:47;65
+msgid "The CatalogItemType has been saved"
+msgstr ""
+
+#: /controllers/catalog_item_types_controller.php:50;68
+msgid "The CatalogItemType could not be saved. Please, try again."
+msgstr ""
+
+#: /controllers/catalog_item_types_controller.php:59
+msgid "Invalid CatalogItemType"
+msgstr ""
+
+#: /controllers/catalog_item_types_controller.php:78
+msgid "Invalid id for CatalogItemType"
+msgstr ""
+
+#: /controllers/catalog_item_types_controller.php:82
+msgid "CatalogItemType deleted"
+msgstr ""
+
+#: /controllers/catalog_items_controller.php:86;189
+msgid "Invalid CatalogItem."
+msgstr ""
+
+#: /controllers/catalog_items_controller.php:216;257
+msgid "The CatalogItem has been saved"
+msgstr ""
+
+#: /controllers/catalog_items_controller.php:223;261
+msgid "The CatalogItem could not be saved. Please, try again."
+msgstr ""
+
+#: /controllers/catalog_items_controller.php:235
+msgid "Invalid CatalogItem"
+msgstr ""
+
+#: /controllers/catalog_items_controller.php:298
+msgid "Invalid id for CatalogItem"
+msgstr ""
+
+#: /controllers/catalog_items_controller.php:302
+msgid "CatalogItem deleted"
+msgstr ""
+
+#: /controllers/events_controller.php:17;72
+msgid "Invalid Event."
+msgstr ""
+
+#: /controllers/events_controller.php:27;42;82;97
+msgid "The Event has been saved"
+msgstr ""
+
+#: /controllers/events_controller.php:30;45;85;100
+msgid "The Event could not be saved. Please, try again."
+msgstr ""
+
+#: /controllers/events_controller.php:37;92
+msgid "Invalid Event"
+msgstr ""
+
+#: /controllers/events_controller.php:55;110
+msgid "Invalid id for Event"
+msgstr ""
+
+#: /controllers/events_controller.php:59;114
+msgid "Event deleted"
+msgstr ""
+
+#: /models/behaviors/bindable.php:464
+msgid "%s.%s is not a valid binding"
+msgstr ""
+
+#: /vendors/vb.php:154
+msgid "Your username already existed on the forums. The duplication problem has been logged. If this error message continues to display, please contact the site administrator."
+msgstr ""
+
+#: /views/events/admin_add.ctp:9
+msgid "Add Event"
+msgstr ""
+
+#: /views/events/admin_add.ctp:20
+#: /views/events/admin_edit.ctp:22
+#: /views/events/admin_view.ctp:81
+msgid "List Events"
+msgstr ""
+
+#: /views/events/admin_edit.ctp:9
+#: /views/events/admin_view.ctp:79
+msgid "Edit Event"
+msgstr ""
+
+#: /views/events/admin_edit.ctp:21
+#: /views/events/admin_index.ctp:41
+#: /views/site_pages/admin_edit.ctp:19
+#: /views/site_pages/admin_index.ctp:27
+#: /views/site_pages/admin_view.ctp:24
+msgid "Delete"
+msgstr ""
+
+#: /views/events/admin_edit.ctp:21
+#: /views/events/admin_index.ctp:41
+#: /views/events/admin_view.ctp:80
+msgid "Are you sure you want to delete # %s?"
+msgstr ""
+
+#: /views/events/admin_index.ctp:2
+#: /views/events/index.ctp:2
+msgid "Events"
+msgstr ""
+
+#: /views/events/admin_index.ctp:6
+#: /views/events/index.ctp:6
+msgid "Page %page% of %pages%, showing %current% records out of %count% total, starting on record %start%, ending on %end%"
+msgstr ""
+
+#: /views/events/admin_index.ctp:15
+#: /views/events/admin_view.ctp:44
+#: /views/site_pages/admin_index.ctp:7
+msgid "Actions"
+msgstr ""
+
+#: /views/events/admin_index.ctp:39
+#: /views/events/admin_view.ctp:66
+#: /views/site_pages/admin_index.ctp:25
+msgid "View"
+msgstr ""
+
+#: /views/events/admin_index.ctp:40
+#: /views/events/index.ctp:24
+#: /views/site_pages/admin_edit.ctp:8
+#: /views/site_pages/admin_index.ctp:26
+#: /views/site_pages/admin_view.ctp:23
+#: /views/site_pages/view.ctp:5
+msgid "Edit"
+msgstr ""
+
+#: /views/events/admin_index.ctp:48
+#: /views/events/index.ctp:33
+#: /views/site_pages/admin_index.ctp:34
+msgid "previous"
+msgstr ""
+
+#: /views/events/admin_index.ctp:50
+#: /views/events/index.ctp:35
+#: /views/site_pages/admin_index.ctp:36
+msgid "next"
+msgstr ""
+
+#: /views/events/admin_index.ctp:54
+#: /views/events/admin_view.ctp:82
+#: /views/events/index.ctp:40
+msgid "New Event"
+msgstr ""
+
+#: /views/events/admin_view.ctp:2
+#: /views/events/view.ctp:2
+msgid "Event"
+msgstr ""
+
+#: /views/events/admin_view.ctp:4;36
+msgid "Id"
+msgstr ""
+
+#: /views/events/admin_view.ctp:9
+msgid "Title"
+msgstr ""
+
+#: /views/events/admin_view.ctp:14
+msgid "Text"
+msgstr ""
+
+#: /views/events/admin_view.ctp:19;42
+msgid "Created"
+msgstr ""
+
+#: /views/events/admin_view.ctp:24;43
+msgid "Modified"
+msgstr ""
+
+#: /views/events/admin_view.ctp:32
+msgid "Related %s"
+msgstr ""
+
+#: /views/events/admin_view.ctp:32
+msgid "Attachments"
+msgstr ""
+
+#: /views/events/admin_view.ctp:37
+msgid "Dirname"
+msgstr ""
+
+#: /views/events/admin_view.ctp:38
+msgid "Basename"
+msgstr ""
+
+#: /views/events/admin_view.ctp:39
+msgid "Checksum"
+msgstr ""
+
+#: /views/events/admin_view.ctp:40
+msgid "Mimetype"
+msgstr ""
+
+#: /views/events/admin_view.ctp:41
+msgid "Group"
+msgstr ""
+
+#: /views/events/admin_view.ctp:80
+msgid "Delete Event"
+msgstr ""
+
+#: /views/site_pages/admin_add.ctp:9
+msgid "Add"
+msgstr ""
+
+#: /views/site_pages/admin_add.ctp:9
+#: /views/site_pages/admin_edit.ctp:8
+#: /views/site_pages/admin_index.ctp:40
+#: /views/site_pages/admin_view.ctp:2;23;24;26
+msgid "SitePage"
+msgstr ""
+
+#: /views/site_pages/admin_add.ctp:19
+#: /views/site_pages/admin_edit.ctp:20
+#: /views/site_pages/admin_view.ctp:25
+msgid "List"
+msgstr ""
+
+#: /views/site_pages/admin_add.ctp:19
+#: /views/site_pages/admin_edit.ctp:20
+#: /views/site_pages/admin_index.ctp:2
+#: /views/site_pages/admin_view.ctp:25
+msgid "SitePages"
+msgstr ""
+
+#: /views/site_pages/admin_edit.ctp:19
+#: /views/site_pages/admin_index.ctp:27
+#: /views/site_pages/admin_view.ctp:24
+msgid "Are you sure you want to delete"
+msgstr ""
+
+#: /views/site_pages/admin_index.ctp:40
+#: /views/site_pages/admin_view.ctp:26
+msgid "New"
+msgstr ""
+
+#: /webroot/test.php:75
+msgid "Debug setting does not allow access to this url."
+msgstr ""

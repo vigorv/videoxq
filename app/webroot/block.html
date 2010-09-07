@@ -1,0 +1,187 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="/css/common.css" />
+	<script type="text/javascript" src="/js/jquery.js"></script>
+	<script type="text/javascript" src="/js/scripts.js"></script>
+	<script type="text/javascript" src="/js/validation.js"></script>
+<link rel="stylesheet" type="text/css" href="/css/style.css" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="expires" content="Fri, 04 Dec 2009 20:00:00 +0600" />
+<meta name="Robots" content="INDEX, FOLLOW" />
+<meta name='yandex-verification' content='41f90ac754cf4471' />
+<meta name="verify-v1" content="Q+iq7OY8RadE9126YoJFPl1cnjLTMbHmU//RrR0TTks=" />
+<meta name="keywords" content="видео, фильмы, сериалы, скачать бесплатно, webstream, videoxq.com, counter-strike, онлайн игры " />
+<meta name="description" content="фильмы, видео, сериалы бесплатно для вебстрима. сервера counter strike, онлайн игры " />
+<link rel="alternate" type="application/rss+xml" title='ООО "Патент Медиа"' href="http://videoxq.com/rss.xml" />
+<title>ООО "Патент Медиа" - Users</title>
+</head>
+<body>
+<div id="popup">
+</div>
+
+<div id="flipup">
+	<table width="100%" cellspacing="0" cellpadding="0" border="0">
+	<tr>
+		<td class="blockborder" width="100%"><img id="topmove" src="/img/block/t_border.gif" width="100%" height="13" /></td>
+		<td><img id="resize" src="/img/block/rt_corner.gif" width="13" height="13" /></td>
+	</tr>
+	</table>
+
+	<div id="blockicon">
+		<map name="arrowmap">
+			<area shape="rect" coords="0,25,14,60" href="#" onclick="return doFlip();" />
+		</map>
+		<img usemap="#arrowmap" src="/img/block/arrows.gif" align="top" width="13"  border="0" />
+<img id="imgheight" alt="" title="" border="0" align="right" src="/img/block/r_border.gif" />
+	</div>
+<div>
+<p>content textcontent</p>
+<p>content textcontentcontent textcontentcontent textcontentcontent textcontentcontent textcontentcontent textcontentcontent textcontentcontent textcontentcontent textcontentcontent textcontentcontent textcontentcontent textcontentcontent textcontentcontent textcontentcontent textcontentcontent textcontentcontent textcontentcontent textcontentcontent textcontentcontent textcontentcontent textcontent</p>
+</div>
+	<table width="100%" cellspacing="0" cellpadding="0" border="0">
+	<tr>
+		<td class="blockborder" width="100%"><img src="/img/block/b_border.gif" width="100%" height="14" /></td>
+		<td><img src="/img/block/rb_corner.gif" width="13" height="14" alt="" title="" /></td>
+	</tr>
+	</table>
+</div>
+<script type="text/javascript">
+	flipOn = false;
+	mouseDown = false;
+	topDown = false;
+	$('#flipup').fadeTo("fast", 0.5);
+
+	$("#topmove").bind("mouseenter mouseleave", function(e){
+		if (!flipOn) return false;
+        this.style.cursor="move";
+    });
+	$("#topmove").bind("mousedown", function(e){
+		if (!flipOn) return false;
+        flipWidth = $('#flipup').width();
+        flipHeight = $('#imgheight').height();
+        mouseX = e.pageX;
+        mouseY = e.pageY;
+		topDown = true;
+		return false;
+    });
+
+	$("#resize").bind("mouseenter mouseleave", function(e){
+		if (!flipOn) return false;
+        this.style.cursor="sw-resize";
+    });
+	$("#resize").bind("mousedown", function(e){
+		if (!flipOn) return false;
+        flipWidth = $('#flipup').width();
+        flipHeight = $('#imgheight').height();
+        offset = $('#flipup').offset();
+        mouseX = e.pageX;
+        mouseY = e.pageY;
+		mouseDown = true;
+		return false;
+    });
+
+	$().bind("mousemove", function (e){
+		if (topDown)
+		{
+        	y = e.pageY - mouseY;
+	        offset = $('#flipup').offset();
+        	offset.top = offset.top + y;
+       		if (flipHeight + offset.top < screen.availHeight * 0.75)
+       		{
+				if (offset.top > 0)
+				{
+	    	    	$('#flipup').css({top: offset.top});
+				}
+        	}
+		}
+		if (mouseDown)
+		{
+        	flipWidth = flipWidth + (e.pageX - mouseX);
+        	y = e.pageY - mouseY;
+            offset = $('#flipup').offset();
+	    	offset.top = offset.top + y;
+        	flipHeight = flipHeight - y;
+        	if (flipWidth > 50)
+        	{
+        		$('#flipup').width(flipWidth);
+        	}
+       		if (flipHeight + offset.top < screen.availHeight * 0.75)
+       		{
+				if ((offset.top > 0) && (flipHeight > 50))
+				{
+	    	    	$('#flipup').css({top: offset.top});
+	    	    	$('#imgheight').height(flipHeight);
+				}
+        	}
+		}
+       	mouseX = e.pageX;
+        mouseY = e.pageY;
+		return false;
+    });
+
+	$().bind("mouseup", function(e){
+		mouseDown = false;
+		topDown = false;
+		return false;
+    });
+
+	function doFlip()
+	{
+		if (flipOn)
+		{
+			$("#flipup").animate({ left: 15-$("#flipup").width() }, 200 );
+			$('#flipup').fadeTo("slow", 0.5);
+			flipOn = false;
+		}
+		else
+		{
+			$('#flipup').fadeTo("fast", 1);
+			$("#flipup").animate({ left: "0" }, 200 );
+			flipOn = true;
+		}
+		return false;
+	}
+</script>
+<p>content textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent text</p>
+<p>content textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent text</p>
+<p>content textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent text</p>
+
+<p>content textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent text</p>
+<p>content textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent text</p>
+<p>content textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent text</p>
+
+<p>content textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent text</p>
+<p>content textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent text</p>
+<p>content textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent text</p>
+
+<p>content textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent text</p>
+<p>content textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent text</p>
+<p>content textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent text</p>
+
+<p>content textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent text</p>
+<p>content textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent text</p>
+<p>content textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent text</p>
+<p>content textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent text</p>
+<p>content textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent text</p>
+<p>content textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent text</p>
+
+<p>content textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent text</p>
+<p>content textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent text</p>
+<p>content textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent text</p>
+
+<p>content textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent text</p>
+<p>content textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent text</p>
+<p>content textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent text</p>
+
+<p>content textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent text</p>
+<p>content textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent text</p>
+<p>content textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent text</p>
+
+<p>content textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent text</p>
+<p>content textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent text</p>
+<p>content textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent textcontent text</p>
+
+</body>
+</html>

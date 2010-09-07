@@ -1,0 +1,99 @@
+body,html { margin:0; padding:0 }
+
+body { background:#2f2f2f url(/img/back.jpg); font-family:Arial, Helvetica, sans-serif; font-size:0.75em; line-height:1.5em; text-align:center; color:#2c2f2e }
+
+a img { border:none }
+
+p { margin:0 0 14px 0 }
+
+a { color:#ff4e00; text-decoration:underline }
+
+a:hover { color:#FF0000; text-decoration:underline }
+
+
+
+.wrapper { width:900px; margin:0 auto; height:900px; position:relative; text-align:left; padding:129px 50px 0 50px }
+
+.wrapper .vusic { width:754px; height:333px; position:absolute; top:0; left:-336px; background:url(/img/vusic.png); z-index:100;
+
+// background:none;
+
+// filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true,sizingMethod=crop,src=img/vusic.png);
+
+}
+
+
+
+.inner { margin:0; padding:0; list-style:none; width:900px; height:871px; background:url(/img/cable.gif); position:relative; z-index:50 }
+
+.inner li { position:absolute; margin:0; padding:0; background:none }
+
+.inner li a { display:block; text-indent:-999px; overflow:hidden }
+
+.inner li.servers { top:184px; left:437px }
+
+.inner li.servers a { width:341px; height:96px; background:url(/img/index/servers.jpg) 0 0 no-repeat }
+
+.inner li.servers a:hover { background-position:0 -96px }
+
+.inner li.exchanger { top:325px; left:536px }
+
+.inner li.exchanger a { width:331px; height:80px; background:url(/img/index/files.jpg) 0 0 no-repeat }
+
+.inner li.exchanger a:hover { background-position:0 -80px }
+
+.inner li.forum { top:449px; left:554px }
+
+.inner li.forum a { width:341px; height:81px; background:url(/img/index/forum.jpg) 0 0 no-repeat }
+
+.inner li.forum a:hover { background-position:0 -81px }
+
+.inner li.contacts { top:589px; left:14px }
+
+.inner li.contacts a { width:432px; height:73px; background:url(/img/index/contacts.jpg) 0 0 no-repeat }
+
+.inner li.contacts a:hover { background-position:0 -73px }
+
+.inner li.media { top:582px; left:10px }
+
+.inner li.media a { width:307px; height:80px; background:url(/img/index/media.jpg) 0 0 no-repeat }
+
+.inner li.media a:hover { background-position:0 -80px }
+
+
+
+.wrapperIns { width:855px; margin:0 auto; position:relative; text-align:left; padding:140px 73px 30px 72px }
+
+.wrapperIns .vusic { width:474px; height:333px; position:absolute; top:0; left:-336px; background:url(/img/vusic2.png); z-index:100;
+
+// background:none;
+
+// filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true,sizingMethod=crop,src=img/vusic2.png);
+
+}
+
+.wrapperIns .vusic2 { width:280px; height:185px; position:absolute; top:0; left:138px; background:url(/img/vusic22.png); z-index:100;
+
+// background:none;
+
+// filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true,sizingMethod=crop,src=img/vusic22.png);
+
+}
+
+
+
+.content { background:#FFFFFF; padding:0 68px }
+
+.content .cTop { height:18px; overflow:hidden; background:url(/img/crn_t_r.gif) top right no-repeat; margin:0 -68px 25px -68px }
+
+.content .cTop div { height:18px; width:18px; overflow:hidden; background:url(/img/crn_t_l.gif) top left no-repeat }
+
+.content .cBottom { height:18px; overflow:hidden; background:url(/img/crn_b_r.gif) bottom right no-repeat; margin:25px -68px 0 -68px }
+
+.content .cBottom div { height:18px; width:18px; overflow:hidden; background:url(/img/crn_b_l.gif) bottom left no-repeat }
+
+
+
+h1 { font-family:Arial Narrow, Arial; font-size:2em; font-weight:normal; margin: 0 0 15px 0 }
+
+h2 { font-family:Arial; font-size:1.5em; font-weight:normal; margin: 0 0 11px 0 }
