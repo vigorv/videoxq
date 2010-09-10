@@ -228,6 +228,8 @@ class MediaController extends AppController {
 					{
 						if (isset($matches[1]) && !empty($matches[1]))
 						{
+							if (in_array($matches[1], $ids))
+								continue;
 							$ids[] = $matches[1];
 					        $film = $this->Film->read(array('Film.id'), $matches[1]);
 							$film['Film']['is_license'] = intval(!empty($this->data['is_license']));
@@ -338,6 +340,8 @@ class MediaController extends AppController {
 					{
 						if (isset($matches[1]) && !empty($matches[1]))
 						{
+							if (in_array($matches[1], $ids))
+								continue;
 							$ids[] = $matches[1];
 					        $this->Film->contain(array('FilmType',
 					                                     'Genre',
