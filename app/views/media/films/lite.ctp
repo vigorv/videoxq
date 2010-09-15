@@ -19,10 +19,10 @@ echo $BlockBanner->getBanner('antonina_left');
 	}
 
 	$calls = 0;	$divx = ''; $redirect = '';
-	$sec = 20;
+	$sec = 5;
 	if ($authUser['userid'])
 	{
-		$sec = intval($sec / 2);
+		//$sec = intval($sec / 2);
 	}
 
 	if (!empty($id) && (isset($_SESSION['lastDivx'])))
