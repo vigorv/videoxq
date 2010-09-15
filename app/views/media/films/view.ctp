@@ -518,7 +518,7 @@ else
 				(($ip >= ip2long('94.246.127.1')) && ($ip <= ip2long('94.246.127.64')))
 			   );
 	}
-/*
+
 	if (isOperaTurbo())
 	{
 		$browser = strtolower(get_browser(null, true));
@@ -527,7 +527,7 @@ else
 			$linksContent = '<br /><b>Пользователям браузера Opera</b> для получения ссылок необходимо отключить опцию "Opera Turbo",<br />и затем <a href="/media/view/' . $Film['id'] . '">получить ссылки</a>';
 		}
 	}
-*/
+
 }
 
 /*
