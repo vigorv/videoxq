@@ -468,7 +468,7 @@ class PaysController extends AppController
 					"WMI_FAIL_URL"			=> "http://www.videoxq.com/pays/w1fail",
 				);
 
-				uksort($fields, "strcasecmp");
+				ksort($fields);
 				$fieldValues = "";
 				foreach($fields as $name => $val)
 				{
