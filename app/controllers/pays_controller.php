@@ -482,7 +482,7 @@ class PaysController extends AppController
 				$data = ''; $amp = '';
 				foreach ($fields as $key => $value)
 				{
-					$data .= $amp . $key . '=' . $val;
+					$data .= $amp . $key . '=' . $value;
 					$amp = '&';
 				}
 
