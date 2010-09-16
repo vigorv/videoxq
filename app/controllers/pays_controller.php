@@ -475,7 +475,7 @@ class PaysController extends AppController
 				   $fieldValues .= iconv("utf-8", "windows-1251", $val);
 				}
 				$secret_code	= Configure::read('W1.secret_code');
-				$signature 		= base64_encode(pack("H*", md5($fieldValues . $key)));
+				$signature 		= base64_encode(pack("H*", md5($fieldValues . $secret_code)));
 
 				$fields["WMI_SIGNATURE"] = $signature;
 
