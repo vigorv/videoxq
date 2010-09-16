@@ -463,7 +463,7 @@ class PaysController extends AppController
 					"WMI_MERCHANT_ID"		=> Configure::read('W1.id'),
 					"WMI_PAYMENT_AMOUNT"	=> $out_summ,
 					"WMI_CURRENCY_ID"		=> Configure::read('W1.currency_id'),
-					"WMI_DESCRIPTION"		=> "VIP доступ " . (!empty($payDesc[$summ])) ? $payDesc[$summ] : "", // описание платежа
+					"WMI_DESCRIPTION"		=> "VIP доступ " . ((!empty($payDesc[$summ])) ? $payDesc[$summ] : ""), // описание платежа
 					"WMI_SUCCESS_URL"		=> "http://www.videoxq.com/pays/w1success",
 					"WMI_FAIL_URL"			=> "http://www.videoxq.com/pays/w1fail",
 				);
