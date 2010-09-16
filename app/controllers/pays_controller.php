@@ -2,9 +2,10 @@
     App::import('Model', 'User');
 	App::import('Model', 'Pay');
 
-	define('_PAY_ROBOX_', 0);
-	define('_PAY_SMSCOIN_', 1);
-	define('_PAY_ASSIST_', 2);
+	define('_PAY_ROBOX_',	0);
+	define('_PAY_SMSCOIN_',	1);
+	define('_PAY_ASSIST_',	2);
+	define('_PAY_W1_',		3);
 
 class PaysController extends AppController
 {
@@ -406,6 +407,231 @@ class PaysController extends AppController
 			}
 		}
 	}
+
+
+    /**
+     *
+     * генерация ссылок на оплату через W1 (Единый кошелек)
+     *
+     * @param integer $summ
+     */
+	public function w1($summ = 0)
+	{
+		if (empty($this->authUser['userid']))
+			$summ = -1;//СЕРВИС ПРИОСТАНОВДЕН
+		$perMonth	= Configure::read('W1.costPerMonth');
+		$this->set('perMonth', $perMonth);
+		$perWeek	= Configure::read('W1.costPerWeek');
+		$this->set('perWeek', $perWeek);
+		$perDay		= Configure::read('W1.costPerDay');
+		$this->set('perDay', $perDay);
+		$payDesc = array(
+			$perDay		=> Configure::read('descPerDay'),
+			$perWeek	=> Configure::read('descPerWeek'),
+			$perMonth	=> Configure::read('descPerMonth'),
+		);
+		$this->set('payDesc', $payDesc);
+
+		if ($summ > 0)
+		{
+			if (empty($this->authUser['userid']))
+			{
+				$this->redirect('/users/login');
+			}
+	    	$allowDownload = checkAllowedMasks(Configure::read('Catalog.allowedIPs'), $_SERVER['REMOTE_ADDR']);
+	    	if (!$allowDownload)
+	    	{
+				//$this->redirect('/pays/notsupport');
+	    	}
+
+			$out_summ = sprintf("%01.2f", (float)($summ));
+			$payData = array('Pay' => array(
+					'user_id'	=> $this->authUser['userid'],
+			));
+			$payData['Pay']['created']	= time();
+			$payData['Pay']['summ']		= $out_summ;
+			$payData['Pay']['paysystem']= _PAY_W1_;
+
+			if ($this->Pay->save($payData))
+			{
+				$this->layout = 'ajax';
+				// информация об оплате
+				$payData['Pay']['id'] = $this->Pay->getLastInsertID();
+
+				$fields = array(
+					"WMI_PAYMENT_NO"		=> $payData['Pay']['id'],
+					"WMI_MERCHANT_ID"		=> Configure::read('W1.id'),
+					"WMI_PAYMENT_AMOUNT"	=> $out_summ,
+					"WMI_CURRENCY_ID"		=> Configure::read('W1.currency_id'),
+					"WMI_DESCRIPTION"		=> "VIP доступ " . (!empty($payDesc[$summ])) ? $payDesc[$summ] : "", // описание платежа
+					"WMI_SUCCESS_URL"		=> "http://www.videoxq.com/pays/w1success",
+					"WMI_FAIL_URL"			=> "http://www.videoxq.com/pays/w1fail",
+				);
+
+				uksort($fields, "strcasecmp");
+				$fieldValues = "";
+				foreach($fields as $name => $val)
+				{
+				   $fieldValues .= iconv("utf-8", "windows-1251", $val);
+				}
+				$secret_code	= Configure::read('W1.secret_code');
+				$signature 		= base64_encode(pack("H*", md5($fieldValues . $key)));
+
+				$fields["WMI_SIGNATURE"] = $signature;
+
+				$data = ''; $amp = '';
+				foreach ($fields as $key => $value)
+				{
+					$data .= $amp . $key . '=' . $val;
+					$amp = '&';
+				}
+
+				$host = "https://merchant.w1.ru/checkout/default.aspx";
+
+				$this->set('host', $host);
+				$this->set('data', $data);
+			}
+		}
+	}
+
+    /**
+     * failURL for W1
+     *
+     */
+    public function w1fail()
+    {
+
+    }
+
+    /**
+     * successURL for Ц1
+     *
+     */
+    public function w1success()
+    {
+
+    }
+
+    /**
+     * resultURL for W1(единая касса) service
+     * обработчик ответа от платежной системы
+     * меняет статус записи об оплате
+     *
+     */
+    public function w1result()
+    {
+    	$this->layout = 'ajax';
+
+		$perMonth	= Configure::read('W1.costPerMonth');
+		$perWeek	= Configure::read('W1.costPerWeek');
+		$perDay		= Configure::read('W1.costPerDay');
+
+		if (!isset($_POST["WMI_SIGNATURE"]))
+		{
+			$this->set("result". "Retry");
+			$this->set("description", "Отсутствует параметр WMI_SIGNATURE");
+		}
+
+		if (!isset($_POST["WMI_PAYMENT_NO"]))
+		{
+			$this->set("result". "Retry");
+			$this->set("description", "Отсутствует параметр WMI_PAYMENT_NO");
+		}
+
+		if (!isset($_POST["WMI_ORDER_STATE"]))
+		{
+			$this->set("result". "Retry");
+			$this->set("description", "Отсутствует параметр WMI_ORDER_STATE");
+		}
+		return;
+
+		$fields = array();
+		foreach ($_POST as $key => $value)
+		{
+			if ($key == 'WMI_SIGNATURE') continue;
+			$fields[$key] = $value;
+		}
+
+		uksort($fields, "strcasecmp");
+		$fieldValues = "";
+		foreach($fields as $name => $val)
+		{
+		   $fieldValues .= $val;
+		}
+		$secret_code	= Configure::read('W1.secret_code');
+		$signature 		= base64_encode(pack("H*", md5($fieldValues . $key)));
+
+		$this->payLog("ResultUrl (resultpay)", $fields["WMI_PAYMENT_NO"], $fields["WMI_PAYMENT_AMOUNT"]);
+		$this->payLog(serialize($_POST), '$_POST', 0);
+
+		// validating the signature
+		if($_POST["WMI_SIGNATURE"] == $signature)
+		{
+			switch (strtoupper($_POST["WMI_ORDER_STATE"]))
+			{
+				case "ACCEPTED":
+				case "PROCESSING":
+					$payData = $this->Pay->read(null, $order_id);
+					if (!empty($payData) && ($payData['Pay']['status'] == _PAY_WAIT_))
+					{
+						$payData['Pay']['status'] = _PAY_DONE_;
+						$payData['Pay']['paydate'] = time();
+						$payData['Pay']['summ'] = $amount;
+
+						$out_summ = $fields["WMI_PAYMENT_AMOUNT"];
+						//ДАТУ "ПРОПЛАЧЕНО ПО" СЧИТАЕМ ОТ ПОСЛЕДНЕЙ ОПЛАЧЕННОЙ
+						$months = 0;
+						$weeks = 0;
+						$days = 0;
+
+						$months = intval($out_summ / $perMonth);
+						$out_summ = $out_summ - $perMonth * $months;
+
+						$weeks = intval($out_summ / $perWeek);
+						$out_summ = $out_summ - $perWeek * $weeks;
+
+						$days = intval($out_summ / $perDay);
+						$out_summ = $out_summ - $perDay * $days;
+
+						$secs = ($days + $weeks * 7 + $months * 31) * 24 * 60 * 60;
+
+						$lastFinDate = $payData['Pay']['paydate'];
+						$last = $this->Pay->find(array('Pay.user_id' => $payData['Pay']['user_id'], 'Pay.status' => _PAY_DONE_), null, 'Pay.findate desc');
+						if (!empty($last))
+						{
+							if ($last['Pay']['findate'] > $lastFinDate)
+								$lastFinDate = $last['Pay']['findate'];
+						}
+						$payData['Pay']['paydate'] = $lastFinDate;
+						$payData['Pay']['findate'] = $lastFinDate + $secs;
+						$this->Pay->save($payData);
+						$success = true;
+
+			   			$sql = 'delete from groups_users where user_id = ' . $payData['Pay']['user_id'] . ' and group_id = ' . Configure::read('VIPgroupId') . ';';
+		   	   			$this->Pay->query($sql);
+			   			$sql= 'insert into groups_users (user_id, group_id) values(' . $payData['Pay']['user_id'] . ', ' . Configure::read('VIPgroupId') . ');';
+		   	   			$this->Pay->query($sql);
+
+		    			//корректируем VIP-группу форума (это сделает beforeSave при холостом обновлении)
+		   				$uInfo = array('User' => array('userid' => $payData['Pay']['user_id'], 'lastactivity' => time()));
+		   				$this->User->save($uInfo);
+
+		   				Configure::write('debug', 1);
+		   	   			$userInfo = $this->User->read(null, $payData['Pay']['user_id']);
+				        $result = $this->_sendEmail(/*from*/Configure::read('App.mailFrom'),
+		                /*to  */$userInfo['User']['username'] .
+		                '<' .
+		                $userInfo['User']['email'] .
+		                                     '>',
+		                /*subj*/Configure::read('App.siteName') . ' - ' . __('payment success', true),
+		                /*body*/"Уважаемый пользователь, " . $userInfo['User']['username'] . ".\nОт вас поступил платеж в размере " . $payData['Pay']['summ'] . " у.е.\n\nСпасибо.\n" . Configure::read('App.siteName') . " Robot");
+					}
+					$this->set("result". "OK");
+					$this->set("description", "Заказ #" . $_POST["WMI_PAYMENT_NO"] . " оплачен!");
+					break;
+			}
+		}
+    }
 
 
     /**
@@ -883,7 +1109,7 @@ class PaysController extends AppController
                 $userInfo['User']['email'] .
                                      '>',
                 /*subj*/Configure::read('App.siteName') . ' - ' . __('payment success', true),
-                /*body*/"Уважаемы пользователь, " . $userInfo['User']['username'] . ".\nОт вас поступил платеж в размере " . $payData['Pay']['summ'] . " у.е.\n\nСпасибо.\n" . Configure::read('App.siteName') . " Robot");
+                /*body*/"Уважаемый пользователь, " . $userInfo['User']['username'] . ".\nОт вас поступил платеж в размере " . $payData['Pay']['summ'] . " у.е.\n\nСпасибо.\n" . Configure::read('App.siteName') . " Robot");
 			}
 		}
 		$this->set('success', $success);
