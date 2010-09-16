@@ -1,7 +1,4 @@
 <?php
-echo $data;
-exit;
-
 if (!empty($host))
 {
 	$ch = curl_init($host);
