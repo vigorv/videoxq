@@ -552,14 +552,14 @@ class PaysController extends AppController
 			$fields[$key] = $value;
 		}
 
-		uksort($fields, "strcasecmp");
+		ksort($fields);
 		$fieldValues = "";
 		foreach($fields as $name => $val)
 		{
 		   $fieldValues .= $val;
 		}
 		$secret_code	= Configure::read('W1.secret_code');
-		$signature 		= base64_encode(pack("H*", md5($fieldValues . $key)));
+		$signature 		= base64_encode(pack("H*", md5($fieldValues . $secret_code)));
 
 		$this->payLog("ResultUrl (resultpay)", $fields["WMI_PAYMENT_NO"], $fields["WMI_PAYMENT_AMOUNT"]);
 		$this->payLog(serialize($_POST), '$_POST', 0);
@@ -631,6 +631,7 @@ class PaysController extends AppController
 					break;
 			}
 		}
+		$this->payLog("ResultUrl (resultpay): Bad signature", $_POST["WMI_PAYMENT_NO"], $_POST["WMI_PAYMENT_AMOUNT"]);
     }
 
 
