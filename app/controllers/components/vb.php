@@ -115,14 +115,14 @@ class VbComponent extends Object
     function setLoginCookies($userid, $password, $hashedPassword = false)
     {
         $vbulletin = $this->vbInit();
-        $cookie_prefix = (empty($vbulletin->config['Misc']['cookieprefix']) ? 'portal' : $vbulletin->config['Misc']['cookieprefix']);
+        $cookie_prefix = (empty($vbulletin->config['Misc']['cookieprefix']) ? 'portalxq' : $vbulletin->config['Misc']['cookieprefix']);
         $cookie_path = '/';//$vbulletin->options['cookiepath'];
         $cookie_domain = trim($vbulletin->options['cookiedomain']);
 
         $expire = time() + 60 * 60 * 24 * 365;
         setcookie($cookie_prefix . 'sessionhash',
                                         md5(
-                                        'portal' .
+                                        'portalxq' .
                                         $userid),
                                         $expire,
                                         $cookie_path,
@@ -156,7 +156,7 @@ class VbComponent extends Object
     {
         $vbulletin = $this->vbInit();
 
-        $cookie_prefix = (empty($vbulletin->config['Misc']['cookieprefix']) ? 'portal' : $vbulletin->config['Misc']['cookieprefix']);
+        $cookie_prefix = (empty($vbulletin->config['Misc']['cookieprefix']) ? 'portalxq' : $vbulletin->config['Misc']['cookieprefix']);
         $cookie_path = '/';//$vbulletin->options['cookiepath'];
         $cookie_domain = $vbulletin->options['cookiedomain'];
 
