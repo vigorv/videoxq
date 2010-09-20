@@ -452,7 +452,7 @@ LIMIT 1';
     function _checkLoginCookie($redirect = false)
     {
         $user = $this->Auth2->user();
-        if ($user['User']['userid'] && !empty($_COOKIE['portaluserid']))
+        if ($user['User']['userid'] && !empty($_COOKIE['portalxquserid']))
             return;
 
         $cookie = $this->Cookie->read('Auth.User');
