@@ -12,15 +12,29 @@
 
 
 
-<?php echo $form->create(null, array('url' => '/media/index')); ?>
+<?php
+	$defaultStr = 'Искать по названию';
+?>
+<script type="text/javascript">
+<!--
+	function checkSearchSubmit()
+	{
+		if (($('#adv-title').val() == "") || ($('#adv-title').val() == "<?php echo $defaultStr; ?>"))
+		{
+			return false;
+		}
+		return true;
+	}
+-->
+</script>
+<?php echo $form->create(null, array('url' => array('controller' => 'media', 'action' => 'index'), 'onsubmit' => 'return checkSearchSubmit()')); ?>
 <ul style="margin:0 0 0 0; padding-left:0px">
     <li class="search">
-    		<label for="adv-title"></label>
             <?php
             $defValue = '';
        		$searchName = 'search';
 			if (empty($passedParams['ex'])) {
-           		$defValue = 'Искать по названию';
+           		$defValue = $defaultStr;
            		$searchName = 'searchsimple';
 			}
            		$onclick = "if (this.value=='{$defValue}') this.value='';";
@@ -61,7 +75,7 @@
     	, 'autocomplete' => 'off', 'between' => '<br />', 'error' => false, 'div' => array('tag' => 'p', 'class' => '')
     	));
 //*/
-    echo $form->text($searchName, array('class' => 'textInput', 'width' => '250', 'id' => 'adv-title', 'value' => $value, 'onclick' => $onclick, 'onfocus' => $onclick, 'onblur' => $onblur));
+    echo $form->text("Film." . $searchName, array('class' => 'textInput', 'width' => '250', 'id' => 'adv-title', 'value' => $value, 'onclick' => $onclick, 'onfocus' => $onclick, 'onblur' => $onblur));
             ?>
             <p class="adv"><label for="adv-genre">Жанр:</label><br>
             <?= $form->select('genre', $block_media_genres['genres'], null, array('class' => 'textInput', 'id' => "adv-genre"), 'Все жанры'); ?>
