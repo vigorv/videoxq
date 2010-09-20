@@ -7,8 +7,8 @@ class Page extends AppModel {
         'text' => VALID_NOT_EMPTY,
     );
 
-    var $actsAs = array('Sluggable' =>
-                        array('slug' => 'url', 'overwrite' => true, 'translation' => 'utf-8'));
+//    var $actsAs = array('Sluggable' =>
+//                        array('slug' => 'url', 'overwrite' => true, 'translation' => 'utf-8'));
 
 
 }
