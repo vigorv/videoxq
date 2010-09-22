@@ -166,7 +166,7 @@ else
 <br />Срок пребывания в V.I.P. зависит от размера оплаты.
 <br />Чтобы продлить V.I.P. - процедуру оплаты нужно повторить.
 </p>
-	<table width="100%" border="0">
+	<table width="100%" cellpadding="20" border="0">
 	<tr align="center">
 		<td width="50%"><img width="120" alt="MasterCard SecureCode" src="/img/MasterCard_SecureCode.JPG" /></td>
 		<td><img width="116" alt="Verfied by VISA" src="/img/Verfied_by_VISA.JPG" /></td>
