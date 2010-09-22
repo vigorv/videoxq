@@ -86,12 +86,8 @@ if ($summ == 0)
 Оплата по банковским картам через систему электронных платежей Assist производится путем переадресации на сайт <a target="_blank" title="assist.ru" href="http://www.assist.ru">www.assist.ru</a>. В системе ASSIST безопасность платежей обеспечивается использованием SSL протокола для передачи конфиденциальной информации от Пользователя на сервер системы ASSIST для дальнейшей обработки. Дальнейшая передача информации осуществляется по закрытым банковским сетям высшей степени защиты. Сбор и обработка полученных конфиденциальных данных Пользователя (реквизиты карты, регистрационные данные и т.д.) производится в процессинговом центре. Таким образом, никто, в том числе администрация VideoXQ, не может получить персональные и банковские данные клиента, включая информацию о его покупках, сделанных в других магазинах. Для защиты информации от несанкционированного доступа на этапе передачи от клиента на сервер системы ASSIST используется протокол SSL 3.0, сертификат сервера (128 bit) выдан компанией Thawte - признанным центром выдачи цифровых сертификатов. Вы можете <a title="проверить подлинность сертификата" target="_blank" href="https://sealinfo.thawte.com/thawtesplash?form_file=fdf/thawtesplash.fdf&dn=WWW.ASSIST.RU&lang=en">проверить подлинность сертификата</a> сервера.
 	</p>
 	<table width="100%" border="0">
-	<tr align="center" style="margin-bottom:150px;">
-		<td colspan="2"><img width="265" alt="логотипы платежных систем" src="/img/mps_logos.png" /></td>
-	</tr>
 	<tr align="center">
-		<td width="50%"><img width="120" alt="MasterCard SecureCode" src="/img/MasterCard_SecureCode.JPG" /></td>
-		<td><img width="116" alt="Verfied by VISA" src="/img/Verfied_by_VISA.JPG" /></td>
+		<td><img width="265" alt="логотипы платежных систем" src="/img/mps_logos.png" /></td>
 	</tr>
 	</table>
 </td></tr>
@@ -170,4 +166,10 @@ else
 <br />Срок пребывания в V.I.P. зависит от размера оплаты.
 <br />Чтобы продлить V.I.P. - процедуру оплаты нужно повторить.
 </p>
+	<table width="100%" border="0">
+	<tr align="center">
+		<td width="50%"><img width="120" alt="MasterCard SecureCode" src="/img/MasterCard_SecureCode.JPG" /></td>
+		<td><img width="116" alt="Verfied by VISA" src="/img/Verfied_by_VISA.JPG" /></td>
+	</tr>
+	</table>
 </div>
