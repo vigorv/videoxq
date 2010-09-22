@@ -74,12 +74,26 @@ if ($summ == 0)
 <td>
 <div>
 	<img src="/img/assist_logo.gif" hspace="10" vspace="2" width="156" alt="Assist" title="Assist" />
-	<table><tr valign="middle">
+	<table width="100%"><tr valign="middle">
 	<td><img src="/img/beeline.jpg" hspace="10" vspace="2" width="50" alt="Beeline" title="Beeline" /></td>
 	<td><img src="/img/paycash.jpg" hspace="10" width="50" alt="PayCash" title="PayCash" /></td>
 	<td><img src="/img/webmoney.jpg" hspace="10" vspace="2" height="50" alt="Webmoney" title="Webmoney" /></td>
 	</tr></table>
 </div>
+</td></tr>
+<tr><td colspan="2">
+	<p>
+Оплата по банковским картам через систему электронных платежей Assist производится путем переадресации на сайт <a target="_blank" title="assist.ru" href="http://www.assist.ru">www.assist.ru</a>. В системе ASSIST безопасность платежей обеспечивается использованием SSL протокола для передачи конфиденциальной информации от Пользователя на сервер системы ASSIST для дальнейшей обработки. Дальнейшая передача информации осуществляется по закрытым банковским сетям высшей степени защиты. Сбор и обработка полученных конфиденциальных данных Пользователя (реквизиты карты, регистрационные данные и т.д.) производится в процессинговом центре. Таким образом, никто, в том числе администрация VideoXQ, не может получить персональные и банковские данные клиента, включая информацию о его покупках, сделанных в других магазинах. Для защиты информации от несанкционированного доступа на этапе передачи от клиента на сервер системы ASSIST используется протокол SSL 3.0, сертификат сервера (128 bit) выдан компанией Thawte - признанным центром выдачи цифровых сертификатов. Вы можете <a title="проверить подлинность сертификата" target="_blank" href="https://sealinfo.thawte.com/thawtesplash?form_file=fdf/thawtesplash.fdf&dn=WWW.ASSIST.RU&lang=en">проверить подлинность сертификата</a> сервера.
+	</p>
+	<table width="100%" cellspacing="40" border="0">
+	<tr align="center">
+		<td width="33%"><img width="120" alt="MasterCard SecureCode" src="/img/MasterCard_SecureCode.JPG" /></td>
+		<td width="33%"><img width="116" alt="Verfied by VISA" src="/img/Verfied_by_VISA.JPG" /></td>
+	</tr>
+	<tr align="center">
+		<td colspan="2"><img width="265" alt="логотипы платежных систем" src="/img/mps_logos.png" /></td>
+	</tr>
+	</table>
 </td></tr>
 
 </table>
