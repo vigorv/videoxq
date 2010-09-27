@@ -75,11 +75,13 @@ echo $form->create('User', array('action' => 'register' , 'class' => 'reg', 'onS
 <?php echo $form->text('email', array('class' => 'textInput')); ?></p>
 <p><label for="UserCaptcha">Проверочный код<em class="required">*</em> :</label><br>
 <?php //echo $form->error('captcha'); ?>
-<?php echo $form->text('captcha', array('class' => 'textInput')); ?></p>
-<?php echo $form->checkbox('agreement'); ?> Я принимаю <a target="_blank" href="/pages/agreement">пользовательское соглашение</a></p>
+<?php echo $form->text('captcha', array('class' => 'textInput')); ?>
 <!--<p>Можно писать как ПРОПИСНЫМИ, так и строчными буквами — как пожелаете.</p>-->
 <p><img src="<?php echo $html->url('/users/captcha'); ?>" /> </p>
-<br>
+<!--
+<?php echo $form->checkbox('agreement'); ?> Я принимаю <a target="_blank" href="/pages/agreement">пользовательское соглашение</a>
+-->
+<p>регистрируясь в системе, я соглашаюсь с <a target="_blank" href="/pages/agreement">пользовательским соглашением</a></p>
 <?php
 echo $form->end('Зарегистрироваться');
 ?>
