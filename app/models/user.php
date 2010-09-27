@@ -24,6 +24,16 @@ class User extends AppModel
             )
    );
 
+    var $hasOne = array(
+            'Useragreement' => array('className' => 'Useragreement',
+                                'foreignKey' => 'user_id',
+                                'dependent' => false,
+                                'conditions' => '',
+                                'fields' => '',
+                                'order' => ''
+            )
+    );
+
    var $hasAndBelongsToMany = array(
     'Group' =>
         array('className'            => 'Group',
