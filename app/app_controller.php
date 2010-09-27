@@ -1,12 +1,14 @@
 <?php
-define('DEFAULT_LANGUAGE', 'ru');
+DEFINE("_RUS_", "ru");
+DEFINE("_ENG_", "en");
+define('DEFAULT_LANGUAGE', _RUS_);
 
 class AppController extends Controller
 {
     var $components = array('Auth2', 'Acl', 'Cookie', 'Vb', 'BlockBanner', 'Session');
     var $helpers = array('Javascript', 'Html', 'Form'/*, 'Validation'*/, 'App', 'Ajax', 'PageNavigator');
 //    var $uses = array('User', 'Bookmark', 'Film');
-    var $uses = array('User', 'Bookmark', 'Film', 'Pay', 'Geoip', 'Geocity', 'Georegion');
+    var $uses = array('User', 'Bookmark', 'Film', 'Pay', 'Geoip', 'Geocity', 'Georegion', 'Useragreement');
     var $blocksData = array();
     var $blockContent;
     var $authUser;
@@ -24,6 +26,7 @@ class AppController extends Controller
 	public $BlockBanner;
 
 	public $onlineUsers = array();
+
 	/**
      * Выставляем основные настройки сайта
      *
@@ -31,30 +34,71 @@ class AppController extends Controller
      */
     function beforeFilter()
     {
-        Configure::write('Config.language', "ru");
+		Configure::write('App.siteName', __("Patent Media", true));
+		Configure::write('App.mailFrom', __("Patent Media", true) . ' ' . Configure::read('App.mailFrom'));
+        $geoInfo = array();
+        $geoInfo = $this->Session->read('geoInfo');
+//*
+        if (empty($geoInfo))
+        {
+        	$ip = sprintf('%u', ip2long($_SERVER['REMOTE_ADDR']));
+        	$geoInfo = $this->Geoip->find(array('Geoip.ip1 <=' . $ip, 'Geoip.ip2 >=' . $ip), array('Geoip.city_id', 'Geoip.region_id'));
+        	$geoInfo = $this->Geoip->find('all', array(
+        				'conditions' => array('Geoip.ip1 <=' . $ip, 'Geoip.ip2 >=' . $ip),
+        				'fields' => array('Geoip.city_id', 'Geoip.region_id', 'MIN(Geoip.ip2 - Geoip.ip1) as R'),
+        				'order' => 'R ASC',
+        				'recursive' => 0,
+        				'group' => 'Geoip.id',
+        				)
+        			);
+        	if (!empty($geoInfo))
+        	{
+        		$geoInfo = $geoInfo[0];
+    	    	$cityInfo = $this->Geocity->read(array('name'), $geoInfo['Geoip']['city_id']);
+	        	$regionInfo = $this->Georegion->read(array('name'), $geoInfo['Geoip']['region_id']);
+        		$geoInfo['city'] = $cityInfo['Geocity']['name'];
+	        	$geoInfo['region'] = $regionInfo['Georegion']['name'];
+        	}
+        	else
+        		$geoInfo['Geoip']['region_id'] = 0; //ЗНАЧИТ НЕ ОПРЕДЕЛЕНО
+
+			$this->Session->write('geoInfo', $geoInfo);
+        }
+//*/
+		if (empty($geoInfo['Geoip']['region_id']))
+		{
+			$regionLang = _ENG_;
+			$regionLang = _RUS_;
+		}
+		else
+		{
+			$regionLang = _RUS_;
+		}
+		$lang = $this->Session->read("language");
+		if (empty($lang))
+		{
+			$lang = $regionLang;
+			$this->Session->write("language", $lang);
+		}
+
+        Configure::write('Config.language', $lang);
 		uses('L10n');
         $this->L10n = new L10n();
-        $this->L10n->get('ru');
+        $this->L10n->get($lang);
 
         if(isset($this->params['pass'][0])
            && $this->params['pass'][0] == 'attachments')
         {
             return true;
         }
-/*
-        $this->Session->start();
-*/
+
 		$this->Cookie->name = Configure::read('App.cookieName');
         $this->Cookie->path = Configure::read('App.cookiePath');
         $this->Cookie->domain = Configure::read('App.cookieDomain');
 
-//echo '<p>' . str_replace('http://' . $_SERVER['HTTP_HOST'], '', $_SERVER['HTTP_REFERER']);
-//echo '<p>' . '/' . $this->name . '/' . $this->action;
-//echo '<p>' . preg_match('/' . str_replace('/', '\/', '/media$') . '/', '/media');
-
         $redirect = '/';
         $referer = $this->referer();
-        //pr($referer);
+
         if ($referer && $referer != '/users/login' && $referer != '/users/register' && $referer != '/')
             $redirect = $referer;
 
@@ -69,17 +113,22 @@ class AppController extends Controller
         //this improves performance
         $user = $this->Auth2->user();
         $this->authUser = $user['User'];
-/*
-   		$rocketInfo = $this->Session->read('rocketInfo');
-   		if ((empty($rocketInfo)) && (!empty($this->authUser['userid']))) //ДЛЯ АВТОРИЗОВАННЫХ ЧИТАЕМ ИЗ КЭША
-   		{
-			$rocketInfo = Cache::read('Catalog.rocket_' . $this->authUser['userid'], 'rocket');
-   		}
+		if (!empty($this->authUser['userid']))
+		{
+//ПРОВЕРКА СОГЛАСЕН ЛИ С ПОЛЬЗОВАТЕЛЬСКИМ СОГЛАШЕНИЕМ
+			$isAgree = $this->Useragreement->read(null, $this->authUser['userid']);
+			if (!empty($isAgree))
+			{
+				$isAgree = $isAgree["Useragreement"]['agree'];
+			}
+			else
+			{
+				$isAgree = 0;
+			}
+			$this->authUser['agree'] = $isAgree;
+		}
+        $this->set('geoInfo', $geoInfo);
 
-		$this->rocketInfo = $rocketInfo;
-		$this->set('rocketInfo', $rocketInfo);
-		if ($this->action == 'rocket') return;
-*/
         if (isset($this->params[Configure::read('Routing.admin')]))
         {
             $this->layout = 'admin';
@@ -94,41 +143,6 @@ class AppController extends Controller
 
     	$isWS = checkAllowedMasks(Configure::read('Catalog.allowedIPs'), $_SERVER['REMOTE_ADDR']);
        	$this->set('isWS', $isWS);//ОПРЕДЕЛИЛИ ВЕБСТРИМ или нет
-
-        $geoInfo = array();
-		if (!empty($this->authUser['userid']))
-		{
-	        $geoInfo = $this->Session->read('geoInfo');
-	//*
-	        if (empty($geoInfo))
-	        {
-	        	$ip = sprintf('%u', ip2long($_SERVER['REMOTE_ADDR']));
-	        	$ip = sprintf('%u', ip2long('89.189.178.39'));
-	        	$geoInfo = $this->Geoip->find(array('Geoip.ip1 <=' . $ip, 'Geoip.ip2 >=' . $ip), array('Geoip.city_id', 'Geoip.region_id'));
-	        	$geoInfo = $this->Geoip->find('all', array(
-	        				'conditions' => array('Geoip.ip1 <=' . $ip, 'Geoip.ip2 >=' . $ip),
-	        				'fields' => array('Geoip.city_id', 'Geoip.region_id', 'MIN(Geoip.ip2 - Geoip.ip1) as R'),
-	        				'order' => 'R ASC',
-	        				'recursive' => 0,
-	        				'group' => 'Geoip.id'
-	        					)
-	        				);
-	        	if (!empty($geoInfo))
-	        	{
-	        		$geoInfo = $geoInfo[0];
-	    	    	$cityInfo = $this->Geocity->read(array('name'), $geoInfo['Geoip']['city_id']);
-		        	$regionInfo = $this->Georegion->read(array('name'), $geoInfo['Geoip']['region_id']);
-	        		$geoInfo['city'] = $cityInfo['Geocity']['name'];
-		        	$geoInfo['region'] = $regionInfo['Georegion']['name'];
-	        	}
-	        	else
-	        		$geoInfo['Geoip']['region_id'] = 0; //ЗНАЧИТ НЕ ОПРЕДЕЛЕНО
-
-				$this->Session->write('geoInfo', $geoInfo);
-	        }
-	//*/
-		}
-        $this->set('geoInfo', $geoInfo);
         $this->set('here', $this->here);
     }
 
