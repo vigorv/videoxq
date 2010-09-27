@@ -7782,3 +7782,9 @@ msgstr "Недостаточно прав для просмотра."
 
 msgid "KADR"
 msgstr "КАДР "
+
+msgid "Video catalog"
+msgstr "Видео каталог"
+
+msgid "Patent Media"
+msgstr "ООО \"Патент Медиа\""
