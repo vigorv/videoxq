@@ -50,7 +50,7 @@ echo $scripts_for_layout;
               <img alt="" src="/i/cinema.jpg" />
             </td>
             <td valign="middle">
-Каталог фильмов
+<?php __("Video catalog"); ?>
 			</td>
             <td width="250" valign="top">
               <img alt="" src="/i/cinema2.jpg" />
@@ -91,6 +91,19 @@ if (isset($authUserGroups) && in_array(Configure::read('VIPgroupId'), $authUserG
             </td>
             <td class="right_menu_text">
 <?php
+/*
+if (Configure::read('Config.language') == _RUS_)
+{
+	echo '<img title="Русский" src="/img/rus_a.gif" width="20" />';
+	echo '&nbsp;&nbsp;<a title="English" href="/' . _ENG_ . '.php"><img title="English" src="/img/eng.jpg" width="16" /></a>';
+}
+else
+{
+	echo '<a title="Русский" href="/' . _RUS_ . '.php"><img title="Русский" src="/img/rus.gif" width="16" /></a>';
+	echo '&nbsp;&nbsp;<img title="English" src="/img/eng_a.gif" width="20" />';
+}
+echo ' | ';
+*/
 if ($authUser['userid'] == 0)
 {
 ?>
@@ -103,11 +116,11 @@ if ($authUser['userid'] == 0)
 		}
 	-->
 	</script>
-	<a href="/users/register">регистрация</a>
+	<a href="/users/register"><?php __("Register"); ?></a>
 	|
-    <a href="/users/restore">забыл пароль?</a>
+    <a href="/users/restore"><?php __("Forgot password"); ?>?</a>
     |
-    <a href="/users/login" onclick="return toggleLogin();">войти</a>
+    <a href="/users/login" onclick="return toggleLogin();"><?php __("Sign In"); ?></a>
 <?php
 }
 else
@@ -115,24 +128,24 @@ else
     if (!empty($payInfo['Pay']))
     {
     	if ($payInfo["Pay"]["findate"] > time())
-    		$payInfo = '<a title="оплачен по ' . date('d.m.y H:i', $payInfo["Pay"]["findate"]) . '" href="/pays">V.I.P. доступ</a>';
+    		$payInfo = '<a title="' . __("Paid by", true) . ' ' . date('d.m.y H:i', $payInfo["Pay"]["findate"]) . '" href="/pays">' . __("V.I.P.", true) . '</a>';
     }
     else
     {
     	if (isset($authUserGroups) && in_array(Configure::read('VIPgroupId'), $authUserGroups))
-    		$payInfo = ' | <a title="бессрочный" href="/pays">V.I.P. доступ</a>';
+    		$payInfo = ' | <a title="' . __("unlimited", true) . '" href="/pays">' . __("V.I.P.", true) . '</a>';
     	else
-    		$payInfo = ' | <a href="/pays">купить V.I.P.</a>';
+    		$payInfo = ' | <a href="/pays">' . __("Buy V.I.P.", true) . '</a>';
     }
 ?>
-			Привет, <a href="<?= $app->getUserProfileUrl($authUser['userid']) ?>"><?= $authUser['username'] ?></a>
+			<?php __("Hi"); ?>, <a href="<?= $app->getUserProfileUrl($authUser['userid']) ?>"><?= $authUser['username'] ?></a>
             <?php
             if($pms>0)
             {
             	//echo '<a href="' . $app->getUserPMUrl($authUser['userid']) . '"><img src="/img/mail.gif"></a>';
             }
             echo $payInfo;?>
-             | <a href="/users/logout">Выйти</a>
+             | <a href="/users/logout"><?php __("Log out"); ?></a>
 <?php
 }
 ?>
@@ -146,9 +159,9 @@ else
         <ul>
 <?php
 	$menuItems = array(
-		'/media' => 'Видео',
-		'/people' => 'Люди',
-		'/forum' => 'Форум',
+		'/media' => __("Video", true),
+		'/people' => __("People", true),
+		'/forum' => __("Forum", true),
 		'/pages/faq' => 'FAQ',
 	);
 	foreach ($menuItems as $key => $value)
@@ -309,13 +322,13 @@ try { var yaCounter1094491 = new Ya.Metrika(1094491); } catch(e){}
             <tr height="32px">
               <td width="70%" class="bottom_data" nowrap="">
                 <div>
-                	&nbsp;ООО "Патент Медиа"
+                	&nbsp;<?php __("Patent Media"); ?>
                 	|
-					<a href="/pages/reklama">Реклама</a>
+					<a href="/pages/reklama"><?php __("Advertisement"); ?></a>
 					|
-					<a href="/pages/kontaktyi">Контакты</a>
+					<a href="/pages/kontaktyi"><?php __("Contacts"); ?></a>
 					|
-					<a href="/pages/nashi-partneryi">Партнеры</a>
+					<a href="/pages/nashi-partneryi"><?php __("Partners"); ?></a>
                 </div>
               </td>
               <td class="bottom_block">&nbsp;</td>
