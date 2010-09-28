@@ -7784,7 +7784,7 @@ msgid "KADR"
 msgstr "КАДР "
 
 msgid "Video catalog"
-msgstr "Видео каталог"
+msgstr "VideoXQ"
 
 msgid "Patent Media"
 msgstr "ООО \"Патент Медиа\" , IT DELUXE ltd."
