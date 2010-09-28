@@ -7787,4 +7787,160 @@ msgid "Video catalog"
 msgstr "Видео каталог"
 
 msgid "Patent Media"
-msgstr "ООО \"Патент Медиа\""
+msgstr "ООО \"Патент Медиа\" , IT DELUXE ltd."
+
+msgid "Register"
+msgstr "регистрация"
+
+msgid "Forgot password"
+msgstr "забыл пароль"
+
+msgid "Sign In"
+msgstr "войти"
+
+msgid "Paid by"
+msgstr "оплачен по"
+
+msgid "V.I.P."
+msgstr "V.I.P. доступ"
+
+msgid "Hi"
+msgstr "Привет"
+
+msgid "Buy V.I.P."
+msgstr "Купить V.I.P."
+
+msgid "unlimited"
+msgstr "бессрочный"
+
+msgid "Log out"
+msgstr "Выйти"
+
+msgid "Video"
+msgstr "Видео"
+
+msgid "People"
+msgstr "Люди"
+
+msgid "Forum"
+msgstr "Форум"
+
+msgid "Advertisement"
+msgstr "Реклама"
+
+msgid "Contacts"
+msgstr "Контакты"
+
+msgid "Partners"
+msgstr "Партнеры"
+
+msgid "Login"
+msgstr "Вы"
+
+msgid "Password"
+msgstr "Ваш пароль"
+
+msgid "Total in database"
+msgstr "Всего в базе"
+
+msgid "film"
+msgstr "фильм"
+
+msgid "filma"
+msgstr "фильма"
+
+msgid "films"
+msgstr "фильмов"
+
+msgid "Total duration"
+msgstr "общей продолжительностью"
+
+msgid "year"
+msgstr "год"
+
+msgid "yeara"
+msgstr "года"
+
+msgid "years"
+msgstr "лет"
+
+msgid "month"
+msgstr "месяц"
+
+msgid "montha"
+msgstr "месяца"
+
+msgid "months"
+msgstr "месяцев"
+
+msgid "day"
+msgstr "день"
+
+msgid "daya"
+msgstr "дня"
+
+msgid "days"
+msgstr "дней"
+
+msgid "hour"
+msgstr "час"
+
+msgid "houra"
+msgstr "часа"
+
+msgid "hours"
+msgstr "часов"
+
+msgid "minute"
+msgstr "минута"
+
+msgid "minuta"
+msgstr "минуты"
+
+msgid "minutes"
+msgstr "минут"
+
+msgid "second"
+msgstr "секунда"
+
+msgid "seconda"
+msgstr "секунды"
+
+msgid "seconds"
+msgstr "секунд"
+
+msgid "Last comments"
+msgstr "Последние комментарии"
+
+msgid "no title"
+msgstr "без названия"
+
+msgid "usera"
+msgstr "пользователей"
+
+msgid "guesta"
+msgstr "гостей"
+
+msgid "total"
+msgstr "всего"
+
+msgid "Now Online"
+msgstr "Сейчас на сайте"
+
+msgid "Newa"
+msgstr "Новые"
+
+msgid "All films"
+msgstr "Все фильмы"
+
+msgid "Popular"
+msgstr "Популярные"
+
+msgid "Most voted"
+msgstr "Лучшие Юзеров"
+
+msgid "Best IMDb"
+msgstr "Лучшие IMDb"
+
+msgid "Last added"
+msgstr "Последние добавленные"

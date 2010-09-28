@@ -2,4 +2,34 @@ msgid "Video catalog"
 msgstr "Video Catalog"
 
 msgid "Patent Media"
-msgstr "Patent Media Inc."
+msgstr "IT DELUXE ltd."
+
+msgid "filma"
+msgstr "films"
+
+msgid "yeara"
+msgstr "year"
+
+msgid "montha"
+msgstr "months"
+
+msgid "daya"
+msgstr "days"
+
+msgid "houra"
+msgstr "houra"
+
+msgid "minuta"
+msgstr "minutes"
+
+msgid "seconda"
+msgstr "seconds"
+
+msgid "usera"
+msgstr "users"
+
+msgid "guesta"
+msgstr "guests"
+
+msgid "Newa"
+msgstr "New"
