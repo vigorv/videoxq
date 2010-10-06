@@ -10,9 +10,9 @@ if (empty($authUser['userid']))
                       <td>
 <form id="UserLoginForm" method="post" action="/users/login" class="userLogin">
 <fieldset style="display:none;"><input type="hidden" name="_method" value="POST" /></fieldset>
-    <p><label for="UserUsername">Вы</label><br />
+    <p><label for="UserUsername"><?php __("Login"); ?></label><br />
     <input tabindex="1" name="data[User][username]" type="text" maxlength="100" id="UserUsername" class="textInput" /></p>
-    <p><label for="UserPassword">Ваш пароль</label><br />
+    <p><label for="UserPassword"><?php __("Password"); ?></label><br />
     <input tabindex="2" type="password" name="data[User][password]" id="UserPassword" class="textInput" /></p>
     <input type="hidden" name="data[User][remember_me]" value="1" id="UserRememberMe" />
     <input type="hidden" name="redirect" value="<?php $redirectUrl = explode('=', $_SERVER['QUERY_STRING']); if (count($redirectUrl) > 1) echo '/' . $redirectUrl[1]; ?>" id="loginRedirect" />
@@ -47,8 +47,8 @@ if (empty($authUser['userid']))
 //if ($block_media_genres['allowDownload'])
 {
 	echo '
-    <p>Всего в базе <strong>' . $app->pluralForm($filmStats['count'], array('фильм', 'фильма', 'фильмов')) . '</strong>
-	<br>общей продолжительностью <strong>' . $app->timeFormat($filmStats['size']) . '</strong>
+    <p>' . __("Total in database", true) . ' <strong>' . $app->pluralForm($filmStats['count'], array(__("film", true), __("filma", true), __("films", true))) . '</strong>
+	<br>' . __("Total duration", true) . ' <strong>' . $app->timeFormat($filmStats['size']) . '</strong>
     </p>
 	';
 }

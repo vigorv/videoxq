@@ -36,12 +36,24 @@ class BlockMediaComponent extends BlocksParentComponent
 
         $filter = array();
 
-        $filter['sort']['Film.modified'] = 'по дате добавления';
-        $filter['sort']['Film.year'] = 'по году выпуска';
-        $filter['sort']['Film.hits'] = 'по популярности';
-        $filter['sort']['Rating.rating'] = 'по рейтингу';
-        $filter['sort']['Film.imdb_rating'] = 'по рейтингу imdb.com';
-
+		$lang = Configure::read('Config.language');
+		$langFix = '';
+		if ($lang == _ENG_)
+		{
+	        $filter['sort']['Film.modified'] = 'by date';
+	        $filter['sort']['Film.year'] = 'by year';
+	        $filter['sort']['Film.hits'] = 'by popularity';
+	        $filter['sort']['Rating.rating'] = 'by rating';
+	        $filter['sort']['Film.imdb_rating'] = 'by imdb.com rating';
+		}
+		else
+		{
+	        $filter['sort']['Film.modified'] = 'по дате добавления';
+	        $filter['sort']['Film.year'] = 'по году выпуска';
+	        $filter['sort']['Film.hits'] = 'по популярности';
+	        $filter['sort']['Rating.rating'] = 'по рейтингу';
+	        $filter['sort']['Film.imdb_rating'] = 'по рейтингу imdb.com';
+		}
         $filter['genres'] = $this->controller->Film->Genre->getGenresWithFilmCount();
         $filter['countries'] = $this->controller->Film->Country->getCountriesWithFilmCount();
         $filter['types'] = $this->controller->Film->FilmType->getFilmTypesWithFilmCount();
@@ -66,7 +78,7 @@ class BlockMediaComponent extends BlocksParentComponent
             return $filter;
         }
         $films = $this->controller->Film->find('all', array('order' => 'hits DESC',
-                                                            'limit' => 10, 'fields' => array('Film.id, Film.title'),
+                                                            'limit' => 10, 'fields' => array('Film.id, Film.title, Film.title_en'),
                                                             'contain' => array(),
                                                             'group' => 'id'));
 

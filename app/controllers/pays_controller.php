@@ -10,7 +10,7 @@
 class PaysController extends AppController
 {
     public $name = 'Pays';
-    public $uses = array('User', 'Pay');
+    public $uses = array('User', 'Pay', 'Useragreement');
 
     /**
      * Модель пользователей
@@ -176,7 +176,7 @@ class PaysController extends AppController
                 $userInfo['User']['email'] .
                                      '>',
                 /*subj*/Configure::read('App.siteName') . ' - ' . __('payment success', true),
-                /*body*/"Уважаемый пользователь, " . $userInfo['User']['username'] . ".\nОт вас поступил платеж в размере " . $payData['Pay']['summ'] . " wmr.\n\nСпасибо.\n" . Configure::read('App.siteName') . " Robot");
+                /*body*/__('Dear', true) . " " . __("User", true) . ", " . $userInfo['User']['username'] . ".\n" . __('Received payment from you. Amount', true) . " " . $payData['Pay']['summ'] . " wmr.\n\n" . __("Thank you") . ".\n" . Configure::read('App.siteName') . " Robot");
 			}
 		}
 		$this->set('success', $success);
@@ -380,7 +380,7 @@ class PaysController extends AppController
 				$purse			= Configure::read('Sms.bank_id');
 				$amount			= $out_summ;
 				$clear_amount	= 0; // billing algorithm
-				$description	= "VIP доступ " . $payDesc[$out_summ]; // описание платежа
+				$description	= "VIP " . __('access', true) . " " . $payDesc[$out_summ]; // описание платежа
 				$sign			= $this->ref_sign($purse, $order_id, $amount, $clear_amount, $description, $secret_code);
 
 				$data = 's_purse=' . $purse;
@@ -463,7 +463,7 @@ class PaysController extends AppController
 					"WMI_MERCHANT_ID"		=> Configure::read('W1.id'),
 					"WMI_PAYMENT_AMOUNT"	=> $out_summ,
 					"WMI_CURRENCY_ID"		=> Configure::read('W1.currency_id'),
-					"WMI_DESCRIPTION"		=> "VIP доступ " . ((!empty($payDesc[$summ])) ? $payDesc[$summ] : ""), // описание платежа
+					"WMI_DESCRIPTION"		=> "VIP " . __('access', true) . " " . ((!empty($payDesc[$summ])) ? $payDesc[$summ] : ""), // описание платежа
 					"WMI_SUCCESS_URL"		=> "http://www.videoxq.com/pays/w1success",
 					"WMI_FAIL_URL"			=> "http://www.videoxq.com/pays/w1fail",
 				);
@@ -624,10 +624,10 @@ class PaysController extends AppController
 		                $userInfo['User']['email'] .
 		                                     '>',
 		                /*subj*/Configure::read('App.siteName') . ' - ' . __('payment success', true),
-		                /*body*/"Уважаемый пользователь, " . $userInfo['User']['username'] . ".\nОт вас поступил платеж в размере " . $payData['Pay']['summ'] . " у.е.\n\nСпасибо.\n" . Configure::read('App.siteName') . " Robot");
+		                /*body*/__('Dear', true) . " " . __("User", true) . ", " . $userInfo['User']['username'] . ".\n" . __('Received payment from you. Amount', true) . " " . $payData['Pay']['summ'] . " у.е.\n\n" . __("Thank you") . ".\n" . Configure::read('App.siteName') . " Robot");
 					}
 					$this->set("result". "OK");
-					$this->set("description", "Заказ #" . $_POST["WMI_PAYMENT_NO"] . " оплачен!");
+					$this->set("description", __("Order") . " #" . $_POST["WMI_PAYMENT_NO"] . " " . __("paid successfully!", true));
 					break;
 			}
 		}
@@ -693,7 +693,7 @@ class PaysController extends AppController
 				$Order_IDP		= $payData['Pay']['id'];
 				$Shop_IDP		= Configure::read('Assist.Shop_IDP');
 				$Subtotal_P		= $out_summ;
-				$Comment		= "VIP доступ " . $payDesc[$out_summ]; // описание платежа
+				$Comment		= "VIP " . __('access', true) . " " . $payDesc[$out_summ]; // описание платежа
 				$Delay			= 0; //НЕМЕДЛЕННОЕ СПИСАНИЕ
 
 				$DemoResult		= 'AS000'; //ОЖИДАЕМ ЧТО ОПЛАТА ПРОЙДЕТ УСПЕШНО
@@ -996,8 +996,8 @@ class PaysController extends AppController
 					                $userInfo['User']['email'] .
 					                                     '>',
 					                /*subj*/Configure::read('App.siteName') . ' - ' . __('payment success', true),
-					                /*body*/"Уважаемый пользователь, " . $userInfo['User']['username'] . ".\nОт вас поступил платеж в размере " . $data['Pay']['summ'] . " RUR.\n\nСпасибо.\n" . Configure::read('App.siteName') . " Robot");
-								}
+	                                /*body*/__('Dear', true) . " " . __("User", true) . ", " . $userInfo['User']['username'] . ".\n" . __('Received payment from you. Amount', true) . " " . $payData['Pay']['summ'] . " rur.\n\n" . __("Thank you") . ".\n" . Configure::read('App.siteName') . " Robot");
+					}
 								else
 								{
 									$data['Pay']['status'] = _PAY_FAIL_;
@@ -1110,7 +1110,7 @@ class PaysController extends AppController
                 $userInfo['User']['email'] .
                                      '>',
                 /*subj*/Configure::read('App.siteName') . ' - ' . __('payment success', true),
-                /*body*/"Уважаемый пользователь, " . $userInfo['User']['username'] . ".\nОт вас поступил платеж в размере " . $payData['Pay']['summ'] . " у.е.\n\nСпасибо.\n" . Configure::read('App.siteName') . " Robot");
+                /*body*/__('Dear', true) . " " . __("User", true) . ", " . $userInfo['User']['username'] . ".\n" . __('Received payment from you. Amount', true) . " " . $payData['Pay']['summ'] . " у.е.\n\n" . __("Thank you") . ".\n" . Configure::read('App.siteName') . " Robot");
 			}
 		}
 		$this->set('success', $success);
@@ -1224,7 +1224,7 @@ class PaysController extends AppController
 				//id оплаты (должен быть уникален в системе) нельзя сделать два запроса к roboxchange c одинаковым $inv_id
 				$inv_id = $payData['Pay']['id'];
 
-				$inv_desc = "VIP доступ " . $payDesc[$out_summ]; // описание платежа
+				$inv_desc = "VIP " . __("access", true) . " " . $payDesc[$out_summ]; // описание платежа
 				$crc = md5("$mrh_login:$out_summ:$inv_id:$mrh_pass1");
 				$url = "https://merchant.roboxchange.com/Index.aspx?MrchLogin=$mrh_login&". "OutSum=$out_summ&InvId=$inv_id&Desc=$inv_desc&SignatureValue=$crc";
 
@@ -1247,5 +1247,21 @@ class PaysController extends AppController
 		$this->set('success', $success);
 		$this->set('summ', $summ);
 		$this->set('authUser', $this->authUser);
+	}
+
+	function agree()
+	{
+		$info = $this->Useragreement->find(array('Useragreement.user_id' => $this->authUser['userid']));
+		$info['Useragreement']['user_id'] = $this->authUser['userid'];
+		if (empty($info['Useragreement']['agree']))
+		{
+			$info['Useragreement']['agree'] = 1;
+		}
+		else
+		{
+			$info['Useragreement']['agree'] = 0;
+		}
+		$this->Useragreement->save($info);
+		$this->redirect('/pays');
 	}
 }

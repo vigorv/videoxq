@@ -1,28 +1,35 @@
 <div style="margin-left: 20px">
-<h2>V.I.P. доступ</h2>
+<h2>V.I.P. <?php __('access'); ?></h2>
 <?php
 if ($authUser['userid'] > 0)
 {
-    $geoPlace = '<h4>Ваше местоположение';
+    $geoPlace = '<h4>' . __('Your geographical location', true);
     if (!empty($geoInfo['Geoip']['region_id']))
     {
     	$geoPlace .= ' - ' . implode(' ', array($geoInfo['city'], $geoInfo['region'])) . '. ';;
     }
     else
     {
-    	$geoPlace .= ' не определено. ';
+    	$geoPlace .= ' ' . __('not identified', true) . '. ';
     }
 
     if (!empty($authUser['userid']))
     {
-    	$adminLink = '<a href="/media/geoerr">свяжитесь с администратором</a>';
+    	$adminLink = '<a href="/media/geoerr">' . __("contact administrator", true) . '</a>';
     }
     else
     {
-    	$adminLink = 'свяжитесь с администратором';
+    	$adminLink = __("contact administrator", true);
     }
-    echo $geoPlace . '<br />По ошибкам определения вашего географического местоположения, ' . $adminLink . '.</h4>
-    <p>От этого зависит доступность для скачивания вами определенной группы фильмов</p>';
+    echo $geoPlace . '<br />' . __("If your geographical location is incorrect", true) . ', ' . $adminLink . '.</h4>
+    <p>' . __('Depends on this is available for download by you of certain films', true) . '</p>';
+
+    if (!$authUser["agree"])
+    {
+    	echo __('WARNING! Pay for the service V.I.P. Access can be by taking a', true) . ' <a target="_blank" href="/pages/agreement">' . __('user agreement', true) . '</a>.';
+    	echo'<p><center><a href="/pays/agree" onclick=\'return confirm("' . __("Are You sure?", true) . '");\'>' . __('I accept the agreement', true) . '</a></center></p>';
+    	$summ = -1;
+    }
 
 }
 if ($summ < 0)
@@ -40,13 +47,13 @@ if ($summ == 0)
 {
 ?>
 <p>
-Здесь вы можете оплатить V.I.P. доступ <?php echo $payDesc[$perWeek];?> или <?php echo $payDesc[$perMonth];?>.
-Прием оплаты осуществляется через электронную кассу сервиса ROBOxchange в любой удобной для вас системе электронных платежей, по SMS или по электронной карте<br />
-Обратите внимание, что платежные системы взимают комиссию за перевод средств.
+<?php __('Here you can pay for VIP access'); ?> <?php echo $payDesc[$perWeek];?> <?php __('or'); ?> <?php echo $payDesc[$perMonth];?>.
+<?php __('You can pay via an electronic cash service ROBOxchange in any convenient electronic payment system, via SMS or e-card'); ?><br />
+<?php __('Please note that the payment systems charge a fee for the transfer of funds'); ?>.
 </p><p>
 <table cellspacing="0" cellpadding="0" border="0">
 <tr><td>
-<ul><b>Оплатить/продлить доступ по SMS:</b>
+<ul><b><?php __('Pay/extend access via SMS'); ?>:</b>
 	<li><a href="/pays/sms/<?php echo $smsPerWeek;?>"><?php echo $smsPayDesc[$smsPerWeek];?></a> (<?php echo $smsPerWeek;?> у.е.)</li>
 	<li><a href="/pays/sms/<?php echo $smsPerMonth;?>"><?php echo $smsPayDesc[$smsPerMonth];?></a> (<?php echo $smsPerMonth;?> у.е.)</li>
 </ul>
@@ -56,7 +63,7 @@ if ($summ == 0)
 </div>
 </td></tr>
 <tr><td>
-<ul><b>Оплатить/продлить доступ электронными деньгами:</b>
+<ul><b><?php __('Pay/extend access to electronic money'); ?>:</b>
 	<li><a href="/pays/index/<?php echo $perWeek;?>"><?php echo $payDesc[$perWeek];?></a> (<?php echo $perWeek;?> WMR)</li>
 	<li><a href="/pays/index/<?php echo $perMonth;?>"><?php echo $payDesc[$perMonth];?></a> (<?php echo $perMonth;?> WMR)</li>
 </ul>
@@ -67,9 +74,9 @@ if ($summ == 0)
 </div>
 </td></tr>
 <tr><td>
-<ul><b>Оплатить/продлить доступ с помощью сервиса Assist:</b>
-	<li><a href="/pays/assist/<?php echo $assistPerWeek;?>"><?php echo $assistPayDesc[$assistPerWeek];?></a> (<?php echo $assistPerWeek;?> руб.)</li>
-	<li><a href="/pays/assist/<?php echo $assistPerMonth;?>"><?php echo $assistPayDesc[$assistPerMonth];?></a> (<?php echo $assistPerMonth;?> руб.)</li>
+<ul><b><?php __('Pay/extend access through the service');?> Assist:</b>
+	<li><a href="/pays/assist/<?php echo $assistPerWeek;?>"><?php echo $assistPayDesc[$assistPerWeek];?></a> (<?php echo $assistPerWeek;?> RUR)</li>
+	<li><a href="/pays/assist/<?php echo $assistPerMonth;?>"><?php echo $assistPayDesc[$assistPerMonth];?></a> (<?php echo $assistPerMonth;?> RUR)</li>
 </ul>
 <td>
 <div>
@@ -82,27 +89,33 @@ if ($summ == 0)
 </div>
 </td></tr>
 <tr><td colspan="2">
-	<p>
-Оплата по банковским картам через систему электронных платежей Assist производится путем переадресации на сайт <a target="_blank" title="assist.ru" href="http://www.assist.ru">www.assist.ru</a>. В системе ASSIST безопасность платежей обеспечивается использованием SSL протокола для передачи конфиденциальной информации от Пользователя на сервер системы ASSIST для дальнейшей обработки. Дальнейшая передача информации осуществляется по закрытым банковским сетям высшей степени защиты. Сбор и обработка полученных конфиденциальных данных Пользователя (реквизиты карты, регистрационные данные и т.д.) производится в процессинговом центре. Таким образом, никто, в том числе администрация VideoXQ, не может получить персональные и банковские данные клиента, включая информацию о его покупках, сделанных в других магазинах. Для защиты информации от несанкционированного доступа на этапе передачи от клиента на сервер системы ASSIST используется протокол SSL 3.0, сертификат сервера (128 bit) выдан компанией Thawte - признанным центром выдачи цифровых сертификатов. Вы можете <a title="проверить подлинность сертификата" target="_blank" href="https://sealinfo.thawte.com/thawtesplash?form_file=fdf/thawtesplash.fdf&dn=WWW.ASSIST.RU&lang=en">проверить подлинность сертификата</a> сервера.
+<p>
+<?php __("assist description1"); ?>
+
+<?php __("assist description2"); ?>
+
+<?php __("assist description3"); ?>
+
+<?php __("You may"); ?> <a title="<?php __('check the authenticity of the certificate');?>" target="_blank" href="https://sealinfo.thawte.com/thawtesplash?form_file=fdf/thawtesplash.fdf&dn=WWW.ASSIST.RU&lang=en"><?php __('check the authenticity of the certificate');?></a> <?php __("of Thawte server"); ?>.
 	</p>
 	<p>
-При оплате  заказа банковской картой возврат денежных средств производится на ту карту, с которой был произведен платеж.
+<?php __('When paying by credit card order a refund is made on the card with which payment was made.'); ?>
 	</p>
 	<table width="100%" border="0">
 	<tr align="center">
-		<td><img width="265" alt="логотипы платежных систем" src="/img/mps_logos.png" /></td>
+		<td><img width="265" alt="<?php __('logos payment systems');?>" title="<?php __('logos payment systems');?>" src="/img/mps_logos.png" /></td>
 	</tr>
 	</table>
 </td></tr>
 
 </table>
 
-<p>По всем вопросам, касательно V.I.P. доступа, пишите на <a href="mailto:vip@videoxq.com">vip@videoxq.com</a></p>
+<p><?php __('On V.I.P. access, write to the'); ?> <a href="mailto:vip@videoxq.com">vip@videoxq.com</a></p>
 
 <?php
 	if (!empty($lst))
 	{
-		echo'<ul><b>Последние платежи:</b>';
+		echo'<ul><b>' . __('Last payments', true) . ':</b>';
 		foreach ($lst as $l)
 		{
 			switch ($l['Pay']['paysystem'])
@@ -117,8 +130,8 @@ if ($summ == 0)
 					$valute = 'WMR';
 			}
 
-			echo '<li>№ ' . $l["Pay"]['id'] . ' от ' . date('d.m.y H:i', $l["Pay"]['paydate']) . ' (' . $l["Pay"]['summ'] . ' ' . $valute . ')';
-			if ($l["Pay"]['findate'] > time()) echo ' - доступ оплачен по ' . date('d.m.y H:i', $l["Pay"]['findate']) . '</li>';
+			echo '<li>№ ' . $l["Pay"]['id'] . ' ' . __('date', true) . ' ' . date('d.m.y H:i', $l["Pay"]['paydate']) . ' (' . $l["Pay"]['summ'] . ' ' . $valute . ')';
+			if ($l["Pay"]['findate'] > time()) echo ' - ' . __('Paid by', true) . ' ' . date('d.m.y H:i', $l["Pay"]['findate']) . '</li>';
 		}
 		echo '</ul>';
 	}
@@ -127,10 +140,10 @@ else
 {
 ?>
 <p>
-Вы выбрали оплату V.I.P. доступа <?php echo $payDesc[$summ];?> в размере <?php echo $summ;?> WMR
+<?php __('You chose to pay V.I.P. access'); ?> <?php echo $payDesc[$summ];?> <?php __('amount'); ?> <?php echo $summ;?> WMR
 </p>
 <p>
-<a href="<?php echo $url;?>">Оплатить</a>
+<a href="<?php echo $url;?>"><?php __('Pay'); ?></a>
 </p>
 <?php
 }
@@ -139,35 +152,35 @@ else
 
 //<h3 style="color: red;">Внимание, сервис на стадии запуска. Будет доступен в ближайшее время.</h3>
 ?>
-<h3>Преимущества V.I.P.:</h3>
+<h3><?php __('Benefits V.I.P.');?>:</h3>
 <p>
-1) Отсутствие рекламы
+1) <?php __('No ads');?>
 <?php
 //<br />2) Закачка файлов с наших серверов в 3 потока
 //<br />3) Для пользователей сети HOSTEL дает возможность качать без взымания денег за траффик.
 ?>
 </p>
-<h3>Как стать V.I.P.:</h3>
-<p>1) <a href="/users/register">Зарегистрироваться</a> на нашем сайте.
-<br />2) <a href="/users/login">Войти</a> под своими логином и паролем.
-<br />3) Перейти на <a href="/pays">страницу оплаты</a> V.I.P. доступа (ссылка в правом верхнем углу сайта)
-<br />4) Выбрать размер оплаты в любой, доступной для оплаты платежной системе
-<?php
+<h3><?php __('How to become a V.I.P.');?>:</h3>
+<p>1) <a href="/users/register"><?php __('Register');?></a> <?php __('on our website');?>.
+<br />2) <a href="/users/login"><?php __('Sign In'); ?></a>, <?php __('using your login and password');?>.
+<br />3) <?php __('Go to the'); ?> <a href="/pays"><?php __('payment page'); ?></a> V.I.P. <?php __('accessa');?> (<?php __('see link at the top right corner of the site');?>)
+<br />4) <?php __('Choose the amount of payment to any available for the payment of the payment system'); ?>
+ <?php
 //	Configure::read('costPerDay') . ' WMR(' . Configure::read('descPerDay') . '), ' .
-	echo $payDesc[$perWeek] . ' или ' . $payDesc[$perMonth] . '.';
+	echo $payDesc[$perWeek] . ' ' . __('or', true) . ' ' . $payDesc[$perMonth] . '.';
 ?>
-<br />5) Прием оплаты осуществляется через:
-<br />&nbsp; &nbsp; - электронную кассу сервиса ROBOxchange (<b>WebMoney</b>, <b>Яндекс-деньги</b> и т.п.) <span style="color: red">***</span>
-<br />&nbsp; &nbsp; - сервис SMScoin по <b>SMS</b>. <span style="color: red">***</span>
-<br />&nbsp; &nbsp; - сервис Assist. <span style="color: red">***</span>
-<br />6) Cледовать инструкциям платежной системы.
+<br />5) <?php __('You can pay:');?>
+<br />&nbsp; &nbsp; - <?php __('via e-cash service ROBOxchange'); ?> (<b>WebMoney</b>, <b>Яндекс-деньги</b> <?php __('etc.');?>) <span style="color: red">***</span>
+<br />&nbsp; &nbsp; - <?php __('via service');?> SMScoin по <b>SMS</b>. <span style="color: red">***</span>
+<br />&nbsp; &nbsp; - <?php __('via service');?> Assist. <span style="color: red">***</span>
+<br />6) <?php __('Follow instructions of the payment system');?>
 </p>
-<h3>Поддержка:</h3>
-<p>По всем вопросам, касательно V.I.P. доступа, пишите на <a href="mailto:vip@videoxq.com">vip@videoxq.com</a></p>
+<h3><?php __('Support');?>:</h3>
+<p><?php __('On V.I.P. access, write to the'); ?> <a href="mailto:vip@videoxq.com">vip@videoxq.com</a></p>
 
-<p><span style="color: red">***</span> Цена за V.I.P. доступ фиксирована и отображена при оплате.
-<br />Срок пребывания в V.I.P. зависит от размера оплаты.
-<br />Чтобы продлить V.I.P. - процедуру оплаты нужно повторить.
+<p><span style="color: red">***</span> <?php __('Price for V.I.P. access is fixed and displayed for payment.');?>
+<br /><?php __('The tenure of V.I.P. depends on the size of the payment.');?>
+<br /><?php __('To extend V.I.P. - The payment procedure must be repeated.');?>
 </p>
 	<table width="100%" cellpadding="20" border="0">
 	<tr align="center">

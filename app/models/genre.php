@@ -53,8 +53,12 @@ class Genre extends MediaModel {
      */
     function getGenresWithFilmCount()
     {
+		$lang = Configure::read('Config.language');
+		$langFix = '';
+		if ($lang == _ENG_) $langFix = '_imdb';
+
         $sql =
-        'select g.id, g.title, count(fg.film_id) as count
+        'select g.id, g.title' . $langFix . ', count(fg.film_id) as count
          from genres as g
          join films_genres as fg on (fg.genre_id=g.id)
          join films as f on (fg.film_id = f.id AND f.active = 1)
@@ -65,7 +69,7 @@ class Genre extends MediaModel {
         $res = array();
         foreach ($records as $record)
         {
-            $res[$record['g']['id']] = $record['g']['title'] . ' (' . $record['0']['count'] . ')';
+            $res[$record['g']['id']] = $record['g']['title' . $langFix] . ' (' . $record['0']['count'] . ')';
         }
         return $res;
     }

@@ -54,8 +54,11 @@ class Country extends MediaModel {
      */
     function getCountriesWithFilmCount()
     {
+		$lang = Configure::read('Config.language');
+		$langFix = '';
+		if ($lang == _ENG_) $langFix = '_imdb';
         $sql =
-        'select c.id, c.title, count(cf.film_id) as count
+        'select c.id, c.title' . $langFix . ', count(cf.film_id) as count
          from countries as c
          join countries_films as cf on (cf.country_id=c.id)
          join films as f on (cf.film_id = f.id AND f.active = 1)
@@ -65,7 +68,7 @@ class Country extends MediaModel {
         $res = array();
         foreach ($records as $record)
         {
-            $res[$record['c']['id']] = $record['c']['title'] . ' (' . $record['0']['count'] . ')';
+            $res[$record['c']['id']] = $record['c']['title' . $langFix] . ' (' . $record['0']['count'] . ')';
         }
         return $res;
 

@@ -2,18 +2,26 @@
 header('Expires: Sat, 26 Jul 1997 05:00:00 GMT');
 ?>
 <div class="listGen">
-<p>Здесь вы можете создать список загрузки для программы "Download Master".<br />
-Очередь закачек можно отсортировать в нужном порядке, перетаскивая фильмы мышкой.</p>
 <?php
 if ($authUser['userid']):
 ?>
+<p>
+<?php __("Create download list here"); ?> <a target="_blank" href="/pages/faq#basket"> ? </a><br />
+<?php
+	if (count($baskets))
+	{
+?>
+<?php __("Sort download list items"); ?></p>
 <form id="BasketDownloadForm" method="post" action="/basket/download">
 <fieldset style="display:none;">
 <input type="hidden" name="_method" value="POST" />
 </fieldset>
 <input type="hidden" name="data[Basket][elements]" value="" id="BasketElements" />
-<p><input type="submit" onclick="download();" value="Создать список загрузки" /></p>
-<p><?php echo $html->link('Очистить список', array('action' => 'flush'));?></p>
+<p><input type="submit" onclick="download();" value="<?php __("Create list"); ?>" /></p>
+<p><?php echo $html->link(__("Clear list", true), array('action' => 'flush'));?></p>
+<?php
+	}
+?>
 </form>
 </div>
 
@@ -38,16 +46,16 @@ if ($authUser['userid']):
             <div class="ratings rated_<?= $basket['MediaRating']['rating'] ?>"><div></div></div>
         </div>
         <p class="text">
-            <span>«<strong><?php echo $html->link($basket['Basket']['title'], '/media/view/' . $basket['Film']['id']);?> (<?= $app->pluralForm($basket[0]['count'], array('файл', 'файла', 'файлов')) ?>, <?= $app->sizeFormat($basket[0]['size']) ?>)</strong>»</span>
+            <span>«<strong><?php echo $html->link($basket['Basket']['title'], '/media/view/' . $basket['Film']['id']);?> (<?= $app->pluralForm($basket[0]['count'], array(__('file', true), __('filea', true), __('files', true))) ?>, <?= $app->sizeFormat($basket[0]['size']) ?>)</strong>»</span>
             <?= $app->truncateText($basket['Film']['description'], 10) ?>
         </p>
     </div>
 </div>
 <?php
-}
+	}
 else:
 ?>
-<p>Для того, чтобы воспользоваться списком загрузок, Вам необходимо <a href="/users/register">зарегистрироваться</a>.</p>
+<p><?php __("For download list you have to"); ?> <a href="/users/register"><?php __("Register"); ?></a>.</p>
 <?php
 endif;
 

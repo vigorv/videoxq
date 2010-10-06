@@ -1,5 +1,5 @@
 <div class="contentCol">
-<h2>Восстановление пароля</h2>
+<h2><?php __("Restore"); ?></h2>
 <?php
 //$html->css('style', null, array(), false);
 echo $form->create('User', array('action' => 'restore' , 'class' => 'reg', 'onsubmit' => "return ((getElementById('UserEmail').value != '') && (getElementById('UserCaptcha').value != ''));"));
@@ -11,12 +11,12 @@ echo $form->create('User', array('action' => 'restore' , 'class' => 'reg', 'onsu
 ?>
 <p><label for="UserEmail">E-mail<em class="required">*</em> :</label><br>
 <?php echo $form->text('email', array('class' => 'textInput')); ?></p>
-<p><label for="UserCaptcha">Проверочный код<em class="required">*</em> :</label><br>
+<p><label for="UserCaptcha"><?php __("Antibot"); ?><em class="required">*</em> :</label><br>
 <?php echo $form->text('captcha', array('class' => 'textInput')); ?></p>
 <!--<p>Можно писать как ПРОПИСНЫМИ, так и строчными буквами — как пожелаете.</p>-->
 <p><img src="<?php echo $html->url('/users/captcha'); ?>" /></p>
 <br>
 <?php
-echo $form->end('Восстановить пароль!');
+echo $form->end(__("Forgot password", true));
 ?>
 </div>

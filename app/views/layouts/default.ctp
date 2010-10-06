@@ -163,6 +163,7 @@ else
 		'/people' => __("People", true),
 		'/forum' => __("Forum", true),
 		'/pages/faq' => 'FAQ',
+		'/basket' => __("Downloads", true),
 	);
 	foreach ($menuItems as $key => $value)
 	{

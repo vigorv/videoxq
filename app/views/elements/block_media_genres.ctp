@@ -17,22 +17,22 @@ $pageNavigator->setUrl('/media/index');
                       <td>
 <ul id="genres">
     <li <?php echo $sort == 'Film.year' ? 'class="active"' : ''; ?>><?=
-    	$html->link('Новые', $pageNavigator->getNavigateUrl(array('link' => 'new', 'sort' => 'Film.year', 'direction' => 'desc')));
+    	$html->link(__("Newa", true), $pageNavigator->getNavigateUrl(array('link' => 'new', 'sort' => 'Film.year', 'direction' => 'desc')));
     ?></li>
     <li <?php echo $sort == 'Film.hits' ? 'class="active"' : ''; ?>><?=
-    	$html->link('Популярные', $pageNavigator->getNavigateUrl(array('sort' => 'Film.hits', 'direction' => 'desc')));
+    	$html->link(__("Popular", true), $pageNavigator->getNavigateUrl(array('sort' => 'Film.hits', 'direction' => 'desc')));
     ?></li>
     <li <?php echo $sort == 'MediaRating.rating' ? 'class="active"' : ''; ?>><?=
-    	$html->link('Лучшие Юзеров', $pageNavigator->getNavigateUrl(array('sort' => 'MediaRating.rating', 'direction' => 'desc')));
+    	$html->link(__("Most voted", true), $pageNavigator->getNavigateUrl(array('sort' => 'MediaRating.rating', 'direction' => 'desc')));
     ?></li>
     <li <?php echo $sort == 'Film.imdb_rating' ? 'class="active"' : ''; ?>><?=
-    	$html->link('Лучшие IMDb', $pageNavigator->getNavigateUrl(array('sort' => 'Film.imdb_rating', 'direction' => 'desc')));
+    	$html->link(__("Best IMDb", true), $pageNavigator->getNavigateUrl(array('sort' => 'Film.imdb_rating', 'direction' => 'desc')));
     ?></li>
     <li <?php echo $sort == 'Film.modified' ? 'class="active"' : ''; ?>><?=
-		$html->link('Последние добавленные', $pageNavigator->getNavigateUrl(array('sort' => 'Film.modified', 'direction' => 'desc')));
+		$html->link(__("Last added", true), $pageNavigator->getNavigateUrl(array('sort' => 'Film.modified', 'direction' => 'desc')));
 	?></li>
     <li>&nbsp;</li>
-    <li class="all <?php echo empty($this->params['named']['genre']) && empty($this->params['named']['type']) && empty($this->params['named']['vtype']) ? 'active' : ''; ?>"><a href="/media">Все фильмы</a></li>
+    <li class="all <?php echo empty($this->params['named']['genre']) && empty($this->params['named']['type']) && empty($this->params['named']['vtype']) ? 'active' : ''; ?>"><a href="/media"><?php __("All films"); ?></a></li>
 <!--
     <li class="all <?php
     	echo $hdtvClass; $hdtvStr = "HDTV";

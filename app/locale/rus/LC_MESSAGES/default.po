@@ -483,24 +483,12 @@ msgstr ""
 msgid "Group deleted"
 msgstr ""
 
-#: /controllers/media_controller.php:116
-msgid "Invalid Film."
-msgstr ""
-
 #: /controllers/media_controller.php:175;198
 msgid "The Film has been saved"
 msgstr ""
 
 #: /controllers/media_controller.php:178;201
 msgid "The Film could not be saved. Please, try again."
-msgstr ""
-
-#: /controllers/media_controller.php:193
-msgid "Invalid Film"
-msgstr ""
-
-#: /controllers/media_controller.php:219
-msgid "Invalid id for Film"
 msgstr ""
 
 #: /controllers/media_controller.php:223
@@ -605,7 +593,7 @@ msgstr ""
 
 #: /controllers/users_controller.php:123
 msgid "New account"
-msgstr ""
+msgstr "Новая учетная запись"
 
 #: /controllers/users_controller.php:124
 msgid "username: %s ! link:\n%susers/confirm/%s\n\n \n%s Robot"
@@ -617,7 +605,7 @@ msgstr ""
 
 #: /controllers/users_controller.php:157
 msgid "No such email registered"
-msgstr ""
+msgstr "email на сайте не зарегистрирован"
 
 #: /controllers/users_controller.php:200
 msgid "New password sent to %s. Please login"
@@ -4361,8 +4349,8 @@ msgid "Group deleted"
 msgstr ""
 
 #: /controllers/media_controller.php:116;116
-msgid "Invalid Film."
-msgstr ""
+msgid "Invalid Film"
+msgstr "Фильм не найден"
 
 #: /controllers/media_controller.php:175;198;175;198
 msgid "The Film has been saved"
@@ -4372,13 +4360,9 @@ msgstr ""
 msgid "The Film could not be saved. Please, try again."
 msgstr ""
 
-#: /controllers/media_controller.php:193;193
-msgid "Invalid Film"
-msgstr ""
-
 #: /controllers/media_controller.php:219;219
 msgid "Invalid id for Film"
-msgstr ""
+msgstr "Фильм не найден"
 
 #: /controllers/media_controller.php:223;223
 msgid "Film deleted"
@@ -4490,10 +4474,6 @@ msgstr ""
 
 #: /controllers/users_controller.php:128;128
 msgid "You have successfuly registered!"
-msgstr ""
-
-#: /controllers/users_controller.php:157;157
-msgid "No such email registered"
 msgstr ""
 
 #: /controllers/users_controller.php:200;200
@@ -5411,7 +5391,7 @@ msgstr ""
 #: /views/users/admin_view.ctp:2;2
 #: /views/users/view.ctp:2;2
 msgid "User"
-msgstr ""
+msgstr "Посетитель"
 
 #: /views/adverts/admin_view.ctp:14;14
 #: /views/adverts/view.ctp:14;14
@@ -7375,17 +7355,6 @@ msgstr ""
 msgid "There was a problem with the field"
 msgstr ""
 
-#: /views/media/baskets/add_ajax.ctp:4;4
-#: /views/media/baskets/del_ajax.ctp:4;4
-msgid "RemoveFromBasket"
-msgstr "<img src=\"/img/vusic/remove.gif\" width=\"20\" height=\"20\" alt=\"Удалить из списка загрузок\" title=\"Удалить из списка загрузок\">"
-
-#: /views/media/baskets/add_ajax.ctp:7;7
-#: /views/media/baskets/del_ajax.ctp:7;7
-#: /views/media/films/view.ctp:65;71;65;71
-msgid "AddToBasket"
-msgstr "<img src=\"/img/vusic/add.gif\" width=\"20\" height=\"20\" alt=\"В список загрузок\" title=\"В список загрузок\">"
-
 #: /views/media/baskets/index.ctp:2;2
 msgid "Media"
 msgstr ""
@@ -7944,3 +7913,384 @@ msgstr "Лучшие IMDb"
 
 msgid "Last added"
 msgstr "Последние добавленные"
+
+msgid "Search by title"
+msgstr "Искать по названию"
+
+msgid "Genre"
+msgstr "Жанр"
+
+msgid "Type"
+msgstr "Тип"
+
+msgid "Country"
+msgstr "Страна"
+
+msgid "All genres"
+msgstr "Все жанры"
+
+msgid "All countries"
+msgstr "Все страны"
+
+msgid "All types"
+msgstr "Все типы"
+
+msgid "downloadable"
+msgstr "можно скачать"
+
+msgid "from"
+msgstr "от"
+
+msgid "to"
+msgstr "до"
+
+msgid "Sort by"
+msgstr "Сортировать по"
+
+msgid "Search"
+msgstr "Найти"
+
+msgid "Advanced Search"
+msgstr "Расширенный поиск"
+
+msgid "Downloads"
+msgstr "Загрузки"
+
+msgid "Login exists Registration not confirmed"
+msgstr "Данный логин зарегистрирован, но регистрация не подтверждена. отправлено повторное письмо со ссылкой на подтверждение регистрации."
+
+msgid "Your Login"
+msgstr "Ваш логин"
+
+msgid "Register confirmation link"
+msgstr "Ссылка для активации аккаунта"
+
+msgid "Creating user Error"
+msgstr "Не могу создать пользователя!"
+
+msgid "Send email error"
+msgstr "Произошла ошибка при отправке email, Обратитесь к администраторам на форуме для помощи."
+
+msgid "Thanks for register Login please"
+msgstr "Спасибо за регистрацию! Авторизуйтесь пожалуйста."
+
+msgid "Dear"
+msgstr "Уважаемый"
+
+msgid "Your new Password"
+msgstr "Ваш новый пароль"
+
+msgid "Your Password"
+msgstr "Ваш пароль"
+
+msgid "Restore Password Request"
+msgstr "Вы запросили восстановление пароля на сайте"
+
+msgid "Sent new Password"
+msgstr "Вам отправлен новый пароль"
+
+msgid "Auth"
+msgstr "Вход"
+
+msgid "Registration"
+msgstr "Регистрация"
+
+msgid "Repeat Password"
+msgstr "Повторите пароль"
+
+msgid "Antibot"
+msgstr "Проверочный код"
+
+msgid "I accept"
+msgstr "я принимаю"
+
+msgid "the user agreement"
+msgstr "пользовательское соглашение"
+
+msgid "Register"
+msgstr "Зарегистрироваться"
+
+msgid "Restore"
+msgstr "Восстановить пароль"
+
+msgid "Login exists"
+msgstr "Такой пользователь уже есть"
+
+msgid "You must specify login"
+msgstr "Необходимо указать логин"
+
+msgid "You must specify password"
+msgstr "Необходимо указать пароль"
+
+msgid "Passwords do not match"
+msgstr "Пароли не совпадают"
+
+msgid "You must specify Email"
+msgstr "Необходимо указать Email"
+
+msgid "Invalid Email"
+msgstr "Неправильный Email"
+
+msgid "Email exists"
+msgstr "Email уже используется"
+
+msgid "Verification code incorrect"
+msgstr "Неверный проверочный код"
+
+msgid "Top"
+msgstr "Топ"
+
+msgid "Clear list"
+msgstr "Очистить список"
+
+msgid "file"
+msgstr "файл"
+
+msgid "filea"
+msgstr "файла"
+
+msgid "files"
+msgstr "файлов"
+
+msgid "Create download list here"
+msgstr "Здесь вы можете создать список загрузки для программы \"Download Master\"."
+
+msgid "Sort download list items"
+msgstr "Очередь закачек можно отсортировать в нужном порядке, перетаскивая фильмы мышкой."
+
+msgid "For download list you have to"
+msgstr "Для того, чтобы воспользоваться списком загрузок, Вам необходимо"
+
+msgid "Create list"
+msgstr "Создать список загрузки"
+
+msgid "Clear list"
+msgstr "Очистить список загрузки"
+
+msgid "page"
+msgstr "страница"
+
+msgid "Serials"
+msgstr "Сериалы"
+
+msgid "season"
+msgstr "сезон"
+
+msgid "Comment added"
+msgstr "Комментарий добавлен"
+
+msgid "Error. Comment not added"
+msgstr "Ошибка. Комментарий не добавлен"
+
+msgid "Showing"
+msgstr "Показано"
+
+msgid "posts. Total"
+msgstr "сообщений из"
+
+msgid "unknown"
+msgstr "не определено"
+
+msgid "user information"
+msgstr "данные о пользователе"
+
+msgid "User message"
+msgstr "Сообщение пользователя"
+
+msgid "position"
+msgstr "место"
+
+msgid "the geographical location of the user identified mistakenly"
+msgstr "ошибочно определено географическое местоположение пользователя"
+
+msgid "Received payment from you. Amount"
+msgstr "От вас поступил платеж в размере"
+
+msgid "Thank you"
+msgstr "Спасибо"
+
+msgid "Order"
+msgstr "Заказ"
+
+msgid "paid successfully"
+msgstr "оплачен"
+
+msgid "access"
+msgstr "доступ"
+
+msgid "Your geographical location"
+msgstr "Ваше местоположение"
+
+msgid "not identified"
+msgstr "не определено"
+
+msgid "contact administrator"
+msgstr "свяжитесь с администратором"
+
+msgid "If your geographical location is incorrect"
+msgstr "Если ваше географическое местоположение определено неправильно"
+
+msgid "Depends on this is available for download by you of certain films"
+msgstr "От этого зависит доступность для скачивания вами определенной группы фильмов"
+
+msgid "WARNING! Pay for the service V.I.P. Access can be by taking a"
+msgstr "ВНИМАНИЕ! Оплатить услугу V.I.P. доступа можно, приняв условия"
+
+msgid "user agreement"
+msgstr "пользовательское соглашение"
+
+msgid "Are You sure?"
+msgstr "Вы уверены?"
+
+msgid "I accept the agreement"
+msgstr "Я принимаю условия"
+
+msgid "Here you can pay for VIP access"
+msgstr "Здесь вы можете оплатить V.I.P. доступ"
+
+msgid "or"
+msgstr "или"
+
+msgid "You can pay via an electronic cash service ROBOxchange in any convenient electronic payment system, via SMS or e-card"
+msgstr "Прием оплаты осуществляется через электронную кассу сервиса ROBOxchange в любой удобной для вас системе электронных платежей, по SMS или по электронной карте"
+
+msgid "Please note that the payment systems charge a fee for the transfer of funds"
+msgstr "Обратите внимание, что платежные системы взимают комиссию за перевод средств"
+
+msgid "Pay/extend access via SMS"
+msgstr "Оплатить/продлить доступ по SMS"
+
+msgid "Pay/extend access to electronic money"
+msgstr "Оплатить/продлить доступ электронными деньгами"
+
+msgid "Pay/extend access through the service"
+msgstr "Оплатить/продлить доступ электронной картой через сервис"
+
+msgid "assist description1"
+msgstr "Оплата по банковским картам через систему электронных платежей Assist производится путем переадресации на сайт <a target=\"_blank\" title=\"assist.ru\" href=\"http://www.assist.ru\">www.assist.ru</a>. В системе ASSIST безопасность платежей обеспечивается использованием SSL протокола для передачи конфиденциальной информации от Пользователя на сервер системы ASSIST для дальнейшей обработки. Дальнейшая передача информации осуществляется по закрытым банковским сетям высшей степени защиты."
+
+msgid "assist description2"
+msgstr "Сбор и обработка полученных конфиденциальных данных Пользователя (реквизиты карты, регистрационные данные и т.д.) производится в процессинговом центре. Таким образом, никто, в том числе администрация VideoXQ, не может получить персональные и банковские данные клиента, включая информацию о его покупках, сделанных в других магазинах."
+
+msgid "assist description3"
+msgstr "Для защиты информации от несанкционированного доступа на этапе передачи от клиента на сервер системы ASSIST используется протокол SSL 3.0, сертификат сервера (128 bit) выдан компанией Thawte - признанным центром выдачи цифровых сертификатов."
+
+msgid "of Thawte server"
+msgstr "сервера Thawte"
+
+msgid "You may"
+msgstr "Вы можете"
+
+msgid "check the authenticity of the certificate"
+msgstr "проверить подлинность сертификата"
+
+msgid "When paying by credit card order a refund is made on the card with which payment was made."
+msgstr "При оплате заказа банковской картой возврат денежных средств производится на ту карту, с которой был произведен платеж."
+
+msgid "logos payment systems"
+msgstr "логотипы платежных систем"
+
+msgid "On V.I.P. access, write to the"
+msgstr "По вопросам V.I.P. доступа, пишите на"
+
+msgid "Last payments"
+msgstr "Последние платежи"
+
+msgid "date"
+msgstr "дата"
+
+msgid "You chose to pay V.I.P. access"
+msgstr "Вы выбрали оплату V.I.P. доступа"
+
+msgid "amount"
+msgstr "в размере"
+
+msgid "Pay"
+msgstr "Оплатить"
+
+msgid "Benefits V.I.P."
+msgstr "Преимущества V.I.P."
+
+msgid "How to become a V.I.P."
+msgstr "Как стать V.I.P."
+
+msgid "on our website"
+msgstr "на нашем сайте"
+
+msgid "No ads"
+msgstr "Отсутствие рекламы"
+
+msgid "using your login and password"
+msgstr "используя логин и пароль"
+
+msgid "Go to the"
+msgstr "Перейти на"
+
+msgid "payment page"
+msgstr "страницу оплаты"
+
+msgid "payment pagee"
+msgstr "странице оплаты"
+
+msgid "accessa"
+msgstr "доступа"
+
+msgid "see link at the top right corner of the site"
+msgstr "ссылка в правом верхнем углу сайта"
+
+msgid "Choose the amount of payment to any available for the payment of the payment system"
+msgstr "Выбрать размер оплаты в любой, доступной для оплаты платежной системе"
+
+msgid "You can pay:"
+msgstr "Прием оплаты осуществляется через:"
+
+msgid "etc."
+msgstr "и т.п."
+
+msgid "via e-cash service ROBOxchange"
+msgstr "электронную кассу сервиса ROBOxchange"
+
+msgid "via service"
+msgstr "сервис"
+
+msgid "Follow instructions of the payment system"
+msgstr "Cледовать инструкциям платежной системы."
+
+msgid "Support"
+msgstr "Поддержка"
+
+msgid "Price for V.I.P. access is fixed and displayed for payment."
+msgstr "Цена за V.I.P. доступ фиксирована и отображена при оплате."
+
+msgid "The tenure of V.I.P. depends on the size of the payment."
+msgstr "Срок пребывания в V.I.P. зависит от размера оплаты."
+
+msgid "To extend V.I.P. - The payment procedure must be repeated."
+msgstr "Чтобы продлить V.I.P. - процедуру оплаты нужно повторить."
+
+msgid "for a month"
+msgstr "на месяц"
+
+msgid "for a week"
+msgstr "на неделю"
+
+msgid "for a day"
+msgstr "на день"
+
+msgid "Sorry, the operation of payment had not been made."
+msgstr "Извините, операция оплаты не была совершена."
+
+msgid "Perhaps the service payment system is temporarily unavailable, or your IP is not supported on the site videoxq.com"
+msgstr "Возможно, сервис платежной системы временно не доступен, либо ваш IP не поддерживается на сайте videoxq.com"
+
+msgid "Payment procedure is completed"
+msgstr "Процедура оплаты завершена"
+
+msgid "You have refused to pay. But any time you can do so at"
+msgstr "Вы отказались от оплаты. Но в любой момент Вы сможете сделать это на"
+
+msgid "Information about your payments to you can get at"
+msgstr "Информацию о своих платежах Вы можете посмотреть на"
+
+msgid "Payment procedure is completed"
+msgstr "Процедура оплаты завершена"

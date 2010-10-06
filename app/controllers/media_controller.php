@@ -688,7 +688,7 @@ class MediaController extends AppController {
 
 	function index()
     {
-        $this->pageTitle = 'Видео каталог';
+        $this->pageTitle = __('Video catalog', true);
         $this->Film->recursive = 1;
 
         if (empty($this->passedArgs['direction']))
@@ -932,7 +932,7 @@ if (!empty($this->params['named']['is_license']))
         }
 
         if (!empty($this->passedArgs['page']))
-            $this->pageTitle .= ' страница ' . $this->passedArgs['page'];
+            $this->pageTitle .= ' ' . __('page', true) . ' ' . $this->passedArgs['page'];
 /*
 echo'<pre>';
 var_dump($pagination);
@@ -1150,13 +1150,13 @@ echo'</pre>';
 		    			{
 		    				$bookmarks = array(
 		    				array('Bookmark' =>
-		    					array('url' => '/media/index/direction:desc/action:index/sort:Film.modified', 'title' => 'Видеокаталог'),
+		    					array('url' => '/media/index/direction:desc/action:index/sort:Film.modified', 'title' => __('Video catalog', true)),
 			    				),
 		    				array('Bookmark' =>
-		    					array('url' => '/media/index/type:15,7,2', 'title' => 'Сериалы'),
+		    					array('url' => '/media/index/type:15,7,2', 'title' => __('Serials', true)),
 			    				),
 		    				array('Bookmark' =>
-		    					array('url' => '/forum', 'title' => 'Форум'),
+		    					array('url' => '/forum', 'title' => __('Forum', true)),
 			    				),
 		    				);
 		    			}
@@ -1239,32 +1239,6 @@ echo'</pre>';
     				$this->rocketInfo['actualchat'] = $chatMessages[0]['CybChat']['dateline'];
 					$this->Session->write('rocketInfo', $this->rocketInfo); //И ДЛЯ АВТОРИЗОВАННЫХ И ДЛЯ ГОСТЕЙ РАБОТАЕМ С СЕССИЕЙ
     			}
-/*
-    			$chatMessages = $this->CybChat->findAll($condition, array('CybChat.userid', 'CybChat.dateline', 'CybChat.message', 'CybChat.textprop'), 'CybChat.dateline desc', 30, null, 1);
-
-    			if (!empty($chatMessages))
-    			{
-    				$this->rocketInfo['actualchat'] = $chatMessages[0]['CybChat']['dateline'];
-					$this->Session->write('rocketInfo', $this->rocketInfo); //И ДЛЯ АВТОРИЗОВАННЫХ И ДЛЯ ГОСТЕЙ РАБОТАЕМ С СЕССИЕЙ
-    				$condition = array();
-    				foreach ($chatMessages as $cm)
-    				{
-    					$condition[] = $cm['CybChat']['userid'];
-    				}
-    				$condition = array('User.userid' => $condition);
-	    			$chatUsers = $this->User->findAll($condition, array('User.username', 'User.userid', 'User.displaygroupid'), null, null, 0);
-	    			$users = array();
-	    			foreach ($chatUsers as $key => $val)
-	    			{
-	    				$users[$val['User']['userid']] = $val;
-	    			}
-	    			foreach ($chatMessages as $key => $val)
-	    			{
-	    				$chatMessages[$key]['User'] =
-	    					(empty($users[$val['CybChat']['userid']]['User']) ? array('User' => array('username' => '', 'userid' => $val['CybChat']['userid'], 'displaygroupid' => 0)) : $users[$val['CybChat']['userid']]['User']);
-	    			}
-    			}
-//*/
 		    	$this->set('chatMessages', $chatMessages);
 		    	$this->set('newMsg', $param);
 
@@ -1333,7 +1307,7 @@ echo'</pre>';
     function looksLike($title)
     {
     	$films = array(); $searchFor = '';
-    	$pos = mb_strpos(mb_strtolower($title), 'сезон');
+    	$pos = mb_strpos(mb_strtolower($title), __('season', true));
 /*
     	if ($pos)
     	{
@@ -1474,7 +1448,7 @@ echo'</pre>';
 
     function view($id = null) {
         if (!$id) {
-            $this->Session->setFlash(__('Invalid Film.', true));
+            $this->Session->setFlash(__('Invalid Film', true));
             $this->redirect(array('action'=>'index'));
         }
 
@@ -1515,7 +1489,7 @@ echo'</pre>';
             }
         	if (!$this->User->validates())
         	{
-            $this->Session->setFlash('Не могу оставить комментарий!');
+            $this->Session->setFlash(__('Error. Comment not added', true));
             unset($this->data['User']['captcha']);
             unset($this->data['User']['captcha2']);
         	}
@@ -1526,14 +1500,14 @@ echo'</pre>';
             if (($this->authUser['userid']) && /*$this->isAuthorized('FilmComments/add') &&*/ $this->FilmComment->save($this->data))
             {
                 Cache::delete('Catalog.lastComments');
-                $this->Session->setFlash('Комментарий добавлен.');
+                $this->Session->setFlash(__('Comment added', true));
                 unset($this->data['FilmComment']['text']);
                 //$this->redirect($this->referer('/media'));
             }
 
             else
             {
-                $this->Session->setFlash('Комментарий не добавлен, исправьте ошибки.');
+                $this->Session->setFlash(__('Error. Comment not added', true));
                 //$this->redirect($this->referer('/media'));
             }}
         }
@@ -1654,7 +1628,10 @@ $this->set("catalogVariants", $catalogVariants);
         	$directors[0] = "режиссер " . $directors[0] . ", ";
         $this->set("metaDescription", ". фильм " . htmlspecialchars($film['Film']['title']) . " (" . $directors[0] . $film["Film"]["year"] . ")");
 
-        $this->pageTitle = 'Видео каталог - ' . $film['Film']['title'];
+		$lang = Configure::read('Config.language');
+		$langFix = '';
+		if ($lang == _ENG_) $langFix = '_' . _ENG_;
+        $this->pageTitle = __('Video catalog', true) . ' - ' . $film['Film']['title' . $langFix];
         $this->set('film', $film);
 
         $looksLike = $this->looksLike($film['Film']['title']);
@@ -1826,7 +1803,7 @@ $this->set("catalogVariants", $catalogVariants);
 	        		$forumInfo['Forum']['lastthreadid'] = $threadData['Thread']['threadid'];
 	        		$this->Forum->save($forumInfo);
 
-	        		$this->Session->setFlash('Комментарий добавлен.');
+	        		$this->Session->setFlash(__('Comment added', true));
 
 	        		Cache::delete('Catalog.lastComments', 'default');//СБРАСЫВАЕМ КЭШ БЛОКА ПОСЛЕДНИХ КОМЕНТОВ
 				}
@@ -1849,7 +1826,7 @@ $this->set("catalogVariants", $catalogVariants);
 					{
 						$lst[$key]['Vbpost']['pagetext'] = $uuConverter->unicodeToUtf(Utils::transUbbTags($val['Vbpost']['pagetext']));
 					}
-					$threadInfo['stat'] = 'показано ' . count($lst) . ' сообщений из ' . $threadData['Thread']['replycount'];
+					$threadInfo['stat'] = __('showing') . ' ' . count($lst) . ' ' . __('posts. Total', true) . ' ' . $threadData['Thread']['replycount'];
 				}
 				$threadInfo['lst'] = $lst;
 			}
@@ -1948,11 +1925,11 @@ $this->set("catalogVariants", $catalogVariants);
 				}
 				else
 				{
-					$geoPlace .= 'не определено';
+					$geoPlace .= __('unknown', true);
 				}
 
-				$geoPlace = "данные о пользователе:\nIP - " . $_SERVER['REMOTE_ADDR'] . "\n" .
-				"место: " . $geoPlace . "\n\nСообщение пользователя:\n\n";
+				$geoPlace = __('user information', true) . ":\nIP - " . $_SERVER['REMOTE_ADDR'] . "\n" .
+				__("position", true) . ": " . $geoPlace . "\n\n" . __('User message', true) . ":\n\n";
 
 				$to = 'support@videoxq.com';
 				$this->_sendEmail($this->authUser['email'], $to, 'ошибочно определено географическое местоположение пользователя', $geoPlace . strip_tags($this->data['msg']));

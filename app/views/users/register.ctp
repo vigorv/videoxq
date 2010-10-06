@@ -1,5 +1,5 @@
 <div class="contentCol">
-<h2>Регистрация</h2>
+<h2><?php __("Registration"); ?></h2>
 <?php
 		$cnt = 1;
 		$js = '
@@ -58,32 +58,30 @@
 //$html->css('style', null, array(), false);
 echo $form->create('User', array('action' => 'register' , 'class' => 'reg', 'onSubmit' => "return registerSubmit();"));
 ?>
-<p><label for="UserUsername">Логин<em class="required">*</em> :</label><br>
+<p><label for="UserUsername"><?php __("Your Login"); ?><em class="required">*</em> :</label><br>
 <input type="hidden" name="scode" value="">
 <?php echo $form->error('username'); ?>
 <?php echo $form->text('username', array('class' => 'textInput')); ?>
 </p>
-<p><label for="UserPassword">Пароль<em class="required">*</em> :</label><br>
+<p><label for="UserPassword"><?php __("Your Password"); ?><em class="required">*</em> :</label><br>
 <?php echo $form->error('password'); ?>
 <?php echo $form->password('password', array('class' => 'textInput')); ?>
 </p>
-<p><label for="UserPassword2">Повторите пароль<em class="required">*</em> :</label><br>
+<p><label for="UserPassword2"><?php __("Repeat Password"); ?><em class="required">*</em> :</label><br>
 <?php //echo $form->error('password2'); ?>
 <?php echo $form->password('password2', array('class' => 'textInput')); ?></p>
 <p><label for="UserEmail">E-mail<em class="required">*</em> :</label><br>
 <?php echo $form->error('email'); ?>
 <?php echo $form->text('email', array('class' => 'textInput')); ?></p>
-<p><label for="UserCaptcha">Проверочный код<em class="required">*</em> :</label><br>
+<p><label for="UserCaptcha"><?php __("Antibot"); ?><em class="required">*</em> :</label><br>
 <?php //echo $form->error('captcha'); ?>
 <?php echo $form->text('captcha', array('class' => 'textInput')); ?>
 <!--<p>Можно писать как ПРОПИСНЫМИ, так и строчными буквами — как пожелаете.</p>-->
 <p><img src="<?php echo $html->url('/users/captcha'); ?>" /> </p>
-<!--
-<?php echo $form->checkbox('agreement'); ?> Я принимаю <a target="_blank" href="/pages/agreement">пользовательское соглашение</a>
--->
-<p>регистрируясь в системе, я соглашаюсь с <a target="_blank" href="/pages/agreement">пользовательским соглашением</a></p>
+
+<?php echo $form->checkbox('agreement'); ?> <?php __("I accept"); ?> <a target="_blank" href="/pages/agreement"><?php __("the user agreement"); ?></a>
 <?php
-echo $form->end('Зарегистрироваться');
+echo $form->end(__("Register", true));
 ?>
-<p><a href=/users/restore>Потерял пароль?</a></p>
+<p><a href=/users/restore><?php __("Forgot password"); ?>?</a></p>
 </div>

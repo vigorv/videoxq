@@ -13,16 +13,19 @@ if (count($block_last_comments))
                     <tr>
                       <td class="border1"> </td>
                       <td>
-	<p><b>Последние комментарии</b></p>';
+	<p><b>' . __('Last comments', true) . '</b></p>';
 	$lastTitle = '';
+	$lang = Configure::read('Config.language');
+	$langFix = '';
+	if ($lang == _ENG_) $langFix = '_' . _ENG_;
 	foreach ($block_last_comments as $post)
 	{
-		if ($lastTitle == $post['Film']['title'])
+		if ($lastTitle == $post['Film']['title' . $langFix])
 			continue;
-		$lastTitle = $post['Film']['title'];
+		$lastTitle = $post['Film']['title' . $langFix];
 
 	    echo '<p><a href="/media/view/' . $post['Film']['id'] . '">'
-	         . h($post['Film']['title'] ? $post['Film']['title'] : '(без названия)') . '</a><br />'
+	         . h($post['Film']['title' . $langFix] ? $post['Film']['title' . $langFix] : '(' . __('no title', true) . ')') . '</a><br />'
 	         . $app->timeAgoInWords($post[0]['created']) . '</p>';
 	}
 	echo '
@@ -54,7 +57,7 @@ if (isset($onlineUsers))
                     <tr>
                       <td class="border1"> </td>
                       <td>
-	<b>Сейчас на сайте:</b>';
+	<b>' . __('Now Online', true) . ':</b>';
 	if ($onlineUsers['users'])
 	{
 		echo '
@@ -75,16 +78,16 @@ if (isset($onlineUsers))
 				}
 			-->
 			</script>
-			<br />пользователей : <a href="#" onclick="return switchOnliners();">' . $onlineUsers['users'] . '</a>
+			<br />' . __('usera', true) . ' : <a href="#" onclick="return switchOnliners();">' . $onlineUsers['users'] . '</a>
 			<div id="onlineusernames" style="display: none; margin: 0 0 0 0; padding: 0 0 0 0;">
 			' . implode(', ', $onlineUsers['names']) . '
 			</div>
 		';
 	}
 	if ($onlineUsers['guests'])
-		echo '<div>гостей : ' . $onlineUsers['guests'] . '</div>';
+		echo '<div>' . __('guesta', true) . ' : ' . $onlineUsers['guests'] . '</div>';
 	if ($onlineUsers['users'])
-		echo '<div>всего : ' . ($onlineUsers['guests'] + $onlineUsers['users']) . '</div>';
+		echo '<div>' . __('total', true) . ' : ' . ($onlineUsers['guests'] + $onlineUsers['users']) . '</div>';
 
 	echo '
                       </td>

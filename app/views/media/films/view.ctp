@@ -241,7 +241,7 @@ if (!empty($similars))
 	$yandex = $Film; // ДЛЯ ВЫВОДА ПОИСКА ПО ЯНДЕКСУ
 	$linksContent = '';
 	$faqLink = ' &nbsp;<span style="font-size:25px"><a alt="как качать?" title="как качать?" href="/pages/faq#download">&nbsp;?&nbsp;</a></span>';
-	$yandexLink = '<h3 style="margin-top:12px;"><a href="/media/lite/' . $Film['id'] . '" title="Скачать фильм">"' . $Film['title'] . '" cкачать &raquo;</a>' . $faqLink . '</h3>';
+	$yandexLink = '<h3 style="margin-top:12px;"><a target="_blank" href="/media/lite/' . $Film['id'] . '" title="Скачать фильм">"' . $Film['title'] . '" cкачать &raquo;</a>' . $faqLink . '</h3>';
 //$isWS = false;
 	if ($isWS)
 	{

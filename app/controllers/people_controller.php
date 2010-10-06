@@ -35,7 +35,10 @@ class PeopleController extends AppController {
 		//$metaRobots = 'INDEX, NOFOLLOW';
 		//$this->set('metaRobots', $metaRobots);
 
-        $this->pageTitle = 'Видео каталог - Люди - ' . $person['Person']['name'];
+		$lang = Configure::read('Config.language');
+		$langFix = '';
+		if ($lang == _ENG_) $langFix = '_' . _ENG_;
+        $this->pageTitle = __('Video catalog', true) . ' - ' . __('People', true) . ' - ' . $person['Person']['name' . $langFix];
 
         $this->set('person', $person);
         $this->set('films', $films);
@@ -86,7 +89,7 @@ class PeopleController extends AppController {
             return;
         }
 
-        $this->pageTitle = 'Видео каталог - Люди';
+        $this->pageTitle = __('Video catalog', true) . ' - ' . __('People', true);
 
         if (!($people = Cache::read('Catalog.peopleIndex', 'people')))
         {
@@ -102,7 +105,7 @@ class PeopleController extends AppController {
         if (!$letter)
             $this->redirect('/people');
 
-        $this->pageTitle = 'Видео каталог - Люди - ' . $letter;
+        $this->pageTitle = __('Video catalog', true) . ' - ' . __('People', true) . ' - ' . $letter;
 
         $this->set('alphabet', $this->Person->getAlphabet());
         $this->Person->contain();

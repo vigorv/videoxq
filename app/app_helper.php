@@ -68,34 +68,34 @@ class AppHelper extends Helper
     	$y = 365*24*60*60;
     	$o = $size % $y;
     	$y = intval($size/$y);
-    	if ($y) $t[] = $this->pluralForm($y, array('год', 'года', 'лет'));
+    	if ($y) $t[] = $this->pluralForm($y, array(__('year', true), __('yeara', true), __('years', true)));
 
     	$size = $o;
     	$m = 30*24*60*60;
     	$o = $size % $m;
     	$m = intval($size/$m);
-    	if ($m) $t[] = $this->pluralForm($m, array('месяц', 'месяца', 'месяцев'));
+    	if ($m) $t[] = $this->pluralForm($m, array(__('month', true), __('montha', true), __('months', true)));
 
     	$size = $o;
     	$d = 24*60*60;
     	$o = $size % $d;
     	$d = intval($size/$d);
-    	if ($d) $t[] = $this->pluralForm($d, array('день', 'дня', 'дней'));
+    	if ($d) $t[] = $this->pluralForm($d, array(__('day', true), __('daya', true), __('days', true)));
 
     	$size = $o;
     	$h = 60*60;
     	$o = $size % $h;
     	$h = intval($size/$h);
-    	if ($h) $t[] = $this->pluralForm($h, array('час', 'часа', 'часов'));
+    	if ($h) $t[] = $this->pluralForm($h, array(__('hour', true), __('houra', true), __('hours', true)));
 
     	$size = $o;
     	$m = 60;
     	$o = $size % $m;
     	$m = intval($size/$m);
-    	if ($m) $t[] = $this->pluralForm($m, array('минута', 'минуты', 'минут'));
+    	if ($m) $t[] = $this->pluralForm($m, array(__('minute', true), __('minuta', true), __('minutes', true)));
 
     	$size = $o;
-    	if ($size) $t[] = $this->pluralForm($size, array('секунд', 'секунды', 'секунд'));
+    	if ($size) $t[] = $this->pluralForm($size, array(__('second', true), __('seconda', true), __('seconds', true)));
 
     	$m = intval($size/365/24/60/60);
     	if ($m) $t[] = $m;

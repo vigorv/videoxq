@@ -19,7 +19,7 @@ class BasketController extends AppController {
 
     function index()
     {
-        $this->pageTitle = 'Видео каталог - Загрузки';
+        $this->pageTitle = __('Video catalog', true) . ' - ' . __('Downloads', true);
         $baskets = $this->Basket->getBasketList($this->authUser['userid']);
         $this->set('baskets', $baskets);
     }
@@ -41,10 +41,12 @@ class BasketController extends AppController {
             }
         }
 
+		$lang = Configure::read('Config.language');
+		$langFix = '';
+		if ($lang == _ENG_) $langFix = '_en';
         if ($type == 'variant')
         {
             $variant = $this->Basket->FilmFile->FilmVariant->read(null, $id);
-
             foreach ($variant['FilmFile'] as $file)
             {
                 $res = $this->Basket->find(array('user_id' => $this->authUser['userid'],
@@ -56,7 +58,7 @@ class BasketController extends AppController {
                 $this->data['Basket']['film_file_id'] = $file['id'];
                 $this->data['Basket']['film_variant_id'] = $variant['FilmVariant']['id'];
                 $this->data['Basket']['film_id'] = $variant['Film']['id'];
-                $this->data['Basket']['title'] = $variant['Film']['title'] . ' / ' . $variant['VideoType']['title'];
+                $this->data['Basket']['title'] = $variant['Film']['title' . $langFix] . ' / ' . $variant['VideoType']['title'];
 
                 $this->Basket->save($this->data);
             }
@@ -85,7 +87,7 @@ class BasketController extends AppController {
         $this->data['Basket']['film_file_id'] = $file['FilmFile']['id'];
         $this->data['Basket']['film_variant_id'] = $file['FilmVariant']['id'];
         $this->data['Basket']['film_id'] = $file['FilmVariant']['Film']['id'];
-        $this->data['Basket']['title'] = $file['FilmVariant']['Film']['title'] . ' / ' . $file['FilmVariant']['VideoType']['title'];
+        $this->data['Basket']['title'] = $file['FilmVariant']['Film']['title' . $langFix] . ' / ' . $file['FilmVariant']['VideoType']['title'];
 
 
         if ($this->Basket->save($this->data))
@@ -195,7 +197,7 @@ class BasketController extends AppController {
     {
     	//pr($this->data);
     	//die();
-        $this->layout = 'ajax';
+        $this->layout = 'playlist';
         //Configure::write('debug', 2);
 
         if (empty($this->data))
@@ -216,12 +218,7 @@ class BasketController extends AppController {
             //$data .= FILM::set_input_server($Film['dir']) . $Film['dir'] . '/' . $FilmFile['file_name'] . "\r\n";
             $data .= FILM::set_input_server($Film['dir']) . '/' . $FilmFile['file_name'] . "\r\n";
         }
-
-        header("Content-Description: File Transfer");
-        header("Content-Disposition: attachment; filename=" . date('Y-m-d_H_i_s') . '.txt');
-        header("Content-Type: text/plain");
-        header("Content-Transfer-Encoding: binary");
-        echo $data;
+        $this->set('data', $data);
     }
 
 

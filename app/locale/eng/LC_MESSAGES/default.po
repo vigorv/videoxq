@@ -33,3 +33,54 @@ msgstr "guests"
 
 msgid "Newa"
 msgstr "New"
+
+msgid "Login exists Registration not confirmed"
+msgstr "Login already exists, but registration is not confirmed yet. Check your email for register confirmation link."
+
+msgid "Send email error"
+msgstr "An error occurred while sending the email, Please contact the administrator on the forum for help."
+
+msgid "Thanks for register Login please"
+msgstr "Thank you for register. Sign in, please."
+
+msgid "Restore Password Request"
+msgstr "You have requested the password recovery"
+
+msgid "Sent new Password"
+msgstr "Sent new Password. Check your email, please."
+
+msgid "Auth"
+msgstr "Sign In"
+
+msgid "AddToBasket"
+msgstr "<img src=\"/img/vusic/add.gif\" width=\"20\" height=\"20\" alt=\"Add to download list\" title=\"Add to download list\">"
+
+msgid "RemoveFromBasket"
+msgstr "<img src=\"/img/vusic/remove.gif\" width=\"20\" height=\"20\" alt=\"Remove from download list\" title=\"Remove from download list\">"
+
+msgid "filea"
+msgstr "files"
+
+msgid "Create download list here"
+msgstr "Here you can create a download list for the program \"Download Master\"."
+
+msgid "Sort download list items"
+msgstr "List items can be sorted by mouse drag and drop"
+
+msgid "For download list you have to"
+msgstr "To operate the download list, you need to"
+
+msgid "assist description1"
+msgstr "Payment by bank cards through the electronic payment system Assist is made by forwarding to the site <a target=\"_blank\" title=\"assist.ru\" href=\"http://www.assist.ru\">www.assist.ru</a>.In the ASSIST system security payments provided using the SSL protocol for transmitting confidential information from the user on the server of the ASSIST system for further processing. Further transmission via closed banking networks highest degree of protection. "
+
+msgid "assist description2"
+msgstr "Collection and processing of the user's confidential data (card details, registration information, etc.) produced in the processing center. Thus, no one, including the administration VideoXQ, can not get personal and bank data client, including information on its purchases in other shops."
+
+msgid "assist description3"
+msgstr "To protect data from unauthorized access during transmission from client to server ASSIST system uses the protocol SSL 3.0, a server certificate (128 bit) has been issued by Thawte - a recognized certificate authority."
+
+msgid "accessa"
+msgstr "access"
+
+msgid "payment pagee"
+msgstr "payment page"

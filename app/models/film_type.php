@@ -44,8 +44,11 @@ class FilmType extends MediaModel {
      */
     function getFilmTypesWithFilmCount()
     {
+		$lang = Configure::read('Config.language');
+		$langFix = '';
+		if ($lang == _ENG_) $langFix = '_' . _ENG_;
         $sql =
-        'select ft.id, ft.title, count(f.id) as count
+        'select ft.id, ft.title' . $langFix . ', count(f.id) as count
          from film_types as ft
          join films as f on (f.film_type_id=ft.id AND f.active = 1)
          group by ft.id order by ft.title ASC';
@@ -54,7 +57,7 @@ class FilmType extends MediaModel {
         $res = array();
         foreach ($records as $record)
         {
-            $res[$record['ft']['id']] = $record['ft']['title'] . ' (' . $record['0']['count'] . ')';
+            $res[$record['ft']['id']] = $record['ft']['title' . $langFix] . ' (' . $record['0']['count'] . ')';
         }
         return $res;
 

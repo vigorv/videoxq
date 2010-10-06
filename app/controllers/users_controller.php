@@ -5,7 +5,7 @@ class UsersController extends AppController
     var $name = 'Users';
     var $helpers = array('Html' , 'Form');
     var $components = array('Captcha' , 'Email', 'ControllerList');
-    var $uses = array('User', 'Group', 'UserActivation',
+    var $uses = array('User', 'Group', 'UserActivation', 'Useragreement',
 //    'DleUser'
     );
 
@@ -13,6 +13,18 @@ class UsersController extends AppController
     {
         parent::beforeFilter();
         $this->Auth2->allowedActions = array('register' , 'restore' , 'captcha' , 'confirm', 'logout');
+
+        //ПЕРЕТАЩИЛ ОПРЕДЕЛЕНИЕ ВАЛИДАЦИИ ИЗ МОДЕЛИ, ИНАЧЕ НЕ ПОДХВАТЫВАЕТ ЛОКАЛЬ (МОДЕЛИ ИНИЦИИРУЮТСЯ, РАНЬШЕ ЧЕМ ПРОИСХОДИТ ВЫБОР ЛОКАЛИ)
+        $this->User->validate = array(
+          'username' => array(array('rule' => VALID_NOT_EMPTY, 'message' => __('You must specify login', true)),
+                              array('rule' => VALID_UNIQUE,    'message' => __('Login exists', true), 'on' => 'create')),
+          'password' => array(array('rule' => VALID_NOT_EMPTY, 'message' => __('You must specify password', true)),
+                              array('rule' => VALID_HAS_PAIR,  'message' => __('Passwords do not match', true), 'on' => 'create')),
+          'email'    => array(array('rule' => VALID_NOT_EMPTY, 'message' => __('You must specify Email', true)),
+                              array('rule' => VALID_EMAIL,     'message' => __('Invalid Email', true)),
+                              array('rule' => VALID_UNIQUE,    'message' => __('Email exists', true), 'on' => 'create')),
+          'captcha'  => array(array('rule' => VALID_HAS_PAIR,  'message' => __('Verification code incorrect', true), 'on' => 'create')),
+       );
     }
 
     /**
@@ -81,17 +93,17 @@ if ($this->data["User"]["username"] == 'vanoveb')
 	            {
 		            if ($userInfo['User']['usergroupid'] == 3)//НЕ ПОДТВЕРЖДЕН
 		            {
-			            $this->Session->setFlash('Данный логин зарегистрирован, но регистрация не подтверждена. отправлено повторное письмо со ссылкой на подтверждение регистрации.');
+			            $this->Session->setFlash(__('Login exists Registration not confirmed', true));
 				        $activation_token = $this->Vb->createActivationId($userInfo['User']['userid'], 3);
 
-				Configure::write('debug', 1);
+						Configure::write('debug', 1);
 				        $result = $this->_sendEmail(/*from*/Configure::read('App.mailFrom'),
 	                    /*to  */$userInfo['User']['username'] .
 	                    '<' .
 	                    $userInfo['User']['email'] .
 	                                         '>',
 	                    /*subj*/Configure::read('App.siteName') . ' - ' . __('New account', true),
-	                    /*body*/"Ваш логин: username: " . $userInfo['User']['username'] . "\n Ссылка для активации аккаунта:\n" . Configure::read('App.siteUrl') . "users/confirm/" . $activation_token . "\n\n \n" . Configure::read('App.siteName') . " Robot");
+	                    /*body*/__('Your Login', true) . ": username: " . $userInfo['User']['username'] . "\n " . __('Register confirmation link', true) . ":\n" . Configure::read('App.siteUrl') . "users/confirm/" . $activation_token . "\n\n \n" . Configure::read('App.siteName') . " Robot");
 	            		$this->redirect('/users/login');
 	            		return;
 		            }
@@ -211,25 +223,24 @@ if ($this->data["User"]["username"] == 'vanoveb')
 
         if ((md5($this->Session->read('captcha') . '1234567890') != $_POST["scode"]) || !$this->User->validates())
         {
-            $this->Session->setFlash('Не могу создать пользователя!');
+            $this->Session->setFlash(__('Creating user Error', true));
 
             $userInfo = $this->User->find(array('User.username' => $this->data['User']['username']));
             if ($userInfo)
             {
 	            if ($userInfo['User']['usergroupid'] == 3)//НЕ ПОДТВЕРЖДЕН
 	            {
-		            $this->Session->setFlash('Данный логин уже зарегистрирован, но регистрация не подтверждена. отправлено повторное письмо со ссылкой на подтверждение регистрации.');
+		            $this->Session->setFlash(__('Login exists Registration not confirmed', true));
 			        $activation_token = $this->Vb->createActivationId($userInfo['User']['userid'], 3);
 
-			Configure::write('debug', 1);
+					Configure::write('debug', 1);
 			        $result = $this->_sendEmail(/*from*/Configure::read('App.mailFrom'),
                     /*to  */$userInfo['User']['username'] .
                     '<' .
                     $userInfo['User']['email'] .
                                          '>',
                     /*subj*/Configure::read('App.siteName') . ' - ' . __('New account', true),
-                    /*body*/"Ваш логин: username: " . $userInfo['User']['username'] . "\n Ссылка для активации аккаунта:\n" . Configure::read('App.siteUrl') . "users/confirm/" . $activation_token . "\n\n \n" . Configure::read('App.siteName') . " Robot"
-                    );
+                    /*body*/__('Your Login', true) . ": username: " . $userInfo['User']['username'] . "\n " . __('Register confirmation link', true) . ":\n" . Configure::read('App.siteUrl') . "users/confirm/" . $activation_token . "\n\n \n" . Configure::read('App.siteName') . " Robot");
 	            }
             }
             unset($this->data['User']['password2']);
@@ -243,7 +254,7 @@ if ($this->data["User"]["username"] == 'vanoveb')
 
         if (empty($user))
         {
-            $this->Session->setFlash('Не могу создать пользователя!');
+            $this->Session->setFlash(__('Creating user Error', true));
             unset($this->data['User']['password2']);
             unset($this->data['User']['password']);
             return;
@@ -251,6 +262,11 @@ if ($this->data["User"]["username"] == 'vanoveb')
 
         // Send an email with activation link
         $activation_token = $this->Vb->createActivationId($user['User']['userid'], 3);
+
+        $agreementInfo = array('Useragreement' =>
+        	array('user_id' => $user['User']['userid'], 'agree' => $this->data['User']['agreement'])
+        );
+        $this->Useragreement->save($agreementInfo);
 
         //add user to default portal group
         $user['Group']['Group'][0] = Configure::read('App.defaultUserGroup');
@@ -275,33 +291,31 @@ if ($this->data["User"]["username"] == 'vanoveb')
         }
         ///*/
 
-	Configure::write('debug', 1);
+		Configure::write('debug', 1);
         $result = $this->_sendEmail(/*from*/Configure::read('App.mailFrom'),
-                          /*to  */$this->data['User']['username'] .
-                                         '<' .
-                                         $this->data['User']['email'] .
-                                         '>',
-                          /*subj*/Configure::read('App.siteName') . ' - ' . __('New account', true),
-                          /*body*/"Ваш логин: username: " . $this->data['User']['username'] . "\n Ссылка для активации аккаунта:\n" . Configure::read('App.siteUrl') . "users/confirm/" . $activation_token . "\n\n \n" . Configure::read('App.siteName') . " Robot"
-                                           );
+				/*to  */$this->data['User']['username'] .
+				'<' .
+					$this->data['User']['email'] .
+				'>',
+				/*subj*/Configure::read('App.siteName') . ' - ' . __('New account', true),
+				/*body*/__('Your Login', true) . ": username: " . $this->data['User']['username'] . "\n " . __('Register confirmation link', true) . ":\n" . Configure::read('App.siteUrl') . "users/confirm/" . $activation_token . "\n\n \n" . Configure::read('App.siteName') . " Robot"
+		);
 
         if (!$result)
         {
-            $this->Session->setFlash('Произошла ошибка при отправке  email, обратитесь к администраторам на форуме для помощи.');
+            $this->Session->setFlash(__('Send email error', true));
             CakeLog::write(LOG_DEBUG, 'Mail error, ' . $this->Session->read('Message.email'));
             CakeLog::write(LOG_ERROR, 'Mail error to: ' . $this->data['User']['email'] . ', error: ' . $this->Email->smtpError);
             $this->redirect('login');
         }
-        // We could redirect to login.....
-//        $this->Session->setFlash("Спасибо за регистрацию! Ссылка для активации вашего аккаунта выслана на ваш email.");
-        $this->Session->setFlash("Спасибо за регистрацию! Авторизуйтесь пожалуйста.");
+//We could redirect to login.....
+//		$this->Session->setFlash("Спасибо за регистрацию! Ссылка для активации вашего аккаунта выслана на ваш email.");
+        $this->Session->setFlash(__("Thanks for register Login please", true));
+
         // .. or login and redirect to proper page
-
-
         //$this->Auth2->login($this->data);
 
         $this->redirect('login');
-
     }
     //
     // Restore user password
@@ -324,33 +338,33 @@ if ($this->data["User"]["username"] == 'vanoveb')
         if (!$data)
         {
             $this->User->invalidate('email', __('No such email registered', true));
-            $this->Session->setFlash('Адрес "' . $this->data['User']['email'] . '" на сайте не зарегистрирован');
+            $this->Session->setFlash($this->data['User']['email'] . ' ' . __('No such email registered', true));
 	        return;
         }
 
         $notConfirmed = false;
-        	$userInfo = $this->User->find(array('User.email' => $this->data['User']['email']));
-            if ($userInfo)
+    	$userInfo = $this->User->find(array('User.email' => $this->data['User']['email']));
+        if ($userInfo)
+        {
+            if ($userInfo['User']['usergroupid'] == 3)//НЕ ПОДТВЕРЖДЕН
             {
-	            if ($userInfo['User']['usergroupid'] == 3)//НЕ ПОДТВЕРЖДЕН
-	            {
-	            	$notConfirmed = true;
-		            $this->Session->setFlash('Без подтверждения регистрации вы не сможете авторизоваться. Вам отправлено повторное письмо со ссылкой на подтверждение регистрации, а также новый пароль.');
-			        $activation_token = $this->Vb->createActivationId($userInfo['User']['userid'], 3);
+            	$notConfirmed = true;
+	            $this->Session->setFlash(__('Login exists Registration not confirmed', true));
+		        $activation_token = $this->Vb->createActivationId($userInfo['User']['userid'], 3);
 
-			Configure::write('debug', 1);
-			        $result = $this->_sendEmail(/*from*/Configure::read('App.mailFrom'),
-                    /*to  */$userInfo['User']['username'] .
-                    '<' .
-                    $userInfo['User']['email'] .
-                                         '>',
-                    /*subj*/Configure::read('App.siteName') . ' - ' . __('New account', true),
-                    /*body*/"Ваш логин: username: " . $userInfo['User']['username'] . "\n Ссылка для активации аккаунта:\n" . Configure::read('App.siteUrl') . "users/confirm/" . $activation_token . "\n\n \n" . Configure::read('App.siteName') . " Robot"
-                    );
-	            }
+				Configure::write('debug', 1);
+		        $result = $this->_sendEmail(/*from*/Configure::read('App.mailFrom'),
+                /*to  */$userInfo['User']['username'] .
+                '<' .
+                $userInfo['User']['email'] .
+                                     '>',
+                /*subj*/Configure::read('App.siteName') . ' - ' . __('New account', true),
+                /*body*/__('Your Login', true) . ": username: " . $userInfo['User']['username'] . "\n " . __('Register confirmation link', true) . ":\n" . Configure::read('App.siteUrl') . "users/confirm/" . $activation_token . "\n\n\n" . Configure::read('App.siteName') . " Robot"
+                );
             }
+        }
 
-           //ассоциированные модели нам не нужны
+        //ассоциированные модели нам не нужны
 		//к тому же при сохранении ломалась связь HABTM
 		unset($data["Group"]);
 		unset($data["GroupUser"]);
@@ -371,22 +385,20 @@ if ($this->data["User"]["username"] == 'vanoveb')
         }
 
         // Send email
-	Configure::write('debug', 1);
+		Configure::write('debug', 1);
         if (!$this->_sendEmail(/*from*/Configure::read('App.mailFrom'),
-                              /*to  */$data['User']['username'] .
-                                         '<' .
-                                         $data['User']['email'] .
-                                         '>',
-                              /*subj*/'New password',
-                              /*body*/'Уважаемый ' .
-                                         $data['User']['username'] .
-                                         "!\n\nВы запросили восстановление пароля на сайте " . Configure::read('App.siteUrl') .
-                                         "\n\nВаш логин: " .
-                                         $data['User']['username'] .
-                                         "\nВаш новый пароль: " .
-                                         $password .
-                                         "\n\nBR,\nRobot"))
-       {
+			/*to  */$data['User']['username'] .
+            '<' .
+				$data['User']['email'] .
+			'>',
+			/*subj*/'New password',
+			/*body*/__("Dear", true) . ' ' . $data['User']['username'] .
+				"!\n\n" . __("Restore Password Request", true) . " " . Configure::read('App.siteUrl') .
+				"\n\n" . __("Your Login", true) . ": " . $data['User']['username'] .
+				"\n" . __("Your new Password", true) . ": " . $password . "\n\n\n" . Configure::read('App.siteName') . " Robot"
+			)
+		)
+		{
             CakeLog::write(LOG_ERROR, 'Mail error to: ' . $data['User']['email'] . ', error: ' . $this->Email->smtpError);
             $this->User->rollback();
 
@@ -396,7 +408,7 @@ if ($this->data["User"]["username"] == 'vanoveb')
         {
             $this->User->commit();
             if (!$notConfirmed)
-            	$this->Session->setFlash('Вам отправлен новый пароль');
+            	$this->Session->setFlash(__('Sent new Password', true));
             //$this->flash(sprintf(__('New password sent to %s. Please login', true), $data['User']['email']), '/', 10);
         }
         $this->redirect('/users/login');

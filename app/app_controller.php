@@ -8,7 +8,9 @@ class AppController extends Controller
     var $components = array('Auth2', 'Acl', 'Cookie', 'Vb', 'BlockBanner', 'Session');
     var $helpers = array('Javascript', 'Html', 'Form'/*, 'Validation'*/, 'App', 'Ajax', 'PageNavigator');
 //    var $uses = array('User', 'Bookmark', 'Film');
-    var $uses = array('User', 'Bookmark', 'Film', 'Pay', 'Geoip', 'Geocity', 'Georegion', 'Useragreement');
+    var $uses = array(
+    'User',
+    'Bookmark', 'Film', 'Pay', 'Geoip', 'Geocity', 'Georegion', 'Useragreement');
     var $blocksData = array();
     var $blockContent;
     var $authUser;
@@ -34,8 +36,6 @@ class AppController extends Controller
      */
     function beforeFilter()
     {
-		Configure::write('App.siteName', __("Patent Media", true));
-		Configure::write('App.mailFrom', __("Patent Media", true) . ' ' . Configure::read('App.mailFrom'));
         $geoInfo = array();
         $geoInfo = $this->Session->read('geoInfo');
 //*
@@ -64,17 +64,26 @@ class AppController extends Controller
 
 			$this->Session->write('geoInfo', $geoInfo);
         }
+/*
+//ДЛЯ ОТЛАДКИ
+$geoInfo['Geoip']['region_id'] = 1;
+$geoInfo['Geoip']['city_id'] = 1;
+$geoInfo['region'] = 'region';
+$geoInfo['city'] = 'city';
+$this->Session->write('geoInfo', $geoInfo);
+*/
 //*/
 		if (empty($geoInfo['Geoip']['region_id']))
 		{
 			$regionLang = _ENG_;
-			$regionLang = _RUS_;
+$regionLang = _RUS_;
 		}
 		else
 		{
 			$regionLang = _RUS_;
 		}
 		$lang = $this->Session->read("language");
+$lang = 0;
 		if (empty($lang))
 		{
 			$lang = $regionLang;
@@ -86,7 +95,17 @@ class AppController extends Controller
         $this->L10n = new L10n();
         $this->L10n->get($lang);
 
-        if(isset($this->params['pass'][0])
+		Configure::write('App.siteName', __("Patent Media", true));
+		Configure::write('App.mailFrom', __("Patent Media", true) . ' ' . Configure::read('App.mailFrom'));
+
+		Configure::write('descPerMonth', __("for a month", true));
+		Configure::write('descPerWeek', __("for a week", true));
+		Configure::write('descPerDay', __("for a day", true));
+$config['']	= 'на месяц'; //плата за VIP доступ на месяц
+$config['']	= 'на неделю'; //плата за VIP доступ на неделю
+$config['descPerDay']	= 'на день'; //плата за VIP доступ на день
+
+		if(isset($this->params['pass'][0])
            && $this->params['pass'][0] == 'attachments')
         {
             return true;

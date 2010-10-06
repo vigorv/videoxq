@@ -848,7 +848,10 @@ exit;
      */
     public function getFilmsWithGenres()
     {
-        $sql = 'select Film.id, Film.title, g.id from films as Film
+		$lang = Configure::read('Config.language');
+		$langFix = '';
+		if ($lang == _ENG_) $langFix = '_en';
+        $sql = 'select Film.id, Film.title' . $langFix . ', g.id from films as Film
          join films_genres as fg on (fg.film_id=Film.id)
          join genres as g on (fg.genre_id = g.id)
          where Film.active = 1 order by g.id, Film.title';
@@ -865,7 +868,10 @@ exit;
      */
     public function getFilmsWithPictures()
     {
-        $sql = 'select Film.id, Film.title, p.file_name from films as Film
+		$lang = Configure::read('Config.language');
+		$langFix = '';
+		if ($lang == _ENG_) $langFix = '_en';
+        $sql = 'select Film.id, Film.title' . $langFix . ', p.file_name from films as Film
          join film_pictures as p on (p.film_id = Film.id and p.type="poster")
          where Film.active = 1 group by Film.id';
 

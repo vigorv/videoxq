@@ -52,16 +52,6 @@ class User extends AppModel
 
    function __construct($id = false, $table = null, $ds = null)
    {
-        $this->validate = array(
-          'username' => array(array('rule' => VALID_NOT_EMPTY, 'message' => __('Необходимо указать логин', true)),
-                              array('rule' => VALID_UNIQUE,    'message' => __('Такой пользователь уже есть', true), 'on' => 'create')),
-          'password' => array(array('rule' => VALID_NOT_EMPTY, 'message' => __('Необходимо указать пароль', true)),
-                              array('rule' => VALID_HAS_PAIR,  'message' => __('Пароли не совпадают', true), 'on' => 'create')),
-          'email'    => array(array('rule' => VALID_NOT_EMPTY, 'message' => __('Необходимо указать Email', true)),
-                              array('rule' => VALID_EMAIL,     'message' => __('Неправильный Email', true)),
-                              array('rule' => VALID_UNIQUE,    'message' => __('Email уже используется', true), 'on' => 'create')),
-          'captcha'  => array(array('rule' => VALID_HAS_PAIR,  'message' => __('Проверочный код неправильный', true), 'on' => 'create')),
-       );
        parent::__construct($id, $table, $ds);
    }
 
