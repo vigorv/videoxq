@@ -1,7 +1,8 @@
 <?php
 if (!empty($place))
 {
-	echo $BlockBanner->getBanner($place) . $hitCnt;
+	$BlockBanner->setIsWS($isWS);
+	echo $BlockBanner->getBanner($place);
 	echo $BlockBanner->getTail($dec);
 
 }

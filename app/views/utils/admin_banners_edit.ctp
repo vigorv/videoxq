@@ -15,6 +15,8 @@ tinyMCE = null;
         echo $form->input('stop');
         echo $form->input('forever');
         echo $form->input('fixed');
+        echo $form->input('is_webstream');
+        echo $form->input('is_internet');
         echo $form->input('srt');
         echo $form->input('code');
         echo $form->input('tail');

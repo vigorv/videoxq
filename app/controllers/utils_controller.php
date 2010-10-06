@@ -210,12 +210,16 @@ class UtilsController extends AppController
 	        {
 		        $old = $this->Banner->read(null, $this->data['Banner']['id']);
 				Cache::delete('Catalog.banners4' . $old['Banner']['place'], 'searchres');
+				Cache::delete('Catalog.banners4' . $old['Banner']['place'] . '_0', 'searchres');
+				Cache::delete('Catalog.banners4' . $old['Banner']['place'] . '_1', 'searchres');
 	        }
 
             if ($this->Banner->save($this->data))
             {
                 $this->Session->setFlash('The Banner saved');
 				Cache::delete('Catalog.banners4' . $this->data['Banner']['place'], 'searchres');
+				Cache::delete('Catalog.banners4' . $this->data['Banner']['place'] . '_0', 'searchres');
+				Cache::delete('Catalog.banners4' . $this->data['Banner']['place'] . '_1', 'searchres');
                 $this->redirect(array('action' => 'banners'), null, true);
             } else
             {
@@ -248,6 +252,8 @@ class UtilsController extends AppController
         if ($this->Banner->del($id))
         {
 			Cache::delete('Catalog.banners4' . $banner['Banner']['place'], 'searchres');
+			Cache::delete('Catalog.banners4' . $banner['Banner']['place'] . '_0', 'searchres');
+			Cache::delete('Catalog.banners4' . $banner['Banner']['place'] . '_1', 'searchres');
             $this->Session->setFlash('Banner #' . $id . ' deleted');
             $this->redirect(array('action' => 'banners'), null, true);
         }

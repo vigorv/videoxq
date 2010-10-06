@@ -19,7 +19,11 @@ foreach ($banners as $banner):
             <?php echo $banner['Banner']['name']; ?>
         </td>
         <td>
-            <?php echo $banner['Banner']['place']; ?>
+            <?php
+            	echo $banner['Banner']['place'];
+            	if (!empty($banner['Banner']['is_webstream'])) echo ' для WebStream';
+            	if (!empty($banner['Banner']['is_internet'])) echo ' для Internet';
+            ?>
         </td>
         <td>
             <?php if ($banner['Banner']['forever']) echo 'бессрочный'; else echo $banner['Banner']['start']; ?>

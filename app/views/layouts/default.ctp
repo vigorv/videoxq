@@ -79,6 +79,7 @@ if (isset($authUserGroups) && in_array(Configure::read('VIPgroupId'), $authUserG
 	}
 }
 
+$BlockBanner->setIsWS($isWS);
 //echo $BlockBanner->getBanner('header');
 
 ?>
@@ -103,7 +104,7 @@ else
 	echo '&nbsp;&nbsp;<img title="English" src="/img/eng_a.gif" width="20" />';
 }
 echo ' | ';
-*/
+//*/
 if ($authUser['userid'] == 0)
 {
 ?>
@@ -222,8 +223,8 @@ if (!empty($blockContent['left']))
               <td width="100%" valign="top" style="padding:5px 2px 0 2px;">
 <?php
 $placeNamePrefix = '';
-if ($isWS)
-	$placeNamePrefix = 'WS';
+//if ($isWS)
+//	$placeNamePrefix = 'WS';
 
 $placeName = $placeNamePrefix . 'header1';
 echo $BlockBanner->getBanner($placeName);

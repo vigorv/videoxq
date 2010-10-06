@@ -14,6 +14,13 @@ class BlockBannerComponent extends BlocksParentComponent
 	protected $tailHtml = '';
 
 	/**
+	 * признак, является ли пользователь абонентом WebStream
+	 *
+	 * @var integer
+	 */
+	public $isWS = 0;
+
+	/**
 	 * Модель баннеров
 	 *
 	 * @var Banner
@@ -45,6 +52,16 @@ class BlockBannerComponent extends BlocksParentComponent
 	}
 
 	/**
+	 * установить признак, является ли пользователь абонентом WebStream
+	 *
+	 * @param int $isWS
+	 */
+	public function setIsWS($isWS)
+	{
+		$this->isWS = $isWS;
+	}
+
+	/**
 	 * получить код для очередного баннера в ротации для баннероместа
 	 * Вызов можно осуществлять прямо из отображения (*.ctp)
 	 * например, так: echo $BlockBanner->getBanner('header');
@@ -60,11 +77,20 @@ class BlockBannerComponent extends BlocksParentComponent
 		}
 		$html = '';
 
-//		$banners = Cache::read('Catalog.banners4' . $placeName, 'searchres');
+		//$banners = Cache::read('Catalog.banners4' . $placeName . '_' . $this->isWS, 'searchres');
 		if (empty($banners))
 		{
-			$banners = $this->Banner->findAll(array('place' => $placeName), null, 'Banner.srt desc');
-			Cache::write('Catalog.banners4' . $placeName, $banners, 'searchres');
+			$conditions = array('Banner.place' => $placeName);
+			if (!empty($this->isWS))
+			{
+				$conditions['Banner.is_webstream'] = 1;
+			}
+			else
+			{
+				$conditions['Banner.is_internet'] = 1;
+			}
+			$banners = $this->Banner->findAll($conditions, null, 'Banner.srt desc');
+			Cache::write('Catalog.banners4' . $placeName . '_' . $this->isWS, $banners, 'searchres');
 		}
 		if (!empty($banners))
 		{
