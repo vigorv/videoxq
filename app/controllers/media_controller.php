@@ -290,6 +290,22 @@ class MediaController extends AppController {
 				$this->Film->useDbRecursive('videoCatalog', $this->Film);//БУДЕМ ВЫБИРАТЬ ИЗ БАЗЫ ВИДЕОКАТАЛОГА
 		        $this->Film->recursive = 2;
 				$lst = preg_split('/[\r\n]+/', trim(str_replace('http://', "\n", strtolower($this->data['lst']))));
+//ПРИНУДИТЕЛЬНО УКАЗЫВАЕМ СХЕМУ МОДЕЛИ ТК FilmType VXQ и NSK54 ОТЛИЧАЮТСЯ, А ПЕРЕКЛЮЧЕНИЕ БАЗЫ НЕ СБРАСЫВАЕТ КЭШ МОДЕЛЕЙ
+				$this->Film->FilmType->_schema = Array(
+				    'id' => Array(
+				            'type' => 'integer',
+				            'null' => null,
+				            'default' => '',
+				            'length' => 11,
+				            'key' => 'primary',
+				        ),
+				    'title' => Array(
+				            'type' => 'string',
+				            'null' => null,
+				            'default' => '',
+				            'length' => 255
+				        )
+				);
 
 				$allCnt = count($lst);
 				$ids = array();
@@ -607,22 +623,6 @@ class MediaController extends AppController {
 					'Migration.modified DESC', 1);
 
 				$this->Film->useDbRecursive('videoCatalog', $this->Film);//БУДЕМ ВЫБИРАТЬ ИЗ БАЗЫ ВИДЕОКАТАЛОГА
-//ПРИНУДИТЕЛЬНО УКАЗЫВАЕМ СХЕМУ МОДЕЛИ ТК FilmType VXQ и NSK54 ОТЛИЧАЮТСЯ, А ПЕРЕКЛЮЧЕНИЕ БАЗЫ НЕ СБРАСЫВАЕТ КЭШ МОДЕЛЕЙ
-				$this->Film->FilmType->_schema = Array(
-				    'id' => Array(
-				            'type' => 'integer',
-				            'null' => null,
-				            'default' => '',
-				            'length' => 11,
-				            'key' => 'primary',
-				        ),
-				    'title' => Array(
-				            'type' => 'string',
-				            'null' => null,
-				            'default' => '',
-				            'length' => 255
-				        )
-				);
 //$sch = $this->Film->FilmType->schema();
 //pr($sch);
 //exit;
