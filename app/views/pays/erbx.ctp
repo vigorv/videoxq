@@ -1,4 +1,5 @@
 <?php
+/*
 if (!empty($host))
 {
 	$ch = curl_init($host);
@@ -11,3 +12,5 @@ if (!empty($host))
 }
 else
 	header("location: /pays/notsupport");
+
+*/
