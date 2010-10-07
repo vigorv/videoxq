@@ -714,6 +714,7 @@ class PaysController extends AppController
 
 //echo $data;
 //exit;
+				$this->redirect($host . '?' . $data);
 
 				$this->set('host', $host);
 				$this->set('data', $data);
