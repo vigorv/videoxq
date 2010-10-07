@@ -35,4 +35,4 @@ if (isset($allCnt))
 <input type="submit">
 </form>
 <p style="text-align:left">Для миграции всех новых/измененных после последней миграции фильмов и персон нажмите ссылку
-"<a onclick="return makedump();" href="/admin/media/importlist/all">миграция</a>"</p>
+"<a onclick="return makedump();" href="/admin/media/importlist/all">получить список измененных фильмов</a>"</p>

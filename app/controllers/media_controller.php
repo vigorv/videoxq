@@ -285,70 +285,10 @@ class MediaController extends AppController {
 			$films = array(); //ВЫБОРКА ФИЛЬМОВ ПО СПИСКУ (СООТВЕТСТВУЕТ МАССИВУ ИДЕНТИФИКАТОРОВ)
 			$ids = array(); //МАССИВ ИДЕНТИФИКАТОРОВ ФИЛЬМОВ ИЗ СПИСКА
 
-			if (!empty($this->data['lst']) || ($this->data['all']))
+			if (!empty($this->data['lst']))
 			{
-				//ИЩЕМ ПОСЛЕДНЮЮ МИГРАЦИЮ VXQ
-				$lastVXQMigrate = $this->Migration->find(null, array('modified'), 'Migration.modified DESC', 1);
-				if (empty($lastVXQMigrate))
-					$lastVXQMigrate = array('Migration' => array('modified' => date('Y-m-d H:i:s')));
-
-				//НА НСК54 ИЩЕМ ДАТУ МИГРАЦИИ, ПОСЛЕ КОТОРОЙ БЫЛА МИГРАЦИЯ НА VXQ
-				$this->Migration->useDbConfig = 'videoCatalog';//БУДЕМ ВЫБИРАТЬ ИЗ БАЗЫ ВИДЕОКАТАЛОГА
-				$lastNskMigrate1 = $this->Migration->find(
-					array('Migration.modified <' => $lastVXQMigrate['Migration']['modified']),
-					array('modified'),
-					'Migration.modified DESC', 1);
-				if (empty($lastNskMigrate1))
-					$lastNskMigrate1 = array('Migration' => array('modified' => '0000-00-00 00:00:00'));
-
-				//ВЫБИРАЕМ ПОСЛЕДНЮЮ МИГРАЦИЮ НА НСК54
-				$lastNskMigrate2 = $this->Migration->find(
-					null, array('modified'),
-					'Migration.modified DESC', 1);
-
-				$this->Film->useDbRecursive('videoCatalog', $this->Film);//БУДЕМ ВЫБИРАТЬ ИЗ БАЗЫ ВИДЕОКАТАЛОГА
-//ПРИНУДИТЕЛЬНО УКАЗЫВАЕМ СХЕМУ МОДЕЛИ ТК FilmType VXQ и NSK54 ОТЛИЧАЮТСЯ, А ПЕРЕКЛЮЧЕНИЕ БАЗЫ НЕ СБРАСЫВАЕТ КЭШ МОДЕЛЕЙ
-				$this->Film->FilmType->_schema = Array(
-				    'id' => Array(
-				            'type' => 'integer',
-				            'null' => null,
-				            'default' => '',
-				            'length' => 11,
-				            'key' => 'primary',
-				        ),
-				    'title' => Array(
-				            'type' => 'string',
-				            'null' => null,
-				            'default' => '',
-				            'length' => 255
-				        )
-				);
-//$sch = $this->Film->FilmType->schema();
-//pr($sch);
-//exit;
-				if (empty($this->data['lst']))
-				{
-			        $this->Film->recursive = 0;
-			        $this->Film->contain(array());
-					//ВЫБИРАЕМ МЕЖДУ ДВУХ МИГРАЦИЙ
-			        $lstFilms = $this->Film->findAll(array('Film.modified <' => $lastNskMigrate2['Migration']['modified'], 'Film.modified >=' => $lastNskMigrate1['Migration']['modified']), array('id'));
-			        $lst = '';
-			        foreach ($lstFilms as $lf)
-			        {
-			        	$lst .= 'http://nsk54.com/media/view/' . $lf['Film']['id'] . "\n";
-//break;
-			        }
-			        $this->data['lst'] = $lst;//ЭМУЛИРУЕМ СПИСОК В ПОЛЕ ФОРМЫ
-				}
-
-//pr($lastVXQMigrate);
-//pr($lastNskMigrate1);
-//pr($lastNskMigrate2);
 		        $this->Film->recursive = 2;
 				$lst = preg_split('/[\r\n]+/', trim(str_replace('http://', "\n", strtolower($this->data['lst']))));
-
-//pr($lst);
-//exit;
 
 				$allCnt = count($lst);
 				$ids = array();
@@ -637,8 +577,6 @@ class MediaController extends AppController {
 			        }
 //pr(count($lstPersons));
 //exit;
-
-
 			        //ФИКСИРУЕМ ПРОВЕДЕНИЕ МИГРАЦИИ НА VXQ
 					$this->Migration->useDbConfig = 'defaultMedia';
 					$data = array('Migration' => array('modified' => date('Y-m-d H:i:s')));
@@ -646,6 +584,67 @@ class MediaController extends AppController {
 					$this->Migration->save($data);
 				}
 			}
+
+			if ($this->data['all'])
+			{
+				//ИЩЕМ ПОСЛЕДНЮЮ МИГРАЦИЮ VXQ
+				$lastVXQMigrate = $this->Migration->find(null, array('modified'), 'Migration.modified DESC', 1);
+				if (empty($lastVXQMigrate))
+					$lastVXQMigrate = array('Migration' => array('modified' => date('Y-m-d H:i:s')));
+
+				//НА НСК54 ИЩЕМ ДАТУ МИГРАЦИИ, ПОСЛЕ КОТОРОЙ БЫЛА МИГРАЦИЯ НА VXQ
+				$this->Migration->useDbConfig = 'videoCatalog';//БУДЕМ ВЫБИРАТЬ ИЗ БАЗЫ ВИДЕОКАТАЛОГА
+				$lastNskMigrate1 = $this->Migration->find(
+					array('Migration.modified <' => $lastVXQMigrate['Migration']['modified']),
+					array('modified'),
+					'Migration.modified DESC', 1);
+				if (empty($lastNskMigrate1))
+					$lastNskMigrate1 = array('Migration' => array('modified' => '0000-00-00 00:00:00'));
+
+				//ВЫБИРАЕМ ПОСЛЕДНЮЮ МИГРАЦИЮ НА НСК54
+				$lastNskMigrate2 = $this->Migration->find(
+					null, array('modified'),
+					'Migration.modified DESC', 1);
+
+				$this->Film->useDbRecursive('videoCatalog', $this->Film);//БУДЕМ ВЫБИРАТЬ ИЗ БАЗЫ ВИДЕОКАТАЛОГА
+//ПРИНУДИТЕЛЬНО УКАЗЫВАЕМ СХЕМУ МОДЕЛИ ТК FilmType VXQ и NSK54 ОТЛИЧАЮТСЯ, А ПЕРЕКЛЮЧЕНИЕ БАЗЫ НЕ СБРАСЫВАЕТ КЭШ МОДЕЛЕЙ
+				$this->Film->FilmType->_schema = Array(
+				    'id' => Array(
+				            'type' => 'integer',
+				            'null' => null,
+				            'default' => '',
+				            'length' => 11,
+				            'key' => 'primary',
+				        ),
+				    'title' => Array(
+				            'type' => 'string',
+				            'null' => null,
+				            'default' => '',
+				            'length' => 255
+				        )
+				);
+//$sch = $this->Film->FilmType->schema();
+//pr($sch);
+//exit;
+				if (empty($this->data['lst']))
+				{
+			        $this->Film->recursive = 0;
+			        $this->Film->contain(array());
+					//ВЫБИРАЕМ МЕЖДУ ДВУХ МИГРАЦИЙ
+			        $lstFilms = $this->Film->findAll(array('Film.modified <' => $lastNskMigrate2['Migration']['modified'], 'Film.modified >=' => $lastNskMigrate1['Migration']['modified']), array('id'));
+			        $lst = '';
+			        foreach ($lstFilms as $lf)
+			        {
+			        	$lst .= 'http://nsk54.com/media/view/' . $lf['Film']['id'] . "\n";
+//break;
+			        }
+			        $this->data['lst'] = $lst;//ЭМУЛИРУЕМ СПИСОК В ПОЛЕ ФОРМЫ
+				}
+//pr($lastVXQMigrate);
+//pr($lastNskMigrate1);
+//pr($lastNskMigrate2);
+			}
+
 //СОХРАНИЛИ КОМАНДНЫЙ ФАЙЛ ДЛЯ КОПИРОВАНИЯ КАРТИНОК
 			if (!empty($picsCmd))
 			{
