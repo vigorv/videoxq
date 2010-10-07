@@ -169,7 +169,7 @@ class UtilsController extends AppController
 	{
         $this->Banner->recursive = 0;
 		unset($this->paginate);
-		$this->paginate['Banner']['fields'] = array('Banner.id', 'Banner.name', 'Banner.start', 'Banner.stop', 'Banner.place', 'Banner.forever');
+		$this->paginate['Banner']['fields'] = array('Banner.id', 'Banner.name', 'Banner.start', 'Banner.stop', 'Banner.place', 'Banner.forever', 'Banner.is_webstream', 'Banner.is_internet');
         $this->paginate['Banner']['limit'] = '';
         //$this->paginate['Banner']['order'] = 'Banner.srt desc';
 		$banners = $this->paginate('Banner');

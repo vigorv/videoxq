@@ -20,9 +20,10 @@ foreach ($banners as $banner):
         </td>
         <td>
             <?php
-            	echo $banner['Banner']['place'];
+            	echo $banner['Banner']['place'] . '<small>';
             	if (!empty($banner['Banner']['is_webstream'])) echo ' для WebStream';
             	if (!empty($banner['Banner']['is_internet'])) echo ' для Internet';
+            	echo '</small>';
             ?>
         </td>
         <td>

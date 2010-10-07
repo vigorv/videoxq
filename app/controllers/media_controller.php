@@ -307,6 +307,25 @@ class MediaController extends AppController {
 					'Migration.modified DESC', 1);
 
 				$this->Film->useDbRecursive('videoCatalog', $this->Film);//БУДЕМ ВЫБИРАТЬ ИЗ БАЗЫ ВИДЕОКАТАЛОГА
+//ПРИНУДИТЕЛЬНО УКАЗЫВАЕМ СХЕМУ МОДЕЛИ ТК FilmType VXQ и NSK54 ОТЛИЧАЮТСЯ, А ПЕРЕКЛЮЧЕНИЕ БАЗЫ НЕ СБРАСЫВАЕТ КЭШ МОДЕЛЕЙ
+				$this->Film->FilmType->_schema = Array(
+				    'id' => Array(
+				            'type' => 'integer',
+				            'null' => null,
+				            'default' => '',
+				            'length' => 11,
+				            'key' => 'primary',
+				        ),
+				    'title' => Array(
+				            'type' => 'string',
+				            'null' => null,
+				            'default' => '',
+				            'length' => 255
+				        )
+				);
+//$sch = $this->Film->FilmType->schema();
+//pr($sch);
+//exit;
 				if (empty($this->data['lst']))
 				{
 			        $this->Film->recursive = 0;
@@ -317,8 +336,9 @@ class MediaController extends AppController {
 			        foreach ($lstFilms as $lf)
 			        {
 			        	$lst .= 'http://nsk54.com/media/view/' . $lf['Film']['id'] . "\n";
+//break;
 			        }
-			        $this->data['lst'] = $lst;
+			        $this->data['lst'] = $lst;//ЭМУЛИРУЕМ СПИСОК В ПОЛЕ ФОРМЫ
 				}
 
 //pr($lastVXQMigrate);
