@@ -6,6 +6,7 @@
 	define('_PAY_SMSCOIN_',	1);
 	define('_PAY_ASSIST_',	2);
 	define('_PAY_W1_',		3);
+	define('_PAY_ERBX_',	4);
 
 class PaysController extends AppController
 {
@@ -408,7 +409,6 @@ class PaysController extends AppController
 		}
 	}
 
-
     /**
      *
      * генерация ссылок на оплату через W1 (Единый кошелек)
@@ -631,6 +631,197 @@ class PaysController extends AppController
 					break;
 			}
 		}
+		$this->payLog("ResultUrl (resultpay): Bad signature", $_POST["WMI_PAYMENT_NO"], $_POST["WMI_PAYMENT_AMOUNT"]);
+    }
+
+
+    /**
+     *
+     * генерация ссылок на оплату через e-card ROBOX
+     *
+     * @param integer $summ
+     */
+	public function erbx($summ = 0)
+	{
+		if (empty($this->authUser['userid']))
+			$summ = -1;//СЕРВИС ПРИОСТАНОВДЕН
+		$perMonth	= Configure::read('erbx.costPerMonth');
+		$this->set('perMonth', $perMonth);
+		$perWeek	= Configure::read('erbx.costPerWeek');
+		$this->set('perWeek', $perWeek);
+		$perDay		= Configure::read('erbx.costPerDay');
+		$this->set('perDay', $perDay);
+		$payDesc = array(
+			$perDay		=> Configure::read('descPerDay'),
+			$perWeek	=> Configure::read('descPerWeek'),
+			$perMonth	=> Configure::read('descPerMonth'),
+		);
+		$this->set('payDesc', $payDesc);
+
+		if ($summ > 0)
+		{
+			if (empty($this->authUser['userid']))
+			{
+				$this->redirect('/users/login');
+			}
+	    	$allowDownload = checkAllowedMasks(Configure::read('Catalog.allowedIPs'), $_SERVER['REMOTE_ADDR']);
+	    	if (!$allowDownload)
+	    	{
+				//$this->redirect('/pays/notsupport');
+	    	}
+
+			$out_summ = sprintf("%01.2f", (float)($summ));
+			$payData = array('Pay' => array(
+					'user_id'	=> $this->authUser['userid'],
+			));
+			$payData['Pay']['created']	= time();
+			$payData['Pay']['summ']		= $out_summ;
+			$payData['Pay']['paysystem']= _PAY_ERBX_;
+
+			if ($this->Pay->save($payData))
+			{
+				$this->layout = 'ajax';
+				// информация об оплате
+				$payData['Pay']['id'] = $this->Pay->getLastInsertID();
+
+				$fields = array(
+					"MrchLogin"			=> Configure::read('erbx.login'),
+					"OutSum"			=> $out_summ,
+					"InvId"				=> $payData['Pay']['id'],
+					"Desc"				=> "VIP " . __('access', true) . " " . ((!empty($payDesc[$summ])) ? $payDesc[$summ] : ""), // описание платежа
+				);
+
+				$secret_code	= Configure::read('erbx.pass1');
+				$signature 		= md5($field["MrchLogin"] . ':' . $field["OutSum"] . ':' . $field["InvId"] . ':' . $secret_code);
+
+				$fields["SignatureValue"] = $signature;
+
+				$data = ''; $amp = '';
+				foreach ($fields as $key => $value)
+				{
+					$data .= $amp . $key . '=' . $value;
+					$amp = '&';
+				}
+
+				if (Configure::read('erbx.testMode') == '1')
+				{
+					$host = "http://test.robokassa.ru/Index.aspx";
+				}
+				else
+				{
+					$host = "https://merchant.roboxchange.com/Index.aspx";
+				}
+
+				$this->set('host', $host);
+				$this->set('data', $data);
+			}
+		}
+	}
+
+    /**
+     * failURL for e-card ROBOX
+     *
+     */
+    public function erbxfail()
+    {
+
+    }
+
+    /**
+     * successURL for e-card ROBOX
+     *
+     */
+    public function erbxsuccess()
+    {
+
+    }
+
+    /**
+     * resultURL for e-card ROBOX
+     * обработчик ответа от платежной системы
+     * меняет статус записи об оплате
+     *
+     */
+    public function erbxresult()
+    {
+    	$this->layout = 'ajax';
+
+		$perMonth	= Configure::read('erbx.costPerMonth');
+		$perWeek	= Configure::read('erbx.costPerWeek');
+		$perDay		= Configure::read('erbx.costPerDay');
+
+		$field["OutSum"] = $_POST['OutSum'];
+		$field["InvId"] = intval($_POST['InvId']);
+		$field["Sign"] = $_POST['SignatureValue'];
+
+		$secret_code	= Configure::read('erbx.pass2');
+		$signature 		= md5($field["OutSum"] . ':' . $field["InvId"] . ':' . $secret_code);
+
+		$this->payLog("ResultUrl (resultpay)", $fields["WMI_PAYMENT_NO"], $fields["WMI_PAYMENT_AMOUNT"]);
+		$this->payLog(serialize($_POST), '$_POST', 0);
+
+		// validating the signature
+		if($_POST["Sign"] == $signature)
+		{
+			$amount = sprintf("%01.2f", (float)($field["OutSum"]));
+			$payData = $this->Pay->read(null, $field["InvId"]);
+			if (!empty($payData) && ($payData['Pay']['status'] == _PAY_WAIT_))
+			{
+				$payData['Pay']['status'] = _PAY_DONE_;
+				$payData['Pay']['paydate'] = time();
+				$payData['Pay']['summ'] = $amount;
+
+				$out_summ = $fields["WMI_PAYMENT_AMOUNT"];
+				//ДАТУ "ПРОПЛАЧЕНО ПО" СЧИТАЕМ ОТ ПОСЛЕДНЕЙ ОПЛАЧЕННОЙ
+				$months = 0;
+				$weeks = 0;
+				$days = 0;
+
+				$months = intval($out_summ / $perMonth);
+				$out_summ = $out_summ - $perMonth * $months;
+
+				$weeks = intval($out_summ / $perWeek);
+				$out_summ = $out_summ - $perWeek * $weeks;
+
+				$days = intval($out_summ / $perDay);
+				$out_summ = $out_summ - $perDay * $days;
+
+				$secs = ($days + $weeks * 7 + $months * 31) * 24 * 60 * 60;
+
+				$lastFinDate = $payData['Pay']['paydate'];
+				$last = $this->Pay->find(array('Pay.user_id' => $payData['Pay']['user_id'], 'Pay.status' => _PAY_DONE_), null, 'Pay.findate desc');
+				if (!empty($last))
+				{
+					if ($last['Pay']['findate'] > $lastFinDate)
+						$lastFinDate = $last['Pay']['findate'];
+				}
+				$payData['Pay']['paydate'] = $lastFinDate;
+				$payData['Pay']['findate'] = $lastFinDate + $secs;
+				$this->Pay->save($payData);
+				$success = true;
+
+	   			$sql = 'delete from groups_users where user_id = ' . $payData['Pay']['user_id'] . ' and group_id = ' . Configure::read('VIPgroupId') . ';';
+   	   			$this->Pay->query($sql);
+	   			$sql= 'insert into groups_users (user_id, group_id) values(' . $payData['Pay']['user_id'] . ', ' . Configure::read('VIPgroupId') . ');';
+   	   			$this->Pay->query($sql);
+
+    			//корректируем VIP-группу форума (это сделает beforeSave при холостом обновлении)
+   				$uInfo = array('User' => array('userid' => $payData['Pay']['user_id'], 'lastactivity' => time()));
+   				$this->User->save($uInfo);
+
+   				Configure::write('debug', 1);
+   	   			$userInfo = $this->User->read(null, $payData['Pay']['user_id']);
+		        $result = $this->_sendEmail(/*from*/Configure::read('App.mailFrom'),
+                /*to  */$userInfo['User']['username'] .
+                '<' .
+                $userInfo['User']['email'] .
+                                     '>',
+                /*subj*/Configure::read('App.siteName') . ' - ' . __('payment success', true),
+                /*body*/__('Dear', true) . " " . __("User", true) . ", " . $userInfo['User']['username'] . ".\n" . __('Received payment from you. Amount', true) . " " . $payData['Pay']['summ'] . " у.е.\n\n" . __("Thank you") . ".\n" . Configure::read('App.siteName') . " Robot");
+			}
+			$this->set("result". "OK" . $field['InvId']);
+			break;
+			}
 		$this->payLog("ResultUrl (resultpay): Bad signature", $_POST["WMI_PAYMENT_NO"], $_POST["WMI_PAYMENT_AMOUNT"]);
     }
 
