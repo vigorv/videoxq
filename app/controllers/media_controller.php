@@ -509,7 +509,9 @@ class MediaController extends AppController {
 //pr($filmInfo);
 //break;
 					}
+/* ПРОВЕДЕНА В ОСНОВНОМ ЦИКЛЕ
 //МИГРАЦИЯ ПЕРСОН
+
 					$this->Film->useDbRecursive('videoCatalog', $this->Film);//БУДЕМ ВЫБИРАТЬ ИЗ БАЗЫ ВИДЕОКАТАЛОГА
 			        $this->Film->Person->contain(array('PersonPicture', 'Profession'));
 			        $lstPersons = $this->Film->Person->findAll(array('Person.modified >' => $lastNskMigrate1['Migration']['modified'], 'Person.modified <=' => $lastNskMigrate2['Migration']['modified']), null, null, null, 1);
@@ -570,7 +572,7 @@ class MediaController extends AppController {
 			        	}
 //pr($fp);
 //break;
-
+*/
 			        }
 //pr(count($lstPersons));
 //exit;
@@ -581,6 +583,7 @@ class MediaController extends AppController {
 					$this->Migration->save($data);
 				}
 			}
+//ЗАКОНЧЕН ИМПОРТ ПО СПИСКУ
 
 			if ($this->data['all'])
 			{
