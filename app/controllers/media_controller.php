@@ -572,10 +572,10 @@ class MediaController extends AppController {
 			        	}
 //pr($fp);
 //break;
-*/
 			        }
 //pr(count($lstPersons));
 //exit;
+*/
 			        //ФИКСИРУЕМ ПРОВЕДЕНИЕ МИГРАЦИИ НА VXQ
 					$this->Migration->useDbConfig = 'defaultMedia';
 					$data = array('Migration' => array('modified' => date('Y-m-d H:i:s')));
