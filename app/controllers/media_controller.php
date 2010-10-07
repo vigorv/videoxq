@@ -287,6 +287,7 @@ class MediaController extends AppController {
 
 			if (!empty($this->data['lst']))
 			{
+				$this->Film->useDbRecursive('videoCatalog', $this->Film);//БУДЕМ ВЫБИРАТЬ ИЗ БАЗЫ ВИДЕОКАТАЛОГА
 		        $this->Film->recursive = 2;
 				$lst = preg_split('/[\r\n]+/', trim(str_replace('http://', "\n", strtolower($this->data['lst']))));
 
@@ -508,10 +509,6 @@ class MediaController extends AppController {
 //pr($filmInfo);
 //break;
 					}
-				}
-
-				if ($this->data['all'])
-				{
 //МИГРАЦИЯ ПЕРСОН
 					$this->Film->useDbRecursive('videoCatalog', $this->Film);//БУДЕМ ВЫБИРАТЬ ИЗ БАЗЫ ВИДЕОКАТАЛОГА
 			        $this->Film->Person->contain(array('PersonPicture', 'Profession'));
