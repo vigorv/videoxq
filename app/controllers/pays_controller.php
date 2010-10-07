@@ -689,7 +689,7 @@ class PaysController extends AppController
 					"OutSum"			=> $out_summ,
 					"InvId"				=> $payData['Pay']['id'],
 					"Desc"				=> "VIP " . __('access', true) . " " . ((!empty($payDesc[$summ])) ? $payDesc[$summ] : ""), // описание платежа
-					"IncCurrLabel"		=> 'RUR',
+//					"IncCurrLabel"		=> 'RUR',
 				);
 
 				$secret_code	= Configure::read('erbx.pass1');
