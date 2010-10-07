@@ -689,11 +689,11 @@ class PaysController extends AppController
 					"OutSum"			=> $out_summ,
 					"InvId"				=> $payData['Pay']['id'],
 					"Desc"				=> "VIP " . __('access', true) . " " . ((!empty($payDesc[$summ])) ? $payDesc[$summ] : ""), // описание платежа
+					"IncCurrLabel"		=> 'RUR',
 				);
 
 				$secret_code	= Configure::read('erbx.pass1');
-				$signature 		= md5($field["MrchLogin"] . ':' . $field["OutSum"] . ':' . $field["InvId"] . ':' . $secret_code);
-
+				$signature 		= md5($fields["MrchLogin"] . ':' . $fields["OutSum"] . ':' . $fields["InvId"] . ':' . $secret_code);
 				$fields["SignatureValue"] = $signature;
 
 				$data = ''; $amp = '';
@@ -711,6 +711,9 @@ class PaysController extends AppController
 				{
 					$host = "https://merchant.roboxchange.com/Index.aspx";
 				}
+
+//echo $data;
+//exit;
 
 				$this->set('host', $host);
 				$this->set('data', $data);
@@ -757,7 +760,7 @@ class PaysController extends AppController
 		$secret_code	= Configure::read('erbx.pass2');
 		$signature 		= md5($field["OutSum"] . ':' . $field["InvId"] . ':' . $secret_code);
 
-		$this->payLog("ResultUrl (resultpay)", $fields["WMI_PAYMENT_NO"], $fields["WMI_PAYMENT_AMOUNT"]);
+		$this->payLog("ResultUrl (resultpay) ERBX");
 		$this->payLog(serialize($_POST), '$_POST', 0);
 
 		// validating the signature
