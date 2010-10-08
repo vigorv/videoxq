@@ -765,7 +765,7 @@ class PaysController extends AppController
 		$this->payLog(serialize($_POST), '$_POST', 0);
 
 		// validating the signature
-		if($_POST["Sign"] == $signature)
+		if($field["Sign"] == $signature)
 		{
 			$amount = sprintf("%01.2f", (float)($field["OutSum"]));
 			$payData = $this->Pay->read(null, $field["InvId"]);
