@@ -21,8 +21,8 @@ if (!empty($search_words))
 {
    foreach ($search_words as $searchWord)
    {
-       echo '<h3>Возможно, то, что вы ищите находится ';
-       echo '<a href="'. $searchWord['SearchWord']['url'] . '">здесь</a>';
+       echo '<h3>' . __('Perhaps what you are looking for is', true) . ' ';
+       echo '<a href="'. $searchWord['SearchWord']['url'] . '">' . __('here', true) . '</a>';
        echo '</h3><br>';
    }
 }
@@ -30,14 +30,14 @@ if (!empty($search_words))
 if ((count($films) == 0) || (!empty($wsmediaPostCount)) || (!empty($animebarPostCount)))
 {
 	if ((count($films) == 0) && (!isset($pass["page"])) && (!empty($wsmediaPostCount) || !empty($animebarPostCount)))
-		echo '<h2>В каталоге nsk54.com по вашему запросу ничего не найдено :(</h2>';
+		echo '<h2>' . __('No results for your search', true) . ' :(</h2>';
 
 	if ((count($films) > 0) || (!empty($wsmediaPostCount)) || (!empty($abPosts)))
 	{
 		$cLinks = array();
 		if (!empty($films))
 		{
-			$cLinks[] = "<a href=\"http://nsk54.com/media/index/search:{$search}\">nsk54.com " . count($films) . " совпадений</a>";
+			$cLinks[] = "<a href=\"http://nsk54.com/media/index/search:{$search}\">nsk54.com " . count($films) . " " . __('matches', true) . "</a>";
 		}
 		if (!empty($wsmediaPostCount))
 		{
@@ -49,7 +49,7 @@ if ((count($films) == 0) || (!empty($wsmediaPostCount)) || (!empty($animebarPost
 				<input type="hidden" name="story" value="' . $search . '" />
 			</form>
 			';
-			$cLinks[] = "<a href=\"http://wsmedia.su\" onclick=\"document.wsmform.submit(); return false;\">wsmedia $wsmediaPostCount совпадений</a>";
+			$cLinks[] = "<a href=\"http://wsmedia.su\" onclick=\"document.wsmform.submit(); return false;\">wsmedia $wsmediaPostCount " . __('matches', true) . "</a>";
 		}
 		if (!empty($animebarPostCount))
 		{
@@ -61,10 +61,10 @@ if ((count($films) == 0) || (!empty($wsmediaPostCount)) || (!empty($animebarPost
 				<input type="hidden" name="story" value="' . $search . '" />
 			</form>
 			';
-			$cLinks[] = "<a href=\"http://animebar.ru\" onclick=\"document.abform.submit(); return false;\">animebar $animebarPostCount совпадений</a>";
+			$cLinks[] = "<a href=\"http://animebar.ru\" onclick=\"document.abform.submit(); return false;\">animebar $animebarPostCount " . __('matches', true) . "</a>";
 		}
 		//echo "<h2>Также было найдено в других каталогах (<a href=\"/media/index/wsm:yes/search:$search\">$postCount совпадений</a>)</h2>";
-		echo "<h2>Найдено у партнеров (" . implode(', ', $cLinks) . ")</h2>";
+		echo "<h2>" . __('Find in partners catalogs', true) . " (" . implode(', ', $cLinks) . ")</h2>";
 	}
 }
 
@@ -74,6 +74,7 @@ if (!empty($films))
 ?>
     <div class="moviePreviewWrapper">
 <?php
+
 $iType="";
 if (!empty($FilmVariant))
 {
@@ -108,25 +109,30 @@ foreach ($Person as $data)
 {
     if ($data['FilmsPerson']['profession_id'] == 1 && count($directors) < 4)
     {
-        $directors[] = $data['name'] ? $data['name'] : $data['name_en'];
+        $directors[] = $data['name' . $langFix] ? $data['name' . $langFix] : $data['name'];
     }
     if (($data['FilmsPerson']['profession_id'] == 3
         || $data['FilmsPerson']['profession_id'] == 4)
         && count($actors) < 4)
     {
-        $actors[] = $data['name'] ? $data['name'] : $data['name_en'];
+        $actors[] = $data['name' . $langFix] ? $data['name' . $langFix] : $data['name'];
     }
 }
 echo implode(', ', $directors);
 ?>. <?php echo $Film['year'] ?>
-            <span>«<a href="/media/view/<?= $Film['id']?>"><?= $Film['title'] ?></a>»</span>
+            <span>«<a href="/media/view/<?= $Film['id']?>"><?= $Film['title' . $langFix] ?></a>»</span>
              <?php
 shuffle($actors);
 $actors=array_slice($actors,0,3);
 echo implode(', ', $actors);
 
 ?>
-            <em><?php echo  $app->implodeWithParams(' / ', $Genre, 'title', ' ', 2);?></em>
+            <em><?php
+            	if ($lang == _ENG_)
+            		echo $app->implodeWithParams(' / ', $Genre, 'title_imdb', ' ', 2);
+            	else
+            		echo $app->implodeWithParams(' / ', $Genre, 'title', ' ', 2);
+            ?></em>
         </p>
     </div>
 <?php

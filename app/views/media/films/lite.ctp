@@ -11,10 +11,10 @@ echo $BlockBanner->getBanner('antonina_left');
 	switch ($param)
 	{
 		case 'playoff':
-			$playSwitch = '<a href="/media/lite/' . $id . '/playon" style="padding: 2px 5px 2px 5px; border: 1px solid black; background: red; color: white;">Смотреть online "' . $film["title"] . '"</a><br /><br />';
+			$playSwitch = '<a href="/media/lite/' . $id . '/playon" style="padding: 2px 5px 2px 5px; border: 1px solid black; background: red; color: white;">' . __('Watch online', true) . ' "' . $film["title" . $langFix] . '"</a><br /><br />';
 		break;
 		case 'playon':
-			$playSwitch = '<a href="/media/lite/' . $id . '/playoff" style="padding: 2px 5px 2px 5px; border: 1px solid black; background: green; color: white;">Выключить online-проигрыватель</a><br /><br />';
+			$playSwitch = '<a href="/media/lite/' . $id . '/playoff" style="padding: 2px 5px 2px 5px; border: 1px solid black; background: green; color: white;">' . __('Turn off online-player', true) . '</a><br /><br />';
 		break;
 	}
 
@@ -50,13 +50,13 @@ echo $BlockBanner->getBanner('antonina_left');
 
        	$redirect .= '
        	<br />
-       	<h5>Вы пытаетесь получить ссылки для:</h5>
-       	<h3>' . $film["title"] . '</h3>
+       	<h5>' . __('You are trying to get links for', true) . ':</h5>
+       	<h3>' . $film["title" . $langFix] . '</h3>
 		' . $playSwitch . $divx . '
        	<div id="directlinksdiv">
        	  	<script type="text/javascript">
        		<!--
-       		document.write(\'<h4>Чтобы получить ссылки подождите '.$sec.' секунд. Осталось <b><span id="redirectSec'.$calls.'">'.$sec.'</span></b> секунд...</h4>\');
+       		document.write(\'<h4>' . __('To obtain the link wait for', true) . ' '.$sec.' ' . __('seconds', true) . '. ' . __('Left', true) . ' <b><span id="redirectSec'.$calls.'">'.$sec.'</span></b> ' . __('seconds', true) . '...</h4>\');
        		    	secCnt = '.$sec.';
        	';
 
@@ -100,7 +100,7 @@ echo $BlockBanner->getBanner('antonina_left');
          		</script>
 
          		<noscript>
-         			<h4>Чтобы получить ссылки, включите поддержку Javascript в вашем браузере и обновите страницу</h4>
+         			<h4>' . __('To obtain the link, enable Javascript in your browser and reload this page', true) . '</h4>
          		</noscript>
        		</div>
 			<div id="linksdiv" style="display:none">
@@ -111,9 +111,9 @@ echo $BlockBanner->getBanner('antonina_left');
 		{
 			$id = intval($_SERVER['QUERY_STRING']);
 			if (empty($id))
-				$msg = 'Чтобы получить ссылки, воспользуйтесь <a href="/media">поиском по каталогу</a>';
+				$msg = __('To obtain the link, use', true) . ' <a href="/media">' . __('search for catalog', true) . '</a>';
 			else
-				$msg = 'Данные сессии сброшены. Попробуйте получить ссылки через эту <a href="/media/view/' . $id . '">страницу</a>';
+				$msg = __('Session is reset. Try to get links through this', true) . ' <a href="/media/view/' . $id . '">' . __('page', true) . '</a>';
 		}
 
 		if (empty($_SESSION['Auth']))
@@ -127,7 +127,7 @@ echo $BlockBanner->getBanner('antonina_left');
 			$lastIds = $_SESSION['lastIds'];
 			if (empty($lastIds[$id]))//ЗАПОЛНЯЕТСЯ СКРИПТОМ ПОКАЗА РЕКЛАМЫ
 			{
-				$msg = 'Получить ссылки можно только после просмотра страницы с описанием <a href="/media/view/' . $id . '">фильма из каталога</a>';
+				$msg = __('Get links only after viewing the page with a description', true) . ' <a href="/media/view/' . $id . '">' . __('of the movie', true) . '</a>';
 			}
 		}
 		else
@@ -160,10 +160,10 @@ echo $BlockBanner->getBanner('antonina_left');
 */
 	if (!empty($authUserGroups) || !in_array(Configure::read('VIPgroupId'), $authUserGroups))
 	{
-		echo '<br /><h3>Чтобы не ждать - <a href="/pays">купи VIP</a></h3>';
+		echo '<br /><h3>' . __('Don`t want to wait?', true) . ' - <a href="/pays">' . __('Buy VIP', true) . '</a></h3>';
 	}
 ?>
-<br /><h3>Если у вас возникли проблемы с получением ссылок, пишите <a href="http://www.videoxq.com/forum/showthread.php?t=6">на форум</a></h3>
+<br /><h3><?php __('If you have any problems with obtaining references, write'); ?> <a href="http://www.videoxq.com/forum/showthread.php?t=6"><?php __('to the forum'); ?></a></h3>
 <?php
 echo $BlockBanner->getBanner('antonina_bottom');
 ?>

@@ -2,15 +2,14 @@
 <?php
 if (!empty($action))
 {
-	echo'<h2>Ваше сообщение отправлено. Спасибо, что сообщили об ошибке.</h2>';
+	echo'<h2>' . __('Your message has been sent. Thank you for reporting the error.', true) . '</h2>';
 }
 else
 {
 ?>
-<h3>Уважаемый пользователь, <?php echo $authUser['username'];?>!</h3>
-Если сайт неверно определил ваше географическое местоположение, пожалуйста, сообщите об этом администратору.
-От этого зависит доступность для скачивания вами определенной группы фильмов
-<h2>Сообщить об ошибке</h2>
+<h3><?php __('Dear User'); ?>, <?php echo $authUser['username'];?>!</h3>
+<?php __('If a site is incorrectly identified your geographical location, please notify the administrator. Depends on this is available for download by you of certain films'); ?>
+<h2><?php __('Report error'); ?></h2>
 <?php
 //$html->css('style', null, array(), false);
 echo '<form action="/media/geoerr/send" class="reg" method="post">';
@@ -22,12 +21,12 @@ if (!empty($geoInfo['Geoip']['region_id']))
 }
 else
 {
-	$geoPlace .= 'не определено';
+	$geoPlace .= __('unknown', true);
 }
-echo $form->textarea('msg', array('class' => 'textInput', 'value' => "Здравствуйте!\nСайт {$site} определил мое географическое местоположение как '{$geoPlace}'.\nНа самом деле я нахожусь в другом городе/регионе.\n\n[укажите в каком]")); ?></p>
+echo $form->textarea('msg', array('class' => 'textInput', 'value' => __('Hello', true) . "!\n{$site}" . __('is identified geographic location as', true) . " '{$geoPlace}'.\n" . __('In fact, I\'m in another city / region', true) . ".\n\n[" . __('specify where is', true) . "]")); ?></p>
 <br>
 <?php
-echo $form->end('Сообщить об ошибке');
+echo $form->end(__('Report error', true));
 }
 ?>
 </div>

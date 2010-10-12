@@ -152,16 +152,16 @@ class PageNavigatorHelper extends AppHelper {
 
 		if (!empty($first) && ($first < $start))
 		{
-			$output[] = $this->Html->link('1', $this->getNavigateUrl(array('page' => $first)), array('title' => 'первая'));
+			$output[] = $this->Html->link('1', $this->getNavigateUrl(array('page' => $first)), array('title' => __('first', true)));
 			$output[] = '...';
 		}
 		if (!empty($pgDown) && ($pgDown < $start))
 		{
-			$output[] = $this->Html->link('<<', $this->getNavigateUrl(array('page' => $pgDown)), array('title' => 'прокрутка назад'));
+			$output[] = $this->Html->link('<<', $this->getNavigateUrl(array('page' => $pgDown)), array('title' => __('rewind', true)));
 		}
 		if ($prev > 0)
 		{
-			$output[] = $this->Html->link('<', $this->getNavigateUrl(array('page' => $prev)), array('title' => 'предыдущая'));
+			$output[] = $this->Html->link('<', $this->getNavigateUrl(array('page' => $prev)), array('title' => __('previous', true)));
 		}
 
 		for ($cnt = $start; $cnt <= $finish; $cnt++)
@@ -174,16 +174,16 @@ class PageNavigatorHelper extends AppHelper {
 
 		if ($next <= $this->maxPage)
 		{
-			$output[] = $this->Html->link('>', $this->getNavigateUrl(array('page' => $next)), array('title' => 'следующая'));
+			$output[] = $this->Html->link('>', $this->getNavigateUrl(array('page' => $next)), array('title' => __('next', true)));
 		}
 		if (!empty($pgUp) && ($pgUp > $finish))
 		{
-			$output[] = $this->Html->link('>>', $this->getNavigateUrl(array('page' => $pgUp)), array('title' => 'прокрутка вперед'));
+			$output[] = $this->Html->link('>>', $this->getNavigateUrl(array('page' => $pgUp)), array('title' => __('forward', true)));
 		}
 		if (!empty($last) && ($last > $finish))
 		{
 			$output[] = '...';
-			$output[] = $this->Html->link($last, $this->getNavigateUrl(array('page' => $last)), array('title' => 'последняя'));
+			$output[] = $this->Html->link($last, $this->getNavigateUrl(array('page' => $last)), array('title' => __('last', true)));
 		}
 
 		return implode(' &nbsp; ', $output);

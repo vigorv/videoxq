@@ -1344,54 +1344,6 @@ msgstr ""
 msgid "Edit"
 msgstr ""
 
-#: /views/adverts/admin_index.ctp:76
-#: /views/adverts/index.ctp:76
-#: /views/article_categories/admin_index.ctp:44
-#: /views/article_categories/index.ctp:44
-#: /views/articles/admin_index.ctp:60
-#: /views/articles/index.ctp:60
-#: /views/blocks/admin_index.ctp:56
-#: /views/blocks/index.ctp:64
-#: /views/blogs/admin_index.ctp:56
-#: /views/blogs/index.ctp:56
-#: /views/bookmarks/admin_index.ctp:48
-#: /views/bookmarks/index.ctp:39
-#: /views/catalog_categories/admin_index.ctp:52
-#: /views/catalog_categories/index.ctp:40
-#: /views/catalog_items/admin_index.ctp:52
-#: /views/catalog_items/index.ctp:52
-#: /views/comments/admin_index.ctp:64
-#: /views/comments/index.ctp:64
-#: /views/do/admin_index.ctp:56
-#: /views/do/index.ctp:48
-#: /views/events/admin_index.ctp:48
-#: /views/events/index.ctp:29
-#: /views/faq_categories/admin_index.ctp:44
-#: /views/faq_categories/index.ctp:38
-#: /views/faq_comments/admin_index.ctp:48
-#: /views/faq_comments/index.ctp:48
-#: /views/faq_items/admin_index.ctp:52
-#: /views/faq_items/index.ctp:52
-#: /views/galleries/admin_index.ctp:52
-#: /views/galleries/index.ctp:34
-#: /views/galleries/view.ctp:90
-#: /views/gallery_image_comments/admin_index.ctp:56
-#: /views/gallery_image_comments/index.ctp:56
-#: /views/gallery_images/admin_index.ctp:64
-#: /views/gallery_images/index.ctp:65
-#: /views/groups/admin_index.ctp:56
-#: /views/groups/index.ctp:56
-#: /views/media/baskets/admin_index.ctp:48
-#: /views/pages/admin_index.ctp:40
-#: /views/posts/admin_index.ctp:68
-#: /views/posts/index.ctp:68
-#: /views/tags/admin_index.ctp:44
-#: /views/tags/index.ctp:44
-#: /views/users/admin_index.ctp:80
-#: /views/users/index.ctp:252
-msgid "previous"
-msgstr ""
-
 #: /views/adverts/admin_index.ctp:78
 #: /views/adverts/index.ctp:78
 #: /views/article_categories/admin_index.ctp:46
@@ -1438,7 +1390,7 @@ msgstr ""
 #: /views/users/admin_index.ctp:82
 #: /views/users/index.ctp:254
 msgid "next"
-msgstr ""
+msgstr "следующая"
 
 #: /views/adverts/admin_index.ctp:82
 #: /views/adverts/admin_view.ctp:66
@@ -5213,102 +5165,6 @@ msgstr ""
 msgid "Edit"
 msgstr ""
 
-#: /views/adverts/admin_index.ctp:76;76
-#: /views/adverts/index.ctp:76;76
-#: /views/article_categories/admin_index.ctp:44;44
-#: /views/article_categories/index.ctp:44;44
-#: /views/articles/admin_index.ctp:60;60
-#: /views/articles/index.ctp:60;60
-#: /views/blocks/admin_index.ctp:56;56
-#: /views/blocks/index.ctp:64;64
-#: /views/blogs/admin_index.ctp:56;56
-#: /views/blogs/index.ctp:56;56
-#: /views/bookmarks/admin_index.ctp:48;48
-#: /views/bookmarks/index.ctp:39;39
-#: /views/catalog_categories/admin_index.ctp:52;52
-#: /views/catalog_categories/index.ctp:40;40
-#: /views/catalog_items/admin_index.ctp:52;52
-#: /views/catalog_items/index.ctp:52;52
-#: /views/comments/admin_index.ctp:64;64
-#: /views/comments/index.ctp:64;64
-#: /views/do/admin_index.ctp:56;56
-#: /views/do/index.ctp:48;48
-#: /views/events/admin_index.ctp:48;48
-#: /views/events/index.ctp:29;29
-#: /views/faq_categories/admin_index.ctp:44;44
-#: /views/faq_categories/index.ctp:38;38
-#: /views/faq_comments/admin_index.ctp:48;48
-#: /views/faq_comments/index.ctp:48;48
-#: /views/faq_items/admin_index.ctp:52;52
-#: /views/faq_items/index.ctp:52;52
-#: /views/galleries/admin_index.ctp:52;52
-#: /views/galleries/index.ctp:34;34
-#: /views/galleries/view.ctp:90;90
-#: /views/gallery_image_comments/admin_index.ctp:56;56
-#: /views/gallery_image_comments/index.ctp:56;56
-#: /views/gallery_images/admin_index.ctp:64;64
-#: /views/gallery_images/index.ctp:65;65
-#: /views/groups/admin_index.ctp:56;56
-#: /views/groups/index.ctp:56;56
-#: /views/media/baskets/admin_index.ctp:48;48
-#: /views/pages/admin_index.ctp:40;40
-#: /views/posts/admin_index.ctp:68;68
-#: /views/posts/index.ctp:68;68
-#: /views/tags/admin_index.ctp:44;44
-#: /views/tags/index.ctp:44;44
-#: /views/users/admin_index.ctp:80;80
-#: /views/users/index.ctp:252;252
-msgid "previous"
-msgstr ""
-
-#: /views/adverts/admin_index.ctp:78;78
-#: /views/adverts/index.ctp:78;78
-#: /views/article_categories/admin_index.ctp:46;46
-#: /views/article_categories/index.ctp:46;46
-#: /views/articles/admin_index.ctp:62;62
-#: /views/articles/index.ctp:62;62
-#: /views/blocks/admin_index.ctp:58;58
-#: /views/blocks/index.ctp:66;66
-#: /views/blogs/admin_index.ctp:58;58
-#: /views/blogs/index.ctp:58;58
-#: /views/bookmarks/admin_index.ctp:50;50
-#: /views/bookmarks/index.ctp:41;41
-#: /views/catalog_categories/admin_index.ctp:54;54
-#: /views/catalog_categories/index.ctp:42;42
-#: /views/catalog_items/admin_index.ctp:54;54
-#: /views/catalog_items/index.ctp:54;54
-#: /views/comments/admin_index.ctp:66;66
-#: /views/comments/index.ctp:66;66
-#: /views/do/admin_index.ctp:58;58
-#: /views/do/index.ctp:50;50
-#: /views/events/admin_index.ctp:50;50
-#: /views/events/index.ctp:31;31
-#: /views/faq_categories/admin_index.ctp:46;46
-#: /views/faq_categories/index.ctp:40;40
-#: /views/faq_comments/admin_index.ctp:50;50
-#: /views/faq_comments/index.ctp:50;50
-#: /views/faq_items/admin_index.ctp:54;54
-#: /views/faq_items/index.ctp:54;54
-#: /views/galleries/admin_index.ctp:54;54
-#: /views/galleries/index.ctp:36;36
-#: /views/galleries/view.ctp:92;92
-#: /views/gallery_image_comments/admin_index.ctp:58;58
-#: /views/gallery_image_comments/index.ctp:58;58
-#: /views/gallery_images/admin_index.ctp:66;66
-#: /views/gallery_images/index.ctp:67;67
-#: /views/groups/admin_index.ctp:58;58
-#: /views/groups/index.ctp:58;58
-#: /views/media/baskets/admin_index.ctp:50;50
-#: /views/pages/admin_index.ctp:42;42
-#: /views/posts/admin_index.ctp:70;70
-#: /views/posts/index.ctp:70;70
-#: /views/tags/admin_index.ctp:46;46
-#: /views/tags/index.ctp:46;46
-#: /views/users/admin_index.ctp:82;82
-#: /views/users/index.ctp:254;254
-msgid "next"
-msgstr ""
-
 #: /views/adverts/admin_index.ctp:82;82
 #: /views/adverts/admin_view.ctp:66;66
 #: /views/adverts/index.ctp:82;82
@@ -8294,3 +8150,237 @@ msgstr "Информацию о своих платежах Вы можете п
 
 msgid "Payment procedure is completed"
 msgstr "Процедура оплаты завершена"
+
+msgid "Other posters are only available to registered users"
+msgstr "Остальные постеры доступны только зарегистрированным пользователям"
+
+msgid "Voices"
+msgstr "Голосов"
+
+msgid "more"
+msgstr "еще"
+
+msgid "Available only to registered users"
+msgstr "Доступно только зарегистрированным пользователям"
+
+msgid "Similar films"
+msgstr "Похожие фильмы"
+
+msgid "Similar to the opinion of experts"
+msgstr "Похожие по мнению экспертов"
+
+msgid "How to download?"
+msgstr "как качать?"
+
+msgid "download"
+msgstr "cкачать"
+
+msgid "Download Movie"
+msgstr "Скачать фильм"
+
+msgid "Free Download"
+msgstr "Скачать бесплатно"
+
+msgid "Directed by"
+msgstr "Режиссёр"
+
+msgid "Actors"
+msgstr "В ролях"
+
+msgid "Quality"
+msgstr "Качество"
+
+msgid "Audio"
+msgstr "аудио"
+
+msgid "Duration"
+msgstr "продолжительность"
+
+msgid "Watch online"
+msgstr "Смотреть online"
+
+msgid "Turn off online-player"
+msgstr "Выключить online-проигрыватель"
+
+msgid "Add to download list"
+msgstr "В список загрузок"
+
+msgid "All Files"
+msgstr "Все файлы"
+
+msgid "Users of the Opera browser"
+msgstr "Пользователям браузера Opera"
+
+msgid "Users of the Opera browser"
+msgstr "Пользователям браузера Opera"
+
+msgid "disable the \"Opera Turbo\""
+msgstr "для получения ссылок необходимо отключить опцию \"Opera Turbo\""
+
+msgid "and then"
+msgstr "и затем"
+
+msgid "get links"
+msgstr "получить ссылки"
+
+msgid "search_link"
+msgstr "http://yandex.ru/yandsearch?text="
+
+msgid "Search web"
+msgstr "Найти в сети"
+
+msgid "Pictures"
+msgstr "Кадры из фильма"
+
+msgid "Forum Discussion"
+msgstr "Обсуждение на форуме"
+
+msgid "Show all"
+msgstr "Показать все"
+
+msgid "Add a message"
+msgstr "Оставить сообщение"
+
+msgid "Answer"
+msgstr "Ответить"
+
+msgid "You have not entered the message text"
+msgstr "Вы не ввели текст сообщения"
+
+msgid "Discussion of the film on the forum temporarily closed"
+msgstr "Обсуждение фильма на форуме временно прекращено"
+
+msgid "Only registered users can participate in the discussion"
+msgstr "Только зарегистрированные пользователи могут участвовать в обсуждении"
+
+msgid "Writers"
+msgstr "Сценарий"
+
+msgid "have not yet discussed"
+msgstr "еще не обсуждали"
+
+msgid "Search"
+msgstr "Поиск"
+
+msgid "No details about the movie. Search the"
+msgstr "Нет данных о фильме. Воспользуйтесь поиском по"
+
+msgid "catalogu"
+msgstr "каталогу"
+
+msgid "Get links only after viewing the page with a description of the film from the"
+msgstr "Получить ссылки можно только после просмотра страницы с описанием фильма из"
+
+msgid "cataloga"
+msgstr "каталога"
+
+msgid "here"
+msgstr "здесь"
+
+msgid "Perhaps what you are looking for is"
+msgstr "Возможно, то, что вы ищите находится"
+
+msgid "Request"
+msgstr "Заявка"
+
+msgid "Sorry, currently we do not have a movie that you're looking for."
+msgstr "Извините, в данный момент у нас нет фильма, который вы ищите."
+
+msgid "You can leave a request and we will notify you when it comes out."
+msgstr "Вы можете оставить заявку и мы известим вас, когда он появится."
+
+msgid "Movie title"
+msgstr "Название фильма"
+
+msgid "I want this movie!"
+msgstr "Хочу этот фильм!"
+
+msgid "To obtain the link wait for"
+msgstr "Чтобы получить ссылки подождите"
+
+msgid "You are trying to get links for"
+msgstr "Вы пытаетесь получить ссылки для"
+
+msgid "Left"
+msgstr "Осталось"
+
+msgid "To obtain the link, enable Javascript in your browser and reload this page"
+msgstr "Чтобы получить ссылки, включите поддержку Javascript в вашем браузере и обновите страницу"
+
+msgid "To obtain the link, use"
+msgstr "Чтобы получить ссылки, воспользуйтесь"
+
+msgid "search for catalog"
+msgstr "поиском по каталогу"
+
+msgid "Get links only after viewing the page with a description"
+msgstr "Получить ссылки можно только после просмотра страницы с описанием"
+
+msgid "of the movie"
+msgstr "фильма"
+
+msgid "page"
+msgstr "страницу"
+
+msgid "Session is reset. Try to get links through this"
+msgstr "Данные сессии сброшены. Попробуйте получить ссылки через эту"
+
+msgid "Don`t want to wait?"
+msgstr "Чтобы не ждать"
+
+msgid "Buy VIP"
+msgstr "купи VIP"
+
+msgid "If you have any problems with obtaining references, write"
+msgstr "Если у вас возникли проблемы с получением ссылок, пишите"
+
+msgid "to the forum"
+msgstr "на форум"
+
+msgid "Your message has been sent. Thank you for reporting the error."
+msgstr "Ваше сообщение отправлено. Спасибо, что сообщили об ошибке."
+
+msgid "Dear User"
+msgstr "Уважаемый пользователь"
+
+msgid "If a site is incorrectly identified your geographical location, please notify the administrator. Depends on this is available for download by you of certain films"
+msgstr "Если сайт неверно определил ваше географическое местоположение, пожалуйста, сообщите об этом администратору. От этого зависит доступность для скачивания вами определенной группы фильмов"
+
+msgid "Report error"
+msgstr "Сообщить об ошибке"
+
+msgid "Hello"
+msgstr "Здравствуйте"
+
+msgid "is identified geographic location as"
+msgstr "определил мое географическое местоположение как"
+
+msgid "In fact, I'm in another city / region"
+msgstr "На самом деле я нахожусь в другом городе/регионе"
+
+msgid "specify where is"
+msgstr "укажите в каком"
+
+msgid "No results for your search"
+msgstr "В каталоге по вашему запросу ничего не найдено"
+
+msgid "matches"
+msgstr "совпадений"
+
+msgid "Find in partners catalogs"
+msgstr "Найдено у партнеров"
+
+msgid "first"
+msgstr "первая"
+
+msgid "rewind"
+msgstr "прокрутка назад"
+
+msgid "previous"
+msgstr "предыдущая"
+
+msgid "last"
+msgstr "последняя"
+
+msgid "forward"
+msgstr "прокрутка вперед"

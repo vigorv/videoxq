@@ -720,6 +720,12 @@ class MediaController extends AppController {
                                   'search' => urlencode($Film['searchsimple'])));
         }
 
+		$lang = Configure::read('Config.language');
+		$langFix = '';
+		if ($lang == _ENG_) $langFix = '_' . _ENG_;
+        $this->set('lang', $lang);
+		$this->set('langFix', $langFix);
+
         if (!empty($this->data['Film']))
         {
             extract($this->data, EXTR_PREFIX_SAME, 'post');
@@ -937,7 +943,7 @@ if (!empty($this->params['named']['is_license']))
             $parts = explode(' ', $search);
             $condition = array('or' => array());
 
-            $this->pageTitle .= ' - Поиск: ';
+            $this->pageTitle .= ' - ' . __('Search', true) . ': ';
 
             $this->_setContextUrl($search);
 
@@ -1407,6 +1413,12 @@ echo'</pre>';
 			$id = 0;
 		}
 
+		$lang = Configure::read('Config.language');
+		$langFix = '';
+		if ($lang == _ENG_) $langFix = '_' . _ENG_;
+        $this->set('lang', $lang);
+		$this->set('langFix', $langFix);
+
 		if (empty($id))
 		{
 			$url = '/media';
@@ -1652,6 +1664,23 @@ $this->set("catalogVariants", $catalogVariants);
 		if ($lang == _ENG_) $langFix = '_' . _ENG_;
         $this->pageTitle = __('Video catalog', true) . ' - ' . $film['Film']['title' . $langFix];
         $this->set('film', $film);
+        $this->set('lang', $lang);
+		$this->set('langFix', $langFix);
+
+        if ($lang == _ENG_)
+        {
+        	$imdb_website = Cache::read('Catalog.film_imdbinfo_' . $id, 'searchres');
+        	if (empty($imdb_website))
+        	{
+            	$imdb_website = file_get_contents('http://imdb.com/title/' . $film['Film']['imdb_id']);
+		    	Cache::write('Catalog.film_imdbinfo_' . $id, $imdb_website, 'searchres');
+        	}
+	        App::import('Vendor', 'IMDB_Parser', array('file' => 'class.imdb_parser.php'));
+	        App::import('Vendor', 'IMDB_Parser2', array('file' => 'class.imdb_parser2.php'));
+            $parser = new IMDB_Parser2();
+            $this->set('parser', $parser);
+            $this->set('imdb_website', $imdb_website);
+        }
 
         $looksLike = $this->looksLike($film['Film']['title']);
         $this->set('looksLike', $looksLike);
@@ -1833,7 +1862,7 @@ $this->set("catalogVariants", $catalogVariants);
         {
 			$threadInfo['enabled'] = $forumInfo['Forum']['options'] & 2 > 0;
 			$threadInfo['lst'] = array();
-			$threadInfo['stat'] = 'еще не обсуждали';
+			$threadInfo['stat'] = __('have not yet discussed', true);
 			if (!empty($threadData['Thread']['threadid']))
 			{
 				$threadInfo['enabled'] = $threadInfo['enabled'] & $threadData['Thread']['open'];

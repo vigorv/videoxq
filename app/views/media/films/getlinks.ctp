@@ -7,11 +7,11 @@ else
 
 if (empty($_SESSION['Auth']))
 {
-	$msg = 'Доступно только для зарегистрированных пользователей';
+	$msg = __('Available only to registered users', true);
 }
 if (empty($id))
 {
-	$msg = 'Нет данных о фильме. Воспользуйтесь поиском по <a href="/media">каталогу</a>';
+	$msg = __('No details about the movie. Search the', true) . ' <a href="/media">' . __('catalogu', true) . '</a>';
 }
 //ПРОВЕРЯЕМ ПОКАЗАНА ЛИ БЫЛА РЕКЛАМА
 if (!empty($id) && (!empty($_SESSION['Auth'])) && (isset($_SESSION['lastIds'])))
@@ -20,7 +20,7 @@ if (!empty($id) && (!empty($_SESSION['Auth'])) && (isset($_SESSION['lastIds'])))
 	if (empty($lastIds[$id]))//ЗАПОЛНЯЕТСЯ СКРИПТОМ ПОКАЗА РЕКЛАМЫ
 	{
 		$id = 0;
-		$msg = 'Получить ссылки можно только после просмотра страницы с описанием фильма из <a href="/media">каталога</a>';
+		$msg = __('', true) . ' <a href="/media">'  . __('cataloga', true) . '</a>';
 	}
 }
 else

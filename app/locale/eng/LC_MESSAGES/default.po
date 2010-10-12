@@ -84,3 +84,12 @@ msgstr "access"
 
 msgid "payment pagee"
 msgstr "payment page"
+
+msgid "search_link"
+msgstr "http://www.google.ru/search?q="
+
+msgid "catalogu"
+msgstr "catalog"
+
+msgid "cataloga"
+msgstr "catalog"
