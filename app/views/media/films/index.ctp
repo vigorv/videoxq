@@ -109,17 +109,30 @@ foreach ($Person as $data)
 {
     if ($data['FilmsPerson']['profession_id'] == 1 && count($directors) < 4)
     {
-        $directors[] = $data['name' . $langFix] ? $data['name' . $langFix] : $data['name'];
+    	if ($lang == _ENG_)
+    	{
+    		if (!empty($data['name' . $langFix]))
+        		$directors[] = $data['name' . $langFix];
+    	}
+        else
+        	$directors[] = $data['name' . $langFix] ? $data['name' . $langFix] : $data['name_en'];
     }
     if (($data['FilmsPerson']['profession_id'] == 3
         || $data['FilmsPerson']['profession_id'] == 4)
         && count($actors) < 4)
     {
-        $actors[] = $data['name' . $langFix] ? $data['name' . $langFix] : $data['name'];
+    	if ($lang == _ENG_)
+    	{
+    		if (!empty($data['name' . $langFix]))
+        		$actors[] = $data['name' . $langFix];
+    	}
+    	else
+        	$actors[] = $data['name' . $langFix] ? $data['name' . $langFix] : $data['name_en'];
     }
 }
-echo implode(', ', $directors);
-?>. <?php echo $Film['year'] ?>
+if (!empty($directors))
+	echo implode(', ', $directors) . '.';
+?> <?php echo $Film['year'] ?>
             <span>«<a href="/media/view/<?= $Film['id']?>"><?= $Film['title' . $langFix] ?></a>»</span>
              <?php
 shuffle($actors);

@@ -1623,7 +1623,7 @@ $this->set("catalogVariants", $catalogVariants);
 
 	    $this->set('geoIsGood', $geoIsGood);
 
-		list($filmModifyDate, $filmModifyTime) = explode(' ', $film['Film']['modified']);
+		list($filmModifyDate, $filmModifyTime) = explode(' ', empty($film['Film']['modified']) ? '000-00-00 00:00:00' : $film['Film']['modified']);
 		$filmModifyDate = explode('-', $filmModifyDate);
 		$filmModifyTime = explode(':', $filmModifyTime);
 		$metaExpires = date('r', mktime($filmModifyTime[0], $filmModifyTime[1], $filmModifyTime[2], $filmModifyDate[1], $filmModifyDate[2], $filmModifyDate[0]));
@@ -1672,8 +1672,12 @@ $this->set("catalogVariants", $catalogVariants);
         	$imdb_website = Cache::read('Catalog.film_imdbinfo_' . $id, 'searchres');
         	if (empty($imdb_website))
         	{
-            	$imdb_website = file_get_contents('http://imdb.com/title/' . $film['Film']['imdb_id']);
-		    	Cache::write('Catalog.film_imdbinfo_' . $id, $imdb_website, 'searchres');
+        		if (!empty($film['Film']['imdb_id']))
+        		{
+	        		$fn = 'http://imdb.com/title/' . $film['Film']['imdb_id'];
+            		$imdb_website = file_get_contents($fn);
+		    		Cache::write('Catalog.film_imdbinfo_' . $id, $imdb_website, 'searchres');
+        		}
         	}
 	        App::import('Vendor', 'IMDB_Parser', array('file' => 'class.imdb_parser.php'));
 	        App::import('Vendor', 'IMDB_Parser2', array('file' => 'class.imdb_parser2.php'));

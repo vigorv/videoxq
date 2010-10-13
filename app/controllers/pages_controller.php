@@ -18,12 +18,15 @@ class PagesController extends AppController {
     	$this->redirect('/');
     }
 
-
     function not_found()
     {
     	$this->cakeError('error404');
     }
 
+    function not_translate()
+    {
+
+    }
 
     function view($id = null) {
         if (!$id) {
@@ -31,7 +34,13 @@ class PagesController extends AppController {
             $this->redirect('/');
         }
 
-        if (is_numeric($id) && $page = $this->Page->findById($id))
+		$lang = Configure::read('Config.language');
+		if (($lang == _ENG_) && ($id != 'reklama') && ($id != 'kontaktyi') && ($id != 'nashi-partneryi'))
+		{
+            $this->redirect('/pages/not_translate');
+    	}
+
+		if (is_numeric($id) && $page = $this->Page->findById($id))
             $this->set('page', $page);
         elseif ($page = $this->Page->findByUrl($id))
             $this->set('page', $page);

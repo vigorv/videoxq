@@ -92,7 +92,7 @@ $BlockBanner->setIsWS($isWS);
             </td>
             <td class="right_menu_text">
 <?php
-/*
+//*
 if (Configure::read('Config.language') == _RUS_)
 {
 	echo '<img title="Русский" src="/img/rus_a.gif" width="20" />';
@@ -163,9 +163,13 @@ else
 		'/media' => __("Video", true),
 		'/people' => __("People", true),
 		'/forum' => __("Forum", true),
-		'/pages/faq' => 'FAQ',
-		'/basket' => __("Downloads", true),
 	);
+	if (Configure::read('Config.language') == _RUS_)
+	{
+		$menuItems['/pages/faq']	= 'FAQ';
+		$menuItems['/basket']		= __("Downloads", true);
+
+	}
 	foreach ($menuItems as $key => $value)
 	{
 		$current = '';

@@ -8384,3 +8384,12 @@ msgstr "последняя"
 
 msgid "forward"
 msgstr "прокрутка вперед"
+
+msgid "Sorry, we do not have a detailed description of the movie"
+msgstr "Извините, у нас нет подробного описания фильма"
+
+msgid "Sorry, this page is not translated yet"
+msgstr "Извините, эта страница еще не переведена"
+
+msgid "Sorry, user registration is temporarily suspended"
+msgstr "Извините, регистрация пользователей временно приостановлена"

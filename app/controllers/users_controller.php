@@ -199,9 +199,20 @@ if ($this->data["User"]["username"] == 'vanoveb')
     	$this->render();
     }
 
+	function suspend()
+	{
+	}
+
     function register()
     {
-        if (empty($this->data))
+		$lang = Configure::read('Config.language');
+		$langFix = '';
+		if ($lang == _ENG_)
+		{
+			$this->redirect('suspend');
+		}
+
+		if (empty($this->data))
             return;
 
         if (isset($this->data['User']['password2']))

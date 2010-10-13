@@ -1,4 +1,10 @@
 <?php
+if (($lang == _ENG_) && (empty($imdb_website)))
+{
+	echo __('Sorry, we do not have a detailed description of the movie', true) . ' &laquo;' . $film['Film']['title_en'] . '&raquo;';
+}
+else
+{
 /*
 echo '
 <script type="text/javascript">
@@ -899,3 +905,6 @@ if (!empty($threadInfo))
 		return false;
 	}
 </script>
+<?php
+}
+?>
