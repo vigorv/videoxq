@@ -1878,7 +1878,7 @@ $this->set("catalogVariants", $catalogVariants);
 					{
 						$lst[$key]['Vbpost']['pagetext'] = $uuConverter->unicodeToUtf(Utils::transUbbTags($val['Vbpost']['pagetext']));
 					}
-					$threadInfo['stat'] = __('showing') . ' ' . count($lst) . ' ' . __('posts. Total', true) . ' ' . $threadData['Thread']['replycount'];
+					$threadInfo['stat'] = __('showing', true) . ' ' . count($lst) . ' ' . __('posts. Total', true) . ' ' . $threadData['Thread']['replycount'];
 				}
 				$threadInfo['lst'] = $lst;
 			}
