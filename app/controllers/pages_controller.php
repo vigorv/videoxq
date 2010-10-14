@@ -35,7 +35,7 @@ class PagesController extends AppController {
         }
 
 		$lang = Configure::read('Config.language');
-		if (($lang == _ENG_) && ($id != 'reklama') && ($id != 'kontaktyi') && ($id != 'nashi-partneryi'))
+		if (($lang == _ENG_) && ($id != 'reklama_en') && ($id != 'kontaktyi_en') && ($id != 'nashi-partneryi_en'))
 		{
             $this->redirect('/pages/not_translate');
     	}
