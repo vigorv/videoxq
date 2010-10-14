@@ -8331,7 +8331,7 @@ msgstr "Чтобы не ждать"
 msgid "Buy VIP"
 msgstr "купи VIP"
 
-msgid "If you have any problems with obtaining references, write"
+msgid "If you have any problems with obtaining links, write"
 msgstr "Если у вас возникли проблемы с получением ссылок, пишите"
 
 msgid "to the forum"
@@ -8393,3 +8393,12 @@ msgstr "Извините, эта страница еще не переведен
 
 msgid "Sorry, user registration is temporarily suspended"
 msgstr "Извините, регистрация пользователей временно приостановлена"
+
+msgid "Search for person"
+msgstr "Найти лицедея"
+
+msgid "support_forum_link"
+msgstr "/forum/showthread.php?t=6"
+
+msgid "root_forum_link"
+msgstr "/forum/forumdisplay.php?f=1"

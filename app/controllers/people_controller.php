@@ -12,7 +12,13 @@ class PeopleController extends AppController {
             $this->redirect('/people');
         }
 
-        $this->Person->recursive = 1;
+		$lang = Configure::read('Config.language');
+		$langFix = '';
+		if ($lang == _ENG_) $langFix = '_' . _ENG_;
+        $this->set('lang', $lang);
+		$this->set('langFix', $langFix);
+
+		$this->Person->recursive = 1;
 	//if(!$films=Cache::read('Catalog.person_'.$id.'_film','people'))
         {
     	    $films = $this->Person->getPersonFilms($id);
@@ -54,6 +60,11 @@ class PeopleController extends AppController {
                                   'search' => urlencode($this->data['Person']['search'])));
         }
 
+		$lang = Configure::read('Config.language');
+		$langFix = '';
+		if ($lang == _ENG_) $langFix = '_' . _ENG_;
+        $this->set('lang', $lang);
+		$this->set('langFix', $langFix);
 
         if (!empty($this->params['named']['search'])
             && strlen($this->params['named']['search']) > 3)
@@ -80,7 +91,14 @@ class PeopleController extends AppController {
             $people = array();
             foreach ($result as $person)
             {
-                $letter = $person['Person']['name'] ? $person['Person']['name'] : $person['Person']['name_en'];
+            	if ($lang == _ENG_)
+            	{
+            		if (empty($person['Person']['name' . $langFix]))
+            			continue;
+                	$letter = $person['Person']['name' . $langFix];
+            	}
+                else
+                	$letter = $person['Person']['name'] ? $person['Person']['name'] : $person['Person']['name_en'];
                 $letter = mb_substr($letter, 0, 1, 'utf-8');
                 $people[$letter][] = $person;
             }
@@ -105,7 +123,13 @@ class PeopleController extends AppController {
         if (!$letter)
             $this->redirect('/people');
 
-        $this->pageTitle = __('Video catalog', true) . ' - ' . __('People', true) . ' - ' . $letter;
+		$lang = Configure::read('Config.language');
+		$langFix = '';
+		if ($lang == _ENG_) $langFix = '_' . _ENG_;
+        $this->set('lang', $lang);
+		$this->set('langFix', $langFix);
+
+		$this->pageTitle = __('Video catalog', true) . ' - ' . __('People', true) . ' - ' . $letter;
 
         $this->set('alphabet', $this->Person->getAlphabet());
         $this->Person->contain();

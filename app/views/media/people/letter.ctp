@@ -4,6 +4,10 @@
     //pr($this->params);
     foreach ($alphabet as $letter)
     {
+    	if ($lang == _ENG_)
+    	{
+    		if ((strtolower($letter) < 'a') || (strtolower($letter) > 'z')) continue;
+    	}
         if (strtolower($this->params['pass'][0]) == strtolower($letter))
             echo '<li><strong>' . $letter . '</strong></li>';
         else
@@ -18,7 +22,7 @@
 <div id="faces">
     <form class="searchName" action="/people/index" method="post">
         <input type="text" class="textInput" name="data[Person][search]">
-        <input type="submit" class="button" value="Найти лицедея">
+        <input type="submit" class="button" value="<?php __('Search for person'); ?>">
     </form>
     <div class="column">
             <h2><?= $this->params['pass'][0] ?></h2>
@@ -32,7 +36,15 @@
                 for ($row = 0; $row < ceil(count($people)/3); $row++):
                     $idx = $col + $row * 3;
                     if (isset($people[$idx])):
-                    $name = $people[$idx]['Person']['name'] ? $people[$idx]['Person']['name'] : $people[$idx]['Person']['name_en'];
+
+                    if ($lang == _ENG_)
+                    {
+                    	if (empty($people[$idx]['Person']['name' . $langFix]))
+                    		continue;
+                    	$name = $people[$idx]['Person']['name' . $langFix];
+                    }
+                    else
+                    	$name = $people[$idx]['Person']['name'] ? $people[$idx]['Person']['name'] : $people[$idx]['Person']['name_en'];
                 ?>
                     <li><a href="/people/view/<?= $people[$idx]['Person']['id'] ?>"><?= $name ?></a></li>
                 <?php

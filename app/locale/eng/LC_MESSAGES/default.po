@@ -93,3 +93,10 @@ msgstr "catalog"
 
 msgid "cataloga"
 msgstr "catalog"
+
+msgid "support_forum_link"
+msgstr "/forum/showthread.php?t=10"
+
+msgid "root_forum_link"
+msgstr "/forum/forumdisplay.php?f=5"
+

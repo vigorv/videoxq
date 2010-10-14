@@ -163,7 +163,7 @@ echo $BlockBanner->getBanner('antonina_left');
 		echo '<br /><h3>' . __('Don`t want to wait?', true) . ' - <a href="/pays">' . __('Buy VIP', true) . '</a></h3>';
 	}
 ?>
-<br /><h3><?php __('If you have any problems with obtaining references, write'); ?> <a href="http://www.videoxq.com/forum/showthread.php?t=6"><?php __('to the forum'); ?></a></h3>
+<br /><h3><?php __('If you have any problems with obtaining links, write'); ?> <a href="http://www.videoxq.com<?php __('support_forum_link'); ?>"><?php __('to the forum'); ?></a></h3>
 <?php
 echo $BlockBanner->getBanner('antonina_bottom');
 ?>

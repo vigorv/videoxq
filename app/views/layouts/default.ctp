@@ -63,7 +63,7 @@ echo $scripts_for_layout;
 <?php
 if (isset($authUserGroups) && in_array(Configure::read('VIPgroupId'), $authUserGroups))
 {
-	//ДЛЯ ВИПОВ БЛОКИ С БАННЕРАМИ ВЫРЕЗАЕМ
+	//ДЛЯ В�?ПОВ БЛОК�? С БАННЕРАМ�? ВЫРЕЗАЕМ
 	foreach ($blockContent as $bi => $b)
 	{
 		if (is_array($b) && count($b) > 0)
@@ -93,6 +93,7 @@ $BlockBanner->setIsWS($isWS);
             <td class="right_menu_text">
 <?php
 //*
+$langFix = '';
 if (Configure::read('Config.language') == _RUS_)
 {
 	echo '<img title="Русский" src="/img/rus_a.gif" width="20" />';
@@ -100,6 +101,7 @@ if (Configure::read('Config.language') == _RUS_)
 }
 else
 {
+	$langFix = '_' . _ENG_;
 	echo '<a title="Русский" href="/' . _RUS_ . '.php"><img title="Русский" src="/img/rus.gif" width="16" /></a>';
 	echo '&nbsp;&nbsp;<img title="English" src="/img/eng_a.gif" width="20" />';
 }
@@ -162,14 +164,19 @@ else
 	$menuItems = array(
 		'/media' => __("Video", true),
 		'/people' => __("People", true),
-		'/forum' => __("Forum", true),
 	);
 	if (Configure::read('Config.language') == _RUS_)
 	{
+		$menuItems[__("root_forum_link", true)]	= __("Forum", true);
 		$menuItems['/pages/faq']	= 'FAQ';
 		$menuItems['/basket']		= __("Downloads", true);
 
 	}
+	else
+	{
+		$menuItems[__("root_forum_link", true)]	= __("Forum", true);
+	}
+
 	foreach ($menuItems as $key => $value)
 	{
 		$current = '';
@@ -198,7 +205,7 @@ else
 <?php
 if (isset($authUserGroups) && in_array(Configure::read('VIPgroupId'), $authUserGroups))
 {
-	//ДЛЯ ВИПОВ БЛОКИ С БАННЕРАМИ ВЫРЕЗАЕМ
+	//ДЛЯ В�?ПОВ БЛОК�? С БАННЕРАМ�? ВЫРЕЗАЕМ
 /*
 	echo'<pre>';
 	print_r($blockContent);
@@ -330,11 +337,11 @@ try { var yaCounter1094491 = new Ya.Metrika(1094491); } catch(e){}
                 <div>
                 	&nbsp;<?php __("Patent Media"); ?>
                 	|
-					<a href="/pages/reklama"><?php __("Advertisement"); ?></a>
+					<a href="/pages/reklama<?php echo $langFix;?>"><?php __("Advertisement"); ?></a>
 					|
-					<a href="/pages/kontaktyi"><?php __("Contacts"); ?></a>
+					<a href="/pages/kontaktyi<?php echo $langFix;?>"><?php __("Contacts"); ?></a>
 					|
-					<a href="/pages/nashi-partneryi"><?php __("Partners"); ?></a>
+					<a href="/pages/nashi-partneryi<?php echo $langFix;?>"><?php __("Partners"); ?></a>
                 </div>
               </td>
               <td class="bottom_block">&nbsp;</td>

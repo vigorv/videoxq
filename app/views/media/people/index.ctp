@@ -5,8 +5,8 @@ if (!empty($search_words))
 {
    foreach ($search_words as $searchWord)
    {
-       echo '<h3>Возможно, то, что вы ищите находится ';
-       echo '<a href="'. $searchWord['SearchWord']['url'] . '">здесь</a>';
+       echo '<h3>' . __('Perhaps what you are looking for is', true) . ' ';
+       echo '<a href="'. $searchWord['SearchWord']['url'] . '">' . __('here', true) . '</a>';
        echo '</h3><br>';
    }
 }
@@ -17,6 +17,10 @@ if (!empty($search_words))
     ksort($people);
     foreach (array_keys($people) as $letter)
     {
+    	if ($lang == _ENG_)
+    	{
+    		if ((strtolower($letter) < 'a') || (strtolower($letter) > 'z')) continue;
+    	}
         echo '<li><a href="/people/letter/' . $letter . '">' . $letter . '</a></li>';
         if (strtolower($letter) == 'z')
             echo '</ul><ul>';
@@ -32,7 +36,7 @@ if (!empty($search_words))
 ?>
     <form class="searchName" action="/people/index" method="post">
         <input type="text" class="textInput" name="data[Person][search]">
-        <input type="submit" class="button" value="Найти лицедея">
+        <input type="submit" class="button" value="<?php __('Search for person'); ?>">
     </form>
     <div class="column">
     <?php
@@ -49,7 +53,12 @@ function sortsize($a, $b)
     }
     foreach ($people as $letter => $persons)
     {
-	    if (!empty($isSearch))
+    	if ($lang == _ENG_)
+    	{
+    		if ((strtolower($letter) < 'a') || (strtolower($letter) > 'z')) continue;
+    	}
+
+    	if (!empty($isSearch))
     		$letter = mb_substr($persons[0]['Person']['name'], 0, 1);
         ?>
         <div>
@@ -58,7 +67,13 @@ function sortsize($a, $b)
         <?php
         foreach ($persons as $person)
         {
-            $name = $person['Person']['name'] ? $person['Person']['name'] : $person['Person']['name_en'];
+        	if ($lang == _ENG_)
+        	{
+            	if (empty($person['Person']['name' . $langFix])) continue;
+            	$name = $person['Person']['name' . $langFix];
+        	}
+            else
+            	$name = $person['Person']['name'] ? $person['Person']['name'] : $person['Person']['name_en'];
             echo '<li><a href="/people/view/' . $person['Person']['id'] . '">' . $name . '</a></li>';
         }
     ?>
