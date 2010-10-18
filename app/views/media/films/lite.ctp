@@ -158,7 +158,7 @@ echo $BlockBanner->getBanner('antonina_left');
 		echo '<br /><h3>Хочешь получать ссылки в два раза быстрее? <a href="/users/register">Зарегистрируйся</a></h3>';
 	}
 */
-	if (!empty($authUserGroups) || !in_array(Configure::read('VIPgroupId'), $authUserGroups))
+	if (!empty($authUserGroups) && !in_array(Configure::read('VIPgroupId'), $authUserGroups))
 	{
 		echo '<br /><h3>' . __('Don`t want to wait?', true) . ' - <a href="/pays">' . __('Buy VIP', true) . '</a></h3>';
 	}

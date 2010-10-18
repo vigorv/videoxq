@@ -321,13 +321,19 @@ screen.colorDepth:screen.pixelDepth))+";u"+escape(document.URL)+
   })();
 //-->
 </script>
+
 <!-- Yandex.Metrika -->
 <script src="//mc.yandex.ru/metrika/watch.js" type="text/javascript"></script>
 <div style="display:none;"><script type="text/javascript">
-try { var yaCounter1094491 = new Ya.Metrika(1094491); } catch(e){}
+try { var yaCounter1094491 = new Ya.Metrika(1094491);
+yaCounter1094491.clickmap();
+yaCounter1094491.trackLinks({external: true});
+} catch(e){}
 </script></div>
-<noscript><div style="position:absolute;"><img src="//mc.yandex.ru/watch/1094491" alt="" /></div></noscript>
+<noscript><div style="position:absolute"><img src="//mc.yandex.ru/watch/1094491" alt=""
+/></div></noscript>
 <!-- /Yandex.Metrika -->
+
 <br />
 <div style="z-index: 3; position: absolute;">
         <table cellspacing="0" cellpadding="0" width="100%" border="0">

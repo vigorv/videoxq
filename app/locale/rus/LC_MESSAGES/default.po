@@ -8402,3 +8402,6 @@ msgstr "/forum/showthread.php?t=6"
 
 msgid "root_forum_link"
 msgstr "/forum/forumdisplay.php?f=1"
+
+msgid "Download available just for registered users"
+msgstr "Загрузка доступна только для зарегистрированных пользователей"
