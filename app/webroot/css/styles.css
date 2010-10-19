@@ -8,12 +8,9 @@ BODY, INPUT, DIV, TABLE{
 	font-size: 92%;
 }
 
-p
-{
-	color: #666666;
-	font-size: 1em;
-}
-
+/*
+p { color: #666666;	font-size: 1em;}
+*/
 A {
 	color: #5d9bc7;
 	text-decoration: none;
