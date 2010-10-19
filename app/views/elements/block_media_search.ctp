@@ -77,36 +77,38 @@
 //*/
     echo $form->text("Film." . $searchName, array('class' => 'textInput', 'width' => '250', 'id' => 'adv-title', 'value' => $value, 'onclick' => $onclick, 'onfocus' => $onclick, 'onblur' => $onblur));
             ?>
-            <p class="adv"><label for="adv-genre"><?php __("Genre"); ?>:</label><br>
+            <p class="adv2"><label for="adv-genre"><?php __("Genre"); ?>:</label><br>
             <?= $form->select('genre', $block_media_genres['genres'], null, array('class' => 'textInput', 'id' => "adv-genre"), __("All genres", true)); ?>
             </p>
-            <p class="adv"><label for="adv-country"><?php __("Country"); ?>:</label><br>
+            <p class="adv2"><label for="adv-country"><?php __("Country"); ?>:</label><br>
             <?= $form->select('country', $block_media_genres['countries'], null, array('class' => 'textInput', 'id' => "adv-country"), __("All countries", true)); ?>
             </p>
-            <p class="adv"><label for="adv-type"><?php __("Type"); ?>:</label><br>
+            <p class="adv2"><label for="adv-type"><?php __("Type"); ?>:</label><br>
             <?= $form->select('type', $block_media_genres['types'], null, array('class' => 'textInput', 'id' => "adv-type"), __("All types", true)); ?>
             </p>
-            <p class="adv adv-term">IMDb &mdash; <?php __("from"); ?>
+            <p class="adv2 adv-term">IMDb &mdash; <?php __("from"); ?>
             <?= $form->select('imdb_start', $block_media_genres['imdb'], null, array('class' => 'textInput', 'style' => "width:40px;")); ?>
             <?php __("to"); ?> <?= $form->select('imdb_end', $block_media_genres['imdb'], null, array('class' => 'textInput', 'style' => "width:40px;")); ?>
             </p>
-            <p class="adv adv-term"><?php __("year"); ?> &mdash; <?php __("from"); ?> <?= $form->text('year_start', array('class' => 'textInput')); ?> <?php __("to"); ?> <?= $form->text('year_end', array('class' => 'textInput')); ?></p>
-            <p class="adv adv-term"><?= $form->checkbox('is_license', array('value' => 1, 'checked' => ($block_media_genres['is_license']) ? 'checked' : ''));?> <?php __("downloadable"); ?> <a href="/pages/faq#checkbox"><span style="border: 1px solid black;">&nbsp;?&nbsp;</span></a></p>
-            <p class="adv"><?php __("Sort by"); ?>:<br>
+            <p class="adv2 adv-term"><?php __("year"); ?> &mdash; <?php __("from"); ?> <?= $form->text('year_start', array('class' => 'textInput')); ?> <?php __("to"); ?> <?= $form->text('year_end', array('class' => 'textInput')); ?></p>
+            <p class="adv2 adv-term"><?= $form->checkbox('is_license', array('value' => 1, 'checked' => ($block_media_genres['is_license']) ? 'checked' : ''));?> <?php __("downloadable"); ?> <a href="/pages/faq#checkbox"><span style="border: 1px solid black;">&nbsp;?&nbsp;</span></a></p>
+            <p class="adv2"><?php __("Sort by"); ?>:<br>
             <?= $form->radio('sort', $block_media_genres['sort'], array('separator' => '<br>', 'legend' => false));?>
             <?= $form->hidden('direction', array('value' => '1')); ?>
             </p>
             <p><input type="submit" value="<?php __("Search"); ?>" class="button"> <a href="#" class="dashed"><?php __("Advanced Search"); ?></a></p>
         <script type="text/javascript">
         <!--
+		//$('p.adv').toggle();
 <?php
 	if (!empty($passedParams['ex'])) {
 ?>
-			$('p.adv').toggle();
+			$('p.adv2').toggle();
 <?php } ?>
             $(document).ready(function(){
                 $('a.dashed').click(function(){
-					$("p.adv").toggle();
+					$("p.adv2").toggle();
+
 					at = document.getElementById('adv-title');
                     if (at.name == 'data[Film][searchsimple]')
                         at.name = 'data[Film][search]';
