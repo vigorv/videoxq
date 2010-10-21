@@ -759,7 +759,7 @@ class PaysController extends AppController
 		$field["Sign"] = strtoupper($_POST['SignatureValue']);
 
 		$secret_code	= Configure::read('erbx.pass2');
-		$signature 		= strtoupper(($field["OutSum"] . ':' . $field["InvId"] . ':' . $secret_code));
+		$signature 		= strtoupper(md5($field["OutSum"] . ':' . $field["InvId"] . ':' . $secret_code));
 
 		$this->payLog("ResultUrl (resultpay) ERBX");
 		$this->payLog(serialize($_POST), '$_POST', 0);
