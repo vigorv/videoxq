@@ -775,7 +775,7 @@ class PaysController extends AppController
 				$payData['Pay']['paydate'] = time();
 				$payData['Pay']['summ'] = $amount;
 
-				$out_summ = $fields["WMI_PAYMENT_AMOUNT"];
+				$out_summ = $amount;
 				//ДАТУ "ПРОПЛАЧЕНО ПО" СЧИТАЕМ ОТ ПОСЛЕДНЕЙ ОПЛАЧЕННОЙ
 				$months = 0;
 				$weeks = 0;
