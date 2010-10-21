@@ -1,3 +1,3 @@
 <?php
 	if (!empty($result))
-		echo $result;
+		echo "OK" . $result . "\n";
