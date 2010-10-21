@@ -756,10 +756,10 @@ class PaysController extends AppController
 
 		$field["OutSum"] = $_POST['OutSum'];
 		$field["InvId"] = intval($_POST['InvId']);
-		$field["Sign"] = $_POST['SignatureValue'];
+		$field["Sign"] = strtoupper($_POST['SignatureValue']);
 
 		$secret_code	= Configure::read('erbx.pass2');
-		$signature 		= md5($field["OutSum"] . ':' . $field["InvId"] . ':' . $secret_code);
+		$signature 		= strtoupper(($field["OutSum"] . ':' . $field["InvId"] . ':' . $secret_code));
 
 		$this->payLog("ResultUrl (resultpay) ERBX");
 		$this->payLog(serialize($_POST), '$_POST', 0);
@@ -826,7 +826,7 @@ class PaysController extends AppController
 			$this->set("result". "OK" . $field['InvId']);
 			break;
 			}
-		$this->payLog("ResultUrl (resultpay): Bad signature", $_POST["WMI_PAYMENT_NO"], $_POST["WMI_PAYMENT_AMOUNT"]);
+		$this->payLog("ResultUrl (resultpay): Bad signature");
     }
 
 
