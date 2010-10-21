@@ -8020,7 +8020,7 @@ msgid "Pay/extend access to electronic money"
 msgstr "Оплатить/продлить доступ электронными деньгами"
 
 msgid "Pay/extend access through the service"
-msgstr "Оплатить/продлить доступ электронной картой через сервис"
+msgstr "Оплатить/продлить доступ банковской картой через сервис"
 
 msgid "assist description1"
 msgstr "Оплата по банковским картам через систему электронных платежей Assist производится путем переадресации на сайт <a target=\"_blank\" title=\"assist.ru\" href=\"http://www.assist.ru\">www.assist.ru</a>. В системе ASSIST безопасность платежей обеспечивается использованием SSL протокола для передачи конфиденциальной информации от Пользователя на сервер системы ASSIST для дальнейшей обработки. Дальнейшая передача информации осуществляется по закрытым банковским сетям высшей степени защиты."
@@ -8405,3 +8405,6 @@ msgstr "/forum/forumdisplay.php?f=1"
 
 msgid "Download available just for registered users"
 msgstr "Загрузка доступна только для зарегистрированных пользователей"
+
+msgid "Pay/extend access by electronic money or e-cards"
+msgstr "Оплатить/продлить доступ электронными деньгами или банковской картой"
