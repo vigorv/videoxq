@@ -823,7 +823,7 @@ class PaysController extends AppController
                 /*subj*/Configure::read('App.siteName') . ' - ' . __('payment success', true),
                 /*body*/__('Dear', true) . " " . __("User", true) . ", " . $userInfo['User']['username'] . ".\n" . __('Received payment from you. Amount', true) . " " . $payData['Pay']['summ'] . " у.е.\n\n" . __("Thank you") . ".\n" . Configure::read('App.siteName') . " Robot");
 			}
-			$this->set("result". "OK" . $field['InvId']);
+			$this->set("result", "OK" . $field['InvId']);
 			break;
 			}
 		$this->payLog("ResultUrl (resultpay): Bad signature");
