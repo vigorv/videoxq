@@ -1360,6 +1360,13 @@ class PaysController extends AppController
 		);
 		$this->set('payDesc', $payDesc);
 
+		$erbxPerMonth	= Configure::read('erbx.costPerMonth');
+		$this->set('erbxPerMonth', $perMonth);
+		$erbxPerWeek	= Configure::read('erbx.costPerWeek');
+		$this->set('erbxPerWeek', $perWeek);
+		$erbxPerDay		= Configure::read('erbx.costPerDay');
+		$this->set('erbxPerDay', $perDay);
+
 		$smsPerMonth	= Configure::read('Sms.costPerMonth');
 		$this->set('smsPerMonth', $smsPerMonth);
 		$smsPerWeek	= Configure::read('Sms.costPerWeek');
