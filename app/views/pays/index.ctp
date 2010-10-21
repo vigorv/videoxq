@@ -63,9 +63,9 @@ if ($summ == 0)
 </div>
 </td></tr>
 <tr><td>
-<ul><b><?php __('Pay/extend access to electronic money'); ?>:</b>
-	<li><a href="/pays/index/<?php echo $perWeek;?>"><?php echo $payDesc[$perWeek];?></a> (<?php echo $perWeek;?> WMR)</li>
-	<li><a href="/pays/index/<?php echo $perMonth;?>"><?php echo $payDesc[$perMonth];?></a> (<?php echo $perMonth;?> WMR)</li>
+<ul><b><?php __('Pay/extend access by electronic money or e-cards'); ?>:</b>
+	<li><a href="/pays/erbx/<?php echo $erbxPerWeek;?>"><?php echo $payDesc[$erbxPerWeek];?></a> (<?php echo $erbxPerWeek;?> RUR)</li>
+	<li><a href="/pays/erbx/<?php echo $erbxPerMonth;?>"><?php echo $payDesc[$erbxPerMonth];?></a> (<?php echo $erbxPerMonth;?> RUR)</li>
 </ul>
 </td>
 <td>
