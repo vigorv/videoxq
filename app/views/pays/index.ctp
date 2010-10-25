@@ -120,6 +120,9 @@ if ($summ == 0)
 		{
 			switch ($l['Pay']['paysystem'])
 			{
+				case _PAY_PAYPAL_:
+					$valute = Configure::read('paypal.currency');
+				break;
 				case _PAY_SMSCOIN_:
 					$valute = 'у.е.';
 				break;
