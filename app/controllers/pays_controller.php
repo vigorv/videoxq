@@ -7,6 +7,7 @@
 	define('_PAY_ASSIST_',	2);
 	define('_PAY_W1_',		3);
 	define('_PAY_ERBX_',	4);
+	define('_PAY_PAYPAL_',	5);
 
 class PaysController extends AppController
 {
@@ -931,10 +932,10 @@ class PaysController extends AppController
 				$data.= 'EPBeelinePayment=1';
 
 				$data.= '&';
-				$data.= 'CardPayment=0';
+				$data.= 'CardPayment=1';
 
 				$data.= '&';
-				$data.= 'AssistIDCCPayment=0';
+				$data.= 'AssistIDCCPayment=1';
 
 				if (Configure::read('Assist.testMode'))
 				{
@@ -1466,4 +1467,272 @@ class PaysController extends AppController
 		$this->Useragreement->save($info);
 		$this->redirect('/pays');
 	}
+
+	function getPaypalEnvironment()
+	{
+		return 'sandbox';
+	}
+	/**
+	 * Send HTTP POST Request
+	 *
+	 * @param	string	The API method name
+	 * @param	string	The POST Message fields in &name=value pair format
+	 * @return	array	Parsed HTTP Response body
+	 */
+	function paypalRequest($methodName_, $nvpStr_)
+	{
+		$environment = $this->getPaypalEnvironment();	// or 'beta-sandbox' or 'live'
+
+		// Set up your API credentials, PayPal end point, and API version.
+		$API_UserName = urlencode(Configure::read('paypal.username'));
+		$API_Password = urlencode(Configure::read('paypal.password'));
+		$API_Signature = urlencode(Configure::read('paypal.signature'));
+		$API_Endpoint = "https://api-3t.paypal.com/nvp";
+		if("sandbox" === $environment || "beta-sandbox" === $environment) {
+			$API_Endpoint = "https://api-3t.$environment.paypal.com/nvp";
+		}
+		$version = urlencode('56.0');
+
+		// Set the curl parameters.
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, $API_Endpoint);
+		curl_setopt($ch, CURLOPT_VERBOSE, 1);
+
+		// Turn off the server and peer verification (TrustManager Concept).
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_POST, 1);
+
+		// Set the API operation, version, and API signature in the request.
+		$nvpreq = "METHOD=$methodName_&VERSION=$version&PWD=$API_Password&USER=$API_UserName&SIGNATURE=$API_Signature$nvpStr_";
+
+		// Set the request as a POST FIELD for curl.
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $nvpreq);
+
+		// Get response from the server.
+		$httpResponse = curl_exec($ch);
+
+		if(!$httpResponse) {
+			exit("$methodName_ failed: ".curl_error($ch).'('.curl_errno($ch).')');
+		}
+
+		// Extract the response details.
+		$httpResponseAr = explode("&", $httpResponse);
+
+		$httpParsedResponseAr = array();
+		foreach ($httpResponseAr as $i => $value) {
+			$tmpAr = explode("=", $value);
+			if(sizeof($tmpAr) > 1) {
+				$httpParsedResponseAr[$tmpAr[0]] = $tmpAr[1];
+			}
+		}
+
+		if((0 == sizeof($httpParsedResponseAr)) || !array_key_exists('ACK', $httpParsedResponseAr)) {
+			return false;
+			//exit("Invalid HTTP Response for POST request($nvpreq) to $API_Endpoint.");
+		}
+
+		return $httpParsedResponseAr;
+	}
+
+    /**
+     *
+     * генерация ссылок на оплату через PayPal
+     *
+     * @param integer $summ
+     */
+	public function paypal($summ = 0)
+	{
+		if (empty($this->authUser['userid']))
+			$summ = -1;//СЕРВИС ПРИОСТАНОВДЕН
+		$perMonth	= Configure::read('paypal.costPerMonth');
+		$this->set('perMonth', $perMonth);
+		$perWeek	= Configure::read('paypal.costPerWeek');
+		$this->set('perWeek', $perWeek);
+		$perDay		= Configure::read('paypal.costPerDay');
+		$this->set('perDay', $perDay);
+		$payDesc = array(
+			$perDay		=> Configure::read('descPerDay'),
+			$perWeek	=> Configure::read('descPerWeek'),
+			$perMonth	=> Configure::read('descPerMonth'),
+		);
+		$this->set('payDesc', $payDesc);
+
+		if ($summ > 0)
+		{
+			if (empty($this->authUser['userid']))
+			{
+				$this->redirect('/users/login');
+			}
+	    	$allowDownload = checkAllowedMasks(Configure::read('Catalog.allowedIPs'), $_SERVER['REMOTE_ADDR']);
+	    	if (!$allowDownload)
+	    	{
+				//$this->redirect('/pays/notsupport');
+	    	}
+
+			$out_summ = sprintf("%01.2f", (float)($summ));
+			$payData = array('Pay' => array(
+					'user_id'	=> $this->authUser['userid'],
+			));
+			$payData['Pay']['created']	= time();
+			$payData['Pay']['summ']		= $out_summ;
+			$payData['Pay']['paysystem']= _PAY_PAYPAL_;
+
+			if ($this->Pay->save($payData))
+			{
+				$this->layout = 'ajax';
+				// информация об оплате
+				$payData['Pay']['id'] = $this->Pay->getLastInsertID();
+
+				$fields = array(
+					"pay_id"		=> $payData['Pay']['id'],
+					"Amt"			=> $out_summ,
+					"PAYMENTACTION"	=> "Authorization",
+					"CURRENCYCODE"	=> Configure::read('paypal.currency'),
+					"ReturnUrl"		=> "http://www.videoxq.com/pays/paypalok",
+					"CANCELURL"		=> "http://www.videoxq.com/pays/paypalno",
+				);
+
+				$data = ''; $amp = '&';
+				foreach ($fields as $key => $value)
+				{
+					$data .= $amp . $key . '=' . urlencode($value);
+				}
+
+				// Execute the API operation; see the PPHttpPost function above.
+				$httpParsedResponseAr = $this->paypalRequest('SetExpressCheckout', $data);
+
+				$this->payLog("PayPal payment", $payData['Pay']['id'], $out_summ);
+				$this->payLog(serialize($httpParsedResponseAr), 'PayPal Answer', 0);
+
+				$payPalURL = '';
+
+				if("SUCCESS" == strtoupper($httpParsedResponseAr["ACK"]) || "SUCCESSWITHWARNING" == strtoupper($httpParsedResponseAr["ACK"])) {
+					// Redirect to paypal.com.
+					$environment = $this->getPaypalEnvironment();
+					$token = urldecode($httpParsedResponseAr["TOKEN"]);
+					$payPalURL = "https://www.paypal.com/webscr&cmd=_express-checkout&token=$token";
+					if("sandbox" === $environment || "beta-sandbox" === $environment) {
+						$payPalURL = "https://www.$environment.paypal.com/webscr&cmd=_express-checkout&token=$token";
+					}
+					$payData = array(
+						"Pay" => array(
+							"id" => $fields["pay_id"],
+							"info" => $token,
+						)
+					);
+					$this->Pay->save($payData);
+
+					$this->redirect($payPalURL);
+				} else  {
+					exit('SetExpressCheckout failed: ' . print_r($httpParsedResponseAr, true));
+				}
+
+				$host = $payPalURL;
+
+				$this->set('host', $host);
+				$this->set('data', $data);
+			}
+		}
+	}
+
+    /**
+     * resultURL for PayPal payment
+     * обработчик ответа от платежной системы
+     * меняет статус записи об оплате
+     *
+     */
+    public function paypalok()
+    {
+    	$this->layout = 'ajax';
+		// as a part of ResultURL script
+		// your registration data
+
+		$perMonth	= Configure::read('paypal.costPerMonth');
+		$perWeek	= Configure::read('paypal.costPerWeek');
+		$perDay		= Configure::read('paypal.costPerDay');
+
+		$this->payLog("PayPal OK", 0, 0);
+		$this->payLog(serialize($_REQUEST), 'PayPal Request OK', 0);
+
+		if (empty($_REQUEST['token']))
+		{
+			$this->redirect('/pays/paypalno');
+		}
+		$token = urlencode(htmlspecialchars($_REQUEST['token']));
+
+		// success, proceeding
+		$payData = $this->Pay->find(array('Pay.info' => $token));
+		if (!empty($payData) && ($payData['Pay']['status'] == _PAY_WAIT_))
+		{
+			$payData['Pay']['status'] = _PAY_DONE_;
+			$payData['Pay']['paydate'] = time();
+			$payData['Pay']['summ'] = $amount;
+
+			$out_summ = $amount;
+			//ДАТУ "ПРОПЛАЧЕНО ПО" СЧИТАЕМ ОТ ПОСЛЕДНЕЙ ОПЛАЧЕННОЙ
+			$months = 0;
+			$weeks = 0;
+			$days = 0;
+
+			$months = intval($out_summ / $perMonth);
+			$out_summ = $out_summ - $perMonth * $months;
+
+			$weeks = intval($out_summ / $perWeek);
+			$out_summ = $out_summ - $perWeek * $weeks;
+
+			$days = intval($out_summ / $perDay);
+			$out_summ = $out_summ - $perDay * $days;
+
+			$secs = ($days + $weeks * 7 + $months * 31) * 24 * 60 * 60;
+
+			$lastFinDate = $payData['Pay']['paydate'];
+			$last = $this->Pay->find(array('Pay.user_id' => $payData['Pay']['user_id'], 'Pay.status' => _PAY_DONE_), null, 'Pay.findate desc');
+			if (!empty($last))
+			{
+				if ($last['Pay']['findate'] > $lastFinDate)
+					$lastFinDate = $last['Pay']['findate'];
+
+				$last['Pay']['info'] = 'phone: ' . $phone;
+			}
+			$payData['Pay']['paydate'] = $lastFinDate;
+			$payData['Pay']['findate'] = $lastFinDate + $secs;
+			$this->Pay->save($payData);
+			$success = true;
+
+   			$sql = 'delete from groups_users where user_id = ' . $payData['Pay']['user_id'] . ' and group_id = ' . Configure::read('VIPgroupId') . ';';
+	   			$this->Pay->query($sql);
+   			$sql= 'insert into groups_users (user_id, group_id) values(' . $payData['Pay']['user_id'] . ', ' . Configure::read('VIPgroupId') . ');';
+	   			$this->Pay->query($sql);
+
+			//корректируем VIP-группу форума (это сделает beforeSave при холостом обновлении)
+				$uInfo = array('User' => array('userid' => $payData['Pay']['user_id'], 'lastactivity' => time()));
+				$this->User->save($uInfo);
+
+				Configure::write('debug', 1);
+	   			$userInfo = $this->User->read(null, $payData['Pay']['user_id']);
+	        $result = $this->_sendEmail(/*from*/Configure::read('App.mailFrom'),
+            /*to  */$userInfo['User']['username'] .
+            '<' .
+            $userInfo['User']['email'] .
+                                 '>',
+            /*subj*/Configure::read('App.siteName') . ' - ' . __('payment success', true),
+            /*body*/__('Dear', true) . " " . __("User", true) . ", " . $userInfo['User']['username'] . ".\n" . __('Received payment from you. Amount', true) . " " . $payData['Pay']['summ'] . " у.е.\n\n" . __("Thank you") . ".\n" . Configure::read('App.siteName') . " Robot");
+		}
+		$this->set('success', $success);
+    }
+
+    /**
+     * failURL for PayPal
+     *
+     */
+    public function paypalno()
+    {
+		$this->payLog("PayPal OK", 0, 0);
+		$this->payLog(serialize($_REQUEST), 'PayPal Request OK', 0);
+
+    }
+
 }
