@@ -1682,7 +1682,7 @@ class PaysController extends AppController
 			{
 				$this->redirect('/pays/paypalno');
 			}
-			$token = urlencode(htmlspecialchars($_REQUEST['token']));
+			$token = urldecode($_REQUEST['token']);
 			//$this->redirect('/pays/paypalok/' . $_REQUEST['token']);
 		}
 		//else
@@ -1700,10 +1700,14 @@ class PaysController extends AppController
 
 			$out_summ = $amount;
 
+			$token = urlencode(htmlspecialchars($_REQUEST['token']));
 			$nvpStr = "&TOKEN=$token";
 
 			// Execute the API operation; see the PPHttpPost function above.
 			$httpParsedResponseAr = $this->paypalRequest('GetExpressCheckoutDetails', $nvpStr);
+
+			$this->payLog("PayPal GetExpressCheckoutDetails", 0, 0);
+			$this->payLog(serialize($httpParsedResponseAr), 'PayPal GetExpressCheckoutDetails', 0);
 
 			if("SUCCESS" == strtoupper($httpParsedResponseAr["ACK"]) || "SUCCESSWITHWARNING" == strtoupper($httpParsedResponseAr["ACK"])) {
 				// Extract the response details.
@@ -1718,6 +1722,9 @@ class PaysController extends AppController
 
 				// Execute the API operation; see the PPHttpPost function above.
 				$httpParsedResponseAr = $this->paypalRequest('DoExpressCheckoutPayment', $nvpStr);
+
+				$this->payLog("PayPal DoExpressCheckoutPayment", 0, 0);
+				$this->payLog(serialize($httpParsedResponseAr), 'PayPal DoExpressCheckoutPayment', 0);
 
 				if("SUCCESS" == strtoupper($httpParsedResponseAr["ACK"]) || "SUCCESSWITHWARNING" == strtoupper($httpParsedResponseAr["ACK"])) {
 				} else  {
