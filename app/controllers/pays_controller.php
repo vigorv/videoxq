@@ -1683,6 +1683,7 @@ class PaysController extends AppController
 				$this->redirect('/pays/paypalno');
 			}
 			$token = urldecode($_REQUEST['token']);
+			$payerID = urldecode($_REQUEST['PayerID']);
 			//$this->redirect('/pays/paypalok/' . $_REQUEST['token']);
 		}
 		//else
@@ -1700,41 +1701,26 @@ class PaysController extends AppController
 
 			$out_summ = $amount;
 
-			$token = urlencode(htmlspecialchars($_REQUEST['token']));
-			$nvpStr = "&TOKEN=$token";
+			$token = urlencode(htmlspecialchars($token));
+			$payerID = urlencode(htmlspecialchars($payerID));
+
+			$paymentType = urlencode("Sale");			// 'Authorization' or 'Sale' or 'Order'
+			$paymentAmount = urlencode($out_summ);
+			$currencyID = urlencode(Configure::read('paypal.currency'));	// or other currency code ('USD', 'GBP', 'EUR', 'JPY', 'CAD', 'AUD')
+
+			// Add request-specific fields to the request string.
+			$nvpStr = "&TOKEN=$token&PAYERID=$payerID&PAYMENTACTION=$paymentType&AMT=$paymentAmount&CURRENCYCODE=$currencyID";
 
 			// Execute the API operation; see the PPHttpPost function above.
-			$httpParsedResponseAr = $this->paypalRequest('GetExpressCheckoutDetails', $nvpStr);
+			$httpParsedResponseAr = $this->paypalRequest('DoExpressCheckoutPayment', $nvpStr);
 
-			$this->payLog("PayPal GetExpressCheckoutDetails", 0, 0);
-			$this->payLog(serialize($httpParsedResponseAr), 'PayPal GetExpressCheckoutDetails', 0);
+			$this->payLog("PayPal DoExpressCheckoutPayment", 0, 0);
+			$this->payLog(serialize($httpParsedResponseAr), 'PayPal DoExpressCheckoutPayment', 0);
 
 			if("SUCCESS" == strtoupper($httpParsedResponseAr["ACK"]) || "SUCCESSWITHWARNING" == strtoupper($httpParsedResponseAr["ACK"])) {
-				// Extract the response details.
-				$payerID = urlencode($httpParsedResponseAr['PayerID']);
-
-				$paymentType = urlencode("Authorization");			// 'Authorization' or 'Sale' or 'Order'
-				$paymentAmount = urlencode($out_summ);
-				$currencyID = urlencode(Configure::read('paypal.currency'));	// or other currency code ('USD', 'GBP', 'EUR', 'JPY', 'CAD', 'AUD')
-
-				// Add request-specific fields to the request string.
-				$nvpStr = "&TOKEN=$token&PAYERID=$payerID&PAYMENTACTION=$paymentType&AMT=$paymentAmount&CURRENCYCODE=$currencyID";
-
-				// Execute the API operation; see the PPHttpPost function above.
-				$httpParsedResponseAr = $this->paypalRequest('DoExpressCheckoutPayment', $nvpStr);
-
-				$this->payLog("PayPal DoExpressCheckoutPayment", 0, 0);
-				$this->payLog(serialize($httpParsedResponseAr), 'PayPal DoExpressCheckoutPayment', 0);
-
-				if("SUCCESS" == strtoupper($httpParsedResponseAr["ACK"]) || "SUCCESSWITHWARNING" == strtoupper($httpParsedResponseAr["ACK"])) {
-				} else  {
-					$this->redirect('/pays/paypalno');
-				}
-
 			} else  {
 				$this->redirect('/pays/paypalno');
 			}
-
 
 			//ДАТУ "ПРОПЛАЧЕНО ПО" СЧИТАЕМ ОТ ПОСЛЕДНЕЙ ОПЛАЧЕННОЙ
 			$months = 0;
