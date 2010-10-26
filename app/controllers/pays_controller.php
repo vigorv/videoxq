@@ -1663,7 +1663,7 @@ class PaysController extends AppController
      * меняет статус записи об оплате
      *
      */
-    public function paypalok()
+    public function paypalok($token = 0)
     {
     	$this->layout = 'ajax';
 		// as a part of ResultURL script
@@ -1676,11 +1676,18 @@ class PaysController extends AppController
 		$this->payLog("PayPal OK", 0, 0);
 		$this->payLog(serialize($_REQUEST), 'PayPal Request OK', 0);
 
-		if (empty($_REQUEST['token']))
+		if (empty($token))
 		{
-			$this->redirect('/pays/paypalno');
+			if (empty($_REQUEST['token']))
+			{
+				$this->redirect('/pays/paypalno');
+			}
+			$token = urlencode(htmlspecialchars($_REQUEST['token']));
 		}
-		$token = urlencode(htmlspecialchars($_REQUEST['token']));
+		else
+		{
+			$this->redirect('/pays/paypalok/' . $_REQUEST['token']);
+		}
 
 		// success, proceeding
 		$payData = $this->Pay->find(array('Pay.info' => $token));
