@@ -1682,11 +1682,12 @@ class PaysController extends AppController
 			{
 				$this->redirect('/pays/paypalno');
 			}
-			$token = urlencode(htmlspecialchars($_REQUEST['token']));
+			//$token = urlencode(htmlspecialchars($_REQUEST['token']));
+			$this->redirect('/pays/paypalok/' . $_REQUEST['token']);
 		}
 		else
 		{
-			$this->redirect('/pays/paypalok/' . $_REQUEST['token']);
+			$token = urlencode(htmlspecialchars($token));
 		}
 
 		// success, proceeding
