@@ -178,7 +178,7 @@ class PaysController extends AppController
                 $userInfo['User']['email'] .
                                      '>',
                 /*subj*/Configure::read('App.siteName') . ' - ' . __('payment success', true),
-                /*body*/__('Dear', true) . " " . __("User", true) . ", " . $userInfo['User']['username'] . ".\n" . __('Received payment from you. Amount', true) . " " . $payData['Pay']['summ'] . " wmr.\n\n" . __("Thank you") . ".\n" . Configure::read('App.siteName') . " Robot");
+                /*body*/__('Dear', true) . " " . __("User", true) . ", " . $userInfo['User']['username'] . ".\n" . __('Received payment from you. Amount', true) . " " . $payData['Pay']['summ'] . " wmr.\n\n" . __("Thank you", true) . ".\n" . Configure::read('App.siteName') . " Robot");
 			}
 		}
 		$this->set('success', $success);
@@ -625,7 +625,7 @@ class PaysController extends AppController
 		                $userInfo['User']['email'] .
 		                                     '>',
 		                /*subj*/Configure::read('App.siteName') . ' - ' . __('payment success', true),
-		                /*body*/__('Dear', true) . " " . __("User", true) . ", " . $userInfo['User']['username'] . ".\n" . __('Received payment from you. Amount', true) . " " . $payData['Pay']['summ'] . " у.е.\n\n" . __("Thank you") . ".\n" . Configure::read('App.siteName') . " Robot");
+		                /*body*/__('Dear', true) . " " . __("User", true) . ", " . $userInfo['User']['username'] . ".\n" . __('Received payment from you. Amount', true) . " " . $payData['Pay']['summ'] . " у.е.\n\n" . __("Thank you", true) . ".\n" . Configure::read('App.siteName') . " Robot");
 					}
 					$this->set("result". "OK");
 					$this->set("description", __("Order") . " #" . $_POST["WMI_PAYMENT_NO"] . " " . __("paid successfully!", true));
@@ -822,7 +822,7 @@ class PaysController extends AppController
                 $userInfo['User']['email'] .
                                      '>',
                 /*subj*/Configure::read('App.siteName') . ' - ' . __('payment success', true),
-                /*body*/__('Dear', true) . " " . __("User", true) . ", " . $userInfo['User']['username'] . ".\n" . __('Received payment from you. Amount', true) . " " . $payData['Pay']['summ'] . " у.е.\n\n" . __("Thank you") . ".\n" . Configure::read('App.siteName') . " Robot");
+                /*body*/__('Dear', true) . " " . __("User", true) . ", " . $userInfo['User']['username'] . ".\n" . __('Received payment from you. Amount', true) . " " . $payData['Pay']['summ'] . " у.е.\n\n" . __("Thank you", true) . ".\n" . Configure::read('App.siteName') . " Robot");
 			}
 			$this->set("result", $field["InvId"]);
 			break;
@@ -1192,7 +1192,7 @@ class PaysController extends AppController
 					                $userInfo['User']['email'] .
 					                                     '>',
 					                /*subj*/Configure::read('App.siteName') . ' - ' . __('payment success', true),
-	                                /*body*/__('Dear', true) . " " . __("User", true) . ", " . $userInfo['User']['username'] . ".\n" . __('Received payment from you. Amount', true) . " " . $payData['Pay']['summ'] . " rur.\n\n" . __("Thank you") . ".\n" . Configure::read('App.siteName') . " Robot");
+	                                /*body*/__('Dear', true) . " " . __("User", true) . ", " . $userInfo['User']['username'] . ".\n" . __('Received payment from you. Amount', true) . " " . $payData['Pay']['summ'] . " rur.\n\n" . __("Thank you", true) . ".\n" . Configure::read('App.siteName') . " Robot");
 					}
 								else
 								{
@@ -1306,7 +1306,7 @@ class PaysController extends AppController
                 $userInfo['User']['email'] .
                                      '>',
                 /*subj*/Configure::read('App.siteName') . ' - ' . __('payment success', true),
-                /*body*/__('Dear', true) . " " . __("User", true) . ", " . $userInfo['User']['username'] . ".\n" . __('Received payment from you. Amount', true) . " " . $payData['Pay']['summ'] . " у.е.\n\n" . __("Thank you") . ".\n" . Configure::read('App.siteName') . " Robot");
+                /*body*/__('Dear', true) . " " . __("User", true) . ", " . $userInfo['User']['username'] . ".\n" . __('Received payment from you. Amount', true) . " " . $payData['Pay']['summ'] . " у.е.\n\n" . __("Thank you", true) . ".\n" . Configure::read('App.siteName') . " Robot");
 			}
 		}
 		$this->set('success', $success);
@@ -1745,7 +1745,7 @@ class PaysController extends AppController
             $userInfo['User']['email'] .
                                  '>',
             /*subj*/Configure::read('App.siteName') . ' - ' . __('payment success', true),
-            /*body*/__('Dear', true) . " " . __("User", true) . ", " . $userInfo['User']['username'] . ".\n" . __('Received payment from you. Amount', true) . " " . $payData['Pay']['summ'] . " у.е.\n\n" . __("Thank you") . ".\n" . Configure::read('App.siteName') . " Robot");
+            /*body*/__('Dear', true) . " " . __("User", true) . ", " . $userInfo['User']['username'] . ".\n" . __('Received payment from you. Amount', true) . " " . $payData['Pay']['summ'] . " " . Configure::read('paypal.currency') . "\n\n" . __("Thank you", true) . ".\n" . Configure::read('App.siteName') . " Robot");
 		}
 		$this->set('success', $success);
     }
