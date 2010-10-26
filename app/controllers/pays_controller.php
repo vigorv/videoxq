@@ -1688,7 +1688,7 @@ class PaysController extends AppController
 		{
 			$payData['Pay']['status'] = _PAY_DONE_;
 			$payData['Pay']['paydate'] = time();
-			$payData['Pay']['summ'] = $amount;
+			$amount = $payData['Pay']['summ'];
 
 			$out_summ = $amount;
 			//ДАТУ "ПРОПЛАЧЕНО ПО" СЧИТАЕМ ОТ ПОСЛЕДНЕЙ ОПЛАЧЕННОЙ
@@ -1749,8 +1749,8 @@ class PaysController extends AppController
      */
     public function paypalno()
     {
-		$this->payLog("PayPal OK", 0, 0);
-		$this->payLog(serialize($_REQUEST), 'PayPal Request OK', 0);
+		$this->payLog("PayPal NO", 0, 0);
+		$this->payLog(serialize($_REQUEST), 'PayPal Request NO', 0);
 
     }
 
