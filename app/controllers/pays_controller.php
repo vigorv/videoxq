@@ -1699,6 +1699,36 @@ class PaysController extends AppController
 			$amount = $payData['Pay']['summ'];
 
 			$out_summ = $amount;
+
+			$nvpStr = "&TOKEN=$token";
+
+			// Execute the API operation; see the PPHttpPost function above.
+			$httpParsedResponseAr = $this->paypalRequest('GetExpressCheckoutDetails', $nvpStr);
+
+			if("SUCCESS" == strtoupper($httpParsedResponseAr["ACK"]) || "SUCCESSWITHWARNING" == strtoupper($httpParsedResponseAr["ACK"])) {
+				// Extract the response details.
+				$payerID = urlencode($httpParsedResponseAr['PAYERID']);
+
+				$paymentType = urlencode("Authorization");			// 'Authorization' or 'Sale' or 'Order'
+				$paymentAmount = urlencode($out_summ);
+				$currencyID = urlencode(Configure::read('paypal.currency'));	// or other currency code ('USD', 'GBP', 'EUR', 'JPY', 'CAD', 'AUD')
+
+				// Add request-specific fields to the request string.
+				$nvpStr = "&TOKEN=$token&PAYERID=$payerID&PAYMENTACTION=$paymentType&AMT=$paymentAmount&CURRENCYCODE=$currencyID";
+
+				// Execute the API operation; see the PPHttpPost function above.
+				$httpParsedResponseAr = $this->paypalRequest('DoExpressCheckoutPayment', $nvpStr);
+
+				if("SUCCESS" == strtoupper($httpParsedResponseAr["ACK"]) || "SUCCESSWITHWARNING" == strtoupper($httpParsedResponseAr["ACK"])) {
+				} else  {
+					$this->redirect('/pays/paypalno');
+				}
+
+			} else  {
+				$this->redirect('/pays/paypalno');
+			}
+
+
 			//ДАТУ "ПРОПЛАЧЕНО ПО" СЧИТАЕМ ОТ ПОСЛЕДНЕЙ ОПЛАЧЕННОЙ
 			$months = 0;
 			$weeks = 0;
