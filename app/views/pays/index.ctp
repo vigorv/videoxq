@@ -74,6 +74,16 @@ if ($summ == 0)
 </div>
 </td></tr>
 <tr><td>
+<ul><b><?php __('Pay/extend access through the service');?> PayPal:</b>
+	<li><a href="/pays/paypal/<?php echo $paypalPerWeek;?>"><?php echo $paypalPayDesc[$paypalPerWeek];?></a> (<?php echo $paypalPerWeek;?> <?php echo Configure::read('paypal.currency');?>)</li>
+	<li><a href="/pays/paypal/<?php echo $paypalPerMonth;?>"><?php echo $paypalPayDesc[$paypalPerMonth];?></a> (<?php echo $paypalPerMonth;?> <?php echo Configure::read('paypal.currency');?>)</li>
+</ul>
+<td>
+<div>
+	<img src="/img/paypal_logo.gif" hspace="10" vspace="2" height="50" alt="Assist" title="PayPal" />
+</div>
+</td></tr>
+<tr><td>
 <ul><b><?php __('Pay/extend access through the service');?> Assist:</b>
 	<li><a href="/pays/assist/<?php echo $assistPerWeek;?>"><?php echo $assistPayDesc[$assistPerWeek];?></a> (<?php echo $assistPerWeek;?> RUR)</li>
 	<li><a href="/pays/assist/<?php echo $assistPerMonth;?>"><?php echo $assistPayDesc[$assistPerMonth];?></a> (<?php echo $assistPerMonth;?> RUR)</li>
@@ -173,8 +183,9 @@ else
 	echo $payDesc[$perWeek] . ' ' . __('or', true) . ' ' . $payDesc[$perMonth] . '.';
 ?>
 <br />5) <?php __('You can pay:');?>
-<br />&nbsp; &nbsp; - <?php __('via e-cash service ROBOxchange'); ?> (<b>WebMoney</b>, <b>Яндекс-деньги</b> <?php __('etc.');?>) <span style="color: red">***</span>
 <br />&nbsp; &nbsp; - <?php __('via service');?> SMScoin по <b>SMS</b>. <span style="color: red">***</span>
+<br />&nbsp; &nbsp; - <?php __('via e-cash service ROBOxchange'); ?> (<b>WebMoney</b>, <b>Яндекс-деньги</b> <?php __('etc.');?>) <span style="color: red">***</span>
+<br />&nbsp; &nbsp; - <?php __('via service');?> PayPal.
 <br />&nbsp; &nbsp; - <?php __('via service');?> Assist. <span style="color: red">***</span>
 <br />6) <?php __('Follow instructions of the payment system');?>
 </p>

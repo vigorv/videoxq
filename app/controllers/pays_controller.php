@@ -1381,6 +1381,19 @@ class PaysController extends AppController
 		);
 		$this->set('smsPayDesc', $smsPayDesc);
 
+		$paypalPerMonth	= Configure::read('paypal.costPerMonth');
+		$this->set('paypalPerMonth', $paypalPerMonth);
+		$paypalPerWeek	= Configure::read('paypal.costPerWeek');
+		$this->set('paypalPerWeek', $paypalPerWeek);
+		$paypalPerDay	= Configure::read('paypal.costPerDay');
+		$this->set('paypalPerDay', $paypalPerDay);
+		$paypalPayDesc = array(
+			$paypalPerDay	=> Configure::read('descPerDay'),
+			$paypalPerWeek	=> Configure::read('descPerWeek'),
+			$paypalPerMonth	=> Configure::read('descPerMonth'),
+		);
+		$this->set('paypalPayDesc', $paypalPayDesc);
+
 		$assistPerMonth	= Configure::read('Assist.costPerMonth');
 		$this->set('assistPerMonth', $assistPerMonth);
 		$assistPerWeek	= Configure::read('Assist.costPerWeek');
