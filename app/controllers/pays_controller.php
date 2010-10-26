@@ -1711,7 +1711,7 @@ class PaysController extends AppController
 
 			if("SUCCESS" == strtoupper($httpParsedResponseAr["ACK"]) || "SUCCESSWITHWARNING" == strtoupper($httpParsedResponseAr["ACK"])) {
 				// Extract the response details.
-				$payerID = urlencode($httpParsedResponseAr['PAYERID']);
+				$payerID = urlencode($httpParsedResponseAr['PayerID']);
 
 				$paymentType = urlencode("Authorization");			// 'Authorization' or 'Sale' or 'Order'
 				$paymentAmount = urlencode($out_summ);
