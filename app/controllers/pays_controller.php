@@ -1468,10 +1468,19 @@ class PaysController extends AppController
 		$this->redirect('/pays');
 	}
 
+	/**
+	 * в зависимости от режима (тестовый/рабочий) возвращает название сервиса PayPal
+	 *
+	 * @return string
+	 */
 	function getPaypalEnvironment()
 	{
-		return 'sandbox';
+		if (Configure::read('paypal.testMode'))
+			return 'sandbox';
+		else
+			return '';
 	}
+
 	/**
 	 * Send HTTP POST Request
 	 *
@@ -1491,7 +1500,7 @@ class PaysController extends AppController
 		if("sandbox" === $environment || "beta-sandbox" === $environment) {
 			$API_Endpoint = "https://api-3t.$environment.paypal.com/nvp";
 		}
-		$version = urlencode('56.0');
+		$version = urlencode('61.0');
 
 		// Set the curl parameters.
 		$ch = curl_init();
@@ -1510,6 +1519,8 @@ class PaysController extends AppController
 
 		// Set the request as a POST FIELD for curl.
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $nvpreq);
+//echo $nvpreq;
+//exit;
 
 		// Get response from the server.
 		$httpResponse = curl_exec($ch);
@@ -1517,7 +1528,8 @@ class PaysController extends AppController
 		if(!$httpResponse) {
 			exit("$methodName_ failed: ".curl_error($ch).'('.curl_errno($ch).')');
 		}
-
+//echo $httpResponse;
+//exit;
 		// Extract the response details.
 		$httpResponseAr = explode("&", $httpResponse);
 
@@ -1545,6 +1557,21 @@ class PaysController extends AppController
      */
 	public function paypal($summ = 0)
 	{
+/*
+//you can test your credentials with the simple form below
+
+<form method=post action= https://api-3t.paypal.com/nvp>
+<input type=hidden name=USER value= api_user>
+<input type=hidden name=PWD value= api_password>
+<input type=hidden name=SIGNATURE value= api_signature>
+<input type=hidden name=VERSION value= 61.0>
+<input type=hidden name=PAYMENTACTION value=Sale>
+<input type=hidden name=AMT value=1.00>
+<input type=hidden name=RETURNURL value=https://www.paypal.com>
+<input type=hidden name=CANCELURL value=https://www.paypal.com>
+<input type=submit name=METHOD value=SetExpressCheckout>
+</form>
+*/
 		if (empty($this->authUser['userid']))
 			$summ = -1;//СЕРВИС ПРИОСТАНОВДЕН
 		$perMonth	= Configure::read('paypal.costPerMonth');
@@ -1573,68 +1600,60 @@ class PaysController extends AppController
 	    	}
 
 			$out_summ = sprintf("%01.2f", (float)($summ));
-			$payData = array('Pay' => array(
-					'user_id'	=> $this->authUser['userid'],
-			));
-			$payData['Pay']['created']	= time();
-			$payData['Pay']['summ']		= $out_summ;
-			$payData['Pay']['paysystem']= _PAY_PAYPAL_;
 
-			if ($this->Pay->save($payData))
+			$this->layout = 'ajax';
+
+			$fields = array(
+				"AMT"			=> $out_summ,
+				//"PAYMENTACTION"	=> "Authorization",
+				"PAYMENTACTION"	=> "Sale",
+				"CURRENCYCODE"	=> Configure::read('paypal.currency'),
+				"RETURNURL"		=> "http://www.videoxq.com/pays/paypalok",
+				"CANCELURL"		=> "http://www.videoxq.com/pays/paypalno",
+			);
+
+			$data = ''; $amp = '&';
+			foreach ($fields as $key => $value)
 			{
-				$this->layout = 'ajax';
-				// информация об оплате
-				$payData['Pay']['id'] = $this->Pay->getLastInsertID();
-
-				$fields = array(
-					"pay_id"		=> $payData['Pay']['id'],
-					"Amt"			=> $out_summ,
-					"PAYMENTACTION"	=> "Authorization",
-					"CURRENCYCODE"	=> Configure::read('paypal.currency'),
-					"ReturnUrl"		=> "http://www.videoxq.com/pays/paypalok",
-					"CANCELURL"		=> "http://www.videoxq.com/pays/paypalno",
-				);
-
-				$data = ''; $amp = '&';
-				foreach ($fields as $key => $value)
-				{
-					$data .= $amp . $key . '=' . urlencode($value);
-				}
-
-				// Execute the API operation; see the PPHttpPost function above.
-				$httpParsedResponseAr = $this->paypalRequest('SetExpressCheckout', $data);
-
-				$this->payLog("PayPal payment", $payData['Pay']['id'], $out_summ);
-				$this->payLog(serialize($httpParsedResponseAr), 'PayPal Answer', 0);
-
-				$payPalURL = '';
-
-				if("SUCCESS" == strtoupper($httpParsedResponseAr["ACK"]) || "SUCCESSWITHWARNING" == strtoupper($httpParsedResponseAr["ACK"])) {
-					// Redirect to paypal.com.
-					$environment = $this->getPaypalEnvironment();
-					$token = urldecode($httpParsedResponseAr["TOKEN"]);
-					$payPalURL = "https://www.paypal.com/webscr&cmd=_express-checkout&token=$token";
-					if("sandbox" === $environment || "beta-sandbox" === $environment) {
-						$payPalURL = "https://www.$environment.paypal.com/webscr&cmd=_express-checkout&token=$token";
-					}
-					$payData = array(
-						"Pay" => array(
-							"id" => $fields["pay_id"],
-							"info" => $token,
-						)
-					);
-					$this->Pay->save($payData);
-
-					$this->redirect($payPalURL);
-				} else  {
-					exit('SetExpressCheckout failed: ' . print_r($httpParsedResponseAr, true));
-				}
-
-				$host = $payPalURL;
-
-				$this->set('host', $host);
-				$this->set('data', $data);
+				$data .= $amp . $key . '=' . urlencode($value);
 			}
+
+			// Execute the API operation; see the PPHttpPost function above.
+			$httpParsedResponseAr = $this->paypalRequest('SetExpressCheckout', $data);
+
+			$payPalURL = '';
+
+			if("SUCCESS" == strtoupper($httpParsedResponseAr["ACK"]) || "SUCCESSWITHWARNING" == strtoupper($httpParsedResponseAr["ACK"])) {
+				// Redirect to paypal.com.
+				$environment = $this->getPaypalEnvironment();
+				$token = urldecode($httpParsedResponseAr["TOKEN"]);
+				$payPalURL = "https://www.paypal.com/webscr&cmd=_express-checkout&token=$token";
+				if("sandbox" === $environment || "beta-sandbox" === $environment) {
+					$payPalURL = "https://www.$environment.paypal.com/webscr&cmd=_express-checkout&token=$token";
+				}
+
+				$payData = array('Pay' => array(
+						'user_id'	=> $this->authUser['userid'],
+				));
+				$payData['Pay']['created']	= time();
+				$payData['Pay']['summ']		= $out_summ;
+				$payData['Pay']['paysystem']= _PAY_PAYPAL_;
+				$payData['Pay']["info"]		= $token;
+
+				if ($this->Pay->save($payData))
+				{
+					$this->payLog("PayPal payment", $this->Pay->getLastInsertID(), $out_summ);
+					$this->payLog(serialize($httpParsedResponseAr), 'PayPal Answer', 0);
+				}
+				$this->redirect($payPalURL);
+			} else  {
+				exit('SetExpressCheckout failed: ' . print_r($httpParsedResponseAr, true));
+			}
+
+			$host = $payPalURL;
+
+			$this->set('host', $host);
+			$this->set('data', $data);
 		}
 	}
 
