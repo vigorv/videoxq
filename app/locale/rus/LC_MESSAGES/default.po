@@ -8408,3 +8408,6 @@ msgstr "Загрузка доступна только для зарегистр
 
 msgid "Pay/extend access by electronic money or e-cards"
 msgstr "Оплатить/продлить доступ электронными деньгами или банковской картой"
+
+msgid "Sorry, the license was not found. Download the movie is impossible."
+msgstr "Извините, лицензия не найдена. Загрузка фильма невозможна."
