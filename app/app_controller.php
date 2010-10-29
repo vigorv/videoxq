@@ -42,10 +42,11 @@ class AppController extends Controller
         if (empty($geoInfo))
         {
         	$ip = sprintf('%u', ip2long($_SERVER['REMOTE_ADDR']));
-        	$geoInfo = $this->Geoip->find(array('Geoip.ip1 <=' . $ip, 'Geoip.ip2 >=' . $ip), array('Geoip.city_id', 'Geoip.region_id'));
+        	//$geoInfo = $this->Geoip->find(array('Geoip.ip1 <=' . $ip, 'Geoip.ip2 >=' . $ip), array('Geoip.city_id', 'Geoip.region_id'));
         	$geoInfo = $this->Geoip->find('all', array(
         				'conditions' => array('Geoip.ip1 <=' . $ip, 'Geoip.ip2 >=' . $ip),
-        				'fields' => array('Geoip.city_id', 'Geoip.region_id', 'MIN(Geoip.ip2 - Geoip.ip1) as R'),
+//        				'fields' => array('Geoip.city_id', 'Geoip.region_id', 'MIN(Geoip.ip2 - Geoip.ip1) as R'),
+        				'fields' => array('Geoip.city_id', 'Geoip.region_id', 'MIN(Geoip.ip_diff) as R'),
         				'order' => 'R ASC',
         				'recursive' => 0,
         				'group' => 'Geoip.id',
@@ -101,9 +102,11 @@ $this->Session->write('geoInfo', $geoInfo);
 		Configure::write('descPerMonth', __("for a month", true));
 		Configure::write('descPerWeek', __("for a week", true));
 		Configure::write('descPerDay', __("for a day", true));
+/*
 $config['']	= 'на месяц'; //плата за VIP доступ на месяц
 $config['']	= 'на неделю'; //плата за VIP доступ на неделю
 $config['descPerDay']	= 'на день'; //плата за VIP доступ на день
+*/
 
 		if(isset($this->params['pass'][0])
            && $this->params['pass'][0] == 'attachments')

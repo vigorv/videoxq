@@ -170,7 +170,8 @@ class UtilsController extends AppController
         $this->Banner->recursive = 0;
 		unset($this->paginate);
 		$this->paginate['Banner']['fields'] = array('Banner.id', 'Banner.name', 'Banner.start', 'Banner.stop', 'Banner.place', 'Banner.forever', 'Banner.is_webstream', 'Banner.is_internet');
-        $this->paginate['Banner']['limit'] = '';
+        //$this->paginate['Banner']['limit'] = '';
+        unset($this->paginate['Banner']['limit']);
         //$this->paginate['Banner']['order'] = 'Banner.srt desc';
 		$banners = $this->paginate('Banner');
 		$this->set('banners', $banners);
@@ -1082,12 +1083,15 @@ echo'</pre>';
     	$Geoip = new Geoip();
 
 		$add = 0;
+		$url = "http://ipgeobase.ru/files/db/Map_db/block_coord.zip";
+		$zip = $_SERVER['DOCUMENT_ROOT'] . '/app/tmp/geo.zip';
+		$xml = $_SERVER['DOCUMENT_ROOT'] . '/app/tmp/geo.db';
+
+		$this->set('url', $url);
+
     	switch ($action)
     	{
     		case "import":
-    			$url = "http://ipgeobase.ru/files/db/Map_db/block_coord.zip";
-   				$zip = $_SERVER['DOCUMENT_ROOT'] . '/app/tmp/geo.zip';
-   				$xml = $_SERVER['DOCUMENT_ROOT'] . '/app/tmp/geo.db';
 
 //СКАЧИВАНИЕ С ИСТОЧНИКА
    				$bufLen = 4096 * 20;
@@ -1180,6 +1184,7 @@ echo'</pre>';
 							}
 							$ip1 = $cells[1];
 							$ip2 = $cells[2];
+							$ipDiff = $ip2 - $ip1;
 							$city = iconv('windows-1251', 'utf-8', $cells[3]);
 							$region = iconv('windows-1251', 'utf-8', $cells[4]);
 							$county = iconv('windows-1251', 'utf-8', $cells[5]);
@@ -1275,6 +1280,7 @@ echo'</pre>';
 							$ipInfo = array('Geoip' => array(
 									'ip1' => $ip1,
 									'ip2' => $ip2,
+									'ip_diff' => $ipDiff,
 									'city_id' => $cityInfo['Geocity']['id'],
 									'region_id' => $regionInfo['Georegion']['id'],
 									'county_id' => $countyInfo['Geocounty']['id'],
@@ -1292,6 +1298,12 @@ echo'</pre>';
 				$this->set('add', $add);
 			break; //ENDOF IMPORT
     	}
+
+    	if (file_exists($xml))
+			$updated = filemtime($xml);
+		else
+    		$updated = 0;
+		$this->set('updated', $updated);
     }
 
 

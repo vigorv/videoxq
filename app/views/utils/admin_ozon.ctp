@@ -11,6 +11,10 @@
 				{
 					echo '<p>' . basename($ol['xml']) . ' обновлен ' . date('Y-d-m H:i:s', $ol['updated']) . '</p>';
 				}
+				else
+				{
+					echo '<p>Последняя дата обновления не определена (отсутствует дамп-файл)</p>';
+				}
 			}
 	}
 	echo '<br /><p>Всего категорий: ' . $ozonCategoryCount . '</p>';
