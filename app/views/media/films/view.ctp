@@ -736,7 +736,10 @@ if (isset($authUser['username']))// && (($authUser['username'] == 'vanoveb') || 
 	else
 	{
 		//$lastLinks[$film['Film']['id']]	= '<h3 style="margin-top:12px;"><a href="' . __('search_link', true) . $yandex['title' . $langFix] . '" title="' . __('Search web', true) . '">"' . $yandex['title' . $langFix] . '" ' . __('Search web', true) . ' &raquo;</a>' . $faqLink . '</h3>';
-		$lastLinks[$film['Film']['id']]	= '<h3 style="margin-top:12px;">' . __('Download available just for registered users', true) . '<br /><a href="/users/register">' . __('Register', true) . '</a></h3>';
+		if (!empty($authUser["userid"]) && ($authUser["userid"] > 0))
+			$lastLinks[$film['Film']['id']]	= '<h3 style="margin-top:12px;">' . __('Sorry, the license was not found. Download the movie is impossible.', true) . '</h3>';
+		else
+			$lastLinks[$film['Film']['id']]	= '<h3 style="margin-top:12px;">' . __('Download available just for registered users', true) . '<br /><a href="/users/register">' . __('Register', true) . '</a></h3>';
 	}
 	$_SESSION['lastFilms']	= $lastFilms;
 	$_SESSION['lastLinks']	= $lastLinks;
