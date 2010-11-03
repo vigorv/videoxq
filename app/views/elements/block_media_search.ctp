@@ -91,7 +91,7 @@
             <?php __("to"); ?> <?= $form->select('imdb_end', $block_media_genres['imdb'], null, array('class' => 'textInput', 'style' => "width:40px;")); ?>
             </p>
             <p class="adv2 adv-term"><?php __("year"); ?> &mdash; <?php __("from"); ?> <?= $form->text('year_start', array('class' => 'textInput')); ?> <?php __("to"); ?> <?= $form->text('year_end', array('class' => 'textInput')); ?></p>
-            <p class="adv2 adv-term"><?= $form->checkbox('is_license', array('value' => 1, 'checked' => ($block_media_genres['is_license']) ? 'checked' : ''));?> <?php __("downloadable"); ?> <a href="/pages/faq#checkbox"><span style="border: 1px solid black;">&nbsp;?&nbsp;</span></a></p>
+            <p class="adv2 adv-term"><?= $form->checkbox('is_license', array('value' => 1, 'checked' => ($block_media_genres['is_license']) ? 'checked' : ''));?> <?php __("Downloadable"); ?> <a href="/pages/faq#checkbox"><span style="border: 1px solid black;">&nbsp;?&nbsp;</span></a></p>
             <p class="adv2"><?php __("Sort by"); ?>:<br>
             <?= $form->radio('sort', $block_media_genres['sort'], array('separator' => '<br>', 'legend' => false));?>
             <?= $form->hidden('direction', array('value' => '1')); ?>

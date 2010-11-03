@@ -33,6 +33,9 @@ $pageNavigator->setUrl('/media/index');
 	?></li>
     <li>&nbsp;</li>
     <li class="all <?php echo empty($this->params['named']['genre']) && empty($this->params['named']['type']) && empty($this->params['named']['vtype']) ? 'active' : ''; ?>"><a href="/media"><?php __("All films"); ?></a></li>
+    <li <?php echo !empty($this->params['named']['is_license']) !== false ? 'class="active"' : ''; ?>>
+    	<a href="/media/index/is_license:1"><?php __("Downloadable"); ?></a>
+    </li>
 <!--
     <li class="all <?php
     	echo $hdtvClass; $hdtvStr = "HDTV";
