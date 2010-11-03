@@ -7791,8 +7791,8 @@ msgstr "Все страны"
 msgid "All types"
 msgstr "Все типы"
 
-msgid "downloadable"
-msgstr "можно скачать"
+msgid "Downloadable"
+msgstr "Можно скачать"
 
 msgid "from"
 msgstr "от"
@@ -8411,3 +8411,6 @@ msgstr "Оплатить/продлить доступ электронными 
 
 msgid "Sorry, the license was not found. Download the movie is impossible."
 msgstr "Извините, лицензия не найдена. Загрузка фильма невозможна."
+
+msgid "Buy on"
+msgstr "Купить на"
