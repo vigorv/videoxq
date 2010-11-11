@@ -535,7 +535,7 @@ INSERT into search_logs SELECT * from sl_temp;
 
 					    	case "URL":
 					    		$data = explode('/?', $data);
-								$product['url'] = $data[0] . '/?from=' . Configure::read('Ozon.partnerId');
+								$product['url'] = $data[0] . '/?partner=' . Configure::read('Ozon.partnerId');
 					    	break;
 
 					    	case "PRICE":

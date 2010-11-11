@@ -8,7 +8,8 @@ class MediaController extends AppController {
     var $uses = array('Film', 'Basket', 'FilmComment', 'SearchLog', 'Feedback', 'Thread', 'Vbpost', 'Vbgroup',
     'Forum', 'Userban', 'Transtat', 'Genre', 'Bookmark', 'CybChat', 'Smile', 'Migration',
     //'DlePost',
-    'SimilarFilm'
+    'SimilarFilm',
+    'OzonProduct'
     );
 
     /**
@@ -1477,6 +1478,45 @@ echo'</pre>';
     	//$this->set('hitCnt', $this->Session->read('hitCnt') + 2);
     }
 
+    function ozon($id = null)
+    {
+        if (!$id) {
+            $this->Session->setFlash(__('Invalid Film', true));
+            $this->redirect(array('action'=>'index'));
+        }
+		if (!$film = Cache::read('Catalog.film_view_' . $id,'media'))
+	    {
+	        $this->Film->recursive = 0;
+	        $this->Film->contain(array('FilmType',
+	                                     'Genre',
+	                                     'Thread',
+	                                     'FilmPicture' => array('conditions' => array('type <>' => 'smallposter')),
+	                                     'Country',
+	                                     'FilmVariant' => array('FilmFile' => array('order' => 'file_name'), 'VideoType', 'Track' => array('Language', 'Translation')),
+	                                     'MediaRating',
+	                                     //'FilmComment' => array('order' => 'FilmComment.created ASC',
+	                                                            //'conditions' => array('FilmComment.hidden' => 0))
+	                                  )
+	                             );
+	        $film = $this->Film->read(null, $id);
+		    Cache::write('Catalog.film_view_' . $id, $film, 'media');
+	    }
+		$ozons = Cache::read('Catalog.ozon_' . $id, 'ozon');
+		if ($ozons === false)//ЕСЛИ ЕЩЕ НЕ КЭШИРОВАЛИ
+		{
+	    	$this->redirect('/media/view/' . $id);
+		}
+		$this->set('film', $film);
+		$this->set('ozons', $ozons);
+		$lang = Configure::read('Config.language');
+		$langFix = '';
+		if ($lang == _ENG_) $langFix = '_' . _ENG_;
+        $this->pageTitle = __('Video catalog', true) . ' - ' . $film['Film']['title' . $langFix] . ' - ' . __('Buy on', true) . ' ozon.ru';
+        $this->set('lang', $lang);
+		$this->set('langFix', $langFix);
+
+    }
+
     function view($id = null) {
         if (!$id) {
             $this->Session->setFlash(__('Invalid Film', true));
@@ -1564,22 +1604,22 @@ echo'</pre>';
 	$this->set('similars', $similars);
 
 	if (!$film = Cache::read('Catalog.film_view_' . $id,'media'))
-        {
-	        $this->Film->recursive = 0;
-	        $this->Film->contain(array('FilmType',
-	                                     'Genre',
-	                                     'Thread',
-	                                     'FilmPicture' => array('conditions' => array('type <>' => 'smallposter')),
-	                                     'Country',
-	                                     'FilmVariant' => array('FilmFile' => array('order' => 'file_name'), 'VideoType', 'Track' => array('Language', 'Translation')),
-	                                     'MediaRating',
-	                                     //'FilmComment' => array('order' => 'FilmComment.created ASC',
-	                                                            //'conditions' => array('FilmComment.hidden' => 0))
-	                                  )
-	                             );
-	        $film = $this->Film->read(null, $id);
-		    Cache::write('Catalog.film_view_' . $id, $film,'media');
-        }
+    {
+        $this->Film->recursive = 0;
+        $this->Film->contain(array('FilmType',
+                                     'Genre',
+                                     'Thread',
+                                     'FilmPicture' => array('conditions' => array('type <>' => 'smallposter')),
+                                     'Country',
+                                     'FilmVariant' => array('FilmFile' => array('order' => 'file_name'), 'VideoType', 'Track' => array('Language', 'Translation')),
+                                     'MediaRating',
+                                     //'FilmComment' => array('order' => 'FilmComment.created ASC',
+                                                            //'conditions' => array('FilmComment.hidden' => 0))
+                                  )
+                             );
+        $film = $this->Film->read(null, $id);
+	    Cache::write('Catalog.film_view_' . $id, $film,'media');
+    }
 /*
 //TEST
 $variant = $this->Film->FilmVariant->find(array('FilmVariant.film_id' => $id, array("OR" => array("FilmVariant.flag_catalog" => 0, "FilmVariant.flag_catalog IS NULL"))));
@@ -1694,6 +1734,58 @@ $this->set("catalogVariants", $catalogVariants);
         $this->set('allowEdit', $this->isAuthorized('FilmComments/admin_delete'));
         $this->set('allowDownload', checkAllowedMasks(Configure::read('Catalog.allowedIPs'), $_SERVER['REMOTE_ADDR']));
         $this->set('allowDownload', $film['Film']['is_license'] & !empty($this->authUser['userid']));
+
+		//$ozons = Cache::read('Catalog.ozon_' . $id, 'ozon');
+		if (empty($ozons))//ЕСЛИ ЕЩЕ НЕ КЭШИРОВАЛИ
+		{
+			$pagination = array();
+	        $pagination = array('OzonProduct' => array(
+                                        'order' => '',
+                                        'conditions' => array('OzonProduct.avail >' => 0),
+                                        'group' => 'OzonProduct.id',
+                                        'limit' => 20));
+            $pagination['OzonProduct']['sphinx']['matchMode'] = SPH_MATCH_ALL;
+            $pagination['OzonProduct']['sphinx']['sortMode'] = array(SPH_SORT_EXTENDED => '@relevance DESC');
+            $pagination['OzonProduct']['sphinx']['index'] = array('ozon');//ИЩЕМ ПО ИНДЕКСУ ПРОДУКТОВ ОЗОНА
+
+            if (!empty($film['Film']['title']))
+            {
+            	$pagination['OzonProduct']['search'] = $film['Film']['title'];
+	    		$ozonsByTitle = $this->OzonProduct->find('all', $pagination["OzonProduct"]);
+            }
+            else
+            	$ozonsByTitle = array();
+
+            if (!empty($film['Film']['title_en']))
+            {
+            	$pagination['OzonProduct']['search'] = $film['Film']['title_en'];
+    			$ozonsByOriginal = $this->OzonProduct->find('all', $pagination["OzonProduct"]);
+            }
+            else
+            	$ozonsByOriginal = array();
+    		$ozons = array();
+    		$ozonIds = array();
+    		foreach ($ozonsByOriginal as $key => $val)
+    		{
+    			$oid = $val['OzonProduct']['id'];
+    			if (empty($ozonIds[$oid]))//ЧТОБЫ НЕ БЫЛО ДУБЛЕЙ
+    			{
+    				$ozons[] = $val;
+    				$ozonIds[$oid] = $oid;
+    			}
+    		}
+    		foreach ($ozonsByTitle as $key => $val)
+    		{
+    			$oid = $val['OzonProduct']['id'];
+    			if (empty($ozonIds[$oid]))//ЧТОБЫ НЕ БЫЛО ДУБЛЕЙ
+    			{
+    				$ozons[] = $val;
+    				$ozonIds[$oid] = $oid;
+    			}
+    		}
+			Cache::write('Catalog.ozon_' . $id, $ozons, 'ozon');
+		}
+        $this->set('ozons', $ozons);
 
         App::import('Vendor', 'uuconverter');
 		$uuConverter = new uuConverter();
