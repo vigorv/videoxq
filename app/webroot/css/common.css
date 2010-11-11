@@ -497,3 +497,7 @@ ul.subMenu li.podcastAdd { background:url(/img/icons/podcast_add.gif) 0 0 no-rep
 ul.subMenu li.podcastBest { background:url(/img/icons/podcast_best.gif) 0 0 no-repeat }
 ul.subMenu li.podcastPop { background:url(/img/icons/podcast_pop.gif) 0 0 no-repeat }
 ul.subMenu li.userBlog { background-position:0 5px; background-repeat:no-repeat }
+
+div.ozonlist { float: left; width:49%; height: 130px}
+td.ozonleft { text-align: left; }
+td.ozonright { text-align: right; }
