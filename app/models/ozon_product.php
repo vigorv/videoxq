@@ -20,6 +20,6 @@ class OzonProduct extends MediaModel {
                         'insertQuery' => ''
             )
 	);
-    var $actsAs = array('Containable');
+    var $actsAs = array('Sphinx');
 }
 ?>
