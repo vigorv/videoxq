@@ -1502,7 +1502,7 @@ echo'</pre>';
 		    Cache::write('Catalog.film_view_' . $id, $film, 'media');
 	    }
 		$ozons = Cache::read('Catalog.ozon_' . $id, 'ozon');
-		if ($ozons === false)//ЕСЛИ ЕЩЕ НЕ КЭШИРОВАЛИ
+		if (empty($ozons))//ЕСЛИ СПИСОК ТОВАРОВ ПУСТ
 		{
 	    	$this->redirect('/media/view/' . $id);
 		}
@@ -1735,7 +1735,7 @@ $this->set("catalogVariants", $catalogVariants);
         $this->set('allowDownload', $film['Film']['is_license'] & !empty($this->authUser['userid']));
 
 		$ozons = Cache::read('Catalog.ozon_' . $id, 'ozon');
-		if (empty($ozons))//ЕСЛИ ЕЩЕ НЕ КЭШИРОВАЛИ
+		if ($ozons === false)//ЕСЛИ ЕЩЕ НЕ КЭШИРОВАЛИ
 		{
 			$pagination = array();
 	        $pagination = array('OzonProduct' => array(
