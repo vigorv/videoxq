@@ -1514,7 +1514,6 @@ echo'</pre>';
         $this->pageTitle = __('Video catalog', true) . ' - ' . $film['Film']['title' . $langFix] . ' - ' . __('Buy on', true) . ' ozon.ru';
         $this->set('lang', $lang);
 		$this->set('langFix', $langFix);
-
     }
 
     function view($id = null) {
@@ -1735,7 +1734,7 @@ $this->set("catalogVariants", $catalogVariants);
         $this->set('allowDownload', checkAllowedMasks(Configure::read('Catalog.allowedIPs'), $_SERVER['REMOTE_ADDR']));
         $this->set('allowDownload', $film['Film']['is_license'] & !empty($this->authUser['userid']));
 
-		//$ozons = Cache::read('Catalog.ozon_' . $id, 'ozon');
+		$ozons = Cache::read('Catalog.ozon_' . $id, 'ozon');
 		if (empty($ozons))//ЕСЛИ ЕЩЕ НЕ КЭШИРОВАЛИ
 		{
 			$pagination = array();
