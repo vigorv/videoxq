@@ -445,7 +445,7 @@ if (!empty($authUser['userid']))
 	$translation	= $variant['Track']['Translation']['title'];
 	$audio_info		= $variant['Track']['audio_info'];
 ?>
-<?php __('Duration', true); ?>: <?= $variant['duration'] ?>
+<?php __('Duration'); ?>: <?= $variant['duration'] ?>
 <?php
 }
 else
@@ -780,7 +780,14 @@ echo $linksContent;
     }
     ?>
 </p>
-<br>
+<?php
+	if (!empty($ozons))
+	{
+?>
+<h3><a href="/media/ozon/<?php echo $Film['id']; ?>" title="<?php __('Buy on'); echo ' ozon.ru'; ?>" alt="<?php __('Buy on'); echo ' ozon.ru'; ?>"><?php __('Buy on'); echo ' ozon.ru'; ?></a></h3>
+<?php
+	}
+?>
     <?php
     /*
 if (count($FilmComment) > 0)
