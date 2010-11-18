@@ -42,6 +42,7 @@ echo $scripts_for_layout;
 <title><?php echo Configure::read('App.siteName') . ' - ' . $title_for_layout; ?></title>
 </head>
 <body>
+<!-- _mncheckrights32938_ -->
     <div class="top">
       <table border="0" cellpadding="0" cellspacing="0" width="100%" height="173">
         <tbody>
@@ -49,7 +50,41 @@ echo $scripts_for_layout;
             <td width="304" valign="top">
               <img alt="" src="/i/cinema.jpg" />
             </td>
-            <td valign="middle">
+            <td valign="middle" align="center">
+<div id="heaven">
+<?php
+if (isset($authUserGroups) && in_array(Configure::read('VIPgroupId'), $authUserGroups))
+{
+	//ДЛЯ В�?ПОВ БЛОК�? С БАННЕРАМ�? ВЫРЕЗАЕМ
+/*
+	echo'<pre>';
+	print_r($blockContent);
+	echo'</pre>';
+//*/
+	foreach ($blockContent as $bi => $b)
+	{
+		if (is_array($b) && count($b) > 0)
+		{
+			foreach($b as $key => $value)
+			{
+				if (strpos($value['title'], 'banner') !== false)
+				{
+					unset($blockContent[$bi][$key]);
+				}
+			}
+		}
+	}
+}
+
+$placeNamePrefix = '';
+//if ($isWS)
+//	$placeNamePrefix = 'WS';
+
+$placeName = $placeNamePrefix . 'header1';
+echo $BlockBanner->getBanner($placeName);
+
+?>
+</div><br />
 <?php __("Video catalog"); ?>
 			</td>
             <td width="250" valign="top">
@@ -203,29 +238,6 @@ else
             <tr>
               <td valign="top" style="padding:5px;">
 <?php
-if (isset($authUserGroups) && in_array(Configure::read('VIPgroupId'), $authUserGroups))
-{
-	//ДЛЯ В�?ПОВ БЛОК�? С БАННЕРАМ�? ВЫРЕЗАЕМ
-/*
-	echo'<pre>';
-	print_r($blockContent);
-	echo'</pre>';
-//*/
-	foreach ($blockContent as $bi => $b)
-	{
-		if (is_array($b) && count($b) > 0)
-		{
-			foreach($b as $key => $value)
-			{
-				if (strpos($value['title'], 'banner') !== false)
-				{
-					unset($blockContent[$bi][$key]);
-				}
-			}
-		}
-	}
-}
-
 //BLOCK LEFT
 if (!empty($blockContent['left']))
   echo $this->element('blocks', array('blockArray' => $blockContent['left']));
@@ -233,13 +245,12 @@ if (!empty($blockContent['left']))
               </td>
               <td width="100%" valign="top" style="padding:5px 2px 0 2px;">
 <?php
-$placeNamePrefix = '';
+//$placeNamePrefix = '';
 //if ($isWS)
 //	$placeNamePrefix = 'WS';
 
-$placeName = $placeNamePrefix . 'header1';
-echo $BlockBanner->getBanner($placeName);
-
+//$placeName = $placeNamePrefix . 'header1';
+//echo $BlockBanner->getBanner($placeName);
 ?>
                 <table width="100%" border="0" cellspacing="0" cellpadding="0">
                   <tbody>
