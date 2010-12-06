@@ -377,7 +377,6 @@ class MediaController extends AppController {
 						foreach ($filmVariant as $fv)
 						{
 							$videoType = array();
-
 							$videoType = array('VideoType' => $fv['VideoType']);
 							unset($fv['VideoType']);//СОХРАНИМ РУКАМИ (МЕШАЮТ ВНЕШНИЕ КЛЮЧИ)
 
@@ -389,9 +388,9 @@ class MediaController extends AppController {
 							$track = $fv['Track'];
 							unset($fv['Track']);//СОХРАНИМ РУКАМИ (МЕШАЮТ ВНЕШНИЕ КЛЮЧИ)
 
-							$res = $this->Film->FilmVariant->VideoType->save($videoType);
-
 							$res = $this->Film->FilmVariant->saveAll($fv);
+
+							$res = $this->Film->FilmVariant->VideoType->save($videoType);
 
 							if (isset($track))
 							{

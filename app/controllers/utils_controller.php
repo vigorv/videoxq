@@ -260,8 +260,15 @@ class UtilsController extends AppController
         }
     }
 
-	function admin_memcache()
+	function admin_memcache($key = null)
 	{
+		$keys = array('block', 'people', 'rocket', 'searchres', 'basket', 'media');
+		$this->set('keys', $keys);
+		$this->set('key', $key);
+		if (in_array($key, $keys))
+		{
+			cache::clear(false, $key);
+		}
 		$this->layout = 'admin';
 		if (!empty($_REQUEST["IMG"]))
 		{
