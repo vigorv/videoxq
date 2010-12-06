@@ -9,7 +9,7 @@ class AppController extends Controller
     var $helpers = array('Javascript', 'Html', 'Form'/*, 'Validation'*/, 'App', 'Ajax', 'PageNavigator');
 //    var $uses = array('User', 'Bookmark', 'Film');
     var $uses = array(
-    'User',
+    'User', 'Zone', 'Server',
     'Bookmark', 'Film', 'Pay', 'Geoip', 'Geocity', 'Georegion', 'Useragreement');
     var $blocksData = array();
     var $blockContent;
@@ -38,6 +38,41 @@ class AppController extends Controller
     {
         $geoInfo = array();
         $geoInfo = $this->Session->read('geoInfo');
+//*
+//КОНФИГУРИРУЕМ СПИСОК СЕРВЕРОВ
+        $servers = Cache::read('servers', 'block');
+        if (empty($servers))
+        {
+        	$servers = $this->Server->findAll(array('Server.is_active' => 1), null, 'Server.priority DESC');
+        	Cache::write('servers', $servers, 'block');
+        }
+        $configServers = array();
+		foreach ($servers as $server)
+		{
+			$configServers[] = array(
+				'server'	=> 'http://' . $server['Server']['addr'] . '/',
+				'share'		=> 'http://' . $server['Server']['addr'] . '/',
+				'letter'	=> $server['Server']['letter'],
+				'zone'		=> $server['Server']['zone'],
+			);
+		}
+        Configure::write('Catalog.downloadServers', $configServers);//Эмулируем старый способ
+
+//КОНФИГУРИРУЕМ СПИСОК ЗОН
+		$zones = Cache::read('zones', 'block');
+        if (empty($zones))
+        {
+        	$zones = $this->Zone->findAll(null, null, 'Zone.priority DESC');
+        	Cache::write('zones', $zones, 'block');
+        }
+        $configZones = array();
+		foreach ($zones as $zone)
+		{
+			$configZones[$zone['Zone']['zone']]['zone'] = $zone['Zone']['zone'];
+			$configZones[$zone['Zone']['zone']]['ip'][] = $zone['Zone']['addr'] . '/' . $zone['Zone']['mask'];
+		}
+        Configure::write('Catalog.allowedIPs', $configZones);//Эмулируем старый способ
+//*/
 //*
         if (empty($geoInfo))
         {
