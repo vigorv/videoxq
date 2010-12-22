@@ -1639,7 +1639,7 @@ $this->set("catalogVariants", $catalogVariants);
 //ПРОВЕРКА НА РАЗРЕШЕНИЕ ПОКАЗА НА ДАННОЙ ТЕРРИТОРИИ
 	    $geoInfo = $this->Session->read('geoInfo');
 
-/* ОТКЛЮЧАЕМ ГЕО ФИЛЬТР ВРЕМЕННО
+//* ОТКЛЮЧАЕМ ГЕО ФИЛЬТР ВРЕМЕННО
 	    $geoIsGood = false;
 	    if (!empty($geoInfo))
 	    {
@@ -1656,7 +1656,7 @@ $this->set("catalogVariants", $catalogVariants);
 	    		$geoIsGood = !empty($res[0]['films_geocities']['id']);
 	    	}
 	    }
-*/
+//*/
 		$geoIsGood = true;
 
 	    $this->set('geoIsGood', $geoIsGood);
