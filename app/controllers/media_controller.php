@@ -1644,18 +1644,51 @@ $this->set("catalogVariants", $catalogVariants);
 	    $geoIsGood = false;
 	    if (!empty($geoInfo))
 	    {
+	    	if (!empty($geoInfo['Geoip']['region_id']) || !empty($geoInfo['Geoip']['city_id']))
+	    	{
+	    		//ТК база GeoIP СОДЕРЖИТ ТОЛЬКО РОССИЙСКИЕ АДРЕСА
+	    		//ЛИЦЕНЗИЯ ДЕЙСТВУЕТ НА ВСЮ РОССИЮ
+	    		$geoIsGood = $film['Film']['is_license'];
+	    	}
 	    	if (!empty($geoInfo['Geoip']['region_id']))
 	    	{
-	    		$sql = 'select id from films_georegions where film_id = ' . $film['Film']['id'] . ' and georegion_id = ' . $geoInfo['Geoip']['region_id'];
+	    		//ПРОВЕРЯЕМ, ОГРАНИЧЕНА ЛИ ЛИЦЕНЗИЯ РЕГИОНОМ
+	    		$sql = 'select id from films_georegions where film_id = ' . $film['Film']['id'];
 	    		$res = $this->Film->query($sql);
-	    		$geoIsGood = !empty($res[0]['films_georegions']['id']);
+	    		if ($res)
+	    		{
+	    			$geoIsGood = false;
+	    			foreach ($res as $r)
+	    			{
+	    				if ($r['films_georegions']['georegion_id'] == $geoInfo['Geoip']['region_id'])
+	    				{
+		    				$geoIsGood = true;
+		    				break;
+	    				}
+	    			}
+	    		}
 	    	}
+/*
+ОГРАНИЧЕНИЕ ПО ГОРОДАМ ПОКА НЕ РЕАЛИЗОВАНО В ИНТЕРФЕЙСЕ АДМИНИСТРАТОРА
 	    	if ((!$geoIsGood) && (!empty($geoInfo['Geoip']['city_id'])))
 	    	{
-	    		$sql = 'select id from films_geocities where film_id = ' . $film['Film']['id'] . ' and geocity_id = ' . $geoInfo['Geoip']['city_id'];
+	    		//ПРОВЕРЯЕМ, ОГРАНИЧЕНА ЛИ ЛИЦЕНЗИЯ ГОРОДОМ
+	    		$sql = 'select id from films_geocities where film_id = ' . $film['Film']['id'];
 	    		$res = $this->Film->query($sql);
-	    		$geoIsGood = !empty($res[0]['films_geocities']['id']);
+	    		if ($res)
+	    		{
+	    			$geoIsGood = false;
+	    			foreach ($res as $r)
+	    			{
+	    				if ($r['films_geocities']['geocity_id'] == $geoInfo['Geoip']['city_id'])
+	    				{
+		    				$geoIsGood = true;
+		    				break;
+	    				}
+	    			}
+	    		}
 	    	}
+//*/
 	    }
 //*/
 
