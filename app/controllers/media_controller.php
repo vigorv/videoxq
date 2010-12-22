@@ -1639,6 +1639,7 @@ $this->set("catalogVariants", $catalogVariants);
 //ПРОВЕРКА НА РАЗРЕШЕНИЕ ПОКАЗА НА ДАННОЙ ТЕРРИТОРИИ
 	    $geoInfo = $this->Session->read('geoInfo');
 
+		$geoIsGood = true;
 //* ОТКЛЮЧАЕМ ГЕО ФИЛЬТР ВРЕМЕННО
 	    $geoIsGood = false;
 	    if (!empty($geoInfo))
@@ -1657,7 +1658,6 @@ $this->set("catalogVariants", $catalogVariants);
 	    	}
 	    }
 //*/
-		$geoIsGood = true;
 
 	    $this->set('geoIsGood', $geoIsGood);
 
