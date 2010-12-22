@@ -1653,7 +1653,7 @@ $this->set("catalogVariants", $catalogVariants);
 	    	if (!empty($geoInfo['Geoip']['region_id']))
 	    	{
 	    		//ПРОВЕРЯЕМ, ОГРАНИЧЕНА ЛИ ЛИЦЕНЗИЯ РЕГИОНОМ
-	    		$sql = 'select id from films_georegions where film_id = ' . $film['Film']['id'];
+	    		$sql = 'select georegion_id from films_georegions where film_id = ' . $film['Film']['id'];
 	    		$res = $this->Film->query($sql);
 	    		if ($res)
 	    		{
@@ -1673,7 +1673,7 @@ $this->set("catalogVariants", $catalogVariants);
 	    	if ((!$geoIsGood) && (!empty($geoInfo['Geoip']['city_id'])))
 	    	{
 	    		//ПРОВЕРЯЕМ, ОГРАНИЧЕНА ЛИ ЛИЦЕНЗИЯ ГОРОДОМ
-	    		$sql = 'select id from films_geocities where film_id = ' . $film['Film']['id'];
+	    		$sql = 'select geocity_id from films_geocities where film_id = ' . $film['Film']['id'];
 	    		$res = $this->Film->query($sql);
 	    		if ($res)
 	    		{
