@@ -186,6 +186,28 @@ if (isset($lnk))
     fclose($fp);
 }
 
+//ТЕСТ НАЛИЧИЯ КЭША БЛОКОВ
+echo'<p>Block Cache test ';
+if (function_exists('memcache_connect'))
+{
+	//$memcache = new Memcache;
+	$memcache_obj = memcache_connect('localhost', 11211);
+	if ($memcache_obj)
+	{
+		echo isPass(true);
+	}
+	else
+	{
+		echo isPass(false) . ' can not connect memcached service on localhost:11211';
+	}
+	echo'</p>';
+}
+else
+{
+	$error = true;
+	echo isPass(false) . ' (memcache functions not exists. Test can`t be pass)';
+}
+
 //ТЕСТ НА ОТПРАВКУ EMAIL
 echo'<p>videoxq send Email test ';
 
