@@ -873,7 +873,7 @@ if (!empty($this->params['named']['is_license']))
             //$pagination['Film']['group'] = 'Film.id';
             $search = (!empty($this->params['named']['search'])) ? trim($this->params['named']['search']) : '';
 
-			function transCyrChars($txt)
+			function transCyrChars($txt, $reverse = false)
 			{
 				$result = '';
 				$t = array(//ТРАНСЛИТ
@@ -891,6 +891,11 @@ if (!empty($this->params['named']['is_license']))
 					'я'=>'z'
 				 );
 				$t = array_flip($t);//ДЛЯ МАССИВА ПО РАСКЛАДКЕ
+
+				if ($reverse)
+				{
+					$t = array_flip($t);//ОБРАТНЫЙ ПЕРЕВОД
+				}
 
 				$t1 = array();//массив в верхнем регистре
 				foreach ($t as $key => $value)
@@ -918,7 +923,19 @@ if (!empty($this->params['named']['is_license']))
 				return $result;
 			}
 
-            $translit = transCyrChars($search);
+			if (empty($this->params['named']['istranslit']))
+			{
+	            $translit = transCyrChars($search);
+				$isTranslit = 0;
+    	    }
+			else
+			{
+	            $translit = transCyrChars($search, true);
+				$isTranslit = 1;
+			}
+
+            if ($translit == $search)
+            	$translit = '';
 
             $this->_logSearchRequest($search);
 
@@ -998,21 +1015,40 @@ echo'</pre>';
 		{
     		$films = $this->Film->find('all', $pagination["Film"]);
     		//*
-    		if (empty($films) && !empty($translit))
-    		{
-    			$pagination['Film']['search'] = $translit;
-	    		$films = $this->Film->find('all', $pagination["Film"]);
-	    		if ($films)
-	    		{
-	    			$this->params['named']['search'] = $translit;
-		    		$transData=array('Transtat' => array('created' => date('Y-m-d H:i:s'), 'search' => mb_substr($translit, 0, 255)));
-		    		//$this->Transtat->useDbConfig = 'productionMedia';
-		    		$this->Transtat->create();
-		    		$this->Transtat->save($transData);
-	    		}
 
-	    		//$this->Transtat->query('insert into transtats (`created`) values("'.$transData["Transtat"]["created"].'")');
-    		}
+    		if (empty($films))
+    		{
+    			if (!empty($translit))
+    			{
+    				if (!isset($this->params['named']['istranslit']))
+    				{
+		                $this->redirect(array('action' => 'index',
+    	                                  'search' => $translit,
+    	                                  'istranslit' => 1,
+        	                              'controller' => 'media'));
+    				}
+    				else
+    				{
+    					if ($isTranslit)
+    					{
+			                $this->redirect(array('action' => 'index',
+	    	                                  'search' => $translit,
+	    	                                  'istranslit' => 0,
+	        	                              'controller' => 'media'));
+    					}
+    				}
+	    			$pagination['Film']['search'] = $translit;
+		    		$films = $this->Film->find('all', $pagination["Film"]);
+		    		if ($films)
+		    		{
+		    			$this->params['named']['search'] = $translit;
+			    		$transData=array('Transtat' => array('created' => date('Y-m-d H:i:s'), 'search' => mb_substr($translit, 0, 255)));
+			    		//$this->Transtat->useDbConfig = 'productionMedia';
+			    		$this->Transtat->create();
+			    		$this->Transtat->save($transData);
+		    		}
+	    		}
+			}
     		//*/
 
 			//КЭШИРУЕМ ДАЖЕ ЕСЛИ НИЧЕГО НЕ НАЙДЕНО
