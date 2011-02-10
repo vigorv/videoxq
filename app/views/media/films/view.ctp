@@ -668,11 +668,12 @@ else
 	//ПРОВЕРКА НА ОПЕРУ-ТУРБО
 	function isOperaTurbo()
 	{
-		$ip = ip2long($_SERVER['REMOTE_ADDR']);
+		$agent = (empty($_SERVER['HTTP_USER_AGENT']) ? '' : strtolower($_SERVER['HTTP_USER_AGENT']));
+		$hostName = strtolower(gethostbyaddr($_SERVER["HTTP_X_REAL_IP"]));
 		return (
-				(($ip >= ip2long('94.246.126.1')) && ($ip <= ip2long('94.246.126.239'))) //94.246.126.255
+				(strpos($hostName, 'opera-mini.net') !== false)
 				||
-				(($ip >= ip2long('94.246.127.1')) && ($ip <= ip2long('94.246.127.64')))
+				(strpos($agent, 'opera mini') !== false)
 			   );
 	}
 
