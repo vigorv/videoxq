@@ -784,7 +784,7 @@ if (!empty($variant['FilmLink']))
 		    			{
 							$panelContent .= '<h3 style="margin-bottom:0px;">' . ($num++) . '. ' . $link['title'] . '</h3>';
 							$panelContent .= '<p>' . $link['descr'] . '</p><ul>';
-			    			$panelContent .= '<li><a target="_blank" href="' . $link['link'] . '">' . $link['filename'] . ' ' . ($startFL + 1) . '</a></li>';
+			    			$panelContent .= '<li><a target="_blank" href="' . $link['link'] . '">' . $link['filename'] . '</a></li>';
 		    			}
 		    			else
 		    			{
@@ -794,7 +794,7 @@ if (!empty($variant['FilmLink']))
 		    		}
 		    		else
 		    		{
-		    			$panelContent .= '<li><a target="_blank" href="' . $link['link'] . '">' . $link['filename'] . ' ' . ($startFL + 1) . '</a></li>';
+		    			$panelContent .= '<li><a target="_blank" href="' . $link['link'] . '">' . $link['filename'] . '</a></li>';
 		    		}
 		    	}
 		    	else
