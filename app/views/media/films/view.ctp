@@ -921,9 +921,9 @@ if (!empty($variant['FilmLink']))
 	}
 
 //ВЫВОД УПРАВЛЯЮЩИХ ЗАКЛАДОК
-	$linksContent .= '<table width="600" cellspacing="0" cellpadding="3" border="0">';
+	$linksContent .= '<table width="700" cellspacing="0" cellpadding="3" border="0">';
 	$maxLinksPanel = 'webpanel'; $maxLinks = 100;
-		foreach (array('hqpanel' => 'HQ', 'sqpanel' => 'SQ', 'mobpanel' => 'mob', 'webpanel' => 'web') as $key => $value)
+		foreach (array('hqpanel' => __('High definition video', true), 'sqpanel' => __('Standard definition video', true), 'mobpanel' => __('Video Mobile', true), 'webpanel' => __('Search in Web', true)) as $key => $value)
 		{
 			$linksCntStr = '';
 			if (!empty($panelLinksCnt[$key]))
@@ -1087,6 +1087,13 @@ if (isset($authUser['username']))// && (($authUser['username'] == 'vanoveb') || 
 //echo 'GEO DISABLED'; pr($geoIsGood);
 //echo 'ALLOW DISABLED'; pr($allowDownload);
 
+	if (!empty($ozons))
+	{
+?>
+<h3><a href="/media/ozon/<?php echo $Film['id']; ?>" title="<?php __('Buy on'); echo ' ozon.ru'; ?>" alt="<?php __('Buy on'); echo ' ozon.ru'; ?>"><?php __('Buy on'); echo ' ozon.ru'; ?></a></h3>
+<?php
+	}
+
 echo $divxContent;
 echo $linksContent;
 
@@ -1104,14 +1111,6 @@ echo $linksContent;
     }
     ?>
 </p>
-<?php
-	if (!empty($ozons))
-	{
-?>
-<h3><a href="/media/ozon/<?php echo $Film['id']; ?>" title="<?php __('Buy on'); echo ' ozon.ru'; ?>" alt="<?php __('Buy on'); echo ' ozon.ru'; ?>"><?php __('Buy on'); echo ' ozon.ru'; ?></a></h3>
-<?php
-	}
-?>
     <?php
     /*
 if (count($FilmComment) > 0)
