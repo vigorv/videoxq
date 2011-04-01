@@ -42,5 +42,5 @@ echo '<p>' . $_SERVER["HTTP_HOST"] . '</p>';
 echo '<h3>X-Forwarded-For</h3>';
 echo '<p>' . (isset($_SERVER["HTTP_X_FORWARDED_FOR"]) ? $_SERVER["HTTP_X_FORWARDED_FOR"] : "empty") . '</p>';
 echo '<h3>X-Real-Ip</h3>';
-echo '<p>' . (isset($_SERVER["HTTP_X_REAL_IP"]) ? $_SERVER["HTTP_X_REAL_IP"] : "empty") . '</p>';
+echo '<p>' . (isset($_SERVER["HTTP_X_REAL_IP"]) ? $_SERVER["HTTP_X_REAL_IP"] . ' (' . gethostbyaddr($_SERVER["HTTP_X_REAL_IP"]) . ')'  : "empty") . '</p>';
 ?>

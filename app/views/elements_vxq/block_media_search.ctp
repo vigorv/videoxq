@@ -1,3 +1,16 @@
+                <!-- Фильтр -->
+                <table border="0" cellspacing="0" cellpadding="0" width="260">
+                  <tbody>
+                    <tr>
+                      <td class="corner1" width="25"> </td>
+                      <td class="border3"> </td>
+                      <td class="corner2" id="c23" width="25"> </td>
+                    </tr>
+                    <tr>
+                      <td class="border1" width="25"> </td>
+                      <td>
+
+
 
 <?php
 	$defaultStr = __("Search by title", true);
@@ -15,7 +28,7 @@
 -->
 </script>
 <?php echo $form->create(null, array('url' => array('controller' => 'media', 'action' => 'index'), 'onsubmit' => 'return checkSearchSubmit()')); ?>
-<ul id="genres" style="margin-bottom:-10px">
+<ul style="margin:0 0 0 0; padding-left:0px">
     <li class="search">
             <?php
             $defValue = '';
@@ -63,9 +76,7 @@
     	));
 //*/
     echo $form->text("Film." . $searchName, array('class' => 'textInput', 'width' => '250', 'id' => 'adv-title', 'value' => $value, 'onclick' => $onclick, 'onfocus' => $onclick, 'onblur' => $onblur));
-	if ($this->params['action'] != 'view')
-	{
-?>
+            ?>
             <p class="adv2"><label for="adv-genre"><?php __("Genre"); ?>:</label><br>
             <?= $form->select('genre', $block_media_genres['genres'], null, array('class' => 'textInput', 'id' => "adv-genre"), __("All genres", true)); ?>
             </p>
@@ -85,19 +96,8 @@
             <?= $form->radio('sort', $block_media_genres['sort'], array('separator' => '<br>', 'legend' => false));?>
             <?= $form->hidden('direction', array('value' => '1')); ?>
             </p>
-<?php
-	}
-?>
-            <p><input type="submit" value="<?php __("Search"); ?>" class="button">
-<?php
-	if ($this->params['action']!='view')
-	{
-?>
-            <a href="#" class="dashed"><?php __("Advanced Search"); ?></a>
-<?php
-	}
-?>
-            </p>
+            <p>111<input type="submit" value="<?php __("Search"); ?>" class="button"> <a href="#" class="dashed"><?php __("Advanced Search"); ?></a></p>
+
         <script type="text/javascript">
         <!--
 		//$('p.adv').toggle();
@@ -124,3 +124,23 @@
     </li>
 </ul>
         </form>
+                      </td>
+                      <td class="border2" width="25">&nbsp;</td>
+                    </tr>
+                    <tr>
+                      <td class="corner3" width="25"> </td>
+                      <td class="border4"> </td>
+                      <td class="corner4" id="c24" width="25"> </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <br />
+                <!-- /Фильтр -->
+<?php
+$placeNamePrefix = '';
+if ($isWS)
+	$placeNamePrefix = 'WS';
+
+$placeName = $placeNamePrefix . 'left1';
+echo $BlockBanner->getBanner($placeName);
+?>

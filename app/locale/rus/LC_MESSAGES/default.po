@@ -3608,11 +3608,6 @@ msgstr ""
 msgid "Parentemail"
 msgstr ""
 
-#: /views/users/admin_view.ctp:54
-#: /views/users/view.ctp:54
-msgid "Homepage"
-msgstr ""
-
 #: /views/users/admin_view.ctp:64
 #: /views/users/view.ctp:64
 msgid "Aim"
@@ -7373,7 +7368,7 @@ msgstr ""
 #: /views/users/admin_view.ctp:54;54
 #: /views/users/view.ctp:54;54
 msgid "Homepage"
-msgstr ""
+msgstr "Главная"
 
 #: /views/users/admin_view.ctp:64;64
 #: /views/users/view.ctp:64;64
@@ -7688,6 +7683,15 @@ msgstr "года"
 
 msgid "years"
 msgstr "лет"
+
+msgid "week"
+msgstr "неделя"
+
+msgid "weeka"
+msgstr "недели"
+
+msgid "weeks"
+msgstr "недель"
 
 msgid "month"
 msgstr "месяц"
@@ -8362,19 +8366,22 @@ msgid "specify where is"
 msgstr "укажите в каком"
 
 msgid "No results for your search"
-msgstr "В каталоге по вашему запросу ничего не найдено"
+msgstr "По вашему запросу ничего не найдено"
 
 msgid "matches"
 msgstr "совпадений"
 
-msgid "Find in partners catalogs"
-msgstr "Найдено у партнеров"
+msgid "Find in catalogs"
+msgstr "Найдено каталогах"
 
 msgid "first"
 msgstr "первая"
 
 msgid "rewind"
 msgstr "прокрутка назад"
+
+msgid "ago"
+msgstr "назад"
 
 msgid "previous"
 msgstr "предыдущая"
@@ -8414,3 +8421,18 @@ msgstr "Извините, лицензия не найдена. Загрузка
 
 msgid "Buy on"
 msgstr "Купить на"
+
+msgid "For this film did not vote."
+msgstr "За этот фильм еще не голосовали."
+
+msgid "Links not found"
+msgstr "Ссылки не найдены"
+
+msgid "Links List"
+msgstr "Список ссылок"
+
+msgid "Search in Web"
+msgstr "Найти в интернет"
+
+msgid "Files List"
+msgstr "Список файлов"

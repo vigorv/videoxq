@@ -310,42 +310,41 @@ class AppHelper extends Helper
         } else {
             if ($years > 0) {
                 // years and months and days
-                $relative_date .= ($relative_date ? ', ' : '') . $this->pluralForm($years, array('год', 'года', 'лет'));
-                $relative_date .= $months > 0 ? ($relative_date ? ', ' : '') .  $this->pluralForm($months, array('месяц', 'месяца', 'месяцев')) : '';
-                $relative_date .= $weeks > 0 ? ($relative_date ? ', ' : '') . $this->pluralForm($weeks, array('неделя', 'недели', 'недель')) : '';
-                $relative_date .= $days > 0 ? ($relative_date ? ' и ' : '') . $this->pluralForm($days, array('день', 'дня', 'дней')) : '';
+                $relative_date .= ($relative_date ? ', ' : '') . $this->pluralForm($years, array(__('year', true), __('yeara', true), __('years', true)));
+                $relative_date .= $months > 0 ? ($relative_date ? ', ' : '') .  $this->pluralForm($months, array(__('month', true), __('montha', true), __('months', true))) : '';
+                $relative_date .= $weeks > 0 ? ($relative_date ? ', ' : '') . $this->pluralForm($weeks, array(__('week', true), __('weeka', true), __('weeks', true))) : '';
+                $relative_date .= $days > 0 ? ($relative_date ? ' и ' : '') . $this->pluralForm($days, array(__('day', true), __('daya', true), __('days', true))) : '';
             } elseif (abs($months) > 0) {
                 // months, weeks and days
-                $relative_date .= ($relative_date ? ', ' : '') . $this->pluralForm($months, array('месяц', 'месяца', 'месяцев'));
-                $relative_date .= $weeks > 0 ? ($relative_date ? ', ' : '') . $this->pluralForm($weeks, array('неделя', 'недели', 'недель')) : '';
-                $relative_date .= $days > 0 ? ($relative_date ? ' и ' : '') . $this->pluralForm($days, array('день', 'дня', 'дней')) : '';
+                $relative_date .= ($relative_date ? ', ' : '') . $this->pluralForm($months, array(__('month', true), __('montha', true), __('months', true)));
+                $relative_date .= $weeks > 0 ? ($relative_date ? ', ' : '') . $this->pluralForm($weeks, array(__('week', true), __('weeka', true), __('weeks', true))) : '';
+                $relative_date .= $days > 0 ? ($relative_date ? ' и ' : '') . $this->pluralForm($days, array(__('day', true), __('daya', true), __('days', true))) : '';
             } elseif (abs($weeks) > 0) {
                 // weeks and days
-                $relative_date .= ($relative_date ? ', ' : '') . $this->pluralForm($weeks, array('неделя', 'недели', 'недель'));
-                $relative_date .= $days > 0 ? ($relative_date ? ' и ' : '') . $this->pluralForm($days, array('день', 'дня', 'дней')) : '';
+                $relative_date .= ($relative_date ? ', ' : '') . $this->pluralForm($weeks, array(__('week', true), __('weeka', true), __('weeks', true)));
+                $relative_date .= $days > 0 ? ($relative_date ? ' и ' : '') . $this->pluralForm($days, array(__('day', true), __('daya', true), __('days', true))) : '';
             } elseif (abs($days) > 0) {
                 // days and hours
-                $relative_date .= ($relative_date ? ', ' : '') . $this->pluralForm($days, array('день', 'дня', 'дней'));
-                $relative_date .= $hours > 0 ? ($relative_date ? ' и ' : '') . $this->pluralForm($hours, array('час', 'часа', 'часов')) : '';
+                $relative_date .= ($relative_date ? ', ' : '') . $this->pluralForm($days, array(__('day', true), __('daya', true), __('days', true)));
+                $relative_date .= $hours > 0 ? ($relative_date ? ' и ' : '') . $this->pluralForm($hours, array(__('hour', true), __('houra', true), __('hours', true))) : '';
             } elseif (abs($hours) > 0) {
                 // hours and minutes
-                $relative_date .= ($relative_date ? ', ' : '') . $this->pluralForm($hours, array('час', 'часа', 'часов'));
-                $relative_date .= $minutes > 0 ? ($relative_date ? ' и ' : '') . $this->pluralForm($minutes, array('минута', 'минуты', 'минут')) : '';
+                $relative_date .= ($relative_date ? ', ' : '') . $this->pluralForm($hours, array(__('hour', true), __('houra', true), __('hours', true)));
+                $relative_date .= $minutes > 0 ? ($relative_date ? ' и ' : '') . $this->pluralForm($minutes, array(__('minute', true), __('minuta', true), __('minutes', true))) : '';
             } elseif (abs($minutes) > 0) {
                 // minutes only
-                $relative_date .= ($relative_date ? ', ' : '') . $this->pluralForm($minutes, array('минута', 'минуты', 'минут'));
+                $relative_date .= ($relative_date ? ', ' : '') . $this->pluralForm($minutes, array(__('minute', true), __('minuta', true), __('minutes', true)));
             } else {
                 // seconds only
-                $relative_date .= ($relative_date ? ', ' : '') . $this->pluralForm($seconds, array('секунда', 'секунды', 'секунд'));
+                $relative_date .= ($relative_date ? ', ' : '') . $this->pluralForm($seconds, array(__('second', true), __('seconda', true), __('seconds', true)));
             }
 
             if (!$backwards) {
-                $relative_date = sprintf(__('%s назад', true), $relative_date);
+                $relative_date = sprintf("%s " . __('ago', true), $relative_date);
             }
         }
         return $this->output($relative_date);
     }
-
 
     function purifyHtml($data)
     {

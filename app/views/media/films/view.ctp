@@ -1,7 +1,30 @@
 <?php
+
+$isVip = (!empty($authUserGroups) && in_array(Configure::read('VIPgroupId'), $authUserGroups));
+
+$HQTypes = array(
+	9	=>	'HDrip'
+);
+$SQTypes = array(
+	2	=>	'DVDrip',
+	3	=>	'DVDScr',
+	4	=>	'SATrip',
+	5	=>	'Telecine',
+	6	=>	'VHSrip',
+	10	=>	'TVrip',
+);
+
+$mobTypes = array(
+	11	=>	'270p'
+);
+
+$webTypes = array(
+	12	=>	'url'
+);
+
 if (($lang == _ENG_) && (empty($imdb_website)))
 {
-	echo __('Sorry, we do not have a detailed description of the movie', true) . ' &laquo;' . $film['Film']['title_en'] . '&raquo;';
+	echo '<h3 style="margin-left:45px;">' . __('Sorry, we do not have a detailed description of the movie', true) . ' &laquo;' . $film['Film']['title_en'] . '&raquo;</h3><br /><br /><br />';
 }
 else
 {
@@ -391,23 +414,70 @@ if (!empty($similars))
 	$linksContent = '';
 	$faqLink = ' &nbsp;<span style="font-size:25px"><a alt="' . __('How to download?', true) . '" title="' . __('How to download?', true) . '" href="/pages/faq#download">&nbsp;?&nbsp;</a></span>';
 	$yandexLink = '<h3 style="margin-top:12px;"><a target="_blank" href="/media/lite/' . $Film['id'] . '" title="' . __('Download Movie', true) . '">"' . $Film['title' . $langFix] . '" ' . __('download', true) . ' &raquo;</a>' . $faqLink . '</h3>';
+
+/*
+//РОССИЯ СТК
+$isWS = true;
+$allowDownload = $isWS;
+$geoIsGood = true;
+//*/
+
+/*
+//РОССИЯ ВНЕШНИЕ
+$isWS = false;
+$allowDownload = $isWS;
+$geoIsGood = true;
+//*/
+
+if ($isWS)
+{
+	$geoIsGood = true;
+}
+
+if (($geoIsGood) && ($Film['is_license']) && ($authUser['userid']))
+{
+	$isWS = true;
+}
+/*
+//ЗАРУБЕЖНЫЕ
+$isWS = false;
+$allowDownload = $isWS;
+$geoIsGood = false;
+//*/
+
 //$isWS = false;
-	if ($isWS)
+if ($isWS)
 	{
+/*
+//БОЛЬШЕ НА НСК НЕ ОТПРАВЛЯЕМ
 		$yandexLink = '<h3 style="margin-top:12px;"><a href="http://nsk54.com/media/view/' . $Film['id'] . '" title="' . __('Download Movie', true) . '">"' . $Film['title' . $langFix] . '" ' . __('download', true) . ' &raquo;</a>' . $faqLink . '</h3>';
 		$allowDownload = false; //ВСЕ РАВНО СКАЧАЮТ С НСКА
+*/
 	}
 
-if ($allowDownload)
+	$panels = array();
+
+//if ($allowDownload)
+if ($geoIsGood)
 {
 //pr($FilmVariant);
 $language		= ''; //на случай неустановленной информации о трэке
 $translation	= ''; //на случай неустановленной информации о трэке
 $audio_info		= ''; //на случай неустановленной информации о трэке
+$divxContent	= '';
 
+$FilmVariant[] = array('video_type_id' => 9);
+$FilmVariant[] = array('video_type_id' => 2);
+$FilmVariant[] = array('video_type_id' => 11);
+$FilmVariant[] = array('video_type_id' => 12);
 
+//pr($FilmVariant);
+$panelLinksCnt = array();
 foreach ($FilmVariant as $variant)
 {
+	if (!empty($variant['FilmFile']))
+	{
+
     $total = Set::extract('/FilmFile/size', $variant);
     $total = array_sum($total);
 
@@ -461,7 +531,7 @@ else
 
 		if (!empty($authUser['userid']))
 		{
-			if (in_array(Configure::read('VIPgroupId'), $authUserGroups)) //ДЛЯ ВИПОВ ВВОДИМ УПРАВЛЕНИЕ ВИДИМОСТЬЮ ПЛЕЕРА
+			if ($isVip || $isWS) //ДЛЯ ВИПОВ ВВОДИМ УПРАВЛЕНИЕ ВИДИМОСТЬЮ ПЛЕЕРА
 			{
 				if (empty($_COOKIE['playSwitch'])) //ИНИЦИАЛИЗИРУЕМ
 				{
@@ -474,12 +544,18 @@ else
 				}
 			}
 		}
-$divxContent = '<a name="divx"></a><div id="divxdiv" style="z-index:1;">';
+
+		$divxContent = '<a name="divx"></a><div id="divxdiv" style="z-index:1;">';
+		$divxHtml = '';
 
     	$lnk = Film::set_input_server($Film['dir']).'/' . $FilmVariant[0]['FilmFile'][0]['file_name'];
     	$lnkInfo = pathinfo(strtolower(basename($lnk)));
     	$resolution = preg_split('/[\D]{1,}/', trim($FilmVariant[0]['resolution']));
 
+    if (!empty($authUser['userid']))
+    {
+			if ($isVip || $isWS) //ДЛЯ ВИПОВ ВВОДИМ УПРАВЛЕНИЕ ВИДИМОСТЬЮ ПЛЕЕРА
+			{
     	$divxHtml = '
 <object classid="clsid:67DABFBF-D0AB-41fa-9C46-CC0F21721616" width="' . $resolution[0] . '"
 height="' . $resolution[1] . '" codebase="http://go.divx.com/plugin/DivXBrowserPlugin.cab">
@@ -495,6 +571,8 @@ height="' . $resolution[1] . '" codebase="http://go.divx.com/plugin/DivXBrowserP
                 </object>
 
 		';
+			}
+	}
 
     	if (!empty($playSwitch) && ($playSwitch == 'playoff'))
     	{
@@ -519,7 +597,7 @@ height="' . $resolution[1] . '" codebase="http://go.divx.com/plugin/DivXBrowserP
     $playSwitchButton = '';
 	if (!empty($authUser['userid']))
 	{
-		if (in_array(Configure::read('VIPgroupId'), $authUserGroups)) //ДЛЯ ВИПОВ ВВОДИМ УПРАВЛЕНИЕ ВИДИМОСТЬЮ ПЛЕЕРА
+		if ($isVip || $isWS) //ДЛЯ ВИПОВ ВВОДИМ УПРАВЛЕНИЕ ВИДИМОСТЬЮ ПЛЕЕРА
 		{
 			switch ($playSwitch)
 			{
@@ -536,7 +614,6 @@ height="' . $resolution[1] . '" codebase="http://go.divx.com/plugin/DivXBrowserP
 
 
 $linksContent .= '
-	<table class="fileList">
 	<script type="text/javascript">
 	<!--
 		function switchPlay(cur)
@@ -544,15 +621,43 @@ $linksContent .= '
 			$("a img[rel=play]").css({display: \'\'});
 			cur.style.display="none";
 		}
+
+		function filmClk(id)
+		{
+			window.setTimeout(\'$.get("/utils/film_clicks/\' + id + \'")\', 100);
+			return true;
+		}
+
 	-->
 	</script>
 ';
-if (count($variant['FilmFile']) > 1)
-{
-    $linksContent .= '
-    	<tr>
-        <td class="action">';
+	}
 
+$linksContent .= '
+	<script type="text/javascript">
+	<!--
+			function findLinks()
+		{
+			$("#panelcontent").html("<br /><p>' . __("Downloading...", true) . '</p>");
+			$("#panelcontent").load("/media/findlinks/' . $Film['id'] . '");
+			return false;
+		}
+	-->
+	</script>
+';
+
+$panelContent = ''; $linksCnt = 0;
+if ((!empty($variant['FilmFile'])) && (($isVip) || ($isWS)))
+{
+
+if (count($variant['FilmFile']) > 0)
+{
+	$panelContent = '
+		<br /><h3>' . __('Files List', true) . '</h3>
+		<table class="fileList">
+    	<tr>
+        	<td class="action" style="padding-left:20px">
+	';
     if ($numFiles != count($variant['FilmFile']))
     {
         $img = __('AddToBasket', true);
@@ -564,27 +669,16 @@ if (count($variant['FilmFile']) > 1)
         $action = 'delete';
     }
     if ($authUser['userid'] > 0):
-        $linksContent .= $html->link($img, '/basket/' . $action . '/' . $variant['id'] . '/variant', array('onclick' => 'basket('.$variant['id'].', \'variant\', this);return false;','id' => 'variant_' . $variant['id'], 'alt' => __('Add to download list', true)), false, false);
+        $panelContent .= $html->link($img, '/basket/' . $action . '/' . $variant['id'] . '/variant', array('onclick' => 'basket('.$variant['id'].', \'variant\', this);return false;','id' => 'variant_' . $variant['id'], 'alt' => __('Add to download list', true)), false, false);
     endif;
 
-    $linksContent .= '</td>
+    $panelContent .= '</td>
         <td class="size">' . $app->sizeFormat($total) . '</td>
         <td class="title">' . __('All Files', true) . '</td>
     	</tr>
     ';
 }
-	$linksContent .= '
-    	<script type="text/javascript">
-    	<!--
-    		function filmClk(id)
-    		{
-    			window.setTimeout(\'$.get("/utils/film_clicks/\' + id + \'")\', 100);
-    			return true;
-    		}
-    	-->
-    	</script>
-	';
-    $playDisplay = 'none';
+    $playDisplay = 'none';  $linksCnt = 0;
     foreach ($variant['FilmFile'] as $file)
     {
         if (!in_array($file['id'], $basket))
@@ -597,29 +691,29 @@ if (count($variant['FilmFile']) > 1)
             $img = __('RemoveFromBasket', true);
             $action = 'delete';
         }
-    	$linksContent .= '
+    	$panelContent .= '
     	<tr>
         	<td class="action" style="padding-left:30px">
 		';
 
         if ($authUser['userid'] > 0):
-			$linksContent .= $html->link($img,
+			$panelContent .= $html->link($img,
                                '/basket/'. $action .'/' . $file['id'] . '/file',
                                  array('onclick' => 'basket('.$file['id'].', \'file\', this);return false;',
                                        'id' => 'file_' . $variant['id'] . '_' . $file['id']),
                                  false, false);
         else:
-            $linksContent .= '<img width="20" height="20" title="' . __('Add to download list', true) . ' (' . __('Available only to registered users', true) . ')" alt="' . __('Add to download list', true) . ' (' . __('Available only to registered users', true) . ')" src="/img/vusic/add.gif" />';
+            $panelContent .= '<img width="20" height="20" title="' . __('Add to download list', true) . ' (' . __('Available only to registered users', true) . ')" alt="' . __('Add to download list', true) . ' (' . __('Available only to registered users', true) . ')" src="/img/vusic/add.gif" />';
         endif;
 
-        $linksContent .= '
+        $panelContent .= '
         	</td>
         	<td class="size">' . $app->sizeFormat($file['size']) . '</td>
 	        <td class="title">
 		';
-		$play = '';
-		//if (in_array(Configure::read('VIPgroupId'), $authUserGroups)) //ДЛЯ ВИПОВ ВВОДИМ УПРАВЛЕНИЕ ВИДИМОСТЬЮ ПЛЕЕРА
-		if (!empty($authUser['userid'])) //ДЛЯ ВИПОВ ВВОДИМ УПРАВЛЕНИЕ ВИДИМОСТЬЮ ПЛЕЕРА
+		$play = ''; $href = '';
+		//if ($isVip) //ДЛЯ ВИПОВ ВВОДИМ УПРАВЛЕНИЕ ВИДИМОСТЬЮ ПЛЕЕРА
+		if (!empty($authUser['userid']))
 		{
         	$href='<a onclick="return filmClk(' . $Film['id'] . ');" href="' . Film::set_input_server($Film['dir']).'/' . $file['file_name'] . '">' . $file['file_name'] . '</a>&nbsp;';
         	$share = Film::set_input_share($Film['dir']);
@@ -636,20 +730,246 @@ if (count($variant['FilmFile']) > 1)
 //if (($authUser['username'] <> 'vanoveb') && ($authUser['username'] <> 'stell_hawk')) $play = '';
 
         $playDisplay = '';
-		$linksContent .= $href;
+		$panelContent .= $href;
 
 		/*if (!empty($file['dcpp_link'])){
         <a href="<?= $file['dcpp_link']?>">DC++</a> } */
-		$linksContent .= '
+		$panelContent .= '
         		</td>
         		<td>
         		' . $play . '
         		</td>
     		</tr>
     	';
+		$linksCnt++;
     }
-	$linksContent .= '</table>';
+	$panelContent .= '</table>';
+}
+
+//pr($variant['FilmLink']);
+if (!empty($variant['FilmLink']))
+{
+	if (count($variant['FilmLink']) > 0)
+	{
+
+		$variant['video_type_id'] = 12;//ПРИНУДИТЕЛЬНО ДОБАВЛЯЕМ НА ПАНЕЛЬ WEB
+		$num = 1; $linksCnt = 0;
+		$panelContent = '
+			<br />
+			<h3>' . __('Links List', true) . '</h3>
+		';
+		$maxWebLinksCount = Configure::read('App.webLinksCount');
+		$startFL = 0; $flCount = 0; $flStr = 'catalog/view/'; $flVipStr = 'catalog/viewv/';
+	    foreach ($variant['FilmLink'] as $link)
+	    {
+	    	$isFL = strpos($link['link'], $flStr);//ЭТО ССЫЛКА ИЗ ОБМЕННИКА
+			if ($isFL)
+			{
+				$flCount++;
+			}
+		}
+	    foreach ($variant['FilmLink'] as $link)
+	    {
+	    	$isFL = strpos($link['link'], $flStr);//ЭТО ССЫЛКА ИЗ ОБМЕННИКА
+	    	if ($isFL && !$isWS) continue;
+
+			if ($isFL)
+			{
+		    	if ($isVip)
+		    	{
+		    		$link['link'] = str_replace($flStr, $flVipStr, $link['link']);
+		    		if (empty($startFL))
+		    		{
+		    			if ($flCount > 1)
+		    			{
+							$panelContent .= '<h3 style="margin-bottom:0px;">' . ($num++) . '. ' . $link['title'] . '</h3>';
+							$panelContent .= '<p>' . $link['descr'] . '</p><ul>';
+			    			$panelContent .= '<li><a target="_blank" href="' . $link['link'] . '">' . $link['filename'] . ' ' . ($startFL + 1) . '</a></li>';
+		    			}
+		    			else
+		    			{
+							$panelContent .= '<h3 style="margin-bottom:0px;">' . ($num++) . '. <a target="_blank" href="' . $link['link'] . '">' . $link['title'] . '</a></h3>';
+							$panelContent .= '<p>' . $link['descr'] . '</p>';
+		    			}
+		    		}
+		    		else
+		    		{
+		    			$panelContent .= '<li><a target="_blank" href="' . $link['link'] . '">' . $link['filename'] . ' ' . ($startFL + 1) . '</a></li>';
+		    		}
+		    	}
+		    	else
+		    	{
+		    		if ($startFL) continue;
+					$panelContent .= '<h3 style="margin-bottom:0px;">' . ($num++) . '. <a target="_blank" href="' . $link['link'] . '">' . $link['title'] . '</a></h3>';
+					$panelContent .= '<p>' . $link['descr'] . '</p>';
+		    	}
+				$startFL++;
+			}
+			else
+			{
+				if (!empty($startFL))
+				{
+					$panelContent .= '</ul>';
+				}
+				$startFL = 0;
+				$panelContent .= '<h3 style="margin-bottom:0px;">' . ($num++) . '. <a target="_blank" href="' . $link['link'] . '">' . $link['title'] . '</a></h3>';
+				$panelContent .= '<p>' . $link['descr'] . '</p>';
+			}
+
+			$linksCnt++;
+			if ($link['zone'] == 'web')
+			{
+				$maxWebLinksCount--;
+			}
+			if ($maxWebLinksCount < 0) break;
+	    }
 	}
+}
+
+	$currentPanelId = '';
+	if (in_array(intval($variant['video_type_id']), array_keys($HQTypes)))
+	{
+		$currentPanelId = 'hqpanel';
+	}
+	if (in_array(intval($variant['video_type_id']), array_keys($SQTypes)))
+	{
+		$currentPanelId = 'sqpanel';
+	}
+	if (in_array(intval($variant['video_type_id']), array_keys($mobTypes)))
+	{
+		$currentPanelId = 'mobpanel';
+	}
+	if (in_array(intval($variant['video_type_id']), array_keys($webTypes)))
+	{
+		$currentPanelId = 'webpanel';
+	}
+
+	if (!empty($linksCnt))
+	{
+		$panelLinksCnt[$currentPanelId] = $linksCnt;
+	}
+
+	switch ($currentPanelId)
+	{
+		case"hqpanel":
+			if (empty($panelContent))
+			{
+				$panelContent = '
+				<br /><br />
+				<p>' . __('Links not found', true) . '</p>
+				<br />
+				';
+			}
+		break;
+		case"sqpanel":
+			if (empty($panelContent))
+			{
+				$panelContent = '
+				<br /><br />
+				<p>' . __('Links not found', true) . '</p>
+				<br />
+				';
+			}
+		break;
+		case"mobpanel":
+			if (empty($panelContent))
+			{
+				$panelContent = '
+				<br /><br />
+				<p>' . __('Links not found', true) . '</p>
+				<br />
+				';
+			}
+		break;
+		case"webpanel":
+			if (empty($panelContent))
+			{
+				if ($isVip)
+				{
+					$panelContent = '
+					<script type="text/javascript">
+					<!--
+						findLinks();
+					-->
+					</script>
+					';
+				}
+				else
+				{
+					$panelContent = '
+					<br />
+					<p>' . __('Links not found', true) . '</p>
+					<h3><a href="#" onclick="return findLinks();">' . __('Search in Web', true) . '</a></h3>
+					<br />
+					';
+				}
+			}
+		break;
+	}
+
+
+	if (!empty($panelContent) && !in_array($currentPanelId, $panels))
+	{
+		$panels[] = $currentPanelId;
+		$panelContent = '<div id="' . $currentPanelId . '">' . $panelContent . '</div>';
+	}
+	else
+		$panelContent = '';
+
+	$linksContent .= $panelContent;
+
+	}
+
+//ВЫВОД УПРАВЛЯЮЩИХ ЗАКЛАДОК
+	$linksContent .= '<table width="600" cellspacing="0" cellpadding="3" border="0">';
+	$maxLinksPanel = 'webpanel'; $maxLinks = 100;
+		foreach (array('hqpanel' => 'HQ', 'sqpanel' => 'SQ', 'mobpanel' => 'mob', 'webpanel' => 'web') as $key => $value)
+		{
+			$linksCntStr = '';
+			if (!empty($panelLinksCnt[$key]))
+			{
+				$linksCntStr = ' (' . $panelLinksCnt[$key] . ')';
+				if (($panelLinksCnt[$key] > 0) && ($panelLinksCnt[$key] < $maxLinks))
+				{
+					$maxLinks = $panelLinksCnt[$key];
+					$maxLinksPanel = $key;
+				}
+			}
+			$linksContent .= '<td id="' . $key . 'folder" class="unfocusedpanel"><a style="display: block" href="#" onclick="return focusPanel(\'' . $key . '\');">' . $value . $linksCntStr . '</a></td>';
+		}
+		$linksContent .= '
+			<td id="lastfolder">&nbsp;</td></tr>
+			<tr><td id="panelcontent" colspan="5"></td></tr>
+			</table>
+		';
+		$linksContent .= '
+<script type="text/javascript">
+<!--
+	function focusPanel(id)
+	{
+		if (curPanel != id)
+		{
+			if (curPanel == \'\')
+			{
+				curPanel = id;
+				$("#" + curPanel + "folder").removeClass("unfocusedpanel");
+			}
+			else
+			{
+				$("#" + curPanel + "folder").removeClass("focusedpanel");
+				$("#" + curPanel + "folder").addClass("unfocusedpanel");
+			}
+		}
+		curPanel = id;
+		$("#" + curPanel + "folder").addClass("focusedpanel");
+		$("#panelcontent").html($("#" + curPanel).html());
+		return false;
+	}
+	curPanel = \'\';
+	focusPanel(\'' . $maxLinksPanel . '\');
+-->
+</script>
+	';
 }
 else
 {
@@ -669,7 +989,7 @@ else
 	function isOperaTurbo()
 	{
 		$agent = (empty($_SERVER['HTTP_USER_AGENT']) ? '' : strtolower($_SERVER['HTTP_USER_AGENT']));
-		$hostName = strtolower(gethostbyaddr($_SERVER["HTTP_X_REAL_IP"]));
+		$hostName = strtolower(gethostbyaddr(empty($_SERVER["HTTP_X_REAL_IP"]) ? $_SERVER["REMOTE_ADDR"] : $_SERVER["HTTP_X_REAL_IP"]));
 		return (
 				(strpos($hostName, 'opera-mini.net') !== false)
 				||
@@ -752,17 +1072,20 @@ if (isset($authUser['username']))// && (($authUser['username'] == 'vanoveb') || 
 		$linksContent = '';
 		if ($film['Film']['imdb_id'])
 		{
-			echo '<h3 style="margin-top:12px;"><a target="_blank" href="http://imdb.com/title/' . $film['Film']['imdb_id'] . '">"' . $film['Film']['title'] . '" imdb.com &raquo;</a></h3>';
+			echo '<h3 style="margin-top:12px;"><a target="_blank" href="http://imdb.com/title/' . $film['Film']['imdb_id'] . '">"' . $film['Film']['title' . $langFix] . '" imdb.com &raquo;</a></h3>';
 		}
 		//echo '<h3 style="margin-top:12px;"><a target="_blank" title="скачать на kinopoisk.ru" href="http://www.kinopoisk.ru/index.php?kp_query=' . rawurlencode(iconv('utf-8','windows-1251', $film['Film']['title'])) . '">"' . $film['Film']['title'] . '" cкачать &raquo;</a></h3>';
-		//echo '<h3 style="margin-top:12px;"><a target="_blank" title="скачать" href="http://yandex.ru/yandsearch?text=' . rawurlencode(iconv('utf-8','windows-1251', $film['Film']['title'])) . '">"' . $film['Film']['title'] . '" cкачать &raquo;</a></h3>';
-		echo $yandexLink;
+		echo '<h3 style="margin-top:12px;"><a target="_blank" href="http://google.com/search?q=' . rawurlencode(iconv('utf-8','windows-1251', $film['Film']['title'])) . '">"' . $film['Film']['title'] . '" ' . __('Free download', true) . ' &raquo;</a></h3>';
+		//echo $yandexLink;
 	}
-	if ($geoIsGood && !empty($authUserGroups) && in_array(Configure::read('VIPgroupId'), $authUserGroups))
+	if ($geoIsGood)// && $isVip)
 	{
 		$linksContent	= $vipLinks;
 		$divxContent	= $vipDivx;
 	}
+
+//echo 'GEO DISABLED'; pr($geoIsGood);
+//echo 'ALLOW DISABLED'; pr($allowDownload);
 
 echo $divxContent;
 echo $linksContent;

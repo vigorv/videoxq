@@ -31,7 +31,21 @@ class FilmVariant extends MediaModel {
                                 'exclusive' => '',
                                 'finderQuery' => '',
                                 'counterQuery' => ''
-            ));
+            			),
+            'FilmLink' => array('className' => 'FilmLink',
+                                'foreignKey' => 'film_variant_id',
+                                'dependent' => false,
+                                'conditions' => '',
+                                'fields' => '',
+                                'order' => 'FilmLink.id ASC',
+                                'limit' => '',
+                                'offset' => '',
+                                'exclusive' => '',
+                                'finderQuery' => '',
+                                'counterQuery' => ''
+            			),
+	);
+
     var $hasOne = array(
             'Track' => array('className' => 'Track',
                                 'foreignKey' => 'film_variant_id',

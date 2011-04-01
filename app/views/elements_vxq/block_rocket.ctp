@@ -1,25 +1,25 @@
-<?php //echo serialize($rocketInfo); ?>
 <script type="text/javascript">
 <!--
+//<?php echo serialize($rocketInfo); ?>
 
 	var flipOn = <?php
 		if (!isset($rocketInfo['flipOn']))
 		{
-			echo '0';
+			echo 'false';
 		}
 		else
 		{
-			if ($rocketInfo['flipOn'])
-				echo '1';
+			if ($rocketInfo['flipOn'] == 'false')
+				echo 'false';
 			else
-				echo '0';
+				echo 'true';
 		}
 	?>;
 	var mouseDown = false;
 	var topDown = false;
 
 	var rocketOffset;
-	var rocketHeight = <?php echo (!isset($rocketInfo['rocketHeight'])) ? 280 : $rocketInfo['rocketHeight']; ?>;
+	var rocketHeight = <?php echo (!isset($rocketInfo['rocketHeight'])) ? 200 : $rocketInfo['rocketHeight']; ?>;
 	var rocketWidth = <?php echo (!isset($rocketInfo['rocketWidth'])) ? 550 : $rocketInfo['rocketWidth']; ?>;
 	var rocketPage = '<?php echo (empty($rocketInfo['rocketPage'])) ? 'favorites' : $rocketInfo['rocketPage']; ?>';
 	var rocketChatActual;
@@ -31,7 +31,6 @@
 	var rocketChatItalic = '<?php echo (empty($rocketInfo['rocketChatItalic'])) ? '' : $rocketInfo['rocketChatItalic']; ?>';
 	var rocketChatUnder = '<?php echo (empty($rocketInfo['rocketChatUnder'])) ? '' : $rocketInfo['rocketChatUnder']; ?>';
 	var actualchat = '<?php echo (empty($rocketInfo['actualchat'])) ? '0' : $rocketInfo['rocketChatUnder']; ?>';
-	var lastAnnonsDate = '<?php echo (empty($rocketInfo['lastAnnonsDate'])) ? '0000-00-00 00:00:00' : $rocketInfo['lastAnnonsDate']; ?>';
 -->
 </script>
 <style>
@@ -39,12 +38,12 @@
 	  #flipup {
 			display: none;
 			position: fixed; z-index: 10;
-			top: <?php $rocketInfo['rocketTop'] = 20; echo (!isset($rocketInfo['rocketTop'])) ? '20' : $rocketInfo['rocketTop']; ?>%;
+			top: <?php echo (!isset($rocketInfo['rocketTop'])) ? '30' : $rocketInfo['rocketTop']; ?>%;
 			left: <?php echo (!isset($rocketInfo['rocketLeft'])) ? '-535px' : $rocketInfo['rocketLeft'].'px'; ?>;
 			width: <?php echo (!isset($rocketInfo['rocketWidth'])) ? '550px' : $rocketInfo['rocketWidth'].'px'; ?>;
 			color: white; background: #555555; }
 	}
-	#flipup #innerDiv { margin: 0 0 5px 0; height: <?php echo (empty($rocketInfo['rocketHeight'])) ? 280 : $rocketInfo['rocketHeight']; ?>px; overflow: auto; }
+	#flipup #innerDiv { margin: 0 0 5px 0; height: <?php echo (empty($rocketInfo['rocketHeight'])) ? 200 : $rocketInfo['rocketHeight']; ?>px; overflow: auto; }
 	#flipup #rocketcontent { padding-left: 10px; background-color: #555555; }
 	#flipup textarea { height: 100px; width : 99%; margin: 0 0 0 0; border-width: 0px; }
 	#flipup h3 { margin-bottom: 0px; font-weight: bold; }

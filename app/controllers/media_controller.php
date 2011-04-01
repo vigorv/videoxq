@@ -1551,6 +1551,117 @@ echo'</pre>';
 		$this->set('langFix', $langFix);
     }
 
+    function findlinks($filmId = 0)
+    {
+    	$this->layout = 'ajax';
+    	$film = array();
+		if (!empty($filmId))
+		{
+			$film = $this->Film->find(array('Film.id' => intval($filmId)));
+
+			Cache::delete('Catalog.film_view_' . $film['Film']['id'], 'media');
+/*
+			$ch = curl_init();
+			$q = urlencode($film['Film']['id'] . ' ' . __('download', true));
+			curl_setopt($ch, CURLOPT_URL, Configure::read('App.webShare') . "search/bygroup/$q&rsz=large&hl=ru");
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+			curl_setopt($ch, CURLOPT_REFERER, Configure::read("App.siteUrl"));
+			$body = curl_exec($ch);
+			curl_close($ch);
+*/
+
+			$ch = curl_init();
+			$q = urlencode($film['Film']['title'] . ' ' . __('download', true));
+			curl_setopt($ch, CURLOPT_URL, "http://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=$q&rsz=large&hl=ru");
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+			curl_setopt($ch, CURLOPT_REFERER, Configure::read("App.siteUrl"));
+			$body = curl_exec($ch);
+			curl_close($ch);
+
+			$json = json_decode($body);
+			$googleContent = $json->responseData->results;
+
+			$variantId = 0;
+//ИЩЕМ В СВЯЗЯХ ФИЛЬМА ВАРИАНТ ССЫЛОК
+			$webTypeId = Configure::read('App.webTypeId');
+			if (!empty($film['FilmVariant']))
+			{
+				foreach ($film['FilmVariant'] as $variant)
+				{
+					if ($variant['video_type_id'] == $webTypeId)
+					{
+						$variantId = $variant['id'];
+					}
+				}
+			}
+
+			if (empty($variantId))
+			{
+//СОЗДАЕМ, ЕСЛИ НЕ НАШЛИ
+				$variant = array('FilmVariant'	=> array(
+					'film_id'		=> $film['Film']['id'],
+					'video_type_id'	=> $webTypeId,
+					'resolution'	=> '',
+					'duration'		=> '',
+					'active'		=> 1,
+					'created'		=> date('Y-m-d H:i:s'),
+					'modified'		=> date('Y-m-d H:i:s'),
+					'flag_catalog'	=> 1
+				));
+				$this->Film->FilmVariant->create();
+				$this->Film->FilmVariant->save($variant);
+				$variantId = $this->Film->FilmVariant->getLastInsertId();
+			}
+
+			$this->Film->FilmVariant->FilmLink->deleteAll(array('FilmLink.film_variant_id' => $variantId));
+
+			$links = array();
+//ПОИСК В ОБМЕННИКЕ
+			$ch = curl_init();
+			$q = urlencode($film['Film']['id']);
+			curl_setopt($ch, CURLOPT_URL, Configure::read("App.webShare") . "catalog/searchajax/bygroup/$q");
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+			curl_setopt($ch, CURLOPT_REFERER, Configure::read("App.siteUrl"));
+			$body = curl_exec($ch);
+			curl_close($ch);
+			$body = unserialize($body);
+			$this->set('shareContent', $body);
+
+			foreach($body as $res)
+			{
+				$links[] = array('FilmLink' => array(
+					//"link"	=> $res->visibleUrl,
+					"link"	=> $res['url'],
+					"zone"	=> '',
+					"film_variant_id"	=> $variantId,
+					"title"	=> $res['title'],
+					"filename"	=> $res['filename'],
+					"descr"	=> $res['content'],
+					"dt"	=> date('Y-m-d H:i:s'),
+				));
+			}
+
+			foreach($googleContent as $res)
+			{
+				$links[] = array('FilmLink' => array(
+					//"link"	=> $res->visibleUrl,
+					"link"	=> $res->url,
+					"zone"	=> 'web',//НАШЛИ В ИНТЕРНЕТ
+					"film_variant_id"	=> $variantId,
+					"title"	=> $res->title,
+					"descr"	=> $res->content,
+					"filename"	=> '',
+					"dt"	=> date('Y-m-d H:i:s'),
+				));
+			}
+			$this->Film->FilmVariant->FilmLink->create();
+			$this->Film->FilmVariant->FilmLink->saveAll($links, array('validate' => false, 'atomic' => false));
+
+			$this->set('googleContent', $googleContent);
+		}
+		$this->set('film', $film);
+    }
+
     function view($id = null) {
         if (!$id) {
             $this->Session->setFlash(__('Invalid Film', true));
@@ -1645,7 +1756,7 @@ echo'</pre>';
                                      'Thread',
                                      'FilmPicture' => array('conditions' => array('type <>' => 'smallposter')),
                                      'Country',
-                                     'FilmVariant' => array('FilmFile' => array('order' => 'file_name'), 'VideoType', 'Track' => array('Language', 'Translation')),
+                                     'FilmVariant' => array('FilmLink', 'FilmFile' => array('order' => 'file_name'), 'VideoType', 'Track' => array('Language', 'Translation')),
                                      'MediaRating',
                                      //'FilmComment' => array('order' => 'FilmComment.created ASC',
                                                             //'conditions' => array('FilmComment.hidden' => 0))

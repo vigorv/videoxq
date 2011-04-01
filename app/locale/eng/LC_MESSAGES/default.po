@@ -22,6 +22,9 @@ msgstr "houra"
 msgid "minuta"
 msgstr "minutes"
 
+msgid "weeka"
+msgstr "weeks"
+
 msgid "seconda"
 msgstr "seconds"
 

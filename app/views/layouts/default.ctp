@@ -6,7 +6,6 @@
 //echo $html->css('vusic');
 //echo $html->css('cross');
 echo $html->css('common');
-echo $html->css('styles');
 echo $javascript->link(array('jquery', 'scripts', 'validation'));
 echo $scripts_for_layout;
 //echo $javascript->link('lib');
@@ -42,20 +41,31 @@ echo $scripts_for_layout;
 <title><?php echo Configure::read('App.siteName') . ' - ' . $title_for_layout; ?></title>
 </head>
 <body>
-<!-- _mncheckrights32938_ -->
-    <div class="top">
-      <table border="0" cellpadding="0" cellspacing="0" width="100%" height="173">
-        <tbody>
-          <tr>
-            <td width="304" valign="top">
-              <img alt="" src="/i/cinema.jpg" />
-            </td>
-            <td valign="middle" align="center">
-<div id="heaven">
+<div id="wrap">
 <?php
+/*
+if (empty($authUserGroups) || (!empty($authUser['username']) && ($authUser['username'] != 'polar')))
+{
+	//ВЫРЕЗАЕМ РОКЕТ БЛОК
+	foreach ($blockContent as $bi => $b)
+	{
+		if (is_array($b) && count($b) > 0)
+		{
+			foreach($b as $key => $value)
+			{
+				if (strpos($value['title'], 'rocket') !== false)
+				{
+					unset($blockContent[$bi][$key]);
+				}
+			}
+		}
+	}
+}
+//*/
+
 if (isset($authUserGroups) && in_array(Configure::read('VIPgroupId'), $authUserGroups))
 {
-	//ДЛЯ В�?ПОВ БЛОК�? С БАННЕРАМ�? ВЫРЕЗАЕМ
+	//ДЛЯ ВИПОВ БЛОКИ С БАННЕРАМИ ВЫРЕЗАЕМ
 /*
 	echo'<pre>';
 	print_r($blockContent);
@@ -76,233 +86,48 @@ if (isset($authUserGroups) && in_array(Configure::read('VIPgroupId'), $authUserG
 	}
 }
 
-$placeNamePrefix = '';
-//if ($isWS)
-//	$placeNamePrefix = 'WS';
+echo $BlockBanner->getBanner('header');
 
-$placeName = $placeNamePrefix . 'header1';
-echo $BlockBanner->getBanner($placeName);
-
-?>
-</div><br />
-<?php __("Video catalog"); ?>
-			</td>
-            <td width="250" valign="top">
-              <img alt="" src="/i/cinema2.jpg" />
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="hor_grad"> </div>
-<?php
-if (isset($authUserGroups) && in_array(Configure::read('VIPgroupId'), $authUserGroups))
-{
-	//ДЛЯ В�?ПОВ БЛОК�? С БАННЕРАМ�? ВЫРЕЗАЕМ
-	foreach ($blockContent as $bi => $b)
-	{
-		if (is_array($b) && count($b) > 0)
-		{
-			foreach($b as $key => $value)
-			{
-				if (strpos($value['title'], 'banner') !== false)
-				{
-					unset($blockContent[$bi][$key]);
-				}
-			}
-		}
-	}
-}
-
-$BlockBanner->setIsWS($isWS);
-//echo $BlockBanner->getBanner('header');
-
-?>
-    <div class="right_menu">
-      <table cellpadding="0" cellspacing="0" border="0" height="30">
-        <tbody>
-          <tr>
-            <td>
-              <img src="/i/grad3.gif" alt="" width="26" height="32" />
-            </td>
-            <td class="right_menu_text">
-<?php
-//*
-$langFix = '';
-if (Configure::read('Config.language') == _RUS_)
-{
-	echo '<img title="Русский" src="/img/rus_a.gif" width="20" />';
-	echo '&nbsp;&nbsp;<a title="English" href="/' . _ENG_ . '.php"><img title="English" src="/img/eng.jpg" width="16" /></a>';
-}
-else
-{
-	$langFix = '_' . _ENG_;
-	echo '<a title="Русский" href="/' . _RUS_ . '.php"><img title="Русский" src="/img/rus.gif" width="16" /></a>';
-	echo '&nbsp;&nbsp;<img title="English" src="/img/eng_a.gif" width="20" />';
-}
-echo ' | ';
-//*/
-if ($authUser['userid'] == 0)
-{
-?>
-	<script type="text/javascript">
-	<!--
-		function toggleLogin()
-		{
-			$("#logindiv").slideToggle("fast");
-			return false;
-		}
-	-->
-	</script>
-	<a href="/users/register"><?php __("Register"); ?></a>
-	|
-    <a href="/users/restore"><?php __("Forgot password"); ?>?</a>
-    |
-    <a href="/users/login" onclick="return toggleLogin();"><?php __("Sign In"); ?></a>
-<?php
-}
-else
-{
-    if (!empty($payInfo['Pay']))
-    {
-    	if ($payInfo["Pay"]["findate"] > time())
-    		$payInfo = '<a title="' . __("Paid by", true) . ' ' . date('d.m.y H:i', $payInfo["Pay"]["findate"]) . '" href="/pays">' . __("V.I.P.", true) . '</a>';
-    }
-    else
-    {
-    	if (isset($authUserGroups) && in_array(Configure::read('VIPgroupId'), $authUserGroups))
-    		$payInfo = ' | <a title="' . __("unlimited", true) . '" href="/pays">' . __("V.I.P.", true) . '</a>';
-    	else
-    		$payInfo = ' | <a href="/pays">' . __("Buy V.I.P.", true) . '</a>';
-    }
-?>
-			<?php __("Hi"); ?>, <a href="<?= $app->getUserProfileUrl($authUser['userid']) ?>"><?= $authUser['username'] ?></a>
-            <?php
-            if($pms>0)
-            {
-            	//echo '<a href="' . $app->getUserPMUrl($authUser['userid']) . '"><img src="/img/mail.gif"></a>';
-            }
-            echo $payInfo;?>
-             | <a href="/users/logout"><?php __("Log out"); ?></a>
-<?php
-}
-?>
-    		</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-      <!-- Главное меню -->
-      <div id="PageSelector">
-        <ul>
-<?php
-	$menuItems = array(
-		'/media' => __("Video", true),
-		'/people' => __("People", true),
-	);
-	if (Configure::read('Config.language') == _RUS_)
-	{
-		$menuItems[__("root_forum_link", true)]	= __("Forum", true);
-		$menuItems['/pages/faq']	= 'FAQ';
-		$menuItems['/basket']		= __("Downloads", true);
-
-	}
-	else
-	{
-		$menuItems[__("root_forum_link", true)]	= __("Forum", true);
-	}
-
-	foreach ($menuItems as $key => $value)
-	{
-		$current = '';
-		$href = 'href="' . $key . '"';
-		if (eregi('^' . $key . '$', $here))
-		{
-			$current = ' id="current"';
-			$href = 'noref="noref"';
-		}
-		echo'
-          <li ' . $current . '>
-            <!-- <img style="float: left;" src="/i/folder.jpg">-->
-            <a ' . $href . '>' . $value . '</a>
-          </li>
-		';
-	}
-?>
-        </ul>
-      </div>
-      <!-- /Главное меню -->
-    <div id="CatalogPage" width="100%">
-        <table border="0" cellspacing="0" cellpadding="0" width="100%">
-          <tbody>
-            <tr>
-              <td valign="top" style="padding:5px;">
-<?php
-//BLOCK LEFT
-if (!empty($blockContent['left']))
-  echo $this->element('blocks', array('blockArray' => $blockContent['left']));
-?>
-              </td>
-              <td width="100%" valign="top" style="padding:5px 2px 0 2px;">
-<?php
-//$placeNamePrefix = '';
-//if ($isWS)
-//	$placeNamePrefix = 'WS';
-
-//$placeName = $placeNamePrefix . 'header1';
-//echo $BlockBanner->getBanner($placeName);
-?>
-                <table width="100%" border="0" cellspacing="0" cellpadding="0">
-                  <tbody>
-                    <tr>
-                      <td class="corner1" width="25"> </td>
-                      <td class="border3"> </td>
-                      <td class="corner2" width="25"> </td>
-                    </tr>
-                    <tr>
-                      <td class="border1"> </td>
-                      <td>
-<?php
-
+if (!empty($blockContent['header']))
+  echo $this->element('blocks', array('blockArray' => $blockContent['header']));
+//pr($this);
 if ($session->check('Message.flash'))
     $session->flash();
 
 if ($session->check('Message.auth'))
     $session->flash('auth');
+?>
+<?php
+if (!empty($blockContent['top']))
+  echo $this->element('blocks', array('blockArray' => $blockContent['top']));
 
-$placeName = $placeNamePrefix . 'header2';
-echo $BlockBanner->getBanner($placeName);
 echo $content_for_layout;
-$placeName = $placeNamePrefix . 'bottom1';
-echo $BlockBanner->getBanner($placeName);
 ?>
-                      </td>
-                      <td class="border2"> </td>
-                    </tr>
-                    <tr>
-                      <td class="corner3" width="25"> </td>
-                      <td width="*" class="border4"> </td>
-                      <td class="corner4" width="25"> </td>
-                    </tr>
-                  </tbody>
-                </table>
 <?php
-$placeName = $placeNamePrefix . 'bottom2';
-echo $BlockBanner->getBanner($placeName);
+if (!empty($blockContent['fixed']))
+  echo $this->element('blocks', array('blockArray' => $blockContent['fixed']));
 ?>
-              </td>
-              <td valign="top" style="padding:5px;">
 <?php
-//BLOCK RIGHT
-
-if (!empty($blockContent['right']))
+if ((!empty($blockContent['right'])) && ($this->params['controller']=='media') && ($this->params['action']!='view'))
+//if ((!empty($blockContent['right'])) && ($this->params['controller']=='media'))
   echo $this->element('blocks', array('blockArray' => $blockContent['right']));
 ?>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-	  </div>
+<div class="footer">
+	<div class="copy" width="100%" align="center">
+		<br />
+		<span>© «<a href="http://www.videoxq.com">videoxq.com</a>», 2007-<?php echo date('Y');?></span><br />
+		<span><a href="mailto:support@videoxq.com">email: support@videoxq.com</a></span><br />
+		<span><a href="/pages/reklama<?php echo $langFix;?>"><?php __("Advertisement"); ?></a> | <a href="/pages/kontaktyi<?php echo $langFix;?>"><?php __("Contacts"); ?></a> | <a href="/pages/nashi-partneryi<?php echo $langFix;?>"><?php __("Partners"); ?></a></span>
+	</div>
+<?php
+if (isset($authUserGroups) && in_array(Configure::read('VIPgroupId'), $authUserGroups))
+{
+}
+else
+{
+	echo $BlockBanner->getBanner('bottom');
+}
+?>
 
 <!--LiveInternet counter-->
 <script type="text/javascript"><!--
@@ -344,43 +169,20 @@ yaCounter1094491.trackLinks({external: true});
 <noscript><div style="position:absolute"><img src="//mc.yandex.ru/watch/1094491" alt=""
 /></div></noscript>
 <!-- /Yandex.Metrika -->
-
-<br />
-<div style="z-index: 3; position: absolute;">
-        <table cellspacing="0" cellpadding="0" width="100%" border="0">
-          <tbody>
-            <tr height="32px">
-              <td width="70%" class="bottom_data" nowrap="">
-                <div>
-                	&nbsp;<?php __("Patent Media"); ?>
-                	|
-					<a href="/pages/reklama<?php echo $langFix;?>"><?php __("Advertisement"); ?></a>
-					|
-					<a href="/pages/kontaktyi<?php echo $langFix;?>"><?php __("Contacts"); ?></a>
-					|
-					<a href="/pages/nashi-partneryi<?php echo $langFix;?>"><?php __("Partners"); ?></a>
-                </div>
-              </td>
-              <td class="bottom_block">&nbsp;</td>
-              <td>&nbsp;</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="bottom">
-        <div class="hor_grad2"> </div>
-      </div>
-
-	<div style="position: absolute; z-index: 999; top: 0px; left: 0px; display: none" id="JHRControllerLoaderBox">
-      <img src="/i/progbar.gif" border="0" alt="" />
-    </div>
-
-
+</div>
 <?php
-echo $BlockBanner->getTail();
-echo $cakeDebug;
+if (isset($authUserGroups) && in_array(Configure::read('VIPgroupId'), $authUserGroups))
+{
+}
+else
+{
+?>
+<?php
+}
 ?>
 <script type="text/javascript">(function(){var j=38057,f=false,b=document,c=b.documentElement,e=window;function g(){var a="";a+="rt="+(new Date).getTime()%1E7*100+Math.round(Math.random()*99);a+=b.referrer?"&r="+escape(b.referrer):"";return a}function h(){var a=b.getElementsByTagName("head")[0];if(a)return a;for(a=c.firstChild;a&&a.nodeName.toLowerCase()=="#text";)a=a.nextSibling;if(a&&a.nodeName.toLowerCase()!="#text")return a;a=b.createElement("head");c.appendChild(a);return a}function i(){var a=b.createElement("script");a.setAttribute("type","text/javascript");a.setAttribute("src","http://c.luxup.ru/t/lb"+j+".js?"+g());typeof a!="undefined"&&h().appendChild(a)}function d(){if(!f){f=true;i()}};if(b.addEventListener)b.addEventListener("DOMContentLoaded",d,false);else if(b.attachEvent){c.doScroll&&e==e.top&&function(){try{c.doScroll("left")}catch(a){setTimeout(arguments.callee,0);return}d()}();b.attachEvent("onreadystatechange",function(){b.readyState==="complete"&&d()})}else e.onload=d})();</script>
-	</body>
+<?php echo $cakeDebug;
+echo $BlockBanner->getTail();
+?>
+</body>
 </html>
-<?php

@@ -199,6 +199,9 @@ $config['descPerDay']	= 'на день'; //плата за VIP доступ на
         	$this->set('passedParams', $this->passedArgs);//ДЛЯ ИСПОЛЬЗОВАНИЯ В ОТОБРАЖЕНИЯХ (НАПРИМЕР БЛОК РАСШИРЕННОГО ПОИСКА)
 
     	$isWS = checkAllowedMasks(Configure::read('Catalog.allowedIPs'), $_SERVER['REMOTE_ADDR']);
+
+//echo $_SERVER['REMOTE_ADDR'] . ' - isWS = ' . $isWS;
+
        	$this->set('isWS', $isWS);//ОПРЕДЕЛИЛИ ВЕБСТРИМ или нет
         $this->set('here', $this->here);
     }
@@ -229,6 +232,12 @@ $config['descPerDay']	= 'на день'; //плата за VIP доступ на
      */
     function beforeRender()
     {
+		$lang = Configure::read('Config.language');
+		$langFix = '';
+		if ($lang == _ENG_) $langFix = '_' . _ENG_;
+        $this->set('lang', $lang);
+		$this->set('langFix', $langFix);
+
         if ($this->layout == 'admin' || $this->layout == 'ajax')
             return;
 

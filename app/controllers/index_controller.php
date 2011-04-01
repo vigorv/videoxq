@@ -10,7 +10,7 @@ class IndexController extends AppController {
 
     function index()
     {
-//    	$this->redirect('/media');
+    	$this->redirect('/media');
     	return;
 
     	App::import('Model');

@@ -11,14 +11,7 @@ $people_end = $media_end = $basket_end = '';
 ${$this->params['controller']} = 'class="active"><strong>';
 ${$this->params['controller'] . '_end'} = '</strong>';
 ?>
-    <li <?= $media ?><a href="/media"><?php echo __("Video", true); ?></a><?= $media_end ?></li>
-    <li <?= $people ?><a href="/people"><?php echo __("People", true); ?></a><?= $people_end ?></li>
-<?php
-	if (Configure::read('Config.language') == _RUS_)
-	{
-?>
-    <li <?= $basket ?><a href="/basket"><?php __("Downloads");?></a><?= $basket_end ?></li>
-<?php
-	}
-?>
+    <li <?= $media ?><a href="/media">Фильмы</a><?= $media_end ?></li>
+    <li <?= $people ?><a href="/people">Люди</a><?= $people_end ?></li>
+    <li <?= $basket ?><a href="/basket">Список загрузок</a><?= $basket_end ?></li>
 </ul>

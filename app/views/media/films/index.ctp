@@ -37,34 +37,33 @@ if ((count($films) == 0) || (!empty($wsmediaPostCount)) || (!empty($animebarPost
 		$cLinks = array();
 		if (!empty($films))
 		{
-			$cLinks[] = "<a href=\"http://nsk54.com/media/index/search:{$search}\">nsk54.com " . count($films) . " " . __('matches', true) . "</a>";
+			//$cLinks[] = "<a href=\"http://nsk54.com/media/index/search:{$search}\">nsk54.com " . count($films) . " " . __('matches', true) . "</a>";
 		}
 		if (!empty($wsmediaPostCount))
 		{
 			echo '
-			<form method="post" name=wsmform action="http://wsmedia.su">
+			<form method="post" name=wsmform action="http://rumedia.ws">
 				<input type="hidden" name="do" value="search" />
 				<input type="hidden" name="subaction" value="search" />
 				<input type="hidden" name="nsk54" value="search" />
 				<input type="hidden" name="story" value="' . $search . '" />
 			</form>
 			';
-			$cLinks[] = "<a href=\"http://wsmedia.su\" onclick=\"document.wsmform.submit(); return false;\">wsmedia $wsmediaPostCount " . __('matches', true) . "</a>";
+			$cLinks[] = "<a href=\"http://wsmedia.su\" onclick=\"document.wsmform.submit(); return false;\">RuMedia $wsmediaPostCount " . __('matches', true) . "</a>";
 		}
 		if (!empty($animebarPostCount))
 		{
 			echo '
-			<form method="post" name=abform action="http://animebar.ru">
+			<form method="post" name=abform action="http://animebar.org">
 				<input type="hidden" name="do" value="search" />
 				<input type="hidden" name="subaction" value="search" />
 				<input type="hidden" name="nsk54" value="search" />
 				<input type="hidden" name="story" value="' . $search . '" />
 			</form>
 			';
-			$cLinks[] = "<a href=\"http://animebar.ru\" onclick=\"document.abform.submit(); return false;\">animebar $animebarPostCount " . __('matches', true) . "</a>";
+			$cLinks[] = "<a href=\"http://animebar.org\" onclick=\"document.abform.submit(); return false;\">AnimeBar $animebarPostCount " . __('matches', true) . "</a>";
 		}
-		//echo "<h2>Также было найдено в других каталогах (<a href=\"/media/index/wsm:yes/search:$search\">$postCount совпадений</a>)</h2>";
-		echo "<h2>" . __('Find in partners catalogs', true) . " (" . implode(', ', $cLinks) . ")</h2>";
+		echo "<h2>" . __('Find in catalogs', true) . " (" . implode(', ', $cLinks) . ")</h2>";
 	}
 }
 
