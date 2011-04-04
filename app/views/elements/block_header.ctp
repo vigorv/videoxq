@@ -1,21 +1,16 @@
 ﻿<div class="top">
-<div style="float: left; width: 470px; margin-top: 5px; margin-left: 0;">
 <?php
-
 if (isset($authUserGroups) && in_array(Configure::read('VIPgroupId'), $authUserGroups))
 {
-?>
-
-<?php
+?><?php
 }
 else
 {
+	echo '<div style="float: left; width: 470px; margin-top: 5px; margin-left: 0;">';
 	echo $BlockBanner->getBanner('menu');
+	echo '</div>';
 }
 ?>
-</div>
-
-
     <div class="userbarWrapper"><div class="userbar">
     <div id="flags">
 <?php

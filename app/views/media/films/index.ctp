@@ -49,7 +49,7 @@ if ((count($films) == 0) || (!empty($wsmediaPostCount)) || (!empty($animebarPost
 				<input type="hidden" name="story" value="' . $search . '" />
 			</form>
 			';
-			$cLinks[] = "<a href=\"http://wsmedia.su\" onclick=\"document.wsmform.submit(); return false;\">RuMedia $wsmediaPostCount " . __('matches', true) . "</a>";
+			$cLinks[] = "<a href=\"http://rumedia.ws\" onclick=\"document.wsmform.submit(); return false;\">RuMedia $wsmediaPostCount " . __('matches', true) . "</a>";
 		}
 		if (!empty($animebarPostCount))
 		{
