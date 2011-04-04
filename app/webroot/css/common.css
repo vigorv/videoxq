@@ -364,6 +364,7 @@ li.search .adv2 { display: none; }
 .textInput:focus { background-color: #eeffee; outline: 1px dotted grey; }
 .search .textInput { background-color: Palegreen; }
 
+.top { height:115px; margin: 0; padding: 0; overflow:hidden; }
 .top .userbarWrapper .userbar { background:url(/img/userbar2.gif) top left no-repeat; padding:0 0 0 54px; height:53px; }
 .userbar { overflow: hidden; margin: 0; padding: 0; }
 .top .userbarWrapper .userLogin .button { width:26px; height:27px; margin:18px 0 0 0 }
@@ -385,8 +386,6 @@ li.search .adv2 { display: none; }
 .top h1 a { color:#4b981b; text-decoration:none }
 .top h1 a:hover { color:#4b981b; text-decoration:none }
 .top h1 img { vertical-align:bottom; margin:0 10px 10px 0 }
-
-.top { height:115px; margin: 0; padding: 0;}
 
 form.userLogin { margin:0; padding:0; }
 
