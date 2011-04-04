@@ -1,4 +1,4 @@
-﻿<div class="top">
+<div class="top">
 <?php
 if (isset($authUserGroups) && in_array(Configure::read('VIPgroupId'), $authUserGroups))
 {
