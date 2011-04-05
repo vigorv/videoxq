@@ -205,7 +205,6 @@ if ($this->data["User"]["username"] == 'vanoveb')
 
     function register()
     {
-return;//ВРЕМЕННО ЗАКРЫВАЕМ РЕГИСТРАЦИЮ
 		$lang = Configure::read('Config.language');
 		$langFix = '';
 		if ($lang == _ENG_)

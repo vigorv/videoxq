@@ -1,9 +1,4 @@
 <div class="contentCol">
-<h2>Извините, регистрация временно прекращена</h2>
-<?php
-if (1==0)//НА ВРЕМЯ ЗАКРЫТОЙ РЕГИСТРАЦИИ КОММЕНТИРУЕМ ФОРМУ
-{
-?>
 <h2><?php __("Registration"); ?></h2>
 <?php
 		$cnt = 1;
@@ -89,7 +84,4 @@ echo $form->create('User', array('action' => 'register' , 'class' => 'reg', 'onS
 echo $form->end(__("Register", true));
 ?>
 <p><a href=/users/restore><?php __("Forgot password"); ?>?</a></p>
-<?php
-}
-?>
 </div>
