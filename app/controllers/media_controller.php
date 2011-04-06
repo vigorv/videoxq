@@ -1569,6 +1569,18 @@ echo'</pre>';
 			$body = curl_exec($ch);
 			curl_close($ch);
 */
+		    $geoInfo = $this->Session->read('geoInfo');
+
+		    $geoIsGood = false;
+		    if (!empty($geoInfo))
+		    {
+		    	if (!empty($geoInfo['Geoip']['region_id']) || !empty($geoInfo['Geoip']['city_id']))
+		    	{
+		    		//ТК база GeoIP СОДЕРЖИТ ТОЛЬКО РОССИЙСКИЕ АДРЕСА
+		    		//ЛИЦЕНЗИЯ ДЕЙСТВУЕТ НА ВСЮ РОССИЮ
+		    		$geoIsGood = $film['Film']['is_license'];
+		    	}
+		    }
 
 			$ch = curl_init();
 			$q = urlencode($film['Film']['title'] . ' ' . __('download', true));
@@ -1660,6 +1672,20 @@ echo'</pre>';
 			$this->set('googleContent', $googleContent);
 		}
 		$this->set('film', $film);
+		$lang = Configure::read('Config.language');
+		$langFix = '';
+		if ($lang == _ENG_)
+		{
+			$langFix = '_' . _ENG_;
+	        App::import('Vendor', 'IMDB_Parser', array('file' => 'class.imdb_parser.php'));
+	        App::import('Vendor', 'IMDB_Parser2', array('file' => 'class.imdb_parser2.php'));
+            $parser = new IMDB_Parser2();
+            $this->set('parser', $parser);
+            $this->set('imdb_website', $imdb_website);
+		}
+		$this->set('lang', $lang);
+		$this->set('geoIsGood', $geoIsGood);
+
     }
 
     function view($id = null) {
@@ -1786,7 +1812,6 @@ $this->set("catalogVariants", $catalogVariants);
 //ПРОВЕРКА НА РАЗРЕШЕНИЕ ПОКАЗА НА ДАННОЙ ТЕРРИТОРИИ
 	    $geoInfo = $this->Session->read('geoInfo');
 
-		$geoIsGood = true;
 //* ОТКЛЮЧАЕМ ГЕО ФИЛЬТР ВРЕМЕННО
 	    $geoIsGood = false;
 	    if (!empty($geoInfo))

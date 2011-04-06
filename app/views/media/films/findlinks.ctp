@@ -5,6 +5,16 @@ $isVip = (!empty($authUserGroups) && in_array(Configure::read('VIPgroupId'), $au
 
 //$isWS = true;
 
+if ($isWS)
+{
+	$geoIsGood = true;
+}
+
+if (($geoIsGood) && ($film["Film"]['is_license']) && ($authUser['userid']))
+{
+	$isWS = true;
+}
+
 echo '
 	<br />
 	<h3>' . __('Links List', true) . '</h3>
@@ -23,12 +33,24 @@ if (count($shareContent) > 0)
 		}
 	}
 
+	if ((!$isVip) && (!$isWS))//ЕСЛИ НЕ СТК, ПЕРЕМЕШИВАЕМ
+	{
+		$shareContent = array_slice($shareContent, 0, $max + 3);
+		srand((float) microtime() * 10000000);
+		if (rand(1, 10) > 9)
+		{
+			unset($shareContent[0]);//УДАЛЯЕМ ССЫЛКУ НА FL (ВЕРОЯТНОСТЬ ПОКАЗА 0.9)
+		}
+		srand((float) microtime() * 10000000);
+		shuffle($shareContent);
+	}
+
 	$panelContent = '';
+	$max++;//КОМПЕНСИРУЕМ, ЕСЛИ ССЫЛКА FL ОКАЖЕТСЯ НА ПОСЛЕДНЕМ МЕСТЕ
 	foreach($shareContent as $res)
 	{
 //		echo '<h3 style="margin-bottom:0px;">' . ($num++) . '. <a target="_blank" href="' . $res['url'] . '">' . $res['title'] . '</a></h3>';
 //		echo '<p>' . $res['content'] . '</p>';
-
 
     	$isFL = strpos($res['url'], $flStr);//ЭТО ССЫЛКА ИЗ ОБМЕННИКА
     	if ($isFL && !$isWS) continue;
@@ -42,28 +64,28 @@ if (count($shareContent) > 0)
 	    		{
 	    			if ($flCount > 1)
 	    			{
-						$panelContent .= '<h3 style="margin-bottom:0px;">' . ($num++) . '. ' . $res['title'] . '</h3>';
-						$panelContent .= '<p>' . $res['content'] . '</p><ul>';
-		    			$panelContent .= '<li><a target="_blank" href="' . $res['url'] . '">' . __('Part', true) . ' ' . ($startFL + 1) . '</a></li>';
+						$panelContent .= '<h3 style="margin-bottom:0px;"><img src="/img/greenstar.png" width="20" /> ' . $res['title'] . ' ' . $film["Film"]["year"] . ' ';
+						$panelContent .= '</h3>';
+		    			$panelContent .= '<ul><li><a target="_blank" href="' . $res['url'] . '">' . $res['filename'] . '</a></li>';
 	    			}
 	    			else
 	    			{
-						$panelContent .= '<h3 style="margin-bottom:0px;">' . ($num++) . '. <a target="_blank" href="' . $res['url'] . '">' . $res['title'] . '</a></h3>';
-						$panelContent .= '<p>' . $res['content'] . '</p>';
+						$panelContent .= '<h3 style="margin-bottom:0px;"><img src="/img/greenstar.png" width="20" /> <a target="_blank" href="' . $res['url'] . '">' . $res['title'] . '</a> ' . $film["Film"]["year"] . ' ';
+						$panelContent .= '<p></p></h3>';
 	    			}
 	    		}
 	    		else
 	    		{
-	    			$panelContent .= '<li><a target="_blank" href="' . $res['url'] . '">' . __('Part', true) . ' ' . ($startFL + 1) . '</a></li>';
+	    			$panelContent .= '<li><a target="_blank" href="' . $res['url'] . '">' . $res['filename'] . '</a></li>';
 	    		}
 	    	}
 	    	else
 	    	{
 	    		if ($startFL) continue;
-				$panelContent .= '<h3 style="margin-bottom:0px;">' . ($num++) . '. <a target="_blank" href="' . $res['url'] . '">' . $res['title'] . '</a></h3>';
-				$panelContent .= '<p>' . $res['content'] . '</p>';
-	    	}
+				$panelContent .= '<h3 style="margin-bottom:0px;"><img src="/img/greenstar.png" width="20" /> <a target="_blank" href="' . $res['url'] . '">' . $res['title'] . '</a> ' . $film["Film"]["year"] . '</h3><p></p>';
+			}
 			$startFL++;
+			$max--;
 		}
 		else
 		{
@@ -72,7 +94,7 @@ if (count($shareContent) > 0)
 				$panelContent .= '</ul>';
 			}
 			$startFL = 0;
-			$panelContent .= '<h3 style="margin-bottom:0px;">' . ($num++) . '. <a target="_blank" href="' . $res['url'] . '">' . $res['title'] . '</a></h3>';
+			$panelContent .= '<h3 style="margin-bottom:0px;"><img src="/img/blackstar.png" width="20" />  <a target="_blank" href="' . $res['url'] . '">' . $res['title'] . '</a></h3>';
 			$panelContent .= '<p>' . $res['content'] . '</p>';
 		}
 	}
@@ -84,7 +106,7 @@ if (count($googleContent) > 0)
 	$max = Configure::read('App.webLinksCount');
 	foreach($googleContent as $res)
 	{
-		echo '<h3 style="margin-bottom:0px;">' . ($num++) . '. <a target="_blank" href="' . $res->url . '">' . $res->title . '</a></h3>';
+		echo '<h3 style="margin-bottom:0px;"><img src="/img/blackstar.png" width="20" />  <a target="_blank" href="' . $res->url . '">' . $res->title . '</a></h3>';
 		echo '<p>' . $res->content . '</p>';
 
 		if ($max-- <= 0) break;

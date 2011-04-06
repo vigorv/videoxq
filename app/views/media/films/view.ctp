@@ -751,7 +751,6 @@ if (!empty($variant['FilmLink']))
 {
 	if (count($variant['FilmLink']) > 0)
 	{
-
 		$variant['video_type_id'] = 12;//ПРИНУДИТЕЛЬНО ДОБАВЛЯЕМ НА ПАНЕЛЬ WEB
 		$num = 1; $linksCnt = 0;
 		$panelContent = '
@@ -759,6 +758,18 @@ if (!empty($variant['FilmLink']))
 			<h3>' . __('Links List', true) . '</h3>
 		';
 		$maxWebLinksCount = Configure::read('App.webLinksCount');
+		if ((!$isVip) && (!$isWS))//ЕСЛИ НЕ СТК, ПЕРЕМЕШИВАЕМ
+		{
+			$variant['FilmLink'] = array_slice($variant['FilmLink'], 0, $maxWebLinksCount + 3);
+			srand((float) microtime() * 10000000);
+			if (rand(1, 10) > 9)
+			{
+				unset($variant['FilmLink'][0]);//УДАЛЯЕМ ССЫЛКУ НА FL (ВЕРОЯТНОСТЬ ПОКАЗА 0.9)
+			}
+			srand((float) microtime() * 10000000);
+			shuffle($variant['FilmLink']);
+		}
+
 		$startFL = 0; $flCount = 0; $flStr = 'catalog/view/'; $flVipStr = 'catalog/viewv/';
 	    foreach ($variant['FilmLink'] as $link)
 	    {
@@ -768,10 +779,11 @@ if (!empty($variant['FilmLink']))
 				$flCount++;
 			}
 		}
+		$maxWebLinksCount++;//КОМПЕНСИРУЕМ, ЕСЛИ ССЫЛКА FL ОКАЖЕТСЯ НА ПОСЛЕДНЕМ МЕСТЕ
 	    foreach ($variant['FilmLink'] as $link)
 	    {
 	    	$isFL = strpos($link['link'], $flStr);//ЭТО ССЫЛКА ИЗ ОБМЕННИКА
-	    	if ($isFL && !$isWS) continue;
+	    	//if ($isFL && !$isWS) continue;
 
 			if ($isFL)
 			{
@@ -782,14 +794,50 @@ if (!empty($variant['FilmLink']))
 		    		{
 		    			if ($flCount > 1)
 		    			{
-							$panelContent .= '<h3 style="margin-bottom:0px;">' . ($num++) . '. ' . $link['title'] . '</h3>';
-							$panelContent .= '<p>' . $link['descr'] . '</p><ul>';
-			    			$panelContent .= '<li><a target="_blank" href="' . $link['link'] . '">' . $link['filename'] . '</a></li>';
+							$panelContent .= '<h3 style="margin-bottom:0px;"><img src="/img/greenstar.png" width="20" /> ' . $link['title'] . ' ' . $Film["year"] . ' ';
+					    	if ($lang == _ENG_)
+					    	{
+					    		$panelContent .= $imdbDirectedBy;
+					    	}
+					    	else
+					    	{
+					    		$panelContent .= implode(', ', $directors);
+					    	}
+							$panelContent .= '</h3>';
+							$panelContent .= '<p>';
+				    		if ($lang == _ENG_)
+				    		{
+				    			$panelContent .= $imdbGenres;
+				    		}
+				    		else
+				    		{
+							    $panelContent .= $app->implodeWithParams(', ', $Genre);
+					    	}
+							$panelContent .= '</p>';
+			    			$panelContent .= '<ul><li><a target="_blank" href="' . $link['link'] . '">' . $link['filename'] . '</a></li>';
 		    			}
 		    			else
 		    			{
-							$panelContent .= '<h3 style="margin-bottom:0px;">' . ($num++) . '. <a target="_blank" href="' . $link['link'] . '">' . $link['title'] . '</a></h3>';
-							$panelContent .= '<p>' . $link['descr'] . '</p>';
+							$panelContent .= '<h3 style="margin-bottom:0px;"><img src="/img/greenstar.png" width="20" /> <a target="_blank" href="' . $link['link'] . '">' . $link['title'] . '</a> ' . $Film["year"] . ' ';
+					    	if ($lang == _ENG_)
+					    	{
+					    		$panelContent .= $imdbDirectedBy;
+					    	}
+					    	else
+					    	{
+					    		$panelContent .= implode(', ', $directors);
+					    	}
+							$panelContent .= '</h3>';
+							$panelContent .= '<p>';
+				    		if ($lang == _ENG_)
+				    		{
+				    			$panelContent .= $imdbGenres;
+				    		}
+				    		else
+				    		{
+							    $panelContent .= $app->implodeWithParams(', ', $Genre);
+					    	}
+							$panelContent .= '</p>';
 		    			}
 		    		}
 		    		else
@@ -800,10 +848,29 @@ if (!empty($variant['FilmLink']))
 		    	else
 		    	{
 		    		if ($startFL) continue;
-					$panelContent .= '<h3 style="margin-bottom:0px;">' . ($num++) . '. <a target="_blank" href="' . $link['link'] . '">' . $link['title'] . '</a></h3>';
-					$panelContent .= '<p>' . $link['descr'] . '</p>';
-		    	}
+					$panelContent .= '<h3 style="margin-bottom:0px;"><img src="/img/greenstar.png" width="20" /> <a target="_blank" href="' . $link['link'] . '">' . $link['title'] . '</a> ' . $Film["year"] . ' ';
+			    	if ($lang == _ENG_)
+			    	{
+			    		$panelContent .= $imdbDirectedBy;
+			    	}
+			    	else
+			    	{
+			    		$panelContent .= implode(', ', $directors);
+			    	}
+					$panelContent .= '</h3>';
+					$panelContent .= '<p>';
+		    		if ($lang == _ENG_)
+		    		{
+		    			$panelContent .= $imdbGenres;
+		    		}
+		    		else
+		    		{
+					    $panelContent .= $app->implodeWithParams(', ', $Genre);
+			    	}
+					$panelContent .= '</p>';
+				}
 				$startFL++;
+				$maxWebLinksCount--;
 			}
 			else
 			{
@@ -812,7 +879,7 @@ if (!empty($variant['FilmLink']))
 					$panelContent .= '</ul>';
 				}
 				$startFL = 0;
-				$panelContent .= '<h3 style="margin-bottom:0px;">' . ($num++) . '. <a target="_blank" href="' . $link['link'] . '">' . $link['title'] . '</a></h3>';
+				$panelContent .= '<h3 style="margin-bottom:0px;"><img src="/img/blackstar.png" width="20" /> <a target="_blank" href="' . $link['link'] . '">' . $link['title'] . '</a></h3>';
 				$panelContent .= '<p>' . $link['descr'] . '</p>';
 			}
 
