@@ -10,7 +10,7 @@ if (
 	(!empty($_POST['body']))
    )
    {
-include_once($_SERVER['DOCUMENT_ROOT'] . '/app/vendors/mail.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/../vendors/mail.php');
 		$mailObj = new simpleMail();
 		$mailObj->addhdfield('X-Mailer', 'videoxqRobot');
 		$mailObj->addhdfield('Precedence', 'bulk');

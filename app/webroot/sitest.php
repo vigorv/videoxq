@@ -228,7 +228,7 @@ echo'
 echo'</p>';
 
 //ТЕСТ НА ПОДКЛЮЧЕНИЕ К СФИНКСУ
-include_once($_SERVER['DOCUMENT_ROOT'] . '/app/vendors/sphinxapi.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/../vendors/sphinxapi.php');
 $sphinx = new SphinxClient();
 $sphinx->SetServer('localhost', 3312);
 $sphinxNsk = $sphinx->_Connect();
