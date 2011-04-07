@@ -68,8 +68,8 @@ class AppController extends Controller
         $configZones = array();
 		foreach ($zones as $zone)
 		{
-			$configZones[$zone['Zone']['zone']]['zone'] = $zone['Zone']['zone'];
-			$configZones[$zone['Zone']['zone']]['ip'][] = $zone['Zone']['addr'] . '/' . $zone['Zone']['mask'];
+			$configZones[$zone['Zone']['zone']]['zone'] = trim($zone['Zone']['zone']);
+			$configZones[$zone['Zone']['zone']]['ip'][] = trim($zone['Zone']['addr']) . '/' . intval($zone['Zone']['mask']);
 		}
         Configure::write('Catalog.allowedIPs', $configZones);//Эмулируем старый способ
 //*/
@@ -197,7 +197,6 @@ $config['descPerDay']	= 'на день'; //плата за VIP доступ на
         $this->_constructBlocks();
         if (!empty($this->passedArgs))
         	$this->set('passedParams', $this->passedArgs);//ДЛЯ ИСПОЛЬЗОВАНИЯ В ОТОБРАЖЕНИЯХ (НАПРИМЕР БЛОК РАСШИРЕННОГО ПОИСКА)
-
     	$isWS = checkAllowedMasks(Configure::read('Catalog.allowedIPs'), $_SERVER['REMOTE_ADDR']);
 
 //echo $_SERVER['REMOTE_ADDR'] . ' - isWS = ' . $isWS;
