@@ -1,3 +1,4 @@
+<div id="content">
 <h2>«<?php
     if ($lang == _ENG_)
    		echo $film["Film"]['title_en'];
@@ -28,3 +29,4 @@
 		}
 	}
 ?>
+</div>

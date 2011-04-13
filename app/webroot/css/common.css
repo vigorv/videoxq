@@ -503,3 +503,7 @@ ul.subMenu li.userBlog { background-position:0 5px; background-repeat:no-repeat 
 .unfocusedpanel	{ width: 120px; background-color: lightgrey; border: 1px grey dotted; font-size:11px; text-align:center; }
 .focusedpanel	{ width: 120px; background-color: white; border-top: 1px grey dotted; font-size:11px; text-align:center; border-left: 1px grey dotted; border-right: 1px grey dotted; border-bottom: 0px; }
 #lastfolder		{ border-top: 0px; border-left: 0px; border-right: 0px; border-bottom: 1px black dotted; }
+
+div.ozonlist { float: left; width:49%; height: 130px}
+td.ozonleft { text-align: left; }
+td.ozonright { text-align: right; }
