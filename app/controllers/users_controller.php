@@ -576,13 +576,14 @@ if ($this->data["User"]["username"] == 'vanoveb')
         if (!empty($this->data))
         {
 			set_time_limit(600000);
-	        ini_set('memory_limit', '2G');
+	        ini_set('memory_limit', '3G');
             if (empty($this->data['User']['password']))
                 unset($this->data['User']['password']);
 			$this->User->create();
             //$this->User->set($this->data);
             $user = $this->User->read(null, $this->data['User']['userid']);
             unset($user['Pay']);
+            unset($user['Useragreement']);
             $user['User'] = am($user['User'], $this->data['User']);
             $user['User'] = $this->data['User'];
             $user['Group'] = $this->data['Group'];
