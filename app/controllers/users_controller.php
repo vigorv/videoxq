@@ -576,7 +576,7 @@ if ($this->data["User"]["username"] == 'vanoveb')
         if (!empty($this->data))
         {
 			set_time_limit(600000);
-	        ini_set('memory_limit', '1500M');
+	        ini_set('memory_limit', '2G');
             if (empty($this->data['User']['password']))
                 unset($this->data['User']['password']);
 			$this->User->create();
