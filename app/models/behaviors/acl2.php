@@ -1,5 +1,5 @@
 <?php
-require_once($_SERVER["DOCUMENT_ROOT"] . '/' . CAKE . 'libs/model/behaviors/acl.php');
+require_once($_SERVER["DOCUMENT_ROOT"] . '/../' . CAKE . 'libs/model/behaviors/acl.php');
 
 class Acl2Behavior extends AclBehavior
 {
