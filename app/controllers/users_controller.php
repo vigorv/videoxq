@@ -575,8 +575,8 @@ if ($this->data["User"]["username"] == 'vanoveb')
         }
         if (!empty($this->data))
         {
-			set_time_limit(600000);
-	        ini_set('memory_limit', '3G');
+			Configure::write('debug', 2);
+	        ini_set('memory_limit', '1G');
             if (empty($this->data['User']['password']))
                 unset($this->data['User']['password']);
 			$this->User->create();
@@ -587,7 +587,7 @@ if ($this->data["User"]["username"] == 'vanoveb')
             $user['User'] = am($user['User'], $this->data['User']);
             $user['User'] = $this->data['User'];
             $user['Group'] = $this->data['Group'];
-            $this->User->set($user);
+            //$this->User->set($user);
             if ($this->User->save($user, false))
             {
                 $this->Session->setFlash('The User saved');

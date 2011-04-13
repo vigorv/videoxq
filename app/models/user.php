@@ -103,17 +103,18 @@ class User extends AppModel
         $vbGroupIds = array_unique($vbGroupIds);// НАЗНАЧЕННЫЕ ДЛЯ ЮЗЕРА ГРУППЫ ФОРУМА, СООТВЕТСТВУЮЩИЕ ГРУППАМ ПОРТАЛА
         natsort($vbGroupIds);
 
-        if (($key = array_search($this->data['User']['usergroupid'], $vbGroupIds)) !== false)
+        $key = array_search($this->data['User']['usergroupid'], $vbGroupIds);
+        if ($key !== false)
         {
             unset($vbGroupIds[$key]);
         }
-/*
+//*
         if (empty($fullUser['User']['membergroupids']))
         {
             $this->data['User']['membergroupids'] = implode(',', $vbGroupIds);
             return true;
         }
-*/
+//*/
         $memberGroups = explode(',', $fullUser['User']['membergroupids']);
         array_walk($memberGroups, 'arrayTrim');
 

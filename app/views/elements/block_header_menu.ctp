@@ -11,11 +11,11 @@ $links = array();
 $links['/'] = 'Главная';
 $links[Configure::read('App.forumPath')] = 'Форум';
 $links['/media'] = 'Видео';
-$links['http://wsmedia.su/'] = 'WSmedia';
+$links['http://rumedia.ws/'] = 'RuMedia';
 $links['http://mygame.ws'] = 'Игры';
 $links['/gallery'] = 'Картинки';
-$links['http://wsmedia.su/category/music/'] = 'Музыка';
-$links['http://animebar.ru'] = 'Аниме';
+$links['http://rumedia.ws/category/music/'] = 'Музыка';
+$links['http://animebar.org'] = 'Аниме';
 $links['http://fx.nsk54.com/'] = 'Обменник1';
 
 //*/
