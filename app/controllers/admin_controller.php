@@ -77,6 +77,8 @@ class AdminController extends AppController
         $this->set('groups', $groups);
 
         Configure::write('debug', '0');
+		set_time_limit(600000);
+        ini_set('memory_limit', '1G');
         $perms = array();
         foreach ($groups as $group)
         {
@@ -88,8 +90,6 @@ class AdminController extends AppController
         $this->set('perms', $perms);
         $this->set('ctlName', $controller);
         Configure::write('debug', 2);
-
-
     }
 
 
