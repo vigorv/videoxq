@@ -40,7 +40,7 @@ echo $html->link('Redirects', array('action'=>'index', 'controller' => 'redirect
 echo '<h3>Host</h3>';
 echo '<p>' . $_SERVER["HTTP_HOST"] . '</p>';
 echo '<h3>DETECTED ZONE</h3>';
-echo '<p>' . checkAllowedMasks(Configure::read('Catalog.allowedIPs'), (empty($_SERVER["HTTP_X_FORWARDED_FOR"]) ? $_SERVER["REMOTE_ADDR"] : $_SERVER["HTTP_X_FORWARDED_FOR"])) . '</p>';
+echo '<p>' . checkAllowedMasks(Configure::read('Catalog.allowedIPs'), (empty($_SERVER["HTTP_X_FORWARDED_FOR"]) ? $_SERVER["REMOTE_ADDR"] : $_SERVER["HTTP_X_FORWARDED_FOR"]), 1) . '</p>';
 echo '<h3>REMOTE_ADDR</h3>';
 echo '<p>' . (isset($_SERVER["REMOTE_ADDR"]) ? $_SERVER["REMOTE_ADDR"] : "empty") . '</p>';
 echo '<h3>X-Forwarded-For</h3>';
