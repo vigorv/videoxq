@@ -261,7 +261,8 @@ $config['descPerDay']	= 'на день'; //плата за VIP доступ на
         $this->_constructBlocks();
         if (!empty($this->passedArgs))
         	$this->set('passedParams', $this->passedArgs);//ДЛЯ ИСПОЛЬЗОВАНИЯ В ОТОБРАЖЕНИЯХ (НАПРИМЕР БЛОК РАСШИРЕННОГО ПОИСКА)
-    	$isWS = checkAllowedMasks(Configure::read('Catalog.allowedIPs'), $_SERVER['REMOTE_ADDR']);
+    	//$isWS = checkAllowedMasks(Configure::read('Catalog.allowedIPs'), $_SERVER['REMOTE_ADDR']);
+    	$isWS = checkAllowedMasks(Configure::read('Catalog.allowedIPs'), (empty($_SERVER["HTTP_X_REAL_IP"]) ? $_SERVER["REMOTE_ADDR"] : $_SERVER["HTTP_X_REAL_IP"]));
 //$isWS = 'OPERA-MINI';
     	$isOpera = false;
     	if ($isWS == 'OPERA-MINI')
