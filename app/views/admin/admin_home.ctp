@@ -39,6 +39,8 @@ echo $html->link('Redirects', array('action'=>'index', 'controller' => 'redirect
 
 echo '<h3>Host</h3>';
 echo '<p>' . $_SERVER["HTTP_HOST"] . '</p>';
+echo '<h3>REMOTE_ADDR</h3>';
+echo '<p>' . (isset($_SERVER["REMOTE_ADDR"]) ? $_SERVER["REMOTE_ADDR"] : "empty") . '</p>';
 echo '<h3>X-Forwarded-For</h3>';
 echo '<p>' . (isset($_SERVER["HTTP_X_FORWARDED_FOR"]) ? $_SERVER["HTTP_X_FORWARDED_FOR"] : "empty") . '</p>';
 echo '<h3>X-Real-Ip</h3>';
