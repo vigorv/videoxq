@@ -1115,7 +1115,7 @@ if (isset($authUser['username']))// && (($authUser['username'] == 'vanoveb') || 
 	function isOperaTurbo()
 	{
 		$agent = (empty($_SERVER['HTTP_USER_AGENT']) ? '' : strtolower($_SERVER['HTTP_USER_AGENT']));
-		$hostName = strtolower(gethostbyaddr(empty($_SERVER["HTTP_X_REAL_IP"]) ? $_SERVER["REMOTE_ADDR"] : $_SERVER["HTTP_X_REAL_IP"]));
+		$hostName = strtolower(gethostbyaddr(empty($_SERVER["HTTP_X_FORWARDED_FOR"]) ? $_SERVER["REMOTE_ADDR"] : $_SERVER["HTTP_X_FORWARDED_FOR"]));
 		return (
 				(strpos($hostName, 'opera-mini.net') !== false)
 				||
