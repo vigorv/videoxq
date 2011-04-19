@@ -7826,7 +7826,7 @@ msgid "Register confirmation link"
 msgstr "Ссылка для активации аккаунта"
 
 msgid "Creating user Error"
-msgstr "Не могу создать пользователя!"
+msgstr "Невозможно создать пользователя!"
 
 msgid "Send email error"
 msgstr "Произошла ошибка при отправке email, Обратитесь к администраторам на форуме для помощи."
@@ -8445,3 +8445,12 @@ msgstr "Видео стандартного разрешения"
 
 msgid "High definition video"
 msgstr "Видео высокого разрешения"
+
+msgid "User already registered"
+msgstr "Такой пользователь уже существует"
+
+msgid "Creating user Error. Check for valid email and confirmed password"
+msgstr "Невозможно создать пользователя. Проверьте адрес email и подтверждение пароля"
+
+msgid "have to disable the 'Opera Turbo' option"
+msgstr "для получения ссылок необходимо отключить опцию 'Opera Turbo'"

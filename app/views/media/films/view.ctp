@@ -951,7 +951,7 @@ if (!empty($variant['FilmLink']))
 		case"webpanel":
 			if (empty($panelContent))
 			{
-				if ($isVip)
+				if (($isVip) || ($isWS))
 				{
 					$panelContent = '
 					<script type="text/javascript">
@@ -1051,28 +1051,6 @@ else
 	$divxContent = '';
 	//$linksContent = '<a href="http://yandex.ru/yandsearch?text=' . $yandex['title'] . '" title="Скачать бесплатно">Скачать бесплатно "' . $yandex['title'] . '"</a>';
 	$linksContent = $yandexLink;
-
-	//ПРОВЕРКА НА ОПЕРУ-ТУРБО
-	function isOperaTurbo()
-	{
-		$agent = (empty($_SERVER['HTTP_USER_AGENT']) ? '' : strtolower($_SERVER['HTTP_USER_AGENT']));
-		$hostName = strtolower(gethostbyaddr(empty($_SERVER["HTTP_X_REAL_IP"]) ? $_SERVER["REMOTE_ADDR"] : $_SERVER["HTTP_X_REAL_IP"]));
-		return (
-				(strpos($hostName, 'opera-mini.net') !== false)
-				||
-				(strpos($agent, 'opera mini') !== false)
-			   );
-	}
-
-	if (isOperaTurbo())
-	{
-		$browser = strtolower(get_browser(null, true));
-		//if (strpos($browser, 'opera') === true)
-		{
-			$linksContent = '<br /><b>' . __('Users of the Opera browser', true) . '</b> для получения ссылок необходимо отключить опцию "Opera Turbo",<br />' . __('and then', true) . ' <a href="/media/view/' . $Film['id'] . '">' . __('get links', true) . '</a>';
-		}
-	}
-
 }
 
 /*
@@ -1097,7 +1075,7 @@ if (isset($authUser['username']))// && (($authUser['username'] == 'vanoveb') || 
 	$vipLinks = $linksContent;//СОХРАНИМ, ЕСЛИ ОКАЖЕТСЯ ВИПОМ
 	$vipDivx = $divxContent;//СОХРАНИМ, ЕСЛИ ОКАЖЕТСЯ ВИПОМ
 	$divxContent = '';
-	$linksContent = $yandexLink;
+	//$linksContent = $yandexLink;
 //$geoIsGood = true;
 	if ($allowDownload)
 	{
@@ -1133,10 +1111,33 @@ if (isset($authUser['username']))// && (($authUser['username'] == 'vanoveb') || 
 	$_SESSION['lastLinks']	= $lastLinks;
 	$_SESSION['lastDivx']	= $lastDivx;
 
+	//ПРОВЕРКА НА ОПЕРУ-ТУРБО
+	function isOperaTurbo()
+	{
+		$agent = (empty($_SERVER['HTTP_USER_AGENT']) ? '' : strtolower($_SERVER['HTTP_USER_AGENT']));
+		$hostName = strtolower(gethostbyaddr(empty($_SERVER["HTTP_X_REAL_IP"]) ? $_SERVER["REMOTE_ADDR"] : $_SERVER["HTTP_X_REAL_IP"]));
+		return (
+				(strpos($hostName, 'opera-mini.net') !== false)
+				||
+				(strpos($agent, 'opera mini') !== false)
+			   );
+	}
+
+	//if (isOperaTurbo())
+	if ($isOpera)//ЗНАЧЕНИЕ ОПРЕДЕЛЕНО В AppController
+	{
+		//$browser = strtolower(get_browser(null, true));
+		//if (strpos($browser, 'opera') === true)
+		{
+			$linksContent = '<h3><b>' . __('Users of the Opera browser', true) . '</b> ' . __("have to disable the 'Opera Turbo' option", true) . ',<br />' . __('and then', true) . ' <a href="/media/view/' . $Film['id'] . '">' . __('get links', true) . '</a></h3>';
+		}
+	}
+
 	if (!$geoIsGood)
 	{
 		$divxContent = '';
-		$linksContent = '';
+		if (!$isOpera)
+			$linksContent = '';
 		if ($film['Film']['imdb_id'])
 		{
 			echo '<h3 style="margin-top:12px;"><a target="_blank" href="http://imdb.com/title/' . $film['Film']['imdb_id'] . '">"' . $film['Film']['title' . $langFix] . '" imdb.com &raquo;</a></h3>';

@@ -31,7 +31,7 @@
 #faces .searchName { margin:0 0 40px 0 }
 #faces { padding:0 60px 0 63px; }
 
-#flashMessage, #authMessage { font-weight:bold; padding:0 0 20px 63px }
+#flashMessage, #authMessage { font-size: large; color: red; padding:20px 0 20px 50px; }
 #authMessage { color: red; font-size: large; }
 
 #footer .copy { position:absolute; top:60px;}

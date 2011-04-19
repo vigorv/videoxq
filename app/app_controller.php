@@ -9,7 +9,7 @@ class AppController extends Controller
     var $helpers = array('Javascript', 'Html', 'Form'/*, 'Validation'*/, 'App', 'Ajax', 'PageNavigator');
 //    var $uses = array('User', 'Bookmark', 'Film');
     var $uses = array(
-    'User', 'Zone', 'Server',
+    'User', 'Zone', 'Server', 'Page',
     'Bookmark', 'Film', 'Pay', 'Geoip', 'Geocity', 'Georegion', 'Useragreement');
     var $blocksData = array();
     var $blockContent;
@@ -186,6 +186,70 @@ $config['descPerDay']	= 'на день'; //плата за VIP доступ на
 		}
         $this->set('geoInfo', $geoInfo);
 
+//ПОДГОТОВКА РОКЕТ БЛОКА
+        if ($this->authUser['userid'])
+        {
+	   		$comeBack = $this->Session->read('comeBack');
+	   		if (empty($comeBack))//ФИКСИРУЕМ ПОСЛЕДНИЙ ВИЗИТ
+	   		{
+	   			$this->Session->del('rocketInfo');//ПОСЛЕ АВТОРИЗАЦИИ СБРАСЫВАЕМ СОСТОЯНИЕ РОКЕТ-БЛОКА
+		   		$comeBack = $this->Session->write('comeBack', 1);
+		   		$this->User->save(array('User' => array('userid' => $this->authUser['userid'], 'lastvisit' => time())));
+	   		}
+        }
+
+   		$rocketInfo = $this->Session->read('rocketInfo');
+   		if ((empty($rocketInfo)) && (!empty($this->authUser['userid']))) //ДЛЯ АВТОРИЗОВАННЫХ ЧИТАЕМ ИЗ КЭША
+   		{
+			$rocketInfo = Cache::read('Catalog.rocket_' . $this->authUser['userid'], 'rocket');
+			if (empty($rocketInfo))
+			{
+				$rocketInfo['flipOn'] = 0;
+		   		$this->Session->write('rocketInfo', $rocketInfo);
+			}
+   		}
+		if (empty($rocketInfo['rocketPage']))
+		{
+			$rocketInfo['rocketPage'] = 'favorites';
+		}
+
+//ПОЛУЧАЕМ ДАННЫЕ ПО ПОСЛЕДНЕМУ POPUP-АНОНСУ
+		$rocketAnnons = Cache::read('Catalog.annons', 'rocket');
+		if (empty($rocketAnnons))
+		{
+			$pageInfo = $this->Page->find(array('Page.layout' => 'rocket'), null, 'Page.modified DESC', 0);
+			if ($pageInfo['Page']['id'])
+			{
+				$rocketAnnons['date'] = date('Y-m-d H:i:s');
+				$rocketAnnons['page'] = $pageInfo;
+				Cache::write('Catalog.annons', $rocketAnnons, 'rocket');
+			}
+		}
+		$this->rocketAnnons = $rocketAnnons;
+		$this->set('rocketAnnons', $rocketAnnons);
+
+		if (empty($rocketInfo['lastAnnonsDate']))
+		{
+			$rocketInfo['lastAnnonsDate'] = '0000-00-00 00:00:00';
+		}
+
+		if (($this->authUser['userid']) && ($rocketAnnons['date'] > $rocketInfo['lastAnnonsDate']))
+		{
+//echo $rocketAnnons['date'] . ' > ' . $rocketInfo['lastAnnonsDate'];
+//exit;
+			//*
+			$rocketInfo['flipOn'] = 1;
+			$rocketInfo['lastAnnonsDate'] = $rocketAnnons['date'];
+			$rocketInfo['rocketPage'] = 'annons';
+	   		$this->Session->write('rocketInfo', $rocketInfo);
+	   		//*/
+		}
+
+		$this->rocketInfo = $rocketInfo;
+		$this->set('rocketInfo', $rocketInfo);
+		if ($this->action == 'rocket') return;
+//КОНЕЦ ПОДГОТОВКИ РОКЕТ БЛОКА
+
         if (isset($this->params[Configure::read('Routing.admin')]))
         {
             $this->layout = 'admin';
@@ -198,9 +262,17 @@ $config['descPerDay']	= 'на день'; //плата за VIP доступ на
         if (!empty($this->passedArgs))
         	$this->set('passedParams', $this->passedArgs);//ДЛЯ ИСПОЛЬЗОВАНИЯ В ОТОБРАЖЕНИЯХ (НАПРИМЕР БЛОК РАСШИРЕННОГО ПОИСКА)
     	$isWS = checkAllowedMasks(Configure::read('Catalog.allowedIPs'), $_SERVER['REMOTE_ADDR']);
+//$isWS = 'OPERA-MINI';
+    	$isOpera = false;
+    	if ($isWS == 'OPERA-MINI')
+    	{
+    		$isWS = false;
+    		$isOpera = true;
+    	}
 
 //echo $_SERVER['REMOTE_ADDR'] . ' - isWS = ' . $isWS;
 
+       	$this->set('isOpera', $isOpera);//ОПРЕДЕЛИЛИ ТУРБО
        	$this->set('isWS', $isWS);//ОПРЕДЕЛИЛИ ВЕБСТРИМ или нет
         $this->set('here', $this->here);
     }

@@ -236,7 +236,14 @@ if ($this->data["User"]["username"] == 'vanoveb')
         {
             $this->Session->setFlash(__('Creating user Error', true));
 
-            $userInfo = $this->User->find(array('User.username' => $this->data['User']['username']));
+            $userInfo = $this->User->find(
+            	array('OR' =>
+            		array(
+            			array('User.email' => $this->data['User']['email']),
+            			array('User.username' => $this->data['User']['username'])
+            		)
+            	)
+            );
             if ($userInfo)
             {
 	            if ($userInfo['User']['usergroupid'] == 3)//НЕ ПОДТВЕРЖДЕН
@@ -253,6 +260,10 @@ if ($this->data["User"]["username"] == 'vanoveb')
                     /*subj*/Configure::read('App.siteName') . ' - ' . __('New account', true),
                     /*body*/__('Your Login', true) . ": username: " . $userInfo['User']['username'] . "\n " . __('Register confirmation link', true) . ":\n" . Configure::read('App.siteUrl') . "users/confirm/" . $activation_token . "\n\n \n" . Configure::read('App.siteName') . " Robot");
 	            }
+	            else
+	            {
+		            $this->Session->setFlash(__('User already registered', true));
+	            }
             }
             unset($this->data['User']['password2']);
             unset($this->data['User']['password']);
@@ -265,7 +276,7 @@ if ($this->data["User"]["username"] == 'vanoveb')
 
         if (empty($user))
         {
-            $this->Session->setFlash(__('Creating user Error', true));
+            $this->Session->setFlash(__('Creating user Error. Check for valid email and confirmed password', true));
             unset($this->data['User']['password2']);
             unset($this->data['User']['password']);
             return;

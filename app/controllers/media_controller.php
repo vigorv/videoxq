@@ -1214,7 +1214,7 @@ echo'</pre>';
 		    					array('url' => '/media/index/direction:desc/action:index/sort:Film.modified', 'title' => __('Video catalog', true)),
 			    				),
 		    				array('Bookmark' =>
-		    					array('url' => '/media/index/type:15,7,2', 'title' => __('Serials', true)),
+		    					array('url' => '/media/index/type:15', 'title' => __('Serials', true)),
 			    				),
 		    				array('Bookmark' =>
 		    					array('url' => '/forum', 'title' => __('Forum', true)),
