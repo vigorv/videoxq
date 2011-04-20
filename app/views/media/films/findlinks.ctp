@@ -23,7 +23,7 @@ echo '
 if (count($shareContent) > 0)
 {
 	$max = Configure::read('App.webLinksCount');
-	$startFL = 0; $flCount = 0; $flStr = 'catalog/view/'; $flVipStr = 'catalog/viewv/';
+	$startFL = 0; $flCount = 0; $flStr = 'catalog/file/'; $flVipStr = 'catalog/viewv/';
 	foreach($shareContent as $res)
     {
     	$isFL = strpos($res['url'], $flStr);//ЭТО ССЫЛКА ИЗ ОБМЕННИКА

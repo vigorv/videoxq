@@ -264,6 +264,11 @@ echo'</pre>';
                 $actors = array_slice($actors, 0, 2);
                 $actors[] = '<a href="#" title="' . __('Available only to registered users', true) . '">' . __('more', true) . '...</a>';
             }
+            else
+            {
+                $actors = array_slice($actors, 0, 10);
+                $actors[] = '<a href="#">' . __('more', true) . '...</a>';
+            }
 
             ?>
     <?php if (!empty($directors)): ?>
@@ -770,7 +775,7 @@ if (!empty($variant['FilmLink']))
 			shuffle($variant['FilmLink']);
 		}
 
-		$startFL = 0; $flCount = 0; $flStr = 'catalog/view/'; $flVipStr = 'catalog/viewv/';
+		$startFL = 0; $flCount = 0; $flStr = 'catalog/file/'; $flVipStr = 'catalog/viewv/';
 	    foreach ($variant['FilmLink'] as $link)
 	    {
 	    	$isFL = strpos($link['link'], $flStr);//ЭТО ССЫЛКА ИЗ ОБМЕННИКА
