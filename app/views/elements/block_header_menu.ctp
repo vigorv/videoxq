@@ -12,7 +12,7 @@ $links['/'] = 'Главная';
 $links[Configure::read('App.forumPath')] = 'Форум';
 $links['/media'] = 'Видео';
 $links['http://rumedia.ws/'] = 'RuMedia';
-$links['http://mygame.ws'] = 'Игры';
+$links['http://mygame.ws'] = '�?гры';
 $links['/gallery'] = 'Картинки';
 $links['http://rumedia.ws/category/music/'] = 'Музыка';
 $links['http://animebar.org'] = 'Аниме';
@@ -28,7 +28,7 @@ $links['http://fx.nsk54.com/'] = 'Обменник1';
 	{
 		$menuItems[__("root_forum_link", true)]	= __("Forum", true);
 		$menuItems['/pages/faq']	= 'FAQ';
-		$menuItems['/basket']		= __("Downloads", true);
+		//$menuItems['/basket']		= __("Downloads", true);
 	}
 	else
 	{
