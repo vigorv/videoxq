@@ -38,6 +38,11 @@ class AppController extends Controller
     {
         $geoInfo = array();
         $geoInfo = $this->Session->read('geoInfo');
+       	$ip = sprintf('%u', ip2long($_SERVER['REMOTE_ADDR']));
+       	if (!empty($geoInfo) && $geoInfo['ip'] <> $ip)
+       	{
+       		$geoInfo = array();//ЕСЛИ ИЗМЕНИЛСЯ АДРЕС ГЕО ДАННЫЕ ОПРЕДЕЛЯЕМ ПО НОВОЙ
+       	}
 //*
 //КОНФИГУРИРУЕМ СПИСОК СЕРВЕРОВ
         $servers = Cache::read('servers', 'block');
@@ -76,7 +81,6 @@ class AppController extends Controller
 //*
         if (empty($geoInfo))
         {
-        	$ip = sprintf('%u', ip2long($_SERVER['REMOTE_ADDR']));
         	//$geoInfo = $this->Geoip->find(array('Geoip.ip1 <=' . $ip, 'Geoip.ip2 >=' . $ip), array('Geoip.city_id', 'Geoip.region_id'));
         	$geoInfo = $this->Geoip->find('all', array(
         				'conditions' => array('Geoip.ip1 <=' . $ip, 'Geoip.ip2 >=' . $ip),
@@ -97,6 +101,7 @@ class AppController extends Controller
         	}
         	else
         		$geoInfo['Geoip']['region_id'] = 0; //ЗНАЧИТ НЕ ОПРЕДЕЛЕНО
+        	$geoInfo['ip'] = $ip;
 
 			$this->Session->write('geoInfo', $geoInfo);
         }
