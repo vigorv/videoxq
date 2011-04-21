@@ -4,9 +4,13 @@
 ?>
 <script type="text/javascript">
 <!--
+	function doClear(theText) { if (theText.value == theText.defaultValue) { theText.value = "" } }
+
+	function doDefault(theText) { if (theText.value == "") { theText.value = theText.defaultValue } }
+
 	function checkSearchSubmit()
 	{
-		if ((($('#adv-title').attr('name') == 'data[Film][searchsimple]') && ($('#adv-title').val() == "")) || ($('#adv-title').val() == "<?php echo $defaultStr; ?>"))
+		if ((($("#adv-title").attr("name") == "data[Film][searchsimple]") && ($("#adv-title").val() == "")) || ($("#adv-title").val() == "<?php echo $defaultStr; ?>"))
 		{
 			return false;
 		}
@@ -24,8 +28,8 @@
            		$defValue = $defaultStr;
            		$searchName = 'searchsimple';
 			}
-           		$onclick = "if (this.value=='{$defValue}') this.value='';";
-           		$onblur = "if (($('#adv-title').attr('name') == 'data[Film][searchsimple]') && (this.value=='')) this.value='{$defValue}';";
+           		$onclick = "doClear(this);";
+           		$onblur = 'if (($("#adv-title").attr("name") == "data[Film][searchsimple]")) doDefault(this);';
             	if (isset($this->data["Film"][$searchName]))
             	{
             		$value = $this->data["Film"][$searchName];
@@ -122,7 +126,8 @@
                         at.name = 'data[Film][search]';
                     else
                         at.name = 'data[Film][searchsimple]';
-                	$('#adv-title').click();
+                	doClear(at);
+
                     return false;
                 });
             });
