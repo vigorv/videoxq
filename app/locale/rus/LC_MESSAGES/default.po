@@ -7766,7 +7766,7 @@ msgid "Popular"
 msgstr "Популярные"
 
 msgid "Most voted"
-msgstr "Лучшие Юзеров"
+msgstr "Лучшее пользователей"
 
 msgid "Best IMDb"
 msgstr "Лучшие IMDb"

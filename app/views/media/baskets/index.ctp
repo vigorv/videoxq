@@ -7,6 +7,7 @@ if ($authUser['userid']):
 ?>
 <p>
 <?php __("Create download list here"); ?> <a target="_blank" href="/pages/faq#basket"> ? </a><br />
+<?php __("more"); ?>... <a target="_blank" href="/pages/spisok-zagruzok"> ? </a><br />
 <?php
 	if (count($baskets))
 	{
