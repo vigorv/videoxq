@@ -2083,7 +2083,7 @@ $this->set("catalogVariants", $catalogVariants);
 						$film['Film']['thread_id'] = $threadid;
 						$saveFilm['Film'] = $film['Film'];
 echo'<pre>';
-pr($saveFilm);
+pr($film);
 echo'</pre>';
 		        		//$this->Film->save($saveFilm);
 	        		}
