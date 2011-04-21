@@ -2087,12 +2087,12 @@ echo'<pre>';
 pr($film);
 echo'</pre>';
 //*/
-				        $this->Film->contain(array());
-						$this->Film->_clearCache(true);
-						$this->Film->create();
+				        //$this->Film->contain(array());
+						//$this->Film->_clearCache(true);
+//						$this->Film->create();
 		        		$this->Film->save($saveFilm, false);
+/*
 $films = $this->Film->findAll(array('Film.thread_id' => $threadid), array('Film.id', 'Film.thread_id'));
-//*
 echo'<pre>';
 var_dump($films);
 echo'</pre>';
