@@ -2020,7 +2020,6 @@ $this->set("catalogVariants", $catalogVariants);
 	        if (!empty($this->data['Vbpost']['pagetext']))
 	        {
 				Cache::delete('Catalog.film_view_' . $id, 'media');
-	        	extract($film);
 
 	        	//БЛАНК СТРУКТУРЫ ПОСТА
 	        	$postData = array('Vbpost' => array());
@@ -2084,7 +2083,7 @@ $this->set("catalogVariants", $catalogVariants);
 						$film['Film']['thread_id'] = $threadid;
 						$saveFilm['Film'] = $film['Film'];
 echo'<pre>';
-pr($film);
+pr($saveFilm);
 echo'</pre>';
 		        		//$this->Film->save($saveFilm);
 	        		}
