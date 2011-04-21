@@ -2082,7 +2082,8 @@ $this->set("catalogVariants", $catalogVariants);
 	        		{
 		        		$threadid = $this->Thread->getLastInsertId();
 						$film['Film']['thread_id'] = $threadid;
-		        		$this->Film->save($film);
+						$saveFilm['Film'] = $film['Film'];
+		        		$this->Film->save($saveFilm);
 	        		}
 	        	}
 
