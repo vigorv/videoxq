@@ -2087,6 +2087,7 @@ echo'<pre>';
 pr($film);
 echo'</pre>';
 //*/
+				        $this->Film->contain(array());
 						$this->Film->_clearCache(true);
 						$this->Film->create();
 		        		$this->Film->save($saveFilm, false);
