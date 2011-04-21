@@ -2086,7 +2086,7 @@ $this->set("catalogVariants", $catalogVariants);
 echo'<pre>';
 pr($film);
 echo'</pre>';
-*/
+//*/
 						$this->Film->create();
 		        		$this->Film->save($saveFilm);
 	        		}
