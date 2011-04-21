@@ -427,7 +427,7 @@ $allowDownload = $isWS;
 $geoIsGood = true;
 //*/
 
-//*
+/*
 //РОССИЯ ВНЕШНИЕ
 $isWS = false;
 $allowDownload = $isWS;
