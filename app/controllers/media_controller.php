@@ -2087,8 +2087,9 @@ echo'<pre>';
 pr($film);
 echo'</pre>';
 //*/
+						$this->Film->_clearCache(true);
 						$this->Film->create();
-		        		$this->Film->save($saveFilm);
+		        		$this->Film->save($saveFilm, false);
 	        		}
 	        	}
 
@@ -2105,7 +2106,6 @@ echo'</pre>';
 		        	$postData['Vbpost']['threadid'] = $threadData['Thread']['threadid'];
 		        	$postData['Vbpost']['parentid'] = $threadData['Thread']['firstpostid'];
         		}
-
 
         		$postData['Vbpost']['username'] = $uuConverter->utfToUnicode($this->authUser['username']);
 	        	$postData['Vbpost']['userid'] = $this->authUser['userid'];;
