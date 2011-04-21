@@ -389,8 +389,10 @@ li.search .adv2 { display: none; }
 
 form.userLogin { margin:0; padding:0; }
 
-#flags { float:left; padding-top: 2px; width: 30px; }
+#flags { float:left; padding-top: 2px; width: 30px; margin: 0; }
+<!--
 #flags img { width:auto; height:auto; }
+-->
 
 .userInfo p.statInfo { font-size:1.08em; margin:0 0 20px 0 }
 .userInfo p.userFriends { line-height:2.5em }
