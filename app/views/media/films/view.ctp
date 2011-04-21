@@ -427,7 +427,7 @@ $allowDownload = $isWS;
 $geoIsGood = true;
 //*/
 
-/*
+//*
 //РОССИЯ ВНЕШНИЕ
 $isWS = false;
 $allowDownload = $isWS;
@@ -552,7 +552,6 @@ else
 
 		$divxContent = '<a name="divx"></a><div id="divxdiv" style="z-index:1;">';
 		$divxHtml = '';
-
     	$lnk = Film::set_input_server($Film['dir']).'/' . $FilmVariant[0]['FilmFile'][0]['file_name'];
     	$lnkInfo = pathinfo(strtolower(basename($lnk)));
     	$resolution = preg_split('/[\D]{1,}/', trim($FilmVariant[0]['resolution']));

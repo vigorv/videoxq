@@ -774,25 +774,24 @@ exit;
     	$ip=(isset($_REQUEST['ip']))?$_REQUEST['ip']:$_SERVER['REMOTE_ADDR'];
 		$zones=Configure::read('Catalog.allowedIPs');
     	$zone = checkAllowedMasks($zones,$ip,1);
-		$zone = $zones[$zone]['zone'];
+
 		$serversbyZone=Set::combine($servers,'{n}.server','{n}','{n}.zone');
-		//pr($zone);
-		//pr($serversbyZone[$zone]);
 
 		$serversinZonebyLetter=array();
 		$outservers=array();
 
-		//�?щем все сервера в зоне у которых есть эта буква
-/*
-		if(!isset($serversbyZone[$zone]))$zone='default';
+		//Ищем все сервера в зоне у которых есть эта буква
+    	if(empty($zone)) $zone = 'default';
+//*
 		foreach ($serversbyZone[$zone] as $serv)
 		{
 			list($letterA,$letterZ)=explode('-',$serv['letter']);
 			//echo $letterA." ".$letterZ."<br>";
 			if(ord($letter) >=ord($letterA)  and ord($letter) <= ord($letterZ))$outservers[]=$serv;
 		}
-		//spr($outservers);
-*/
+//*/
+
+/*
 		foreach ($servers as $serv)
 		{
 			list($letterA,$letterZ)=explode('-',$serv['letter']);
@@ -801,7 +800,8 @@ exit;
 				$outservers[]=$serv;
 			}
 		}
-
+*/
+//pr($outservers);
 		if (count($outservers) < 1)
 			return NULL;
 		elseif (count($outservers)==1)
