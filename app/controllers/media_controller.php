@@ -2082,10 +2082,13 @@ $this->set("catalogVariants", $catalogVariants);
 		        		$threadid = $this->Thread->getLastInsertId();
 						$film['Film']['thread_id'] = $threadid;
 						$saveFilm['Film'] = $film['Film'];
+/*
 echo'<pre>';
 pr($film);
 echo'</pre>';
-		        		//$this->Film->save($saveFilm);
+*/
+						$this->Film->create();
+		        		$this->Film->save($saveFilm);
 	        		}
 	        	}
 
