@@ -6,7 +6,7 @@ if (isset($authUserGroups) && in_array(Configure::read('VIPgroupId'), $authUserG
 }
 else
 {
-	echo '<div style="float: left; width: 470px; margin-top: 5px; margin-left: 0; height: 70px; ">';
+	echo '<div style="float: left; width: 600px; margin-top: 5px; margin-left: 0; height: 70px; ">';
 	echo $BlockBanner->getBanner('menu');
 	echo '</div>';
 }
