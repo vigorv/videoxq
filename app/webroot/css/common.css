@@ -54,7 +54,7 @@
 
 li.search .adv2 { display: none; }
 
-#menu { height:77px; margin:0 0 0 46px }
+#menu { height:45px; margin:0 0 0 46px }
 #menu li { height:30px; line-height:30px; padding:0 18px; font-size:21px; float:left; display:inline; margin:0 10px 0 0 }
 #menu li a { color:#656565 }
 #menu li a:hover { color:#f01616 }
@@ -364,7 +364,7 @@ li.search .adv2 { display: none; }
 .textInput:focus { background-color: #eeffee; outline: 1px dotted grey; }
 .search .textInput { background-color: Palegreen; }
 
-.top { height:115px; margin: 0; padding: 0; overflow:hidden; }
+.top { height:145px; margin: 0; padding: 0; overflow:hidden; }
 .top .userbarWrapper .userbar { background:url(/img/userbar2.gif) top left no-repeat; padding:0 0 0 54px; height:53px; }
 .userbar { overflow: hidden; margin: 0; padding: 0; }
 .top .userbarWrapper .userLogin .button { width:26px; height:27px; margin:18px 0 0 0 }
