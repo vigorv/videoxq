@@ -715,9 +715,9 @@ if (count($variant['FilmFile']) > 0)
         	<td class="size">' . $app->sizeFormat($file['size']) . '</td>
 	        <td class="title">
 		';
-		$play = ''; $href = '';
+		$play = ''; $href = __('Available only to registered users', true);
 		//if ($isVip) //ДЛЯ ВИПОВ ВВОДИМ УПРАВЛЕНИЕ ВИДИМОСТЬЮ ПЛЕЕРА
-		if (!empty($authUser['userid']))
+		if (!empty($authUser['userid']) || $isWS)
 		{
         	$href='<a onclick="return filmClk(' . $Film['id'] . ');" href="' . Film::set_input_server($Film['dir']).'/' . $file['file_name'] . '">' . $file['file_name'] . '</a>&nbsp;';
         	$share = Film::set_input_share($Film['dir']);
