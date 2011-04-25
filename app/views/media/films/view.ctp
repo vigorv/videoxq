@@ -784,6 +784,9 @@ if (!empty($variant['FilmLink']))
 			}
 		}
 		$maxWebLinksCount++;//КОМПЕНСИРУЕМ, ЕСЛИ ССЫЛКА FL ОКАЖЕТСЯ НА ПОСЛЕДНЕМ МЕСТЕ
+		$recomended = '
+			<div class="recomended">эта ссылка рекомендованна для вашего региона</div>
+		';
 	    foreach ($variant['FilmLink'] as $link)
 	    {
 	    	$isFL = strpos($link['link'], $flStr);//ЭТО ССЫЛКА ИЗ ОБМЕННИКА
@@ -798,14 +801,15 @@ if (!empty($variant['FilmLink']))
 		    		{
 		    			if ($flCount > 1)
 		    			{
-							$panelContent .= '<h3 style="margin-bottom:0px;"><img src="/img/greenstar.png" width="20" /> ' . $link['title'] . ' ' . $Film["year"] . ' ';
+							$panelContent .= '<h3 style="margin-bottom:0px;"><img src="/img/greenstar.png" width="20" /> ' . $link['title'] . ' ' . $Film["year"] . '</h3>';
+							$panelContent .= '<h3 style="margin-bottom:0px;">';
 					    	if ($lang == _ENG_)
 					    	{
 					    		$panelContent .= $imdbDirectedBy;
 					    	}
 					    	else
 					    	{
-					    		$panelContent .= implode(', ', $directors);
+					    		$panelContent .= strip_tags(implode(', ', $directors));;
 					    	}
 							$panelContent .= '</h3>';
 							$panelContent .= '<p>';
@@ -822,14 +826,15 @@ if (!empty($variant['FilmLink']))
 		    			}
 		    			else
 		    			{
-							$panelContent .= '<h3 style="margin-bottom:0px;"><img src="/img/greenstar.png" width="20" /> <a target="_blank" href="' . $link['link'] . '">' . $link['title'] . '</a> ' . $Film["year"] . ' ';
+							$panelContent .= '<h3 style="margin-bottom:0px;"><img src="/img/greenstar.png" width="20" /> <a target="_blank" href="' . $link['link'] . '">' . $link['title'] . '</a> ' . $Film["year"] . '</h3>';
+							$panelContent .= '<h3 style="margin-bottom:0px;">';
 					    	if ($lang == _ENG_)
 					    	{
 					    		$panelContent .= $imdbDirectedBy;
 					    	}
 					    	else
 					    	{
-					    		$panelContent .= implode(', ', $directors);
+					    		$panelContent .= strip_tags(implode(', ', $directors));
 					    	}
 							$panelContent .= '</h3>';
 							$panelContent .= '<p>';
@@ -852,14 +857,15 @@ if (!empty($variant['FilmLink']))
 		    	else
 		    	{
 		    		if ($startFL) continue;
-					$panelContent .= '<h3 style="margin-bottom:0px;"><img src="/img/greenstar.png" width="20" /> <a target="_blank" href="' . $link['link'] . '">' . $link['title'] . '</a> ' . $Film["year"] . ' ';
+					$panelContent .= '<h3 style="margin-bottom:0px;"><img src="/img/greenstar.png" width="20" /> <a target="_blank" href="' . $link['link'] . '">' . $link['title'] . '</a> ' . $Film["year"] . '</h3>';
+					$panelContent .= '<h3 style="margin-bottom:0px;">';
 			    	if ($lang == _ENG_)
 			    	{
 			    		$panelContent .= $imdbDirectedBy;
 			    	}
 			    	else
 			    	{
-			    		$panelContent .= implode(', ', $directors);
+			    		$panelContent .= strip_tags(implode(', ', $directors));
 			    	}
 					$panelContent .= '</h3>';
 					$panelContent .= '<p>';
@@ -871,7 +877,7 @@ if (!empty($variant['FilmLink']))
 		    		{
 					    $panelContent .= $app->implodeWithParams(', ', $Genre);
 			    	}
-					$panelContent .= '</p>';
+					$panelContent .= '</p>' . $recomended;
 				}
 				$startFL++;
 				$maxWebLinksCount--;
