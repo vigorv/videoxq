@@ -8456,4 +8456,4 @@ msgid "have to disable the 'Opera Turbo' option"
 msgstr "для получения ссылок необходимо отключить опцию 'Opera Turbo'"
 
 msgid "This link is recommending for your region"
-msgstr "для получения ссылок необходимо отключить опцию 'Opera Turbo'"
+msgstr "Эта ссылка рекомендована для вашего региона"

@@ -785,7 +785,7 @@ if (!empty($variant['FilmLink']))
 		}
 		$maxWebLinksCount++;//КОМПЕНСИРУЕМ, ЕСЛИ ССЫЛКА FL ОКАЖЕТСЯ НА ПОСЛЕДНЕМ МЕСТЕ
 		$recomended = '
-			<div class="recomended">эта ссылка рекомендованна для вашего региона</div>
+			<div class="recomended">' . __('This link is recommending for your region', true) . '</div>
 		';
 	    foreach ($variant['FilmLink'] as $link)
 	    {
