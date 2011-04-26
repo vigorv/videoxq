@@ -258,13 +258,14 @@ echo'</pre>';
                     || isset($Profession[4]))
                 $actors[] = $link;
             }
-
+/*
             if (empty($authUser['userid']))
             {
                 $actors = array_slice($actors, 0, 2);
                 $actors[] = '<a href="#" title="' . __('Available only to registered users', true) . '">' . __('more', true) . '...</a>';
             }
             else
+*/
             {
                 $actors = array_slice($actors, 0, 10);
                 $actors[] = '<a href="#">' . __('more', true) . '...</a>';
@@ -509,7 +510,7 @@ foreach ($FilmVariant as $variant)
 перевод: <?= $variant['Track']['Language']['title'] . ', ' . $variant['Track']['Translation']['title'] ?><br>
 <?php
 	}
-if (!empty($authUser['userid']))
+if (!empty($authUser['userid']) || $isWS)
 {
 ?>
 <?php __('Video'); ?>: <?= $variant['resolution'] ?><br>
@@ -857,6 +858,7 @@ if (!empty($variant['FilmLink']))
 		    	else
 		    	{
 		    		if ($startFL) continue;
+		    		$panelContent .=  $recomended;
 					$panelContent .= '<h3 style="margin-bottom:0px;"><img src="/img/greenstar.png" width="20" /> <a target="_blank" href="' . $link['link'] . '">' . $link['title'] . '</a> ' . $Film["year"] . '</h3>';
 					$panelContent .= '<h3 style="margin-bottom:0px;">';
 			    	if ($lang == _ENG_)
@@ -877,7 +879,7 @@ if (!empty($variant['FilmLink']))
 		    		{
 					    $panelContent .= $app->implodeWithParams(', ', $Genre);
 			    	}
-					$panelContent .= '</p>' . $recomended;
+					$panelContent .= '</p>';
 				}
 				$startFL++;
 				$maxWebLinksCount--;

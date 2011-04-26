@@ -98,7 +98,7 @@ li.search .adv2 { display: none; }
 .button { font:normal 1em Arial, Helvetica, sans-serif; color:#393939 }
 
 .recomended {
-	padding: 3px; margin-top:-15px; margin-bottom:15px;
+	padding: 3px; margin: 0;
 	width: 400px;
 	background: yellow;
 }

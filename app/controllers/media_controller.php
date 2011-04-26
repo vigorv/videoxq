@@ -1681,7 +1681,7 @@ echo'</pre>';
 	        App::import('Vendor', 'IMDB_Parser2', array('file' => 'class.imdb_parser2.php'));
             $parser = new IMDB_Parser2();
             $this->set('parser', $parser);
-            $this->set('imdb_website', $imdb_website);
+            $this->set('imdb_website', (empty($imdb_website) ? '' : $imdb_website));
 		}
 		$this->set('lang', $lang);
 		$this->set('geoIsGood', $geoIsGood);

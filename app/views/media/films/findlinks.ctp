@@ -55,6 +55,10 @@ if (count($shareContent) > 0)
     	$isFL = strpos($res['url'], $flStr);//ЭТО ССЫЛКА ИЗ ОБМЕННИКА
     	if ($isFL && !$isWS) continue;
 
+		$recomended = '
+			<div class="recomended">' . __('This link is recommending for your region', true) . '</div>
+		';
+
 		if ($isFL)
 		{
 	    	if ($isVip)
@@ -82,6 +86,7 @@ if (count($shareContent) > 0)
 	    	else
 	    	{
 	    		if ($startFL) continue;
+	    		$panelContent .=  $recomended;
 				$panelContent .= '<h3 style="margin-bottom:0px;"><img src="/img/greenstar.png" width="20" /> <a target="_blank" href="' . $res['url'] . '">' . $res['title'] . '</a> ' . $film["Film"]["year"] . '</h3><p></p>';
 			}
 			$startFL++;
