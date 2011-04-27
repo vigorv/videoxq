@@ -144,7 +144,7 @@ else
 				{
 					foreach ($zns as $z)
 					{
-						if (netMatch($user_ip, $z))
+						if (netMatch($res[0], $z))
 						{
 							$zone = $key;
 							break;
