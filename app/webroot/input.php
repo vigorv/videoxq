@@ -2,6 +2,19 @@
 DEFINE(_STK0_, 1);
 DEFINE(_OMSK_, 2);
 
+$params = array(
+12 => 'Абакан',
+11 => 'Иркутск',
+10 => 'Томск',
+9 => 'Чита',
+8 => 'кемерово',
+7 => 'Красноярск',
+6 => 'Бурятия',
+5 => 'омск',
+4 => 'Новосибирск',
+1 => 'Барнаул',
+);
+
 $zones = array();
 $zones[_OMSK_] = array(
 	'87.103.176.0/20','87.103.224.0/21','90.188.128.0/18','90.189.64.0/19',
@@ -156,7 +169,7 @@ else
 </script>
 </td>
 <td>To <input type="text" name="todate" id="todate" size="17" maxlength="16" value="<?php echo $todate; ?>">
-<img src="/engine/skins/images/img.gif"  align="absmiddle" id="todatebut" style="cursor: pointer; border: 0" />
+<img src="/img/img.gif"  align="absmiddle" id="todatebut" style="cursor: pointer; border: 0" />
 <script type="text/javascript">
     Calendar.setup({
 	inputField     : "todate",	// id of the input field
@@ -171,12 +184,12 @@ else
 </td>
 <td>Param <select name="param"><option value="">default</option>
 <?php
-	for ($i = 1; $i < 3; $i++)
+	foreach ($params as $i => $nm)
 	{
 		echo '<option value="' . $i . '"';
 		if ($param == $i)
 			echo' selected="selected"';
-		echo '>' . $i . '</option>';
+		echo '>' . $nm . '</option>';
 	}
 ?>
 </select></td>
