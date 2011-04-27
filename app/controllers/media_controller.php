@@ -2184,8 +2184,8 @@ echo'</pre>';
 				{
 					foreach ($lst as $key => $val)
 					{
-						//$lst[$key]['Vbpost']['pagetext'] = $uuConverter->unicodeToUtf(Utils::transUbbTags($val['Vbpost']['pagetext']));
-						$lst[$key]['Vbpost']['pagetext'] = iconv('windows-1252', 'utf-8', Utils::transUbbTags($val['Vbpost']['pagetext']));
+						$lst[$key]['Vbpost']['pagetext'] = $uuConverter->unicodeToUtf(Utils::transUbbTags($val['Vbpost']['pagetext']));
+						//$lst[$key]['Vbpost']['pagetext'] = iconv('cp1252', 'utf-8', Utils::transUbbTags($val['Vbpost']['pagetext']));
 					}
 					$threadInfo['stat'] = __('showing', true) . ' ' . count($lst) . ' ' . __('posts. Total', true) . ' ' . $threadData['Thread']['replycount'];
 				}
