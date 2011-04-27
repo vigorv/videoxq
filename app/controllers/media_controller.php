@@ -2184,7 +2184,8 @@ echo'</pre>';
 				{
 					foreach ($lst as $key => $val)
 					{
-						$lst[$key]['Vbpost']['pagetext'] = $uuConverter->unicodeToUtf(Utils::transUbbTags($val['Vbpost']['pagetext']));
+						//$lst[$key]['Vbpost']['pagetext'] = $uuConverter->unicodeToUtf(Utils::transUbbTags($val['Vbpost']['pagetext']));
+						$lst[$key]['Vbpost']['pagetext'] = Utils::transUbbTags($val['Vbpost']['pagetext']);
 					}
 					$threadInfo['stat'] = __('showing', true) . ' ' . count($lst) . ' ' . __('posts. Total', true) . ' ' . $threadData['Thread']['replycount'];
 				}
