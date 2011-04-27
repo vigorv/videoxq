@@ -1,6 +1,10 @@
 <?php
 DEFINE(_STK0_, 1);
 DEFINE(_OMSK_, 2);
+$zIds = array(
+_OMSK_ => 'Omsk',
+_STK0_ => 'STK0',
+);
 
 $params = array(
 12 => 'Абакан',
@@ -129,21 +133,38 @@ else
         $sql= "select user_ip from `input`" . $cond;
 //echo $sql;
         $query = mysql_query($sql);
-        $omskCnt = 0;
+        $cnt = array();
+        $total = 0;
         while($res = mysql_fetch_row($query))
         {
-		foreach($omskIps as $ip)
-		{
-			if (netMatch($ip, $res[0]))
+			$zone = 0;//NOT DETECTED
+			foreach($zones as $key => $zns)
 			{
-				$omskCnt++;
-				break;
+				if (!empty($zns))
+				{
+					foreach ($zns as $z)
+					{
+						if (netMatch($user_ip, $z))
+						{
+							$zone = $key;
+							break;
+						}
+					}
+				}
+				if (!empty($zone))
+					break;
 			}
-		}
+			$cnt[$zone]++;
+	        $total++;
         }
         mysql_free_result($query);
         mysql_close();
-        echo '<h3>Omsk users - ' . $omskCnt . ' (' . round($omskCnt / $cnt * 100, 2) . '% of ' . $cnt . ')</h3>';
+        foreach ($zIds as $z => $nm)
+        {
+        	$c = (empty($cnt[$z]) ? 0 : $cnt[$z]);
+	       	echo '<h3>' . $nm . ' users - ' . $c . ' (' . round($c / $cnt * 100, 2) . '%)</h3>';
+		}
+       	echo '<h3>Total users cnt - ' . $total . '</h3>';
 
 ?>
 <link rel="stylesheet" type="text/css" media="all" href="/css/calendar-blue.css" title="win2k-cold-1" />
