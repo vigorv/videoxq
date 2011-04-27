@@ -132,7 +132,7 @@ else
         mysql_free_result($query);
 
         $sql= "select user_ip from `input`" . $cond;
-echo $sql;
+//echo $sql;
         $query = mysql_query($sql);
         $cnt = array();
         while($res = mysql_fetch_row($query))
