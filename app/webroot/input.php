@@ -126,7 +126,7 @@ else
 	$res = mysql_fetch_row($query);
 	if ($res)
 	{
-		$cnt = $res[0];
+		$total = $res[0];
 	}
         mysql_free_result($query);
 
@@ -134,7 +134,6 @@ else
 //echo $sql;
         $query = mysql_query($sql);
         $cnt = array();
-        $total = 0;
         while($res = mysql_fetch_row($query))
         {
 			$zone = 0;//NOT DETECTED
@@ -158,7 +157,6 @@ else
 				$cnt[$zone] = 0;
 			else
 				$cnt[$zone]++;
-	        $total++;
         }
         mysql_free_result($query);
         mysql_close();
