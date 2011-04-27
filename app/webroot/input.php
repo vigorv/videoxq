@@ -61,7 +61,7 @@ function to_base($user_ip,$event,$info,$param)
 		{
 			foreach ($zns as $z)
 			{
-				if (netMatch($user_ip, $z))
+				if (netMatch($z, $user_ip))
 				{
 					$zone = $key;
 					break;
@@ -144,7 +144,7 @@ echo $sql;
 				{
 					foreach ($zns as $z)
 					{
-						if (netMatch($res[0], $z))
+						if (netMatch($z, $res[0]))
 						{
 							$zone = $key;
 							break;
