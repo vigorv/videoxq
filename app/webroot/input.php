@@ -163,7 +163,7 @@ else
         foreach ($zIds as $z => $nm)
         {
         	$c = (empty($cnt[$z]) ? 0 : $cnt[$z]);
-	       	echo '<h3>' . $nm . ' users - ' . $c . ' (' . round($c / $cnt * 100, 2) . '%)</h3>';
+	       	echo '<h3>' . $nm . ' users - ' . $c . ' (' . round($c / $total * 100, 2) . '%)</h3>';
 		}
        	echo '<h3>Total users cnt - ' . $total . '</h3>';
 
