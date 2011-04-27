@@ -18,7 +18,7 @@ class Thread extends AppModel {
             'Vbpost' => array('className' => 'Vbpost',
                                 'foreignKey' => 'threadid',
                                 'dependent' => false,
-                                'conditions' => 'Vbpost.visible = 1',
+                                'conditions' => '',
                                 'fields' => '',
                                 'order' => '',
                                 'limit' => '',
