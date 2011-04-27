@@ -89,8 +89,8 @@ header('location: /');
 }
 else
 {
-        mysql_connect("localhost", "wsmedia", "6ND8vkHlNvwxUGPxfQIRz012");
-        mysql_select_db("wsmedia");
+        mysql_connect("localhost", "videoxq", "JJKqe8g45TCrtdqxG5Vn");
+        mysql_select_db("videoxq");
 
         $event      = mysql_real_escape_string($event);
         $info       = mysql_real_escape_string($info);
@@ -122,8 +122,9 @@ else
 
         $cnt = 0;
 	$sql= "select count(id) from input";
-        $query = mysql_query($sql);
+    $query = mysql_query($sql);
 	$res = mysql_fetch_row($query);
+	$total = 0;
 	if ($res)
 	{
 		$total = $res[0];
