@@ -154,7 +154,10 @@ else
 				if (!empty($zone))
 					break;
 			}
-			$cnt[$zone]++;
+			if (empty($cnt[$zone]))
+				$cnt[$zone] = 0;
+			else
+				$cnt[$zone]++;
 	        $total++;
         }
         mysql_free_result($query);
