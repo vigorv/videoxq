@@ -153,12 +153,12 @@ echo $sql;
 				}
 				if (!empty($zone))
 				{
-echo '<p>detect ' . $res[0] . ' IN ' . $z;
+//echo '<p>detect ' . $res[0] . ' IN ' . $z;
 					break;
 				}
 			}
 			if (empty($cnt[$zone]))
-				$cnt[$zone] = 0;
+				$cnt[$zone] = 1;
 			else
 				$cnt[$zone]++;
         }
