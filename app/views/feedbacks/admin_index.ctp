@@ -86,7 +86,7 @@ foreach ($feedbacks as $feedback):
 	            echo $html->link($str, array('action'=>'delete', $feedback['Feedback']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $feedback['Feedback']['id']));
             ?>
             <?php
-            	if ($feedback['Feedback']['deleted'])
+            	if (!empty($feedback['Feedback']['deleted']))
 		            echo $html->link('Restore', array('action'=>'restore', $feedback['Feedback']['id']), null, null);
             ?>
         </td>
