@@ -2179,7 +2179,7 @@ echo'</pre>';
 			{
 				$threadInfo['enabled'] = $threadInfo['enabled'] & $threadData['Thread']['open'];
 				$threadInfo['id'] = $threadData['Thread']['threadid'];
-				$lst = $this->Vbpost->findAll(array('Vbpost.threadid' => $threadData['Thread']['threadid'], 'Vbpost.parentid >' => 0, 'Vbpost.visible >' => 0), null, 'Vbpost.postid desc', Configure::read('threadLimit'));
+				$lst = $this->Vbpost->findAll(array('Vbpost.threadid' => $threadData['Thread']['threadid'], 'Vbpost.parentid >' => 0, 'Vbpost.visible <= ' => 1), null, 'Vbpost.postid desc', Configure::read('threadLimit'));
 				if (!empty($lst))
 				{
 					foreach ($lst as $key => $val)
