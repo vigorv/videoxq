@@ -1694,6 +1694,29 @@ echo'</pre>';
             $this->redirect(array('action'=>'index'));
         }
 
+
+		if (!$film = Cache::read('Catalog.film_view_' . $id,'media'))
+	    {
+	        $this->Film->recursive = 0;
+	        $this->Film->contain(array('FilmType',
+	                                     'Genre',
+	                                     'Thread',
+	                                     'FilmPicture' => array('conditions' => array('type <>' => 'smallposter')),
+	                                     'Country',
+	                                     'FilmVariant' => array('FilmLink', 'FilmFile' => array('order' => 'file_name'), 'VideoType', 'Track' => array('Language', 'Translation')),
+	                                     'MediaRating',
+	                                     //'FilmComment' => array('order' => 'FilmComment.created ASC',
+	                                                            //'conditions' => array('FilmComment.hidden' => 0))
+	                                  )
+	                             );
+	        $film = $this->Film->read(null, $id);
+		    Cache::write('Catalog.film_view_' . $id, $film,'media');
+	    }
+	    if (!$film['Film']['active']) {
+	        $this->Session->setFlash(__('Invalid Film', true));
+	        $this->redirect(array('action'=>'index'));
+	    }
+
         App::import('Vendor', 'Utils'); //ДЛЯ КОНВЕРТИРОВАНИЯ ТЭГОВ UBB
 
 	    //for ($i = 0; $i < 100; $i++)
@@ -1708,7 +1731,6 @@ echo'</pre>';
         }
 
         $this->Cookie->write('Film.hits', $cookie, true, '+1 day');
-
 
         $this->set('votingAllowed', true);
         $cookie = $this->Cookie->read('Voting.film');
@@ -1774,23 +1796,7 @@ echo'</pre>';
 	}
 	$this->set('similars', $similars);
 
-	if (!$film = Cache::read('Catalog.film_view_' . $id,'media'))
-    {
-        $this->Film->recursive = 0;
-        $this->Film->contain(array('FilmType',
-                                     'Genre',
-                                     'Thread',
-                                     'FilmPicture' => array('conditions' => array('type <>' => 'smallposter')),
-                                     'Country',
-                                     'FilmVariant' => array('FilmLink', 'FilmFile' => array('order' => 'file_name'), 'VideoType', 'Track' => array('Language', 'Translation')),
-                                     'MediaRating',
-                                     //'FilmComment' => array('order' => 'FilmComment.created ASC',
-                                                            //'conditions' => array('FilmComment.hidden' => 0))
-                                  )
-                             );
-        $film = $this->Film->read(null, $id);
-	    Cache::write('Catalog.film_view_' . $id, $film,'media');
-    }
+
 /*
 //TEST
 $variant = $this->Film->FilmVariant->find(array('FilmVariant.film_id' => $id, array("OR" => array("FilmVariant.flag_catalog" => 0, "FilmVariant.flag_catalog IS NULL"))));
