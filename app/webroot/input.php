@@ -144,7 +144,6 @@ echo $sql;
 				{
 					foreach ($zns as $z)
 					{
-echo '<p>check ' . $res[0] . ' IN ' . $z;
 						if (netMatch($z, $res[0]))
 						{
 							$zone = $key;
@@ -153,7 +152,10 @@ echo '<p>check ' . $res[0] . ' IN ' . $z;
 					}
 				}
 				if (!empty($zone))
+				{
+echo '<p>detect ' . $res[0] . ' IN ' . $z;
 					break;
+				}
 			}
 			if (empty($cnt[$zone]))
 				$cnt[$zone] = 0;
