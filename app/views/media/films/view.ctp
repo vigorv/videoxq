@@ -1256,7 +1256,6 @@ if (!empty($threadInfo))
 	    foreach (array_reverse($threadInfo['lst']) as $l)
     	{
         	extract($l['Vbpost']);
-        	if ($Vbpost['visible'] <> 1) continue;
 ?>
     <div class="commentBox">
         <p class="author"><strong><?php echo ($username) ?></strong>
