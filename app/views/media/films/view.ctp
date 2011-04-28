@@ -416,6 +416,8 @@ if (!empty($similars))
     ?></p>
     <br>
 <?php
+	echo $BlockBanner->getBanner('view');
+
 	$yandex = $Film; // ДЛЯ ВЫВОДА ПОИСКА ПО ЯНДЕКСУ
 	$linksContent = '';
 	$faqLink = ' &nbsp;<span style="font-size:25px"><a alt="' . __('How to download?', true) . '" title="' . __('How to download?', true) . '" href="/pages/faq#download">&nbsp;?&nbsp;</a></span>';
@@ -533,8 +535,6 @@ else
 ?>
 </h4>
 <?php
-	echo $BlockBanner->getBanner('view');
-
 		if (!empty($authUser['userid']))
 		{
 			if ($isVip || $isWS) //ДЛЯ ВИПОВ ВВОДИМ УПРАВЛЕНИЕ ВИДИМОСТЬЮ ПЛЕЕРА
