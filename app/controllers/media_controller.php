@@ -1062,10 +1062,12 @@ echo'</pre>';
     		}
 		}
 
+		$wsmediaResult = 0;
+		$animebarResult = 0;
 		if (isset($this->params['named']['search'])) //ЗАПРОС СЧЕТЧИКА К ДРУГИМ КАТАЛОГАМ
 		{
-			$this->searchWsmedia();
-			$this->searchAnimeBar();
+			$wsmediaResult = $this->searchWsmedia();
+			$animebarResult = $this->searchAnimeBar();
 		}
 
 		$countation = $pagination;
@@ -1120,7 +1122,7 @@ echo'</pre>';
 //*/
 	//}
 
-        if (empty($films) && !empty($search) && empty($posts) && empty($postsAb))
+        if (empty($films) && !empty($search) && empty($wsmediaResult) && empty($animebarResult))
         {
             $this->Film->Person->contain();
             $search = '%' . $this->params['named']['search'] . '%';
