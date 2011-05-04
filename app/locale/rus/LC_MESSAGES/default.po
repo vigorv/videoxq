@@ -8372,7 +8372,7 @@ msgid "matches"
 msgstr "совпадений"
 
 msgid "Find in catalogs"
-msgstr "Найдено каталогах"
+msgstr "Найдено в каталогах"
 
 msgid "first"
 msgstr "первая"
