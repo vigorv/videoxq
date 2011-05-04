@@ -32,7 +32,7 @@ if ((count($films) == 0) || (!empty($wsmediaPostCount)) || (!empty($animebarPost
 	if ((count($films) == 0) && (!isset($pass["page"])) && (!empty($wsmediaPostCount) || !empty($animebarPostCount)))
 		echo '<h2>' . __('No results for your search', true) . ' :(</h2>';
 
-	if ((count($films) > 0) || (!empty($wsmediaPostCount)) || (!empty($abPosts)))
+	if ((count($films) > 0) || (!empty($wsmediaPostCount)) || (!empty($animebarPostCount)))
 	{
 		$cLinks = array();
 		if (!empty($films))
