@@ -76,12 +76,27 @@ function to_base($user_ip,$event,$info,$param)
     mysql_connect("localhost", "videoxq", "JJKqe8g45TCrtdqxG5Vn");
     mysql_select_db("videoxq");
 
+    $comeback = false;
+    $sql = 'select id from input where user_ip = "' . $user_ip . '"';
+    $query = mysql_query($sql);
+    $res = mysql_fetch_row($query);
+    if ($res)
+    {
+    	$comeback = true;
+    }
+    mysql_free_result($res);
+
     $event      = mysql_real_escape_string($event);
     $info       = mysql_real_escape_string($info);
 
     $sql= "insert into `input` (dt, user_ip, event, info, param, zone) values ('" . date('Y-m-d H:i:s') . "', '{$user_ip}', '{$event}', '{$info}', '{$param}', '{$zone}')";
     $result = mysql_query($sql);
     mysql_close();
+
+    if ($comeback)
+    {
+		header('location: http://rumedia.ws');
+    }
 }
 
 to_base($user_ip,$event,$b_info, $param);
