@@ -96,6 +96,7 @@ function to_base($user_ip,$event,$info,$param)
     if ($comeback)
     {
 		header('location: http://rumedia.ws');
+		exit;
     }
 }
 
