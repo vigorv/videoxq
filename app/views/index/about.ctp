@@ -117,12 +117,12 @@
      <div id="Undeground_fresh" class="small_item_box">
          <h4>Видеозаписи:</h4>
          <div class="ud_small_item">
-             <a href="#" ><img height="100px" width="160px" src="#"/></a><br/>
-             <label>Название 1</label>
+             <a href="#" ><img height="108px" width="146px" src="/img/about/play2.jpg"/></a><br/>
+             <label>Наша техподдержка</label>
          </div>
          <div class="ud_small_item">
-             <a href="#"  ><img height="100px" width="160px" src="#"/></a><br/>
-             <label>Название 2</label>
+             <a href="#" ><img height="108px" width="146px" src="/img/about/play2.jpg"/></a><br/>
+             <label>Запуск нового сервера</label>
          </div>
     </div>
     <div id="Undeground_fresh" class="small_item_box">
