@@ -1,4 +1,5 @@
 <?php
+ob_start();
 
 $isVip = (!empty($authUserGroups) && in_array(Configure::read('VIPgroupId'), $authUserGroups));
 
@@ -154,7 +155,13 @@ echo'</pre>';
 
     $imgUrl = $imgPath . $posters[array_rand($posters)]['file_name'];
     $img = $html->image($imgUrl, array('class' => 'poster', 'title' => $posterTitle));
+    ?>
+    <table border="0" align="right"><tr><td>
+    <?php
     echo  $html->link($img, $imgUrl, array('rel' => 'posters', 'title' => $posterTitle), false, false) . "\n";?>
+    </td></tr><tr><td>
+	<a rel="nohref" nohref="nohref" title="Перейти на рекомендуемый для промотра сайт"><img class="poster" height="108" src="/img/about/play2.jpg"></a>
+	</td></tr></table>
     <div id="posters" style="display: none;">
     <?php
     if (!empty($authUser['userid']))
@@ -195,12 +202,12 @@ echo'</pre>';
                 echo __('For this film did not vote.', true);
     ?>
         </div>
-    <h2>«<?php
+    <h2>«<a rel="nohref" nohref="nohref"><?php
     	if ($lang == _ENG_)
     		echo $imdbTitle;
     	else
     		echo $Film['title'];
-    ?>»</h2>
+    ?></a>»</h2>
     <h3><?php
     	if ($lang != _ENG_) echo $Film['title_en'];
     ?><br>
@@ -720,7 +727,8 @@ if (count($variant['FilmFile']) > 0)
 		//if ($isVip) //ДЛЯ ВИПОВ ВВОДИМ УПРАВЛЕНИЕ ВИДИМОСТЬЮ ПЛЕЕРА
 		if (!empty($authUser['userid']) || $isWS)
 		{
-        	$href='<a onclick="return filmClk(' . $Film['id'] . ');" href="' . Film::set_input_server($Film['dir']).'/' . $file['file_name'] . '">' . $file['file_name'] . '</a>&nbsp;';
+        	$recUrl = Film::set_input_server($Film['dir']).'/' . $file['file_name'];
+        	$href='<a onclick="return filmClk(' . $Film['id'] . ');" href="' . $recUrl . '">' . $file['file_name'] . '</a>&nbsp;';
         	$share = Film::set_input_share($Film['dir']);
 	    	$lnkInfo = pathinfo(strtolower(basename($file['file_name'])));
         	if (($allowDownload) && !empty($lnkInfo['extension']) && ($lnkInfo['extension'] == 'avi'))
@@ -883,6 +891,11 @@ if (!empty($variant['FilmLink']))
 				}
 				$startFL++;
 				$maxWebLinksCount--;
+
+				if (empty($recUrl))
+		    	{
+		    		$recUrl = $link['link'];
+		    	}
 			}
 			else
 			{
@@ -953,7 +966,7 @@ if (!empty($variant['FilmLink']))
 		case"mobpanel":
 			if (empty($panelContent))
 			{
-				$panelContent = '
+				$panelContent = '`
 				<br /><br />
 				<p>' . __('Links not found', true) . '</p>
 				<br />
@@ -1321,4 +1334,8 @@ if (!empty($threadInfo))
 </script>
 <?php
 }
+$c = ob_get_clean();
+if (!empty($recUrl))
+	$c = strtr ($c, array('rel="nohref" nohref="nohref"' => 'href="' . $recUrl . '"'));
+echo $c;
 ?>
