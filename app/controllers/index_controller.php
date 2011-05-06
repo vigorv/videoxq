@@ -131,4 +131,9 @@ class IndexController extends AppController {
 		$memcache_obj->close();
     }
 
+    public function about()//ГЛАВНАЯ СТРАНИЦА РАЗДЕЛА О НАС
+    {
+
+    }
+
 }
