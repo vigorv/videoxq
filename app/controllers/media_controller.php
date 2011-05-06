@@ -51,6 +51,7 @@ class MediaController extends AppController {
     public function cache()
     {
     	$this->layout = 'ajax';
+        ini_set('memory_limit','1G');
 		$films = Cache::read('Catalog.cache_films', 'searchres');
 		if (!$films)
 		{
