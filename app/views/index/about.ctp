@@ -23,10 +23,11 @@
 
 ?>
 <div class="viewright"></div><ul id="menu">
-    <li ><a href="/media">Видео</a></li>
     <li class="active"><strong><a href="/index/about">О нас</a></strong></li>
-    <li ><a href="/people">Люди</a></li>
-    <li ><a href="/basket">Загрузки</a></li>
+    <li ><a href="#">Underground</a></li>
+    <li ><a href="#">Наша деятельность</a></li>
+    <li ><a href="#">Online-трансляции</a></li>
+    <li ><a href="#">Новости</a></li>
 </ul>
 <div class="contentColumns">
 <div id="cColumn_left" class="contentColumn_19p">
