@@ -197,9 +197,12 @@ echo'</pre>';
                 echo __('For this film did not vote.', true);
     ?>
         </div>
-    </td></tr><tr><td>
-		<a rel="nohref" nohref="nohref" title="Перейти на рекомендуемый для промотра сайт"><img class="poster" height="108" src="/img/about/play2.jpg"></a>
-	</td></tr></table>
+    </td></tr><tr height="100"><td align="center">
+		<a rel="nohref" nohref="nohref" title="Перейти на рекомендуемый для промотра сайт"><img height="108" src="/img/about/play2.jpg"></a>
+	</td></tr><tr><td align="center">
+    	<font size="1" color="grey">на правах рекламы</font>
+	</td></tr>
+	</table>
 
     <h2>«<a rel="nohref" nohref="nohref"><?php
     	if ($lang == _ENG_)
