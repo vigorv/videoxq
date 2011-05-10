@@ -155,13 +155,7 @@ echo'</pre>';
 
     $imgUrl = $imgPath . $posters[array_rand($posters)]['file_name'];
     $img = $html->image($imgUrl, array('class' => 'poster', 'title' => $posterTitle));
-    ?>
-    <table border="0" align="right"><tr><td>
-    <?php
     echo  $html->link($img, $imgUrl, array('rel' => 'posters', 'title' => $posterTitle), false, false) . "\n";?>
-    </td></tr><tr><td>
-	<a rel="nohref" nohref="nohref" title="Перейти на рекомендуемый для промотра сайт"><img class="poster" height="108" src="/img/about/play2.jpg"></a>
-	</td></tr></table>
     <div id="posters" style="display: none;">
     <?php
     if (!empty($authUser['userid']))
@@ -172,6 +166,7 @@ echo'</pre>';
     }
     ?>
     </div>
+    <table border="0" align="right"><tr><td>
         <div class="userRate">
     <?php if (!empty($authUser['userid']) && $votingAllowed): ?>
             <div class="ratings" id="voting">
@@ -202,6 +197,10 @@ echo'</pre>';
                 echo __('For this film did not vote.', true);
     ?>
         </div>
+    </td></tr><tr><td>
+		<a rel="nohref" nohref="nohref" title="Перейти на рекомендуемый для промотра сайт"><img class="poster" height="108" src="/img/about/play2.jpg"></a>
+	</td></tr></table>
+
     <h2>«<a rel="nohref" nohref="nohref"><?php
     	if ($lang == _ENG_)
     		echo $imdbTitle;
