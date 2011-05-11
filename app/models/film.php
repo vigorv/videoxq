@@ -413,7 +413,7 @@ class Film extends MediaModel {
         $limit = ' LIMIT %s, %s';
         $page = 1;
         $perPage = 100;
-
+$date .= ' AND ID < 27309';
         $sql = 'SELECT * FROM films ' . $date;
         $query = $sql . sprintf($limit, $page - 1, $perPage);
 
