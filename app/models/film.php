@@ -461,7 +461,6 @@ $date .= ' AND ID < 27309';
 
                 //Utils::getMemoryReport();
 
-
                 $film['dir'] = basename(dirname($filmFiles[0]['files']['Path']));
 
                 $this->useDbConfig = $this->defaultConfig;
@@ -634,6 +633,7 @@ $date .= ' AND ID < 27309';
             //Utils::getMemoryReport();
 
             $page++;
+if ($page >= 10) break;
             $query = $sql . sprintf($limit, ($page - 1) * $perPage, $perPage);
             //die();
         }
