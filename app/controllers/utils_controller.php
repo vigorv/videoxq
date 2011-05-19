@@ -132,7 +132,6 @@ class UtilsController extends AppController
         $this->Migration->checkPoint();
     }
 
-
     function migrate_incremental()
     {
         ini_set('memory_limit', '1G');
@@ -150,7 +149,7 @@ class UtilsController extends AppController
         $this->people($date);
         $this->films($date);
 
-        $this->Migration->checkPoint();
+		$this->Migration->checkPoint();
 		cache::delete('Catalog.indexFilter', 'default');
 		cache::delete('Catalog.topFilms', 'default');
 		cache::delete('Catalog.filmStats', 'default');
@@ -163,7 +162,6 @@ class UtilsController extends AppController
 		//ОБНОВЛЕНИЕ rss.xml
 		system('wget -O ' . $_SERVER['DOCUMENT_ROOT'] . '/app/webroot/rss.xml http://www.videoxq.com/media/rsslist');
     }
-
 
 	function admin_banners()
 	{

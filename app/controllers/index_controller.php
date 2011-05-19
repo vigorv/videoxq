@@ -5,8 +5,14 @@ class IndexController extends AppController {
     var $helpers = array('Html', 'Form', 'TagCloud', 'Ajax');
     var $components = array('Captcha','Cookie');
     //var $viewPath = 'media/films';
-    var $uses = array('Post' , 'Blog', 'Film');
+    var $uses = array('Post' , 'Blog', 'Film', 'News');
 
+    /**
+     * модель нововстей
+     *
+     * @var AppModel
+     * */
+    var $News;
 
     function index()
     {
@@ -133,7 +139,8 @@ class IndexController extends AppController {
 
     public function about()//ГЛАВНАЯ СТРАНИЦА РАЗДЕЛА О НАС
     {
-
+    	$lst = $this->News->findAll(array('News.hidden' => 0), null, 'News.created DESC');
+    	$this->set('lst', $lst);
     }
 
 }
