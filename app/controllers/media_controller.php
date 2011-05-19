@@ -269,6 +269,7 @@ class MediaController extends AppController {
 	 */
 	public function admin_importlist($all = '')
 	{
+return;//НЕПРАВИЛЬНО РАБОТАЕТ
 		//Configure::write('debug', 0);
 		$this->data['all'] = $all; //ПОЛНЫЙ ИМПОРТ
 
