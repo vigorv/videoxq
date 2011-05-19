@@ -6,7 +6,11 @@
 //echo $html->css('vusic');
 //echo $html->css('cross');
 echo $html->css('common');
-echo $javascript->link(array('jquery', 'scripts', 'validation'));
+if ($this->name == 'News')
+	echo $javascript->link(array('jquery.fancybox-1.3.4/jquery-1.4.3.min', 'scripts', 'validation'));
+else
+	echo $javascript->link(array('jquery', 'scripts', 'validation'));
+
 echo $scripts_for_layout;
 //echo $javascript->link('lib');
 ?>

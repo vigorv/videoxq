@@ -27,11 +27,13 @@ echo $html->link('Права доступа', array('action'=>'acl', 'controller
 echo '<br>';
 echo $html->link('Права доступа(контроллеры)', array('action'=>'acl_controllers', 'controller' => 'admin', Configure::read('Routing.admin') => true)) . '<br>';
 echo '<br>';
+echo $html->link('Новости', array('action'=>'index', 'controller' => 'news', Configure::read('Routing.admin') => true)) . '<br>';
+echo '<br>';
 echo $html->link('Страницы', array('action'=>'index', 'controller' => 'pages', Configure::read('Routing.admin') => true)) . '<br>';
 echo '<br>';
 echo $html->link('Блоки', array('action'=>'index', 'controller' => 'blocks', Configure::read('Routing.admin') => true)) . '<br>';
 echo '<br>';
-echo $html->link('Новости', array('action'=>'index', 'controller' => 'events', Configure::read('Routing.admin') => true)) . '<br>';
+echo $html->link('События', array('action'=>'index', 'controller' => 'events', Configure::read('Routing.admin') => true)) . '<br>';
 echo '<br>';
 echo $html->link('FAQ', array('action'=>'index', 'controller' => 'faq_categories', Configure::read('Routing.admin') => true)) . '<br>';
 echo '<br>';

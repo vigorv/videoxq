@@ -1,5 +1,4 @@
 <?php
-    $javascript->link('jquery.fancybox-1.0.0', false);
     $javascript->link('jquery.pngFix', false);
     $script = "$(function() {
        $('a[rel=fancybox]').fancybox({
@@ -18,6 +17,7 @@
         'overlayOpacity': 0.8
     });
    });";
+   $javascript->link('jquery.fancybox-1.0.0', false);
    $javascript->codeBlock($script, array('inline' => false));
    $html->css('fancy', null, array(), false);
 
@@ -27,7 +27,7 @@
     <li ><a href="#">Underground</a></li>
     <li ><a href="#">Наша деятельность</a></li>
     <li ><a href="#">Online-трансляции</a></li>
-    <li ><a href="#">Новости</a></li>
+    <li ><a href="/news">Новости</a></li>
 </ul>
 <div class="contentColumns">
 <div id="cColumn_left" class="contentColumn_19p">
@@ -63,6 +63,7 @@
 </div>
 <div id="cColumn_main" class="contentColumn_59p">
     <div class="news_items">
+<!--
         <div id="news_ID" class="news_item">
             <div class="news_header">
                 <a href="#" class="news_title">День Победы</a>
@@ -91,8 +92,31 @@
                 <a href="#">Читать далее...</a>
             </div>
         </div>
-
-
+-->
+<?php
+	if (!empty($lst))
+	{
+		foreach ($lst as $l)
+		{
+			echo'
+        <div id="news_ID" class="news_item">
+            <div class="news_header">
+                <a href="#" class="news_title">' . $l['News']['title'] . '</a>
+                <span class="news_date">' . date('d.m.Y', strtotime($l['News']['created'])) . '</span>
+                <div class="news_header_r">
+                    <a href="#" class="news_author"></a>
+                </div>
+            </div>
+            <div class="news_content">
+                <a href="/files/news/' . $l['News']['img'] . '" rel="fancybox" onclick="return stopdivx();"><img class="news_content_img"  height="120px" src="/files/news/' . $l['News']['img'] . '"></a>
+                ' . $l['News']['stxt'] . '
+                <a href="/news/view/' . $l['News']['id'] . '">Читать далее...</a>
+            </div>
+        </div>
+			';
+		}
+	}
+?>
 
 
     </div>
