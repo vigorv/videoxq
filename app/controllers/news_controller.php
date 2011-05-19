@@ -53,6 +53,7 @@ class NewsController extends AppController {
 			        $login = ftp_login($ftp_id, 'mp4', '9043uj53456t');
 			        if ($login)
 			        {
+			        	$res = ftp_pasv($ftp_id, true);
 				        $lst = ftp_nlist($ftp_id, $dat);
 				        if (!empty($lst))
 				        {
