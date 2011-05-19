@@ -90,6 +90,8 @@ for ($match = 1; $match < 20; $match++)
 	}
 }
 
+if (!empty($ftpInfo[$dat]['foto']) || !empty($ftpInfo[$dat]['video']))
+{
 	echo '
 	<tr valign="top">
 		<td><h2>Другое</h2></td><td>
@@ -127,6 +129,7 @@ for ($match = 1; $match < 20; $match++)
 		';
 	}
 	echo '</td></tr>';
+}
 ?>
 </table>
 <script type="text/javascript">
@@ -185,6 +188,7 @@ echo $hideJS;
 }
 ?>
 
+</div>
 </div>
 </div>
 </div>
