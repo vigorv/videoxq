@@ -134,7 +134,7 @@ class UtilsController extends AppController
 
     function migrate_incremental()
     {
-        ini_set('memory_limit', '1G');
+        ini_set('memory_limit', '2G');
         set_time_limit(50000000000);
 
         //УДАЛЕНИЕ СООБЩЕНИЯ О ЛИЦЕНЗИИ
@@ -155,7 +155,7 @@ class UtilsController extends AppController
 		cache::delete('Catalog.filmStats', 'default');
 		cache::delete('Catalog.peopleIndex', 'default');
 		cache::clear(false, 'searchres');//СБРАСЫВАЕМ ВЕСЬ КЭШ ТК В НЕИ ХРАНИМ ПОСТРАНИЧНЫЕ И ПОИСКОВЫЕ РЕЗУЛЬТАТЫ
-		echo `indexer --rotate --all`;
+		//echo `indexer --rotate --all`;
 
 		//ОБНОВЛЕНИЕ sitemap.xml
 		//system('wget -O ' . $_SERVER['DOCUMENT_ROOT'] . '/app/webroot/sitemap.xml http://www.videoxq.com/admin/media/sitemap');
