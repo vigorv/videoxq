@@ -1309,6 +1309,7 @@ echo'</pre>';
 		else
     		$updated = 0;
 		$this->set('updated', $updated);
+		$this->set('xml', $xml);
     }
 
 
