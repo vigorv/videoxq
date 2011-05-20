@@ -1089,8 +1089,8 @@ echo'</pre>';
 
 		$add = 0;
 		$url = "http://ipgeobase.ru/files/db/Map_db/block_coord.zip";
-		$zip = $_SERVER['DOCUMENT_ROOT'] . '/app/tmp/geo.zip';
-		$xml = $_SERVER['DOCUMENT_ROOT'] . '/app/tmp/geo.db';
+		$zip = $_SERVER['DOCUMENT_ROOT'] . '/../app/tmp/geo.zip';
+		$xml = $_SERVER['DOCUMENT_ROOT'] . '/../app/tmp/geo.db';
 
 		$this->set('url', $url);
 
