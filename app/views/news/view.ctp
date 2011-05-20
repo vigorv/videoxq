@@ -28,7 +28,7 @@ if (!empty($info))
 	{
 		echo '<center><img class="news_content_full_img" src="/files/news/small/' . $info['News']['img'] . '"/></center>';
 	}
-	if (!empty($info['News']['txt']))
+	if (!strlen($info['News']['txt']) > strlen($info['News']['stxt']))
 		echo $info['News']['txt'];
 	else
 		echo $info['News']['stxt'];
