@@ -1029,7 +1029,15 @@ if (!empty($variant['FilmLink']))
 					$maxLinksPanel = $key;
 				}
 			}
-			$linksContent .= '<td id="' . $key . 'folder" class="unfocusedpanel"><a style="display: block" href="#" onclick="return focusPanel(\'' . $key . '\');">' . $value . $linksCntStr . '</a></td>';
+			if ($linksCntStr)
+			{
+				$a = '<a style="display: block" href="#" onclick="return focusPanel(\'' . $key . '\');">' . $value . $linksCntStr . '</a>';
+			}
+			else
+			{
+				$a = $value . $linksCntStr;
+			}
+			$linksContent .= '<td id="' . $key . 'folder" class="unfocusedpanel">' . $a . '</td>';
 		}
 		$linksContent .= '
 			<td id="lastfolder">&nbsp;</td></tr>
