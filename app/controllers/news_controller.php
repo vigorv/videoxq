@@ -40,7 +40,7 @@ class NewsController extends AppController {
 	        $this->set('flowServerAddr', $flowServerAddr);
 	        $flowServerAddrPort = '92.63.196.52:80';
 	        $this->set('flowServerAddrPort', $flowServerAddrPort);
-//			$ftpInfo = Cache::read('News.ftpInfo', 'searchres');
+			$ftpInfo = Cache::read('News.ftpInfo', 'searchres');
 			if (empty($ftpInfo))
 			{
 				$ftpInfo = array();
