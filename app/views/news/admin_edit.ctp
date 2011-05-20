@@ -24,27 +24,37 @@
 		$uploadedFile = $info['News']['img'];
 	}
 
+	$javascript->link('ui.core', false);
+	$javascript->link('ui.datepicker', false);
+	$html->css('ui.datepicker', null, array(), false);
+
 	echo $form->create('News', array('action' => 'edit', 'name' => 'newsform'));
 ?>
     <fieldset>
          <legend><?php __('Edit New');?></legend>
     <?php
         echo $form->input('id', array('value' => (!empty($info) ? $info['News']['id'] : '')));
-        echo $form->input('created', array('label' => 'Дата', 'value' => (!empty($info) ? $info['News']['created'] : '')));
-        echo $form->input('modified', array('label' => 'Изменено', 'value' => (!empty($info) ? $info['News']['modified'] : '')));
+        echo $form->input('created', array('type' => 'text', 'id' => 'createdid',  'label' => 'Дата', 'value' => (!empty($info) ? $info['News']['created'] : date('Y-m-d'))));
         echo $form->input('title', array('label' => 'Название', 'value' => (!empty($info) ? $info['News']['title'] : '')));
         echo $form->input('stxt', array('rows' => 5, 'label' => 'Короткий текст', 'value' => (!empty($info) ? $info['News']['stxt'] : '')));
         echo $form->input('txt', array('rows' => 15, 'label' => 'Полный текст', 'value' => (!empty($info) ? $info['News']['txt'] : '')));
         echo $form->input('hidden', array('label' => 'Скрыть новость', 'value' => 1, 'checked' => (!empty($info['News']['hidden']) ? 'checked' : '')));
+//<script type="text/javascript" src="/uploadify/jquery-1.4.2.min.js"></script>
     ?>
     <input type="hidden" id="picture" name="data[picture]" value="<?php echo $uploadedFile; ?>" />
 <link rel="stylesheet" type="text/css" href="/uploadify/uploadify.css">
-<script type="text/javascript" src="/uploadify/jquery-1.4.2.min.js"></script>
 <script type="text/javascript" src="/uploadify/swfobject.js"></script>
 <script type="text/javascript" src="/uploadify/jquery.uploadify.v2.1.4.min.js"></script>
 <script type="text/javascript">
       $(document).ready(function() {
-        $('#file_upload').uploadify({
+
+		$("#createdid").datepicker({
+	    dateFormat: $.datepicker.ATOM,
+	    firstDay: 1,
+	    changeFirstDay: false
+		});
+
+	       $('#file_upload').uploadify({
 			'uploader'		: '/uploadify/uploadify.swf',
 			'script'		: '/pictureupload.php',
 			'scriptAccess'	: 'always',
@@ -121,3 +131,5 @@
         <li><?php echo $html->link(__('List News', true), array('action'=>'index'));?></li>
     </ul>
 </div>
+<?php
+
