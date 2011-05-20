@@ -1,8 +1,10 @@
 <div class="viewright"></div><ul id="menu">
     <li ><a href="/index/about">О нас</a></li>
+<!--
     <li ><a href="#">Underground</a></li>
     <li ><a href="#">Наша деятельность</a></li>
     <li ><a href="#">Online-трансляции</a></li>
+-->
     <li class="active"><strong><a href="/news">Новости</a></strong></li>
 </ul>
 <div class="contentColumns">

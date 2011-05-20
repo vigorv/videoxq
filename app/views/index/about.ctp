@@ -24,13 +24,16 @@
 ?>
 <div class="viewright"></div><ul id="menu">
     <li class="active"><strong><a href="/index/about">О нас</a></strong></li>
+<!--
     <li ><a href="#">Underground</a></li>
     <li ><a href="#">Наша деятельность</a></li>
     <li ><a href="#">Online-трансляции</a></li>
+-->
     <li ><a href="/news">Новости</a></li>
 </ul>
 <div class="contentColumns">
 <div id="cColumn_left" class="contentColumn_19p">
+<!--
     <h3 class="small_item_box_pretitle">Underground</h3>
     <div id="Undeground_fresh" class="small_item_box">
          <h4>Свежее:</h4>
@@ -58,7 +61,7 @@
 
 
     </div>
-
+-->
 
 </div>
 <div id="cColumn_main" class="contentColumn_59p">
@@ -120,13 +123,14 @@
 
 
     </div>
-
+<!--
 <div class="pages">
 <h3>1 &nbsp; <a href="/media/index/direction:desc/action:index/page:2">2</a> &nbsp; <a href="/media/index/direction:desc/action:index/page:3">3</a> &nbsp; <a href="/media/index/direction:desc/action:index/page:4">4</a> &nbsp; <a href="/media/index/direction:desc/action:index/page:5">5</a> &nbsp; <a href="/media/index/direction:desc/action:index/page:6">6</a> &nbsp; <a href="/media/index/direction:desc/action:index/page:7">7</a> &nbsp; <a href="/media/index/direction:desc/action:index/page:8">8</a> &nbsp; <a href="/media/index/direction:desc/action:index/page:9">9</a> &nbsp; <a href="/media/index/direction:desc/action:index/page:2" title="следующая">&gt;</a> &nbsp; <a href="/media/index/direction:desc/action:index/page:18" title="прокрутка вперед">&gt;&gt;</a> &nbsp; ... &nbsp; <a href="/media/index/direction:desc/action:index/page:766" title="последняя">766</a></h3></div>
 </div>
-
+-->
 <div id="cColumn_right" class="contentColumn_19p" style="text-align:right;">
-    <h3 class="small_item_box_pretitle">Наша деятельность</h3>
+
+<!--    <h3 class="small_item_box_pretitle">Наша деятельность</h3>
     <div id="Undeground_fresh" class="small_item_box">
          <h4>Фотографии:</h4>
          <div class="ud_small_item">
@@ -185,17 +189,10 @@
 
     <div class="ud_small_item">
 						<div id="flowplayerdiv">
-<!--
-    <a href="#" style="display:block;width:160px;height:100px" onclick="return addVideo('http://92.63.196.82:82/d/Dobrunya_Nikitich_I_Zmey_Gorunych/404/Dobrunya_Nikitich_I_Zmey_Gorunych_404.mp4');" id="ipad">
--->
     <a href="#" style="display:block;width:160px;height:100px" onclick="return addVideo('http://92.63.196.52:80/video1.mp4');" id="ipad">
     	<img height="100" width="160"  src="/img/about/basket_motion.jpg"/>
     </a>
     					</div>
-						<!--
-						<div id="flowplayerdiv" style="display: none"><center>
-						<h4><a href="#" onclick="document.getElementById(\'flowplayerdiv\').style.display=\'none\'; return false;">выключить проигрыватель</a></h4>
-						-->
 
              <label>1/8 финала</label>
          </div>
@@ -205,7 +202,7 @@
 
 
     </div>
-
+-->
 
 </div>
 
