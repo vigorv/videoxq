@@ -28,7 +28,10 @@ if (!empty($info))
 	{
 		echo '<center><img class="news_content_full_img" src="/files/news/small/' . $info['News']['img'] . '"/></center>';
 	}
-	echo $info['News']['txt'];
+	if (!empty($info['News']['txt']))
+		echo $info['News']['txt'];
+	else
+		echo $info['News']['stxt'];
 
 	$javascript->link('jquery.fancybox-1.3.4/fancybox/jquery.fancybox-1.3.4.pack', false);
     $html->css('fancybox-1.3.4/jquery.fancybox-1.3.4', null, array(), false);
