@@ -10,7 +10,7 @@ if (!empty($updated))
 }
 else
 {
-	echo '<p>Последняя дата обновления не определена (отсутствует дамп-файл)</p>';
+	echo '<p>Последняя дата обновления не определена (отсутствует дамп-файл ' . $xml . ')</p>';
 }
 
 echo '<br /><button title="скачать и обновить данные" onclick="location.href=\'/admin/utils/geo/import\'"> Import GeoIpDump </button>';
