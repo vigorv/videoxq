@@ -18,4 +18,4 @@ if (empty($_REQUEST["IMG"]))
 	- добавить выход на входе getFooter и getHeader
 	- заменить строку "$PHP_SELF=$PHP_SELF.'?';" на "global $PHP_SELF; $PHP_SELF='/admin/utils/memcache/?';";
 */
-include_once($_SERVER["DOCUMENT_ROOT"] . '/app/vendors/memcache.php');
+include_once($_SERVER["DOCUMENT_ROOT"] . '/../app/vendors/memcache.php');
