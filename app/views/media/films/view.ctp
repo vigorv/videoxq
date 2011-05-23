@@ -616,10 +616,10 @@ height="' . $resolution[1] . '" codebase="http://go.divx.com/plugin/DivXBrowserP
 			switch ($playSwitch)
 			{
 				case 'playoff':
-					$playSwitchButton = '<br /><a href="/playswitch.php?' . $Film['id'] . '-playon" style="padding: 2px 5px 2px 5px; border: 1px solid black; background: red; color: white;">' . __('Watch online', true) . ' "' . $Film["title"] . '"</a><br /><br />';
+					//$playSwitchButton = '<br /><a href="/playswitch.php?' . $Film['id'] . '-playon" style="padding: 2px 5px 2px 5px; border: 1px solid black; background: red; color: white;">' . __('Watch online', true) . ' "' . $Film["title"] . '"</a><br /><br />';
 				break;
 				case 'playon':
-					$playSwitchButton = '<br /><a href="/playswitch.php?' . $Film['id'] . '-playoff" style="padding: 2px 5px 2px 5px; border: 1px solid black; background: green; color: white;">' . __('Turn off online-player', true) . '</a><br /><br />';
+					//$playSwitchButton = '<br /><a href="/playswitch.php?' . $Film['id'] . '-playoff" style="padding: 2px 5px 2px 5px; border: 1px solid black; background: green; color: white;">' . __('Turn off online-player', true) . '</a><br /><br />';
 				break;
 			}
 		}
@@ -633,7 +633,7 @@ $linksContent .= '
 		function switchPlay(cur)
 		{
 			$("a img[rel=play]").css({display: \'\'});
-			cur.style.display="none";
+			$("#file" + cur).css({display: \'none\'});
 		}
 
 		function filmClk(id)
@@ -727,16 +727,24 @@ if (count($variant['FilmFile']) > 0)
 		';
 		$play = ''; $href = __('Available only to registered users', true);
 		//if ($isVip) //ДЛЯ ВИПОВ ВВОДИМ УПРАВЛЕНИЕ ВИДИМОСТЬЮ ПЛЕЕРА
-		if (!empty($authUser['userid']) || $isWS)
+//		if (!empty($authUser['userid']) || $isWS)
 		{
         	$recUrl = Film::set_input_server($Film['dir']).'/' . $file['file_name'];
+
+			$letter = strtolower(substr($Film['dir'],0,1));
+			if(( $letter >= '0' and $letter <= '9')||$letter=='0')
+				$letter='0-999';
+
         	$href='<a onclick="return filmClk(' . $Film['id'] . ');" href="' . $recUrl . '">' . $file['file_name'] . '</a>&nbsp;';
-        	$share = Film::set_input_share($Film['dir']);
+        	//$share = Film::set_input_share($Film['dir']);
 	    	$lnkInfo = pathinfo(strtolower(basename($file['file_name'])));
-        	if (($allowDownload) && !empty($lnkInfo['extension']) && ($lnkInfo['extension'] == 'avi'))
+//        	if (($allowDownload) && !empty($lnkInfo['extension']) && ($lnkInfo['extension'] == 'avi'))
         	{
-				$play = '<a href="#" onclick="return getdivx(' . $file['id'] . ');"><img src="/img/play.gif" width="19" rel="play" style="display: ' . $playDisplay . '" alt="" title="' . __('Watch online', true) . '" onclick="switchPlay(this);" /></a>';
-        		if (!empty($playSwitch) && ($playSwitch == 'playon')) $play = '';
+				//$play = '<a href="#" onclick="return getdivx(' . $file['id'] . ');"><img src="/img/play.gif" width="19" rel="play" style="display: ' . $playDisplay . '" alt="" title="' . __('Watch online', true) . '" onclick="switchPlay(this);" /></a>';
+			    $flowServerAddrPort = '92.63.196.52:80';
+				$play = '<a href="#" ><img src="/img/play.gif" width="19" rel="play" alt="" title="' . __('Watch online', true) . '" id="file' . $file['id'] . '" onclick="return addVideo(\'' . $recUrl . '\', ' . $file['id'] . ');"/></a>';
+				//$play = '<a href="#" onclick="return addVideo(\'http://92.63.196.82:82/w/When_Harry_Met_Sally/404/when_harry_met_sally_404.mp4\');"><img src="/img/play.gif" width="19" alt="" title="' . __('Watch online', true) . '" /></a>';
+//        		if (!empty($playSwitch) && ($playSwitch == 'playon')) $play = '';
         	}
 //        	foreach ($players as $player)
 //	        	$href .= ' <a href="/media/playlist/' . $file['id'] . '/' . $player['name'] . '"><img height="16" src="/img/ico/' . $player['name'] . '16.gif" /></a>';
@@ -758,7 +766,51 @@ if (count($variant['FilmFile']) > 0)
     	';
 		$linksCnt++;
     }
-	$panelContent .= '</table>';
+	$panelContent .= '</table>
+<div id="flowvideo" style="display:none;">
+	<h4><a href="#" onclick="return stopVideo();">' . __('Turn off online-player', true) . '</a></h4>
+	<a href="#"	style="display:block;width:95%;height:297px" id="ipad"></a>
+</div>
+<script type="text/javascript" src="/js/flowplayer/flowplayer-3.2.4.min.js"></script>
+<script type="text/javascript" src="/js/flowplayer/flowplayer.ipad-3.2.1.js"></script>
+<script type="text/javascript">
+<!--
+		function stopVideo()
+		{
+			$("#flowvideo").hide();
+			window.setTimeout("focusPanel(\'sqpanel\')", 50);
+			return false;
+		}
+
+		function addVideo(path, num) {
+			document.getElementById("ipad").href=path;
+			$("#flowvideo").show();
+			window.setTimeout("focusPanel(\'sqpanel\')", 50);
+			switchPlay(num);
+			$f("ipad", "/js/flowplayer/flowplayer-3.2.5.swf",
+								{plugins: {
+									h264streaming: {
+										url: "/js/flowplayer/flowplayer.pseudostreaming-3.2.5.swf"
+												 }
+	                             },
+								clip: {
+									provider: "h264streaming",
+									autoPlay: true,
+									scaling: "fit",
+									autoBuffering: true,
+									scrubber: true
+								},
+								canvas: {
+									backgroundGradient: "none",
+									backgroundColor: "#000000"
+								}
+					}
+						).ipad();
+			return false;
+		}
+-->
+</script>
+	';
 }
 
 //pr($variant['FilmLink']);
