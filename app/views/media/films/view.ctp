@@ -175,7 +175,12 @@ echo'</pre>';
     </td></tr><tr height="100"><td align="center">
 		<a rel="nohref" nohref="nohref" title="Перейти на рекомендуемый для промотра сайт"><img height="108" src="/img/about/play2.jpg"></a>
 	</td></tr><tr><td align="center">
-    	<font size="1" color="grey">на правах рекламы</font>
+<?php
+	if (!$Film['is_license'])
+	{
+    	echo '<font size="1" color="grey">на правах рекламы</font>';
+	}
+?>
 	</td></tr>
 	</table>
 
