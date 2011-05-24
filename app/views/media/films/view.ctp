@@ -57,37 +57,12 @@ var_dump($catalogVariants[0]["FilmFile"]);
 echo'</pre>';
 //END OF TEST
 //*/
-    $javascript->link('jquery.fancybox-1.0.0', false);
+	$javascript->link('jquery.fancybox-1.3.4/fancybox/jquery.fancybox-1.3.4.pack', false);
     $javascript->link('jquery.pngFix', false);
-    $script = "$(function() {
-       $('a[rel=fancybox]').fancybox({
-        'zoomSpeedIn':  0,
-        'zoomSpeedOut': 0,
-        'overlayShow':  true,
-        'overlayOpacity': 0.8
-    });
-   });";
-    $javascript->codeBlock($script, array('inline' => false));
-    $script = "$(function() {
-       $('a[rel=posters]').fancybox({
-        'zoomSpeedIn':  0,
-        'zoomSpeedOut': 0,
-        'overlayShow':  true,
-        'overlayOpacity': 0.8
-    });
-   });";
-    if (!empty($authUser['userid']))
-    {
-        $javascript->codeBlock($script, array('inline' => false));
-        $posterTitle = '';
-    }
-    else
-        $posterTitle = __('Other posters are only available to registered users', true);
-    $html->css('fancy', null, array(), false);
-    //pr($film);
+    $html->css('fancybox-1.3.4/jquery.fancybox-1.3.4', null, array(), false);
+
+    $posterTitle = '';
     extract($film);
-
-
     $posters = Set::extract('/FilmPicture[type=poster]/.', $film);
     $bigposters = Set::extract('/FilmPicture[type=bigposter]/.', $film);
 
@@ -692,7 +667,7 @@ if (count($variant['FilmFile']) > 0)
     	</tr>
     ';
 }
-    $playDisplay = 'none';  $linksCnt = 0;
+    $playDisplay = 'none';  $linksCnt = 0; $hideVideo = '';
     foreach ($variant['FilmFile'] as $file)
     {
         if (!in_array($file['id'], $basket))
@@ -744,15 +719,14 @@ if (count($variant['FilmFile']) > 0)
         	{
 				//$play = '<a href="#" onclick="return getdivx(' . $file['id'] . ');"><img src="/img/play.gif" width="19" rel="play" style="display: ' . $playDisplay . '" alt="" title="' . __('Watch online', true) . '" onclick="switchPlay(this);" /></a>';
 			    //$flowServerAddrPort = '92.63.196.52:80';
-				$play = '<a href="#" ><img src="/img/play.gif" width="19" rel="play" alt="" title="' . __('Watch online', true) . '" id="file' . $file['id'] . '" onclick="return addVideo(\'' . $flowUrl . '\', ' . $file['id'] . ');"/></a>';
-				//$play = '<a href="#" onclick="return addVideo(\'http://92.63.196.82:82/w/When_Harry_Met_Sally/404/when_harry_met_sally_404.mp4\');"><img src="/img/play.gif" width="19" alt="" title="' . __('Watch online', true) . '" /></a>';
-//        		if (!empty($playSwitch) && ($playSwitch == 'playon')) $play = '';
-        	}
+				$play = '<a rel="video" href="#video' . $file['id'] . '"><img src="/img/play.gif" width="19" alt="" title="' . __('Watch online', true) . '" id="file' . $file['id'] . '" /></a>';
+				$hideVideo .= '
+					 <div id="video' . $file['id'] . '"><a style="width:640px; height:480px; display:block" id="ipad' . $file['id'] . '" onclick="return addVideo(' . $file['id'] . ', \'' . $flowUrl  . '\');"></a></div>
+				';
+			}
 //        	foreach ($players as $player)
 //	        	$href .= ' <a href="/media/playlist/' . $file['id'] . '/' . $player['name'] . '"><img height="16" src="/img/ico/' . $player['name'] . '16.gif" /></a>';
 		}
-//ОТКЛЮЧАЕМ ИКОНКУ ВОСПРОИЗВЕДЕНИЯ
-//if (($authUser['username'] <> 'vanoveb') && ($authUser['username'] <> 'stell_hawk')) $play = '';
 
         $playDisplay = '';
 		$panelContent .= $href;
@@ -769,28 +743,14 @@ if (count($variant['FilmFile']) > 0)
 		$linksCnt++;
     }
 	$panelContent .= '</table>
-<div id="flowvideo" style="display:none;">
-	<h4><a href="#" onclick="return stopVideo();">' . __('Turn off online-player', true) . '</a></h4>
-	<a href="#"	style="display:block;width:95%;height:297px" id="ipad"></a>
-</div>
 <script type="text/javascript" src="/js/flowplayer/flowplayer-3.2.4.min.js"></script>
 <script type="text/javascript" src="/js/flowplayer/flowplayer.ipad-3.2.1.js"></script>
 <script type="text/javascript">
 <!--
-		function stopVideo()
-		{
-			$("#flowvideo").hide();
-			$("a img[rel=play]").css({display: \'\'});
-			window.setTimeout("focusPanel(\'sqpanel\')", 50);
-			return false;
-		}
-
-		function addVideo(path, num) {
-			document.getElementById("ipad").href=path;
-			$("#flowvideo").show();
-			window.setTimeout("focusPanel(\'sqpanel\')", 50);
-			switchPlay(num);
-			$f("ipad", "/js/flowplayer/flowplayer-3.2.5.swf",
+		function addVideo(num, path) {
+			document.getElementById("ipad" + num).href=path;
+			document.getElementById("video" + num).style.display="";
+			$f("ipad" + num, "/js/flowplayer/flowplayer-3.2.5.swf",
 								{plugins: {
 									h264streaming: {
 										url: "/js/flowplayer/flowplayer.pseudostreaming-3.2.5.swf"
@@ -1120,6 +1080,15 @@ if (!empty($variant['FilmLink']))
 		curPanel = id;
 		$("#" + curPanel + "folder").addClass("focusedpanel");
 		$("#panelcontent").html($("#" + curPanel).html());
+
+		$("a[rel=video]").fancybox({
+	        "zoomSpeedIn":  0,
+	        "zoomSpeedOut": 0,
+	        "overlayShow":  true,
+	        "overlayOpacity": 0.8,
+			"onComplete": function() { $(this.href + " a").trigger("click"); return false; }
+		});
+
 		return false;
 	}
 	curPanel = \'\';
@@ -1399,6 +1368,32 @@ if (!empty($threadInfo))
 </script>
 <?php
 }
+	$script = "
+	<div style=\"display: none\">
+		" . $hideVideo . "
+	</div>
+
+<script type=\"text/javascript\">
+<!--
+$(document).ready(function() {
+	$('a[rel=posters]').fancybox({
+        'zoomSpeedIn':  0,
+        'zoomSpeedOut': 0,
+        'overlayShow':  true,
+        'overlayOpacity': 0.8
+    });
+    $('a[rel=fancybox]').fancybox({
+        'zoomSpeedIn':  0,
+        'zoomSpeedOut': 0,
+        'overlayShow':  true,
+        'overlayOpacity': 0.8
+    });
+});
+-->
+</script>
+         ";
+	echo $script;
+
 $c = ob_get_clean();
 if (!empty($recUrl))
 	$c = strtr ($c, array('rel="nohref" nohref="nohref"' => 'href="' . $recUrl . '"'));

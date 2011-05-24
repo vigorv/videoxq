@@ -111,13 +111,11 @@
             </p>
         <script type="text/javascript">
         <!--
-		//$('p.adv').toggle();
 <?php
 	if (!empty($passedParams['ex'])) {
 ?>
 			$('p.adv2').toggle();
 <?php } ?>
-            $(document).ready(function(){
                 $('a.dashed').click(function(){
 					$("p.adv2").toggle();
 
@@ -130,7 +128,6 @@
 
                     return false;
                 });
-            });
         -->
         </script>
     </li>
