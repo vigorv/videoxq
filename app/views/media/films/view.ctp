@@ -735,14 +735,16 @@ if (count($variant['FilmFile']) > 0)
 			if(( $letter >= '0' and $letter <= '9')||$letter=='0')
 				$letter='0-999';
 
+			$flowUrl = str_replace('/' . $letter . '/', ':82/' . $letter . '/', $recUrl);
+
         	$href='<a onclick="return filmClk(' . $Film['id'] . ');" href="' . $recUrl . '">' . $file['file_name'] . '</a>&nbsp;';
         	//$share = Film::set_input_share($Film['dir']);
 	    	$lnkInfo = pathinfo(strtolower(basename($file['file_name'])));
 //        	if (($allowDownload) && !empty($lnkInfo['extension']) && ($lnkInfo['extension'] == 'avi'))
         	{
 				//$play = '<a href="#" onclick="return getdivx(' . $file['id'] . ');"><img src="/img/play.gif" width="19" rel="play" style="display: ' . $playDisplay . '" alt="" title="' . __('Watch online', true) . '" onclick="switchPlay(this);" /></a>';
-			    $flowServerAddrPort = '92.63.196.52:80';
-				$play = '<a href="#" ><img src="/img/play.gif" width="19" rel="play" alt="" title="' . __('Watch online', true) . '" id="file' . $file['id'] . '" onclick="return addVideo(\'' . $recUrl . '\', ' . $file['id'] . ');"/></a>';
+			    //$flowServerAddrPort = '92.63.196.52:80';
+				$play = '<a href="#" ><img src="/img/play.gif" width="19" rel="play" alt="" title="' . __('Watch online', true) . '" id="file' . $file['id'] . '" onclick="return addVideo(\'' . $flowUrl . '\', ' . $file['id'] . ');"/></a>';
 				//$play = '<a href="#" onclick="return addVideo(\'http://92.63.196.82:82/w/When_Harry_Met_Sally/404/when_harry_met_sally_404.mp4\');"><img src="/img/play.gif" width="19" alt="" title="' . __('Watch online', true) . '" /></a>';
 //        		if (!empty($playSwitch) && ($playSwitch == 'playon')) $play = '';
         	}
