@@ -780,6 +780,7 @@ if (count($variant['FilmFile']) > 0)
 		function stopVideo()
 		{
 			$("#flowvideo").hide();
+			$("a img[rel=play]").css({display: \'\'});
 			window.setTimeout("focusPanel(\'sqpanel\')", 50);
 			return false;
 		}
