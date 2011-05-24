@@ -6,7 +6,7 @@ if (isset($authUserGroups) && in_array(Configure::read('VIPgroupId'), $authUserG
 }
 else
 {
-	echo '<div style="float: left; width: 600px; margin-top: 5px; margin-left: 0; height: 70px; ">';
+	echo '<div style="float: left; width: 490px; margin-top: 5px; margin-left: 0; height: 70px; ">';
 	echo $BlockBanner->getBanner('menu');
 	echo '</div>';
 }
@@ -33,13 +33,13 @@ if ($authUser['userid'] == 0)
 {
     ?>
 <form id="UserLoginForm" method="post" action="/users/login" class="userLogin">
-<fieldset style="display:none;"><input type="hidden" name="_method" value="POST" /></fieldset>
+<input type="hidden" name="_method" value="POST" />
     <p><label for="UserUsername"><?php __("Login"); ?></label> (<a href="/users/register"><?php __("Registration"); ?></a> | <a href="/pays">V.I.P.</a>):<br>
     <input tabindex="1" name="data[User][username]" type="text" maxlength="100" id="UserUsername" class="textInput" /></p>
     <p><label for="UserPassword"><?php __("Password"); ?> (<a href="/users/restore"><?php __("Forgot password"); ?></a>):</label><br><input tabindex="2" type="password" name="data[User][password]" id="UserPassword" class="textInput" /></p>
     <input type="hidden" name="data[User][remember_me]" value="1" id="UserRememberMe" />
     <input type="hidden" name="redirect" value="<?php $redirectUrl = explode('=', $_SERVER['QUERY_STRING']); if (count($redirectUrl) > 1) echo '/' . $redirectUrl[1]; ?>" id="loginRedirect" />
-    <p><input type="image" class="button" alt="Войти" src="/img/login.gif"></p>
+	<input type="image" class="button" alt="Войти" src="/img/login.gif" />
 </form>
 <?php
 }
