@@ -101,6 +101,12 @@
 	{
 		foreach ($lst as $l)
 		{
+			if (!empty($l['News']['img']))
+			{
+				$img = '<a href="/files/news/' . $l['News']['img'] . ' rel="fancybox"><img class="news_content_img"  height="120px" src="/files/news/' . $l['News']['img'] . '"></a>';
+			}
+			else
+				$img = '';
 			echo'
         <div id="news_ID" class="news_item">
             <div class="news_header">
@@ -111,7 +117,7 @@
                 </div>
             </div>
             <div class="news_content">
-                <a href="/files/news/' . $l['News']['img'] . '" rel="fancybox" onclick="return stopdivx();"><img class="news_content_img"  height="120px" src="/files/news/' . $l['News']['img'] . '"></a>
+                ' . $img . '
                 ' . $l['News']['stxt'] . '
                 <a href="/news/view/' . $l['News']['id'] . '">Читать далее...</a>
             </div>
