@@ -38,6 +38,7 @@
         echo $form->input('title', array('label' => 'Название', 'value' => (!empty($info) ? $info['News']['title'] : '')));
         echo $form->input('stxt', array('rows' => 5, 'label' => 'Короткий текст', 'value' => (!empty($info) ? $info['News']['stxt'] : '')));
         echo $form->input('txt', array('rows' => 15, 'label' => 'Полный текст', 'value' => (!empty($info) ? $info['News']['txt'] : '')));
+        echo $form->input('matchesinfo', array('id' => 'matchesinfoid', 'type' => 'text', 'label' => 'Названия матчей', 'value' => (!empty($info) ? $info['News']['matchesinfo'] : '')));
         echo $form->input('hidden', array('label' => 'Скрыть новость', 'value' => 1, 'checked' => (!empty($info['News']['hidden']) ? 'checked' : '')));
 //<script type="text/javascript" src="/uploadify/jquery-1.4.2.min.js"></script>
     ?>
@@ -46,7 +47,10 @@
 <script type="text/javascript" src="/uploadify/swfobject.js"></script>
 <script type="text/javascript" src="/uploadify/jquery.uploadify.v2.1.4.min.js"></script>
 <script type="text/javascript">
+
       $(document).ready(function() {
+
+      	tinyMCE.execCommand('mceRemoveControl', false, $("#matchesinfoid").nextSibling.id);
 
 		$("#createdid").datepicker({
 	    dateFormat: $.datepicker.ATOM,

@@ -38,6 +38,7 @@ if (!empty($info))
     $html->css('fancybox-1.3.4/jquery.fancybox-1.3.4', null, array(), false);
 
     $javascript->link('jquery.pngFix', false);
+    $matchesInfo = explode('|', $info['News']['matchesinfo']);
 ?>
 <table cellspacing="20" cellpadding="5">
 <?php
@@ -47,9 +48,14 @@ for ($match = 1; $match < 20; $match++)
 {
 	if (!empty($ftpInfo[$dat][$match]))
 	{
+		$matchName = 'Матч ' . $match . '';
+		if (!empty($matchesInfo[$match - 1]))
+		{
+			$matchName = $matchesInfo[$match - 1];
+		}
 		echo '
 		<tr valign="top">
-			<td><h2>Матч ' . $match . '</h2></td><td>
+			<td><h2>' . $matchName . '</h2></td><td>
 		';
 		if (!empty($ftpInfo[$dat][$match]['foto']))
 		{
@@ -101,9 +107,14 @@ for ($match = 1; $match < 20; $match++)
 
 if (!empty($ftpInfo[$dat]['foto']) || !empty($ftpInfo[$dat]['video']))
 {
+	$otherName = 'Другое';
+	if (!empty($matchesInfo[count($matchesInfo) - 1]))
+	{
+		$otherName = $matchesInfo[count($matchesInfo) - 1];
+	}
 	echo '
 	<tr valign="top">
-		<td><h2>Другое</h2></td><td>
+		<td><h2>' . $otherName . '</h2></td><td>
 	';
 	if (!empty($ftpInfo[$dat]['foto']))
 	{
