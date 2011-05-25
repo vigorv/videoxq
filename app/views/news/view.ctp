@@ -83,7 +83,8 @@ for ($match = 1; $match < 20; $match++)
 			$hideContent = '';
 			foreach ($ftpInfo[$dat][$match]['video'] as $key => $val)
 			{
-				echo '<li><a rel="video" href="#video' . $match . $key . '">Ролик №' . ($key + 1) . '</a></li>';
+//				echo '<li><a rel="video" href="#video' . $match . $key . '">Ролик №' . ($key + 1) . '</a></li>';
+				echo '<li><a href="http://' . $flowServerAddr . '/' . $val . '">Скачать ролик №' . ($key + 1) . '</a></li>';
 				$hideContent .= '
 		 <div id="video' . $match . $key . '"><a style="width:640px; height:480px; display:block" id="ipad' . $match.$key . '" onclick="return addVideo(' . $match.$key . ', \'http://' . $flowServerAddrPort . '/' . $val . '\');"></a></div>
 				';
