@@ -40,7 +40,7 @@ class NewsController extends AppController {
 	        $this->set('flowServerAddr', $flowServerAddr);
 	        $flowServerAddrPort = '92.63.196.52:80';
 	        $this->set('flowServerAddrPort', $flowServerAddrPort);
-			$ftpInfo = Cache::read('News.ftpInfo', 'searchres');
+			//$ftpInfo = Cache::read('News.ftpInfo', 'searchres');
 			if (empty($ftpInfo))
 			{
 				$ftpInfo = array();
@@ -62,9 +62,11 @@ class NewsController extends AppController {
 				        		$matchContent = ftp_nlist($ftp_id, $dat . '/' . $match);
 				        		if (!empty($matchContent))
 				        		{
+				        			$infoTxt = @file_get_contents('http://' . $flowServerAddr . '/' . $dat . '/' . $match . '/info.txt');
 				        			$ftpInfo[$dat][$match] = array(
 				        				'video' => ftp_nlist($ftp_id, $dat . '/' . $match . '/video'),
 				        				'foto'	=> ftp_nlist($ftp_id, $dat . '/' . $match . '/foto'),
+				        				'info'	=> $infoTxt,
 				        			);
 				        		}
 				        	}
@@ -78,6 +80,7 @@ class NewsController extends AppController {
 			        ftp_close($ftp_id);
 		        }
 			}
+//pr($ftpInfo);
 	        $this->set('ftpInfo', $ftpInfo);
 		}
     }
