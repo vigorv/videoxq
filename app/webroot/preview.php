@@ -16,7 +16,7 @@ DEFINE("_PREVIEW_WIDTH_", 150);//МАКСИМАЛЬНАЯ ШИРИНА PREVIEW
 function createResizeImage($fromName, $imgWidth, $imgHeight)
 {
 	$info = pathinfo($fromName);
-	switch ($info['extension'])
+	switch (strtolower($info['extension']))
 	{
 		case "jpg":
 		case "jpe":
