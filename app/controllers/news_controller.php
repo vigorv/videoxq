@@ -38,6 +38,7 @@ class NewsController extends AppController {
 	        $this->set('dat', $dat);
 
 	    	$isWS = checkAllowedMasks(Configure::read('Catalog.allowedIPs'), $_SERVER["REMOTE_ADDR"], 1);
+	    	if ($isWS == 'OPERA-MINI') $isWS = false;
 	        if ($isWS)
 	        {
 	        	$flowServerAddr = '92.63.196.52';
