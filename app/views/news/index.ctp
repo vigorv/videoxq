@@ -17,6 +17,7 @@
 			{
 				$img = '<a href="/files/news/' . $l['News']['img'] . '" rel="fancybox" onclick="return stopdivx();"><img class="news_content_img"  height="120px" src="/files/news/' . $l['News']['img'] . '"></a>';
 			}
+			else
 				$img = '';
 			echo'
         <div id="news_ID" class="news_item">
