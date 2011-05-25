@@ -123,7 +123,7 @@ class NewsController extends AppController {
 	}
 
     function admin_edit($id = null) {
-    	$uploadDir = Config::read('App.webroot') . '/files/news';
+    	$uploadDir = Configure::read('App.webroot') . '/files/news';
     	$this->set('uploadDir', $uploadDir);
         if (!empty($this->data)) {
         	if (!empty($this->data['picture']))
