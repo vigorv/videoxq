@@ -168,7 +168,6 @@ if (!empty($ftpInfo[$dat]['foto']) || !empty($ftpInfo[$dat]['video']))
 
 		echo '<h2>Видео</h2><ul>';
 		$hideContent = '';
-		$fileDesc = array();
 		foreach ($ftpInfo[$dat]['video'] as $key => $val)
 		{
 			$fn = basename($val);
