@@ -50,8 +50,6 @@
 
       $(document).ready(function() {
 
-      	tinyMCE.execCommand('mceRemoveControl', false, $("#matchesinfoid").nextSibling.id);
-
 		$("#createdid").datepicker({
 	    dateFormat: $.datepicker.ATOM,
 	    firstDay: 1,
