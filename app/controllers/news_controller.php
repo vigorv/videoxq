@@ -38,7 +38,7 @@ class NewsController extends AppController {
 	        $this->set('dat', $dat);
 	        $flowServerAddr = '92.63.196.52';
 	        $this->set('flowServerAddr', $flowServerAddr);
-	        $flowServerAddrPort = '92.63.196.52:80';
+	        $flowServerAddrPort = '92.63.196.52:82';
 	        $this->set('flowServerAddrPort', $flowServerAddrPort);
 			$ftpInfo = Cache::read('News.ftpInfo', 'searchres');
 			if (empty($ftpInfo))
@@ -136,14 +136,17 @@ class NewsController extends AppController {
 				$picture = $dir . '/' . $this->findByPreview($dir, $this->data['picture']);
 				$info = pathinfo($picture);
 				$newPicture = $dir . '/' . $this->authUser['userid'] . '_' . time() . '.' . $info['extension'];
-				rename($picture, $newPicture);
 
 				$preview = $dir . '/small/' . $this->data['picture'];
 				$info = pathinfo($preview);
 				$newPreview = $dir . '/small/' . $this->authUser['userid'] . '_' . time() . '.' . $info['extension'];
-				rename($preview, $newPreview);
 
-        		$this->data['News']['img'] = basename($newPreview);
+				if (file_exists($newPreview))
+				{
+					rename($preview, $newPreview);
+					rename($picture, $newPicture);
+        			$this->data['News']['img'] = basename($newPreview);
+				}
         	}
         	else
         	{
