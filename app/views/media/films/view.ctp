@@ -720,7 +720,7 @@ if (count($variant['FilmFile']) > 0)
         	$href='<a onclick="return filmClk(' . $Film['id'] . ');" href="' . $recUrl . '">' . $file['file_name'] . '</a>&nbsp;';
         	//$share = Film::set_input_share($Film['dir']);
 	    	$lnkInfo = pathinfo(strtolower(basename($file['file_name'])));
-//        	if (($allowDownload) && !empty($lnkInfo['extension']) && ($lnkInfo['extension'] == 'avi'))
+        	if (!empty($lnkInfo['extension']) && ($lnkInfo['extension'] == 'mp4'))
         	{
 				//$play = '<a href="#" onclick="return getdivx(' . $file['id'] . ');"><img src="/img/play.gif" width="19" rel="play" style="display: ' . $playDisplay . '" alt="" title="' . __('Watch online', true) . '" onclick="switchPlay(this);" /></a>';
 			    //$flowServerAddrPort = '92.63.196.52:80';
