@@ -17,7 +17,7 @@ if (!empty($info))
 {
 	echo '
         <div class="news_header">
-                <a noref="noref" class="news_title">' . $info['News']['title'] . '</a>
+                <a noref class="news_title">' . $info['News']['title'] . '</a>
                 <span class="news_date">' . date('d.m.Y', strtotime($info['News']['created'])) . '</span>
                 <div class="news_header_r">
                     <a href="#" class="news_author"></a>
