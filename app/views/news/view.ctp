@@ -86,12 +86,32 @@ for ($match = 1; $match < 20; $match++)
 	<?php
 		if (!empty($ftpInfo[$dat][$match]['video']))
 		{
+			$fileDesc = array();
+			if (!empty($ftpInfo[$dat][$match]['info']))
+			{
+				$infoTxt = preg_split('/[\r\n]{1,}/', $ftpInfo[$dat][$match]['info']);
+				foreach ($infoTxt as $it)
+				{
+					$i = explode('---', $it);
+					$fileDesc[$i[0]] = iconv('windows-1251', 'utf8', $i[1]);
+				}
+			}
+
 			echo '<h2>Видео</h2><ul>';
 			$hideContent = '';
 			foreach ($ftpInfo[$dat][$match]['video'] as $key => $val)
 			{
 //				echo '<li><a rel="video" href="#video' . $match . $key . '">Ролик №' . ($key + 1) . '</a></li>';
-				echo '<li><a href="http://' . $flowServerAddr . '/' . $val . '">Скачать ролик №' . ($key + 1) . '</a></li>';
+				$fn = basename($val);
+				if (!empty($fileDesc[$fn]))
+				{
+					$fn = $fileDesc[$fn];
+				}
+				else
+				{
+					$fn = 'Скачать ролик №' . ($key + 1);
+				}
+				echo '<li><a href="http://' . $flowServerAddr . '/' . $val . '">' . $fn . '</a></li>';
 				$hideContent .= '
 		 <div id="video' . $match . $key . '"><a style="width:640px; height:480px; display:block" id="ipad' . $match.$key . '" onclick="return addVideo(' . $match.$key . ', \'http://' . $flowServerAddrPort . '/' . $val . '\');"></a></div>
 				';
