@@ -65,10 +65,9 @@ for ($match = 1; $match < 20; $match++)
 			$count=count($ftpInfo[$dat][$match]['foto']);
 			echo '<h2><a rel="foto' . $match . '" href="http://' . $flowServerAddr . '/' . $ftpInfo[$dat][$match]['foto'][0] . '">Фото('.$count.')</a></h2>';
 			$hideContent = '';
-			$i=0;
 			foreach ($ftpInfo[$dat][$match]['foto'] as $key => $val)
 			{
-			    if($i==0){$i++;continue;}
+				if (!$key) continue; //ПЕРВУЮ УЖЕ ВЫВЕЛИ
 				$hideContent .= '
 					<a rel="foto' . $match . '" href="http://' . $flowServerAddr . '/' . $val . '"></a>
 				';
@@ -107,10 +106,11 @@ if (!empty($ftpInfo[$dat]['foto']) || !empty($ftpInfo[$dat]['video']))
 	';
 	if (!empty($ftpInfo[$dat]['foto']))
 	{
-		echo '<h2><a rel="foto" href="http://' . $flowServerAddr . '/' . $ftpInfo[$dat]['foto'][0] . '">Фото</a></h2>';
+		echo '<h2><a rel="foto" href="http://' . $flowServerAddr . '/' . $ftpInfo[$dat]['foto'][0] . '">Фото(' . count($ftpInfo[$dat]['foto']) . ')</a></h2>';
 		$hideContent = '';
 		foreach ($ftpInfo[$dat]['foto'] as $key => $val)
 		{
+			if (!$key) continue; //ПЕРВУЮ УЖЕ ВЫВЕЛИ
 			$hideContent .= '
 				<a rel="foto" href="http://' . $flowServerAddr . '/' . $val . '"></a>
 			';
