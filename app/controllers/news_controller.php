@@ -51,7 +51,7 @@ class NewsController extends AppController {
 	        }
 	        $this->set('flowServerAddr', $flowServerAddr);
 	        $this->set('flowServerAddrPort', $flowServerAddrPort);
-			$ftpInfo = Cache::read('News.ftpInfo', 'searchres');
+			$ftpInfo = Cache::read('News.ftpInfo.' . $info['News']['id'], 'searchres');
 			if (empty($ftpInfo))
 			{
 				$ftpInfo = array();
@@ -168,7 +168,10 @@ class NewsController extends AppController {
         	$this->data['News']['modified'] = date('Y-m-d H:i:s');
             if ($this->News->save($this->data)) {
 
-            	cache::delete('News.ftpInfo', 'searchres');
+            	if ($this->data['News']['id'])
+            	{
+            		cache::delete('News.ftpInfo.' . $this->data['News']['id'], 'searchres');
+            	}
 
                 $this->Session->setFlash(__('The New has been saved', true));
                 $this->redirect(array('action'=>'index'));
