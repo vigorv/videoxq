@@ -158,7 +158,7 @@ if (!empty($ftpInfo[$dat]['foto']) || !empty($ftpInfo[$dat]['video']))
 		$fileDesc = array();
 		if (!empty($ftpInfo[$dat]['info']))
 		{
-			$infoTxt = preg_split('/[\r\n]{1,}/', $ftpInfo[$dat][$match]['info']);
+			$infoTxt = preg_split('/[\r\n]{1,}/', $ftpInfo[$dat]['info']);
 			foreach ($infoTxt as $it)
 			{
 				$i = explode('---', $it);
@@ -180,7 +180,7 @@ if (!empty($ftpInfo[$dat]['foto']) || !empty($ftpInfo[$dat]['video']))
 			{
 				$fn = 'Скачать ролик №' . ($key + 1);
 			}
-			echo '<li><table cellspacing="3"><tr valign="middle"><td><a rel="video" href="#video12345' . $key . '" title="' . $fn . '">' . $fn . '</a></td><td><img src="/img/play.gif" width="19" alt="' . __('Watch online', true) . '"></a></td></tr></table></li>';
+			echo '<li><table cellspacing="3"><tr valign="middle"><td><a href="http://' . $flowServerAddr . '/' . $val . '">' . $fn . '</a></td><td><a rel="video" href="#video12345' . $key . '" title="' . $fn . '">' . $fn . '</a><img src="/img/play.gif" width="19" alt="' . __('Watch online', true) . '"></a></td></tr></table></li>';
 			$hideContent .= '
 	 <div id="video12345' . $key . '"><a style="width:640px; height:480px; display:block" id="ipad12345' . $key . '" onclick="return addVideo(12345' . $key . ', \'http://' . $flowServerAddrPort . '/' . $val . '\');"></a></div>
 			';
