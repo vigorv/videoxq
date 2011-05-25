@@ -154,7 +154,7 @@ class NewsController extends AppController {
 				$info = pathinfo($preview);
 				$newPreview = $dir . '/small/' . $this->authUser['userid'] . '_' . time() . '.' . $info['extension'];
 
-				if (file_exists($newPreview))
+				if (file_exists($preview))
 				{
 					rename($preview, $newPreview);
 					rename($picture, $newPicture);
