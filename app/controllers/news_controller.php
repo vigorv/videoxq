@@ -87,7 +87,7 @@ class NewsController extends AppController {
 				        	$ftpInfo[$dat]['foto'] = $foto;//ПОРЧЕЕ ФОТО
 		        			$infoTxt = @file_get_contents('http://' . $flowServerAddr . '/' . $dat . '/other/info.txt');
 				        	$ftpInfo[$dat]['info'] = $infoTxt;
-				        	Cache::write('News.ftpInfo', $ftpInfo, 'searchres');
+				        	Cache::write('News.ftpInfo.' . $info['News']['id'], $ftpInfo, 'searchres');
 				        }
 			        }
 			        ftp_close($ftp_id);
