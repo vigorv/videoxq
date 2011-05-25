@@ -36,9 +36,19 @@ class NewsController extends AppController {
 
         	$dat = date('Y-m-d', strtotime($info['News']['created']));
 	        $this->set('dat', $dat);
-	        $flowServerAddr = '92.63.196.52';
+
+	    	$isWS = checkAllowedMasks(Configure::read('Catalog.allowedIPs'), $_SERVER["REMOTE_ADDR"], 1);
+	        if ($isWS)
+	        {
+	        	$flowServerAddr = '92.63.196.52';
+	        	$flowServerAddrPort = '92.63.196.52:82';
+	        }
+	        else
+	        {
+	        	$flowServerAddr = '87.226.225.78:83';
+	        	$flowServerAddrPort = '87.226.225.78:83';
+	        }
 	        $this->set('flowServerAddr', $flowServerAddr);
-	        $flowServerAddrPort = '92.63.196.52:82';
 	        $this->set('flowServerAddrPort', $flowServerAddrPort);
 			$ftpInfo = Cache::read('News.ftpInfo', 'searchres');
 			if (empty($ftpInfo))
