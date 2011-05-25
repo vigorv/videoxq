@@ -208,6 +208,7 @@ $(document).ready(function() {
         'zoomSpeedOut': 0,
         'overlayShow':  true,
         'overlayOpacity': 0.8,
+        'showNavArrows': false,
 		'onComplete': function() { $(this.href + " a").trigger('click'); return false; }
 	});
 <?php
