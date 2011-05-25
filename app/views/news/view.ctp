@@ -111,7 +111,7 @@ for ($match = 1; $match < 20; $match++)
 				{
 					$fn = 'Скачать ролик №' . ($key + 1);
 				}
-				echo '<li><a href="http://' . $flowServerAddr . '/' . $val . '">' . $fn . '</a></li>';
+				echo '<li><table cellspacing="3"><tr valign="middle"><td><a href="http://' . $flowServerAddr . '/' . $val . '">' . $fn . '</a></td><td><a rel="video" href="#video' . $match . $key . '" title="' . $fn . '"><img src="/img/play.gif" width="19" alt="' . __('Watch online', true) . '"></a></td></tr></table></li>';
 				$hideContent .= '
 		 <div id="video' . $match . $key . '"><a style="width:640px; height:480px; display:block" id="ipad' . $match.$key . '" onclick="return addVideo(' . $match.$key . ', \'http://' . $flowServerAddrPort . '/' . $val . '\');"></a></div>
 				';
