@@ -25,6 +25,7 @@ if (!empty($info))
             </div>
             <div class="news_content_full">
 	';
+$info["News"]['img'] = '';
 	if (!empty($info["News"]['img']))
 	{
 		echo '<center><img class="news_content_full_img" src="/files/news/small/' . $info['News']['img'] . '"/></center>';
