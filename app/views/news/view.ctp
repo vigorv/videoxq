@@ -1,6 +1,7 @@
 <div class="viewright"></div><ul id="menu">
-    <li ><a href="/index/about">О нас</a></li>
 <!--
+
+    <li ><a href="/index/about">О нас</a></li>
     <li ><a href="#">Underground</a></li>
     <li ><a href="#">Наша деятельность</a></li>
     <li ><a href="#">Online-трансляции</a></li>
@@ -61,10 +62,13 @@ for ($match = 1; $match < 20; $match++)
 						"showCloseButton": true
 					});
 			';
-			echo '<h2><a rel="foto' . $match . '" href="http://' . $flowServerAddr . '/' . $ftpInfo[$dat][$match]['foto'][0] . '">Фото</a></h2>';
+			$count=count($ftpInfo[$dat][$match]['foto']);
+			echo '<h2><a rel="foto' . $match . '" href="http://' . $flowServerAddr . '/' . $ftpInfo[$dat][$match]['foto'][0] . '">Фото('.$count.')</a></h2>';
 			$hideContent = '';
+			$i=0;
 			foreach ($ftpInfo[$dat][$match]['foto'] as $key => $val)
 			{
+			    if($i==0){$i++;continue;}
 				$hideContent .= '
 					<a rel="foto' . $match . '" href="http://' . $flowServerAddr . '/' . $val . '"></a>
 				';

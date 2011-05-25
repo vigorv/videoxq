@@ -1,6 +1,6 @@
 <div class="viewright"></div><ul id="menu">
-    <li ><a href="/index/about">О нас</a></li>
 <!--
+    <li ><a href="/index/about">О нас</a></li>
     <li ><a href="#">Underground</a></li>
     <li ><a href="#">Наша деятельность</a></li>
     <li ><a href="#">Online-трансляции</a></li>
@@ -16,7 +16,7 @@
 			echo'
         <div id="news_ID" class="news_item">
             <div class="news_header">
-                <a href="#" class="news_title">' . $l['News']['title'] . '</a>
+                <a href="/news/view/' . $l['News']['id'] . '" class="news_title">' . $l['News']['title'] . '</a>
                 <span class="news_date">' . date('d.m.Y', strtotime($l['News']['created'])) . '</span>
                 <div class="news_header_r">
                     <a href="#" class="news_author"></a>
