@@ -517,7 +517,7 @@ td.ozonleft { text-align: left; }
 td.ozonright { text-align: right; }
 
 /* css styles snow */
-.contentColumns{ min-width:880px; clear:left; margin:0 auto; padding:0 5px;}
+.contentColumns{ min-width:880px; clear:left; margin:0 40px 0 40px; padding:0 5px;}
 .contentColumn_59p, .contentColumn_19p,.contentColumn_29p,.contentColumn_69p {  float:left;  min-height:100px;  padding:0 5px;}
 .contentColumn_19p  {   width:19%; min-width:170px;}
 .contentColumn_29p {   width:29%;}
