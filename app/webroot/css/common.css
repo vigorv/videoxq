@@ -531,7 +531,7 @@ td.ozonright { text-align: right; }
 .news_header                  {    background: #181818 url('../img/mainmenu.gif')  repeat-x  right center; padding:0 5px;line-height: 1.5em;}
 .news_header_r             {    float:right;}
 .news_title                         {    font-size:1.5em;line-height: 1.5em; color:white;text-decoration:none;}
-.news_title:visited       {    text-decoration: line-through; }
+.news_title:visited       {    text-decoration: none; }
 .news_date                         {    margin-left:10px; color:#fe437d}
 .news_author                  {    font-size:1.5em;  line-height: 1.5em;}
 
