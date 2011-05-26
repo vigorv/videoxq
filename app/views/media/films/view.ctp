@@ -720,15 +720,43 @@ if (count($variant['FilmFile']) > 0)
         	$href='<a onclick="return filmClk(' . $Film['id'] . ');" href="' . $recUrl . '">' . $file['file_name'] . '</a>&nbsp;';
         	//$share = Film::set_input_share($Film['dir']);
 	    	$lnkInfo = pathinfo(strtolower(basename($file['file_name'])));
-        	if (!empty($lnkInfo['extension']) && ($lnkInfo['extension'] == 'mp4'))
+        	if (!empty($lnkInfo['extension']))
         	{
-				//$play = '<a href="#" onclick="return getdivx(' . $file['id'] . ');"><img src="/img/play.gif" width="19" rel="play" style="display: ' . $playDisplay . '" alt="" title="' . __('Watch online', true) . '" onclick="switchPlay(this);" /></a>';
-			    //$flowServerAddrPort = '92.63.196.52:80';
-				$play = '<a rel="video" href="#video' . $file['id'] . '"><img src="/img/play.gif" width="19" alt="" title="' . __('Watch online', true) . '" id="file' . $file['id'] . '" /></a>';
-				$hideVideo .= '
-					 <div id="video' . $file['id'] . '"><a style="width:640px; height:480px; display:block" id="ipad' . $file['id'] . '" onclick="return addVideo(' . $file['id'] . ', \'' . $flowUrl  . '\');"></a></div>
-				';
+				switch ($lnkInfo['extension'])
+				{
+					case "mp4":
+						//$play = '<a href="#" onclick="return getdivx(' . $file['id'] . ');"><img src="/img/play.gif" width="19" rel="play" style="display: ' . $playDisplay . '" alt="" title="' . __('Watch online', true) . '" onclick="switchPlay(this);" /></a>';
+					    //$flowServerAddrPort = '92.63.196.52:80';
+						$play = '<a rel="video" href="#video' . $file['id'] . '"><img src="/img/play.gif" width="19" alt="" title="' . __('Watch online', true) . '" id="file' . $file['id'] . '" /></a>';
+						$hideVideo .= '
+							 <div id="video' . $file['id'] . '"><a style="width:640px; height:480px; display:block" id="ipad' . $file['id'] . '" onclick="return addVideo(' . $file['id'] . ', \'' . $flowUrl  . '\');"></a></div>
+						';
+					break;
+
+					case "avi":
+					case "mkv":
+						$key = $file['id'];
+						$play = '<a rel="video" href="#video' . $file['id'] . '"><img src="/img/play.gif" width="19" alt="" title="' . __('Watch online', true) . '" id="file' . $file['id'] . '" /></a>';
+						$hideVideo .= '<div id="video' . $key . '" style="width:640px; height:480px; overflow: hidden; " >
+							<a onclick="return addAviVideo(' . $key . ', \'' . $urlFull . '\');"></a>
+							<object id="videoobj' . $key . '" classid="clsid:67DABFBF-D0AB-41fa-9C46-CC0F21721616" width="640" height="480" codebase="http://go.divx.com/plugin/DivXBrowserPlugin.cab">
+								<param name="wmode" value="opaque" />
+								<param name="autoPlay" value="true" />
+								<param name="src" value="' . $urlFull . '" />
+								<embed type="video/divx" src="' . $urlFull . '"	width="640" height="480" wmode="opaque" autoPlay="true" previewImage="" pluginspage="http://go.divx.com/plugin/download/">
+								</embed>
+							</object>
+						</div>';
+					break;
+					default:
+						$play = '';
+				}
+        	}
+			else
+			{
+				$play = '';
 			}
+
 //        	foreach ($players as $player)
 //	        	$href .= ' <a href="/media/playlist/' . $file['id'] . '/' . $player['name'] . '"><img height="16" src="/img/ico/' . $player['name'] . '16.gif" /></a>';
 		}
@@ -752,6 +780,11 @@ if (count($variant['FilmFile']) > 0)
 <script type="text/javascript" src="/js/flowplayer/flowplayer.ipad-3.2.1.js"></script>
 <script type="text/javascript">
 <!--
+		function addAviVideo(num, path)
+		{
+			return true;
+		}
+
 		function addVideo(num, path) {
 			document.getElementById("ipad" + num).href=path;
 			document.getElementById("video" + num).style.display="";
@@ -1374,10 +1407,6 @@ if (!empty($threadInfo))
 <?php
 }
 	$script = "
-	<div style=\"display: none\">
-		" . $hideVideo . "
-	</div>
-
 <script type=\"text/javascript\">
 <!--
 $(document).ready(function() {
@@ -1395,8 +1424,15 @@ $(document).ready(function() {
     });
 });
 -->
-</script>
-         ";
+</script>";
+	if (!empty($hideVideo))
+	{
+		$script .= "
+			<div style=\"display: none\">
+				" . $hideVideo . "
+			</div>
+		";
+	}
 	echo $script;
 
 $c = ob_get_clean();
