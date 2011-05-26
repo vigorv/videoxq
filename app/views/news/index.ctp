@@ -19,7 +19,7 @@
 			}
 			else
 				$img = '';
-$img = '';
+//$img = '';
 			echo'
         <div id="news_ID" class="news_item">
             <div class="news_header">
