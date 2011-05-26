@@ -738,12 +738,12 @@ if (count($variant['FilmFile']) > 0)
 						$key = $file['id'];
 						$play = '<a rel="video" href="#video' . $file['id'] . '"><img src="/img/play.gif" width="19" alt="" title="' . __('Watch online', true) . '" id="file' . $file['id'] . '" /></a>';
 						$hideVideo .= '<div id="video' . $key . '" style="width:640px; height:480px; overflow: hidden; " >
-							<a onclick="return addAviVideo(' . $key . ', \'' . $urlFull . '\');"></a>
+							<a onclick="return addAviVideo(' . $key . ', \'' . $recUrl . '\');"></a>
 							<object id="videoobj' . $key . '" classid="clsid:67DABFBF-D0AB-41fa-9C46-CC0F21721616" width="640" height="480" codebase="http://go.divx.com/plugin/DivXBrowserPlugin.cab">
 								<param name="wmode" value="opaque" />
 								<param name="autoPlay" value="true" />
-								<param name="src" value="' . $urlFull . '" />
-								<embed type="video/divx" src="' . $urlFull . '"	width="640" height="480" wmode="opaque" autoPlay="true" previewImage="" pluginspage="http://go.divx.com/plugin/download/">
+								<param name="src" value="' . $recUrl . '" />
+								<embed type="video/divx" src="' . $recUrl . '"	width="640" height="480" wmode="opaque" autoPlay="true" previewImage="" pluginspage="http://go.divx.com/plugin/download/">
 								</embed>
 							</object>
 						</div>';
@@ -1124,6 +1124,7 @@ if (!empty($variant['FilmLink']))
 	        "zoomSpeedOut": 0,
 	        "overlayShow":  true,
 	        "overlayOpacity": 0.8,
+	        "showNavArrows": false,
 			"onComplete": function() { $(this.href + " a").trigger("click"); return false; }
 		});
 
