@@ -271,3 +271,4 @@ echo $hideJS;
 </div>
 </div>
 </div>
+</div>
