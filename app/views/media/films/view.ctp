@@ -725,8 +725,6 @@ if (count($variant['FilmFile']) > 0)
 				switch ($lnkInfo['extension'])
 				{
 					case "mp4":
-						//$play = '<a href="#" onclick="return getdivx(' . $file['id'] . ');"><img src="/img/play.gif" width="19" rel="play" style="display: ' . $playDisplay . '" alt="" title="' . __('Watch online', true) . '" onclick="switchPlay(this);" /></a>';
-					    //$flowServerAddrPort = '92.63.196.52:80';
 						$play = '<a rel="video" href="#video' . $file['id'] . '"><img src="/img/play.gif" width="19" alt="" title="' . __('Watch online', true) . '" id="file' . $file['id'] . '" /></a>';
 						$hideVideo .= '
 							 <div id="video' . $file['id'] . '"><a style="width:640px; height:480px; display:block" id="ipad' . $file['id'] . '" onclick="return addVideo(' . $file['id'] . ', \'' . $flowUrl  . '\');"></a></div>
