@@ -742,6 +742,15 @@ return;//НЕПРАВИЛЬНО РАБОТАЕТ
         }
 
         $isFirstPage = false;//ДЛЯ СЛУЧАЙНОЙ ВЫБОРКИ ПЕРВОЙ СТРАНИЦЫ ОСОБЫЕ ДЕЙСТВИЯ
+        if ($this->isWS)
+        {
+        	$order=array('Film.modified' => 'desc');
+        }
+        else
+        {
+        	$order=array('Film.year' => 'desc');
+        }
+/*
         if (isset($this->passedArgs["sort"]))
         {
 	        $order=array($this->passedArgs["sort"] => $this->passedArgs["direction"]);
@@ -753,17 +762,23 @@ return;//НЕПРАВИЛЬНО РАБОТАЕТ
 	        {
 	        	$isFirstPage = true;
 	        	$rIds = array();
-	        	//*
 	        	$maxFilmId = $this->Film->getMaxFilmId();
 	        	for ($i = 0; $i < 40; $i++) //ВЫБИРАЕМ СЛУЧАЙНО С ЗАПАСОМ
 	        	{
 	        		$rIds[] = mt_rand(1, $maxFilmId);
 	        	}
-	        	//*/
 	        	//$rIds = $this->Film->getRandomIds();
 	        }
         }
-
+*/
+		$conditions = array();
+		$conditions['Film.active'] = 1;
+		$postFix = '';
+		if (!$this->isWS && empty($this->params['named']['search']))
+		{
+			$conditions['Film.is_license'] = 1;//ВНЕШНИМ ПОКАЗЫВАЕМ ТОЛЬКО ЛИЦЕНЗИЮ
+			$postFix = 'Licensed';
+		}
         $pagination = array('Film' => array('contain' =>
                                        array('FilmType',
                                              'Genre',
@@ -773,16 +788,16 @@ return;//НЕПРАВИЛЬНО РАБОТАЕТ
                                               'Person' => array('conditions' => array('FilmsPerson.profession_id' => array(1, 3, 4))),
                                              'MediaRating'),
                                         'order' => $order,
-                                        'conditions' => array('Film.active' => 1),
+                                        'conditions' => $conditions,
                                         'group' => 'Film.id',
                                         'limit' => 30));
-
+/*
 		if ($isFirstPage)
 		{
             $pagination['Film']['conditions'][] = array('Film.id' => $rIds);
 //	        $order=array('rand()');
 		}
-
+*/
         if (!empty($this->params['named']['genre']))
         {
             $pagination['Film']['contain'][] = 'FilmsGenre';
@@ -790,7 +805,8 @@ return;//НЕПРАВИЛЬНО РАБОТАЕТ
             $genres = $this->params['named']['genre'];
             if (strpos($this->params['named']['genre'], ',') !== false)
                 $genres = explode(',', $this->params['named']['genre']);
-            $pagination['Film']['conditions'][] = array('FilmsGenre.genre_id' => $genres);
+            //$pagination['Film']['conditions'][] = array('FilmsGenre.genre_id' => $genres);
+            $pagination['Film']['conditions']['FilmsGenre.genre_id'] = $genres;
             $pagination['Film']['sphinx']['filter'][] = array('genre_id', $genres);
             $this->Film->bindModel(array('hasOne' => array(
                                           'FilmsGenre' => array(
@@ -801,25 +817,25 @@ return;//НЕПРАВИЛЬНО РАБОТАЕТ
         }
 
 if (!empty($this->params['named']['is_license']))
-	$pagination['Film']['conditions'][] = array('Film.is_license' => 1);
+	$pagination['Film']['conditions']['Film.is_license'] = 1;
 
         if (!empty($this->params['named']['year_start']))
-            $pagination['Film']['conditions'][] = array('Film.year >=' => $this->params['named']['year_start']);
+            $pagination['Film']['conditions']['Film.year >='] = $this->params['named']['year_start'];
 
         if (!empty($this->params['named']['year_end']))
-            $pagination['Film']['conditions'][] = array('Film.year <=' => $this->params['named']['year_end']);
+            $pagination['Film']['conditions']['Film.year <='] = $this->params['named']['year_end'];
 
         if (!empty($this->params['named']['imdb_start']))
-            $pagination['Film']['conditions'][] = array('Film.imdb_rating >=' => $this->params['named']['imdb_start']);
+            $pagination['Film']['conditions']['Film.imdb_rating >='] = $this->params['named']['imdb_start'];
 
         if (!empty($this->params['named']['imdb_end']))
-            $pagination['Film']['conditions'][] = array('Film.imdb_rating <=' => $this->params['named']['imdb_end']);
+            $pagination['Film']['conditions']['Film.imdb_rating <='] = $this->params['named']['imdb_end'];
 
         if (!empty($this->params['named']['country']))
         {
             $pagination['Film']['sphinx']['filter'][] = array('country_id', $this->params['named']['country']);
             $pagination['Film']['contain'][] = 'CountriesFilm';
-            $pagination['Film']['conditions'][] = array('CountriesFilm.country_id' => $this->params['named']['country']);
+            $pagination['Film']['conditions']['CountriesFilm.country_id'] = $this->params['named']['country'];
             $this->Film->bindModel(array('hasOne' => array(
                                           'CountriesFilm' => array(
                                            'foreignKey' => 'film_id'
@@ -849,7 +865,8 @@ if (!empty($this->params['named']['is_license']))
         {
             $condition = 'and';
             $find = array($condition => array('Film.is_license' => 1));
-            $pagination['Film']['conditions'][] = $find;
+            //$pagination['Film']['conditions'][] = $find;
+            $pagination['Film']['conditions']['Film.is_license'] = 1;
         }
 
         $vtInfo = $this->Film->FilmVariant->VideoType->getVideoTypesWithFilmCount();
@@ -1006,8 +1023,7 @@ echo'</pre>';
 		$films = false;
 		$posts = array();
 		if (!$isFirstPage)
-			$films = Cache::read('Catalog.list_'.$out, 'searchres');
-
+			$films = Cache::read('Catalog.' . $postFix . 'list_'.$out, 'searchres');
 		if (empty($search))
 		{
 			unset($pagination['Film']['sphinx']);//СФИНКС ВСЕ РАВНО НЕ БУДЕТ ИСКАТЬ ПО ПУСТОЙ СТРОКЕ
@@ -1060,7 +1076,7 @@ echo'</pre>';
     		{
 //echo 'RESULT CACHED';
 //exit;
-	    		Cache::write('Catalog.list_'.$out, $films, 'searchres');
+	    		Cache::write('Catalog.' . $postFix . 'list_'.$out, $films, 'searchres');
     		}
 		}
 
@@ -1080,7 +1096,7 @@ echo'</pre>';
     	unset($countation["Film"]['group']);
     	unset($countation["Film"]['fields']);
 
-        if ($isFirstPage)
+    	if ($isFirstPage)
     	{
 	    	unset($countation["Film"]['conditions']);
 	    	$countation["Film"]['conditions'][] = array('Film.active' => 1);
@@ -1104,7 +1120,8 @@ echo'</pre>';
 //pr($countation);
         }
 
-       	$filmCount = Cache::read('Catalog.count_'.$outCount, 'searchres');
+       	$filmCount = Cache::read('Catalog.' . $postFix . 'count_'.$outCount, 'searchres');
+//pr($countation);
 
 		if (empty($filmCount))
 		{
@@ -1113,7 +1130,7 @@ echo'</pre>';
     		$filmCount = $this->Film->find('count', $countation["Film"]);
     		//if ((isset($this->passedArgs['page'])) && $filmCount)
     		{
-		    	Cache::write('Catalog.count_'.$outCount, $filmCount, 'searchres');
+		    	Cache::write('Catalog.' . $postFix . 'count_'.$outCount, $filmCount, 'searchres');
     		}
 		}
 //pr($filmCount);
