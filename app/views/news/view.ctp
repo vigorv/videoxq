@@ -74,16 +74,37 @@ for ($match = 1; $match < 20; $match++)
 					});
 			';
 			$count=count($ftpInfo[$dat][$match]['foto']);
-			echo '<h2><a rel="foto' . $match . '" href="http://' . $flowServerAddr . '/' . $ftpInfo[$dat][$match]['foto'][0] . '">Фото('.$count.')</a></h2>';
-			$hideContent = '';
+			//echo '<h2><a rel="foto' . $match . '" href="http://' . $flowServerAddr . '/' . $ftpInfo[$dat][$match]['foto'][0] . '">Фото('.$count.')</a></h2>';
+			echo '<h2><a rel="fotodiv' . $match . '" href="#fotodiv' . $match . '">Фото(' . $count . ')</a></h2>';
+			$hideContent = '<h3>Фотографии</h3>';
 			foreach ($ftpInfo[$dat][$match]['foto'] as $key => $val)
 			{
+				/*
 				if (!$key) continue; //ПЕРВУЮ УЖЕ ВЫВЕЛИ
 				$hideContent .= '
 					<a rel="foto' . $match . '" href="http://' . $flowServerAddr . '/' . $val . '"></a>
 				';
+				//*/
+				$hideContent .= '
+					<a rel="foto' . $match . '" href="http://' . $flowServerAddr . '/' . $val . '">' . basename($val) . '</a>
+				';
 			}
-			echo'<div style="display:none">' . $hideContent . '</div>';
+			//echo'<div style="display:none">' . $hideContent . '</div>';
+			echo'<div style="display:none"><div id="fotodiv' . $match . '">' . $hideContent . '</div></div>';
+			$hideJS .= '
+					$("a[rel=fotodiv' . $match . ']").fancybox({
+						"zoomSpeedIn":  0,
+						"autoDimensions": false,
+						"width": 450,
+						"height": "auto",
+				        "zoomSpeedOut": 0,
+				        "overlayShow":  true,
+				        "overlayOpacity": 0.8,
+						"showCloseButton": true
+						//"onComplete": function() { $(this.href).toggle(); return false; },
+						//"onClosed": function() { $(this.href).toggle(); return false; }
+					});
+			';
 		}
 	?>
 	</td><td>
@@ -146,16 +167,35 @@ if (!empty($ftpInfo[$dat]['foto']) || !empty($ftpInfo[$dat]['video']))
 	';
 	if (!empty($ftpInfo[$dat]['foto']))
 	{
-		echo '<h2><a rel="foto" href="http://' . $flowServerAddr . '/' . $ftpInfo[$dat]['foto'][0] . '">Фото(' . count($ftpInfo[$dat]['foto']) . ')</a></h2>';
-		$hideContent = '';
+		//echo '<h2><a rel="foto" href="http://' . $flowServerAddr . '/' . $ftpInfo[$dat]['foto'][0] . '">Фото(' . count($ftpInfo[$dat]['foto']) . ')</a></h2>';
+		echo '<h2><a rel="fotodiv" href="#fotodiv">Фото(' . count($ftpInfo[$dat]['foto']) . ')</a></h2>';
+		$hideContent = '<h3>Фотографии</h3>';
 		foreach ($ftpInfo[$dat]['foto'] as $key => $val)
 		{
+			/*
 			if (!$key) continue; //ПЕРВУЮ УЖЕ ВЫВЕЛИ
 			$hideContent .= '
 				<a rel="foto" href="http://' . $flowServerAddr . '/' . $val . '"></a>
 			';
+			*/
+			$hideContent .= '
+				<a rel="foto" href="http://' . $flowServerAddr . '/' . $val . '">' . basename($val) . '</a>
+			';
 		}
-		echo'<div style="display:none">' . $hideContent . '</div>';
+		$hideJS .= '
+				$("a[rel=fotodiv]").fancybox({
+					"zoomSpeedIn":  0,
+					"autoDimensions": false,
+					"width": 450,
+					"height": "auto",
+			        "zoomSpeedOut": 0,
+			        "overlayShow":  true,
+			        "overlayOpacity": 0.8,
+					"showCloseButton": true
+				});
+		';
+		//echo'<div style="display:none">' . $hideContent . '</div>';
+		echo'<div style="display:none"><div id="fotodiv">' . $hideContent . '</div></div>';
 	}
 ?>
 </td><td>
