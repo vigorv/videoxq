@@ -4,7 +4,7 @@
  * Copyright (c) 2006, 2007, 2008 Marc Grabanski
  * Dual licensed under the MIT (MIT-LICENSE.txt)
  * and GPL (GPL-LICENSE.txt) licenses.
- * 
+ *
  * http://docs.jquery.com/UI/Datepicker
  *
  * Depends:
@@ -12,7 +12,7 @@
  *
  * Marc Grabanski (m@marcgrabanski.com) and Keith Wood (kbwood@virginbroadband.com.au).
  */
-   
+
 (function($) { // hide the namespace
 
 var PROP_NAME = 'datepicker';
@@ -93,7 +93,7 @@ function Datepicker() {
 		calculateWeek: this.iso8601Week, // How to calculate the week of the year,
 			// takes a Date and returns the number of the week for it
 		shortYearCutoff: '+10', // Short year values < this are in the current century,
-			// > this are in the previous century, 
+			// > this are in the previous century,
 			// string value starting with '+' for current year + value
 		showStatus: false, // True to show status bar at bottom, false to not show it
 		statusForDate: this.dateStatus, // Function to provide status text for a date -
@@ -102,7 +102,7 @@ function Datepicker() {
 		maxDate: null, // The latest selectable date, or null for no limit
 		duration: 'normal', // Duration of display/closure
 		beforeShowDay: null, // Function that takes a date and returns an array with
-			// [0] = true if selectable, false if not, [1] = custom CSS class name(s) or '', 
+			// [0] = true if selectable, false if not, [1] = custom CSS class name(s) or '',
 			// [2] = cell title (optional), e.g. $.datepicker.noWeekends
 		beforeShow: null, // Function that takes an input field and
 			// returns a set of custom settings for the date picker
@@ -129,8 +129,8 @@ $.extend(Datepicker.prototype, {
 		if (this.debug)
 			console.log.apply('', arguments);
 	},
-	
-	/* Override the default settings for all instances of the date picker. 
+
+	/* Override the default settings for all instances of the date picker.
 	   @param  settings  object - the new settings to use as defaults (anonymous object)
 	   @return the manager object */
 	setDefaults: function(settings) {
@@ -160,7 +160,7 @@ $.extend(Datepicker.prototype, {
 		if (!target.id)
 			target.id = 'dp' + new Date().getTime();
 		var inst = this._newInst($(target), inline);
-		inst.settings = $.extend({}, settings || {}, inlineSettings || {}); 
+		inst.settings = $.extend({}, settings || {}, inlineSettings || {});
 		if (nodeName == 'input') {
 			this._connectDatepicker(target, inst);
 		} else if (inline) {
@@ -193,7 +193,7 @@ $.extend(Datepicker.prototype, {
 		if (showOn == 'button' || showOn == 'both') { // pop-up date picker when button clicked
 			var buttonText = this._get(inst, 'buttonText');
 			var buttonImage = this._get(inst, 'buttonImage');
-			var trigger = $(this._get(inst, 'buttonImageOnly') ? 
+			var trigger = $(this._get(inst, 'buttonImageOnly') ?
 				$('<img/>').addClass(this._triggerClass).
 					attr({ src: buttonImage, alt: buttonText, title: buttonText }) :
 				$('<button type="button"></button>').addClass(this._triggerClass).
@@ -366,7 +366,7 @@ $.extend(Datepicker.prototype, {
 	_getDateDatepicker: function(target) {
 		var inst = $.data(target, PROP_NAME);
 		if (inst)
-			this._setDateFromField(inst); 
+			this._setDateFromField(inst);
 		return (inst ? this._getDate(inst) : null);
 	},
 
@@ -526,7 +526,7 @@ $.extend(Datepicker.prototype, {
 			offset.top -= (isFixed ? scrollY : 0);
 		return offset;
 	},
-	
+
 	/* Find an object's position on the screen. */
 	_findPos: function(obj) {
         while (obj && (obj.type == 'hidden' || obj.nodeType != 1)) {
@@ -666,7 +666,7 @@ $.extend(Datepicker.prototype, {
 			if (this._stayOpen) {
 				$('.ui-datepicker td').removeClass(this._currentClass);
 				$(td).addClass(this._currentClass);
-			} 
+			}
 		}
 		inst.selectedDay = inst.currentDay = $('a', td).html();
 		inst.selectedMonth = inst.currentMonth = month;
@@ -733,7 +733,7 @@ $.extend(Datepicker.prototype, {
 			this._lastInput = null;
 		}
 	},
-	
+
 	/* Update any alternate field to synchronise with the main field. */
 	_updateAlternate: function(inst) {
 		var altField = this._get(inst, 'altField');
@@ -756,7 +756,7 @@ $.extend(Datepicker.prototype, {
 		var day = date.getDay();
 		return [(day > 0 && day < 6), ''];
 	},
-	
+
 	/* Set as calculateWeek to determine the week of the year based on the ISO 8601 definition.
 	   @param  date  Date - the date to get the week for
 	   @return  number - the number of the week within the year that contains this date */
@@ -777,7 +777,7 @@ $.extend(Datepicker.prototype, {
 		}
 		return Math.floor(((checkDate - firstMon) / 86400000) / 7) + 1; // Weeks to given date
 	},
-	
+
 	/* Provide status text for a particular date.
 	   @param  date  the date to get the status for
 	   @param  inst  the current datepicker instance
@@ -819,7 +819,7 @@ $.extend(Datepicker.prototype, {
 			var matches = (iFormat + 1 < format.length && format.charAt(iFormat + 1) == match);
 			if (matches)
 				iFormat++;
-			return matches;	
+			return matches;
 		};
 		// Extract a number from the string value
 		var getNumber = function(match) {
@@ -871,14 +871,14 @@ $.extend(Datepicker.prototype, {
 					case 'd':
 						day = getNumber('d');
 						break;
-					case 'D': 
+					case 'D':
 						getName('D', dayNamesShort, dayNames);
 						break;
-					case 'm': 
+					case 'm':
 						month = getNumber('m');
 						break;
 					case 'M':
-						month = getName('M', monthNamesShort, monthNames); 
+						month = getName('M', monthNamesShort, monthNames);
 						break;
 					case 'y':
 						year = getNumber('y');
@@ -957,7 +957,7 @@ $.extend(Datepicker.prototype, {
 			var matches = (iFormat + 1 < format.length && format.charAt(iFormat + 1) == match);
 			if (matches)
 				iFormat++;
-			return matches;	
+			return matches;
 		};
 		// Format a number, with leading zero if necessary
 		var formatNumber = function(match, value) {
@@ -979,23 +979,23 @@ $.extend(Datepicker.prototype, {
 				else
 					switch (format.charAt(iFormat)) {
 						case 'd':
-							output += formatNumber('d', date.getDate()); 
+							output += formatNumber('d', date.getDate());
 							break;
-						case 'D': 
+						case 'D':
 							output += formatName('D', date.getDay(), dayNamesShort, dayNames);
 							break;
-						case 'm': 
-							output += formatNumber('m', date.getMonth() + 1); 
+						case 'm':
+							output += formatNumber('m', date.getMonth() + 1);
 							break;
 						case 'M':
-							output += formatName('M', date.getMonth(), monthNamesShort, monthNames); 
+							output += formatName('M', date.getMonth(), monthNamesShort, monthNames);
 							break;
 						case 'y':
-							output += (lookAhead('y') ? date.getFullYear() : 
+							output += (lookAhead('y') ? date.getFullYear() :
 								(date.getYear() % 100 < 10 ? '0' : '') + date.getYear() % 100);
 							break;
 						case '@':
-							output += date.getTime(); 
+							output += date.getTime();
 							break;
 						case "'":
 							if (lookAhead("'"))
@@ -1023,7 +1023,7 @@ $.extend(Datepicker.prototype, {
 			else
 				switch (format.charAt(iFormat)) {
 					case 'd': case 'm': case 'y': case '@':
-						chars += '0123456789'; 
+						chars += '0123456789';
 						break;
 					case 'D': case 'M':
 						return null; // Accept anything
@@ -1048,7 +1048,7 @@ $.extend(Datepicker.prototype, {
 	/* Parse existing date and initialise date picker. */
 	_setDateFromField: function(inst) {
 		var dateFormat = this._get(inst, 'dateFormat');
-		var dates = inst.input ? inst.input.val().split(this._get(inst, 'rangeSeparator')) : null; 
+		var dates = inst.input ? inst.input.val().split(this._get(inst, 'rangeSeparator')) : null;
 		inst.endDay = inst.endMonth = inst.endYear = null;
 		var date = defaultDate = this._getDefaultDate(inst);
 		if (dates.length > 0) {
@@ -1074,7 +1074,7 @@ $.extend(Datepicker.prototype, {
 		inst.currentYear = (dates[0] ? date.getFullYear() : 0);
 		this._adjustInstDate(inst);
 	},
-	
+
 	/* Retrieve the default date shown on opening. */
 	_getDefaultDate: function(inst) {
 		var date = this._determineDate(this._get(inst, 'defaultDate'), new Date());
@@ -1106,7 +1106,7 @@ $.extend(Datepicker.prototype, {
 					case 'w' : case 'W' :
 						day += (matches[1] * 7); break;
 					case 'm' : case 'M' :
-						month += (matches[1] - 0); 
+						month += (matches[1] - 0);
 						day = Math.min(day, getDaysInMonth(year, month));
 						break;
 					case 'y': case 'Y' :
@@ -1133,7 +1133,7 @@ $.extend(Datepicker.prototype, {
 
 	/* Handle switch to/from daylight saving.
 	   Hours may be non-zero on daylight saving cut-over:
-	   > 12 when midnight changeover, but then cannot generate 
+	   > 12 when midnight changeover, but then cannot generate
 	   midnight datetime, so jump to 1AM, otherwise reset.
 	   @param  date  (Date) the date to check
 	   @return  (Date) the corrected date */
@@ -1228,7 +1228,7 @@ $.extend(Datepicker.prototype, {
 		prevText = (!navigationAsDateFormat ? prevText : this.formatDate(prevText,
 			this._daylightSavingAdjust(new Date(drawYear, drawMonth - stepMonths, 1)),
 			this._getFormatConfig(inst)));
-		var prev = '<div class="ui-datepicker-prev">' + (this._canAdjustMonth(inst, -1, drawYear, drawMonth) ? 
+		var prev = '<div class="ui-datepicker-prev">' + (this._canAdjustMonth(inst, -1, drawYear, drawMonth) ?
 			'<a onclick="jQuery.datepicker._adjustDate(\'#' + inst.id + '\', -' + stepMonths + ', \'M\');"' +
 			(showStatus ? this._addStatus(inst, this._get(inst, 'prevStatus') || '&#xa0;') : '') + '>' + prevText + '</a>' :
 			(hideIfNoPrevNext ? '' : '<label>' + prevText + '</label>')) + '</div>';
@@ -1272,7 +1272,7 @@ $.extend(Datepicker.prototype, {
 				html += '<div class="ui-datepicker-one-month' + (col == 0 ? ' ui-datepicker-new-row' : '') + '">' +
 					this._generateMonthYearHeader(inst, drawMonth, drawYear, minDate, maxDate,
 					selectedDate, row > 0 || col > 0, showStatus, monthNames) + // draw month headers
-					'<table class="ui-datepicker" cellpadding="0" cellspacing="0"><thead>' + 
+					'<table class="ui-datepicker" cellpadding="0" cellspacing="0"><thead>' +
 					'<tr class="ui-datepicker-title-row">' +
 					(showWeeks ? '<td>' + this._get(inst, 'weekHeader') + '</td>' : '');
 				for (var dow = 0; dow < 7; dow++) { // days of the week
@@ -1281,7 +1281,7 @@ $.extend(Datepicker.prototype, {
 						status.replace(/D/, dayNamesShort[day]));
 					html += '<td' + ((dow + firstDay + 6) % 7 >= 5 ? ' class="ui-datepicker-week-end-cell"' : '') + '>' +
 						(!changeFirstDay ? '<span' :
-						'<a onclick="jQuery.datepicker._changeFirstDay(\'#' + inst.id + '\', ' + day + ');"') + 
+						'<a onclick="jQuery.datepicker._changeFirstDay(\'#' + inst.id + '\', ' + day + ');"') +
 						(showStatus ? this._addStatus(inst, dayStatus) : '') + ' title="' + dayNames[day] + '">' +
 						dayNamesMin[day] + (changeFirstDay ? '</a>' : '</span>') + '</td>';
 				}
@@ -1338,15 +1338,15 @@ $.extend(Datepicker.prototype, {
 				}
 				html += '</tbody></table></div>';
 			}
-		html += (showStatus ? '<div style="clear: both;"></div><div id="ui-datepicker-status-' + inst.id + 
+		html += (showStatus ? '<div style="clear: both;"></div><div id="ui-datepicker-status-' + inst.id +
 			'" class="ui-datepicker-status">' + (this._get(inst, 'initStatus') || '&#xa0;') + '</div>' : '') +
 			(!closeAtTop && !inst.inline ? controls : '') +
-			'<div style="clear: both;"></div>' + 
-			($.browser.msie && parseInt($.browser.version) < 7 && !inst.inline ? 
+			'<div style="clear: both;"></div>' +
+			($.browser.msie && parseInt($.browser.version) < 7 && !inst.inline ?
 			'<iframe src="javascript:false;" class="ui-datepicker-cover"></iframe>' : '');
 		return html;
 	},
-	
+
 	/* Generate the month and year header. */
 	_generateMonthYearHeader: function(inst, drawMonth, drawYear, minDate, maxDate,
 			selectedDate, secondary, showStatus, monthNames) {
@@ -1439,7 +1439,7 @@ $.extend(Datepicker.prototype, {
 			onChange.apply((inst.input ? inst.input[0] : null),
 				[new Date(inst.selectedYear, inst.selectedMonth, 1), inst]);
 	},
-	
+
 	/* Determine the number of months to show. */
 	_getNumberOfMonths: function(inst) {
 		var numMonths = this._get(inst, 'numberOfMonths');
@@ -1483,7 +1483,7 @@ $.extend(Datepicker.prototype, {
 		var maxDate = this._getMinMaxDate(inst, 'max');
 		return ((!minDate || date >= minDate) && (!maxDate || date <= maxDate));
 	},
-	
+
 	/* Provide the configuration settings for formatting/parsing. */
 	_getFormatConfig: function(inst) {
 		var shortYearCutoff = this._get(inst, 'shortYearCutoff');
@@ -1541,7 +1541,6 @@ $.fn.datepicker = function(options){
 };
 
 $.datepicker = new Datepicker(); // singleton instance
-	
 /* Initialise the date picker. */
 $(document).ready(function() {
 	$(document.body).append($.datepicker.dpDiv).
