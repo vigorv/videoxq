@@ -36,6 +36,7 @@ if (!empty($info))
 		echo $info['News']['txt'];
 	else
 		echo $info['News']['stxt'];
+
 	echo'
 		</div>
 	';
@@ -47,7 +48,16 @@ if (!empty($info))
 ?>
 <table cellspacing="20" cellpadding="5">
 <?php
-$hideJS = '';
+//ДЛЯ ОТОБРАЖЕНИЯ ФОТО ИЗ ТЕЛА НОВОСТИ
+		$hideJS = '
+					$("a[rel=attach' . $match . ']").fancybox({
+				        "zoomSpeedIn":  0,
+				        "zoomSpeedOut": 0,
+				        "overlayShow":  true,
+				        "overlayOpacity": 0.8,
+						"showCloseButton": true
+					});
+			';
 
 for ($match = 1; $match < 20; $match++)
 {
