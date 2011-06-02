@@ -15,6 +15,9 @@ class NewsController extends AppController {
 
     function index()
     {
+		$lang = $this->Session->read("language");
+		if ($lang == _ENG_)
+			$this->redirect('/media');
     	$lst = $this->News->findAll(array('News.hidden' => 0), null, 'News.created DESC');
     	$this->set('lst', $lst);
     }
@@ -30,7 +33,7 @@ class NewsController extends AppController {
 			$info = $this->News->findById($id);
 		}
 
-		if (!empty($info) && !$info['News']['hidden'])
+		if (!empty($info))// && !$info['News']['hidden'])
 		{
             $this->set('info', $info);
 
@@ -95,6 +98,10 @@ class NewsController extends AppController {
 			}
 //pr($ftpInfo);
 	        $this->set('ftpInfo', $ftpInfo);
+		}
+		else
+		{
+			$this->redirect('/news');
 		}
     }
 
