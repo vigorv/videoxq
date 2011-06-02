@@ -1,6 +1,16 @@
+<script type="text/javascript">
+<!--
+	function switchGenres()
+	{
+		$("li[rel=switchedgenre]").toggle();
+		return false;
+	}
+-->
+</script>
+
 <ul id="genres">
 <?php
-if ($block_media_genres['allowDownload'])
+//if ($block_media_genres['allowDownload'])
 {
 	echo '
     <p>' . __("Total in database", true) . ' <strong>' . $app->pluralForm($filmStats['count'], array(__("film", true), __("filma", true), __("films", true))) . '</strong>
@@ -59,15 +69,17 @@ $hdtvClass = !empty($this->params['named']['vtype']) !== false ? 'active' : '';
     <li>&nbsp;</li>
     <li class="all <?php echo empty($this->params['named']['genre']) && empty($this->params['named']['type']) && empty($this->params['named']['vtype']) ? 'active' : ''; ?>"><a href="/media"><?php __("All films"); ?></a></li>
 <?php
+/*
 if (!$isWS)
 {
-?>
     <li <?php echo !empty($this->params['named']['is_license']) !== false ? 'class="active"' : ''; ?>>
     	<a href="/media/index/is_license:1"><?php __("Downloadable"); ?></a>
     </li>
-<?php
 }
+*/
 ?>
+    <li class="all" rel="switchedgenre"><a href="#" onclick="return switchGenres();"><b><?php __("More genres"); ?> +</b></a></li>
+    <li class="all" rel="switchedgenre" style="display: none"><a href="#" onclick="return switchGenres();"><b><?php __("Cut genres"); ?> -</b></a></li>
 <!--
     <li class="all <?php
     	echo $hdtvClass; $hdtvStr = "HDTV";
@@ -77,10 +89,21 @@ if (!$isWS)
 -->
     <?php
 //*/
+	$enabledGenres = array(
+		6, //Боевик
+		2, //Драма
+		4, //Комедия
+		7, //Ужасы
+		12, //Приключения
+	);
+
+	$visibleGenres = array();
+	$hiddenGenres = array();
     foreach ($block_media_genres['genres'] as $key => $genre)
     {
         $class = '';
 
+        $is_visible = in_array(intval($key), $enabledGenres);
         if (!empty($this->params['named']['genre']))
         {
             $passedGenres = explode(',', $this->params['named']['genre']);
@@ -100,7 +123,16 @@ if (!$isWS)
             }
         }
         $link = '/media/index' . ($key ? '/genre:' . $key : '') . ($sort ? '/sort:' . $sort : '');
-        echo '<li ' . $class . '><a href="' . $link . '">' . $genre . '</a></li>';
+        if ($is_visible)
+        {
+			$visibleGenres[] = '<li ' . $class . '><a href="' . $link . '">' . $genre . '</a></li>';
+        }
+        else
+        {
+			$hiddenGenres[] = '<li ' . $class . ' style="display:none" rel="switchedgenre"><a href="' . $link . '">' . $genre . '</a></li>';
+        }
     }
+    echo implode('', $visibleGenres);
+    echo implode('', $hiddenGenres);
     ?>
 </ul>
