@@ -45,7 +45,6 @@ class Genre extends MediaModel {
         }
     }
 
-
     /**
      * Получает список жанров с кол-вом фильмов
      *
@@ -62,6 +61,34 @@ class Genre extends MediaModel {
          from genres as g
          join films_genres as fg on (fg.genre_id=g.id)
          join films as f on (fg.film_id = f.id AND f.active = 1)
+         where g.is_delete = 0
+         group by g.title order by g.title ASC';
+
+        $records = $this->query($sql);
+        $res = array();
+        foreach ($records as $record)
+        {
+            $res[$record['g']['id']] = $record['g']['title' . $langFix] . ' (' . $record['0']['count'] . ')';
+        }
+        return $res;
+    }
+
+    /**
+     * Получает список жанров с кол-вом лицензионных фильмов
+     *
+     * @return unknown
+     */
+    function getGenresWithLicFilmCount()
+    {
+		$lang = Configure::read('Config.language');
+		$langFix = '';
+		if ($lang == _ENG_) $langFix = '_imdb';
+
+        $sql =
+        'select g.id, g.title' . $langFix . ', count(fg.film_id) as count
+         from genres as g
+         join films_genres as fg on (fg.genre_id=g.id)
+         join films as f on (fg.film_id = f.id AND f.active = 1 AND f.is_license = 1)
          where g.is_delete = 0
          group by g.title order by g.title ASC';
 

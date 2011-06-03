@@ -413,7 +413,6 @@ class Film extends MediaModel {
         $limit = ' LIMIT %s, %s';
         $page = 1;
         $perPage = 100;
-$date .= ' AND ID < 27309';
         $sql = 'SELECT * FROM films ' . $date;
         $query = $sql . sprintf($limit, $page - 1, $perPage);
 
@@ -486,6 +485,15 @@ $date .= ' AND ID < 27309';
                 $this->FilmsPublisher->deleteAll(array('film_id' => $ID));
                 $this->FilmsGenre->deleteAll(array('film_id' => $ID));
 
+                $oldInfo = $this->read(null, $ID);
+                if (!empty($oldInfo))
+                {
+                	$film['is_license'] = $oldInfo['Film']['is_license'];//ИНАЧЕ ТЕРЯЕТСЯ ПРИ ОБНОВЛЕНИИ
+                }
+                else
+                {
+                	$film['active'] = 2;//НОВЫЕ СКРЫВАЕМ (ДЛЯ ПОСТЕПЕННОЙ ПУБЛИКПЦИИ В ПОСЛЕДУЮЩЕМ)
+                }
                 $save = am(array($this->name => $film), $country, $publisher, $genre, $people);
 
                 $this->create();
@@ -633,7 +641,6 @@ $date .= ' AND ID < 27309';
             //Utils::getMemoryReport();
 
             $page++;
-if ($page >= 10) break;
             $query = $sql . sprintf($limit, ($page - 1) * $perPage, $perPage);
             //die();
         }

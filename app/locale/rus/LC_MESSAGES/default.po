@@ -8457,3 +8457,9 @@ msgstr "для получения ссылок необходимо отключ
 
 msgid "This link is recommending for your region"
 msgstr "Эта ссылка рекомендована для вашего региона"
+
+msgid "More genres"
+msgstr "Еще жанры"
+
+msgid "Cut genres"
+msgstr "Свернуть жанры"
