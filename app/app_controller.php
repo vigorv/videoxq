@@ -276,6 +276,7 @@ $config['descPerDay']	= 'на день'; //плата за VIP доступ на
     		$isWS = false;
     		$isOpera = true;
     	}
+    	$this->isWS = $isWS;
 
 //echo $_SERVER['REMOTE_ADDR'] . ' - isWS = ' . $isWS;
 
@@ -427,11 +428,19 @@ exit;
         $this->set('BlockBanner', $this->BlockBanner);
 
         $this->Film->contain();
-        $data = Cache::read('Catalog.filmStats', 'default');
-$data=array();
+
+        $postFix = '';
+        if (!$this->isWS)
+        {
+        	$postFix = 'Lic';
+        }
+
+        $data = Cache::read('Catalog.filmStats' . $postFix, 'default');
         if (!$data)
         {
-            $data['count'] = $this->Film->find('count', array('conditions' => 'Film.active=1'));
+			if ($this->isWS)
+			{
+	            $data['count'] = $this->Film->find('count', array('conditions' => 'Film.active=1'));
 /*
 //ПОДСЧЕТ РАЗМЕРА ФАЙЛОВ
             $tmp = $this->Film->FilmVariant->FilmFile->find('first',
@@ -440,16 +449,28 @@ $data=array();
 //*/
 //*
 //ПОДСЧЕТ ПРОДОЛЖИТЕЛЬНОСТИ ПО ВРЕМЕНИ
-			$sql ='SELECT SUM( TIME_TO_SEC( `FilmVariant`.`duration` ) ) AS size
+				$sql ='SELECT SUM( TIME_TO_SEC( `FilmVariant`.`duration` ) ) AS size
 FROM `film_variants` AS `FilmVariant`
 LEFT JOIN `films` AS `Film` ON ( `FilmVariant`.`film_id` = `Film`.`id` )
-WHERE 1=1
+WHERE Film.active = 1
 LIMIT 1';
+			}
+			else
+			{
+	            $data['count'] = $this->Film->find('count', array('conditions' => 'Film.active=1 AND Film.is_license = 1'));
+
+				$sql ='SELECT SUM( TIME_TO_SEC( `FilmVariant`.`duration` ) ) AS size
+FROM `film_variants` AS `FilmVariant`
+LEFT JOIN `films` AS `Film` ON ( `FilmVariant`.`film_id` = `Film`.`id` )
+WHERE Film.active = 1 AND Film.is_license = 1
+LIMIT 1';
+        	}
+
             $tmp = $this->Film->FilmVariant->query($sql);
             $data['size'] = $tmp[0][0]['size'];
 //*/
 
-            Cache::write('Catalog.filmStats', $data, 'default');
+            Cache::write('Catalog.filmStats' . $postFix, $data, 'default');
         }
         $this->set('filmStats', $data);
     }
