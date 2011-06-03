@@ -153,6 +153,7 @@ class UtilsController extends AppController
 		cache::delete('Catalog.indexFilter', 'default');
 		cache::delete('Catalog.topFilms', 'default');
 		cache::delete('Catalog.filmStats', 'default');
+		cache::delete('Catalog.filmStatsLic', 'default');
 		cache::delete('Catalog.peopleIndex', 'default');
 		cache::clear(false, 'searchres');//СБРАСЫВАЕМ ВЕСЬ КЭШ ТК В НЕИ ХРАНИМ ПОСТРАНИЧНЫЕ И ПОИСКОВЫЕ РЕЗУЛЬТАТЫ
 		//echo `indexer --rotate --all`;

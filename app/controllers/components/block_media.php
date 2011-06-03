@@ -28,7 +28,13 @@ class BlockMediaComponent extends BlocksParentComponent
 
         $cache = '+1 day';
 
-        if ($filter = Cache::read('Catalog.indexFilter', 'default'))
+        $postFix = '';
+        if (!$this->controller->isWS)
+        {
+        	$postFix = 'Licensed';
+        }
+
+        if ($filter = Cache::read('Catalog.indexFilter' . $postFix, 'default'))
         {
             $filter['allowDownload'] = checkAllowedMasks(Configure::read('Catalog.allowedIPs'), $_SERVER['REMOTE_ADDR']);
             return $filter;
@@ -54,14 +60,22 @@ class BlockMediaComponent extends BlocksParentComponent
 	        $filter['sort']['Rating.rating'] = 'по рейтингу';
 	        $filter['sort']['Film.imdb_rating'] = 'по рейтингу imdb.com';
 		}
-        $filter['genres'] = $this->controller->Film->Genre->getGenresWithFilmCount();
+
+		if ($this->controller->isWS)
+		{
+        	$filter['genres'] = $this->controller->Film->Genre->getGenresWithFilmCount();
+    	}
+        else
+        {
+        	$filter['genres'] = $this->controller->Film->Genre->getGenresWithLicFilmCount();
+    	}
         $filter['countries'] = $this->controller->Film->Country->getCountriesWithFilmCount();
         $filter['types'] = $this->controller->Film->FilmType->getFilmTypesWithFilmCount();
         $filter['imdb'] = range(0, 10);
         $filter['is_license'] = range(0, 1);
         $filter['allowDownload'] = checkAllowedMasks(Configure::read('Catalog.allowedIPs'), $_SERVER['REMOTE_ADDR']);
 
-        Cache::write('Catalog.indexFilter', $filter, array('config' => 'default', 'duration' => '+1 day'));
+        Cache::write('Catalog.indexFilter' . $postFix, $filter, array('config' => 'default', 'duration' => '+1 day'));
 
         return $filter;
     }
