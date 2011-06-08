@@ -790,6 +790,11 @@ return;//НЕПРАВИЛЬНО РАБОТАЕТ
         {
         	$order=array('Film.year' => 'desc');
         }
+
+        if (isset($this->passedArgs["sort"]))
+        {
+	        $order=array($this->passedArgs["sort"] => $this->passedArgs["direction"]);
+        }
 /*
         if (isset($this->passedArgs["sort"]))
         {
