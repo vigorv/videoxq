@@ -841,6 +841,7 @@ if (!empty($authUser['userid']) || $isWS)
 <?php __('Duration'); ?>: <?= $FilmVariant[0]['duration'] ?>
 <?php
 }
+	echo '</h4>';
 		}
 
 	if (count($variant['FilmLink']) > 0)
