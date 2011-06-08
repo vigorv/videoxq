@@ -4,6 +4,7 @@
 		echo $this->element('blocks', array('blockArray' => $blockContent['right']));
 	echo'</div>';
 ?>
+<!--
 <ul id="menu">
 <?php
 $people = $media = $basket = '>';
@@ -22,3 +23,4 @@ ${$this->params['controller'] . '_end'} = '</strong>';
 	}
 ?>
 </ul>
+-->

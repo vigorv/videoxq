@@ -127,7 +127,9 @@ echo'</pre>';
 
 		$imdbRating = $parser->getMovieStars($imdb_website);
     }
-
+?>
+<div style="float: right; clear: both;">
+<?php
     $imgUrl = $imgPath . $posters[array_rand($posters)]['file_name'];
     $img = $html->image($imgUrl, array('class' => 'poster', 'title' => $posterTitle));
     echo  $html->link($img, $imgUrl, array('rel' => 'posters', 'title' => $posterTitle), false, false) . "\n";?>
@@ -183,7 +185,7 @@ echo'</pre>';
 ?>
 	</td></tr>
 	</table>
-
+</div>
     <h2>«<a rel="nohref" nohref="nohref"><?php
     	if ($lang == _ENG_)
     		echo $imdbTitle;
