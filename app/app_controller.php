@@ -255,6 +255,13 @@ $config['descPerDay']	= 'на день'; //плата за VIP доступ на
 		if ($this->action == 'rocket') return;
 //КОНЕЦ ПОДГОТОВКИ РОКЕТ БЛОКА
 
+		$blockStatuses = $this->Session->read('blockStatuses');
+		if (empty($blockStatuses))
+		{
+			$this->Session->write('blockStatuses', serialize(array()));
+		}
+		$this->set('blockStatuses', unserialize($blockStatuses));
+
         if (isset($this->params[Configure::read('Routing.admin')]))
         {
             $this->layout = 'admin';

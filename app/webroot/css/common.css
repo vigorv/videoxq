@@ -7,7 +7,7 @@
 #alphFaces ul li a:hover { color:#f01616 }
 #alphFaces ul li strong { padding:2px 4px; background:#656565; color:#FFFFFF }
 
-#content { padding:0 0 30px 63px; float:left; width:74%; margin:0 0 20px 0 }
+#content { padding:0 0 30px 30px; float:left; width:72%; margin:0 0 20px 0 }
 
 #face .dude { float:left; margin:0 20px 20px 0 }
 #face { width:70%; padding:0 0 0 63px }
@@ -38,7 +38,7 @@
 #footer .design { position:absolute; top:60px; right:60px; text-align:right }
 #footer { height:130px; position:relative; clear:both; }
 
-#genres { margin:0 0 60px 0 }
+#genres { margin: 0 }
 #genres li { padding-left:0; background:none }
 #genres li.active a { background:#656565; color:#FFFFFF; position:relative; left:-4px; padding:0 4px }
 #genres li.active a:hover { background:#393939; color:#FFFFFF }
@@ -50,7 +50,13 @@
 #genres li.search .textInput { width:200px; margin:0 0 3px 0 }
 #genres li.search { padding:0 0 25px 0 }
 #genres li.search p { margin:0 0 5px 0 }
-#genres li.search select.textInput { width:92% }
+#genres li.search select.textInput { width:100% }
+
+.smaller
+{
+	font-size: 9px;
+	padding: 0;
+}
 
 li.search .adv2 { display: none; }
 
@@ -368,7 +374,7 @@ li.search .adv2 { display: none; }
 .textInput { font:normal 1em Arial, Helvetica, sans-serif; color:#393939; padding:2px; border:#cecece 1px solid }
 .textInput:active { border:#000000 1px solid }
 .textInput:focus { background-color: #eeffee; outline: 1px dotted grey; }
-.search .textInput { background-color: Palegreen; }
+.search .textInput { background-color: Lightcyan; }
 
 .top { height:145px; margin: 0; padding: 0; overflow:hidden; }
 .top .userbarWrapper .userbar { background:url(/img/userbar2.gif) top left no-repeat; padding:0 0 0 54px; height:53px; }
@@ -515,6 +521,40 @@ ul.subMenu li.userBlog { background-position:0 5px; background-repeat:no-repeat 
 div.ozonlist { float: left; width:49%; height: 130px}
 td.ozonleft { text-align: left; }
 td.ozonright { text-align: right; }
+
+div.module {
+	width: 240px;
+	margin: 0px 0px 20px 0px;
+	background: url(/img/right_module_m.png) 0 0 repeat-y;
+}
+div.module div {background: url(/img/right_module_t.png) 0 0 no-repeat;}
+div.module div div {
+	background: url(/img/right_module_b.png) 0 100% no-repeat;
+}
+div.module div div div {
+	width: 220px;
+	padding: 10px 10px 10px 10px;
+	overflow: hidden;
+}
+
+div.module div div div td a {
+	display: block;
+}
+
+div.module div div div table {
+	cellspacing: 0;
+	cellpadding: 0;
+	margin: 0;
+}
+
+div.module h4 {
+	margin: 0 0 3px -3px;
+}
+
+div.module div div div div {
+	padding: 0;
+	background: none;
+}
 
 /* css styles snow */
 .contentColumns{ min-width:880px; clear:left; margin:0 40px 0 40px; padding:0;}

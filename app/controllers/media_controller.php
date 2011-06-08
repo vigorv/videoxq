@@ -3,7 +3,7 @@ class MediaController extends AppController {
 
     var $name = 'Media';
     var $helpers = array('Html', 'Form', 'Rss', 'Text', 'PageNavigator');
-    var $components = array('Captcha', 'Cookie', 'Session', 'RequestHandler'/*,'DebugKit.toolbar'*/);
+    var $components = array('Captcha', 'Cookie', 'RequestHandler'/*,'DebugKit.toolbar'*/);
     var $viewPath = 'media/films';
     var $uses = array('Film', 'Basket', 'FilmComment', 'SearchLog', 'Feedback', 'Thread', 'Vbpost', 'Vbgroup',
     'Forum', 'Userban', 'Transtat', 'Genre', 'Bookmark', 'CybChat', 'Smile', 'Migration',
@@ -43,6 +43,46 @@ class MediaController extends AppController {
      * @var AppModel
      */
     var $Bookmark;
+
+    /**
+     * выполнить действие по аякс запросу
+     * дополнительные данные отправляются как $_POST
+     *
+     */
+    public function ajax($subAction)
+    {
+	   	$this->layout = 'ajax';
+		switch ($subAction)
+		{
+			case "switchblock"://ХРАНИМ В СЕССИИ СОСТОЯНИЯ БЛОКОВ
+				if (!empty($_POST['blockname']))
+				{
+					$blockName = $_POST['blockname'];
+					$blockStatuses = $this->Session->read('blockStatuses');
+					$blockStatuses = unserialize($blockStatuses);
+
+					if (empty($blockStatuses))
+					{
+						$blockStatuses = array();
+					}
+
+					if (empty($blockStatuses[$blockName]))
+					{
+						$blockStatuses[$blockName] = 1;//РАЗВЕРНУТ
+					}
+					else
+					{
+						$blockStatuses[$blockName] = 0;//СВЕРНУТ
+					}
+					$this->Session->write('blockStatuses', serialize($blockStatuses));
+					$blockStatuses = $this->Session->read('blockStatuses');
+
+					$this->set('blockStatuses', $blockStatuses);
+
+				}
+			break;
+		}
+    }
 
     /**
      * получить список всех фильмов с картинками
@@ -1615,6 +1655,7 @@ echo'</pre>';
 			$googleContent = $json->responseData->results;
 
 			$variantId = 0;
+//*
 //ИЩЕМ В СВЯЗЯХ ФИЛЬМА ВАРИАНТ ССЫЛОК
 			$webTypeId = Configure::read('App.webTypeId');
 			if (!empty($film['FilmVariant']))
@@ -1647,7 +1688,7 @@ echo'</pre>';
 			}
 
 			$this->Film->FilmVariant->FilmLink->deleteAll(array('FilmLink.film_variant_id' => $variantId));
-
+//*/
 			$links = array();
 //ПОИСК В ОБМЕННИКЕ
 			$ch = curl_init();

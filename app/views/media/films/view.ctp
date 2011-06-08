@@ -754,6 +754,7 @@ if (count($variant['FilmFile']) > 0)
 			{
 				$play = '';
 			}
+$play = '';//ВРЕМЕННО
 
 //        	foreach ($players as $player)
 //	        	$href .= ' <a href="/media/playlist/' . $file['id'] . '/' . $player['name'] . '"><img height="16" src="/img/ico/' . $player['name'] . '16.gif" /></a>';
@@ -815,8 +816,36 @@ if (count($variant['FilmFile']) > 0)
 //pr($variant['FilmLink']);
 if (!empty($variant['FilmLink']))
 {
+
+//	pr($variant);
+//exit;
+		if ($isWS && !empty($FilmVariant[0]['Track']['Language']['title']) && count($FilmVariant[0]['FilmFile']) == 0)
+		{
+//ВЫВОД ИНФО ПАРАМЕТРОВ ВИДЕО
+?>
+<h4><?php __('Quality');?> <?= $FilmVariant[0]['VideoType']['title'] ?><br />
+<?php
+	if ($lang != _ENG_)
+	{
+?>
+перевод: <?= $FilmVariant[0]['Track']['Language']['title'] . ', ' . $FilmVariant[0]['Track']['Translation']['title'] ?><br>
+<?php
+	}
+if (!empty($authUser['userid']) || $isWS)
+{
+?>
+<?php __('Video'); ?>: <?= $FilmVariant[0]['resolution'] ?><br>
+<?php
+	echo __('Audio', true) . ': ' . $FilmVariant[0]['Track']['audio_info'] . '<br />';
+?>
+<?php __('Duration'); ?>: <?= $FilmVariant[0]['duration'] ?>
+<?php
+}
+		}
+
 	if (count($variant['FilmLink']) > 0)
 	{
+
 		$variant['video_type_id'] = 12;//ПРИНУДИТЕЛЬНО ДОБАВЛЯЕМ НА ПАНЕЛЬ WEB
 		$num = 1; $linksCnt = 0;
 		$panelContent = '

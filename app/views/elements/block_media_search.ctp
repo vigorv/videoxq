@@ -27,6 +27,16 @@
 <?php echo $form->create(null, array('url' => array('controller' => 'media', 'action' => 'index'), 'onsubmit' => 'return checkSearchSubmit()')); ?>
 <ul id="genres" style="margin-bottom:-10px">
     <li class="search">
+<div class="module">
+	<div>
+		<div>
+			<div>
+				<table>
+				<tr valign="middle">
+					<td width="100%"><h4><?php __('Search'); ?></h4></td>
+					<td></td>
+				</table>
+				<div>
             <?php
             $defValue = '';
        		$searchName = 'search';
@@ -136,6 +146,11 @@
                 });
         -->
         </script>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
     </li>
 </ul>
         </form>

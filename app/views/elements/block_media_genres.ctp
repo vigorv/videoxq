@@ -1,24 +1,23 @@
-<script type="text/javascript">
-<!--
-	function switchGenres()
-	{
-		$("li[rel=switchedgenre]").toggle();
-		return false;
-	}
--->
-</script>
-
+<div class="module">
+	<div>
+		<div>
+			<div>
+				<table>
+				<tr valign="middle">
+					<td width="100%"><h4><?php
+						__('Sort by');
+						$divStyle = ''; $imgSrc = 'desc';
+						if (empty($blockStatuses['slidersort']))
+						{
+							$divStyle = ' style="display: none"';
+							 $imgSrc = 'asc';
+						}
+					?></h4></td>
+					<td><a id="slidersort" rel="slider" href=""><img width="11" src="/img/s_<?php echo $imgSrc; ?>.png" /></a></td>
+				</table>
+				<div id="slidersortdiv" <?php echo $divStyle; ?>>
 <ul id="genres">
 <?php
-//if ($block_media_genres['allowDownload'])
-{
-	echo '
-    <p>' . __("Total in database", true) . ' <strong>' . $app->pluralForm($filmStats['count'], array(__("film", true), __("filma", true), __("films", true))) . '</strong>
-	<br>' . __("Total duration", true) . ' <strong>' . $app->timeFormat($filmStats['size']) . '</strong>
-    </p>
-	';
-}
-
 $sort = !empty($this->params['named']['sort']) ? $this->params['named']['sort'] : 'Film.modified';
 $serialsClass = !empty($this->params['named']['type']) && strpos($this->params['named']['type'], '!15') === false ? 'active' : '';
 $hdtvClass = !empty($this->params['named']['vtype']) !== false ? 'active' : '';
@@ -66,8 +65,12 @@ $hdtvClass = !empty($this->params['named']['vtype']) !== false ? 'active' : '';
     <li <?php echo $sort == 'Film.modified' ? 'class="active"' : ''; ?>><?=
 		$html->link(__("Last added", true), $pageNavigator->getNavigateUrl(array('sort' => 'Film.modified', 'direction' => 'desc')));
 	?></li>
-    <li>&nbsp;</li>
-    <li class="all <?php echo empty($this->params['named']['genre']) && empty($this->params['named']['type']) && empty($this->params['named']['vtype']) ? 'active' : ''; ?>"><a href="/media"><?php __("All films"); ?></a></li>
+</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 <?php
 /*
 if (!$isWS)
@@ -78,8 +81,6 @@ if (!$isWS)
 }
 */
 ?>
-    <li class="all" rel="switchedgenre"><a href="#" onclick="return switchGenres();"><b><?php __("More genres"); ?> +</b></a></li>
-    <li class="all" rel="switchedgenre" style="display: none"><a href="#" onclick="return switchGenres();"><b><?php __("Cut genres"); ?> -</b></a></li>
 <!--
     <li class="all <?php
     	echo $hdtvClass; $hdtvStr = "HDTV";
@@ -98,17 +99,16 @@ if (!$isWS)
 	);
 
 	$visibleGenres = array();
-	$hiddenGenres = array();
+	$selectedGenres = array();
     foreach ($block_media_genres['genres'] as $key => $genre)
     {
         $class = '';
-
-        $is_visible = in_array(intval($key), $enabledGenres);
         if (!empty($this->params['named']['genre']))
         {
             $passedGenres = explode(',', $this->params['named']['genre']);
             if (in_array($key, $passedGenres) === TRUE)
             {
+            	$selectedGenres[] = $genre;
                 $class = ' class="active"';
                 $searchKey = array_search($key, $passedGenres);
                 unset($passedGenres[$searchKey]);
@@ -123,16 +123,46 @@ if (!$isWS)
             }
         }
         $link = '/media/index' . ($key ? '/genre:' . $key : '') . ($sort ? '/sort:' . $sort : '');
-        if ($is_visible)
-        {
-			$visibleGenres[] = '<li ' . $class . '><a href="' . $link . '">' . $genre . '</a></li>';
-        }
-        else
-        {
-			$hiddenGenres[] = '<li ' . $class . ' style="display:none" rel="switchedgenre"><a href="' . $link . '">' . $genre . '</a></li>';
-        }
+		$visibleGenres[] = '<li ' . $class . '><a href="' . $link . '">' . $genre . '</a></li>';
     }
+
+    if (!empty($selectedGenres))
+    {
+    	$selectedGenres = implode(', ', $selectedGenres);
+    }
+    else
+    {
+    	$selectedGenres = __("All films", true);
+    }
+   	$selectedGenres = '<br /><span class="smaller" alt="' . __('Selected', true) . ': ' . $selectedGenres . '" title="' . __('Selected', true) . ': ' . $selectedGenres . '">' . $selectedGenres . '</span>';
+?>
+
+<div class="module">
+	<div>
+		<div>
+			<div>
+				<table>
+				<tr valign="middle">
+					<td width="100%"><h4><?php
+						__('Genres'); echo $selectedGenres;
+						$divStyle = ''; $imgSrc = 'desc';
+						if (empty($blockStatuses['slidergenres']))
+						{
+							$divStyle = ' style="display: none"';
+							 $imgSrc = 'asc';
+						}
+					?></h4></td>
+					<td><a id="slidergenres" rel="slider" href=""><img width="11" src="/img/s_<?php echo $imgSrc; ?>.png" /></a></td>
+				</table>
+				<div id="slidergenresdiv" <?php echo $divStyle;?>>
+<ul id="genres">
+    <li class="all <?php echo empty($this->params['named']['genre']) && empty($this->params['named']['type']) && empty($this->params['named']['vtype']) ? 'active' : ''; ?>"><a href="/media"><?php __("All films"); ?></a></li>
+<?php
     echo implode('', $visibleGenres);
-    echo implode('', $hiddenGenres);
     ?>
 </ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
