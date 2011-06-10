@@ -6,7 +6,9 @@
     <li ><a href="#">Наша деятельность</a></li>
     <li ><a href="#">Online-трансляции</a></li>
 -->
-    <li class="active"><strong><a href="/news">Новости</a></strong></li>
+    <li class="active"><strong><a href="/news">Наши проекты</a></strong></li>
+    <li><strong><a href="/news/#spartakiada">Спартакиада по баскетболу</a></strong></li>
+    <li><strong><a href="/news/#street">StreetJam 2011</a></strong></li>
 </ul>
 <div class="contentColumns">
 <div id="cColumn_main" class="contentColumn_69p">
@@ -50,7 +52,7 @@ if (!empty($info))
 <?php
 //ДЛЯ ОТОБРАЖЕНИЯ ФОТО ИЗ ТЕЛА НОВОСТИ
 		$hideJS = '
-					$("a[rel=attach' . $match . ']").fancybox({
+					$("a[rel=attach]").fancybox({
 				        "zoomSpeedIn":  0,
 				        "zoomSpeedOut": 0,
 				        "overlayShow":  true,
@@ -84,12 +86,12 @@ for ($match = 1; $match < 20; $match++)
 					});
 			';
 			$count=count($ftpInfo[$dat][$match]['foto']);
-			//echo '<h2><a rel="foto' . $match . '" href="http://' . $flowServerAddr . '/' . $ftpInfo[$dat][$match]['foto'][0] . '">Фото('.$count.')</a></h2>';
-			echo '<h2><a rel="fotodiv' . $match . '" href="#fotodiv' . $match . '">Фото(' . $count . ')</a></h2>';
+			echo '<h2><a rel="foto' . $match . '" href="http://' . $flowServerAddr . '/' . $ftpInfo[$dat][$match]['foto'][0] . '">Фото('.$count.')</a></h2>';
+			//echo '<h2><a rel="fotodiv' . $match . '" href="#fotodiv' . $match . '">Фото(' . $count . ')</a></h2>';
 			$hideContent = '<h3>Фотографии</h3>';
 			foreach ($ftpInfo[$dat][$match]['foto'] as $key => $val)
 			{
-				/*
+				//*
 				if (!$key) continue; //ПЕРВУЮ УЖЕ ВЫВЕЛИ
 				$hideContent .= '
 					<a rel="foto' . $match . '" href="http://' . $flowServerAddr . '/' . $val . '"></a>

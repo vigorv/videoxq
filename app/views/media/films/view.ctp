@@ -1,4 +1,11 @@
 <?php
+function msgBox($txt)
+{
+	return '
+		<div class="attention">' . $txt . '</div>
+	';
+}
+
 ob_start();
 
 $isVip = (!empty($authUserGroups) && in_array(Configure::read('VIPgroupId'), $authUserGroups));
@@ -508,6 +515,8 @@ if (!empty($authUser['userid']) || $isWS)
 ?>
 <?php __('Video'); ?>: <?= $variant['resolution'] ?><br>
 <?php
+	$variant['Track']['audio_info'] = str_replace('stereo', '2ch stereo', $variant['Track']['audio_info']);
+	$variant['Track']['audio_info'] = str_replace('стерео', '2ch stereo', $variant['Track']['audio_info']);
 	echo __('Audio', true) . ': ' . $variant['Track']['audio_info'] . '<br />';
 
 	$language		= $variant['Track']['Language']['title'];
@@ -648,8 +657,18 @@ if ((!empty($variant['FilmFile'])) && (($isVip) || ($isWS)))
 
 if (count($variant['FilmFile']) > 0)
 {
+	$msg = '';
+	if ($Film['is_license'])
+	{
+		$msg = msgBox('Данный фильм (рип) был сделан с лицензионного DVD диска по соглашению с правообладателем.');
+	}
+	if ($Film['is_public'])
+	{
+		$msg = msgBox('Данный фильм находится в общественном достоянии. Скачивание и хранение фильма не преследуется по закону.');
+	}
 	$panelContent = '
 		<br /><h3>' . __('Files List', true) . '</h3>
+		' . $msg . '
 		<table class="fileList">
     	<tr>
         	<td class="action" style="padding-left:20px">
@@ -675,6 +694,13 @@ if (count($variant['FilmFile']) > 0)
     ';
 }
     $playDisplay = 'none';  $linksCnt = 0; $hideVideo = '';
+	$msg = '';
+	if (($variant['FilmFile']) >= 3)
+	{
+		$msg = msgBox('Внимание! Вы можете скачивать не более 3(трех) файлов одновременно. Если вы пользуетесь менеджером закачек, пожалуйста, поставьте ограничение на скачивание не более, чем в 3(три) потока.');
+    	$msg = '<tr><td colspan="3" style="padding-left:30px">' . $msg . '</td></tr>';
+	}
+	$fileCnt = 0;
     foreach ($variant['FilmFile'] as $file)
     {
         if (!in_array($file['id'], $basket))
@@ -687,6 +713,7 @@ if (count($variant['FilmFile']) > 0)
             $img = __('RemoveFromBasket', true);
             $action = 'delete';
         }
+        $fileCnt++;
     	$panelContent .= '
     	<tr>
         	<td class="action" style="padding-left:30px">
@@ -774,6 +801,11 @@ $play = '';//ВРЕМЕННО
         		</td>
     		</tr>
     	';
+        if ($fileCnt % 3 == 0)
+        {
+	    	$panelContent .= $msg;
+	    	$msg = '';//ВЫВОДИМ ОДИН РАЗ
+        }
 		$linksCnt++;
     }
 	$panelContent .= '</table>
@@ -838,6 +870,8 @@ if (!empty($authUser['userid']) || $isWS)
 ?>
 <?php __('Video'); ?>: <?= $FilmVariant[0]['resolution'] ?><br>
 <?php
+	$FilmVariant[0]['Track']['audio_info'] = str_replace('stereo', '2ch stereo', $FilmVariant[0]['Track']['audio_info']);
+	$FilmVariant[0]['Track']['audio_info'] = str_replace('стерео', '2ch stereo', $FilmVariant[0]['Track']['audio_info']);
 	echo __('Audio', true) . ': ' . $FilmVariant[0]['Track']['audio_info'] . '<br />';
 ?>
 <?php __('Duration'); ?>: <?= $FilmVariant[0]['duration'] ?>
@@ -888,7 +922,8 @@ if (!empty($authUser['userid']) || $isWS)
 
 			if ($isFL)
 			{
-		    	if ($isVip)
+		    	//if ($isVip)
+		    	if ($isVip || $isWS)//внутр пользователям и ВИПам ссылки выдаем сразу
 		    	{
 		    		$link['link'] = str_replace($flStr, $flVipStr, $link['link']);
 		    		if (empty($startFL))
@@ -948,6 +983,7 @@ if (!empty($authUser['userid']) || $isWS)
 		    			$panelContent .= '<li><a target="_blank" href="' . $link['link'] . '">' . $link['filename'] . '</a></li>';
 		    		}
 		    	}
+/*
 		    	else
 		    	{
 		    		if ($startFL) continue;
@@ -974,6 +1010,7 @@ if (!empty($authUser['userid']) || $isWS)
 			    	}
 					$panelContent .= '</p>';
 				}
+*/
 				$startFL++;
 				$maxWebLinksCount--;
 
@@ -1100,7 +1137,17 @@ if (!empty($authUser['userid']) || $isWS)
 //ВЫВОД УПРАВЛЯЮЩИХ ЗАКЛАДОК
 	$linksContent .= '<table width="700" cellspacing="0" cellpadding="3" border="0">';
 	$maxLinksPanel = 'webpanel'; $maxLinks = 100;
-		foreach (array('hqpanel' => __('High definition video', true), 'sqpanel' => __('Standard definition video', true), 'mobpanel' => __('Video Mobile', true), 'webpanel' => __('Search in Web', true)) as $key => $value)
+
+	if ($Film['is_license'])
+	{
+		$allPanels = array('sqpanel' => __('Standard definition video', true));
+		$maxLinksPanel = 'sqpanel';
+	}
+	else
+	{
+		$allPanels = array('hqpanel' => __('High definition video', true), 'sqpanel' => __('Standard definition video', true), 'mobpanel' => __('Video Mobile', true), 'webpanel' => __('Search in Web', true));
+	}
+		foreach ($allPanels as $key => $value)
 		{
 			$linksCntStr = '';
 			if (!empty($panelLinksCnt[$key]))

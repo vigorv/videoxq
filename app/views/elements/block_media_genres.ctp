@@ -159,7 +159,7 @@ if (!$isWS)
     <li class="all <?php echo empty($this->params['named']['genre']) && empty($this->params['named']['type']) && empty($this->params['named']['vtype']) ? 'active' : ''; ?>"><a href="/media"><?php __("All films"); ?></a></li>
 <?php
     echo implode('', $visibleGenres);
-    ?>
+?>
 </ul>
 				</div>
 			</div>

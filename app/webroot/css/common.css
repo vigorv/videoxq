@@ -1,4 +1,5 @@
 #advancedColumn { float:left; width:16% }
+#advancedColumn { float:left; width:16% }
 
 #alphFaces { margin:0 0 30px 0; padding:0 60px 0 63px }
 #alphFaces ul { margin:0 0 15px 0; padding:0 }
@@ -38,10 +39,30 @@
 #footer .design { position:absolute; top:60px; right:60px; text-align:right }
 #footer { height:130px; position:relative; clear:both; }
 
+#genres_bak li { padding-left:0; background:none }
+#genres_bak li.active a { background:#656565; color:#FFFFFF; position:relative; left:-4px; padding:0 4px }
+#genres_bak li.active a:hover { background:#393939; color:#FFFFFF }
+
 #genres { margin: 0 }
-#genres li { padding-left:0; background:none }
-#genres li.active a { background:#656565; color:#FFFFFF; position:relative; left:-4px; padding:0 4px }
-#genres li.active a:hover { background:#393939; color:#FFFFFF }
+#genres li { padding: 0; background:none 0 no-repeat; }
+#genres li a:hover{
+	background: url(/img/chk.gif) 0 no-repeat;
+	padding:1px 0 0 20px;
+}
+#genres li a{
+	background: none 0 no-repeat;
+	padding:1px 0 0 20px;
+}
+#genres li.active a {
+	background: url(/img/chk.gif) 0 no-repeat;
+	color:red;
+	padding:1px 0 0 20px;
+}
+#genres li.active a:hover {
+	background: none 0 no-repeat;
+	color:red;
+	padding:1px 0 0 20px;
+}
 #genres li.all { font-size:1.5em }
 #genres li.search .adv { display:none }
 #genres li.search .adv-term .textInput { width:2.3em; vertical-align:middle }
@@ -556,8 +577,20 @@ div.module div div div div {
 	background: none;
 }
 
+div.attention {
+	background: url(/img/attention.gif) no-repeat;
+	background-color: Lightcyan;
+	border: grey dotted 1px;
+	margin: 0;
+	padding: 3px 5px 3px 30px;
+	width: 450px;
+}
+
 /* css styles snow */
-.contentColumns{ min-width:880px; clear:left; margin:0 40px 0 40px; padding:0;}
+.contentColumns{
+	min-width:880px; clear:left; margin:0 40px 0 40px; padding:0;
+	width:1000px;
+}
 .contentColumn_59p, .contentColumn_19p,.contentColumn_29p,.contentColumn_69p {  float:left;  min-height:100px;  padding:0 5px;}
 .contentColumn_19p  {   width:19%; min-width:170px;}
 .contentColumn_29p {   width:29%;}
@@ -565,7 +598,7 @@ div.module div div div div {
 
 .contentColumn_69p {
 	width:68%;
-	width:90%;
+	width:1000px;
 }
 
 .news_items                      {  padding:0; }

@@ -81,7 +81,10 @@ foreach ($films as $film):
 <div class="actions">
     <ul>
         <li><?php echo $html->link(__('License List', true), array('action'=>'licenselist')); ?></li>
+        <li><?php echo $html->link(__('Public List', true), array('action'=>'publiclist')); ?></li>
+        <!--
         <li><?php echo $html->link(__('Import List', true), array('action'=>'importlist')); ?></li>
+        -->
         <li><?php echo $html->link(__('Similar Films', true), array('controller'=>'similar_films')); ?></li>
         <li><?php echo $html->link(__('New Film', true), array('action'=>'add')); ?></li>
         <li><?php echo $html->link(__('List Film Types', true), array('controller'=> 'film_types', 'action'=>'index')); ?> </li>

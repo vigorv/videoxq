@@ -258,7 +258,8 @@ $config['descPerDay']	= 'на день'; //плата за VIP доступ на
 		$blockStatuses = $this->Session->read('blockStatuses');
 		if (empty($blockStatuses))
 		{
-			$this->Session->write('blockStatuses', serialize(array()));
+			$blockStatuses = serialize(array('slidersort' => 1, 'slidergenres' => 1));
+			$this->Session->write('blockStatuses', $blockStatuses);
 		}
 		$this->set('blockStatuses', unserialize($blockStatuses));
 

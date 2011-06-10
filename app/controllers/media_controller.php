@@ -304,6 +304,53 @@ class MediaController extends AppController {
 	}
 
 	/**
+	 * Установка флага "общественное достояние" (is_public)
+	 *
+	 */
+	public function admin_publiclist()
+	{
+		Configure::write('debug', 0);
+		if (empty($this->data))
+		{
+			//ВЫВОД ФОРМЫ
+		}
+		else
+		{
+			set_time_limit(500000);
+			$films = array(); //ВЫБОРКА ФИЛЬМОВ ПО СПИСКУ (СООТВЕТСТВУЕТ МАССИВУ ИДЕНТИФИКАТОРОВ)
+			$ids = array(); //МАССИВ ИДЕНТИФИКАТОРОВ ФИЛЬМОВ ИЗ СПИСКА
+			if (!empty($this->data['lst']))
+			{
+		        $this->Film->recursive = 0;
+				$lst = preg_split('/[\r\n]+/', trim(str_replace('http://', "\n", strtolower($this->data['lst']))));
+				$allCnt = count($lst);
+				foreach ($lst as $l)
+				{
+					if (empty($l)) continue;
+					$matches = array();
+					if (preg_match('/\/media\/view\/([0-9]+)/', $l, $matches))
+					{
+						if (isset($matches[1]) && !empty($matches[1]))
+						{
+							if (in_array($matches[1], $ids))
+								continue;
+							$ids[] = $matches[1];
+					        $film = $this->Film->read(array('Film.id'), $matches[1]);
+							$film['Film']['is_public'] = intval(!empty($this->data['is_public']));
+							$films[] = $film;
+						}
+					}
+				}
+			}
+			$res = $this->Film->saveAll($films, array('validate' => false, 'atomic' => false));
+
+			$this->set('allCnt', count($ids));//ОБЩЕЕ КОЛВО ССЫЛОК
+			$this->set('addCnt', count($films));//СКОЛЬКО МОДИФИЦИРОВАНО ФИЛЬМОВ
+		}
+	}
+
+
+	/**
 	 * Импорт фильмов по списку ссылок
 	 *
 	 */
@@ -2260,7 +2307,7 @@ echo'</pre>';
 						$lst[$key]['Vbpost']['pagetext'] = $uuConverter->unicodeToUtf(Utils::transUbbTags($val['Vbpost']['pagetext']));
 						//$lst[$key]['Vbpost']['pagetext'] = iconv('cp1252', 'utf-8', Utils::transUbbTags($val['Vbpost']['pagetext']));
 					}
-					$threadInfo['stat'] = __('showing', true) . ' ' . count($lst) . ' ' . __('posts. Total', true) . ' ' . $threadData['Thread']['replycount'];
+					$threadInfo['stat'] = __('Showing', true) . ' ' . count($lst) . ' ' . __('posts. Total', true) . ' ' . $threadData['Thread']['replycount'];
 				}
 				$threadInfo['lst'] = $lst;
 			}
