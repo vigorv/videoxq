@@ -54,7 +54,7 @@ class NewsController extends AppController {
 	        }
 	        $this->set('flowServerAddr', $flowServerAddr);
 	        $this->set('flowServerAddrPort', $flowServerAddrPort);
-			$ftpInfo = Cache::read('News.ftpInfo.' . $info['News']['id'], 'searchres');
+			$ftpInfo = Cache::read('News.ftpInfo.' . $info['News']['id'], 'rocket');
 			if (empty($ftpInfo))
 			{
 				$ftpInfo = array();
@@ -90,7 +90,7 @@ class NewsController extends AppController {
 				        	$ftpInfo[$dat]['foto'] = $foto;//ПОРЧЕЕ ФОТО
 		        			$infoTxt = @file_get_contents('http://' . $flowServerAddr . '/' . $dat . '/other/info.txt');
 				        	$ftpInfo[$dat]['info'] = $infoTxt;
-				        	Cache::write('News.ftpInfo.' . $info['News']['id'], $ftpInfo, 'searchres');
+				        	Cache::write('News.ftpInfo.' . $info['News']['id'], $ftpInfo, 'rocket');
 				        }
 			        }
 			        ftp_close($ftp_id);
@@ -177,7 +177,7 @@ class NewsController extends AppController {
 
             	if ($this->data['News']['id'])
             	{
-            		cache::delete('News.ftpInfo.' . $this->data['News']['id'], 'searchres');
+            		cache::delete('News.ftpInfo.' . $this->data['News']['id'], 'rocket');
             	}
 
                 $this->Session->setFlash(__('The New has been saved', true));
