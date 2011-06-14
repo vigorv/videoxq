@@ -1148,13 +1148,21 @@ if (!empty($authUser['userid']) || $isWS)
 	{
 		$allPanels = array('hqpanel' => __('High definition video', true), 'sqpanel' => __('Standard definition video', true), 'mobpanel' => __('Video Mobile', true), 'webpanel' => __('Search in Web', true));
 	}
+
+	if (!empty($ozons))
+	{
+		$allPanels['ozonpanel'] = __('Buy on', true) .  ' ozon.ru';
+		$panelLinksCnt['ozonpanel'] = count($ozons);
+		$linksContent .= '<div id="ozonpanel" style="display:none"><br /><br /><p>OZON links</p><br /></div>';
+	}
+
 		foreach ($allPanels as $key => $value)
 		{
 			$linksCntStr = '';
 			if (!empty($panelLinksCnt[$key]))
 			{
 				$linksCntStr = ' (' . $panelLinksCnt[$key] . ')';
-				if (($panelLinksCnt[$key] > 0) && ($panelLinksCnt[$key] < $maxLinks))
+				if (($panelLinksCnt[$key] > 0) && ($panelLinksCnt[$key] < $maxLinks) && ($key <> 'ozonpanel'))
 				{
 					$maxLinks = $panelLinksCnt[$key];
 					$maxLinksPanel = $key;
@@ -1334,7 +1342,9 @@ if (isset($authUser['username']))// && (($authUser['username'] == 'vanoveb') || 
 	if (!empty($ozons))
 	{
 ?>
+<!--
 <h3><a href="/media/ozon/<?php echo $Film['id']; ?>" title="<?php __('Buy on'); echo ' ozon.ru'; ?>" alt="<?php __('Buy on'); echo ' ozon.ru'; ?>"><?php __('Buy on'); echo ' ozon.ru'; ?></a></h3>
+-->
 <?php
 	}
 
