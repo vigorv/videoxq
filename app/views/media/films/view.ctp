@@ -1153,7 +1153,17 @@ if (!empty($authUser['userid']) || $isWS)
 	{
 		$allPanels['ozonpanel'] = __('Buy on', true) .  ' ozon.ru';
 		$panelLinksCnt['ozonpanel'] = count($ozons);
-		$linksContent .= '<div id="ozonpanel" style="display:none"><br /><br /><p>OZON links</p><br /></div>';
+		$linksContent .= '<div id="ozonpanel" style="display:none"><br /><br />';
+		foreach ($ozons as $o)
+		{
+			$pr = (!empty($o["OzonProduct"]['price'])) ? (sprintf("%01.2f", $o["OzonProduct"]['price'])) : "";
+			$cur = (!empty($o["OzonProduct"]['currency'])) ? (' (' . $o["OzonProduct"]['currency'] . ') ') : "";
+			$year = (!empty($o["OzonProduct"]['year'])) ? (', ' . $o["OzonProduct"]['year']) : "";
+			$media = (!empty($o["OzonProduct"]['media'])) ? (', ' . $o["OzonProduct"]['media']) : "";
+			$url = $o["OzonProduct"]['url'];
+			$linksContent .= '<div class="ozonlist"><a target="_blank" href="' . $url . '"><img align="left" hspace="3" width="80" src="' . $o["OzonProduct"]['picture'] . '" />' . $o["OzonProduct"]['title'] . $year . $media . '<br /><b>' . $pr . $cur . '</b></a></div>';
+		}
+		$linksContent .= '</div>';
 	}
 
 		foreach ($allPanels as $key => $value)
