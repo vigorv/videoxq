@@ -356,7 +356,10 @@ class Film extends MediaModel {
                 $story[] = $link;
             if (isset($Profession[3])
                 || isset($Profession[4]))
-            $actors[] = $link;
+            {
+            	if (count($actors) < 10)
+            		$actors[] = $link;
+            }
         }
 
         $year = '';
