@@ -44,7 +44,6 @@ if (count($shareContent) > 0)
 		srand((float) microtime() * 10000000);
 		shuffle($shareContent);
 	}
-
 	$panelContent = '';
 	$max++;//КОМПЕНСИРУЕМ, ЕСЛИ ССЫЛКА FL ОКАЖЕТСЯ НА ПОСЛЕДНЕМ МЕСТЕ
 	foreach($shareContent as $res)
@@ -61,8 +60,10 @@ if (count($shareContent) > 0)
 
 		if ($isFL)
 		{
-	    	if ($isVip)
+	    	//if ($isVip)
+	    	if (($isVip) || ($isWS))
 	    	{
+	    		$max++;//КОМПЕНСИРУЕМ МАКС. КОЛ-ВО ВЫВОДИМЫХ ССЫЛОК
 	    		$res['url'] = str_replace($flStr, $flVipStr, $res['url']);
 	    		if (empty($startFL))
 	    		{

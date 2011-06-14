@@ -925,6 +925,7 @@ if (!empty($authUser['userid']) || $isWS)
 		    	//if ($isVip)
 		    	if ($isVip || $isWS)//внутр пользователям и ВИПам ссылки выдаем сразу
 		    	{
+					$maxWebLinksCount++;//КОМПЕНСИРУЕМ МАКС. КОЛ-ВО ВЫВОДИМЫХ ССЫЛОК
 		    		$link['link'] = str_replace($flStr, $flVipStr, $link['link']);
 		    		if (empty($startFL))
 		    		{
@@ -983,7 +984,7 @@ if (!empty($authUser['userid']) || $isWS)
 		    			$panelContent .= '<li><a target="_blank" href="' . $link['link'] . '">' . $link['filename'] . '</a></li>';
 		    		}
 		    	}
-/*
+//*
 		    	else
 		    	{
 		    		if ($startFL) continue;
@@ -1010,7 +1011,7 @@ if (!empty($authUser['userid']) || $isWS)
 			    	}
 					$panelContent .= '</p>';
 				}
-*/
+//*/
 				$startFL++;
 				$maxWebLinksCount--;
 
