@@ -1153,7 +1153,7 @@ if (!empty($authUser['userid']) || $isWS)
 	{
 		$allPanels['ozonpanel'] = __('Buy on', true) .  ' ozon.ru';
 		$panelLinksCnt['ozonpanel'] = count($ozons);
-		$linksContent .= '<div id="ozonpanel" style="display:none"><br /><br />';
+		$linksContent .= '<div id="ozonpanel" style="display:none"><br /><h3>' . __('Buy on', true) .  ' ozon.ru</h3>';
 		foreach ($ozons as $o)
 		{
 			$pr = (!empty($o["OzonProduct"]['price'])) ? (sprintf("%01.2f", $o["OzonProduct"]['price'])) : "";
