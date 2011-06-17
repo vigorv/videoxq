@@ -40,8 +40,8 @@ class BlockMediaComponent extends BlocksParentComponent
         	$filter = array();
 	        $filter['allowDownload'] = checkAllowedMasks(Configure::read('Catalog.allowedIPs'), $_SERVER['REMOTE_ADDR']);
 
-			$lang = Configure::read('Config.language');
-			$langFix = '';
+			//$lang = Configure::read('Config.language');
+			$lang = $this->controller->Session->read('language');
 			if ($lang == _ENG_)
 			{
 		        $filter['sort']['Film.modified'] = 'by date';
