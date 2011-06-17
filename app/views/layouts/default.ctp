@@ -92,6 +92,7 @@ if (isset($authUserGroups) && in_array(Configure::read('VIPgroupId'), $authUserG
 	}
 }
 
+$BlockBanner->setIsWS($isWS);
 echo $BlockBanner->getBanner('header');
 
 if (!empty($blockContent['header']))
