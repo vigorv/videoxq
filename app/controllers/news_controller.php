@@ -4,7 +4,7 @@ class NewsController extends AppController {
     var $name = 'News';
     var $helpers = array('Html', 'Form');
 
-    var $uses = array('News');
+    var $uses = array('News', 'Direction');
 
 	/**
 	 * модель таблицы News
@@ -13,12 +13,26 @@ class NewsController extends AppController {
 	 */
     var $News;
 
-    function index()
+    /**
+     * вывод списка новостей
+     * если указан $dir_id, то выводим список новостей категории
+     *
+     * @param integer $dir_id - идентификатор направления (категории)
+     */
+    function index($dir_id = 0)
     {
 		$lang = $this->Session->read("language");
 		if ($lang == _ENG_)
 			$this->redirect('/media');
-    	$lst = $this->News->findAll(array('News.hidden' => 0), null, 'News.created DESC');
+    	$dirs = $this->Direction->findAll(array('Direction.hidden' => 0), null, 'Direction.srt DESC');
+    	$this->set('dirs', $dirs);
+
+    	$conditions = array('News.hidden' => 0);
+    	if (!empty($dir_id))
+    	{
+    		$conditions['News.direction_id'] = $dir_id;
+    	}
+    	$lst = $this->News->findAll($conditions, null, 'News.created DESC');
     	$this->set('lst', $lst);
     }
 
@@ -105,9 +119,23 @@ class NewsController extends AppController {
 		}
     }
 
-    function admin_index() {
+    /**
+     * администрирование списка новостей
+     * если указан $dir_id, то выводим список новостей категорим
+     *
+     * @param integer $dir_id - идентификатор направления (категории)
+     */
+    function admin_index($dir_id = 0) {
+
+        $dirs = $this->Direction->findAll(array('Direction.hidden' => 0), null, 'Direction.srt DESC');
+    	$this->set('dirs', $dirs);
+    	$pagination = array('News.hidden' => 0);
+    	if (!empty($dir_id))
+    	{
+    		$pagination['News.direction_id'] = $dir_id;
+    	}
         $this->News->recursive = 0;
-        $this->set('lst', $this->paginate());
+        $this->set('lst', $this->paginate($pagination));
     }
 
 	function unlinkTempFiles($dir, $userid)
@@ -148,6 +176,10 @@ class NewsController extends AppController {
     function admin_edit($id = null) {
     	$uploadDir = Configure::read('App.webroot') . '/files/news';
     	$this->set('uploadDir', $uploadDir);
+
+    	$dirs = $this->Direction->findAll(array('Direction.hidden' => 0), null, 'Direction.srt DESC');
+    	$this->set('dirs', $dirs);
+
         if (!empty($this->data)) {
         	if (!empty($this->data['picture']))
         	{

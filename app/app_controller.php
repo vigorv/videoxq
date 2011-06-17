@@ -114,10 +114,26 @@ $geoInfo['city'] = 'city';
 $this->Session->write('geoInfo', $geoInfo);
 */
 //*/
-		$lang = $this->Session->read("language");
+    	//$isWS = checkAllowedMasks(Configure::read('Catalog.allowedIPs'), $_SERVER['REMOTE_ADDR']);
+//    	$isWS = checkAllowedMasks(Configure::read('Catalog.allowedIPs'), (empty($_SERVER["HTTP_X_FORWARDED_FOR"]) ? $_SERVER["REMOTE_ADDR"] : $_SERVER["HTTP_X_FORWARDED_FOR"]), 1);
+    	$isWS = checkAllowedMasks(Configure::read('Catalog.allowedIPs'), $_SERVER["REMOTE_ADDR"], 1);
+//$isWS = 'OPERA-MINI';
+    	$isOpera = false;
+    	if ($isWS == 'OPERA-MINI')
+    	{
+    		$isWS = false;
+    		$isOpera = true;
+    	}
+    	if ($isWS == 'default')
+    	{
+    		$isWS = false;
+    	}
+    	$this->isWS = $isWS;
+
+    	$lang = $this->Session->read("language");
 		if (empty($lang))
 		{
-			if (empty($geoInfo['Geoip']['region_id']))
+			if (empty($geoInfo['Geoip']['region_id']) || empty($isWS))
 			{
 				$regionLang = _ENG_;
 	//$regionLang = _RUS_;
@@ -274,18 +290,6 @@ $config['descPerDay']	= 'на день'; //плата за VIP доступ на
         $this->_constructBlocks();
         if (!empty($this->passedArgs))
         	$this->set('passedParams', $this->passedArgs);//ДЛЯ ИСПОЛЬЗОВАНИЯ В ОТОБРАЖЕНИЯХ (НАПРИМЕР БЛОК РАСШИРЕННОГО ПОИСКА)
-    	//$isWS = checkAllowedMasks(Configure::read('Catalog.allowedIPs'), $_SERVER['REMOTE_ADDR']);
-//    	$isWS = checkAllowedMasks(Configure::read('Catalog.allowedIPs'), (empty($_SERVER["HTTP_X_FORWARDED_FOR"]) ? $_SERVER["REMOTE_ADDR"] : $_SERVER["HTTP_X_FORWARDED_FOR"]), 1);
-    	$isWS = checkAllowedMasks(Configure::read('Catalog.allowedIPs'), $_SERVER["REMOTE_ADDR"], 1);
-//$isWS = 'OPERA-MINI';
-    	$isOpera = false;
-    	if ($isWS == 'OPERA-MINI')
-    	{
-    		$isWS = false;
-    		$isOpera = true;
-    	}
-    	$this->isWS = $isWS;
-
 //echo $_SERVER['REMOTE_ADDR'] . ' - isWS = ' . $isWS;
 
        	$this->set('isOpera', $isOpera);//ОПРЕДЕЛИЛИ ТУРБО

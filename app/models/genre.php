@@ -62,7 +62,7 @@ class Genre extends MediaModel {
          join films_genres as fg on (fg.genre_id=g.id)
          join films as f on (fg.film_id = f.id AND f.active = 1)
          where g.is_delete = 0
-         group by g.title order by g.title ASC';
+         group by g.title' . $langFix . ' order by g.title' . $langFix . ' ASC';
 
         $records = $this->query($sql);
         $res = array();
@@ -90,7 +90,7 @@ class Genre extends MediaModel {
          join films_genres as fg on (fg.genre_id=g.id)
          join films as f on (fg.film_id = f.id AND f.active = 1 AND f.is_license = 1)
          where g.is_delete = 0
-         group by g.title order by g.title ASC';
+         group by g.title' . $langFix . ' order by g.title' . $langFix . ' ASC';
 
         $records = $this->query($sql);
         $res = array();

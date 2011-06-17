@@ -34,49 +34,47 @@ class BlockMediaComponent extends BlocksParentComponent
         	$postFix = 'Licensed';
         }
 
-        if ($filter = Cache::read('Catalog.indexFilter' . $postFix, 'default'))
+        $filter = Cache::read('Catalog.indexFilter' . $postFix, 'default');
+        if (empty($filter))
         {
-            $filter['allowDownload'] = checkAllowedMasks(Configure::read('Catalog.allowedIPs'), $_SERVER['REMOTE_ADDR']);
-            return $filter;
-        }
+        	$filter = array();
+	        $filter['allowDownload'] = checkAllowedMasks(Configure::read('Catalog.allowedIPs'), $_SERVER['REMOTE_ADDR']);
 
-        $filter = array();
+			$lang = Configure::read('Config.language');
+			$langFix = '';
+			if ($lang == _ENG_)
+			{
+		        $filter['sort']['Film.modified'] = 'by date';
+		        $filter['sort']['Film.year'] = 'by year';
+		        $filter['sort']['Film.hits'] = 'by popularity';
+		        $filter['sort']['Rating.rating'] = 'by rating';
+		        $filter['sort']['Film.imdb_rating'] = 'by imdb.com rating';
+			}
+			else
+			{
+		        $filter['sort']['Film.modified'] = 'по дате добавления';
+		        $filter['sort']['Film.year'] = 'по году выпуска';
+		        $filter['sort']['Film.hits'] = 'по популярности';
+		        $filter['sort']['Rating.rating'] = 'по рейтингу';
+		        $filter['sort']['Film.imdb_rating'] = 'по рейтингу imdb.com';
+			}
 
-		$lang = Configure::read('Config.language');
-		$langFix = '';
-		if ($lang == _ENG_)
-		{
-	        $filter['sort']['Film.modified'] = 'by date';
-	        $filter['sort']['Film.year'] = 'by year';
-	        $filter['sort']['Film.hits'] = 'by popularity';
-	        $filter['sort']['Rating.rating'] = 'by rating';
-	        $filter['sort']['Film.imdb_rating'] = 'by imdb.com rating';
-		}
-		else
-		{
-	        $filter['sort']['Film.modified'] = 'по дате добавления';
-	        $filter['sort']['Film.year'] = 'по году выпуска';
-	        $filter['sort']['Film.hits'] = 'по популярности';
-	        $filter['sort']['Rating.rating'] = 'по рейтингу';
-	        $filter['sort']['Film.imdb_rating'] = 'по рейтингу imdb.com';
-		}
+			if ($this->controller->isWS)
+			{
+	        	$filter['genres'] = $this->controller->Film->Genre->getGenresWithFilmCount();
+	    	}
+	        else
+	        {
+	        	$filter['genres'] = $this->controller->Film->Genre->getGenresWithLicFilmCount();
+	    	}
+	        $filter['countries'] = $this->controller->Film->Country->getCountriesWithFilmCount();
+	        $filter['types'] = $this->controller->Film->FilmType->getFilmTypesWithFilmCount();
+	        $filter['imdb'] = range(0, 10);
+	        $filter['is_license'] = range(0, 1);
+	        $filter['allowDownload'] = checkAllowedMasks(Configure::read('Catalog.allowedIPs'), $_SERVER['REMOTE_ADDR']);
 
-		if ($this->controller->isWS)
-		{
-        	$filter['genres'] = $this->controller->Film->Genre->getGenresWithFilmCount();
+	        Cache::write('Catalog.indexFilter' . $postFix, $filter, array('config' => 'default', 'duration' => '+1 day'));
     	}
-        else
-        {
-        	$filter['genres'] = $this->controller->Film->Genre->getGenresWithLicFilmCount();
-    	}
-        $filter['countries'] = $this->controller->Film->Country->getCountriesWithFilmCount();
-        $filter['types'] = $this->controller->Film->FilmType->getFilmTypesWithFilmCount();
-        $filter['imdb'] = range(0, 10);
-        $filter['is_license'] = range(0, 1);
-        $filter['allowDownload'] = checkAllowedMasks(Configure::read('Catalog.allowedIPs'), $_SERVER['REMOTE_ADDR']);
-
-        Cache::write('Catalog.indexFilter' . $postFix, $filter, array('config' => 'default', 'duration' => '+1 day'));
-
         return $filter;
     }
 

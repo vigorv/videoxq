@@ -27,6 +27,8 @@ echo $html->link('Права доступа', array('action'=>'acl', 'controller
 echo '<br>';
 echo $html->link('Права доступа(контроллеры)', array('action'=>'acl_controllers', 'controller' => 'admin', Configure::read('Routing.admin') => true)) . '<br>';
 echo '<br>';
+echo $html->link('Направления (категории)', array('action'=>'index', 'controller' => 'directions', Configure::read('Routing.admin') => true)) . '<br>';
+echo '<br>';
 echo $html->link('Новости', array('action'=>'index', 'controller' => 'news', Configure::read('Routing.admin') => true)) . '<br>';
 echo '<br>';
 echo $html->link('Страницы', array('action'=>'index', 'controller' => 'pages', Configure::read('Routing.admin') => true)) . '<br>';

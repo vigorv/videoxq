@@ -1,17 +1,5 @@
 <div class="pages index">
-<h2><?php __('News');?></h2>
-<?php
-	if (!empty($dirs))
-	{
-		echo '<div style="text-align: left"><ul>' . __('News', true) . ' по категориям';
-		foreach ($dirs as $d)
-		{
-			echo '<li><a href="/admin/news/index/' . $d['Direction']['id'] . '">' . (empty($d['Direction']['caption']) ? $d['Direction']['title'] : $d['Direction']['caption']) . '</a></li>';
-		}
-		echo '</ul></div><br />';
-	}
-?>
-
+<h2><?php __('Directions');?></h2>
 <p>
 <?php
 echo $paginator->counter(array(
@@ -34,14 +22,14 @@ foreach ($lst as $l):
 ?>
     <tr<?php echo $class;?>>
         <td>
-            <?php echo $l['News']['id']; ?>
+            <?php echo $l['Directions']['id']; ?>
         </td>
         <td>
-            <?php echo $l['News']['created'] . ' - ' .  $l['News']['title']; ?>
+            <?php echo $l['Directions']['title']; ?>
         </td>
         <td class="actions">
-            <?php echo $html->link(__('Edit', true), array('action'=>'edit', $l['News']['id'])); ?>
-            <?php echo $html->link(__('Delete', true), array('action'=>'delete', $l['News']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $l['News']['id'])); ?>
+            <?php echo $html->link(__('Edit', true), array('action'=>'edit', $l['Directions']['id'])); ?>
+            <?php echo $html->link(__('Delete', true), array('action'=>'delete', $l['Directions']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $l['Directions']['id'])); ?>
         </td>
     </tr>
 <?php endforeach; ?>
@@ -55,6 +43,5 @@ foreach ($lst as $l):
 <div class="actions">
     <ul>
         <li><?php echo $html->link(__('Create New', true), array('action'=>'edit')); ?></li>
-        <li><?php echo $html->link(__('List News', true), array('action'=>'index'));?></li>
     </ul>
 </div>

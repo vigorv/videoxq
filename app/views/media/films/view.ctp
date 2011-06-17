@@ -783,7 +783,7 @@ if (count($variant['FilmFile']) > 0)
 			{
 				$play = '';
 			}
-$play = '';//ВРЕМЕННО
+//$play = '';//ВРЕМЕННО СКРЫТЬ
 
 //        	foreach ($players as $player)
 //	        	$href .= ' <a href="/media/playlist/' . $file['id'] . '/' . $player['name'] . '"><img height="16" src="/img/ico/' . $player['name'] . '16.gif" /></a>';
@@ -845,6 +845,17 @@ $play = '';//ВРЕМЕННО
 -->
 </script>
 	';
+}
+else
+{
+	if (!empty($variant['FilmFile']))
+	{
+		$panelContent = '
+		<br /><br />
+		<p>' . __('Available only to registered users', true) . '</p>
+		<br />
+		';
+	}
 }
 
 //pr($variant['FilmLink']);

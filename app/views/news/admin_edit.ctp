@@ -40,9 +40,20 @@
         echo $form->input('txt', array('rows' => 15, 'label' => 'Полный текст', 'value' => (!empty($info) ? $info['News']['txt'] : '')));
         echo $form->input('matchesinfo', array('id' => 'matchesinfoid', 'type' => 'text', 'label' => 'Названия матчей', 'value' => (!empty($info) ? $info['News']['matchesinfo'] : '')));
         echo $form->input('hidden', array('label' => 'Скрыть новость', 'value' => 1, 'checked' => (!empty($info['News']['hidden']) ? 'checked' : '')));
+        $dirsVal = array(0 => 'Укажите категорию (направление)');//, 'empty' => false);
+        if (!empty($dirs))
+        {
+        	foreach ($dirs as $d)
+        	{
+        		$dirsVal[$d['Direction']['id']] = (empty($d['Direction']['caption']) ? $d['Direction']['title'] : $d['Direction']['caption']);
+        	}
+        }
+
+        //echo $form->select('News.direction_id', $dirsVal, null);
+        echo $form->input('News.direction_id', array('label' => 'Категория', 'type' => 'select', 'options' => $dirsVal, 'value' => $info['News']['direction_id']));
 //<script type="text/javascript" src="/uploadify/jquery-1.4.2.min.js"></script>
     ?>
-    <input type="hidden" id="picture" name="data[picture]" value="<?php echo $uploadedFile; ?>" />
+    <br /><br /><input type="hidden" id="picture" name="data[picture]" value="<?php echo $uploadedFile; ?>" />
 <link rel="stylesheet" type="text/css" href="/uploadify/uploadify.css">
 <script type="text/javascript" src="/uploadify/swfobject.js"></script>
 <script type="text/javascript" src="/uploadify/jquery.uploadify.v2.1.4.min.js"></script>
