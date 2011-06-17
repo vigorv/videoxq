@@ -50,9 +50,10 @@ class Genre extends MediaModel {
      *
      * @return unknown
      */
-    function getGenresWithFilmCount()
+    function getGenresWithFilmCount($lang = 0)
     {
-		$lang = Configure::read('Config.language');
+    	if (empty($lang))
+			$lang = Configure::read('Config.language');
 		$langFix = '';
 		if ($lang == _ENG_) $langFix = '_imdb';
 
@@ -78,9 +79,10 @@ class Genre extends MediaModel {
      *
      * @return unknown
      */
-    function getGenresWithLicFilmCount()
+    function getGenresWithLicFilmCount($lang = 0)
     {
-		$lang = Configure::read('Config.language');
+    	if (empty($lang))
+			$lang = Configure::read('Config.language');
 		$langFix = '';
 		if ($lang == _ENG_) $langFix = '_imdb';
 

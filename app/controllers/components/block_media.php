@@ -61,11 +61,11 @@ class BlockMediaComponent extends BlocksParentComponent
 
 			if ($this->controller->isWS)
 			{
-	        	$filter['genres'] = $this->controller->Film->Genre->getGenresWithFilmCount();
+	        	$filter['genres'] = $this->controller->Film->Genre->getGenresWithFilmCount($lang);
 	    	}
 	        else
 	        {
-	        	$filter['genres'] = $this->controller->Film->Genre->getGenresWithLicFilmCount();
+	        	$filter['genres'] = $this->controller->Film->Genre->getGenresWithLicFilmCount($lang);
 	    	}
 	        $filter['countries'] = $this->controller->Film->Country->getCountriesWithFilmCount();
 	        $filter['types'] = $this->controller->Film->FilmType->getFilmTypesWithFilmCount();
