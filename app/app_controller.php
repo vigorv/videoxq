@@ -133,14 +133,13 @@ $this->Session->write('geoInfo', $geoInfo);
     	$lang = $this->Session->read("language");
 		if (empty($lang))
 		{
-			if (empty($geoInfo['Geoip']['region_id']) || empty($isWS))
+			if (!empty($geoInfo['Geoip']['region_id']) || !empty($isWS))
 			{
-				$regionLang = _ENG_;
-	//$regionLang = _RUS_;
+				$regionLang = _RUS_;
 			}
 			else
 			{
-				$regionLang = _RUS_;
+				$regionLang = _ENG_;
 			}
 	//$lang = 0;
 			$lang = $regionLang;
