@@ -129,13 +129,15 @@ class NewsController extends AppController {
 
         $dirs = $this->Direction->findAll(array('Direction.hidden' => 0), null, 'Direction.srt DESC');
     	$this->set('dirs', $dirs);
-    	$pagination = array('News.hidden' => 0);
+    	$paginate = array(
+    		'conditions' => array('hidden' => 0),
+    		'order' => 'created DESC'
+    		);
     	if (!empty($dir_id))
     	{
-    		$pagination['News.direction_id'] = $dir_id;
+    		$paginate['conditions']['direction_id'] = $dir_id;
     	}
-        $this->News->recursive = 0;
-        $this->set('lst', $this->paginate($pagination));
+        $this->set('lst', $this->News->find('all', $paginate));
     }
 
 	function unlinkTempFiles($dir, $userid)

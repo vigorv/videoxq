@@ -842,7 +842,12 @@ return;//НЕПРАВИЛЬНО РАБОТАЕТ
         {
 	        $order=array($this->passedArgs["sort"] => $this->passedArgs["direction"]);
         }
-/*
+
+		$conditions = array();
+//*
+		if ($this->isWS)
+		{
+
         if (isset($this->passedArgs["sort"]))
         {
 	        $order=array($this->passedArgs["sort"] => $this->passedArgs["direction"]);
@@ -862,13 +867,15 @@ return;//НЕПРАВИЛЬНО РАБОТАЕТ
 	        	//$rIds = $this->Film->getRandomIds();
 	        }
         }
-*/
-		$conditions = array();
+
+		}
+//*/
 		$conditions['Film.active'] = 1;
 		$postFix = '';
-		if (!$this->isWS && empty($this->params['named']['search']))
+		//if (!$this->isWS && empty($this->params['named']['search']))//ВНЕШНИМ ПОКАЗЫВАЕМ ЛИЦЕНЗИЮ, ПРИ ПОИСКЕ ВЫВОДИМ ВСЕ
+		if (!$this->isWS)//ВНЕШНИМ ПОКАЗЫВАЕМ ТОЛЬКО ЛИЦЕНЗИЮ
 		{
-			$conditions['Film.is_license'] = 1;//ВНЕШНИМ ПОКАЗЫВАЕМ ТОЛЬКО ЛИЦЕНЗИЮ
+			$conditions['Film.is_license'] = 1;
 			$postFix = 'Licensed';
 		}
         $pagination = array('Film' => array('contain' =>
@@ -883,13 +890,18 @@ return;//НЕПРАВИЛЬНО РАБОТАЕТ
                                         'conditions' => $conditions,
                                         'group' => 'Film.id',
                                         'limit' => 30));
-/*
+//*
+		if ($this->isWS)
+		{
+
 		if ($isFirstPage)
 		{
             $pagination['Film']['conditions'][] = array('Film.id' => $rIds);
 //	        $order=array('rand()');
 		}
-*/
+
+    	}
+//*/
         if (!empty($this->params['named']['genre']))
         {
             $pagination['Film']['contain'][] = 'FilmsGenre';
