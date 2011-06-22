@@ -8,6 +8,7 @@
 	define('_PAY_W1_',		3);
 	define('_PAY_ERBX_',	4);
 	define('_PAY_PAYPAL_',	5);
+	define('_PAY_STK_',		6);
 
 class PaysController extends AppController
 {
@@ -407,6 +408,188 @@ class PaysController extends AppController
 				$this->set('host', $host);
 				$this->set('data', $data);
 			}
+		}
+	}
+
+
+    /**
+     *
+     * ФОРМА ОПЛАТЫ ПО КАРТЕ СТК
+     *
+     *
+     */
+	public function stkcard()
+	{
+
+	}
+
+
+    /**
+     *
+     * ОПЛАТА ПО КАРТЕ СТК
+     * ВХОДНЫЕ ДАННЫЕ ОТПРАВЛЯТЬ МЕТОДОМ POST
+     *
+     */
+	public function stk()
+	{
+		$this->layout = 'ajax';
+		if (empty($_POST['card']) || empty($_POST['pin']) || empty($_POST['sum']))
+		{
+			$this->Session->setFlash(__('Pay data error', true));
+			$this->redirect('/pays');
+		}
+
+		$sum = (float)($_POST['sum']);
+		if (empty($this->authUser['userid']))
+			$sum = -1;//СЕРВИС ПРИОСТАНОВДЕН
+		$perMonth	= Configure::read('STK.costPerMonth');
+		$this->set('perMonth', $perMonth);
+		$perWeek	= Configure::read('STK.costPerWeek');
+		$this->set('perWeek', $perWeek);
+		$perDay		= Configure::read('STK.costPerDay');
+		$this->set('perDay', $perDay);
+		$payDesc = array(
+			$perDay		=> Configure::read('descPerDay'),
+			$perWeek	=> Configure::read('descPerWeek'),
+			$perMonth	=> Configure::read('descPerMonth'),
+		);
+		$this->set('payDesc', $payDesc);
+
+		if ($sum > 0)
+		{
+			if (empty($this->authUser['userid']))
+			{
+				$this->redirect('/users/login');
+			}
+			$paySum = $sum;
+/*
+			if ($out_summ < $perDay) $out_summ = $perDay;
+			if (($out_summ > $perDay) && ($out_summ < $perWeek)) $out_summ = $perWeek;
+			if ($out_summ > $perWeek) $out_summ = $perMonth;
+*/
+
+			$payData = array('Pay' => array(
+					'user_id'	=> $this->authUser['userid'],
+			));
+			$payData['Pay']['created']	= time();
+			$payData['Pay']['summ']		= $paySum;
+			$payData['Pay']['paysystem']= _PAY_STK_;
+
+			if ($this->Pay->save($payData))
+			{
+				$this->layout = 'ajax';
+				// информация об оплате
+				$payData['Pay']['id'] = $this->Pay->getLastInsertID();
+				$order_id		= $payData['Pay']['id'];
+				$description	= "VIP " . __('access', true) . " " . $payDesc[$paySum]; // описание платежа
+				$cardNumber		= $_POST['card'];
+				$pinCode		= $_POST['pin'];
+				$host			= '';
+
+$paySum = 0.01;
+
+				$data = '<?xml version="1.0" encoding="windows-1251"?>
+				<request>
+				<card>' . $cardNumber . '</card>
+				<pin>' . $pinCode . '</pin>
+				<summa>' . $paySum . '</summa>
+				<recipient>videoxq.com</recipient>
+				<command>payment</command>
+				<id>' . $order_id . '</id>
+				</request>';
+
+				$sock = fsockopen("ssl://089.ab.ru", 443, $errno, $errstr, 30);
+				if ($sock)
+				{
+					fwrite($sock, "POST /FeUapSn8Ozcs8Ga/extovupay.php HTTP/1.0\r\n");
+					fwrite($sock, "Host: 089.ab.ru\r\n");
+					fwrite($sock, "Content-type: application/xml\r\n");
+					fwrite($sock, "Content-length: " . strlen($data) . "\r\n");
+					fwrite($sock, "Accept: */*\r\n");
+					fwrite($sock, "\r\n");
+					fwrite($sock, "$data\r\n");
+					fwrite($sock, "\r\n");
+
+					$response = "";
+					while (!feof($sock)) $response .= fgets($sock);
+					fclose($sock);
+
+echo $response;
+exit;
+//РАЗБИРАЕМ ОТВЕТ
+/*
+<?xml version="1.0" encoding="windows-1251"?>
+<response>
+<result>ERROR</result>
+<code>-2200</code>
+<error>Неверно задан получатель платежа</error>
+<recipient>videoxq1</recipient>
+</response>
+*/
+					$matches = array();
+					preg_match('/<result>(.*?)<\/result>/', $response, $matches, PREG_OFFSET_CAPTURE);
+					if ($matches[1][0] == 'OK')
+					{
+			   			$sql = 'delete from groups_users where user_id = ' . $payData['Pay']['user_id'] . ' and group_id = ' . Configure::read('VIPgroupId') . ';';
+		   	   			$this->Pay->query($sql);
+			   			$sql= 'insert into groups_users (user_id, group_id) values(' . $payData['Pay']['user_id'] . ', ' . Configure::read('VIPgroupId') . ');';
+		   	   			$this->Pay->query($sql);
+
+		    			//корректируем VIP-группу форума (это сделает beforeSave при холостом обновлении)
+		   				$uInfo = array('User' => array('userid' => $payData['Pay']['user_id'], 'lastactivity' => time()));
+		   				$this->User->save($uInfo);
+
+						//ДАТУ "ПРОПЛАЧЕНО ПО" СЧИТАЕМ ОТ ПОСЛЕДНЕЙ ОПЛАЧЕННОЙ
+						$months = 0;
+						$weeks = 0;
+						$days = 0;
+
+						$months = intval($paySum / $perMonth);
+						$paySum = $paySum - $perMonth * $months;
+
+						$weeks = intval($paySum / $perWeek);
+						$paySum = $paySum - $perWeek * $weeks;
+
+						$days = intval($paySum / $perDay);
+						$paySum = $paySum - $perDay * $days;
+
+						$secs = ($days + $weeks * 7 + $months * 31) * 24 * 60 * 60;
+
+						$lastFinDate = $payData['Pay']['paydate'];
+						$last = $this->Pay->find(array('Pay.user_id' => $payData['Pay']['user_id'], 'Pay.status' => _PAY_DONE_), null, 'Pay.findate desc');
+						if (!empty($last))
+						{
+							if ($last['Pay']['findate'] > $lastFinDate)
+								$lastFinDate = $last['Pay']['findate'];
+						}
+						$payData['Pay']['paydate'] = $lastFinDate;
+						$payData['Pay']['findate'] = $lastFinDate + $secs;
+						$this->Pay->save($payData);
+					}
+					else
+					{
+						$matches = array();
+						preg_match('/<error>(.*?)<\/error>/', $response, $matches, PREG_OFFSET_CAPTURE);
+						$error = '';
+						if (!empty($matches[1][0]))
+						{
+							$error = ': ' . $error;
+						}
+						$this->Session->setFlash(__('Payment failed', true) . $error);
+						$this->redirect('/pays');
+					}
+				}
+				else
+				{
+					$this->Session->setFlash(__('Pay server error', true));
+					$this->redirect('/pays');
+				}
+			}
+		}
+		else
+		{
+			$this->Session->setFlash(__('Pay data error', true));
+			$this->redirect('/pays');
 		}
 	}
 
