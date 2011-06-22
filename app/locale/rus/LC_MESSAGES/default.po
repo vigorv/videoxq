@@ -8466,3 +8466,27 @@ msgstr "Статистика"
 
 msgid "Selected"
 msgstr "Выбрано"
+
+msgid "STK card number"
+msgstr "Номер карты СТК"
+
+msgid "Card pin-code"
+msgstr "Пин-код карты"
+
+msgid "Pay sum"
+msgstr "Сумма"
+
+msgid "Process payment"
+msgstr "Оплатить"
+
+msgid "Pay data error"
+msgstr "Ошибка, неверно заданы параметры оплаты"
+
+msgid "Pay server error"
+msgstr "Ошибка, невозможно соединиться с сервером платежной системы"
+
+msgid "STK card payment"
+msgstr "Оплата по карте СТК"
+
+msgid "Payment failed"
+msgstr "Сервер сообщает об ошибке оплаты"
