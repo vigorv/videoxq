@@ -1,4 +1,6 @@
-<?php 
+<div class="contentColumns">
+<h2>FAQ</h2>
+<?php
     $javascript->link('jquery.fancybox-1.0.0', false);
     $javascript->link('jquery.pngFix', false);
     $script = "$(function() {
@@ -13,5 +15,4 @@
 
 echo $page['Page']['text'];
 ?>
-
-
+</div>
