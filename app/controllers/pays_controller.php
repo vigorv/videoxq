@@ -514,8 +514,6 @@ $paySum = 0.01;
 					while (!feof($sock)) $response .= fgets($sock);
 					fclose($sock);
 
-echo $response;
-exit;
 //РАЗБИРАЕМ ОТВЕТ
 /*
 <?xml version="1.0" encoding="windows-1251"?>
@@ -575,7 +573,7 @@ exit;
 						{
 							$error = ': ' . $error;
 						}
-						$this->Session->setFlash(__('Payment failed', true) . $error);
+						$this->Session->setFlash(__('Payment failed', true) . iconv('windows-1251', 'utf8', $error));
 						$this->redirect('/pays');
 					}
 				}
