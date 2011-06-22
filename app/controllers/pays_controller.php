@@ -539,7 +539,7 @@ $paySum = 0.01;//ДЛЯ ТЕСТИРОВАНИЯ
 						$months = 0;
 						$weeks = 0;
 						$days = 0;
-
+$paySum = 10;//ДЛЯ ТЕСТИРОВАНИЯ
 						$months = intval($paySum / $perMonth);
 						$paySum = $paySum - $perMonth * $months;
 
@@ -560,10 +560,14 @@ $paySum = 0.01;//ДЛЯ ТЕСТИРОВАНИЯ
 						}
 						$payData['Pay']['paydate'] = $lastFinDate;
 						$payData['Pay']['findate'] = $lastFinDate + $secs;
+						$payData['Pay']['status'] = _PAY_DONE_;
 						$this->Pay->save($payData);
+						$this->redirect('/pays');
 					}
 					else
 					{
+						$payData['Pay']['status'] = _PAY_FAIL_;
+						$this->Pay->save($payData);
 						$matches = array();
 						preg_match('/<error>(.*?)<\/error>/', $response, $matches, PREG_OFFSET_CAPTURE);
 						$error = '';
