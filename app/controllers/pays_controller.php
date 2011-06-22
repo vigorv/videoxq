@@ -485,15 +485,13 @@ class PaysController extends AppController
 				$cardNumber		= $_POST['card'];
 				$pinCode		= $_POST['pin'];
 				$host			= '';
-
-$paySum = 0.01;
-
+$paySum = 0.01;//ДЛЯ ТЕСТИРОВАНИЯ
 				$data = '<?xml version="1.0" encoding="windows-1251"?>
 				<request>
 				<card>' . $cardNumber . '</card>
 				<pin>' . $pinCode . '</pin>
 				<summa>' . $paySum . '</summa>
-				<recipient>videoxq.com</recipient>
+				<recipient>patentmedia</recipient>
 				<command>payment</command>
 				<id>' . $order_id . '</id>
 				</request>';
