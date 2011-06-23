@@ -8195,10 +8195,10 @@ msgid "Quality"
 msgstr "Качество"
 
 msgid "Audio"
-msgstr "аудио"
+msgstr "Аудио"
 
 msgid "Duration"
-msgstr "продолжительность"
+msgstr "Продолжительность"
 
 msgid "Watch online"
 msgstr "Смотреть online"
@@ -8441,7 +8441,7 @@ msgid "Video Mobile"
 msgstr "Видео для мобильных"
 
 msgid "Standard definition video"
-msgstr "Видео стандартного разрешения"
+msgstr "Видео хорошего разрешения"
 
 msgid "High definition video"
 msgstr "Видео высокого разрешения"
