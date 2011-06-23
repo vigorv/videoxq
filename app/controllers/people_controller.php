@@ -21,7 +21,12 @@ class PeopleController extends AppController {
 		$this->Person->recursive = 1;
 	//if(!$films=Cache::read('Catalog.person_'.$id.'_film','people'))
         {
-    	    $films = $this->Person->getPersonFilms($id);
+        	$sql = '';
+        	if (!$this->isWS)
+        	{
+        		$sql = 'Film.is_license = 1';
+        	}
+    	    $films = $this->Person->getPersonFilms($id, 'FilmsPerson.profession_id ASC, Film.year ASC', $sql);
     	    Cache::write('Catalog.person_'.$id.'_film',$films,'people');
         }
 

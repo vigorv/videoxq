@@ -81,29 +81,34 @@ class NewsController extends AppController {
 			        $login = ftp_login($ftp_id, 'mp4', '9043uj53456t');
 			        if ($login)
 			        {
+			        	$dir = $dat;
+			        	if (!empty($info['News']['ftpdir']))
+			        	{
+			        		$dir = $info['News']['ftpdir'];
+			        	}
 			        	$res = ftp_pasv($ftp_id, true);
-				        $lst = ftp_nlist($ftp_id, $dat);
+				        $lst = ftp_nlist($ftp_id, $dir);
 				        if (!empty($lst))
 				        {
 				        	for ($match = 1; $match < 20; $match++)//БЕРЕМ КОЛ-ВО МАТЧЕЙ С ЗАПАСОМ
 				        	{
-				        		$matchContent = ftp_nlist($ftp_id, $dat . '/' . $match);
+				        		$matchContent = ftp_nlist($ftp_id, $dir . '/' . $match);
 				        		if (!empty($matchContent))
 				        		{
-				        			$infoTxt = @file_get_contents('http://' . $flowServerAddr . '/' . $dat . '/' . $match . '/info.txt');
-				        			$ftpInfo[$dat][$match] = array(
-				        				'video' => ftp_nlist($ftp_id, $dat . '/' . $match . '/video'),
-				        				'foto'	=> ftp_nlist($ftp_id, $dat . '/' . $match . '/foto'),
+				        			$infoTxt = @file_get_contents('http://' . $flowServerAddr . '/' . $dir . '/' . $match . '/info.txt');
+				        			$ftpInfo[$dir][$match] = array(
+				        				'video' => ftp_nlist($ftp_id, $dir . '/' . $match . '/video'),
+				        				'foto'	=> ftp_nlist($ftp_id, $dir . '/' . $match . '/foto'),
 				        				'info'	=> $infoTxt,
 				        			);
 				        		}
 				        	}
-				        	$video = ftp_nlist($ftp_id, $dat . '/other/video');
-				        	$foto = ftp_nlist($ftp_id, $dat . '/other/foto');
-				        	$ftpInfo[$dat]['video'] = $video;//ПРОЧЕЕ ВИДЕО
-				        	$ftpInfo[$dat]['foto'] = $foto;//ПОРЧЕЕ ФОТО
-		        			$infoTxt = @file_get_contents('http://' . $flowServerAddr . '/' . $dat . '/other/info.txt');
-				        	$ftpInfo[$dat]['info'] = $infoTxt;
+				        	$video = ftp_nlist($ftp_id, $dir . '/other/video');
+				        	$foto = ftp_nlist($ftp_id, $dir . '/other/foto');
+				        	$ftpInfo[$dir]['video'] = $video;//ПРОЧЕЕ ВИДЕО
+				        	$ftpInfo[$dir]['foto'] = $foto;//ПОРЧЕЕ ФОТО
+		        			$infoTxt = @file_get_contents('http://' . $flowServerAddr . '/' . $dir . '/other/info.txt');
+				        	$ftpInfo[$dir]['info'] = $infoTxt;
 				        	Cache::write('News.ftpInfo.' . $info['News']['id'], $ftpInfo, 'rocket');
 				        }
 			        }

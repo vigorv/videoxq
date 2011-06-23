@@ -151,6 +151,11 @@ class MediaController extends AppController {
 		Configure::write('debug', 0);
 		$this->layout = 'rss/default';
 		$films = array();
+		$conditions = array('Film.active' => 1);
+		if (!$this->isWS)
+		{
+			$conditions['Film.is_license'] = 1;
+		}
         $pagination = array('Film' => array('contain' =>
                                        array('FilmType',
                                              'Genre',
@@ -160,7 +165,7 @@ class MediaController extends AppController {
                                               'Person' => array('conditions' => array('FilmsPerson.profession_id' => array(1, 3, 4))),
                                              'MediaRating'),
                                         'order' => 'Film.modified DESC',
-                                        'conditions' => array('Film.active' => 1),
+                                        'conditions' => $conditions,
                                         'group' => 'Film.id',
                                         'limit' => 30));
 		$films = $this->Film->find('all', $pagination["Film"]);
