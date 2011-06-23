@@ -411,6 +411,14 @@ class PaysController extends AppController
 		}
 	}
 
+    /**
+     * successURL for STK card payment
+     *
+     */
+    public function stkok()
+    {
+
+    }
 
     /**
      *
@@ -422,7 +430,6 @@ class PaysController extends AppController
 	{
 
 	}
-
 
     /**
      *
@@ -551,7 +558,7 @@ $paySum = 10;//ДЛЯ ТЕСТИРОВАНИЯ
 
 						$secs = ($days + $weeks * 7 + $months * 31) * 24 * 60 * 60;
 
-						$lastFinDate = $payData['Pay']['paydate'];
+						$lastFinDate = $payData['Pay']['created'];
 						$last = $this->Pay->find(array('Pay.user_id' => $payData['Pay']['user_id'], 'Pay.status' => _PAY_DONE_), null, 'Pay.findate desc');
 						if (!empty($last))
 						{
@@ -562,7 +569,7 @@ $paySum = 10;//ДЛЯ ТЕСТИРОВАНИЯ
 						$payData['Pay']['findate'] = $lastFinDate + $secs;
 						$payData['Pay']['status'] = _PAY_DONE_;
 						$this->Pay->save($payData);
-						$this->redirect('/pays');
+						$this->redirect('/pays/stkok');
 					}
 					else
 					{
