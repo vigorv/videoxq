@@ -26,7 +26,8 @@ foreach ($PersonPicture as $picture)
 
 <?php
 $pro = '';
-
+if (!empty($films))
+{
 foreach ($films as $film)
 {
     extract($film);
@@ -44,6 +45,7 @@ foreach ($films as $film)
     echo '<li><a href="/media/view/' . $Film['id'] . '">' . $Film['title'] . '</a> (' . $Film['year'] . ')</li>' . "\n";
 }
 echo '</ol>';
+}
 ?>
 </div>
 

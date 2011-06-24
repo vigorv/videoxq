@@ -507,7 +507,7 @@ foreach ($FilmVariant as $variant)
 	if ($lang != _ENG_)
 	{
 ?>
-перевод: <?= $variant['Track']['Language']['title'] . ', ' . $variant['Track']['Translation']['title'] ?><br>
+Перевод: <?= $variant['Track']['Language']['title'] . ', ' . $variant['Track']['Translation']['title'] ?><br>
 <?php
 	}
 if (!empty($authUser['userid']) || $isWS)
@@ -873,7 +873,7 @@ if (!empty($variant['FilmLink']))
 	if ($lang != _ENG_)
 	{
 ?>
-перевод: <?= $FilmVariant[0]['Track']['Language']['title'] . ', ' . $FilmVariant[0]['Track']['Translation']['title'] ?><br>
+Перевод: <?= $FilmVariant[0]['Track']['Language']['title'] . ', ' . $FilmVariant[0]['Track']['Translation']['title'] ?><br>
 <?php
 	}
 if (!empty($authUser['userid']) || $isWS)

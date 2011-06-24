@@ -61,9 +61,15 @@ if (!empty($info))
 					});
 			';
 
+$dir = $dat;
+if (!empty($info['News']['ftpdir']))
+{
+	$dir = $info['News']['ftpdir'];
+}
+
 for ($match = 1; $match < 20; $match++)
 {
-	if (!empty($ftpInfo[$dat][$match]))
+	if (!empty($ftpInfo[$dir][$match]))
 	{
 		$matchName = 'Матч ' . $match . '';
 		if (!empty($matchesInfo[$match - 1]))
@@ -74,7 +80,7 @@ for ($match = 1; $match < 20; $match++)
 		<tr valign="top">
 			<td><h2>' . $matchName . '</h2></td><td>
 		';
-		if (!empty($ftpInfo[$dat][$match]['foto']))
+		if (!empty($ftpInfo[$dir][$match]['foto']))
 		{
 			$hideJS .= '
 					$("a[rel=foto' . $match . ']").fancybox({
@@ -85,11 +91,11 @@ for ($match = 1; $match < 20; $match++)
 						"showCloseButton": true
 					});
 			';
-			$count=count($ftpInfo[$dat][$match]['foto']);
-			echo '<h2><a rel="foto' . $match . '" href="http://' . $flowServerAddr . '/' . $ftpInfo[$dat][$match]['foto'][0] . '">Фото('.$count.')</a></h2>';
+			$count=count($ftpInfo[$dir][$match]['foto']);
+			echo '<h2><a rel="foto' . $match . '" href="http://' . $flowServerAddr . '/' . $ftpInfo[$dir][$match]['foto'][0] . '">Фото('.$count.')</a></h2>';
 			//echo '<h2><a rel="fotodiv' . $match . '" href="#fotodiv' . $match . '">Фото(' . $count . ')</a></h2>';
 			$hideContent = '<h3>Фотографии</h3>';
-			foreach ($ftpInfo[$dat][$match]['foto'] as $key => $val)
+			foreach ($ftpInfo[$dir][$match]['foto'] as $key => $val)
 			{
 				//*
 				if (!$key) continue; //ПЕРВУЮ УЖЕ ВЫВЕЛИ
@@ -121,12 +127,12 @@ for ($match = 1; $match < 20; $match++)
 	?>
 	</td><td>
 	<?php
-		if (!empty($ftpInfo[$dat][$match]['video']))
+		if (!empty($ftpInfo[$dir][$match]['video']))
 		{
 			$fileDesc = array();
-			if (!empty($ftpInfo[$dat][$match]['info']))
+			if (!empty($ftpInfo[$dir][$match]['info']))
 			{
-				$infoTxt = preg_split('/[\r\n]{1,}/', $ftpInfo[$dat][$match]['info']);
+				$infoTxt = preg_split('/[\r\n]{1,}/', $ftpInfo[$dir][$match]['info']);
 				foreach ($infoTxt as $it)
 				{
 					$i = explode('---', $it);
@@ -139,7 +145,7 @@ for ($match = 1; $match < 20; $match++)
 
 			echo '<h2>Видео</h2><table cellspacing="3">';
 			$hideContent = '';
-			foreach ($ftpInfo[$dat][$match]['video'] as $key => $val)
+			foreach ($ftpInfo[$dir][$match]['video'] as $key => $val)
 			{
 //				echo '<li><a rel="video" href="#video' . $match . $key . '">Ролик №' . ($key + 1) . '</a></li>';
 				$fn = basename($val);
@@ -166,7 +172,7 @@ for ($match = 1; $match < 20; $match++)
 	}
 }
 
-if (!empty($ftpInfo[$dat]['foto']) || !empty($ftpInfo[$dat]['video']))
+if (!empty($ftpInfo[$dir]['foto']) || !empty($ftpInfo[$dir]['video']))
 {
 	$otherName = 'Другое';
 	if (!empty($matchesInfo[count($matchesInfo) - 1]))
@@ -177,12 +183,12 @@ if (!empty($ftpInfo[$dat]['foto']) || !empty($ftpInfo[$dat]['video']))
 	<tr valign="top">
 		<td><h2>' . $otherName . '</h2></td><td>
 	';
-	if (!empty($ftpInfo[$dat]['foto']))
+	if (!empty($ftpInfo[$dir]['foto']))
 	{
-		//echo '<h2><a rel="foto" href="http://' . $flowServerAddr . '/' . $ftpInfo[$dat]['foto'][0] . '">Фото(' . count($ftpInfo[$dat]['foto']) . ')</a></h2>';
-		echo '<h2><a rel="fotodiv" href="#fotodiv">Фото(' . count($ftpInfo[$dat]['foto']) . ')</a></h2>';
+		//echo '<h2><a rel="foto" href="http://' . $flowServerAddr . '/' . $ftpInfo[$dir]['foto'][0] . '">Фото(' . count($ftpInfo[$dir]['foto']) . ')</a></h2>';
+		echo '<h2><a rel="fotodiv" href="#fotodiv">Фото(' . count($ftpInfo[$dir]['foto']) . ')</a></h2>';
 		$hideContent = '<h3>Фотографии</h3>';
-		foreach ($ftpInfo[$dat]['foto'] as $key => $val)
+		foreach ($ftpInfo[$dir]['foto'] as $key => $val)
 		{
 			/*
 			if (!$key) continue; //ПЕРВУЮ УЖЕ ВЫВЕЛИ
@@ -212,12 +218,12 @@ if (!empty($ftpInfo[$dat]['foto']) || !empty($ftpInfo[$dat]['video']))
 ?>
 </td><td>
 <?php
-	if (!empty($ftpInfo[$dat]['video']))
+	if (!empty($ftpInfo[$dir]['video']))
 	{
 		$fileDesc = array();
-		if (!empty($ftpInfo[$dat]['info']))
+		if (!empty($ftpInfo[$dir]['info']))
 		{
-			$infoTxt = preg_split('/[\r\n]{1,}/', $ftpInfo[$dat]['info']);
+			$infoTxt = preg_split('/[\r\n]{1,}/', $ftpInfo[$dir]['info']);
 			foreach ($infoTxt as $it)
 			{
 				$i = explode('---', $it);
@@ -230,7 +236,7 @@ if (!empty($ftpInfo[$dat]['foto']) || !empty($ftpInfo[$dat]['video']))
 
 		echo '<h2>Видео</h2><table cellspacing="3">';
 		$hideContent = '';
-		foreach ($ftpInfo[$dat]['video'] as $key => $val)
+		foreach ($ftpInfo[$dir]['video'] as $key => $val)
 		{
 			$fn = basename($val);
 			if (!empty($fileDesc[$fn]))

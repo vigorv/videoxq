@@ -39,6 +39,7 @@
         echo $form->input('stxt', array('rows' => 5, 'label' => 'Короткий текст', 'value' => (!empty($info) ? $info['News']['stxt'] : '')));
         echo $form->input('txt', array('rows' => 15, 'label' => 'Полный текст', 'value' => (!empty($info) ? $info['News']['txt'] : '')));
         echo $form->input('matchesinfo', array('id' => 'matchesinfoid', 'type' => 'text', 'label' => 'Названия матчей', 'value' => (!empty($info) ? $info['News']['matchesinfo'] : '')));
+        echo $form->input('ftpdir', array('type' => 'text', 'label' => 'название папки на ftp', 'value' => (!empty($info) ? $info['News']['ftpdir'] : '')));
         echo $form->input('hidden', array('label' => 'Скрыть новость', 'value' => 1, 'checked' => (!empty($info['News']['hidden']) ? 'checked' : '')));
         $dirsVal = array(0 => 'Укажите категорию (направление)');//, 'empty' => false);
         if (!empty($dirs))
