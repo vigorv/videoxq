@@ -419,8 +419,6 @@ class Film extends MediaModel {
         $sql = 'SELECT * FROM films ' . $date;
         $query = $sql . sprintf($limit, $page - 1, $perPage);
 
-
-
         $picturesFrom = $this->picturesFrom;
         $picturesTo = $this->picturesTo;
 
@@ -430,7 +428,6 @@ class Film extends MediaModel {
         $picturesCmd .= 'md '.$picturesTo."bigposters\"\r\n";
         $picturesCmd .= 'md '.$picturesTo."smallposters\"\r\n";
         $picturesCmd .= 'md '.$picturesTo."frames\"\r\n";
-
 
         //получаем фильмы пачками по 100 штук, чтобы не было проблем
         //при большом кол-ве фильмов
@@ -488,7 +485,7 @@ class Film extends MediaModel {
                 $this->FilmsPublisher->deleteAll(array('film_id' => $ID));
                 $this->FilmsGenre->deleteAll(array('film_id' => $ID));
 
-                $oldInfo = $this->read(null, $ID);
+                $oldInfo = $this->read(array('Film.is_license'), $ID);
                 if (!empty($oldInfo))
                 {
                 	$film['is_license'] = $oldInfo['Film']['is_license'];//ИНАЧЕ ТЕРЯЕТСЯ ПРИ ОБНОВЛЕНИИ
