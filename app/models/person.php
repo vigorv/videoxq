@@ -110,17 +110,21 @@ class Person extends MediaModel {
 
     var $actsAs = array('Containable', 'Sphinx');
 
-    function getPersonFilms($id, $order = 'FilmsPerson.profession_id ASC, Film.year ASC')
+    function getPersonFilms($id, $order = 'FilmsPerson.profession_id ASC, Film.year ASC', $sqlCond = '')
     {
         $db =& ConnectionManager::getDataSource($this->useDbConfig);
+        $sqlCondition = '`FilmsPerson`.`person_id` = ' . $db->value($id, 'integer');
+        if (!empty($sqlCond))
+        {
+        	$sqlCondition .= ' AND ' . $sqlCond;
+        }
         $sql = '
         SELECT `FilmsPerson`.`person_id`, `FilmsPerson`.`role`, `FilmsPerson`.`profession_id`,
                `Profession`.`id`, `Profession`.`title`, Film.year, Film.title, Film.id
         FROM `films_persons` AS `FilmsPerson`
         LEFT JOIN `professions` AS `Profession` ON (`FilmsPerson`.`profession_id` = `Profession`.`id`)
         LEFT JOIN `films` AS `Film` ON (`FilmsPerson`.`film_id` = `Film`.`id` AND `Film`.`active` = 1)
-        WHERE `FilmsPerson`.`person_id` = ' . $db->value($id, 'integer')
-        . ' GROUP BY FilmsPerson.profession_id, Film.title, Film.year ORDER BY ' . $order;
+        WHERE ' . $sqlCondition . '  GROUP BY FilmsPerson.profession_id, Film.title, Film.year ORDER BY ' . $order;
         return $this->query($sql);
     }
 
