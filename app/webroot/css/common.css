@@ -63,6 +63,14 @@
 	color:red;
 	padding:1px 0 0 20px;
 }
+#genres li a.dashed:hover{
+	background: none 0 no-repeat;
+	padding:0;
+}
+#genres li a.dashed{
+	background: none 0 no-repeat;
+	padding:0;
+}
 #genres li.all { font-size:1.5em }
 #genres li.search .adv { display:none }
 #genres li.search .adv-term .textInput { width:2.3em; vertical-align:middle }
@@ -165,7 +173,7 @@ li.search .adv2 { display: none; }
 .contolsBar a.addComment { color:#ff9000; text-decoration:none; border-bottom:#ff9000 1px dashed }
 .contolsBar a.addComment:hover { color:#e80000; text-decoration:none; border-bottom:#e80000 1px dashed }
 .contolsBar a.aSelected { filter:alpha(opacity=100); -moz-opacity: 1; opacity: 1 }
-.contolsBar a.dashed { color:#808080; text-decoration:none; border-bottom:#808080 1px dashed }
+.contolsBar a.dashed { color:#808080; text-decoration:none; border-bottom:#808080 1px dashed; }
 .contolsBar a.dashed:hover { color:#e80000; text-decoration:none; border-bottom:#e80000 1px dashed }
 .contolsBar a.delete { width:13px; height:13px; position:absolute; top:15px; right:200px; text-indent:-999px; overflow:hidden; background:url(/img/icons/delete.gif) 0px 0px no-repeat }
 .contolsBar a.edit { width:13px; height:13px; position:absolute; top:15px; right:230px; text-indent:-999px; overflow:hidden; background:url(/img/icons/edit.gif) 0px 0px no-repeat }
