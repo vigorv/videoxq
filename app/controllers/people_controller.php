@@ -19,7 +19,7 @@ class PeopleController extends AppController {
 		$this->set('langFix', $langFix);
 
 		$this->Person->recursive = 1;
-	//if(!$films=Cache::read('Catalog.person_'.$id.'_film','people'))
+	if(!$films=Cache::read('Catalog.person_'.$id.'_film','people'))
         {
         	$sql = '';
         	if (!$this->isWS)
@@ -32,7 +32,7 @@ class PeopleController extends AppController {
 
         $this->Person->contain(array('Profession', 'PersonPicture'));
 
-	//if(!$person=Cache::read('Catalog.person_'.$id,'people'))
+	if(!$person=Cache::read('Catalog.person_'.$id,'people'))
         {
     	    $person = $this->Person->read(null, $id);
     	    Cache::write('Catalog.person_'.$id.'',$person,'people');
