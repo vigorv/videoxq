@@ -1191,7 +1191,7 @@ echo'</pre>';
 
 		$wsmediaResult = 0;
 		$animebarResult = 0;
-		if (isset($this->params['named']['search'])) //ЗАПРОС СЧЕТЧИКА К ДРУГИМ КАТАЛОГАМ
+		if (isset($this->params['named']['search']) && $this->isWS) //ЗАПРОС СЧЕТЧИКА К ДРУГИМ КАТАЛОГАМ
 		{
 			$wsmediaResult = $this->searchWsmedia();
 			$animebarResult = $this->searchAnimeBar();
