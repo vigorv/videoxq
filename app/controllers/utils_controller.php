@@ -119,8 +119,8 @@ class UtilsController extends AppController
 
     function migrate()
     {
-        ini_set('memory_limit', '1G');
-        set_time_limit(50000000000);
+        ini_set('memory_limit', '2300M');
+        set_time_limit(500000000);
 
         $endDate = $this->Migration->lastCheckDate();
         $date = ($endDate ? ' WHERE timestamp <= "' . $endDate . '"' : ' ');
@@ -134,7 +134,7 @@ class UtilsController extends AppController
 
     function migrate_incremental()
     {
-        ini_set('memory_limit', '2G');
+        ini_set('memory_limit', '2300M');
         set_time_limit(50000000000);
 
         //УДАЛЕНИЕ СООБЩЕНИЯ О ЛИЦЕНЗИИ
