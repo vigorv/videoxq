@@ -254,8 +254,8 @@ class Person extends MediaModel {
             $query = $sql . sprintf($limit, ($page - 1) * $perPage, $perPage);
         }
 
-
         file_put_contents(APP . 'migration_people_pics.cmd', $picturesCmd);
+        unset($picturesCmd);
     }
 }
 ?>

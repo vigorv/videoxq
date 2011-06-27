@@ -410,8 +410,8 @@ class Film extends MediaModel {
         App::import('Vendor', 'Utils');
 
         //Utils::getMemoryReport();
-        set_time_limit(50000000000);
         $this->useDbConfig = 'migration';
+        $this->setDataSource($this->useDbConfig);
 
         $limit = ' LIMIT %s, %s';
         $page = 1;
@@ -429,11 +429,19 @@ class Film extends MediaModel {
         $picturesCmd .= 'md '.$picturesTo."smallposters\"\r\n";
         $picturesCmd .= 'md '.$picturesTo."frames\"\r\n";
 
+        unlink(APP . 'migration_film_pics.cmd');
+
         //получаем фильмы пачками по 100 штук, чтобы не было проблем
         //при большом кол-ве фильмов
         while ($objects = $this->query($query))
         {
             //Utils::getMemoryReport();
+            /*
+            $this->useDbConfig = $this->defaultConfig;
+	        $this->setDataSource($this->useDbConfig);
+            $ds = $this->getDataSource();
+            $ds->commit();
+            */
 
             foreach ($objects as $object)
             {
@@ -441,7 +449,7 @@ class Film extends MediaModel {
 
                 $object = Utils::iconvRecursive($object);
 
-                $this->useDbConfig = $this->defaultConfig;
+//                $this->useDbConfig = $this->defaultConfig;
                 extract($object['films']);
                 $ImdbRating = (float)$ImdbRating / 10;
                 $film = array('title' => $Name, 'id' => $ID, 'title_en' => $OriginalName,
@@ -449,6 +457,7 @@ class Film extends MediaModel {
                               'imdb_id' => $imdbID, 'imdb_rating' => $ImdbRating, 'created' => $timestamp, 'modified' => $timestamp);
 
                 $this->useDbConfig = 'migration';
+		        $this->setDataSource($this->useDbConfig);
 
                 //Utils::getMemoryReport();
 
@@ -463,6 +472,7 @@ class Film extends MediaModel {
                 $film['dir'] = basename(dirname($filmFiles[0]['files']['Path']));
 
                 $this->useDbConfig = $this->defaultConfig;
+		        $this->setDataSource($this->useDbConfig);
 
                 $country = array('Country' =>
                            array('Country' => $this->getHabtm($country, 'filmcountries', array('country_id' => 'CountryID'))));
@@ -637,16 +647,27 @@ class Film extends MediaModel {
 
                 //Utils::getMemoryReport();
                 $this->useDbConfig = 'migration';
+		        $this->setDataSource($this->useDbConfig);
             }
             //Utils::getMemoryReport();
 
             $page++;
             $query = $sql . sprintf($limit, ($page - 1) * $perPage, $perPage);
             //die();
+	        //file_put_contents(APP . 'migration_film_pics.cmd', $picturesCmd);
+	        $picsFile = fopen(APP . 'migration_film_pics.cmd', 'a+');
+	        if ($picsFile)
+	        {
+	        	fwrite($picsFile, $picturesCmd);
+	        	fclose($picsFile);
+	        }
+	        $picturesCmd = '';
+			//if ($page > 10) break; //ОСТАЛЬНОЕ ЧЕРЕЗ УСТАНОВКУ НОВОЙ ТОЧКИ (использовать, http://92.63.196.3/_hawk)
+			// И ОБНОВЛЕНИЯ ИНФЫ О ФИЛЬМАХ (использовать, http://92.63.196.3/_hawk/finddiff.php)
         }
 
-        file_put_contents(APP . 'migration_film_pics.cmd', $picturesCmd);
         $this->useDbConfig = $this->defaultConfig;
+        $this->setDataSource($this->useDbConfig);
     }
 
     public function getMaxFilmId()
