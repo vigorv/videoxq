@@ -7,8 +7,20 @@
     <li ><a href="#">Online-трансляции</a></li>
 -->
     <li class="active"><strong><a href="/news">Наши проекты</a></strong></li>
-    <li><strong><a href="/news/#spartakiada">Спартакиада по баскетболу</a></strong></li>
-    <li><strong><a href="/news/#street">StreetJam 2011</a></strong></li>
+<?php
+	if (!empty($dirs))
+	{
+		foreach ($dirs as $d)
+		{
+			$c = $d['Direction']['caption'];
+			if (empty($c))
+			{
+				$c = $d['Direction']['title'];
+			}
+			echo '<li><strong><a href="/news/#d' . $d['Direction']['id'] . '">' . $c . '</a></strong></li>';
+		}
+	}
+?>
 </ul>
 <div class="contentColumns">
 <div id="cColumn_main" class="contentColumn_69p">
