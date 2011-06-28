@@ -5,7 +5,7 @@ class IndexController extends AppController {
     var $helpers = array('Html', 'Form', 'TagCloud', 'Ajax');
     var $components = array('Captcha','Cookie');
     //var $viewPath = 'media/films';
-    var $uses = array('Post' , 'Blog', 'Film', 'News');
+    var $uses = array('Post' , 'Blog', 'Film', 'News', 'Direction');
 
     /**
      * модель нововстей
@@ -139,6 +139,9 @@ class IndexController extends AppController {
 
     public function about()//ГЛАВНАЯ СТРАНИЦА РАЗДЕЛА О НАС
     {
+    	$dirs = $this->Direction->findAll(array('Direction.hidden' => 0), null, 'Direction.srt DESC');
+    	$this->set('dirs', $dirs);
+
     	$lst = $this->News->findAll(array('News.hidden' => 0), null, 'News.created DESC');
     	$this->set('lst', $lst);
     }

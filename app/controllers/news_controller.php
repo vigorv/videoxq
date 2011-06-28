@@ -51,6 +51,9 @@ class NewsController extends AppController {
 		{
             $this->set('info', $info);
 
+	    	$dirs = $this->Direction->findAll(array('Direction.hidden' => 0), null, 'Direction.srt DESC');
+	    	$this->set('dirs', $dirs);
+
         	$dat = date('Y-m-d', strtotime($info['News']['created']));
 	        $this->set('dat', $dat);
 
