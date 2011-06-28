@@ -1,6 +1,6 @@
 <?php
-DEFINE(_STK0_, 1);
-DEFINE(_OMSK_, 2);
+DEFINE("_STK0_", 1);
+DEFINE("_OMSK_", 2);
 $zIds = array(
 _OMSK_ => 'Omsk',
 _STK0_ => 'STK0',
