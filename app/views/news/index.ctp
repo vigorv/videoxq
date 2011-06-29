@@ -30,15 +30,13 @@
 			foreach($dirs as $d)
 			{
 				echo '<br />';
-				$c = $d['Direction']['caption'];
-				if (empty($c))
-				{
-					$c = $d['Direction']['title'];
-				}
-				echo '<a name="d' . $d['Direction']['id'] . '"></a><h3>' . $c . '</h3>';
+				echo '<a name="d' . $d['Direction']['id'] . '"></a><h3>' . $d['Direction']['title'] . '</h3>';
 
 				foreach ($lst as $l)
 				{
+					if ($l["News"]['direction_id'] != $d['Direction']['id'])
+						continue;
+
 					if (!empty($l['News']['img']))
 					{
 						$img = '<a href="/files/news/' . $l['News']['img'] . '" rel="fancybox" onclick="return stopdivx();"><img class="news_content_img"  height="120px" src="/files/news/' . $l['News']['img'] . '"></a>';
