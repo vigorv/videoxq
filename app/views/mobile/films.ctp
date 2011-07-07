@@ -1,11 +1,7 @@
 <?php
-    $pass = $this->passedArgs;
-    $pass['action'] = str_replace(Configure::read('Routing.admin') . '_', '', $this->action); // temp
-?>
-<?php
-if (count($films) == 0)
+if (empty($films))
     echo '<li>' . __('No results for your search', true) . ' :(</li>';
-if (!empty($films))
+else
     foreach ($films as $row):
         extract($row);
         if (!empty($FilmPicture[0]['file_name']))
@@ -66,18 +62,18 @@ if (!empty($films))
 </li>
 <?php endforeach; ?>
 
-<div class="bar"  style="text-align: center; width:auto">
-         <?= $paginator->prev(__('Prev',true),  array('class'=>"button"), null, null); ?>
-          <?= $paginator->next(__('Next',true),  array('class'=>"button"),null,null ); ?> 
-</div>
+        <div class="bar"  style="text-align: center; width:auto">
+    <?= $paginator->prev(__('Prev', true), array('class' => "button"), null, null); ?>
+    <?= $paginator->next(__('Next', true), array('class' => "button"), null, null); ?>
+    </div>
 <?
-/*
-<li>
-    <a href="#"><?=__('Load More 10 results',true);?></a>
-</li>
-*
- *
- */
+        /*
+          <li>
+          <a href="#"><?=__('Load More 10 results',true);?></a>
+          </li>
+         *
+         *
+         */
 ?>
 <? /*
           <div class="toolbar">

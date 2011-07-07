@@ -1,16 +1,8 @@
-<?php
-$zone = false;
-$zones = Configure::read('Catalog.allowedIPs');
-$zone = checkAllowedMasks($zones, $_SERVER['REMOTE_ADDR'], 1);
-if ($zone)
-    $imgPath = Configure::read('Catalog.imgPath');
-else
-    $imgPath = Configure::read('Catalog.imgPathInet');
-$pass = $this->passedArgs;
-$pass['action'] = str_replace(Configure::read('Routing.admin') . '_', '', $this->action); // temp
-?>
 <div class="SearchResult">
+
+</div>
     <?php
+    /*
     if ((count($films) == 0) && (!isset($pass["page"])))
         echo '<h2>' . __('No results for your search', true) . ' :(</h2>';
 
@@ -107,3 +99,7 @@ $pass['action'] = str_replace(Configure::read('Routing.admin') . '_', '', $this-
         echo '<h3>' . $pageNavigator->get($page) . '</h3>';
     ?>
 </div>
+ *
+     *
+     */
+    ?>
