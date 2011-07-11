@@ -28,6 +28,7 @@ $links['http://fx.nsk54.com/'] = 'Обменник1';
 	{
 		$menuItems[__("root_forum_link", true)]	= __("Forum", true);
 		$menuItems['/pages/faq']	= 'FAQ';
+		$menuItems['/news']	= __("Projects", true);
 		//$menuItems['/basket']		= __("Downloads", true);
 	}
 	else
