@@ -354,6 +354,52 @@ class MediaController extends AppController {
 		}
 	}
 
+	/**
+	 * Установка флага "разрешен только online-просмотр" (just_online)
+	 *
+	 */
+	public function admin_justonline()
+	{
+		Configure::write('debug', 0);
+		if (empty($this->data))
+		{
+			//ВЫВОД ФОРМЫ
+		}
+		else
+		{
+			set_time_limit(500000);
+			$films = array(); //ВЫБОРКА ФИЛЬМОВ ПО СПИСКУ (СООТВЕТСТВУЕТ МАССИВУ ИДЕНТИФИКАТОРОВ)
+			$ids = array(); //МАССИВ ИДЕНТИФИКАТОРОВ ФИЛЬМОВ ИЗ СПИСКА
+			if (!empty($this->data['lst']))
+			{
+		        $this->Film->recursive = 0;
+				$lst = preg_split('/[\r\n]+/', trim(str_replace('http://', "\n", strtolower($this->data['lst']))));
+				$allCnt = count($lst);
+				foreach ($lst as $l)
+				{
+					if (empty($l)) continue;
+					$matches = array();
+					if (preg_match('/\/media\/view\/([0-9]+)/', $l, $matches))
+					{
+						if (isset($matches[1]) && !empty($matches[1]))
+						{
+							if (in_array($matches[1], $ids))
+								continue;
+							$ids[] = $matches[1];
+					        $film = $this->Film->read(array('Film.id'), $matches[1]);
+							$film['Film']['just_online'] = intval(!empty($this->data['just_online']));
+							$films[] = $film;
+						}
+					}
+				}
+			}
+			$res = $this->Film->saveAll($films, array('validate' => false, 'atomic' => false));
+
+			$this->set('allCnt', count($ids));//ОБЩЕЕ КОЛВО ССЫЛОК
+			$this->set('addCnt', count($films));//СКОЛЬКО МОДИФИЦИРОВАНО ФИЛЬМОВ
+		}
+	}
+
 
 	/**
 	 * Импорт фильмов по списку ссылок
@@ -1001,6 +1047,37 @@ if (!empty($this->params['named']['is_license']))
             //$pagination['Film']['group'] = 'Film.id';
             $search = (!empty($this->params['named']['search'])) ? trim($this->params['named']['search']) : '';
 
+            function transStarChars($txt)
+            {
+            	$result = '';
+				$t = array('е','и','о','а','д','т','ё','б','п','з','с','ь','ж','ъ','ш','щ','ц');
+
+				$t1 = array();//массив в верхнем регистре
+				foreach ($t as $key => $value)
+					$t1[mb_strtoupper($key)] = mb_strtoupper($value);
+
+				$searchCnt = mb_strlen($txt);
+				for($i = 0; $i < $searchCnt; $i++)
+				{
+					$c = mb_substr($txt, $i, 1);
+					if (in_array($c, $t))
+					{
+						$result .= '*';
+						continue;
+					}
+					elseif (in_array($c, $t1))
+					{
+						$result .= '*';
+						continue;
+					}
+					else
+					{
+						$result .= $c;
+					}
+				}
+				return $result;
+            }
+
 			function transCyrChars($txt, $reverse = false)
 			{
 				$result = '';
@@ -1064,8 +1141,6 @@ if (!empty($this->params['named']['is_license']))
 
             if ($translit == $search)
             	$translit = '';
-
-            $this->_logSearchRequest($search);
 
             $sort = ', hits DESC';
             if (!empty($this->params['named']['sort']))
@@ -1140,11 +1215,14 @@ echo'</pre>';
 
 		if ($films === false)//ЕСЛИ ЕЩЕ НЕ КЭШИРОВАЛИ
 		{
+
+			//$starSearch = transStarChars($search);
+            //$pagination['Film']['search'] = $starSearch;
     		$films = $this->Film->find('all', $pagination["Film"]);
-    		//*
 
     		if (empty($films))
     		{
+
     			if (!empty($translit))
     			{
     				if (!isset($this->params['named']['istranslit']))
@@ -1173,8 +1251,16 @@ echo'</pre>';
 			    		//$this->Transtat->useDbConfig = 'productionMedia';
 			    		$this->Transtat->create();
 			    		$this->Transtat->save($transData);
+
+			    		if (!empty($search))
+		    				$this->_logSearchRequest($search);//В ЛОГ ПОИСКОВЫХ ЗАПРОСОВ ПИШЕМ НЕТРАНСЛИРОВАННЫЙ ЗАПРОС
 		    		}
 	    		}
+			}
+			else
+			{
+	    		if (!empty($search))
+	    			$this->_logSearchRequest($search);//В ЛОГ ПОИСКОВЫХ ЗАПРОСОВ ПИШЕМ ТОЛЬКО ПРИ НАЛИЧИИ РЕЗУЛЬТАТОВ ПОИСКА
 			}
     		//*/
 
@@ -1714,6 +1800,8 @@ echo'</pre>';
 
 			$ch = curl_init();
 			$q = urlencode($film['Film']['title'] . ' ' . __('download', true));
+//$q = urlencode("'atrn ,fjxrb");
+
 			curl_setopt($ch, CURLOPT_URL, "http://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=$q&rsz=large&hl=ru");
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 			curl_setopt($ch, CURLOPT_REFERER, Configure::read("App.siteUrl"));
@@ -2252,7 +2340,7 @@ echo'</pre>';
         		}
 
         		$postData['Vbpost']['username'] = $uuConverter->utfToUnicode($this->authUser['username']);
-	        	$postData['Vbpost']['userid'] = $this->authUser['userid'];;
+	        	$postData['Vbpost']['userid'] = $this->authUser['userid'];
 	        	$postData['Vbpost']['pagetext'] = Utils::stripUbbTags(strip_tags($uuConverter->utfToUnicode(Utils::stripUbbTags($this->data['Vbpost']['pagetext']))));
 	        	$postData['Vbpost']['dateline'] = time()+1;
         		$postAll[] = $postData;
@@ -2408,7 +2496,7 @@ echo'</pre>';
 	/**
 	 * отправка сообщения об ошибке определения географического местоположения пользователя
 	 *
-	 * @param string $action - тип лействия
+	 * @param string $action - тип действия
 	 */
 	function geoerr($action = '')
 	{

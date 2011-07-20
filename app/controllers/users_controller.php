@@ -5,9 +5,52 @@ class UsersController extends AppController
     var $name = 'Users';
     var $helpers = array('Html' , 'Form');
     var $components = array('Captcha' , 'Email', 'ControllerList');
-    var $uses = array('User', 'Group', 'UserActivation', 'Useragreement',
+    var $uses = array('User', 'Group', 'UserActivation', 'Useragreement', 'Userlottery', 'Pay', 'Usermessage',
+    'Vbpost',
 //    'DleUser'
     );
+
+	/**
+	 * модель пользователей
+	 * @var AppModel
+	 */
+    public $User;
+
+	/**
+	 * модель групп
+	 * @var AppModel
+	 */
+    public $Group;
+
+	/**
+	 * модель активации пользователей
+	 * @var AppModel
+	 */
+    public $UserActivation;
+
+	/**
+	 * модель учета пользовательского соглашения
+	 * @var AppModel
+	 */
+    public $Useragreement;
+
+	/**
+	 * модель пользовательские лотереи
+	 * @var AppModel
+	 */
+    public $Userlottery;
+
+	/**
+	 * модель платежи
+	 * @var AppModel
+	 */
+    public $Pay;
+
+	/**
+	 * модель сообщения
+	 * @var AppModel
+	 */
+    public $Usermessage;
 
     function beforeFilter()
     {
@@ -104,8 +147,23 @@ if ($this->data["User"]["username"] == 'vanoveb')
 	                                         '>',
 	                    /*subj*/Configure::read('App.siteName') . ' - ' . __('New account', true),
 	                    /*body*/__('Your Login', true) . ": username: " . $userInfo['User']['username'] . "\n " . __('Register confirmation link', true) . ":\n" . Configure::read('App.siteUrl') . "users/confirm/" . $activation_token . "\n\n \n" . Configure::read('App.siteName') . " Robot");
-	            		$this->redirect('/users/login');
-	            		return;
+	            		//$this->redirect('/users/login');
+	            		if (!empty($this->authUser['userid']))
+	            		{
+					        if (!empty($this->data['User']["redirect"]))
+					        {
+					//echo 'REDIRECT to "'. $_POST["redirect"] .'"';
+					//exit;
+								if (strpos($this->data['User']["redirect"], 'users/login') || strpos($this->data['User']["redirect"], 'users/register'))
+									$this->data['User']["redirect"] = '/users/office';
+					        }
+							else
+								$this->data['User']["redirect"] = '/users/office';
+	            		}
+	            		else
+							$this->data['User']["redirect"] = '/users/login';
+			        	$this->redirect($this->data['User']["redirect"]);
+			            return;
 		            }
 	            }
        		}
@@ -149,7 +207,8 @@ if ($this->data["User"]["username"] == 'vanoveb')
             {
             	if ($_POST["securitytoken"] != 'guest')
             	{
-	            	$this->redirect('/forum/index.php');
+	            	//$this->redirect('/forum/index.php');
+	            	$this->redirect('/users/office');
 	            	return;
             	}
             }
@@ -169,6 +228,15 @@ if ($this->data["User"]["username"] == 'vanoveb')
             unset($this->data['User']['password']);
             return;
         }
+
+        if (!empty($this->data['User']["redirect"]))
+        {
+//echo 'REDIRECT to "'. $_POST["redirect"] .'"';
+//exit;
+        	$this->redirect($this->data['User']["redirect"]);
+            return;
+        }
+
         if (empty($this->data) && !$this->authUser['userid'])
         {
             $this->_checkLoginCookie(true);
@@ -179,6 +247,254 @@ if ($this->data["User"]["username"] == 'vanoveb')
         unset($this->data['User']['password']);
     }
 
+    /**
+     * Заявка на удаление аккаунта
+     *
+	 * @param string $action - тип действия
+     */
+    public function drop($action = '')
+    {
+    	if ($this->authUser['userid'])
+    	{
+			switch ($action)
+			{
+				case "send": //ДЕЙСТВИЕ ОТПРАВКИ ПИСЬМА АДМИНУ
+					Configure::write('debug', 1);
+					$geoPlace = '';
+
+					$to = 'support@videoxq.com';
+					$this->_sendEmail($this->authUser['email'], $to, 'Заявка на удаление аккаунта', strip_tags($this->data['msg']));
+
+				break;
+				default:
+					//ВЫВОД ФОРМЫ
+
+			}
+    	}
+		$this->set('action', $action);
+    }
+
+    /**
+     * генерировать уникальный код(лот) для участия в лотерее
+     *
+     * @param mixed $params - параметры, участвующие в генерации кода
+     * @return string
+     */
+    function getLotteryCode($params)
+    {
+    	return strtoupper(substr(md5(implode('', $params)), 0, 15));
+    }
+
+//РОЗЫГРЫШ ПРИЗОВ
+	function lottery($id = 0, $action = '')
+	{
+		if ((!empty($this->authUser['userid'])) && !empty($_POST['lottery_id']))//РЕГИСТРАЦИЯ УЧАСТИЯ В РОЗЫГРЫШЕ
+		{
+			$ip = $_SERVER['REMOTE_ADDR'] . rand(0, 100);
+			$lotteryId = intval($_POST['lottery_id']);
+			$dup = $this->Userlottery->find(array('Userlottery.ip' => $ip, 'Userlottery.lottery_id' => $lotteryId));
+			if (empty($dup))//ЕСЛИ С ЭТОГО IP НЕ РЕГИСТРИРОВАЛИСЬ
+			{
+				$action = 'info';
+				$code = $this->getLotteryCode(array($this->authUser['userid'], $ip, $lotteryId));
+				$bidInfo = array();
+				$data = array('Userlottery' =>
+					array(
+						'id'			=> NULL,
+						'user_id'		=> $this->authUser['userid'],
+						'lottery_id'	=> $lotteryId,
+						'ip'			=> $ip,
+						'unique_code'	=> $code,
+				));
+				if (!empty($_POST['bid_username']))
+				{
+					$bidUser = $this->User->find(array('User.email' => $_POST['bid_username']));
+					if (!empty($bidUser))
+					{
+						$bidData = $data;
+						$bidData['Userlottery']['inv_user_id'] = $this->authUser['userid'];
+						$bidData['Userlottery']['user_id'] = $bidUser['User']['userid'];
+						$bidData['Userlottery']['unique_code'] = $this->getLotteryCode(array($bidUser['User']['userid'], $ip, $lotteryId));
+						//ДОБАВЛЯЕМ ЕЩЕ ШАНС ПРИГЛАСИВШЕМУ
+						$this->Userlottery->create();
+						$this->Userlottery->save($bidData);
+
+						$data['Userlottery']['bid_user_id'] = $bidUser['User']['userid'];
+					}
+				}
+				$this->Userlottery->create();
+				$this->Userlottery->save($data);//РЕГИСТРИРУЕМ УЧАСТИЕ
+			}
+		}
+/*
+pr($data);
+pr($bidData);
+exit;
+*/
+		$lotteryData = array();
+		$inviteUsers = array();
+		if (empty($id))
+		{
+			if (!empty($this->curLottery['Lottery']['id']))
+			{
+				$id = $this->curLottery['Lottery']['id'];
+			}
+		}
+
+		$lotteryChances = array();
+		if (!empty($id))
+		{
+			$lotteryData = $this->Lottery->read(null, $id);
+
+			if (!empty($this->authUser['userid']))
+			{
+				$winnerLot = 0;
+				$lotteryChances = $this->Userlottery->findAll(array('Userlottery.lottery_id' => $id, 'Userlottery.user_id' => $this->authUser['userid']));
+				if (!empty($lotteryChances))
+				{
+					foreach ($lotteryChances as $lC)
+					{
+						if (!empty($lC['Userlottery']['inv_user_id']))
+						{
+							$inviteUsers[] = $lC['Userlottery']['inv_user_id'];
+						}
+						if (!empty($lC['Userlottery']['winner']))
+						{
+							$winnerLot = $lC['Userlottery']['unique_code'];
+						}
+					}
+					$inviteUsers = $this->User->findAll(array('User.userid' => $inviteUsers));
+				}
+
+				if (!empty($winnerLot) && ($action == 'getprize'))
+				{
+//ОТПРАВКА ПИСЬМА ПОБЕДИТЕЛЮ
+					Configure::write('debug', 1);
+			        $result = $this->_sendEmail(/*from*/Configure::read('App.mailFrom'),
+                    /*to  */$this->authUser['username'] .
+                    '<' .
+                    $this->authUser['email'] .
+                                         '>',
+                    /*subj*/Configure::read('App.siteName') . ' - ' . __('get the prize', true),
+                    /*body*/
+                    __('Hi', true) . ', ' . $this->authUser['username'] . "!\n\n" .
+                    __("Lottery", true) . ' "' . $lotteryData['Lottery']['hd'] . '"' . "\n\n" .
+                    __('Congratulations! You Win!', true) . "\n\n" .
+                    __('lot of winning', true) . ' - ' . $winnerLot . "!\n\n" .
+"подробная инструкция: что рапечатать куда идти и что взять с собой" .
+                    "\n\n \n" . Configure::read('App.siteName') . " Robot");
+		            $this->Session->setFlash(__('Инструкция по получению приза отправлена вам на электронную почту!', true));
+            		$this->redirect('/users/lottery/' . $lotteryData['Lottery']['id']);
+				}
+
+			}
+			/*
+			if (empty($lotteryChances))
+			{
+				$action = 'rules';
+			}
+			else
+			{
+				$action = 'info';//ИНФОРМАЦИИ ДЛЯ УЧАСТНИКА
+			}
+
+			switch ($action)
+			{
+				case "info":
+
+				break;
+			}
+			*/
+		//СТАТИСТИКА ПОСТОВ
+			$userPostsCnt = $this->Vbpost->getFilmsCommentsCnt($this->authUser['userid']);
+			$this->set('userPostsCnt', $userPostsCnt);
+
+		//СТАТИСТИКА ПРИГЛАШЕННЫХ
+			if (!empty($this->curLottery))
+			{
+				$userInvitesCnt = $this->Userlottery->getInvitesCnt($id, $this->authUser['userid']);
+				$this->set('userInvitesCnt', $userInvitesCnt);
+			}
+		}
+		$this->set('inviteUsers', $inviteUsers);
+		$this->set('lotteryData', $lotteryData);
+		$this->set('curLottery', $this->curLottery);
+		$this->set('lotteryChances', $lotteryChances);
+		$this->set('inLottery', $this->inLottery);
+		$this->set('action', $action);
+	}
+
+//ЛИЧНЫЙ КАБИНЕТ
+	function office($action = '')
+	{
+		if (!empty($this->authUser['userid']))
+		{
+			switch ($action)
+			{
+				default: //СБОР СТАТИСТИКИ ДЛЯ ЛИЧНОГО КАБИНЕТА
+		//ПОДТВЕРЖДЕНИЕ ЭЛЕКТРОННОГО АДРЕСА
+				if ($this->authUser['usergroupid'] == 3) //NOT CONFIRMED
+				{
+					//EMAIL не подвтержден
+				}
+
+		//СОГЛАСИЕ С ПОЛЬЗОВАТЕЛЬСКИМ СОГЛАШЕНИЕМ
+				if ($this->authUser['agree'])
+				{
+					//СОГЛАСЕН
+				}
+
+		//СВЯЗЬ С ГЕО-РЕГИОНОМ/ГОРОДОМ
+				if (!empty($geoInfo))
+				{
+	        		//$geoInfo['city'] = $cityInfo['Geocity']['name'];
+		        	//$geoInfo['region'] = $regionInfo['Georegion']['name'];
+				}
+
+		//ПЛАТЕЖИ
+				$payList = $this->Pay->findAll(array('Pay.user_id' => $this->authUser['userid'], 'Pay.status' => _PAY_DONE_), null, 'Pay.created DESC');
+				$this->set('payList', $payList);
+
+		//УЧАСТИЕ В ЛОТЕРЕЯХ
+				$userLotteries = $this->Userlottery->findAll(array('Userlottery.user_id' => $this->authUser['userid']));
+				$this->set('userLotteries', $userLotteries);
+				$lotteryList = $this->Lottery->findAll(array('Lottery.hidden' => 0), null, 'Lottery.created DESC');
+				$this->set('lotteryList', $lotteryList);
+				//$this->curLottery;//инфо об актуальном розыгрыше
+
+		//СТАТИСТИКА ПОСТОВ
+				$userPostsCnt = $this->Vbpost->getFilmsCommentsCnt($this->authUser['userid']);
+				$this->set('userPostsCnt', $userPostsCnt);
+
+		//СТАТИСТИКА ПРИГЛАШЕННЫХ
+				if (!empty($this->curLottery))
+				{
+					$userInvitesCnt = $this->Userlottery->getInvitesCnt($this->curLottery['Lottery']['id'], $this->authUser['userid']);
+					//$userInvitesCnt = $this->Userlottery->getInvitesCnt(2, $this->authUser['userid']);
+					$this->set('userInvitesCnt', $userInvitesCnt);
+				}
+
+		//ЛИЧНЫЙ СООБЩЕНИЯ
+			//ПОСЛЕДНИЕ
+				$userMessages = $this->Usermessage->findAll(array('Usermessage.hidden' => 0, array('OR' => array(array('Usermessage.to_id' => $this->authUser['userid']), array('Usermessage.from_id' => $this->authUser['userid'])))), null, null, 5);
+			//СКОЛЬКО НОВЫХ
+				$newMessages = $this->Usermessage->findAll(array('Usermessage.is_new' => 1, 'Usermessage.to_id' => $this->authUser['userid']), array('Usermessage.id'));
+			//ЧЕРНОВИКИ
+				$editMessages = $this->Usermessage->findAll(array('Usermessage.hidden' => 1, 'Usermessage.from_id' => $this->authUser['userid']));
+				$this->set('userMessages', $userMessages);
+				$this->set('newMessages', $newMessages);
+				$this->set('editMessages', $editMessages);
+
+		//ИЗБРАННОЕ (МОЕ ВИДЕО)
+				$userVideos = array();
+				$this->set('userVideos', $userVideos);
+			}
+		}
+		else
+		{
+			$this->redirect('/users/login');
+		}
+	}
 
     function logout()
     {
@@ -272,7 +588,8 @@ if ($this->data["User"]["username"] == 'vanoveb')
             return;
         }
         $user = $this->Vb->createUser($this->data['User']['username'], $this->data['User']['password'],
-                              $this->data['User']['email'], true, true, 2);//!!! ЮЗЕР СОЗДАЕТСЯ БЕЗ ПОДТВЕРЖДЕНИЯ (ПОСЛЕДНИЙ ПАРАМЕТР = 2 НУЖНО УДАЛИТЬ, ЧТОБЫ ТРЕБОВАЛОСЬ ПОДТВЕРЖДЕНИЕ)
+//                              $this->data['User']['email'], true, true, 2);//!!! ЮЗЕР СОЗДАЕТСЯ БЕЗ ПОДТВЕРЖДЕНИЯ (ПОСЛЕДНИЙ ПАРАМЕТР = 2 НУЖНО УДАЛИТЬ, ЧТОБЫ ТРЕБОВАЛОСЬ ПОДТВЕРЖДЕНИЕ)
+                              $this->data['User']['email'], true, true);
 
         if (empty($user))
         {
@@ -441,26 +758,46 @@ if ($this->data["User"]["username"] == 'vanoveb')
     //
     function confirm($activationToken = '')
     {
+		if (empty($this->authUser['userid']))
+		{
+			$this->redirect('/users/login');
+			return;
+		}
 
-        if ($activationToken === '')
-            $this->redirect('register');
+		$data = false;
+		if ($activationToken)
+		{
+    		$data = $this->UserActivation->findByActivationid($activationToken);
+		}
+        if (($activationToken === '') || (!$data))
+        {
+	        $activation_token = $this->Vb->createActivationId($this->authUser['userid'], 3);
 
-        if (!($data = $this->UserActivation->findByActivationid($activationToken)))
-            $this->redirect('register');
+			Configure::write('debug', 1);
+	        $result = $this->_sendEmail(/*from*/Configure::read('App.mailFrom'),
+            /*to  */$this->authUser['username'] .
+            '<' .
+            $this->authUser['email'] .
+                                 '>',
+            /*subj*/Configure::read('App.siteName') . ' - ' . __('Confirm account', true),
+            /*body*/__('Your Login', true) . ": username: " . $this->authUser['username'] . "\n " . __('Register confirmation link', true) . ":\n" . Configure::read('App.siteUrl') . "users/confirm/" . $activation_token . "\n\n \n" . Configure::read('App.siteName') . " Robot");
 
+        }
+        else
+        {
         // Activate user account
 
+	        $user = array();
+	        $user['User']['usergroupid'] = $data['UserActivation']['usergroupid'];
+	        $user['User']['userid'] = $data['UserActivation']['userid'];
 
-        $user = array();
-        $user['User']['usergroupid'] = $data['UserActivation']['usergroupid'];
-        $user['User']['userid'] = $data['UserActivation']['userid'];
+	        $this->User->save($user);
+	        $user = $this->User->read();
+	        $this->UserActivation->removeActivation($activationToken);
 
-        $this->User->save($user);
-        $user = $this->User->read();
-        $this->UserActivation->removeActivation($activationToken);
-
-        $this->Session->setFlash(sprintf(__('Account %s confirmed. Please login.', true), $user['User']['username']));
-        $this->redirect('login');
+	        $this->Session->setFlash(sprintf(__('Account %s confirmed. Please login.', true), $user['User']['username']));
+	        $this->redirect('login');
+        }
     }
     //
     // Generates captcha image

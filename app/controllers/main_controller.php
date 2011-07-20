@@ -31,6 +31,7 @@ class MainController extends AppController {
       'OzonProduct'
       );
      */
+    
     private function film_list() {
         Configure::write('debug', 0);
         $films = array();
@@ -113,27 +114,16 @@ class MainController extends AppController {
     function GetCatNews($pos) {
         $lang = $this->Session->read("language");
         $view = new View($this, false);
-        $dirs = $this->Direction->findAll(array('Direction.hidden' => 0), null, 'Direction.srt DESC');
-        reset($dirs);
-        while ($pos > 0) {
-            if (count($dirs) <= $pos)
-                return null;
-            next($dirs);
-            $pos--;
-        }
-        $dir = current($dirs);
-        $dir_id = $dir['id'];
-        $conditions = array('News.hidden' => 0);
-        if (!empty($dir_id))
-            $conditions['News.direction_id'] = $dir_id;
-        $lst = $this->News->findAll($conditions, null, 'News.created DESC', '3');
+        $dir=array();
+        $lst = $this -> News ->GetCatNews($pos,$dir);
+        $view->set('dir',$dir);
         return $this->GetView($view, 'block/catnews', 'news', $lst);
     }
 
     function index() {
         $this->set('block_films', $this->GetFilms());
         $this->set('block_left_news', $this->GetCatNews(0));
-        $this->set('block_right_news', $this->GetCatNews(1));
+        $this->set('block_left_news_B', $this->GetCatNews(1));
         //$this->set('block_films','test');
         // $this->render(false);
         $this->autoRender = true;
