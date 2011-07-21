@@ -7816,8 +7816,29 @@ msgstr "Расширенный поиск"
 msgid "Downloads"
 msgstr "Загрузки"
 
+msgid "Office"
+msgstr "Личный кабинет"
+
+msgid "You are not accepted user agreement"
+msgstr "Вы не приняли условия пользовательского соглашения"
+
+msgid "You are accepted user agreement"
+msgstr "Вы приняли условия пользовательского соглашения"
+
+msgid "Reject and delete my account"
+msgstr "Отказаться и удалить мой аккаунт"
+
+msgid "Confirm registration"
+msgstr "Подтвердите регистрацию"
+
+msgid "Registration is not confirmed"
+msgstr "Регистрация не подтверждена"
+
 msgid "Login exists Registration not confirmed"
-msgstr "Данный логин зарегистрирован, но регистрация не подтверждена. отправлено повторное письмо со ссылкой на подтверждение регистрации."
+msgstr "Данный логин зарегистрирован, но регистрация не подтверждена.<br />Отправлено повторное письмо со ссылкой на подтверждение регистрации."
+
+msgid "Check your email for register confirmation link. When confirm site registration."
+msgstr "На ваш электронный адрес отправлено повторное письмо со ссылкой на подтверждение регистрации."
 
 msgid "Your Login"
 msgstr "Ваш логин"
@@ -8490,3 +8511,57 @@ msgstr "Оплата по карте СТК"
 
 msgid "Payment failed"
 msgstr "Сервер сообщает об ошибке оплаты"
+
+msgid "Participation in lotteries"
+msgstr "Участие в лотереях (розыгрышах)"
+
+msgid "Acting lottery"
+msgstr "Действующая лотерея (розыгрыш)"
+
+msgid "complete"
+msgstr "завершено"
+
+msgid "act now"
+msgstr "действует сейчас"
+
+msgid "you win"
+msgstr "вы выиграли"
+
+msgid "lot of winning"
+msgstr "лот выигрыша"
+
+msgid "Participate in the lottery"
+msgstr "Принять участие в лотерее(розыгрыше)"
+
+msgid "You are already in lottery"
+msgstr "Вы уже участвуете"
+
+msgid "Your lots"
+msgstr "Ваши лоты"
+
+msgid "Congratulations! You Win!"
+msgstr "Поздравляем! Вы выиграли!"
+
+msgid "Projects"
+msgstr "Наши проекты"
+
+msgid "get the prize"
+msgstr "получить приз"
+
+msgid "Available online only"
+msgstr "Доступно только для онлайн просмотра"
+
+msgid "Your message has been sent"
+msgstr "Ваше сообщение отправлено"
+
+msgid "Delete account order"
+msgstr "Заявка на удаление аккаунта"
+
+msgid "Sent"
+msgstr "Отправить"
+
+msgid "Please, delete my account from this site"
+msgstr "Пожалуйста, удалите мой аккаунт на этом сайте"
+
+msgid "specify the reason"
+msgstr "укажите причину"
