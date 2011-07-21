@@ -502,7 +502,7 @@ class Film extends MediaModel {
                 }
                 else
                 {
-                	$film['active'] = 2;//НОВЫЕ СКРЫВАЕМ (ДЛЯ ПОСТЕПЕННОЙ ПУБЛИКПЦИИ В ПОСЛЕДУЮЩЕМ)
+                	$film['active'] = 2;//НОВЫЕ СКРЫВАЕМ (ДЛЯ ПОСТЕПЕННОЙ ПУБЛИКАЦИИ В ПОСЛЕДУЮЩЕМ)
                 }
                 $save = am(array($this->name => $film), $country, $publisher, $genre, $people);
 
