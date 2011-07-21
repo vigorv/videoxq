@@ -10,7 +10,7 @@ class AppController extends Controller {
     var $helpers = array('Javascript', 'Html', 'Form'/* , 'Validation' */, 'App', 'Ajax', 'PageNavigator');
 //    var $uses = array('User', 'Bookmark', 'Film');
     var $uses = array(
-        'User', 'Zone', 'Server', 'Page',
+        'User', 'Zone', 'Server', 'Page','UserLoginza',
         'Bookmark', 'Film', 'Pay', 'Geoip', 'Geocity', 'Georegion', 'Useragreement', 'Userlottery', 'Lottery');
     var $blocksData = array();
     var $blockContent;
@@ -705,18 +705,26 @@ LIMIT 1';
             return;
         if (empty($_REQUEST['token']))
             return;
-        
+
         $token = filter_var($_REQUEST['token'], FILTER_SANITIZE_STRING);
-        
-        $url = 'http://loginza.ru/api/authinfo?token='.$token;
+
+        $url = 'http://loginza.ru/api/authinfo?token=' . $token;
         $res = file_get_contents($url);
-        if($res){
+        if ($res) {
             $res = json_decode($res);
-            //$this->User->find('')
+
+            if ($this->UserLoginza->LoginzaCheck($res)) {
+                $user_id = $this->UserLoginza->find();
+                if ($user_id) {
+                    $this->UserLoginza->login($user_id);
+                } else {
+                    $this->UserLoginza->NewUserByProvider($res);
+                }
+            }
+            //'$this->User->find();
             print_r($res);
-            
         }
-        
+
         if (false) {
             $auth = $this->Auth2->login();
             if ($auth) {
