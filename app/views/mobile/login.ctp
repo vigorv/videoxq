@@ -1,25 +1,22 @@
-<div class="contentCol">
-<h2><?php __("Auth"); ?></h2>
-<?php
-//$html->css('style', null, array(), false);
-echo $form->create('User', array('action' => 'login' , 'class' => 'reg'));
-?>
-<p><label for="UserUsername"><?php __("Your Login"); ?><em class="required">*</em> :</label><br>
-<?php //echo $form->error('username'); ?>
-<?php echo $form->text('username', array('class' => 'textInput')); ?>
-</p>
-<p><label for="UserPassword"><?php __("Your Password"); ?><em class="required">*</em> :</label><br>
-<?php //echo $form->error('password'); ?>
-<?php echo $form->password('password', array('class' => 'textInput')); ?>
-<input type="hidden" name="data[User][remember_me]" value="1" id="UserRememberMe" />
-</p>
-<br>
-<?php
-echo $form->end(__("Sign In", true));
-?>
-<p><a href=/users/restore><?php __("Forgot password"); ?>?</a></p>
-</div>
 
+<form action="/users/login" id="loginform" class="form" method="post">
+    <input type="hidden" name="redirect" value="/mobile/profile"/>
+    <input type="hidden" value="/mobile/profile" name="data[User][redirect]">
+
+    <input type="hidden" value="1" name="data[User][remember_me]"/>
+    <li>
+        <input type="text" placeholder="<?= __('Login', true); ?>" tabindex="1"  name="data[User][username]"/>
+    </li>
+    <li>
+        <input type="password" placeholder="<?= __('Password', true); ?>" tabindex="1"  name="data[User][password]"/>
+    </li>
+
+    <p>
+        <input id="submit_button" type="submit"  tabindex="2" id="search-submit-hidden" name="submit" value="<?= __('Auth', true); ?>"/>
+    </p>
+</form>
+
+<li>
 <script src="http://loginza.ru/js/widget.js" type="text/javascript"></script>
     Также Вы можете войти используя:
     <a href="https://loginza.ru/api/widget?token_url=<?= Router::url($this->here, true); ?>" class="loginza">
@@ -33,3 +30,9 @@ echo $form->end(__("Sign In", true));
         <img src="http://loginza.ru/img/providers/openid.png" alt="OpenID" title="OpenID">
         <img src="http://loginza.ru/img/providers/webmoney.png" alt="WebMoney" title="WebMoney">
     </a>
+
+</li>
+
+
+
+

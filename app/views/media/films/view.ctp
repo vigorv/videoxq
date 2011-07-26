@@ -23,7 +23,7 @@ $SQTypes = array(
 );
 
 $mobTypes = array(
-	11	=>	'270p'
+	13	=>	'270p'
 );
 
 $webTypes = array(
@@ -474,13 +474,15 @@ $divxContent	= '';
 
 $FilmVariant[] = array('video_type_id' => 9);
 $FilmVariant[] = array('video_type_id' => 2);
-$FilmVariant[] = array('video_type_id' => 11);
+$FilmVariant[] = array('video_type_id' => 13);
 $FilmVariant[] = array('video_type_id' => 12);
 
 //pr($FilmVariant);
 $panelLinksCnt = array();
 foreach ($FilmVariant as $variant)
 {
+//echo $variant['video_type_id'] . ' ';
+
 	if (!empty($variant['FilmFile']))
 	{
 
@@ -501,40 +503,37 @@ foreach ($FilmVariant as $variant)
 	}
 	if (!isset($variant['Track']['audio_info']))
 		$variant['Track']['audio_info'] = $audio_info;
-?>
-<h4><?php __('Quality');?> <?= $variant['VideoType']['title'] ?><br />
-<?php
+
+	$mediaInfo = '<br />';
+
+	$mediaInfo .= '<h4>' . __('Quality', true) . ' ' . $variant['VideoType']['title'] . '<br />';
 	if ($lang != _ENG_)
 	{
-?>
-Перевод: <?= $variant['Track']['Language']['title'] . ', ' . $variant['Track']['Translation']['title'] ?><br>
-<?php
+		$mediaInfo .= 'Перевод: ' . $variant['Track']['Language']['title'] . ', ' . $variant['Track']['Translation']['title'] . '<br>';
 	}
-if (!empty($authUser['userid']) || $isWS)
-{
-?>
-<?php __('Video'); ?>: <?= $variant['resolution'] ?><br>
-<?php
-	$variant['Track']['audio_info'] = str_replace('stereo', '2ch stereo', $variant['Track']['audio_info']);
-	$variant['Track']['audio_info'] = str_replace('стерео', '2ch stereo', $variant['Track']['audio_info']);
-	echo __('Audio', true) . ': ' . $variant['Track']['audio_info'] . '<br />';
 
-	$language		= $variant['Track']['Language']['title'];
-	$translation	= $variant['Track']['Translation']['title'];
-	$audio_info		= $variant['Track']['audio_info'];
-?>
-<?php __('Duration'); ?>: <?= $variant['duration'] ?>
-<?php
-}
-else
-{
-?>
-<a href="#" title="<?php __('Available only to registered users');?>"><?php __('more');?>...</a>
-<?php
-}
-?>
-</h4>
-<?php
+	if (!empty($authUser['userid']) || $isWS)
+	{
+		$mediaInfo .= __('Video', true) . ': ' . $variant['resolution'] . '<br />';
+		$variant['Track']['audio_info'] = str_replace('stereo', '2ch stereo', $variant['Track']['audio_info']);
+		$variant['Track']['audio_info'] = str_replace('стерео', '2ch stereo', $variant['Track']['audio_info']);
+		$mediaInfo .= __('Audio', true) . ': ' . $variant['Track']['audio_info'] . '<br />';
+
+		$language		= $variant['Track']['Language']['title'];
+		$translation	= $variant['Track']['Translation']['title'];
+		$audio_info		= $variant['Track']['audio_info'];
+		$mediaInfo .= __('Duration', true) . ': ' . $variant['duration'];
+
+	}
+	else
+	{
+
+		$mediaInfo .= '<a href="#" title="' . __('Available only to registered users', true) . '">' . __('more', true) . '...</a>';
+
+	}
+
+	$mediaInfo .= '</h4>';
+
 		if (!empty($authUser['userid']))
 		{
 			if ($isVip || $isWS) //ДЛЯ ВИПОВ ВВОДИМ УПРАВЛЕНИЕ ВИДИМОСТЬЮ ПЛЕЕРА
@@ -666,75 +665,103 @@ if (count($variant['FilmFile']) > 0)
 	{
 		$msg = msgBox('Данный фильм находится в общественном достоянии. Скачивание и хранение фильма не преследуется по закону.');
 	}
-	$panelContent = '
-		<br /><h3>' . __('Files List', true) . '</h3>
-		' . $msg . '
-		<table class="fileList">
-    	<tr>
-        	<td class="action" style="padding-left:20px">
-	';
-    if ($numFiles != count($variant['FilmFile']))
-    {
-        $img = __('AddToBasket', true);
-        $action = 'add';
-    }
-    else
-    {
-        $img = __('RemoveFromBasket', true);
-        $action = 'delete';
-    }
-    if ($authUser['userid'] > 0):
-        $panelContent .= $html->link($img, '/basket/' . $action . '/' . $variant['id'] . '/variant', array('onclick' => 'basket('.$variant['id'].', \'variant\', this);return false;','id' => 'variant_' . $variant['id'], 'alt' => __('Add to download list', true)), false, false);
-    endif;
 
-    $panelContent .= '</td>
-        <td class="size">' . $app->sizeFormat($total) . '</td>
-        <td class="title">' . __('All Files', true) . '</td>
-    	</tr>
-    ';
+	$panelContent = $mediaInfo;
+
+	if ($Film['just_online'])
+	{
+		$panelContent .= '
+			<br /><h3>' . __('Files List', true) . '</h3>
+			' . $msg . '
+			<table class="fileList">
+		';
+	}
+	else
+	{
+		$panelContent .= '
+			<br /><h3>' . __('Files List', true) . '</h3>
+			' . $msg . '
+			<table class="fileList">
+	    	<tr>
+	        	<td class="action" style="padding-left:20px">
+		';
+	    if ($numFiles != count($variant['FilmFile']))
+	    {
+	        $img = __('AddToBasket', true);
+	        $action = 'add';
+	    }
+	    else
+	    {
+	        $img = __('RemoveFromBasket', true);
+	        $action = 'delete';
+	    }
+	    if ($authUser['userid'] > 0):
+	        $panelContent .= $html->link($img, '/basket/' . $action . '/' . $variant['id'] . '/variant', array('onclick' => 'basket('.$variant['id'].', \'variant\', this);return false;','id' => 'variant_' . $variant['id'], 'alt' => __('Add to download list', true)), false, false);
+	    endif;
+
+	    $panelContent .= '</td>
+	        <td class="size">' . $app->sizeFormat($total) . '</td>
+	        <td class="title">' . __('All Files', true) . '</td>
+	    	</tr>
+	    ';
+	}
 }
     $playDisplay = 'none';  $linksCnt = 0; $hideVideo = '';
 	$msg = '';
-	if (($variant['FilmFile']) >= 3)
+	if (count($variant['FilmFile']) >= 3)
 	{
 		$msg = msgBox('Внимание! Вы можете скачивать не более 3(трех) файлов одновременно. Если вы пользуетесь менеджером закачек, пожалуйста, поставьте ограничение на скачивание не более, чем в 3(три) потока.');
-    	$msg = '<tr><td colspan="3" style="padding-left:30px">' . $msg . '</td></tr>';
+    	$msg = '<tr><td colspan="4" style="padding-left:30px">' . $msg . '</td></tr>';
 	}
 	$fileCnt = 0;
     foreach ($variant['FilmFile'] as $file)
     {
-        if (!in_array($file['id'], $basket))
-        {
-            $img = __('AddToBasket', true);
-            $action = 'add';
-        }
-        else
-        {
-            $img = __('RemoveFromBasket', true);
-            $action = 'delete';
-        }
-        $fileCnt++;
-    	$panelContent .= '
-    	<tr>
-        	<td class="action" style="padding-left:30px">
-		';
+    	if ($Film['just_online'])
+    	{
+	        //$href = __('Available only to registered users', true);
+	    	$panelContent .= '
+	    	<tr>
+	        	<td class="action" style="padding-left:30px"></td>
+	        	<td class="size"></td>
+		        <td class="title">
+			';
+    	}
+    	else
+    	{
+	        if (!in_array($file['id'], $basket))
+	        {
+	            $img = __('AddToBasket', true);
+	            $action = 'add';
+	        }
+	        else
+	        {
+	            $img = __('RemoveFromBasket', true);
+	            $action = 'delete';
+	        }
+	        $fileCnt++;
+	    	$panelContent .= '
+	    	<tr>
+	        	<td class="action" style="padding-left:30px">
+			';
 
-        if ($authUser['userid'] > 0):
-			$panelContent .= $html->link($img,
-                               '/basket/'. $action .'/' . $file['id'] . '/file',
-                                 array('onclick' => 'basket('.$file['id'].', \'file\', this);return false;',
-                                       'id' => 'file_' . $variant['id'] . '_' . $file['id']),
-                                 false, false);
-        else:
-            $panelContent .= '<img width="20" height="20" title="' . __('Add to download list', true) . ' (' . __('Available only to registered users', true) . ')" alt="' . __('Add to download list', true) . ' (' . __('Available only to registered users', true) . ')" src="/img/vusic/add.gif" />';
-        endif;
+	        if ($authUser['userid'] > 0):
+				$panelContent .= $html->link($img,
+	                               '/basket/'. $action .'/' . $file['id'] . '/file',
+	                                 array('onclick' => 'basket('.$file['id'].', \'file\', this);return false;',
+	                                       'id' => 'file_' . $variant['id'] . '_' . $file['id']),
+	                                 false, false);
+	        else:
+	            $panelContent .= '<img width="20" height="20" title="' . __('Add to download list', true) . ' (' . __('Available only to registered users', true) . ')" alt="' . __('Add to download list', true) . ' (' . __('Available only to registered users', true) . ')" src="/img/vusic/add.gif" />';
+	        endif;
 
-        $panelContent .= '
-        	</td>
-        	<td class="size">' . $app->sizeFormat($file['size']) . '</td>
-	        <td class="title">
-		';
-		$play = ''; $href = __('Available only to registered users', true);
+	        $panelContent .= '
+	        	</td>
+	        	<td class="size">' . $app->sizeFormat($file['size']) . '</td>
+		        <td class="title">
+			';
+	        $href = __('Available only to registered users', true);
+    	}
+		$play = '';
 		//if ($isVip) //ДЛЯ ВИПОВ ВВОДИМ УПРАВЛЕНИЕ ВИДИМОСТЬЮ ПЛЕЕРА
 //		if (!empty($authUser['userid']) || $isWS)
 		{
@@ -746,7 +773,14 @@ if (count($variant['FilmFile']) > 0)
 
 			$flowUrl = str_replace('/' . $letter . '/', ':82/' . $letter . '/', $recUrl);
 
-        	$href='<a onclick="return filmClk(' . $Film['id'] . ');" href="' . $recUrl . '">' . $file['file_name'] . '</a>&nbsp;';
+			if ($Film['just_online'])
+			{
+        		$href=__('Available online only', true) . '&nbsp;';
+			}
+			else
+			{
+        		$href='<a onclick="return filmClk(' . $Film['id'] . ');" href="' . $recUrl . '">' . basename($file['file_name']) . '</a>&nbsp;';
+			}
         	//$share = Film::set_input_share($Film['dir']);
 	    	$lnkInfo = pathinfo(strtolower(basename($file['file_name'])));
         	if (!empty($lnkInfo['extension']))
@@ -1152,7 +1186,7 @@ if (!empty($authUser['userid']) || $isWS)
 
 	if ($Film['is_license'])
 	{
-		$allPanels = array('sqpanel' => __('Standard definition video', true));
+		$allPanels = array('sqpanel' => __('Standard definition video', true), 'mobpanel' => __('Video Mobile', true));
 		$maxLinksPanel = 'sqpanel';
 	}
 	else

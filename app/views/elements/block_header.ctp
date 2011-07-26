@@ -38,7 +38,7 @@ if ($authUser['userid'] == 0)
     <input tabindex="1" name="data[User][username]" type="text" maxlength="100" id="UserUsername" class="textInput" /></p>
     <p><label for="UserPassword"><?php __("Password"); ?> (<a href="/users/restore"><?php __("Forgot password"); ?></a>):</label><br><input tabindex="2" type="password" name="data[User][password]" id="UserPassword" class="textInput" /></p>
     <input type="hidden" name="data[User][remember_me]" value="1" id="UserRememberMe" />
-    <input type="hidden" name="redirect" value="<?php $redirectUrl = explode('=', $_SERVER['QUERY_STRING']); if (count($redirectUrl) > 1) echo '/' . $redirectUrl[1]; ?>" id="loginRedirect" />
+    <input type="hidden" name="data[User][redirect]" value="<?php $redirectUrl = explode('=', $_SERVER['QUERY_STRING']); if (count($redirectUrl) > 1) echo '/' . $redirectUrl[1]; ?>" id="loginRedirect" />
 	<input type="image" class="button" alt="Войти" src="/img/login.gif" />
 </form>
 <?php
@@ -59,7 +59,7 @@ else
     }
 ?>
     	<div class="welcome">
-			<?php __("Hi"); ?>, <a href="<?= $app->getUserProfileUrl($authUser['userid']) ?>"><?= $authUser['username'] ?></a>
+			<?php __("Hi"); ?>, <a title="<?php __('Office');?>" href="/users/office"><?= $authUser['username'] ?></a>
             <?php
             if($pms>0)
             {

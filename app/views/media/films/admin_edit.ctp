@@ -1,11 +1,12 @@
 <div class="films form">
-<?php
-//@TODO: Было без массива, добавил эту дрянь временно чотбы разрулить
-echo $form->create('Film',array('url'=>'edit/'.$form->value('Film.id')))
-;?>
-    <fieldset>
-         <legend><?php __('Edit Film');?></legend>
     <?php
+//@TODO: Было без массива, добавил эту дрянь временно чотбы разрулить
+    echo $form->create('Film', array('url' => 'edit/' . $form->value('Film.id')))
+    ;
+    ?>
+    <fieldset>
+        <legend><?php __('Edit Film'); ?></legend>
+        <?php
         echo $form->input('id');
         echo $form->input('film_type_id');
         echo $form->input('title');
@@ -25,13 +26,14 @@ echo $form->create('Film',array('url'=>'edit/'.$form->value('Film.id')))
         echo $form->input('modified', array('timeFormat' => 24));
         echo $form->input('Country');
         echo $form->input('Genre');
-    ?>
+        ?>
     </fieldset>
-<?php echo $form->end('Submit');?>
+<?php echo $form->end('Submit'); ?>
 </div>
 <div class="actions">
     <ul>
-        <li><?php echo $html->link(__('Delete', true), array('action'=>'delete', $form->value('Film.id')), null, sprintf(__('Are you sure you want to delete # %s?', true), $form->value('Film.id'))); ?></li>
-        <li><?php echo $html->link(__('List Films', true), array('action'=>'index'));?></li>
+        <li><?php echo $html->link(__('Delete', true), array('action' => 'delete', $form->value('Film.id')), null, sprintf(__('Are you sure you want to delete # %s?', true), $form->value('Film.id'))); ?></li>
+        <li><?php echo $html->link(__('List Films', true), array('action' => 'index')); ?></li>
+        <li><?php echo $html->link(__('Add Variant', true), array('action' => 'add_variant', $form->value('Film.id')), null, null); ?></li>
     </ul>
 </div>

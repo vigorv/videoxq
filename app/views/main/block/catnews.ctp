@@ -1,6 +1,7 @@
 <?php
  if (!empty($news)) :?>
 <div class="contentColumnsAuto">
+    <h2><?=$dir['title'];?></h2>
     <?  foreach ($news as $l):
                 if (!empty($l['News']['img']))
 				$img = '<a href="/files/news/' . $l['News']['img'] . '" rel="fancybox" onclick="return stopdivx();"><img class="news_content_img"  height="120px" src="/files/news/' . $l['News']['img'] . '"></a>';

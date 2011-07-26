@@ -82,6 +82,7 @@ foreach ($films as $film):
     <ul>
         <li><?php echo $html->link(__('License List', true), array('action'=>'licenselist')); ?></li>
         <li><?php echo $html->link(__('Public List', true), array('action'=>'publiclist')); ?></li>
+        <li><?php echo $html->link(__('JustOnline', true), array('action'=>'justonline')); ?></li>
         <!--
         <li><?php echo $html->link(__('Import List', true), array('action'=>'importlist')); ?></li>
         -->

@@ -1,5 +1,5 @@
 <div class="contentColumns">
-<h2>FAQ</h2>
+<h2><?php echo $page['Page']['title']; ?></h2>
 <?php
     $javascript->link('jquery.fancybox-1.0.0', false);
     $javascript->link('jquery.pngFix', false);

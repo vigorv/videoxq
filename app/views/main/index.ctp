@@ -6,18 +6,20 @@
         <?=$block_films;?>
     </div>
     <?endif;?>
-    
+
+    <div class="block_clear">
     <?if(isset($block_left_news)):?>
     <div class="left_45">
         <?=$block_left_news?>
     </div>
     <?endif;?>
-    <?if(isset($block_right_news)):?>
-    <div class="right_45">
-        <?=$block_right_news?>
+    <?if(isset($block_left_news_B)):?>
+    <div class="left_45">
+        <?=$block_left_news_B?>
     </div>
     <?endif;?>
-    <div class="clearSnow"></div>
+    
+    </div>
     <?if(isset($block_authors)):?>
     <div class="sv_block">
         <?=$block_authors?>
