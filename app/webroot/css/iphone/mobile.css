@@ -1,0 +1,221 @@
+/* 
+    Document   : mobile.css
+    Created on : 07.07.2011, 10:38:30
+    Author     : snowing
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* 
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+
+
+body {
+    font-family: Helvetica;
+    margin:0;
+    padding: 0;
+    overflow-x:none;
+    
+    -webkit-user-select: none;
+    -webkit-text-size-adjust: none;
+}
+
+div#header{
+
+    height:45px;
+    width:100%;
+    top:0;left:0;
+    position:absolute;
+    text-align:center;
+    z-index:10;
+  }
+  
+  #iscroll{
+      width: 100%; position: absolute; top: 45px; bottom:0px;
+      /*overflow:scroll;*/
+      
+      
+  }
+
+  
+    
+
+
+#logo-icon{
+    top:0;
+    float:left;
+    height:30px;
+    left:9px;
+    margin:8px 6px 0;
+    width:30px;
+}
+
+#back_button{
+    float:left;
+    top: 5px;
+    left: 10px;
+    height:30px;
+    position: absolute;
+    color:white;
+    text-decoration:none;
+    font-size:32px;
+    z-index:1000;
+    display:none;
+}
+
+
+#menu_button{
+    float:right;
+    margin:7px 10px 0;
+    border:1px solid white;
+    padding:4px 3px;
+    text-decoration: none;
+}
+
+#menu-icon{
+    float:left;
+    height:30px;
+    width:30px;
+}
+
+div a#logo-title{
+    font: 25px "Helvetica-Bold",Helvetica,Geneva,Arial,sans-serif;
+    text-decoration: none;
+    overflow:hidden;
+    padding: 10px;
+    width:70%;
+    margin:auto;   
+    display:block;
+    
+    
+    position:relative;
+    white-space:nowrap;
+    letter-spacing: -1px;
+}
+
+.bar {
+    position:relative;
+    margin:0;
+    padding:7px 8px;
+    width:auto;
+    border:1px solid #111;
+    text-align:left;
+    clear:left;
+}
+
+.bar input#search-input {
+    border-style: solid;
+    border-width: 1px;
+    font-size: 12px;
+    font-weight: bold;
+    margin: 0;
+    padding: 5px;
+    text-align: left;
+    width: 90%;
+}
+
+.bar .button {
+    padding:0 10px;
+
+    font: 19px "Helvetica-Bold",Helvetica,Geneva,Arial,sans-serif;
+    text-align:left;
+}
+
+
+ul {
+
+
+    border: 1px solid #B4B4B4;
+    font: bold 17px Helvetica;
+    padding: 0;
+    margin:0;
+/*    margin: 15px 10px 17px;
+    -webkit-border-radius: 8px;*/
+}
+
+
+ul li {
+    list-style-type: none;
+    padding: 10px 10px 10px 10px;
+    clear:left;
+}
+
+/* when you have a first LI item on any list */
+
+li:first-child {
+  /*  border-top: 0;
+    -webkit-border-top-left-radius: 8px;
+    -webkit-border-top-right-radius: 8px; */
+}
+
+li:last-child {
+   /* -webkit-border-bottom-left-radius: 8px;
+    -webkit-border-bottom-right-radius: 8px; */
+}
+
+.text {
+    font-size: 14px;
+}
+
+.poster{
+    font-size:12px;
+    float:left;
+    padding:5px 15px 5px 0;
+}
+
+.form li{
+ text-align: center;    
+}
+
+.form li input{
+    width:98%;
+    border:0 none;
+    padding:2px 5px;
+    margin-left:0;    
+    text-align:left;
+}
+
+.form p {
+    text-align: center;
+    margin:0;
+    padding:4px 5px;
+    font-size:1.5em;
+    border-top: 1px solid #B4B4B4;
+}
+
+#submit_button{
+    border: 0 none;
+    background:none;
+    font-size:24px;
+}
+
+.news_content img{
+    margin:0 15px;
+}
+
+#loginform input    {
+    font-size:1.5em;
+}
+
+.clearfix{
+    clear: both;  content: ".";  display: block;  height: 0;  visibility: hidden;
+}
+
+#nextScreen {
+    display:none;
+    -webkit-animation:'slide' 10s easy-in 3s 2 alternate;
+}
+
+.href_li{
+    float:left;
+    text-decoration: none;
+}
+
+
+
+
+
+ 
+

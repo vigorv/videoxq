@@ -1,0 +1,55 @@
+
+/* 
+    Document   : iblack.css
+    Created on : 06.07.2011, 10:17:31
+    Author     : snowing
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* 
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+
+div#header{
+    background-color:black;
+}
+
+#menu_button {
+    color:white;
+}
+
+div a#logo-title{
+    color:white;
+}
+
+.bar {
+    background-color:black;
+}
+
+.bar .button{
+    color:white;
+}
+
+#submit_button{
+    color:black;
+}
+
+ul {
+    color: black;
+    background: #fff;
+}
+
+ul li {
+    color: #666;
+    border-top: 1px solid #B4B4B4;
+}
+
+.text{
+    color:#111;
+}
+
+.poster{
+    color:#111;
+}

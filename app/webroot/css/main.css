@@ -1,0 +1,106 @@
+
+#block_top{
+    min-height:10px;
+    width:100%;
+}
+
+
+#block_middle{
+    width:100%;
+}
+
+#block_right{
+    float:right;
+    width:25%;
+    min-height:10px;
+    border: 1px solid black;
+}
+
+#block_main{
+    margin-top:10px;
+    clear:left;
+    float:none;
+    position:relative;
+    width:70%;
+    padding:2px 5px;
+    word-wrap: break-word;
+}
+
+#block_middle:after{clear: both;  content: ".";  display: block;  height: 0;  visibility: hidden;}
+
+.b_r_item{
+    border:1px solid #ccc;
+    margin:2px;
+    padding:5px 5px;
+}
+
+
+#showdown_menu:after{clear: left;  content: ".";  display: block;  height: 0;  visibility: hidden;}
+
+#showdown_menu ul {
+
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+}
+
+
+#showdown_menu ul li {
+    position: relative;float:left;
+        margin: 0;
+    padding: 0;
+
+}
+
+#showdown_menu li ul {
+    clear:left;
+    display: none;
+      border-top:0;
+      margin-left:-1px;
+      float:left;
+      
+}
+#showdown_menu li ul li{
+    clear:left;
+}
+
+#showdown_menu li ul li ul{
+
+    clear:none;
+    position:absolute;
+    left:162px;
+    top:0px;
+    float:right;
+}
+
+#showdown_menu li ul li ul a{
+    background-color:#DDD;
+    
+}
+#showdown_menu li ul li a{
+    background-color: #EEE;
+    
+}
+
+
+/* Styles for Menu Items */
+#showdown_menu ul li a {    
+    display: block;
+    text-decoration: none;
+    color: #777;
+    background: #fff;
+    padding: 5px;
+    width:150px;
+            
+     border-bottom: 1px solid #ccc; 
+     border-right: 1px solid #ccc; 
+   
+}
+
+
+#showdown_menu li:hover ul { display: block; } /*  The magic */
+#showdown_menu li:hover ul li ul { display: none; } /*  The magic */
+#showdown_menu li:hover ul li:hover ul { display: block; } /*  The magic */
+#showdown_menu li:hover {background-color: yellow;}
