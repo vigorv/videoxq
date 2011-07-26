@@ -30,6 +30,7 @@ class MobileController extends AppController {
 
     function BeforeFilter() {
         parent::BeforeFilter();
+        if (isset($_GET['ajax'])) $this->layout='ajax';
 
           Configure::write('debug', 1);
         $this->out = '';

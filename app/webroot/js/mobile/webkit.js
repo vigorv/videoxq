@@ -1,9 +1,7 @@
 
 function nextScreen(url){
-  
     var link = $(url).attr("href");
-  
-    $('#nextScreen').load(link,
+    $('#nextScreen').load(link,'ajax',
         function(){
             $('#top_bars').hide();
             $('#home').hide();
