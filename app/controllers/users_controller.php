@@ -491,7 +491,7 @@ exit;
 		                                         '>',
 		                    /*subj*/Configure::read('App.siteName') . ' - ' . __('get the prize', true),
 		                    /*body*/
-		                    __('Hi', true) . ', ' . $this->authUser['username'] . "!\n\n" .
+		                    __('Hi', true) . ', ' . $w['user']['username'] . "!\n\n" .
 		                    __("Lottery", true) . ' "' . $this->curLottery['Lottery']['hd'] . '"' . "\n\n" .
 		                    __('Congratulations! You Win!', true) . "\n\n" .
 		                    //__('lot of winning', true) . ' - ' . $winnerLot . "!\n\n" .
