@@ -8565,3 +8565,6 @@ msgstr "Пожалуйста, удалите мой аккаунт на этом
 
 msgid "specify the reason"
 msgstr "укажите причину"
+
+msgid "Lottery"
+msgstr "Лотерея(розыгрыш)"
