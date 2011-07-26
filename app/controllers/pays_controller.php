@@ -1648,7 +1648,7 @@ $paySum = 10;//ДЛЯ ТЕСТИРОВАНИЯ
 
 		file_get_contents("http://" . $_SERVER['HTTP_HOST'] . '/pays/assistresult');//ДЕЛАЕМ ПОПЫТКУ ПОЛУЧИТЬ СОСТОЯНИЕ ПЛАТЕЖЕЙ
 
-		$lst = $this->Pay->findAll(array('Pay.user_id' => $this->authUser['userid'], 'Pay.status' => _PAY_DONE_), null, 'Pay.created DESC');
+		$lst = $this->Pay->findAll(array('Pay.user_id' => $this->authUser['userid'], 'Pay.status' => _PAY_DONE_, 'Pay.summ >' => 0), null, 'Pay.created DESC');
 		$this->set('lst', $lst);
 		$this->set('success', $success);
 		$this->set('summ', $summ);
