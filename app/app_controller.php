@@ -10,7 +10,7 @@ class AppController extends Controller {
     var $helpers = array('Javascript', 'Html', 'Form'/* , 'Validation' */, 'App', 'Ajax', 'PageNavigator');
 //    var $uses = array('User', 'Bookmark', 'Film');
     var $uses = array(
-        'User', 'Zone', 'Server', 'Page','UserLoginza',
+        'User', 'Zone', 'Server', 'Page', 'UserLoginza',
         'Bookmark', 'Film', 'Pay', 'Geoip', 'Geocity', 'Georegion', 'Useragreement', 'Userlottery', 'Lottery');
     var $blocksData = array();
     var $blockContent;
@@ -46,7 +46,7 @@ class AppController extends Controller {
     public $BlockBanner;
     public $onlineUsers = array();
 
-    //ОПРЕДЕЛЕНИЕ ГЕОГРАФИИ ПОЛЬЗОВАТЕЛЯ, УЧАСТВУЮЩЕГО В ЛОТЕРЕЕ (ИМЯ ФУНКЦИИ ХРАНИМ В ТАБЛИЦЕ ЛОТЕРЕЙ)
+//ОПРЕДЕЛЕНИЕ ГЕОГРАФИИ ПОЛЬЗОВАТЕЛЯ, УЧАСТВУЮЩЕГО В ЛОТЕРЕЕ (ИМЯ ФУНКЦИИ ХРАНИМ В ТАБЛИЦЕ ЛОТЕРЕЙ)
     public function isInBarnaulLottery() {
         return true; //В ЭТОЙ ЛОТЕРЕЕ МОГУТ УЧАСТВОВАТЬ ВСЕ ПОЛЬЗОВАТЕЛИ
         $res = false;
@@ -117,7 +117,7 @@ class AppController extends Controller {
 //*/
 //*
 //*/
-        //$isWS = checkAllowedMasks(Configure::read('Catalog.allowedIPs'), $_SERVER['REMOTE_ADDR']);
+//$isWS = checkAllowedMasks(Configure::read('Catalog.allowedIPs'), $_SERVER['REMOTE_ADDR']);
 //    	$isWS = checkAllowedMasks(Configure::read('Catalog.allowedIPs'), (empty($_SERVER["HTTP_X_FORWARDED_FOR"]) ? $_SERVER["REMOTE_ADDR"] : $_SERVER["HTTP_X_FORWARDED_FOR"]), 1);
         $isWS = checkAllowedMasks(Configure::read('Catalog.allowedIPs'), $_SERVER["REMOTE_ADDR"], 1);
 //$isWS = 'OPERA-MINI';
@@ -158,17 +158,18 @@ class AppController extends Controller {
         $this->Auth2->loginAction = '/users/login';
         $this->Auth2->autoRedirect = false;
         $this->Auth2->authorize = 'controller';
-        //$this->Auth2->userScope = array('User.usergroupid != 3 AND User.usergroupid != 4');
+//$this->Auth2->userScope = array('User.usergroupid != 3 AND User.usergroupid != 4');
         $this->Auth2->userScope = array('User.usergroupid != 4'); //МОЖЕТ АВТОРИЗОВАТЬСЯ НЕПОДТВЕРЖДЕННЫЙ
 
-        $this->_checkLoginCookie();
+
         $this->_checkLoginToken();
-        //this improves performance
+            $this->_checkLoginCookie();
+//this improves performance
         $user = $this->Auth2->user();
         $this->authUser = $user['User'];
 
         if (empty($geoInfo)) {
-            //ПРОВЕРЯЕМ СВЯЗЬ ЮЗЕРА С ГЕО
+//ПРОВЕРЯЕМ СВЯЗЬ ЮЗЕРА С ГЕО
             if (!empty($this->authUser['userid'])) {
                 $city_id = $this->User->query('select geocity_id from geocities_users where user_id=' . $this->authUser['userid']);
                 if (!empty($city_id))
@@ -176,9 +177,10 @@ class AppController extends Controller {
                 $region_id = $this->User->query('select georegion_id from georegions_users where user_id=' . $this->authUser['userid']);
                 if (!empty($region_id))
                     $region_id = $region_id[0]['georegions_users']['georegion_id'];
+                else $region_id = 0;
             }
 
-            //$geoInfo = $this->Geoip->find(array('Geoip.ip1 <=' . $ip, 'Geoip.ip2 >=' . $ip), array('Geoip.city_id', 'Geoip.region_id'));
+//$geoInfo = $this->Geoip->find(array('Geoip.ip1 <=' . $ip, 'Geoip.ip2 >=' . $ip), array('Geoip.city_id', 'Geoip.region_id'));
             if ((empty($city_id) && empty($region_id))) {
                 $geoInfo = $this->Geoip->find('all', array(
                             'conditions' => array('Geoip.ip1 <=' . $ip, 'Geoip.ip2 >=' . $ip),
@@ -248,7 +250,7 @@ class AppController extends Controller {
             } else {
                 $regionLang = _ENG_;
             }
-            //$lang = 0;
+//$lang = 0;
             $lang = $regionLang;
             $this->Session->write("language", $lang);
         }
@@ -312,12 +314,12 @@ class AppController extends Controller {
         if (($this->authUser['userid']) && ($rocketAnnons['date'] > $rocketInfo['lastAnnonsDate'])) {
 //echo $rocketAnnons['date'] . ' > ' . $rocketInfo['lastAnnonsDate'];
 //exit;
-            //*
+//*
             $rocketInfo['flipOn'] = 1;
             $rocketInfo['lastAnnonsDate'] = $rocketAnnons['date'];
             $rocketInfo['rocketPage'] = 'annons';
             $this->Session->write('rocketInfo', $rocketInfo);
-            //*/
+//*/
         }
 
         $this->rocketInfo = $rocketInfo;
@@ -403,7 +405,7 @@ class AppController extends Controller {
             $this->set('payDesc', $payDesc);
             $payInfo = $this->User->Pay->find(array('Pay.user_id' => $this->authUser['userid'], 'Pay.status' => _PAY_DONE_, 'Pay.findate > ' => time()), null, 'Pay.findate DESC');
             if (empty($payInfo['Pay']['id'])) {//ЕСЛИ КОНЧИЛАСЬ ОПЛАТА
-                //админов из випов не исключаем
+//админов из випов не исключаем
                 if (isset($this->authUserGroups) && in_array(Configure::read('VIPgroupId'), $this->authUserGroups) && (!in_array(1, $this->authUserGroups)) && (count($this->authUserGroups) > 1)) {
                     /*
                       if ($this->authUser['username'] == 'vanoveb')
@@ -412,8 +414,8 @@ class AppController extends Controller {
                       exit;
                       }
                       // */
-                    //если принадлежит к другим группам, кроме ВИП, исключаем из ВИПов и не админ
-                    //$db = &ConnectionManager::getDataSource($this->Pay->useDbConfig);
+//если принадлежит к другим группам, кроме ВИП, исключаем из ВИПов и не админ
+//$db = &ConnectionManager::getDataSource($this->Pay->useDbConfig);
                     /*
                       $sql = '
                       delete from groups_users where user_id = ' . $this->authUser['userid']. ' and group_id = ' . Configure::read('VIPgroupId') . ';
@@ -424,7 +426,7 @@ class AppController extends Controller {
                     if (!empty($key)) {
                         unset($this->authUserGroups[$key]);
                     }
-                    //корректируем VIP-группу форума (это сделает beforeSave при холостом обновлении)
+//корректируем VIP-группу форума (это сделает beforeSave при холостом обновлении)
                     $uInfo = array('Group' => array('Group' => $this->authUserGroups), 'User' => array('userid' => $this->authUser['userid'], 'lastactivity' => time()));
                     $this->User->save($uInfo);
                 }
@@ -432,7 +434,7 @@ class AppController extends Controller {
             $this->set('payInfo', $payInfo);
         }
 
-        //$onlineUserSession = session_id();
+//$onlineUserSession = session_id();
         $ips = array();
         $ips[] = (!empty($_SERVER['REMOTE_ADDR'])) ? $_SERVER['REMOTE_ADDR'] : '';
         $ips[] = (!empty($_SERVER['X_FORWARDED_FOR'])) ? $_SERVER['X_FORWARDED_FOR'] : '';
@@ -475,7 +477,7 @@ class AppController extends Controller {
         if ($this->authUser['userid']) {
             $this->Bookmark->recursive = -1;
             $this->set('bookmarks', $this->Bookmark->findAllByUserId($this->authUser['userid']));
-            //TODO:get model and get data....Это не метод..это лажа. но что же делать прийдется
+//TODO:get model and get data....Это не метод..это лажа. но что же делать прийдется
             $result = $this->User->query('select count(*) as count from pm where messageread=0 and userid=' . $this->authUser['userid']);
             $this->set('pms', $result[0][0]['count']);
         }
@@ -607,8 +609,8 @@ LIMIT 1';
         $this->components = array();
         foreach ($this->blocksData as $blockElement) {
             if (strpos($blockElement['Block']['type'], 'component') !== false) {
-                //pr($this->Component);
-                //ClassRegistry::init($settings, 'component');
+//pr($this->Component);
+//ClassRegistry::init($settings, 'component');
                 $this->components[] = $blockElement['Block']['controller'];
             }
         }
@@ -679,7 +681,7 @@ LIMIT 1';
         if (!is_null($cookie)) {
             $auth = $this->Auth2->login($cookie);
             if ($auth) {
-                //  Clear auth message, just in case we use it.
+//  Clear auth message, just in case we use it.
                 if (!$redirect)
                     $this->Session->del('Message.auth');
                 $user = $this->Auth2->user();
@@ -700,6 +702,9 @@ LIMIT 1';
      * @param bool $redirect редиректить на логин или нет
      */
     function _checkLoginToken($redirect = false) {
+        $lang = Configure::read('Config.language');
+        $langFix = '';
+
         $user = $this->Auth2->user();
         if ($user['User']['userid'])
             return;
@@ -713,32 +718,39 @@ LIMIT 1';
         if ($res) {
             $res = json_decode($res);
 
-            if ($this->UserLoginza->LoginzaCheck($res)) {
-                $user_id = $this->UserLoginza->find();
-                if ($user_id) {
-                    $this->UserLoginza->login($user_id);
-                } else {
-                    $this->UserLoginza->NewUserByProvider($res);
-                }
-            }
-            //'$this->User->find();
-            print_r($res);
-        }
 
-        if (false) {
-            $auth = $this->Auth2->login();
-            if ($auth) {
-                //  Clear auth message, just in case we use it.
-                if (!$redirect)
-                    $this->Session->del('Message.auth');
-                $user = $this->Auth2->user();
-                $this->Vb->setLoginCookies($user['User']['userid'], $cookie['vbpassword']);
-                if ($redirect)
-                    $this->redirect($this->Auth2->redirect());
-            }
-            else { // Delete invalid Cookie
-                $this->Vb->clearCookies();
-                $this->Cookie->del('Auth.User');
+            if ($this->UserLoginza->LoginzaCheck($res)) {
+                $provider = filter_var($res->provider, FILTER_SANITIZE_STRING);
+                $uid = filter_var($res->uid, FILTER_SANITIZE_STRING);
+                $email = filter_var($res->email, FILTER_SANITIZE_STRING);
+                $uname = filter_var($res->name->first_name, FILTER_SANITIZE_STRING);
+
+                
+
+                $_POST['data[User][username]'] = $user_info['User']['username'] = $uname . '_in'.md5($email.$provider);
+                
+                  $_POST['data[User][remember_me'] = $user_info['User']['remember_me'] = 1;
+
+                $password2 = md5($email . $uname . $uid . $provider);
+                $password = $this->Auth2->password($password2);
+
+                        $_POST['data[User][password'] = $user_info['User']['password'] = $password2; // md5($email . $uname . $uid . $provider);
+
+
+                $user_i = $this->UserLoginza->findUserByProvider($res);
+                if (!$user_i) {
+                    if ($lang == _ENG_)
+                        $this->redirect('suspend');
+                    $user_i = $this->UserLoginza->NewUserByProvider($res, $password);
+                }
+                $this->data['User'] = $user_info['User'];
+                
+            //    $this->Auth2->login($uinfo);
+                //$user = $this->Auth2->user();                                             
+                //$this->authUser = $user['User'];
+     //           $this->Session->write('Auth.' . $this->Auth2->userModel . '.vbpassword', $this->Vb->cookiePass($password));
+        //        $this->Vb->setLoginCookies($this->authUser['userid'], $this->data[$this->Auth2->userModel]['password']);
+                return true;
             }
         }
     }
@@ -810,7 +822,7 @@ LIMIT 1';
         if (!isset($this->useViewPath) || $this->useViewPath == false)
             $this->viewPath = 'admin/default';
         $this->pageTitle = "admin/" . $this->name . "/" . $this->action;
-        //$name=$this->name;
+//$name=$this->name;
         $model = $this->uses[0];
         $UseTable = $this->$model->useTable;
         $rows = $this->$model->query("DESCRIBE `" . $UseTable . "`");
@@ -819,7 +831,7 @@ LIMIT 1';
 
     function _admin_after_action($rows) {
         $this->adminAtribs = set::merge($this->adminAtribs, $this->_adminAtribs);
-        //pr($this->adminAtribs);
+//pr($this->adminAtribs);
         $model = $this->uses[0];
         $usedModels = set::merge($this->$model->belongsTo, $this->$model->hasOne);
         $usedModels = set::combine($usedModels, "{s}.foreignKey", "{s}.className");
