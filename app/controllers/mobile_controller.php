@@ -116,17 +116,17 @@ class MobileController extends AppController {
             $license = '';
 
         $films = $this->Film->query('SELECT * FROM films as Film
-                            INNER JOIN film_variants  as FilmVariant ON FilmVariant.film_id = Film.id 
+                            INNER JOIN film_variants  as FilmVariant ON FilmVariant.film_id = Film.id
                             LEFT JOIN film_pictures as FilmPicture ON FilmPicture.film_id = Film.id
-                            LEFT JOIN media_ratings as MediaRating on MediaRating.object_id = Film.id 
+                            LEFT JOIN media_ratings as MediaRating on MediaRating.object_id = Film.id
                            Where Film.active = 1 ' . $license . ' and FilmVariant.video_type_id = 13
-                           and FilmPicture.type = "smallposter" 
+                           and FilmPicture.type = "smallposter"
                            and MediaRating.type = "film"
                            ORDER BY Film.year Limit 20');
 
 
         foreach ($films as &$film) {
-            $gr = $this->Film->query('SELECT genres.title,genres.title_imdb FROM films_genres 
+            $gr = $this->Film->query('SELECT genres.title,genres.title_imdb FROM films_genres
                             LEFT JOIN genres on genres.id = films_genres.genre_id
                             WHERE films_genres.film_id =' . $film['Film']['id']);
             foreach ($gr as $genre)
@@ -160,7 +160,7 @@ class MobileController extends AppController {
           $films = $this->Film->find('all', array('conditions' => $conditions, 'joins' => array($joins)));
           Cache::write('Catalog.' . $postFix . 'list_' . $this->out, $films, 'searchres');
           }
-         * 
+         *
          */
         $this->set('films', $films);
 
@@ -210,9 +210,9 @@ class MobileController extends AppController {
 
             //  if (!$film = Cache::read('Catalog.film_view_mob_' . $id, 'media')) {
           /*  $film = $this->Film->query('SELECT * FROM films as Film
-                            LEFT JOIN film_variants  as FilmVariant ON FilmVariant.film_id = Film.id 
-                            LEFT JOIN media_ratings as MediaRating on MediaRating.object_id = Film.id 
-                           Where Film.id = ' . $id . '  
+                            LEFT JOIN film_variants  as FilmVariant ON FilmVariant.film_id = Film.id
+                            LEFT JOIN media_ratings as MediaRating on MediaRating.object_id = Film.id
+                           Where Film.id = ' . $id . '
                            and Film.active = 1  and FilmVariant.video_type_id = 13
                            and MediaRating.type = "film"
                            ORDER BY Film.year Limit 1');
@@ -232,15 +232,15 @@ class MobileController extends AppController {
                     'MediaRating',
                         )
                 );
-                
+
                /* $this->Film->FilmVariant->contain(
                         array('conditions'=>array('video_type_id'=>13),
                             'FilmLink', 'FilmFile' => array('order' => 'file_name'), 'VideoType', 'Track' => array('Language', 'Translation')));
                 */
                 $film = $this->Film->read(null, $id);
-                
-                
-                
+
+
+
                 Cache::write('Catalog.film_view_' . $id, $film, 'media');
            // }
             if (!$film['Film']['active']) {
