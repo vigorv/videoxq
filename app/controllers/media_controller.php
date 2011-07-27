@@ -1935,7 +1935,6 @@ echo'</pre>';
 	        $this->Session->setFlash(__('Invalid Film', true));
 	        $this->redirect(array('action'=>'index'));
 	    }
-
         App::import('Vendor', 'Utils'); //ДЛЯ КОНВЕРТИРОВАНИЯ ТЭГОВ UBB
 
 	    //for ($i = 0; $i < 100; $i++)

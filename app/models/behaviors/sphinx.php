@@ -50,6 +50,11 @@ class SphinxBehavior extends ModelBehavior
      */
     function beforeFind(&$model, $query)
     {
+    	if (Configure::read('noSphinx'))
+    	{
+    		return true;
+    	}
+
         if ((empty($query['sphinx'])) || empty($query['search']))
             return true;
 

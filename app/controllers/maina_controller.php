@@ -5,7 +5,7 @@
  *
  * @author snowing
  */
-class MainaController extends Controller {
+class MainaController extends AppController {
 
     var $name = 'Maina';
     var $layout = 'newstyle';
@@ -16,6 +16,7 @@ class MainaController extends Controller {
 
     function BeforeFilter() {
         parent::beforeFilter();
+/*
         Configure::write('debug', 1);
         $this->out = '';
         $this->outCount = '';
@@ -41,23 +42,37 @@ class MainaController extends Controller {
             $this->ImgPath = Configure::read('Catalog.imgPath');
         else
             $this->ImgPath = Configure::read('Catalog.imgPathInet');
-        
-           
-                View::set('blocks_top', '/maina/btop');
+*/
+        View::set('blocks_top', '/maina/btop');
         View::set('blocks_right','/maina/bright');
         View::set('blocks_m_top','/maina/bmtop');
     }
 
     function BeforeRender() {
-        parent::BeforeRender();
+        //parent::BeforeRender();
 
-      
+        $lang = Configure::read('Config.language');
+        $langFix = '';
+        if ($lang == _ENG_)
+            $langFix = '_' . _ENG_;
+        $this->set('lang', $lang);
+        $this->set('langFix', $langFix);
+
+        $this->set('authUser', $this->authUser);
     }
-
-
 
     function index() {
-        
+
     }
 
+    /**
+     * действие для вкладки Личного кабинета "Профиль"
+     *
+     * @param string $subAction	- субдействие
+     * @param string $param		- дополнительные параметры
+     */
+	public function profile($subAction = '', $param = '')
+	{
+		$this->layout = 'newstyle';
+	}
 }

@@ -19,7 +19,8 @@ echo $form->end(__("Sign In", true));
 ?>
 <p><a href=/users/restore><?php __("Forgot password"); ?>?</a></p>
 </div>
-
+<?php
+/*
 <script src="http://loginza.ru/js/widget.js" type="text/javascript"></script>
     Также Вы можете войти используя:
     <a href="https://loginza.ru/api/widget?token_url=<?= Router::url($this->here, true); ?>" class="loginza">
@@ -33,3 +34,4 @@ echo $form->end(__("Sign In", true));
         <img src="http://loginza.ru/img/providers/openid.png" alt="OpenID" title="OpenID">
         <img src="http://loginza.ru/img/providers/webmoney.png" alt="WebMoney" title="WebMoney">
     </a>
+*/
