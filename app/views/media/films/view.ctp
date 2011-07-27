@@ -701,7 +701,7 @@ if (count($variant['FilmFile']) > 0)
 
 	    $panelContent .= '</td>
 	        <td class="size">' . $app->sizeFormat($total) . '</td>
-	        <td class="title">' . __('All Files', true) . '</td>
+	        <td class="title"><a href="/metalinks/' . $variant['id'] . '_' . $variant['video_type_id'] .'.metalink">' . __('All Files', true) . '</a></td>
 	    	</tr>
 	    ';
 	}
