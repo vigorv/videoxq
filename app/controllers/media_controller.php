@@ -1855,7 +1855,7 @@ echo'</pre>';
 			curl_setopt($ch, CURLOPT_REFERER, Configure::read("App.siteUrl"));
 			$body = curl_exec($ch);
 			curl_close($ch);
-			if (empty($body))
+			if (empty($body) || curl_errno($ch))
 			{
 				$body = array();
 			}
