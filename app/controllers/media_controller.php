@@ -1861,6 +1861,10 @@ echo'</pre>';
 			else
 			{
 				$body = unserialize($body);
+				if (!$body)
+				{
+					$body = array();
+				}
 			}
 			curl_close($ch);
 			$this->set('shareContent', $body);
