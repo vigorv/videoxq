@@ -1861,6 +1861,7 @@ echo'</pre>';
 			}
 			else
 			{
+echo $body;
 				$body = unserialize($body);
 			}
 			$this->set('shareContent', $body);
