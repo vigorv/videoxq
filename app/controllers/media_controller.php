@@ -1854,7 +1854,6 @@ echo'</pre>';
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 			curl_setopt($ch, CURLOPT_REFERER, Configure::read("App.siteUrl"));
 			$body = curl_exec($ch);
-			curl_close($ch);
 			if (empty($body) || curl_errno($ch))
 			{
 				$body = array();
@@ -1863,6 +1862,7 @@ echo'</pre>';
 			{
 				$body = unserialize($body);
 			}
+			curl_close($ch);
 			$this->set('shareContent', $body);
 
 			foreach($body as $res)
