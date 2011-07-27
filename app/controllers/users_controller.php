@@ -391,8 +391,12 @@ exit;
 		if (!empty($id))
 		{
 			$lotteryData = $this->Lottery->read(null, $id);
+			if (!empty($lotteryData['Lottery']['hidden']))
+			{
+				$lotteryData = array();
+			}
 
-			if (!empty($this->authUser['userid']))
+			if (!empty($this->authUser['userid']) && !empty($lotteryData))
 			{
 				$winnerLot = 0; $winnerRegistered = ''; $winnerInfo = array();
 				$lotteryChances = $this->Userlottery->findAll(array('Userlottery.lottery_id' => $id, 'Userlottery.user_id' => $this->authUser['userid']));
@@ -459,13 +463,13 @@ exit;
 				break;
 			}
 			*/
-		//СТАТИСТИКА ПОСТОВ
-			$userPostsCnt = $this->Vbpost->getFilmsCommentsCnt($this->authUser['userid']);
-			$this->set('userPostsCnt', $userPostsCnt);
-
-		//СТАТИСТИКА ПРИГЛАШЕННЫХ
 			if (!empty($this->curLottery))
 			{
+		//СТАТИСТИКА ПОСТОВ
+				$userPostsCnt = $this->Vbpost->getFilmsCommentsCnt($this->authUser['userid']);
+				$this->set('userPostsCnt', $userPostsCnt);
+
+		//СТАТИСТИКА ПРИГЛАШЕННЫХ
 				$userInvitesCnt = $this->Userlottery->getInvitesCnt($id, $this->authUser['userid']);
 				$this->set('userInvitesCnt', $userInvitesCnt);
 			}

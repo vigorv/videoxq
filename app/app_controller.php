@@ -725,10 +725,10 @@ LIMIT 1';
                 $email = filter_var($res->email, FILTER_SANITIZE_STRING);
                 $uname = filter_var($res->name->first_name, FILTER_SANITIZE_STRING);
 
-                
+
 
                 $_POST['data[User][username]'] = $user_info['User']['username'] = $uname . '_in'.md5($email.$provider);
-                
+
                   $_POST['data[User][remember_me'] = $user_info['User']['remember_me'] = 1;
 
                 $password2 = md5($email . $uname . $uid . $provider);
@@ -744,9 +744,9 @@ LIMIT 1';
                     $user_i = $this->UserLoginza->NewUserByProvider($res, $password);
                 }
                 $this->data['User'] = $user_info['User'];
-                
+
             //    $this->Auth2->login($uinfo);
-                //$user = $this->Auth2->user();                                             
+                //$user = $this->Auth2->user();
                 //$this->authUser = $user['User'];
      //           $this->Session->write('Auth.' . $this->Auth2->userModel . '.vbpassword', $this->Vb->cookiePass($password));
         //        $this->Vb->setLoginCookies($this->authUser['userid'], $this->data[$this->Auth2->userModel]['password']);

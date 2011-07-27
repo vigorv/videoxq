@@ -163,69 +163,73 @@
 		$lotteryContent .= '</p>';
 	}
 
-	echo $takePartLink;
-
-	if (!empty($curWinLot))
+	if (!empty($curLottery))
 	{
-		echo '<h4>' . $curWinLot . '</h4><br />';
-	}
+		echo $takePartLink;
 
-	$td1 = '';
-	if (!empty($userPostsCnt))
-	{
-		if (!empty($userPostCnt[5]))
-			echo '<p>Коментов к фильмам: ' . $userPostsCnt[5][1] . ' (это ' . $userPostsCnt[5][0] . ' место)</p>';
+		if (!empty($curWinLot))
+		{
+			echo '<h4>' . $curWinLot . '</h4><br />';
+		}
+
+		$td1 = '';
+		if (!empty($userPostsCnt))
+		{
+			if (!empty($userPostCnt[5]))
+				echo '<p>Коментов к фильмам: ' . $userPostsCnt[5][1] . ' (это ' . $userPostsCnt[5][0] . ' место)</p>';
+			else
+				echo '<p>Вы не оставляли комментарии к фильмам</p>';
+			if (count($userPostsCnt) > 0)
+			{
+				$td1 .= '<ol>Первые по комментариям:';
+				for ($i = 0; $i < 5; $i++)
+				{
+					if (!empty($userPostsCnt[$i]))
+					{
+						$td1 .= '<li>' . $userPostsCnt[$i][2] . ' - ' . $userPostsCnt[$i][1] . '</li>';
+					}
+				}
+				$td1 .= '</ol>';
+			}
+		}
 		else
 			echo '<p>Вы не оставляли комментарии к фильмам</p>';
-		if (count($userPostsCnt) > 0)
-		{
-			$td1 .= '<ol>Первые по комментариям:';
-			for ($i = 0; $i < 5; $i++)
-			{
-				if (!empty($userPostsCnt[$i]))
-				{
-					$td1 .= '<li>' . $userPostsCnt[$i][2] . ' - ' . $userPostsCnt[$i][1] . '</li>';
-				}
-			}
-			$td1 .= '</ol>';
-		}
-	}
-	else
-		echo '<p>Вы не оставляли комментарии к фильмам</p>';
 
-	$td2 = '';
-	if (!empty($userInvitesCnt))
-	{
-		if (!empty($userInvitesCnt[5]))
-			echo '<p>Количество ваших приглашенных: ' . $userInvitesCnt[5][1] . ' (это ' . $userInvitesCnt[5][0] . ' место)</p>';
+		$td2 = '';
+		if (!empty($userInvitesCnt))
+		{
+			if (!empty($userInvitesCnt[5]))
+				echo '<p>Количество ваших приглашенных: ' . $userInvitesCnt[5][1] . ' (это ' . $userInvitesCnt[5][0] . ' место)</p>';
+			else
+				echo '<p>Вы никого не пригласили участвовать</p>';
+			if (count($userInvitesCnt) > 0)
+			{
+				$td2 .= '<ol>Первые по приглашенным:';
+				for ($i = 0; $i < 5; $i++)
+				{
+					if (!empty($userInvitesCnt[$i]))
+					{
+						$td2 .= '<li>' . $userInvitesCnt[$i][2] . ' - ' . $userInvitesCnt[$i][1] . '</li>';
+					}
+				}
+				$td2 .= '</ol>';
+			}
+		}
 		else
 			echo '<p>Вы никого не пригласили участвовать</p>';
-		if (count($userInvitesCnt) > 0)
-		{
-			$td2 .= '<ol>Первые по приглашенным:';
-			for ($i = 0; $i < 5; $i++)
-			{
-				if (!empty($userInvitesCnt[$i]))
-				{
-					$td2 .= '<li>' . $userInvitesCnt[$i][2] . ' - ' . $userInvitesCnt[$i][1] . '</li>';
-				}
-			}
-			$td2 .= '</ol>';
-		}
-	}
-	else
-		echo '<p>Вы никого не пригласили участвовать</p>';
 ?>
 	<table cellpadding="0" cellspacing="5" border="0"><tr valign="top"><td width="50%">
 <?php
-	echo $td1;
+		echo $td1;
 ?>
 </td><td>
 <?php
-	echo $td2;
+		echo $td2;
 ?>
 </td></tr></table>
 <?php
+	}
+
 	echo $lotteryContent;
 
 	if (!empty($payList))
