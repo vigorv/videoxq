@@ -1855,7 +1855,14 @@ echo'</pre>';
 			curl_setopt($ch, CURLOPT_REFERER, Configure::read("App.siteUrl"));
 			$body = curl_exec($ch);
 			curl_close($ch);
-			$body = unserialize($body);
+			if (empty($body))
+			{
+				$body = array();
+			}
+			else
+			{
+				$body = unserialize($body);
+			}
 			$this->set('shareContent', $body);
 
 			foreach($body as $res)
