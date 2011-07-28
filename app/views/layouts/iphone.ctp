@@ -31,7 +31,7 @@
         <div id="header">
 
             <a id="logo-title" href="/mobile/films"> VideoXQ </a>
-            <a id="back_button"  href="" onclick="backToHome();return false;">&laquo;</a>
+            <a id="back_button"  href="#" onclick="backToHome(); return false">&laquo;</a>
         </div>
         <div id="iscroll">
             <div  id="Scroller">
