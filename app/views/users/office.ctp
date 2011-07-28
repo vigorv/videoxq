@@ -111,7 +111,7 @@
 		$lotteryContent .= '</p>';
 	}
 
-	if (!$clearTakePart)
+	if (!$clearTakePart && !empty($curLottery) && !$curLottery['Lottery']['hidden'])
 	{
 		echo '<div class="attention">' . __('Attention! Lottery!', true) . ' <b>"' . $curLottery['Lottery']['hd'] . '"</b>' . $takePartLink . '</div><br />';
 	}
@@ -263,6 +263,11 @@
 
 	if (!empty($payList))
 	{
+		echo'
+			<div class="bordered">
+			<h2>' . __('Acting lottery', true) . '</h2>
+		';
+
 		echo'<ul><b>' . __('Last payments', true) . ':</b>';
 		foreach ($payList as $l)
 		{
@@ -284,7 +289,7 @@
 			echo '<li>№ ' . $l["Pay"]['id'] . ' ' . __('date', true) . ' ' . date('d.m.y H:i', $l["Pay"]['paydate']) . ' (' . $l["Pay"]['summ'] . ' ' . $valute . ')';
 			if ($l["Pay"]['findate'] > time()) echo ' - ' . __('Paid by', true) . ' ' . date('d.m.y H:i', $l["Pay"]['findate']) . '</li>';
 		}
-		echo '</ul>';
+		echo '</ul></div>';
 	}
 /*
 pr($userLotteries);
