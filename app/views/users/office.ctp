@@ -265,7 +265,7 @@
 	{
 		echo'
 			<div class="bordered">
-			<h2>' . __('Acting lottery', true) . '</h2>
+			<h2>' . __('Last payments', true) . '</h2>
 		';
 
 		echo'<ul><b>' . __('Last payments', true) . ':</b>';
