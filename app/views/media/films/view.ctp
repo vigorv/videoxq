@@ -798,7 +798,7 @@ if (count($variant['FilmFile']) > 0)
 					case "mp4":
 						$play = '<a rel="video" href="#video' . $file['id'] . '"><img src="/img/play.gif" width="19" alt="" title="' . __('Watch online', true) . '" id="file' . $file['id'] . '" /></a>';
 						$hideVideo .= '
-							 <div id="video' . $file['id'] . '"><a style="width:640px; height:480px; display:block" id="ipad' . $file['id'] . '" onclick="return addVideo(' . $file['id'] . ', \'' . $flowUrl  . '\');"></a></div>
+							 <div id="video' . $file['id'] . '"><a style="width:640px; height:480px; display:block" id="ipad' . $file['id'] . '" onclick="return addVideo' . $variant['id'] . '(' . $file['id'] . ', \'' . $flowUrl  . '\');"></a></div>
 						';
 					break;
 
@@ -807,7 +807,7 @@ if (count($variant['FilmFile']) > 0)
 						$key = $file['id'];
 						$play = '<a rel="video" href="#video' . $file['id'] . '"><img src="/img/play.gif" width="19" alt="" title="' . __('Watch online', true) . '" id="file' . $file['id'] . '" /></a>';
 						$hideVideo .= '<div id="video' . $key . '" style="width:640px; height:480px; overflow: hidden; " >
-							<a onclick="return addAviVideo(' . $key . ', \'' . $recUrl . '\');"></a>
+							<a onclick="return addAviVideo' . $variant['id'] . '(' . $key . ', \'' . $recUrl . '\');"></a>
 							<object id="videoobj' . $key . '" classid="clsid:67DABFBF-D0AB-41fa-9C46-CC0F21721616" width="640" height="480" codebase="http://go.divx.com/plugin/DivXBrowserPlugin.cab">
 								<param name="wmode" value="opaque" />
 								<param name="autoPlay" value="true" />
@@ -855,12 +855,12 @@ if (count($variant['FilmFile']) > 0)
 <script type="text/javascript" src="/js/flowplayer/flowplayer.ipad-3.2.1.js"></script>
 <script type="text/javascript">
 <!--
-		function addAviVideo(num, path)
+		function addAviVideo' . $variant['id'] . '(num, path)
 		{
 			return true;
 		}
 
-		function addVideo(num, path) {
+		function addVideo' . $variant['id'] . '(num, path) {
 			document.getElementById("ipad" + num).href=path;
 			document.getElementById("video" + num).style.display="";
 			$f("ipad" + num, "/js/flowplayer/flowplayer-3.2.5.swf",
