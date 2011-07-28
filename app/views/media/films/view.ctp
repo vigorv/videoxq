@@ -783,12 +783,13 @@ if (count($variant['FilmFile']) > 0)
 
 			if ($Film['just_online'])
 			{
-        		//$href=__('Available online only', true) . '&nbsp;';
+        		$href=__('Available online only', true) . '&nbsp;';
 			}
 			else
 			{
         		$href='<a onclick="return filmClk(' . $Film['id'] . ');" href="' . $recUrl . '">' . basename($file['file_name']) . '</a>&nbsp;';
 			}
+$href='<a onclick="return filmClk(' . $Film['id'] . ');" href="' . $recUrl . '">' . basename($file['file_name']) . '</a>&nbsp;';
         	//$share = Film::set_input_share($Film['dir']);
 	    	$lnkInfo = pathinfo(strtolower(basename($file['file_name'])));
         	if (!empty($lnkInfo['extension']))
