@@ -6,7 +6,7 @@
     function sortLL($a, $b) {
         return strnatcmp($a['Film']['title'], $b['Film']['title']);
     }
-       
+
     $posterTitle = '';
     extract($film);
     $posters = Set::extract('/FilmPicture[type=poster]/.', $film);
@@ -107,22 +107,23 @@
     ?>
 
 
-        <ul  id="mycarousel">
-            <li>
-                <?
-                if (isset($FilmVariant) && (!empty($FilmVariant[0]['FilmFile']))):
-                    $lnk = Film::set_input_server($Film['dir']) . '/' . $FilmVariant[0]['FilmFile'][0]['file_name'];
-                    ?>
-                    <video src="<?= $lnk; ?>" width="200" height="150" type="video/mp4" poster="<?= $imgUrl; ?>"> 
-                    </video>
-                <? else: ?>
-                    <?= $html->link($img, $imgUrl, array('rel' => 'posters', 'title' => $posterTitle), false, false) . "\n"; ?>            
-                <? endif; ?>
+    <ul  id="mycarousel">
+        <li>
+            <?
+            if (isset($FilmVariant) && (!empty($FilmVariant[0]['FilmFile']))):
+                $lnk = Film::set_input_server($Film['dir']) . '/' . $FilmVariant[0]['FilmFile'][0]['file_name'];
+                ?>
+                <video src="<?= $lnk; ?>" width="200" height="150" type="video/mp4" poster="<?= $imgUrl; ?>"> 
+                </video>
+            <? else: ?>
+                <?= $html->link($img, $imgUrl, array('rel' => 'posters', 'title' => $posterTitle), false, false) . "\n"; ?>            
+            <? endif; ?>
+            <? if ((!empty($imdb_website))) : ?>
                 <h2>«<?= $title; ?>»</h2>
                 <?= $title_orig; ?>
             </li>
             <li>
-                
+
                 <h2>«<?= $title; ?>»</h2>
                 <?= $title_orig; ?>
                 <?= $countries; ?>            
@@ -153,10 +154,10 @@
 
                 <p><?= $description; ?></p>
                 <br/>
-                
+
             </li>
             <li>
-                
+
                 <?php
                 if ($isWS)
                     $geoIsGood = true;
@@ -182,7 +183,7 @@
                         if (!empty($variant['FilmFile'])) :
                             $total = Set::extract('/FilmFile/size', $variant);
                             $total = array_sum($total);
-                            
+
                             if ($lang != _ENG_)
                                 if (!isset($variant['Track']['Language']['title']))
                                     $variant['Track']['Language']['title'] = $language;
@@ -201,7 +202,8 @@
                         endif;
                     endif;
                     ?>
-            </li>
-        </ul>
-   
+                <? endif; ?>
+        </li>
+    </ul>
+
 </li>
