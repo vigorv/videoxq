@@ -478,7 +478,7 @@ $FilmVariant[] = array('video_type_id' => 13);
 $FilmVariant[] = array('video_type_id' => 12);
 
 //pr($FilmVariant);
-$panelLinksCnt = array();
+$panelLinksCnt = array();  $hideVideo = '';
 foreach ($FilmVariant as $variant)
 {
 //echo $variant['video_type_id'] . ' ';
@@ -714,7 +714,7 @@ if (count($variant['FilmFile']) > 0)
 */
 	}
 }
-    $playDisplay = 'none';  $linksCnt = 0; $hideVideo = '';
+    $playDisplay = 'none';  $linksCnt = 0;
 	$msg = '';
 	if (count($variant['FilmFile']) >= 3)
 	{
@@ -780,7 +780,6 @@ if (count($variant['FilmFile']) > 0)
 				$letter='0-999';
 
 			$flowUrl = str_replace('/' . $letter . '/', ':82/' . $letter . '/', $recUrl);
-echo $flowUrl;
 			if ($Film['just_online'])
 			{
         		$href=__('Available online only', true) . '&nbsp;';
@@ -789,7 +788,6 @@ echo $flowUrl;
 			{
         		$href='<a onclick="return filmClk(' . $Film['id'] . ');" href="' . $recUrl . '">' . basename($file['file_name']) . '</a>&nbsp;';
 			}
-$href='<a onclick="return filmClk(' . $Film['id'] . ');" href="' . $recUrl . '">' . basename($file['file_name']) . '</a>&nbsp;';
         	//$share = Film::set_input_share($Film['dir']);
 	    	$lnkInfo = pathinfo(strtolower(basename($file['file_name'])));
         	if (!empty($lnkInfo['extension']))
