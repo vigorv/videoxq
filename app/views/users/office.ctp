@@ -268,7 +268,7 @@
 			<h2>' . __('Last payments', true) . '</h2>
 		';
 
-		echo'<ul><b>' . __('Last payments', true) . ':</b>';
+		echo'<ul>';
 		foreach ($payList as $l)
 		{
 			switch ($l['Pay']['paysystem'])
