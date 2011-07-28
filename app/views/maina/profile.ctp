@@ -41,7 +41,7 @@ $html->addCrumb(__('Profile', true), '');
     function EditField(elem){
         // there elem is a href
         var par=$(elem).parent();
-        elem.hide();
+      $(elem).hide();
         par.find('.e_val').hide();
         par.find('input').show();    
         par.find('input').focus();
@@ -51,11 +51,11 @@ $html->addCrumb(__('Profile', true), '');
         //elem is input
         var par=$(elem).parent();
         var txt_field = par.find('.e_val');
-        elem.hide();
+        $(elem).hide();
         txt_field.show();        
         par.find('a').show();      
         var prev =txt_field.text();
-        if (prev==elem.value())
+        if (prev==$(elem).value())
             $('#editable_f').submit();        
     }
  
