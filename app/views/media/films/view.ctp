@@ -783,7 +783,7 @@ if (count($variant['FilmFile']) > 0)
 
 			if ($Film['just_online'])
 			{
-        		$href=__('Available online only', true) . '&nbsp;';
+        		//$href=__('Available online only', true) . '&nbsp;';
 			}
 			else
 			{
