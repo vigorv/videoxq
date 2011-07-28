@@ -845,6 +845,66 @@ return;//НЕПРАВИЛЬНО РАБОТАЕТ
 		return false;
 	}
 
+	function meta($id = 0, $vId = 0, $tId = 0)
+	{
+		if (empty($id))
+		{
+			$this->redirect('/media');
+		}
+
+		if (!$film = Cache::read('Catalog.film_view_' . $id,'media'))
+	    {
+	        $this->Film->recursive = 0;
+	        $this->Film->contain(array('FilmType',
+	                                     'Genre',
+	                                     'Thread',
+	                                     'FilmPicture' => array('conditions' => array('type <>' => 'smallposter')),
+	                                     'Country',
+	                                     'FilmVariant' => array('FilmLink', 'FilmFile' => array('order' => 'file_name'), 'VideoType', 'Track' => array('Language', 'Translation')),
+	                                     'MediaRating',
+	                                  )
+	                             );
+	        $film = $this->Film->read(null, $id);
+		    Cache::write('Catalog.film_view_' . $id, $film,'media');
+	    }
+
+	    if (!$film['Film']['active']) {
+	        $this->Session->setFlash(__('Invalid Film', true));
+	        $this->redirect('/media');
+	    }
+
+		if (empty($vId) || empty($tId))
+		{
+			if (empty($id))
+			{
+				$this->redirect('/media');
+			}
+			else
+			{
+				$this->redirect('/media/view/' . $id);
+			}
+		}
+
+		$fLst = array();
+		foreach($film['FilmVariant'] as $variant)
+		{
+			if (($variant['id'] == $vId) && ($variant['video_type_id'] == $tId) && (count($variant['FilmFile'] > 0)))
+			{
+				$fLst = $variant['FilmFile'];
+			}
+		}
+
+		if (empty($fLst))
+		{
+			$this->redirect('/media/view' . $id);
+		}
+		$this->layout = 'playlist';
+		$this->set('id', $id);
+		$this->set('vId', $vId);
+		$this->set('tId', $tId);
+		$this->set('fLst', $fLst);
+	}
+
 	function index()
     {
         $this->pageTitle = __('Video catalog', true);
@@ -1924,7 +1984,6 @@ echo'</pre>';
             $this->redirect(array('action'=>'index'));
         }
 
-
 		if (!$film = Cache::read('Catalog.film_view_' . $id,'media'))
 	    {
 	        $this->Film->recursive = 0;
@@ -1946,6 +2005,7 @@ echo'</pre>';
 	        $this->Session->setFlash(__('Invalid Film', true));
 	        $this->redirect(array('action'=>'index'));
 	    }
+
         App::import('Vendor', 'Utils'); //ДЛЯ КОНВЕРТИРОВАНИЯ ТЭГОВ UBB
 
 	    //for ($i = 0; $i < 100; $i++)

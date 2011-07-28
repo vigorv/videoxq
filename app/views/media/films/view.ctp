@@ -701,9 +701,17 @@ if (count($variant['FilmFile']) > 0)
 
 	    $panelContent .= '</td>
 	        <td class="size">' . $app->sizeFormat($total) . '</td>
-	        <td class="title"><a href="/metalinks/' . $variant['id'] . '_' . $variant['video_type_id'] .'.metalink">' . __('All Files', true) . '</a></td>
+	        <td class="title">' . __('All Files', true) . '</td>
 	    	</tr>
 	    ';
+/*
+//ДОБАВЛЯЕМ ССЫЛКУ НА ФАЙЛ .metalink
+	    $panelContent .= '</td>
+	        <td class="size">' . $app->sizeFormat($total) . '</td>
+	        <td class="title"><a title="' . __("by download manager (Download Master, DownThemAll etc.)", true) . '" href="/media/meta/'. $Film['id']. '/' . $variant['id'] . '/' . $variant['video_type_id'] .'">' . __('Get It All', true) . '</a> <i>(' . __('available mirrors', true) . ')</i></td>
+	    	</tr>
+	    ';
+*/
 	}
 }
     $playDisplay = 'none';  $linksCnt = 0; $hideVideo = '';

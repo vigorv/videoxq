@@ -594,6 +594,16 @@ div.attention {
 	width: 450px;
 }
 
+div.bordered {
+	background-color: Snow;
+	border: grey dotted 1px;
+	margin: 0 0 15px 0;
+	padding: 10px;
+	width: 700px;
+}
+
+div.bordered h2 { font-style: italic; }
+
 /* css styles snow */
 
 .clearSnow {  clear: both;  content: ".";  display: block;  height: 0;  visibility: hidden;}

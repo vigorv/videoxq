@@ -23,13 +23,14 @@ if (!empty($authUser['userid']) && (empty($lotteryChances) || (count($lotteryCha
 	{
 	//ЗНАЧИТ МОЖЕТ УЧАСТВОВАТЬ И НЕ ЗАРЕГИСТРИРОВАН
 ?>
-<br /><br /><h2>Форма регистрации в розыгрыше</h2>
+<br /><br /><div class="bordered">
 <form name="lotteryform" method="post" action="/users/lottery">
+	<h2>Форма регистрации в розыгрыше</h2>
 	<h4>Email пригласившего вас пользователя</h4>
 	<input type="hidden" name="lottery_id" value="<?php echo $curLottery['Lottery']['id'];?>" />
-	<input type="text" name="bid_username" value="" /> (необязательное поле)<br /><br />
-	<input type="submit" value="Хочу участвовать!">
-</form>
+	<input type="text" name="bid_username" value="" /> (необязательное поле)<br />
+	<input style="margin-top:10px;" type="submit" value="Хочу участвовать!">
+</form></div>
 <?php
 	}
 	else
@@ -80,7 +81,7 @@ if (!empty($authUser['userid']) && (empty($lotteryChances) || (count($lotteryCha
 									$daysStr = 'которая пришла на ваш электронный адрес';
 							}
 
-							$winLot =  'Вы ' . $lC['Userlottery']['id'] . 'й! Вы выиграли сувенир! Приди в ЦВП и скажи кодовую фразу, ' . $daysStr . '!';
+							$winLot =  'Вы ' . $lC['Userlottery']['id'] . 'й! Вы выиграли сувенир! Приходите в ЦВП и скажите кодовую фразу, ' . $daysStr . '!';
 							$status = $winLot;
 							if (!empty($curLottery['Lottery']['id']) && ($lC['Userlottery']['lottery_id'] == $curLottery['Lottery']['id']))
 							{
@@ -158,7 +159,7 @@ if (!empty($authUser['userid']) && (empty($lotteryChances) || (count($lotteryCha
 			echo '<p>Вы не оставляли комментарии к фильмам</p>';
 		if (count($userPostsCnt) > 0)
 		{
-			$td1 .= '<ol>Первые по комментариям:';
+			$td1 .= '<ol><b>Первые по комментариям:</b>';
 			for ($i = 0; $i < 5; $i++)
 			{
 				if (!empty($userPostsCnt[$i]))
@@ -179,7 +180,7 @@ if (!empty($authUser['userid']) && (empty($lotteryChances) || (count($lotteryCha
 			echo '<p>Вы никого не пригласили участвовать</p>';
 		if (count($userInvitesCnt) > 0)
 		{
-			$td2 .= '<ol>Первые по приглашенным:';
+			$td2 .= '<ol><b>Первые по приглашенным:</b>';
 			for ($i = 0; $i < 5; $i++)
 			{
 				if (!empty($userInvitesCnt[$i]))

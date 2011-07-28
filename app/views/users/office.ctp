@@ -2,71 +2,19 @@
 <h2><?php __('Office'); ?></h2>
 <?php
 	echo '<h3>' . __('Hi', true) . ', ' , $authUser['username'] . '!</h3>';
-	if ($authUser['usergroupid'] == 3) //NOT CONFIRMED
-	{
-		echo'
-			<h4>' . __('Registration is not confirmed', true) . '</h4>
-			<p><a href="/users/confirm">' . __('Confirm registration', true) . '</a></p>
-		';
-	}
-	if (!$authUser['agree']) //NOT AGREE
-	{
-		echo '<h4>' . __('You are not accepted user agreement', true) . '</h4><p>';
-	    echo __('WARNING! Pay for the service V.I.P. Access can be by taking a', true) . ' <a target="_blank" href="/pages/agreement">' . __('user agreement', true) . '</a>.';
-	    echo'<br /><a href="/pays/agree" onclick=\'return confirm("' . __("Are You sure?", true) . '");\'>' . __('I accept the agreement', true) . '</a></p>';
-	}
-	else
-	{
-		echo '<h4>' . __('You are accepted user agreement', true) . '</h4><p>';
-	    echo '<a target="_blank" href="/pages/agreement">' . __('user agreement', true) . '</a>.';
-	    echo '<br /><a href="/users/drop" onclick=\'return confirm("' . __("Are You sure?", true) . '");\'>' . __('Reject and delete my account', true) . '</a></p>';
-	}
 
-	if ($authUser['userid'] > 0)
-	{
-	    $geoPlace = '<h4>' . __('Your geographical location', true);
-	    if (!empty($geoInfo['Geoip']['region_id']))
-	    {
-	    	$geoPlace .= ' - ' . implode(' ', array($geoInfo['city'], $geoInfo['region'])) . '. ';;
-	    }
-	    else
-	    {
-	    	$geoPlace .= ' ' . __('not identified', true) . '. ';
-	    }
-
-	    if (!empty($authUser['userid']))
-	    {
-	    	$adminLink = '<a href="/media/geoerr">' . __("contact administrator", true) . '</a>';
-	    }
-	    else
-	    {
-	    	$adminLink = __("contact administrator", true);
-	    }
-	    echo $geoPlace . '<br />' . __("If your geographical location is incorrect", true) . ', ' . $adminLink . '.</h4>
-	    <p>' . __('Depends on this is available for download by you of certain films', true) . '</p>';
-
-	}
-
-	if (!empty($curLottery))
-	{
-		echo '<h4>' . __('Acting lottery', true) . ' - "<i><a href="/users/lottery">' . $curLottery['Lottery']['hd'] . '</a></i>"</h4>';
-
-		echo 'До конца акции ' . $app->timeFormat(strtotime($curLottery['Lottery']['finished']) - time());
-	}
-
-	$lotteryContent = '';
+	$lotteryContent = ''; $clearTakePart = false;
 	if (!empty($curLottery))
 	{
 		$takePartLink = '<p><a href="/users/lottery">' . __('Participate in the lottery', true) . '</a></p>';
 	}
 	else
+	{
 		$takePartLink = '';
-
-	$clearTakePart = false;
+	}
 	if ((!empty($userLotteries)) && !empty($lotteryList))
 	{
 		$curWinLot = '';
-		$lotteryContent = '<h4>' . __('Participation in lotteries', true) . '</h4><p>';
 		foreach ($lotteryList as $lL)
 		{
 			$oneLine = false; $status = '';
@@ -120,7 +68,7 @@
 									$daysStr = 'которая пришла на ваш электронный адрес';
 							}
 
-							$winLot =  'Вы ' . $uL['Userlottery']['id'] . 'й! Вы выиграли сувенир! Приди в ЦВП и скажи кодовую фразу, ' . $daysStr . '!';
+							$winLot =  'Вы ' . $uL['Userlottery']['id'] . 'й! Вы выиграли сувенир! Приходите в ЦВП и скажите кодовую фразу, ' . $daysStr . '!';
 							$status = $winLot;
 							if (!empty($curLottery['Lottery']['id']) && ($uL['Userlottery']['lottery_id'] == $curLottery['Lottery']['id']))
 							{
@@ -163,8 +111,80 @@
 		$lotteryContent .= '</p>';
 	}
 
+	if (!$clearTakePart)
+	{
+		echo '<div class="attention">' . __('Attention! Lottery!', true) . ' <b>"' . $curLottery['Lottery']['hd'] . '"</b>' . $takePartLink . '</div><br />';
+	}
+
+	if ($authUser['usergroupid'] == 3) //NOT CONFIRMED
+	{
+		echo'
+			<div class="bordered">
+			<h2>' . __('Registration', true) . '</h2>
+			<h4>' . __('Registration is not confirmed', true) . '</h4>
+			<p><a href="/users/confirm">' . __('Confirm registration', true) . '</a></p>
+			</div>
+		';
+	}
+
+	echo'
+		<div class="bordered">
+		<h2>' . __('User agreement', true) . '</h2>
+	';
+	if (!$authUser['agree']) //NOT AGREE
+	{
+		echo '<h4>' . __('You are not accepted user agreement', true) . '</h4><p>';
+	    echo __('WARNING! Pay for the service V.I.P. Access can be by taking a', true) . ' <a target="_blank" href="/pages/agreement">' . __('user agreement', true) . '</a>.';
+	    echo'<br /><a href="/pays/agree" onclick=\'return confirm("' . __("Are You sure?", true) . '");\'>' . __('I accept the agreement', true) . '</a></p>';
+	}
+	else
+	{
+		echo '<h4>' . __('You are accepted user agreement', true) . '</h4><p>';
+	    echo '<a target="_blank" href="/pages/agreement">' . __('user agreement', true) . '</a>.';
+	    echo '<br /><a href="/users/drop" onclick=\'return confirm("' . __("Are You sure?", true) . '");\'>' . __('Reject and delete my account', true) . '</a></p>';
+	}
+	echo'</div>';
+
+	if ($authUser['userid'] > 0)
+	{
+		echo'
+			<div class="bordered">
+			<h2>' . __('Geography', true) . '</h2>
+		';
+	    $geoPlace = '<h4>' . __('Your geographical location', true);
+	    if (!empty($geoInfo['Geoip']['region_id']))
+	    {
+	    	$geoPlace .= ' - ' . implode(' ', array($geoInfo['city'], $geoInfo['region'])) . '. ';;
+	    }
+	    else
+	    {
+	    	$geoPlace .= ' ' . __('not identified', true) . '. ';
+	    }
+
+	    if (!empty($authUser['userid']))
+	    {
+	    	$adminLink = '<a href="/media/geoerr">' . __("contact administrator", true) . '</a>';
+	    }
+	    else
+	    {
+	    	$adminLink = __("contact administrator", true);
+	    }
+	    echo $geoPlace . '<br />' . __("If your geographical location is incorrect", true) . ', ' . $adminLink . '.</h4>
+	    <p>' . __('Depends on this is available for download by you of certain films', true) . '</p>';
+
+	    echo '</div>';
+	}
+
 	if (!empty($curLottery))
 	{
+		echo'
+			<div class="bordered">
+			<h2>' . __('Acting lottery', true) . '</h2>
+		';
+		echo '<h4>' . __('Acting lottery', true) . ' - "<i><a href="/users/lottery">' . $curLottery['Lottery']['hd'] . '</a></i>"</h4>';
+
+		echo 'До конца акции ' . $app->timeFormat(strtotime($curLottery['Lottery']['finished']) - time());
+
 		echo $takePartLink;
 
 		if (!empty($curWinLot))
@@ -181,7 +201,7 @@
 				echo '<p>Вы не оставляли комментарии к фильмам</p>';
 			if (count($userPostsCnt) > 0)
 			{
-				$td1 .= '<ol>Первые по комментариям:';
+				$td1 .= '<ol><b>Первые по комментариям:</b>';
 				for ($i = 0; $i < 5; $i++)
 				{
 					if (!empty($userPostsCnt[$i]))
@@ -204,7 +224,7 @@
 				echo '<p>Вы никого не пригласили участвовать</p>';
 			if (count($userInvitesCnt) > 0)
 			{
-				$td2 .= '<ol>Первые по приглашенным:';
+				$td2 .= '<ol><b>Первые по приглашенным:</b>';
 				for ($i = 0; $i < 5; $i++)
 				{
 					if (!empty($userInvitesCnt[$i]))
@@ -227,10 +247,19 @@
 		echo $td2;
 ?>
 </td></tr></table>
+</div>
 <?php
 	}
 
-	echo $lotteryContent;
+	if (!empty($lotteryContent))
+	{
+		echo'
+			<div class="bordered">
+			<h2>' . __('Participation in lotteries', true) . '</h2>
+		';
+		echo $lotteryContent;
+		echo'</div>';
+	}
 
 	if (!empty($payList))
 	{

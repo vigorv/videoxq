@@ -789,7 +789,7 @@ exit;
         return $picturesCmd;
     }
 
-	function set_input_server($dir='',$ip=FALSE)
+	function set_input_server($dir='',$ip=FALSE, $all = false)
 	{
 		//$dir='asbc';
 		$letter=strtolower(substr($dir,0,1));
@@ -839,6 +839,17 @@ exit;
 			$num=mt_rand(0,count($outservers)-1);
 			$downloadServer=$outservers[$num]['server'].$letter."/".$dir;
 		}
+
+		if ($all)
+		{
+			$mirrors = array();
+			foreach ($outservers as $s)
+			{
+				$mirrors[] = $s['server'] . $letter . "/" . $dir;
+			}
+			return $mirrors;
+		}
+
 		return $downloadServer;
 	}
 
