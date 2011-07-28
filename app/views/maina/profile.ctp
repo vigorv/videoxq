@@ -10,17 +10,26 @@ $html->addCrumb(__('Profile', true), '');
     }
         
     function EditField(elem){
-          var par=$(elem).parent();
-          par.find('a').hide();
-          par.find('.e_val').hide();
-          par.find('input').show();          
+        var par=$(elem).parent();
+        par.find('a').hide();
+        par.find('.e_val').hide();
+        par.find('input').show();          
     }        
+ 
+    $('.editable_l input ').keypress(function(e){
+        if(e.which == 13){
+            var par=$(this).parent();
+            par.find('input').hide();
+            par.find('.e_val').show();        
+            par.find('a').show();      
+        }
+    });
     -->
 </script>
 
 <style type="text/css">
-.editable_l span{ width:200px;}
-.editable_l input {display:none; width:200px;}
+    .editable_l span{ width:200px;}
+    .editable_l input {display:none; width:200px;}
 
 </style>
 
@@ -30,13 +39,11 @@ $html->addCrumb(__('Profile', true), '');
     <ul class="editable_l">
         <li> 
             <span><?= __('Your Login', true) ?></span>
-            <input  type="text" value="<?= htmlentities($authUser['username']); ?>" />
+            <input  type="text"  value="<?= htmlentities($authUser['username']); ?>" />
             <span class="e_val"><?= htmlentities($authUser['username']); ?></span>
             <a class="h_edit" href="#" onclick="EditField(this);return false;">edit</a>
         </li>
     </ul>
-
-                        		';
 <? else : ?>
 
     <h1>...авторизуйся, на</h1>
