@@ -780,7 +780,7 @@ if (count($variant['FilmFile']) > 0)
 				$letter='0-999';
 
 			$flowUrl = str_replace('/' . $letter . '/', ':82/' . $letter . '/', $recUrl);
-
+echo $flowUrl;
 			if ($Film['just_online'])
 			{
         		$href=__('Available online only', true) . '&nbsp;';
