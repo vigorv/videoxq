@@ -69,7 +69,9 @@ class MobileController extends AppController {
         $films = array();
 //pr($searchFor);
         if (!$films = Cache::read('Catalog.film_search_' . $title, 'searchres')) {
-            $this->Film->contain(array('FilmType', 'Genre',
+            $this->Film->contain(array(
+                'conditions' => array('is_license' => '1'),
+                'FilmType', 'Genre',
                 'Thread',
                 'FilmPicture' => array('conditions' => array('type <>' => 'smallposter')),
                 'Country',
@@ -111,10 +113,9 @@ class MobileController extends AppController {
           );
          */
 
-        if (!$this->isWS) {
+        //if (!$this->isWS) {
             $license = ' and Film.is_license = 1';
-        } else
-            $license = '';
+        //} else $license = '';
 
         $films = $this->Film->query('SELECT * FROM films as Film
                             INNER JOIN film_variants  as FilmVariant ON FilmVariant.film_id = Film.id

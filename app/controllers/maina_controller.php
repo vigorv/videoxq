@@ -12,13 +12,13 @@ class MainaController extends AppController {
     var $viewPath = 'maina';
     var $helpers = array('Html', 'javascript');
     var $components = array();
-    var $uses = array('Direction', 'News');
+    var $uses = array('Film','Direction', 'News','UserDownloadHistory','UserWishlist','UserFriends');
 
     function BeforeFilter() {
         parent::beforeFilter();
-        if (isset($_GET['ajax'])) {
+        if (isset($_REQUEST['ajax'])) {
             $this->layout = 'ajax';
-            Configure::write('debug', 1);
+            Configure::write('debug', 0);
         }
         /*
           Configure::write('debug', 1);
@@ -63,21 +63,26 @@ class MainaController extends AppController {
         $this->set('authUser', $this->authUser);
     }
 
-    private function CheckForControl($control){
+    private function CheckForControl($control) {
         /*
-        if (control in $vip) Redirect becomevip
-        
-        */
+        $UserPages = array();
+          if (control in $vip) Redirect becomevip
+
+         */
     }
-    
-    
-    function becomevip(){
-        
-        
+
+    /* Pages */
+
+    /**
+     * Страница "станьте Вип-Пользователем"
+     */
+    function becomevip() {
         
     }
-    
-    
+
+    /**
+     * Страница стартовая
+     */
     function index() {
         
     }
@@ -91,10 +96,62 @@ class MainaController extends AppController {
     public function profile($subAction = '', $param = '') {
         
     }
-    
-    public function userhistory(){
+
+    /**
+     * Страница "История скаченного
+     */
+    public function userhistory() {
+       $history = $this->UserDownloadHistory->query('SELECT * FROM userdownloadhistory WHERE user_id ='.$this->authUser['id'].' 
+           LIMIT 50');
+    }
+
+    public function allfilms() {
+        //$films = $this -> Films->find();
+    }
+
+    public function tags() {
+        if ($_POST){
+            
+        }
         
+        //$tags= $this->UserTags->query('SELECT * FROM `usertags` WHERE user_id='.$this->authUser['id'].' LIMIT 50');
+    }
+
+    public function wishlist($wish_id) {
+        if ($_POST){         
+            
+            
+        }        
+        $wishlist=$this->UserWishlist->query('SELECT * FROM `userwishlist` WHERE user_id='.$this->authUser['id']);
+    }
+
+    public function requests() {
         
     }
 
+    public function friendlist($page) {
+        if (isset($_POST['friend'])){
+            $fname = FILTER_VAR($_POST['friend'],FILTER_SANITIZE_STRING);
+        }        
+        
+        // first find my requests
+        $myfriends = $this->UserFriends->query('Select userfriends.friends_id From `userfriends`
+            JOIN userfriends as userif ON userif.friend_id=userfriends.user_id  WHERE user_id='.$this->authUser['id']);
+        
+        $myOutRequests = $this->UserFriends->query('Select userfriends.friends_id From `userfriends`
+            LEFT JOIN userfriends as userif ON userif.friend_id=userfriends.user_id  WHERE user_id='.$this->authUser['id']);
+        
+        $myInRequests = $this->UserFriends->query('Select userif.user_id From `userfriends`
+            RIGHT JOIN userfriends as userif ON userif.friend_id=userfriends.user_id  WHERE user_id='.$this->authUser['id']);
+                
+        $this->set('myfriends',$myfriends);
+        $this->set('myOutRequests',$myOutRequests);
+        $this->set('myInRequests',$myInRequests);
+    }
+    
+    public function im(){
+        
+    }
+    
+    
 }
