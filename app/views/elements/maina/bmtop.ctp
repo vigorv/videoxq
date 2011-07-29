@@ -9,7 +9,7 @@
                         <li><a class="inactive" href="/maina/tags">Метки</a>
                     </ul>
                 </li>
-                <li><a  href="/maina/userhistroy">История скаченного</a></li>
+                <li><a  href="/maina/userhistory">История скаченного</a></li>
                 <li><a class="inactive"  href="/maina/request">Заявки</a></li>
                 <li><a class="inactive" href="/maina/wishlist">Хочу посмотреть</a></li>
             </ul>
