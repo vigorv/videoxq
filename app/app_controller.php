@@ -428,7 +428,7 @@ class AppController extends Controller {
                     }
 //корректируем VIP-группу форума (это сделает beforeSave при холостом обновлении)
                     $uInfo = array('Group' => array('Group' => $this->authUserGroups), 'User' => array('userid' => $this->authUser['userid'], 'lastactivity' => time()));
-                    $this->User->save($uInfo);
+                    //$this->User->save($uInfo);
                 }
             }
             $this->set('payInfo', $payInfo);

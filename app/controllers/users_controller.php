@@ -289,11 +289,14 @@ if ($this->data["User"]["username"] == 'vanoveb')
 	function lottery($id = 0, $action = '')
 	{
 		$dup = array();
+		$winDelay = 3600 * 24 * 5;
+$winDelay = 60;
 		if ((!empty($this->authUser['userid'])) && !empty($_POST['lottery_id']))//РЕГИСТРАЦИЯ УЧАСТИЯ В РОЗЫГРЫШЕ
 		{
 			$ip = $_SERVER['REMOTE_ADDR'] . rand(0, 100);
 			$lotteryId = intval($_POST['lottery_id']);
-//ДЛЯ ТЕСТИРОВАНИЯ $dup = $this->Userlottery->find(array('Userlottery.ip' => $ip, 'Userlottery.lottery_id' => $lotteryId));
+			$dup = $this->Userlottery->find(array('Userlottery.ip' => $ip, 'Userlottery.lottery_id' => $lotteryId));
+$dup = 0;
 			if (empty($dup))//ЕСЛИ С ЭТОГО IP НЕ РЕГИСТРИРОВАЛИСЬ
 			{
 				$action = 'info';
@@ -307,6 +310,11 @@ if ($this->data["User"]["username"] == 'vanoveb')
 						'ip'			=> $ip,
 						'unique_code'	=> $code,
 						'registered'	=> date('Y-m-d H:i:s'),
+						'winner'		=> 0,
+						'bid_user_id'	=> 0,
+						'inv_user_id'	=> 0,
+						'fraze'			=> '',
+						'lottery_code'	=> '',
 				));
 				if (!empty($_POST['bid_username']))
 				{
@@ -329,16 +337,17 @@ if ($this->data["User"]["username"] == 'vanoveb')
 				{
 					$data['Userlottery']['id'] = $this->Userlottery->getInsertID();
 
-// ДЛЯ ТЕСТИРОВАНИЯ if ($data['Userlottery']['id'] % 13 == 0)
-					if ($data['Userlottery']['id'] % 2 == 0)
+//РАЗДАЧА СЛОНОВ
+/*
+РАЗДАЧУ СЛОНОВ ОТКЛАДЫВАЕМ НА НЕДЕЛЮ ПОСЛЕ РЕГИСТРАЦИИ В РОЗЫГРЫШЕ
+					if ($data['Userlottery']['id'] % 13 == 0)
 					{
 						//КАЖДЫЙ 13й ВЫИГРЫВАЕТ СУВЕНИР
-						$winner = 1;
-						/*
-						winner = 2 - ВЫИГРАЛ СТАТУС ВИП
-						winner = 3 - ВЫИГРАЛ ЕЖЕНЕДЕЛЬНЫЙ ПРИЗ ЗА ПРИГЛАШЕННЫХ
-						winner = 4 - ВЫИГРАЛ ЕЖЕНЕДЕЛЬНЫЙ ПРИЗ ЗА КОМЕНТЫ
-						*/
+						$winner = 1; - ВЫИГРАД СУВЕНИР
+						//winner = 2 - ВЫИГРАЛ СТАТУС ВИП
+						//winner = 3 - ВЫИГРАЛ ЕЖЕНЕДЕЛЬНЫЙ ПРИЗ ЗА ПРИГЛАШЕННЫХ
+						//winner = 4 - ВЫИГРАЛ ЕЖЕНЕДЕЛЬНЫЙ ПРИЗ ЗА КОМЕНТЫ
+
 						$data['Userlottery']['winner'] = $winner;
 						$this->Userlottery->save($data);
 					}
@@ -369,8 +378,11 @@ if ($this->data["User"]["username"] == 'vanoveb')
             				$this->User->save($uInfo);
 						}
 					}
+КОНЕЦ РАЗДАЧИ СЛОНОВ
+*/
 				}
 			}
+			$this->redirect('/users/lottery');
 		}
 /*
 pr($data);
@@ -398,6 +410,18 @@ exit;
 
 			if (!empty($this->authUser['userid']) && !empty($lotteryData))
 			{
+
+				if (!empty($_POST['lottery_fraze']))
+				{
+//СОХРАНЯЕМ КОДОВУЮ ФРАЗУ
+					$chanceInfo = $this->Userlottery->find(array('Userlottery.lottery_id' => $id, 'Userlottery.user_id' => $this->authUser['userid'], 'Userlottery.inv_user_id' => 0));
+					if (!empty($chanceInfo))
+					{
+						$chanceInfo['Userlottery']['fraze'] = substr($_POST['lottery_fraze'], 0, 255);
+						$this->Userlottery->save($chanceInfo);
+					}
+				}
+
 				$winnerLot = 0; $winnerRegistered = ''; $winnerInfo = array();
 				$lotteryChances = $this->Userlottery->findAll(array('Userlottery.lottery_id' => $id, 'Userlottery.user_id' => $this->authUser['userid']));
 				if (!empty($lotteryChances))
@@ -415,12 +439,11 @@ exit;
 							$winnerInfo = $lC['Userlottery'];
 							$winnerLot = $lC['Userlottery']['unique_code'];
 							$winnerRegistered = explode(' ', $lC['Userlottery']['registered']);
-							$winnerRegistered = date('Y-m-d', strtotime($winnerRegistered[0]) + 3600 * 24 * 5);
+							$winnerRegistered = date('Y-m-d', strtotime($winnerRegistered[0]) + $winDelay);
 						}
 					}
 					$inviteUsers = $this->User->findAll(array('User.userid' => $inviteUsers));
 				}
-
 
 				if (!empty($winnerLot) && ($action == 'getprize'))
 				{
@@ -440,7 +463,8 @@ exit;
                     __('Congratulations! You Win!', true) . "\n\n" .
                     __('lot of winning', true) . ' - ' . $winnerLot . "!\n\n" .
 
-"подробная инструкция: что рапечатать куда идти и что взять с собой" .
+"Дополнительную информацию с описанием подарка мы направим Вам через неделю!" .
+
                     "\n\n \n" . Configure::read('App.siteName') . " Robot");
 		            $this->Session->setFlash(__('Инструкция по получению приза отправлена вам на электронную почту!', true));
             		$this->redirect('/users/lottery/' . $lotteryData['Lottery']['id']);
@@ -472,11 +496,60 @@ exit;
 		//СТАТИСТИКА ПРИГЛАШЕННЫХ
 				$userInvitesCnt = $this->Userlottery->getInvitesCnt($id, $this->authUser['userid']);
 				$this->set('userInvitesCnt', $userInvitesCnt);
-			}
+
+		//ПРИСВОЕНИЕ СТАТУСА "ПОБЕДИТЕЛЬ" ПОСЛЕ ОТСРОЧКИ
+				$delayLst = $this->Userlottery->getDelayers($this->curLottery['Lottery']['id'], $winDelay);
+				if (!empty($delayLst))
+				{
+					foreach($delayLst as $dL)
+					{
+						//ПРОВЕРЯЕМ БЫЛ ЛИ ОПЛАЧЕН ПРИЗОВОЙ ВИП
+						$vipInfo = $this->Pay->find(array(
+							'Pay.summ' => 0,
+							'Pay.status' => _PAY_DONE_,
+							'Pay.paydate >' => strtotime($this->curLottery['Lottery']['created']),
+							'Pay.paydate <' => strtotime($this->curLottery['Lottery']['finished']),
+						));
+						if (!empty($vipInfo))
+						{
+							$winner = -2;//ЗНАЧИТ УЖЕ ВЫДАВАЛИ ВИП В КАЧЕСТВЕ ПРИЗА
+						}
+						else
+						{
+							$winner = 2;
+							$payData = array(
+								'Pay' => array(
+									'user_id' => $dL['userlotteries']['uid'],
+									'created' => time(),
+									'paydate' => time(),
+									'findate' => time() + 3600 * 24 * 30,
+									'summ'	  => 0,
+									'status'  => _PAY_DONE_,
+									'info'	  => 'lottery priz',
+								)
+							);
+							$this->Pay->create();
+							$this->Pay->save($payData);
+//корректируем VIP-группу форума (это сделает beforeSave при холостом обновлении)
+            				$uInfo =
+            					array('Group' => array(Configure::read('VIPgroupId')),
+            					'User' => array(
+            						'userid' => $dL['userlotteries']['uid'],
+            						'lastactivity' => time()
+            						)
+            					);
+            				//$this->User->save($uInfo);
+						}
+
+						$ulData = array('Userlottery' => array(
+							'id' => $dL['userlotteries']['id'],
+							'winner' => $winner,
+						));
+						$this->Userlottery->save($ulData);
+					}
+				}
 
 		//РАССЫЛКА ПИСЕМ ПОБЕДИТЕЛЯМ
-			if (!empty($this->curLottery))
-			{
 				$winnersLst = $this->Userlottery->getWinners($this->curLottery['Lottery']['id']);
 				if (!empty($winnersLst))
 				{
@@ -485,8 +558,14 @@ exit;
 						if (!empty($w['user']['email']))
 						{
 							Cache::delete('Office.winners', 'office');
+							$prize = "Главный Приз недели";
+		                    switch ($w['userlotteries']['winner'])
+		                    {
+		                    	case 2:
+		                    		$prize = "Статус VIP сроком на три месяца";
+		                    	break;
+		                    }
 
-		$fraze = rand(1000, 100000);
 							Configure::write('debug', 1);
 					        $result = $this->_sendEmail(/*from*/Configure::read('App.mailFrom'),
 		                    /*to  */$w['user']['username'] .
@@ -499,10 +578,11 @@ exit;
 		                    __("Lottery", true) . ' "' . $this->curLottery['Lottery']['hd'] . '"' . "\n\n" .
 		                    __('Congratulations! You Win!', true) . "\n\n" .
 		                    //__('lot of winning', true) . ' - ' . $winnerLot . "!\n\n" .
-		                    'Кодовая фраза - "' . $fraze . "\"!\n\n" .
+		                    //'Кодовая фраза - "' . $fraze . "\"!\n\n" .
 
-		"подробная инструкция: что рапечатать куда идти и что взять с собой" .
-		                    "\n\n \n" . Configure::read('App.siteName') . " Robot");
+		                    'Ваш приз: ' . $prize . "\n\n" .
+
+		                    Configure::read('App.siteName') . " Robot");
 
 							$ulInfo = array(
 								'Userlottery' => array(

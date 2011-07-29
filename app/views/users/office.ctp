@@ -43,7 +43,7 @@
 					if (!$oneLine)
 						$lotteryContent .= '"<a href="/users/lottery/' . $lL['Lottery']['id'] . '">' . $lL['Lottery']['hd'] . '</a>" ';
 
-					switch($uL['Userlottery']['winner'])
+					switch(abs($uL['Userlottery']['winner']))
 					{
 						case 1:
 							$registered = strtotime($uL['Userlottery']['registered']);
@@ -76,7 +76,8 @@
 							}
 						break;
 						case 2:
-							$winLot =  'Вы ' . $uL['Userlottery']['id'] . 'й! Поздравляем! Вы получили статус VIP в подарок!';
+							//$winLot =  'Вы ' . $uL['Userlottery']['id'] . 'й! Поздравляем! Вы получили статус VIP в подарок!';
+							$winLot =  'Поздравляем! Вы получили статус VIP в подарок!';
 							$status = $winLot;
 							if (!empty($curLottery['Lottery']['id']) && ($uL['Userlottery']['lottery_id'] == $curLottery['Lottery']['id']))
 							{
@@ -84,7 +85,7 @@
 							}
 						break;
 						case 3:
-							$winLot =  'Поздравляем! Вы пригласили больше всех друзей! Вы выиграли главный приз недели и звание "Незаменимый"! Уведомление и инструкции о том, как получить приз, отправлены вам на электронную почту!';
+							$winLot =  'Поздравляем! Вы пригласили больше всех друзей! Вы выиграли главный приз недели';
 							$status = $winLot;
 							if (!empty($curLottery['Lottery']['id']) && ($uL['Userlottery']['lottery_id'] == $curLottery['Lottery']['id']))
 							{
@@ -92,7 +93,7 @@
 							}
 						break;
 						case 4:
-							$winLot =  'Поздравляем! Вы оставили больше всех комментариев в обсуждениях фильмов! Вы выиграли главный приз недели! Уведомление и инструкции о том, как получить приз, отправлены вам на электронную почту!';
+							$winLot =  'Поздравляем! Вы оставили больше всех комментариев в обсуждениях фильмов!';
 							$status = $winLot;
 							if (!empty($curLottery['Lottery']['id']) && ($uL['Userlottery']['lottery_id'] == $curLottery['Lottery']['id']))
 							{
@@ -189,7 +190,7 @@
 
 		if (!empty($curWinLot))
 		{
-			echo '<h4>' . $curWinLot . '</h4><br />';
+			echo '<div class="attention">' . $curWinLot . '</div><br />';
 		}
 
 		$td1 = '';

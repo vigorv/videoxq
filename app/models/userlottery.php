@@ -3,6 +3,12 @@ class Userlottery extends AppModel {
 
 	public $name = 'Userlottery';
 
+	/**
+	 * получить список победителей лотереи
+	 *
+	 * @param int $lotteryId
+	 * @return mixed
+	 */
 	public function getWinners($lotteryId)
 	{
 		$lst = Cache::read('Office.winners', 'office');
@@ -14,6 +20,26 @@ class Userlottery extends AppModel {
 		}
 		return $lst;
 //pr($lst);
+	}
+
+	/**
+	 * получить список участников лотереи зарегистрировавшихся по прошествии срока
+	 *
+	 * @param int $lotteryId
+	 * @param int $delay - срок в секундах
+	 * @return mixed
+	 */
+	public function getDelayers($lotteryId, $delay)
+	{
+		$lst = Cache::read('Office.delayers', 'office');
+		if (!$lst)
+		{
+    	    $sql = 'SELECT userlotteries.id, userlotteries.registered, userlotteries.user_id as uid FROM userlotteries WHERE userlotteries.winner = 0 AND userlotteries.lottery_id=' . $lotteryId . ' AND userlotteries.registered < FROM_UNIXTIME(UNIX_TIMESTAMP() - ' . $delay . ')';
+	        $lst = $this->query($sql);
+			Cache::write('Office.delayers', $lst, 'office');
+		}
+		return $lst;
+pr($lst);
 	}
 
     public function getInvitesCnt($lotteryId = 0, $userId = 0)

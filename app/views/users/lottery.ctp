@@ -11,6 +11,10 @@ if (!empty($lotteryData))
 	{
 		echo '<h3>Акция закончена</h3>';
 	}
+	else
+	{
+		echo '<h3>До конца акции ' . $app->timeFormat(strtotime($curLottery['Lottery']['finished']) - time()) . '</h3>';
+	}
 ?>
 	<h3>Правила участия</h3>
 <?php
@@ -46,6 +50,17 @@ if (!empty($authUser['userid']) && (empty($lotteryChances) || (count($lotteryCha
 		foreach ($lotteryChances as $lC)
 		{
 			$lot = $lC['Userlottery']['unique_code'];
+			if (($lC['Userlottery']['inv_user_id'] == 0) && ($lotteryData['Lottery']['id'] == $curLottery['Lottery']['id']))
+			{
+?>
+<div class="bordered">
+<form name="lotteryform" method="post" action="/users/lottery/<?php $curLottery['Lottery']['id']?>">
+	<h2>Укажите фразу недели</h2>
+	<input type="text" name="lottery_fraze" value="<?php echo $lC['Userlottery']['fraze'];?>" /><br />
+	<input style="margin-top:10px;" type="submit" value="Отправить">
+</form></div>
+<?php
+			}
 			if ($lC['Userlottery']['winner'])
 			{
 				$lot = '<font color="red">' . $lot . '</font>';
@@ -56,7 +71,7 @@ if (!empty($authUser['userid']) && (empty($lotteryChances) || (count($lotteryCha
 				}
 //*/
 				$winLot =  '<h4>' . __('Congratulations! You Win!', true) . ' ' . __('lot of winning', true) . ' ' . $lot . '</h4>';
-					switch($lC['Userlottery']['winner'])
+					switch(abs($lC['Userlottery']['winner']))
 					{
 						case 1:
 							$registered = strtotime($lC['Userlottery']['registered']);
@@ -89,7 +104,8 @@ if (!empty($authUser['userid']) && (empty($lotteryChances) || (count($lotteryCha
 							}
 						break;
 						case 2:
-							$winLot =  'Вы ' . $lC['Userlottery']['id'] . 'й! Поздравляем! Вы получили статус VIP в подарок!';
+							//$winLot =  'Вы ' . $lC['Userlottery']['id'] . 'й! Поздравляем! Вы получили статус VIP в подарок!';
+							$winLot =  'Поздравляем! Вы получили статус VIP в подарок!';
 							$status = $winLot;
 							if (!empty($curLottery['Lottery']['id']) && ($lC['Userlottery']['lottery_id'] == $curLottery['Lottery']['id']))
 							{
@@ -97,7 +113,7 @@ if (!empty($authUser['userid']) && (empty($lotteryChances) || (count($lotteryCha
 							}
 						break;
 						case 3:
-							$winLot =  'Поздравляем! Вы пригласили больше всех друзей! Вы выиграли главный приз недели и звание "Незаменимый"! Уведомление и инструкции о том, как получить приз, отправлены вам на электронную почту!';
+							$winLot =  'Поздравляем! Вы пригласили больше всех друзей! Вы выиграли главный приз недели';
 							$status = $winLot;
 							if (!empty($curLottery['Lottery']['id']) && ($lC['Userlottery']['lottery_id'] == $curLottery['Lottery']['id']))
 							{
@@ -105,7 +121,7 @@ if (!empty($authUser['userid']) && (empty($lotteryChances) || (count($lotteryCha
 							}
 						break;
 						case 4:
-							$winLot =  'Поздравляем! Вы оставили больше всех комментариев в обсуждениях фильмов! Вы выиграли главный приз недели! Уведомление и инструкции о том, как получить приз, отправлены вам на электронную почту!';
+							$winLot =  'Поздравляем! Вы оставили больше всех комментариев в обсуждениях фильмов!';
 							$status = $winLot;
 							if (!empty($curLottery['Lottery']['id']) && ($lC['Userlottery']['lottery_id'] == $curLottery['Lottery']['id']))
 							{
@@ -119,9 +135,10 @@ if (!empty($authUser['userid']) && (empty($lotteryChances) || (count($lotteryCha
 
 		if (!empty($winLot))
 		{
-			$winLot = '<h4>' . $winLot . '</h4><br />';
+			$winLot = '<div class="attention">' . $winLot . '</div><br />';
 		}
-		$chancesContent .= $winLot . '</p>';
+		//$chancesContent .= $winLot . '</p>';
+		$chancesContent .= '</p>';
 	}
 
 	if (!empty($curLottery)
@@ -131,11 +148,8 @@ if (!empty($authUser['userid']) && (empty($lotteryChances) || (count($lotteryCha
 		)
 	{
 
-		echo '<h3>До конца акции ' . $app->timeFormat(strtotime($curLottery['Lottery']['finished']) - time()) . '</h3>';
 		if (!empty($lotteryChances) && count($lotteryChances) > $number)
 		{
-			echo '<h3>' . __('You are already in lottery', true) . '!</h3>';
-
 			echo $winLot;
 
 			if ($number > 0)
