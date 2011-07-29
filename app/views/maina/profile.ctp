@@ -1,7 +1,7 @@
 <?
 $html->addCrumb(__('Profile', true), '');
-$html->getCrumbs(' > ', 'Home');
-?>
+ echo $html->getCrumbs(' > ', 'Home');
+ ?>
 
 <style type="text/css">
     .editable_l span{ width:200px; }
