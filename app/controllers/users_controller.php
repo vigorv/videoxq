@@ -938,9 +938,10 @@ exit;
 		        $this->UserActivation->removeActivationByUid($this->authUser['userid']);
 		        $this->authUser['usergroupid'] = 2;
        	        $this->User->save($this->authUser);
-                $this->Session->write('Auth.' . $this->Auth2->userModel . '.vbpassword', $this->Vb->cookiePass($this->authUser['password']));
-                $this->Vb->setLoginCookies($this->authUser['userid'], $this->authUser['password']);
-		       	$user = $this->Auth2->user();
+		       	$user = $this->User->read($this->authUser['userid']);
+
+                $this->Session->write('Auth.' . $this->Auth2->userModel . '.vbpassword', $this->Vb->cookiePass($user['User']['password']));
+                $this->Vb->setLoginCookies($this->authUser['userid'], $user['User']['password']);
        	        $this->redirect('/users/office');
         	}
 
