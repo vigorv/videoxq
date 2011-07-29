@@ -51,15 +51,6 @@
                     </div>
                     <div id="block_main">
                         <?php
-                         echo $html->getCrumbs(' > ','Home');
-                        if (!empty($blockContent['header']))
-                            echo $this->element('blocks', array('blockArray' => $blockContent['header']));
-                        if ($session->check('Message.flash'))
-                            $session->flash();
-
-                        if ($session->check('Message.auth'))
-                            $session->flash('auth');
-
                         echo $content_for_layout;
                         ?>
                     </div>

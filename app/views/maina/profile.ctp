@@ -1,5 +1,6 @@
 <?
 $html->addCrumb(__('Profile', true), '');
+$html->getCrumbs(' > ', 'Home');
 ?>
 
 <style type="text/css">
