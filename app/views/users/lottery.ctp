@@ -29,6 +29,7 @@ if (!empty($lotteryData))
 			if (empty($lC['Userlotteries']['inv_user_id']))
 			{
 				$isRegistered = true;
+				break;
 			}
 		}
 	}
