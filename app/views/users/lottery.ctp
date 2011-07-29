@@ -26,7 +26,7 @@ if (!empty($lotteryData))
 	{
 		foreach ($lotteryChances as $lC)
 		{
-			if (empty($lC['Userlotteries']['inv_user_id']))
+			if (empty($lC['Userlottery']['inv_user_id']))
 			{
 				$isRegistered = true;
 				break;
