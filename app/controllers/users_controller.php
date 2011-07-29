@@ -279,13 +279,13 @@ if ($this->data["User"]["username"] == 'vanoveb')
 	{
 		$dup = array();
 		$winDelay = 3600 * 24 * 5;
-$winDelay = 60;
+//$winDelay = 60;
 		if ((!empty($this->authUser['userid'])) && !empty($_POST['lottery_id']))//РЕГИСТРАЦИЯ УЧАСТИЯ В РОЗЫГРЫШЕ
 		{
 			$ip = $_SERVER['REMOTE_ADDR'] . rand(0, 100);
 			$lotteryId = intval($_POST['lottery_id']);
 			$dup = $this->Userlottery->find(array('Userlottery.ip' => $ip, 'Userlottery.lottery_id' => $lotteryId));
-$dup = 0;
+//$dup = 0;
 			if (empty($dup))//ЕСЛИ С ЭТОГО IP НЕ РЕГИСТРИРОВАЛИСЬ
 			{
 				$action = 'info';

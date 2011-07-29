@@ -48,6 +48,7 @@ class AppController extends Controller {
 
 //ОПРЕДЕЛЕНИЕ ГЕОГРАФИИ ПОЛЬЗОВАТЕЛЯ, УЧАСТВУЮЩЕГО В ЛОТЕРЕЕ (ИМЯ ФУНКЦИИ ХРАНИМ В ТАБЛИЦЕ ЛОТЕРЕЙ)
     public function isInBarnaulLottery() {
+    	return ($this->isWS == 'STKBAR');
         return true; //В ЭТОЙ ЛОТЕРЕЕ МОГУТ УЧАСТВОВАТЬ ВСЕ ПОЛЬЗОВАТЕЛИ
         $res = false;
         $lotteryCitiesIds = array(//СПИСОК ГОРОДОВ, УЧАСТВУЮЩИХ В ЛОТЕРЕЕ
