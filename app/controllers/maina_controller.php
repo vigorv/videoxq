@@ -16,53 +16,55 @@ class MainaController extends AppController {
 
     function BeforeFilter() {
         parent::beforeFilter();
-/*
-        Configure::write('debug', 1);
-        $this->out = '';
-        $this->outCount = '';
-        $name = $this->passedArgs;
-        ksort($name);
-        foreach ($name as $k => $v) {
-            $this->out.=$k . "_" . $v . "_";
-            if ($k <> 'page')
-                $this->outCount.=$k . "_" . $v . "_";
+        if (isset($_GET['ajax'])) {
+            $this->layout = 'ajax';
+            Configure::write('debug', 1);
         }
+        /*
+          Configure::write('debug', 1);
+          $this->out = '';
+          $this->outCount = '';
+          $name = $this->passedArgs;
+          ksort($name);
+          foreach ($name as $k => $v) {
+          $this->out.=$k . "_" . $v . "_";
+          if ($k <> 'page')
+          $this->outCount.=$k . "_" . $v . "_";
+          }
 
-        $lang = Configure::read('Config.language');
-        $this->langFix = '';
-        if ($lang == _ENG_)
-            $this->langFix = '_' . _ENG_;
+          $lang = Configure::read('Config.language');
+          $this->langFix = '';
+          if ($lang == _ENG_)
+          $this->langFix = '_' . _ENG_;
 
-        $this->set('lang', $lang);
-        $this->set('langFix', $this->langFix);
-        $zone = false;
-        $zones = Configure::read('Catalog.allowedIPs');
-        $zone = checkAllowedMasks($zones, $_SERVER['REMOTE_ADDR'], 1);
-        if ($zone)
-            $this->ImgPath = Configure::read('Catalog.imgPath');
-        else
-            $this->ImgPath = Configure::read('Catalog.imgPathInet');
-*/
+          $this->set('lang', $lang);
+          $this->set('langFix', $this->langFix);
+          $zone = false;
+          $zones = Configure::read('Catalog.allowedIPs');
+          $zone = checkAllowedMasks($zones, $_SERVER['REMOTE_ADDR'], 1);
+          if ($zone)
+          $this->ImgPath = Configure::read('Catalog.imgPath');
+          else
+          $this->ImgPath = Configure::read('Catalog.imgPathInet');
+         */
         View::set('blocks_top', '/maina/btop');
-        View::set('blocks_right','/maina/bright');
-        View::set('blocks_m_top','/maina/bmtop');
+        View::set('blocks_right', '/maina/bright');
+        View::set('blocks_m_top', '/maina/bmtop');
     }
 
     function BeforeRender() {
         //parent::BeforeRender();
-
         $lang = Configure::read('Config.language');
         $langFix = '';
         if ($lang == _ENG_)
             $langFix = '_' . _ENG_;
         $this->set('lang', $lang);
         $this->set('langFix', $langFix);
-
         $this->set('authUser', $this->authUser);
     }
 
     function index() {
-
+        
     }
 
     /**
@@ -71,8 +73,8 @@ class MainaController extends AppController {
      * @param string $subAction	- субдействие
      * @param string $param		- дополнительные параметры
      */
-	public function profile($subAction = '', $param = '')
-	{
-		$this->layout = 'newstyle';
-	}
+    public function profile($subAction = '', $param = '') {
+        
+    }
+
 }

@@ -27,9 +27,15 @@
 <script langauge="javascript">
     
     $("#showdown_menu ul li  a").click(
-    function(){
-        var par = $(this).parent();
+    function(event){
+        event.preventDefault();
         var client_par = $(this);
+        var link = $(this).attr("href");
+        if (link!='#') {
+            $('#block_main').load(link,'ajax',function(){});
+            return false;
+        }        
+        var par = $(this).parent();
         if (client_par.hasClass('inactive')) return;
         if (client_par.hasClass('menu_active')){
             par.find('ul').first().slideUp('slow',
@@ -39,6 +45,7 @@
             client_par.addClass('menu_active');
             par.find('ul').first().slideDown('slow').show();           
         }
+        
     });
     
     $("#showdown_menu ul li a img").hover(

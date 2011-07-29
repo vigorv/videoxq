@@ -11,7 +11,7 @@ $html->addCrumb(__('Profile', true), '');
 </style>
 
 
-<?php if (!empty($authUser)) : ?>
+<?php if (!empty($authUser)&&(!empty($authUser['username']))) : ?>
     <h1><?php echo $authUser['username']; ?>,  твой профиль на</h1>
     <form id="editable_f"action="" method="POST">
         <ul class="editable_l">
@@ -42,7 +42,7 @@ $html->addCrumb(__('Profile', true), '');
     </form>
 <? else : ?>
 
-    <h1>...авторизуйся, на</h1>
+    <h1>.Пожалуйста авторизуйтесь</h1>
 <? endif; ?>
 
 
