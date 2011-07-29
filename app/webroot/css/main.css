@@ -18,7 +18,7 @@
 
 #block_main{
     margin-top:10px;
-    clear:left;
+    /*clear:left;*/
     float:none;
     position:relative;
     width:70%;
@@ -35,7 +35,7 @@
 }
 
 
-#showdown_menu:after{clear: left;  content: ".";  display: block;  height: 0;  visibility: hidden;}
+/*#showdown_menu:after{clear: left;  content: ".";  display: block;  height: 0;  visibility: hidden;}*/
 
 #showdown_menu ul {
 
@@ -60,14 +60,14 @@
       border-top:0;
       margin-left:-1px;
       float:left;
-      
+      z-index: 9;
 }
 #showdown_menu li ul li{
     clear:left;
 }
 
 #showdown_menu li ul li ul{
-
+    z-index: 10;
     clear:none;
     position:absolute;
     left:162px;
@@ -100,7 +100,4 @@
 }
 
 
-#showdown_menu li:hover ul { display: block; } /*  The magic */
-#showdown_menu li:hover ul li ul { display: none; } /*  The magic */
-#showdown_menu li:hover ul li:hover ul { display: block; } /*  The magic */
-#showdown_menu li:hover {background-color: yellow;}
+

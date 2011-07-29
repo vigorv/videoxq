@@ -1,6 +1,6 @@
 <div id="showdown_menu">
     <ul>
-        <li><a href="/maina/profile"><?php __('Profile');?></a></li>
+        <li><a href="/maina/profile"><?php __('Profile'); ?></a></li>
         <li><a href="#">About</a>
             <ul>
                 <li><a href="#">History -></a>
@@ -36,3 +36,34 @@
 
 
 </div>
+
+<script langauge="javascript">
+    
+    $("#showdown_menu ul li  a").click(
+    function(){
+        var par = $(this).parent();
+        if (par.hasClass('menu_active')){
+            par.removeClass('menu_active');
+            par.find('ul').first().slideUp('slow');           
+        } else{
+            par.addClass('menu_active');
+            par.find('ul').first().slideDown('slow').show();           
+        }
+    });
+    
+    $("#showdown_menu ul li").hover(
+    function(){
+        if( !($(this).hasClass('menu_active'))){
+        $(this).addClass('menu_active');
+        $(this).find('ul').first().slideDown('slow').show();           
+        }
+    },
+    function(){
+        var active_li = $(this);
+       $(this).find('ul').first().slideUp('slow',function(){
+           active_li.removeClass('menu_active');
+       });           
+    });
+       
+    
+</script>
