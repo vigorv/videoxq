@@ -940,9 +940,10 @@ exit;
        	        $this->User->save($this->authUser);
 		       	$user = $this->User->read($this->authUser['userid']);
 
-                $this->Session->write('Auth.' . $this->Auth2->userModel . '.vbpassword', $this->Vb->cookiePass($user['User']['password']));
-                $this->Vb->setLoginCookies($this->authUser['userid'], $user['User']['password']);
-       	        $this->redirect('/users/office');
+//                $this->Session->write('Auth.' . $this->Auth2->userModel . '.vbpassword', $this->Vb->cookiePass($user['User']['password']));
+//                $this->Vb->setLoginCookies($this->authUser['userid'], $user['User']['password']);
+				$this->Session->setFlash(sprintf(__('Account %s confirmed. Please login.', true));
+       	        $this->redirect('/users/logout');
         	}
 
 
