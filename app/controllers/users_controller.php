@@ -137,17 +137,6 @@ if ($this->data["User"]["username"] == 'vanoveb')
 		            if ($userInfo['User']['usergroupid'] == 3)//НЕ ПОДТВЕРЖДЕН
 		            {
 			            $this->Session->setFlash(__('Login exists Registration not confirmed', true));
-				        $activation_token = $this->Vb->createActivationId($userInfo['User']['userid'], 3);
-
-						Configure::write('debug', 1);
-				        $result = $this->_sendEmail(/*from*/Configure::read('App.mailFrom'),
-	                    /*to  */$userInfo['User']['username'] .
-	                    '<' .
-	                    $userInfo['User']['email'] .
-	                                         '>',
-	                    /*subj*/Configure::read('App.siteName') . ' - ' . __('New account', true),
-	                    /*body*/__('Your Login', true) . ": username: " . $userInfo['User']['username'] . "\n " . __('Register confirmation link', true) . ":\n" . Configure::read('App.siteUrl') . "users/confirm/" . $activation_token . "\n\n \n" . Configure::read('App.siteName') . " Robot");
-	            		//$this->redirect('/users/login');
 	            		if (!empty($this->authUser['userid']))
 	            		{
 					        if (!empty($this->data['User']["redirect"]))
@@ -747,16 +736,6 @@ exit;
 	            if ($userInfo['User']['usergroupid'] == 3)//НЕ ПОДТВЕРЖДЕН
 	            {
 		            $this->Session->setFlash(__('Login exists Registration not confirmed', true));
-			        $activation_token = $this->Vb->createActivationId($userInfo['User']['userid'], 3);
-
-					Configure::write('debug', 1);
-			        $result = $this->_sendEmail(/*from*/Configure::read('App.mailFrom'),
-                    /*to  */$userInfo['User']['username'] .
-                    '<' .
-                    $userInfo['User']['email'] .
-                                         '>',
-                    /*subj*/Configure::read('App.siteName') . ' - ' . __('New account', true),
-                    /*body*/__('Your Login', true) . ": username: " . $userInfo['User']['username'] . "\n " . __('Register confirmation link', true) . ":\n" . Configure::read('App.siteUrl') . "users/confirm/" . $activation_token . "\n\n \n" . Configure::read('App.siteName') . " Robot");
 	            }
 	            else
 	            {
@@ -959,6 +938,8 @@ exit;
 		        $this->UserActivation->removeActivationByUid($this->authUser['userid']);
 		        $this->authUser['usergroupid'] = 2;
        	        $this->User->save($this->authUser);
+                $this->Session->write('Auth.' . $this->Auth2->userModel . '.vbpassword', $this->Vb->cookiePass($this->authUser['password']));
+                $this->Vb->setLoginCookies($this->authUser['userid'], $this->authUser['password']);
 		       	$user = $this->Auth2->user();
        	        $this->redirect('/users/office');
         	}
