@@ -5,18 +5,18 @@
             <ul>
                 <li><a href="#">Избранное <img src="" alt="&#8658;"/></a>
                     <ul>
-                        <li><a class="inactive" href="#">Все фильмы</a></li>
-                        <li><a class="inactive" href="#">Метки</a>
+                        <li><a class="inactive" href="/maina/FilmList">Все фильмы</a></li>
+                        <li><a class="inactive" href="/maina/tags">Метки</a>
                     </ul>
                 </li>
-                <li><a  href="#">История скаченного</a></li>
-                <li><a class="inactive"  href="#">Заявки</a></li>
-                <li><a class="inactive" href="#">Хочу посмотреть</a></li>
+                <li><a  href="/maina/userhistroy">История скаченного</a></li>
+                <li><a class="inactive"  href="/maina/request">Заявки</a></li>
+                <li><a class="inactive" href="/maina/wishlist">Хочу посмотреть</a></li>
             </ul>
         </li>
-        <li><a class="inactive" href="#">Закулисы</a>
+        <li><a class="inactive" href="/maina/backstage">Закулисы</a>
         </li>
-        <li><a class="inactive" href="#">Друзья</a>
+        <li><a class="inactive" href="/maina/friends">Друзья</a>
         </li>
     </ul>
 
