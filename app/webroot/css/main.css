@@ -58,16 +58,25 @@
         margin: 0;
     padding: 0;
     z-index:11;
+}
 
+#showdown_menu a.inactive{
+    background-color:#aaa;
+}
+
+#showdown_menu ul li a img{
+    float:right;
 }
 
 #showdown_menu li ul {
+    position:absolute;
     clear:left;
     display: none;
       border-top:0;
-      margin-left:-1px;
+      background-color: black;
       float:left;
       z-index: 100;
+      /*border:1px solid black;*/
 }
 #showdown_menu li ul li{
     clear:left;
@@ -77,18 +86,23 @@
     z-index: 1000;
     clear:none;
     position:absolute;
-    left:162px;
-    top:0px;
+    left:160px;
+    top:5px;
     float:right;
+    border:1px inner blanchedalmond;
 }
 
 #showdown_menu li ul li ul a{
-    background-color:#DDD;
-    
+    background-color:#EEF;
+
 }
 #showdown_menu li ul li a{
-    background-color: #EEE;
+    background-color: #EFF;
     
+}
+
+#showdown_menu a.menu_active{
+    background-color:red;
 }
 
 

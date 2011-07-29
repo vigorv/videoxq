@@ -1,35 +1,22 @@
 <div id="showdown_menu">
     <ul>
         <li><a href="/maina/profile"><?php __('Profile'); ?></a></li>
-        <li><a href="#">About</a>
+        <li><a href="#">Фильмотека<img src="" alt="&#8659;"/></a>
             <ul>
-                <li><a href="#">History -></a>
+                <li><a href="#">Избранное <img src="" alt="&#8658;"/></a>
                     <ul>
-                        <li><a href="#">Home</a></li>
-                        <li><a href="#">About</a>
+                        <li><a class="inactive" href="#">Все фильмы</a></li>
+                        <li><a class="inactive" href="#">Метки</a>
                     </ul>
                 </li>
-                <li><a href="#">Team</a></li>
-                <li><a href="#">Offices</a></li>
+                <li><a class="inactive"  href="#">История скаченного</a></li>
+                <li><a class="inactive"  href="#">Заявки</a></li>
+                <li><a class="inactive" href="#">Хочу посмотреть</a></li>
             </ul>
         </li>
-        <li><a href="#">Services</a>
-            <ul>
-                <li><a href="#">Web Design</a></li>
-                <li><a href="#">Internet
-                        Marketing</a></li>
-                <li><a href="#">Hosting</a></li>
-                <li><a href="#">Domain Names</a></li>
-                <li><a href="#">Broadband</a></li>
-            </ul>
+        <li><a class="inactive" href="#">Закулисы</a>
         </li>
-        <li><a href="#">Contact Us</a>
-            <ul>
-                <li><a href="#">United Kingdom</a></li>
-                <li><a href="#">France</a></li>
-                <li><a href="#">USA</a></li>
-                <li><a href="#">Australia</a></li>
-            </ul>
+        <li><a class="inactive" href="#">Друзья</a>
         </li>
     </ul>
 
@@ -42,28 +29,42 @@
     $("#showdown_menu ul li  a").click(
     function(){
         var par = $(this).parent();
-        if (par.hasClass('menu_active')){
-            par.removeClass('menu_active');
-            par.find('ul').first().slideUp('slow');           
+        var client_par = $(this);
+        if (client_par.hasClass('inactive')) return;
+        if (client_par.hasClass('menu_active')){
+            par.find('ul').first().slideUp('slow',
+            function(){client_par.removeClass('menu_active');
+            });           
         } else{
-            par.addClass('menu_active');
+            client_par.addClass('menu_active');
             par.find('ul').first().slideDown('slow').show();           
         }
     });
     
-    $("#showdown_menu ul li").hover(
+    $("#showdown_menu ul li a img").hover(
     function(){
-        if( !($(this).hasClass('menu_active'))){
-        $(this).addClass('menu_active');
-        $(this).find('ul').first().slideDown('slow').show();           
+        var client_par = $(this).parent();
+        if (client_par.hasClass('inactive')) return;
+        var par=client_par.parent();
+        if( !(client_par.hasClass('menu_active'))){
+            client_par.addClass('menu_active');
+            par.find('ul').first().slideDown('slow').show();           
         }
     },
+    null);
+   
+   
+    $("#showdown_menu ul li").hover(
+    function(){},
     function(){
-        var active_li = $(this);
-       $(this).find('ul').first().slideUp('slow',function(){
-           active_li.removeClass('menu_active');
-       });           
+        var par=$(this);
+        var client_par = $(this).find('a').first();
+        if (client_par.hasClass('inactive')) return;
+        par.find('ul').first().slideUp('slow',function(){
+            client_par.removeClass('menu_active');
+        });          
     });
+
        
     
 </script>
