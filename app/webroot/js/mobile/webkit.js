@@ -18,7 +18,7 @@ function backToHome(){
     $('#home').show();
     $('#nextScreen').hide();
     $('#back_button').hide();
-    $('#nextScreen').clear();  
+    $('#nextScreen').text('');  
 }
 
 
