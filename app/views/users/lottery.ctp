@@ -21,7 +21,19 @@ if (!empty($lotteryData))
 	echo $lotteryData['Lottery']['txt'];
 	$number = count($inviteUsers);
 
-if (!empty($authUser['userid']) && (empty($lotteryChances) || (count($lotteryChances) <= $number)) && ($lotteryData['Lottery']['id'] == $curLottery['Lottery']['id']))
+	$isRegistered = false;
+	if (!empty($lotteryChances))
+	{
+		foreach ($lotteryChances as $lC)
+		{
+			if (empty($lC['Userlotteries']['inv_user_id']))
+			{
+				$isRegistered = true;
+			}
+		}
+	}
+
+if (!empty($authUser['userid']) && !$isRegistered && ($lotteryData['Lottery']['id'] == $curLottery['Lottery']['id']))
 {
 	if (empty($dup))
 	{
