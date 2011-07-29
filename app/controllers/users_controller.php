@@ -940,16 +940,18 @@ exit;
     //
     function confirm($activationToken = '')
     {
+/*
 		if (empty($this->authUser['userid']))
 		{
 			$this->redirect('/users/login');
 			return;
 		}
-
+*/
 		$data = false;
 		if ($activationToken)
 		{
     		$data = $this->UserActivation->findByActivationid($activationToken);
+pr($data);
 		}
         if (($activationToken === '') || (!$data))
         {
@@ -978,7 +980,7 @@ exit;
 	        $this->UserActivation->removeActivation($activationToken);
 
 	        $this->Session->setFlash(sprintf(__('Account %s confirmed. Please login.', true), $user['User']['username']));
-	        $this->redirect('login');
+	        $this->redirect('logout');
         }
     }
     //
