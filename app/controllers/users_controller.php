@@ -959,6 +959,7 @@ exit;
 		        $this->UserActivation->removeActivationByUid($this->authUser['userid']);
 		        $this->authUser['usergroupid'] = 2;
        	        $this->User->save($this->authUser);
+		       	$user = $this->Auth2->user();
        	        $this->redirect('/users/office');
         	}
 
