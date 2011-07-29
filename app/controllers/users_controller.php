@@ -951,10 +951,18 @@ exit;
 		if ($activationToken)
 		{
     		$data = $this->UserActivation->findByActivationid($activationToken);
-pr($data);
 		}
         if (($activationToken === '') || (!$data))
         {
+        	if (!empty($this->authUser['userid']))
+        	{
+		        $this->UserActivation->removeActivationByUid($this->authUser['userid']);
+		        $this->authUser['usergroupid'] = 2;
+       	        $this->User->save($this->authUser);
+       	        $this->redirect('/users/office');
+        	}
+
+
 	        $activation_token = $this->Vb->createActivationId($this->authUser['userid'], 3);
 
 			Configure::write('debug', 1);

@@ -158,7 +158,7 @@ class AppController extends Controller {
         $this->Auth2->loginAction = '/users/login';
         $this->Auth2->autoRedirect = false;
         $this->Auth2->authorize = 'controller';
-//$this->Auth2->userScope = array('User.usergroupid != 3 AND User.usergroupid != 4');
+//		$this->Auth2->userScope = array('User.usergroupid != 3 AND User.usergroupid != 4');
         $this->Auth2->userScope = array('User.usergroupid != 4'); //МОЖЕТ АВТОРИЗОВАТЬСЯ НЕПОДТВЕРЖДЕННЫЙ
 
 

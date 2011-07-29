@@ -30,5 +30,10 @@ class UserActivation extends AppModel
         $this->query('DELETE FROM useractivation WHERE activationid = ' . $activationId);
     }
 
+    function removeActivationByUid($uId)
+    {
+        $this->query('DELETE FROM useractivation WHERE userid = ' . $uId);
+    }
+
 }
 ?>
