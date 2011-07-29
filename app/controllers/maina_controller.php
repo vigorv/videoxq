@@ -63,6 +63,21 @@ class MainaController extends AppController {
         $this->set('authUser', $this->authUser);
     }
 
+    private function CheckForControl($control){
+        /*
+        if (control in $vip) Redirect becomevip
+        
+        */
+    }
+    
+    
+    function becomevip(){
+        
+        
+        
+    }
+    
+    
     function index() {
         
     }
@@ -77,7 +92,8 @@ class MainaController extends AppController {
         
     }
     
-    public function userhistroy(){
+    public function userhistory(){
+        
         
     }
 
