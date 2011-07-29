@@ -1,6 +1,6 @@
 
 #block_top{
-    min-height:10px;
+    min-height:30px;
     width:100%;
 }
 
@@ -20,11 +20,14 @@
     margin-top:10px;
     /*clear:left;*/
     float:none;
-    position:relative;
+    position:absolute;
     width:70%;
     padding:2px 5px;
     word-wrap: break-word;
+    z-index:1;
 }
+
+/*#block_main *{ z-index: 1;}*/
 
 #block_middle:after{clear: both;  content: ".";  display: block;  height: 0;  visibility: hidden;}
 
@@ -37,8 +40,11 @@
 
 /*#showdown_menu:after{clear: left;  content: ".";  display: block;  height: 0;  visibility: hidden;}*/
 
+#showdown_menu{
+    height:30px;
+}
 #showdown_menu ul {
-
+   z-index:10;
     margin: 0;
     padding: 0;
     list-style: none;
@@ -51,6 +57,7 @@
     position: relative;float:left;
         margin: 0;
     padding: 0;
+    z-index:11;
 
 }
 
@@ -60,14 +67,14 @@
       border-top:0;
       margin-left:-1px;
       float:left;
-      z-index: 9;
+      z-index: 100;
 }
 #showdown_menu li ul li{
     clear:left;
 }
 
 #showdown_menu li ul li ul{
-    z-index: 10;
+    z-index: 1000;
     clear:none;
     position:absolute;
     left:162px;
