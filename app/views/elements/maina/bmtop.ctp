@@ -9,7 +9,7 @@
                         <li><a class="inactive" href="#">Метки</a>
                     </ul>
                 </li>
-                <li><a class="inactive"  href="#">История скаченного</a></li>
+                <li><a  href="#">История скаченного</a></li>
                 <li><a class="inactive"  href="#">Заявки</a></li>
                 <li><a class="inactive" href="#">Хочу посмотреть</a></li>
             </ul>
