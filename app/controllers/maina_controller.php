@@ -76,5 +76,9 @@ class MainaController extends AppController {
     public function profile($subAction = '', $param = '') {
         
     }
+    
+    public function userhistroy(){
+        
+    }
 
 }
