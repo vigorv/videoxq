@@ -657,11 +657,11 @@ if ((!empty($variant['FilmFile'])) && (($isVip) || ($isWS)))
 if (count($variant['FilmFile']) > 0)
 {
 	$msg = '';
-	if ($Film['is_license'] && !($Film['is_justonline']))
+	if ($Film['is_license'] && !($Film['just_online']))
 	{
 		$msg = msgBox('Данный фильм (рип) был сделан с лицензионного DVD диска по соглашению с правообладателем.');
 	}
-	if ($Film['is_public'] && !($Film['is_justonline']))
+	if ($Film['is_public'] && !($Film['just_online']))
 	{
 		$msg = msgBox('Данный фильм находится в общественном достоянии. Скачивание и хранение фильма не преследуется по закону.');
 	}
@@ -784,8 +784,14 @@ if (count($variant['FilmFile']) > 0)
 			{
 				$matches = array();
 				preg_match('/_e([0-9]+)/', $recUrl, $matches);
-pr($matches);
-        		$href=__('Available online only', true) . '&nbsp;';
+//pr($matches);
+				$episode = '';
+				if (!empty($matches[1]))
+				{
+					$episode = __('episode', true) . '&nbsp;' .  intval($matches[1]) . '&nbsp;';
+				}
+
+        		$href=__('Available online only', true) . '&nbsp;' . $episode;
 			}
 			else
 			{
@@ -1590,7 +1596,7 @@ $(document).ready(function() {
 	echo $script;
 
 $c = ob_get_clean();
-if (!empty($recUrl) && !($Film['is_justonline']))
+if (!empty($recUrl) && !($Film['just_online']))
 	$c = strtr ($c, array('rel="nohref" nohref="nohref"' => 'href="' . $recUrl . '"'));
 echo $c;
 ?>
