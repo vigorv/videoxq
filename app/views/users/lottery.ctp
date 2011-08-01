@@ -232,7 +232,7 @@ if (!empty($authUser['userid']) && !$isRegistered && ($lotteryData['Lottery']['i
 
 		}
 	}
-	echo $chancesContent;
+	//echo $chancesContent;
 
 	if (empty($authUser['userid']))
 	{
