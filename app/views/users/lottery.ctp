@@ -26,7 +26,7 @@ if (!empty($lotteryData))
 	{
 		foreach ($lotteryChances as $lC)
 		{
-			if (empty($lC['Userlottery']['inv_user_id']))
+			if (empty($lC['Userlottery']['inv_user_id']))//У "СВОЕЙ" РЕГИСТРАЦИИ ЭТО ПОЛЕ ВСЕГДА ПУСТОЕ
 			{
 				$isRegistered = true;
 				break;

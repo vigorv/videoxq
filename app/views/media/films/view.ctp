@@ -657,11 +657,11 @@ if ((!empty($variant['FilmFile'])) && (($isVip) || ($isWS)))
 if (count($variant['FilmFile']) > 0)
 {
 	$msg = '';
-	if ($Film['is_license'])
+	if ($Film['is_license'] && !($Film['is_justonline']))
 	{
 		$msg = msgBox('Данный фильм (рип) был сделан с лицензионного DVD диска по соглашению с правообладателем.');
 	}
-	if ($Film['is_public'])
+	if ($Film['is_public'] && !($Film['is_justonline']))
 	{
 		$msg = msgBox('Данный фильм находится в общественном достоянии. Скачивание и хранение фильма не преследуется по закону.');
 	}
@@ -782,6 +782,9 @@ if (count($variant['FilmFile']) > 0)
 			$flowUrl = str_replace('/' . $letter . '/', ':82/' . $letter . '/', $recUrl);
 			if ($Film['just_online'])
 			{
+				$matches = array();
+				preg_match('/_e([0-9]+)/', $recUrl, $matches);
+pr($matches);
         		$href=__('Available online only', true) . '&nbsp;';
 			}
 			else
@@ -1587,7 +1590,7 @@ $(document).ready(function() {
 	echo $script;
 
 $c = ob_get_clean();
-if (!empty($recUrl))
+if (!empty($recUrl) && !($Film['is_justonline']))
 	$c = strtr ($c, array('rel="nohref" nohref="nohref"' => 'href="' . $recUrl . '"'));
 echo $c;
 ?>
