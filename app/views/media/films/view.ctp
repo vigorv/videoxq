@@ -716,7 +716,7 @@ if (count($variant['FilmFile']) > 0)
 }
     $playDisplay = 'none';  $linksCnt = 0;
 	$msg = '';
-	if (count($variant['FilmFile']) >= 3)
+	if ((count($variant['FilmFile']) >= 3) && !($Film['just_online']))
 	{
 		$msg = msgBox('Внимание! Вы можете скачивать не более 3(трех) файлов одновременно. Если вы пользуетесь менеджером закачек, пожалуйста, поставьте ограничение на скачивание не более, чем в 3(три) потока.');
     	$msg = '<tr><td colspan="4" style="padding-left:30px">' . $msg . '</td></tr>';

@@ -8586,3 +8586,6 @@ msgstr "Розыгрыш призов (лотерея)"
 
 msgid "Geography"
 msgstr "География"
+
+msgid "episode"
+msgstr "серия"
