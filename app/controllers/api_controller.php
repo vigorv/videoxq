@@ -109,9 +109,6 @@ class ApiController extends Controller {
         $this->render('api_view');
     }
 
-    function getfulliteminfo() {
-        
-    }
 
     function getitems() {
         $order = array();
@@ -178,7 +175,7 @@ class ApiController extends Controller {
         $this->render('api_view');
     }
 
-    function getFullItemInfo($filmId) {
+    function getfulliteminfo($filmId) {
         $param = array();
         $this->Film->recursive = 0;
         $this->Film->contain(array(
