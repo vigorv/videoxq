@@ -10,13 +10,13 @@ class ApiController extends Controller {
     var $name = 'Api';
     var $layout = 'ajax';
     var $viewPath = 'api';
-    var $helpers = array('Html', 'javascript', 'XML');
+    var $helpers = array('Html', 'javascript', 'Xml');
     var $components = array();
-    var $uses = array('Direction', 'News');
+    var $uses = array('Film', 'Genres');
 
     function BeforeFilter() {
         parent::BeforeFilter();
-        $this->autoRender = false;
+//        $this->autoRender = false;
     }
 
     function Login() {
@@ -47,8 +47,7 @@ class ApiController extends Controller {
                     break;
                 }
         }
-        if ($res)
-            echo $this->Xml->serialize($res);
+        $this->set('xml_data', $res);
     }
 
     function GetItem() {
@@ -69,17 +68,69 @@ class ApiController extends Controller {
 
     private function GetStartMenu() {
         $data = array();
-        $data['vxq'][0]['name'] = 'Video';
-        $data['vxq'][0]['type'] = 'menu';
+        $data['vxq']['item']['cname'] = 'Video';
+        $data['vxq']['item']['type'] = 'menu';
 
-        $data['vxq'][1]['name'] = 'Profile';
-        $data['vxq'][1]['type'] = 'Item';
+        $data['vxq'][1]['cname'] = 'Profile';
+        $data['vxq'][1]['type'] = 'item';
 
-        $data['vxq'][2]['name'] = 'Logout';
-        $data['vxq'][2]['type'] = 'Action';
+        $data['vxq'][2]['cname'] = 'Logout';
+        $data['vxq'][2]['type'] = 'action';
+        return $data;
     }
 
     private function GetItemVideo($item_id) {
+        
+    }
+
+    function getserviceinfo() {
+        $data = array();
+        $data['sort_order'][]['sort'] = array('id' => 1, 'caption' => 'По дате добавления');
+        $data['sort_order'][]['sort'] = array('id' => 2, 'caption' => 'По году выпуска');
+        $data['genres'] = $this->Genres->query("SELECT id,title FROM genres");
+
+        $this->set('xml_data', $data);
+        $this->render('api_view');
+    }
+
+    function getfulliteminfo() {
+        
+    }
+
+    function getitems() {
+        $order = array();
+        $param = array();
+        $param['conditions']['Film.is_license'] = 1;
+        $param['conditions']['Film.active'] = 1;
+        if (isset($this->passedArgs["sort_order"])) {
+            $param ['order'] = array($this->passedArgs["sort_order"] => $this->passedArgs["direction"]);
+        } //else $cond['order']
+        if (isset($this->passedArgs["limit"])) {
+            $i = int($this->passedArgs["limit"]);
+            if ($i < 50) {
+                $param ['limit'] = $this->passedArgs["limit"];
+            } else
+                $param ['limit'] = 50;
+        } else
+            $param ['limit'] = 30;
+        $data['Film'] = $this->Film->find('all', $param);
+        $this->set('xml_data', $data);
+        $this->render('api_view');
+    }
+
+    function getTop10() {
+        
+    }
+
+    function addtofavorites() {
+        
+    }
+
+    function removefromfavorites() {
+        
+    }
+
+    function getfavorites() {
         
     }
 
