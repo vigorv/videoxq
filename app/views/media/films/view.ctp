@@ -788,7 +788,7 @@ if (count($variant['FilmFile']) > 0)
 				$episode = '';
 				if (!empty($matches[1]))
 				{
-					$episode = __('episode', true) . '&nbsp;' .  intval($matches[1]) . '&nbsp;';
+					$episode = '- ' . __('episode', true) . '&nbsp;' .  intval($matches[1]) . '&nbsp;';
 				}
 
         		$href=__('Available online only', true) . '&nbsp;' . $episode;
