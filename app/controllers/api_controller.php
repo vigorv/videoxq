@@ -5,6 +5,14 @@
  *
  * @author snowing
  */
+function quot_make(&$item) {
+    if (is_array($item))
+        array_walk($item, 'quot_make');
+    else if (is_string($item)) {
+        return $item = htmlspecialchars($item);
+    }
+}
+
 class ApiController extends Controller {
 
     var $name = 'Api';
@@ -30,9 +38,9 @@ class ApiController extends Controller {
         $zones = Configure::read('Catalog.allowedIPs');
         $zone = checkAllowedMasks($zones, $_SERVER['REMOTE_ADDR'], 1);
         if ($zone)
-            $this->ImgPath = Configure::read('Catalog.imgPath');
+            $this->imgPath = Configure::read('Catalog.imgPath');
         else
-            $this->ImgPath = Configure::read('Catalog.imgPathInet');
+            $this->imgPath = Configure::read('Catalog.imgPathInet');
     }
 
     function Login() {
@@ -63,6 +71,7 @@ class ApiController extends Controller {
                     break;
                 }
         }
+
         $this->set('xml_data', $res);
     }
 
@@ -104,11 +113,10 @@ class ApiController extends Controller {
         $data['sort_order'][]['sort'] = array('id' => 1, 'caption' => 'По дате добавления');
         $data['sort_order'][]['sort'] = array('id' => 2, 'caption' => 'По году выпуска');
         $data['genres'] = $this->Genres->query("SELECT id,title FROM genres");
-
+print_r ($data['genres']);
         $this->set('xml_data', $data);
         $this->render('api_view');
     }
-
 
     function getitems() {
         $order = array();
@@ -167,33 +175,40 @@ class ApiController extends Controller {
         $param['fields'] = array('DISTINCT id', 'title', 'year', 'imdb_rating', 'FilmPicture.file_name');
         $data['Film'] = $this->Film->find('all', $param);
         foreach ($data['Film'] as &$film) {
-            print_r($data);
-            $film['poster'] = $this->imgPath . $film['FilmPicture']['file_name'];
-            unset($film['FilmPicture']['file_name']);
+            $film['poster']['href']= $this->imgPath . $film['FilmPicture']['file_name'];
+            unset($film['FilmPicture']);
         }
         $this->set('xml_data', $data);
         $this->render('api_view');
     }
 
-    function getfulliteminfo($filmId) {
-        $param = array();
-        $this->Film->recursive = 0;
-        $this->Film->contain(array(
-            'conditions'=>array('is_license' => 1, 'active' => 1),
-            'FilmType',
-            'Genre',
-            'Thread',
-            'FilmPicture' => array('conditions' => array('type <>' => 'smallposter')),
-            'Country',
-            'FilmVariant' => array('FilmFile' => array('order' => 'file_name'), 'VideoType', 'Track' => array('Language', 'Translation')),
-            'MediaRating',
-                )
-        );
-        $film = $this->Film->read(null, $filmId);
+    function getfulliteminfo($filmId=0) {        
+        $filmId = (int) $filmId;
+        if ($filmId <= 0) {            
+        } else {
+            $this->Film->contain();
+            $params = array();
+            $params['conditions'] = array('Film.is_license' => 1, 'Film.active' => 1, 'Film.id' => $filmId);
+            $params['fields'] = array('Film.id', 'Film.title', 'Film.title_en', 'Film.year', 'Film.imdb_rating', 'Film.description', 'FilmPicture.file_name');
+            $params['joins'] = array(array('table' => 'film_pictures', 'alias' => 'FilmPicture', 'type' => 'LEFT', 'conditions' => 'FilmPicture.film_id = Film.id'));
+            $params['limit'] = 1;
+            $data['Film'] = $this->Film->find('all', $params);
+            foreach ($data['Film'] as &$film) {
+                $film['poster']['href'] = $this->imgPath . $film['FilmPicture']['file_name'];
+                unset($film['FilmPicture']['file_name']);
+                unset($film['FilmPicture']);
+            }
+        }
+
+        if (empty($data['Film'])){
+            $data['errors'][]['errors']['desc']='No Film';
+            unset($data['Film']);
+        }
+        array_walk($data, 'quot_make');
         $this->set('xml_data', $data);
         $this->render('api_view');
     }
-    
+
     function getTop10() {
         
     }
