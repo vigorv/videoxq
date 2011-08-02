@@ -8,8 +8,7 @@ else
             echo '<li>'.__('You do it to fast',true).'</li>';
     } else
     foreach ($films as $row):
-        extract($row);
-    
+        extract($row);    
         if (!empty($FilmPicture['file_name']))
             $poster = $html->image($imgPath . $FilmPicture['file_name'], array('width' => 80));
         else
