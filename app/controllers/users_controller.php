@@ -942,7 +942,8 @@ exit;
 
 //                $this->Session->write('Auth.' . $this->Auth2->userModel . '.vbpassword', $this->Vb->cookiePass($user['User']['password']));
 //                $this->Vb->setLoginCookies($this->authUser['userid'], $user['User']['password']);
-				$this->Session->setFlash(__('Account %s confirmed. Please login.', true));
+	        	$this->Session->setFlash(sprintf(__('Account %s confirmed. Please login.', true), $this->authUser['username']));
+				//$this->Session->setFlash(__('Account confirmed. Please login.', true));
        	        $this->redirect('/users/logout');
         	}
 

@@ -613,7 +613,7 @@ msgstr ""
 
 #: /controllers/users_controller.php:227
 msgid "Account %s confirmed. Please login."
-msgstr ""
+msgstr "Учетная запись %s подтверждена. Авторизуйтесь, пожалуйста."
 
 #: /controllers/components/vb.php:59
 msgid "Vb::getModel() - Model is not set or could not be found"
@@ -4429,7 +4429,7 @@ msgstr ""
 
 #: /controllers/users_controller.php:227;227
 msgid "Account %s confirmed. Please login."
-msgstr ""
+msgstr "Учетная запись %s подтверждена. Авторизуйтесь, пожалуйста."
 
 #: /controllers/components/vb.php:59;59
 msgid "Vb::getModel() - Model is not set or could not be found"
