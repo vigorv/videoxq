@@ -52,7 +52,7 @@ class Userlottery extends AppModel {
 			$cnt = Cache::read('Office.invitescnt', 'office');
 			if (!$cnt)
 			{
-	    	    $sql = 'SELECT userlotteries.bid_user_id as uid, COUNT(userlotteries.id) as cnt, user.username FROM userlotteries LEFT JOIN user ON (user.userid = userlotteries.bid_user_id) WHERE userlotteries.bid_user_id > 0 AND userlotteries.lottery_id=' . $lotteryId . ' GROUP BY userlotteries.bid_user_id ORDER BY cnt DESC';
+	    	    $sql = 'SELECT userlotteries.bid_user_id as uid, COUNT(userlotteries.id) as cnt, user.username FROM userlotteries LEFT JOIN user ON (user.userid = userlotteries.bid_user_id AND user.usergroupid <> 3) WHERE userlotteries.bid_user_id > 0 AND userlotteries.lottery_id=' . $lotteryId . ' GROUP BY userlotteries.bid_user_id ORDER BY cnt DESC';
 		        $cnt = $this->query($sql);
 				Cache::write('Office.invitescnt', $cnt, 'office');
 //echo $sql;
