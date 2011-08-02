@@ -30,9 +30,10 @@ class MobileController extends AppController {
 
     function BeforeFilter() {
         parent::BeforeFilter();
-        if (isset($_GET['ajax'])) $this->layout='ajax';
+        if (isset($_GET['ajax']))
+            $this->layout = 'ajax';
 
-          //Configure::write('debug', 1);
+        //Configure::write('debug', 1);
         $this->out = '';
         $this->outCount = '';
         $name = $this->passedArgs;
@@ -101,69 +102,67 @@ class MobileController extends AppController {
 
     protected function GetFilms($conditions=array()) {
 
-        /*
-          if (!$films = Cache::read('Catalog.film_search_' . $title, 'searchres')) {
-          $this->Film->contain(array('FilmType', 'Genre',
-          'Thread',
-          'FilmPicture' => array('conditions' => array('type <>' => 'smallposter')),
-          'Country',
-          'FilmVariant' => array('FilmFile' => array('order' => 'file_name'), 'VideoType', 'Track' => array('Language', 'Translation')),
-          'MediaRating',
-          )
-          );
-         */
 
-        //if (!$this->isWS) {
+        if (!$films = Cache::read('Catalog.film_search_m_' . $title, 'searchres')) {
+            /*  $this->Film->contain(array('FilmType', 'Genre',
+              'Thread',
+              'FilmPicture' => array('conditions' => array('type <>' => 'smallposter')),
+              'Country',
+              'FilmVariant' => array('FilmFile' => array('order' => 'file_name'), 'VideoType', 'Track' => array('Language', 'Translation')),
+              'MediaRating',
+              )
+              );
+             */
+
+            //if (!$this->isWS) {
             $license = ' and Film.is_license = 1';
-        //} else $license = '';
+            //} else $license = '';
 
-        $films = $this->Film->query('SELECT * FROM films as Film
+            $films = $this->Film->query('SELECT * FROM films as Film
                             INNER JOIN film_variants  as FilmVariant ON FilmVariant.film_id = Film.id
                             LEFT JOIN film_pictures as FilmPicture ON FilmPicture.film_id = Film.id
                             LEFT JOIN media_ratings as MediaRating on MediaRating.object_id = Film.id
                            Where Film.active = 1 ' . $license . ' and FilmVariant.video_type_id = 13
                            and FilmPicture.type = "smallposter"
                            and MediaRating.type = "film"
+                           GROUP BY Film.id
                            ORDER BY Film.year Limit 20');
 
 
-        foreach ($films as &$film) {
-            $gr = $this->Film->query('SELECT genres.title,genres.title_imdb FROM films_genres
+            foreach ($films as &$film) {
+                $gr = $this->Film->query('SELECT genres.title,genres.title_imdb FROM films_genres
                             LEFT JOIN genres on genres.id = films_genres.genre_id
                             WHERE films_genres.film_id =' . $film['Film']['id']);
-            foreach ($gr as $genre)
-                $film['Genre'][] = $genre['genres'];
+                foreach ($gr as $genre)
+                    $film['Genre'][] = $genre['genres'];
+            }
+
+            /* $conditions['Film.active'] = 1;
+              $postFix = '';
+              //
+              if ($this->isWS)
+              $order = array('Film.modified' => 'desc');
+              else {
+              $order = array('Film.year' => 'desc');
+              $conditions['Film.is_license'] = 1; //ВНЕШНИМ ПОКАЗЫВАЕМ ТОЛЬКО ЛИЦЕНЗИЮ
+              $postFix = 'Licensed';
+              }
+              $joins = array('table' => 'film_variants', 'alias' => 'FilmVariant', 'type' => 'inner', 'foreignKey' => false,
+              'conditions' => array('FilmVariant.video_type_id' => 13));
+
+              if (isset($this->passedArgs["sort"]))
+              $order = array($this->passedArgs["sort"] => $this->passedArgs["direction"]);
+
+              $films = false;
+              //$films = Cache::read('Catalog.' . $postFix . 'list_' . $this->out, 'searchres');
+              if ($films === false) {//ЕСЛИ ЕЩЕ НЕ КЭШИРОВАЛ
+             * $films = $this->Film->find('all', array('conditions' => $conditions, 'joins' => array($joins)));
+
+
+              Cache::write('Catalog.' . $postFix . 'list_' . $this->out, $films, 'searchres');
+              } */
+            Cache::write('Catalog.film_search_m_'.$title, $films, 'searchres');
         }
-
-
-
-
-
-
-        /* $conditions['Film.active'] = 1;
-          $postFix = '';
-          //
-          if ($this->isWS)
-          $order = array('Film.modified' => 'desc');
-          else {
-          $order = array('Film.year' => 'desc');
-          $conditions['Film.is_license'] = 1; //ВНЕШНИМ ПОКАЗЫВАЕМ ТОЛЬКО ЛИЦЕНЗИЮ
-          $postFix = 'Licensed';
-          }
-          $joins = array('table' => 'film_variants', 'alias' => 'FilmVariant', 'type' => 'inner', 'foreignKey' => false,
-          'conditions' => array('FilmVariant.video_type_id' => 13));
-
-          if (isset($this->passedArgs["sort"]))
-          $order = array($this->passedArgs["sort"] => $this->passedArgs["direction"]);
-
-          $films = false;
-          //$films = Cache::read('Catalog.' . $postFix . 'list_' . $this->out, 'searchres');
-          if ($films === false) {//ЕСЛИ ЕЩЕ НЕ КЭШИРОВАЛ
-          $films = $this->Film->find('all', array('conditions' => $conditions, 'joins' => array($joins)));
-          Cache::write('Catalog.' . $postFix . 'list_' . $this->out, $films, 'searchres');
-          }
-         *
-         */
         $this->set('films', $films);
 
         $this->set('imgPath', $this->ImgPath);
@@ -211,40 +210,40 @@ class MobileController extends AppController {
             }
 
             //  if (!$film = Cache::read('Catalog.film_view_mob_' . $id, 'media')) {
-          /*  $film = $this->Film->query('SELECT * FROM films as Film
-                            LEFT JOIN film_variants  as FilmVariant ON FilmVariant.film_id = Film.id
-                            LEFT JOIN media_ratings as MediaRating on MediaRating.object_id = Film.id
-                           Where Film.id = ' . $id . '
-                           and Film.active = 1  and FilmVariant.video_type_id = 13
-                           and MediaRating.type = "film"
-                           ORDER BY Film.year Limit 1');
-            if (empty($film))
-                return null;*/
+            /*  $film = $this->Film->query('SELECT * FROM films as Film
+              LEFT JOIN film_variants  as FilmVariant ON FilmVariant.film_id = Film.id
+              LEFT JOIN media_ratings as MediaRating on MediaRating.object_id = Film.id
+              Where Film.id = ' . $id . '
+              and Film.active = 1  and FilmVariant.video_type_id = 13
+              and MediaRating.type = "film"
+              ORDER BY Film.year Limit 1');
+              if (empty($film))
+              return null; */
 
-          //  if (!$film = Cache::read('Catalog.film_view_' . $id, 'media')) {
-                $this->Film->recursive = 0;
-                $this->Film->contain(array('FilmType',
-                    'Genre',
-                    'Thread',
-                    'FilmPicture' => array('conditions' => array('type <>' => 'smallposter')),
-                    'Country',
-                    'FilmVariant'=>
-                        array('conditions'=>array('video_type_id'=>13),
-                            'FilmLink', 'FilmFile' => array('order' => 'file_name'), 'VideoType', 'Track' => array('Language', 'Translation')),
-                    'MediaRating',
-                        )
-                );
+            //  if (!$film = Cache::read('Catalog.film_view_' . $id, 'media')) {
+            $this->Film->recursive = 0;
+            $this->Film->contain(array('FilmType',
+                'Genre',
+                'Thread',
+                'FilmPicture' => array('conditions' => array('type <>' => 'smallposter')),
+                'Country',
+                'FilmVariant' =>
+                array('conditions' => array('video_type_id' => 13),
+                    'FilmLink', 'FilmFile' => array('order' => 'file_name'), 'VideoType', 'Track' => array('Language', 'Translation')),
+                'MediaRating',
+                    )
+            );
 
-               /* $this->Film->FilmVariant->contain(
-                        array('conditions'=>array('video_type_id'=>13),
-                            'FilmLink', 'FilmFile' => array('order' => 'file_name'), 'VideoType', 'Track' => array('Language', 'Translation')));
-                */
-                $film = $this->Film->read(null, $id);
+            /* $this->Film->FilmVariant->contain(
+              array('conditions'=>array('video_type_id'=>13),
+              'FilmLink', 'FilmFile' => array('order' => 'file_name'), 'VideoType', 'Track' => array('Language', 'Translation')));
+             */
+            $film = $this->Film->read(null, $id);
 
 
 
-                Cache::write('Catalog.film_view_' . $id, $film, 'media');
-           // }
+            Cache::write('Catalog.film_view_' . $id, $film, 'media');
+            // }
             if (!$film['Film']['active']) {
                 $this->Session->setFlash(__('Invalid Film', true));
                 $this->redirect(array('action' => 'films'));
