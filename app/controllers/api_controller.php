@@ -173,8 +173,8 @@ print_r ($data['genres']);
             $data['Count'][]['count']['count'] = $count;
 
         $param['fields'] = array('DISTINCT id', 'title', 'year', 'imdb_rating', 'FilmPicture.file_name');
-        $data['Film'] = $this->Film->find('all', $param);
-        foreach ($data['Film'] as &$film) {
+        $data['Films'] = $this->Film->find('all', $param);
+        foreach ($data['Films'] as &$film) {
             $film['poster']['href']= $this->imgPath . $film['FilmPicture']['file_name'];
             unset($film['FilmPicture']);
         }
@@ -192,17 +192,17 @@ print_r ($data['genres']);
             $params['fields'] = array('Film.id', 'Film.title', 'Film.title_en', 'Film.year', 'Film.imdb_rating', 'Film.description', 'FilmPicture.file_name');
             $params['joins'] = array(array('table' => 'film_pictures', 'alias' => 'FilmPicture', 'type' => 'LEFT', 'conditions' => 'FilmPicture.film_id = Film.id'));
             $params['limit'] = 1;
-            $data['Film'] = $this->Film->find('all', $params);
-            foreach ($data['Film'] as &$film) {
+            $data['Films'] = $this->Film->find('all', $params);
+            foreach ($data['Films'] as &$film) {
                 $film['poster']['href'] = $this->imgPath . $film['FilmPicture']['file_name'];
                 unset($film['FilmPicture']['file_name']);
                 unset($film['FilmPicture']);
             }
         }
 
-        if (empty($data['Film'])){
+        if (empty($data['Films'])){
             $data['errors'][]['errors']['desc']='No Film';
-            unset($data['Film']);
+            unset($data['Films']);
         }
         array_walk($data, 'quot_make');
         $this->set('xml_data', $data);
