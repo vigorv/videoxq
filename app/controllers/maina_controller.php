@@ -12,7 +12,10 @@ class MainaController extends AppController {
     var $viewPath = 'maina';
     var $helpers = array('Html', 'javascript');
     var $components = array();
-    var $uses = array('Film','Direction', 'News','UserDownloadHistory','UserWishlist','UserFriends');
+    var $uses = array('Film','Direction', 'News',
+        'UserDownloadHistory',
+        'UserWishlist','UserFriends'
+        );
 
     function BeforeFilter() {
         parent::beforeFilter();
