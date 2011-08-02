@@ -120,7 +120,7 @@ class ApiController extends Controller {
                 $genre_count = (int) $genre_count[0][0]['count'];
                 if (($genre_count > 0)) {
                     $genre['genres']['count'] = $genre_count;
-                    $data['genre'][] = $genre;
+                    $data['genres'][] = $genre;
                 }
             }
         }
