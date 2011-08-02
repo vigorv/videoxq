@@ -7,6 +7,7 @@
 	if (!empty($curLottery))
 	{
 		$takePartLink = '<p><a href="/users/lottery">' . __('Participate in the lottery', true) . '</a></p>';
+		$takePartButton = '<br /><button onclick="location.href=\'/users/lottery\'">' . __('Action', true) . ' "' . $curLottery['Lottery']['hd'] . '"</button>';
 	}
 	else
 	{
@@ -114,7 +115,7 @@
 
 	if (!$clearTakePart && !empty($curLottery) && !$curLottery['Lottery']['hidden'])
 	{
-		echo '<div class="attention">' . __('Attention! Lottery!', true) . ' <b>"' . $curLottery['Lottery']['hd'] . '"</b>' . $takePartLink . '</div><br />';
+		echo '<div class="attention">' . __('Attention! Lottery!', true) . ' <b>"' . $curLottery['Lottery']['hd'] . '"</b>' . $takePartButton . '</div><br />';
 	}
 
 	if ($authUser['usergroupid'] == 3) //NOT CONFIRMED

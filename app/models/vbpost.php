@@ -25,7 +25,7 @@ class Vbpost extends AppModel {
 			$cnt = Cache::read('Office.commentcnt', 'office');
 			if (!$cnt)
 			{
-	    	    $sql = 'SELECT post.userid as uid, COUNT(post.postid) as cnt, post.username FROM post INNER JOIN thread ON (thread.threadid = post.threadid AND thread.forumid = ' . Configure::read('forumId') . ') WHERE post.visible=1 AND post.username <> "MediaRobot" GROUP BY post.userid ORDER BY cnt DESC';
+	    	    $sql = 'SELECT post.userid as uid, COUNT(post.postid) as cnt, post.username FROM post INNER JOIN thread ON (thread.threadid = post.threadid AND thread.forumid = ' . Configure::read('forumId') . ') WHERE post.visible=1 AND post.username <> "MediaRobot" AND post.username <> "Igorm85" GROUP BY post.userid ORDER BY cnt DESC';
 		        $cnt = $this->query($sql);
 				Cache::write('Office.commentcnt', $cnt, 'office');
 			}

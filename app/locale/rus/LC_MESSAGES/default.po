@@ -8589,3 +8589,6 @@ msgstr "География"
 
 msgid "episode"
 msgstr "серия"
+
+msgid "Action"
+msgstr "Акция"

@@ -308,7 +308,7 @@ if ($this->data["User"]["username"] == 'vanoveb')
 				if (!empty($_POST['bid_username']))
 				{
 					$bidUser = $this->User->find(array('User.email' => $_POST['bid_username']));
-					if (!empty($bidUser))
+					if (!empty($bidUser) && ($bidUser['User']['userid'] != $this->authUser['userid']))
 					{
 						$bidData = $data;
 						$bidData['Userlottery']['inv_user_id'] = $this->authUser['userid'];

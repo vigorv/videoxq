@@ -43,7 +43,7 @@ if (!empty($authUser['userid']) && !$isRegistered && ($lotteryData['Lottery']['i
 <br /><br /><div class="bordered">
 <form name="lotteryform" method="post" action="/users/lottery">
 	<h2>Форма регистрации в розыгрыше</h2>
-	<h4>Email пригласившего вас пользователя</h4>
+	<h4>Email <u>пригласившего вас</u> пользователя</h4>
 	<input type="hidden" name="lottery_id" value="<?php echo $curLottery['Lottery']['id'];?>" />
 	<input type="text" name="bid_username" value="" /> (необязательное поле)<br />
 	<input style="margin-top:10px;" type="submit" value="Хочу участвовать!">
