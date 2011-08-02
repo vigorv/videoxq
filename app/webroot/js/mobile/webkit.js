@@ -9,8 +9,6 @@ function nextScreen(url){
             $('#back_button').show();
         }
         );
- 
-  
 }
 
 function backToHome(){
