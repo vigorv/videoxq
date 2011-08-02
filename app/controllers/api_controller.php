@@ -112,8 +112,18 @@ class ApiController extends Controller {
         $data = array();
         $data['sort_order'][]['sort'] = array('id' => 1, 'caption' => 'По дате добавления');
         $data['sort_order'][]['sort'] = array('id' => 2, 'caption' => 'По году выпуска');
-        $data['genres'] = $this->Genres->query("SELECT id,title FROM genres");
-print_r ($data['genres']);
+        $genres = $this->Genres->query("SELECT id,title FROM genres");
+//print_r ($data['genres']);
+        foreach ($genres as &$genre) {
+            if (isset($genre['genres']['id']) && $genre['genres']['id']) {
+                $genre_count = $this->Genres->query("SELECT COUNT('id') as count from films_genres WHERE genre_id =" . $genre['genres']['id']);
+                $genre_count = (int) $genre_count[0][0]['count'];
+                if (($genre_count > 0)) {
+                    $genre['genres']['count'] = $genre_count;
+                    $data['genre'][] = $genre;
+                }
+            }
+        }
         $this->set('xml_data', $data);
         $this->render('api_view');
     }
@@ -175,16 +185,17 @@ print_r ($data['genres']);
         $param['fields'] = array('DISTINCT id', 'title', 'year', 'imdb_rating', 'FilmPicture.file_name');
         $data['Films'] = $this->Film->find('all', $param);
         foreach ($data['Films'] as &$film) {
-            $film['poster']['href']= $this->imgPath . $film['FilmPicture']['file_name'];
+            $film['poster']['href'] = $this->imgPath . $film['FilmPicture']['file_name'];
             unset($film['FilmPicture']);
         }
         $this->set('xml_data', $data);
         $this->render('api_view');
     }
 
-    function getfulliteminfo($filmId=0) {        
+    function getfulliteminfo($filmId=0) {
         $filmId = (int) $filmId;
-        if ($filmId <= 0) {            
+        if ($filmId <= 0) {
+            
         } else {
             $this->Film->contain();
             $params = array();
@@ -200,8 +211,8 @@ print_r ($data['genres']);
             }
         }
 
-        if (empty($data['Films'])){
-            $data['errors'][]['errors']['desc']='No Film';
+        if (empty($data['Films'])) {
+            $data['errors'][]['errors']['desc'] = 'No Film';
             unset($data['Films']);
         }
         array_walk($data, 'quot_make');
