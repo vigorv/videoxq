@@ -371,7 +371,7 @@ if ($this->data["User"]["username"] == 'vanoveb')
 */
 				}
 			}
-			$this->redirect('/users/lottery');
+			//$this->redirect('/users/lottery');
 		}
 /*
 pr($data);
@@ -571,7 +571,7 @@ exit;
 
 		                    'Ваш приз: ' . $prize . "\n\n" .
 
-		                    Configure::read('App.siteName') . " Robot");
+		                    Configure::read('App.siteName') . " Robot", true);
 
 							$ulInfo = array(
 								'Userlottery' => array(

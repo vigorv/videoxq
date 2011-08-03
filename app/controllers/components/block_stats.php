@@ -62,56 +62,71 @@ class BlockStatsComponent extends BlocksParentComponent
 
     function showPoll()
     {
-
-        if ($data = Cache::read('Block.mainVoting', 'default'))
+       	$voted = array();
+        if ($dataAll = Cache::read('Block.mainVoting', 'default'))
         {
-            $voted = (!empty($data['Poll']['id']) && ($this->Cookie->read('Voting.' . $data['Poll']['id'])) != null) ? true : false;
-            $this->controller->set('main_voting_voted', $voted);
-
-            return $data;
+        	if (!empty($dataAll))
+        	{
+        		foreach ($dataAll as $data)
+        		{
+		        	if (!empty($data['Poll']['id']))
+		        	{
+		            	$voted[$data['Poll']['id']] = (($this->Cookie->read('Voting.' . $data['Poll']['id'])) != null) ? true : false;
+		        	}
+        		}
+            	$this->controller->set('main_voting_voted', $voted);
+        	}
+            return $dataAll;
         }
 
         $model = ClassRegistry::init('Poll');
-        $data = $model->find('first', array('order' => 'active DESC'));
-        if (!empty($data['Poll']))
+        $dataAll = $model->findAll(array('Poll.active >' => 0));
+//pr($dataAll);
+        if (!empty($dataAll))
         {
-	        $data['Poll']['answers'] = unserialize($data['Poll']['answers']);
-	        $data['Poll']['votes'] = explode('#', $data['Poll']['votes']);
-			if ($data['Poll']['active'])
-			{
-		        $tmp = array();
-				$totalVotes = 0;
-		        foreach ($data['Poll']['answers'] as $key => $vote)
-		        {
-		        	$votes = empty($data['Poll']['votes'][$key]) ? 0 : $data['Poll']['votes'][$key];
-		        	$totalVotes += $votes;
-		        }
+        	foreach ($dataAll as $k => $data)
+        	{
+		        $dataAll[$k]['Poll']['answers'] = unserialize($data['Poll']['answers']);
+		        $dataAll[$k]['Poll']['votes'] = explode('#', $data['Poll']['votes']);
+				if ($data['Poll']['active'])
+				{
+			        $tmp = array();
+					$totalVotes = 0;
+			        foreach ($dataAll[$k]['Poll']['answers'] as $key => $vote)
+			        {
+			        	$votes = empty($dataAll[$k]['Poll']['votes'][$key]) ? 0 : $dataAll[$k]['Poll']['votes'][$key];
+			        	$totalVotes += $votes;
+			        }
 
-		        foreach ($data['Poll']['answers'] as $key => $vote)
-		        {
-		            $votes = empty($data['Poll']['votes'][$key]) ? 0 : $data['Poll']['votes'][$key];
-		            //$tmp[$key]['percent'] = round(($votes * 100) / $data['Poll']['total_votes']);
-		            $tmp[$key]['percent'] = round(($votes * 100) / $totalVotes);
-		            $tmp[$key]['width'] = round(($votes * 100) / max($data['Poll']['votes']));
-		            $tmp[$key]['answer'] = $vote;
-		            $tmp[$key]['voters'] = $votes;
-		        }
-		        $data['Poll']['data'] = $tmp;
-		        $voted = ($this->Cookie->read('Voting.' . $data['Poll']['id']) != null) ? true : false;
-		        $this->controller->set('main_voting_voted', $voted);
-	    	}
-	    	else
-	    	{
-	    		$data['Poll'] = array();
-	    	}
+			        if (!empty($totalVotes))
+			        {
+				        foreach ($dataAll[$k]['Poll']['answers'] as $key => $vote)
+				        {
+				            $votes = empty($dataAll[$k]['Poll']['votes'][$key]) ? 0 : $dataAll[$k]['Poll']['votes'][$key];
+				            //$tmp[$key]['percent'] = round(($votes * 100) / $data['Poll']['total_votes']);
+				            $tmp[$key]['percent'] = round(($votes * 100) / $totalVotes);
+				            $tmp[$key]['width'] = round(($votes * 100) / max($dataAll[$k]['Poll']['votes']));
+				            $tmp[$key]['answer'] = $vote;
+				            $tmp[$key]['voters'] = $votes;
+				        }
+				        $dataAll[$k]['Poll']['data'] = $tmp;
+			        }
+			        $voted[$data['Poll']['id']] = ($this->Cookie->read('Voting.' . $data['Poll']['id']) != null) ? true : false;
+		    	}
+		    	else
+		    	{
+		    		$dataAll[$k]['Poll'] = array();
+		    	}
+        	}
+	        $this->controller->set('main_voting_voted', $voted);
         }
     	else
     	{
-    		$data['Poll'] = array();
+    		$dataAll = array();
     	}
-        Cache::write('Block.mainVoting', $data, array('config' => 'default', 'duration' => '+1 hour'));
+        Cache::write('Block.mainVoting', $dataAll, array('config' => 'default', 'duration' => '+1 hour'));
 
-        return $data;
+        return $dataAll;
     }
 
 }

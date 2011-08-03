@@ -625,7 +625,6 @@ LIMIT 1';
      *
      */
     function _initBlocks() {
-
         $blockContent = array();
 
         foreach ($this->blocksData as $blockElement) {
@@ -765,7 +764,7 @@ LIMIT 1';
      * @param unknown_type $body
      * @return unknown
      */
-    function _sendEmail($from, $to, $subj, $body) {
+    function _sendEmail($from, $to, $subj, $body, $isHTML = false) {
         /*
           $this->Email->to = $to;
 
@@ -806,7 +805,10 @@ LIMIT 1';
         $mailObj->setFrom($from);
         $mailObj->setSubject($subj);
         $body .= "\n\nPS\nПисьмо отправлено почтовым роботом. Пожалуйста, не отвечайте на него.\n\n";
-        $mailObj->setTextBody($body);
+        if ($isHTML)
+        	$mailObj->setTextBodyHTML($body);
+        else
+        	$mailObj->setTextBody($body);
         $mailObj->send();
         $mailObj = 0;
         $result = true;
