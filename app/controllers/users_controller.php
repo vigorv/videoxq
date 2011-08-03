@@ -567,7 +567,7 @@ exit;
 		                    /*subj*/Configure::read('App.siteName') . ' - ' . __('get the prize', true),
 		                    /*body*/
 		                    '<p>' . __('Hi', true) . ', ' . $w['user']['username'] . "!</p>" .
-'<p>' . date('Y.m.d') . ' вы приняли участие в акции "<a href="http://videoxq.com/users/lottery">"' . $this->curLottery['Lottery']['hd'] . '"</a>" на сайте <a href="http://videoxq.com">www.videoXQ.com</a>. Сообщаем Вам о том, что Вы выиграли приятный сюрприз от проекта: <b>VIP доступ к сайту <a href="http://videoxq.com">www.videoXQ.com</a> на 3 месяца БЕСПЛАТНО!</b></p>
+'<p>' . date('Y.m.d', ) . ' вы приняли участие в акции "<a href="http://videoxq.com/users/lottery">"' . $this->curLottery['Lottery']['hd'] . '"</a>" на сайте <a href="http://videoxq.com">www.videoXQ.com</a>. Сообщаем Вам о том, что Вы выиграли приятный сюрприз от проекта: <b>VIP доступ к сайту <a href="http://videoxq.com">www.videoXQ.com</a> на 3 месяца БЕСПЛАТНО!</b></p>
 
 <p>Для того, чтобы узнать о преимуществах - зайдите к себе <a href="http://videoxq.com/users/office">в кабинет</a>.<br />
 Напоминаем Вам, что Вы можете выиграть и другие призы, пользуясь нашим сайтом.</p>
