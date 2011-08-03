@@ -177,11 +177,30 @@ if (!empty($authUser['userid']) && !$isRegistered && ($lotteryData['Lottery']['i
 			{
 ?>
 <div class="bordered">
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<tr><td width="50%">
 <form name="lotteryform" method="post" action="/users/lottery/<?php $curLottery['Lottery']['id']?>">
 	<h2>Укажите фразу недели</h2>
 	<input type="text" name="lottery_fraze" value="<?php echo $lC['Userlottery']['fraze'];?>" /><br />
-	<input style="margin-top:10px;" type="submit" value="Отправить">
-</form></div>
+<?php
+	if (!empty($lC['Userlottery']['fraze']) && (mb_strtolower($lC['Userlottery']['fraze']) == 'пижоны'))
+	{
+		echo'<font color="green">Это правильный ответ</font>';
+	}
+	else
+	{
+		if (!empty($lC['Userlottery']['fraze']))
+		{
+			echo'<font color="red">Это неправильный ответ</font><br />';
+		}
+		echo '<input style="margin-top:10px;" type="submit" value="Отправить">';
+	}
+?>
+</form></td>
+<td><h2>Фильм недели</h2>
+<b>"<a href="/media/view/22493">Параграф 78: Фильм второй</a>" Россия 2007</b><br />
+вопрос: <i>какое слово говорит герой глядя на жетоны?</i> (время: 01:20:43)
+</td></tr></table></div>
 <?php
 			}
 			if ($lC['Userlottery']['winner'])

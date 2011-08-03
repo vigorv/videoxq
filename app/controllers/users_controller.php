@@ -409,7 +409,7 @@ exit;
 					$chanceInfo = $this->Userlottery->find(array('Userlottery.lottery_id' => $id, 'Userlottery.user_id' => $this->authUser['userid'], 'Userlottery.inv_user_id' => 0));
 					if (!empty($chanceInfo))
 					{
-						$chanceInfo['Userlottery']['fraze'] = substr($_POST['lottery_fraze'], 0, 255);
+						$chanceInfo['Userlottery']['fraze'] = substr(trim($_POST['lottery_fraze']), 0, 255);
 						$this->Userlottery->save($chanceInfo);
 					}
 				}
