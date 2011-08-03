@@ -369,9 +369,12 @@ if ($this->data["User"]["username"] == 'vanoveb')
 					}
 КОНЕЦ РАЗДАЧИ СЛОНОВ
 */
+		            $this->Session->setFlash('Вы зарегистрированы. Следите за результатами! Призы разыгрываются каждую неделю!');
 				}
 			}
-			//$this->redirect('/users/lottery');
+			else
+	            $this->Session->setFlash('С вашего адреса уже была произведена регистрация участия в розыгрыше. Повторная регистрация невозможна.');
+			$this->redirect('/users/lottery');
 		}
 /*
 pr($data);
