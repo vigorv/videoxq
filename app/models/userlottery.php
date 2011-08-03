@@ -14,7 +14,7 @@ class Userlottery extends AppModel {
 		$lst = Cache::read('Office.winners', 'office');
 		if (!$lst)
 		{
-    	    $sql = 'SELECT userlotteries.id, userlotteries.winner, userlotteries.user_id as uid, user.username, user.email FROM userlotteries LEFT JOIN user ON (user.userid = userlotteries.user_id AND user.usergroupid <> 3) WHERE userlotteries.winner > 0 AND userlotteries.inv_user_id = 0 AND userlotteries.lottery_id=' . $lotteryId . ' GROUP BY userlotteries.user_id';
+    	    $sql = 'SELECT userlotteries.id, userlotteries.winner, userlotteries.registered, userlotteries.user_id as uid, user.username, user.email FROM userlotteries LEFT JOIN user ON (user.userid = userlotteries.user_id AND user.usergroupid <> 3) WHERE userlotteries.winner > 0 AND userlotteries.inv_user_id = 0 AND userlotteries.lottery_id=' . $lotteryId . ' GROUP BY userlotteries.user_id';
 	        $lst = $this->query($sql);
 			Cache::write('Office.winners', $lst, 'office');
 		}
