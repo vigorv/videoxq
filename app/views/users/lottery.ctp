@@ -151,7 +151,7 @@ if (!empty($authUser['userid']) && !$isRegistered && ($lotteryData['Lottery']['i
 	//ЗНАЧИТ МОЖЕТ УЧАСТВОВАТЬ И НЕ ЗАРЕГИСТРИРОВАН
 ?>
 <br /><div class="bordered">
-<form name="lotteryform" method="post" action="/users/lottery" <?php if (!empty($voteMsg)) echo 'onsubmit="alert(\'' . strip_tags($voteMsg) . '\')return false"'; ?>>
+<form name="lotteryform" method="post" action="/users/lottery#fraze" <?php if (!empty($voteMsg)) echo 'onsubmit="alert(\'' . strip_tags($voteMsg) . '\')return false"'; ?>>
 	<h2>Форма регистрации в розыгрыше</h2>
 	<h4>Email <u>пригласившего вас</u> пользователя</h4>
 	<input type="hidden" name="lottery_id" value="<?php echo $curLottery['Lottery']['id'];?>" />
@@ -176,10 +176,10 @@ if (!empty($authUser['userid']) && !$isRegistered && ($lotteryData['Lottery']['i
 			if (($lC['Userlottery']['inv_user_id'] == 0) && ($lotteryData['Lottery']['id'] == $curLottery['Lottery']['id']))
 			{
 ?>
-<div class="bordered">
+<a name="fraze"></a><div class="bordered">
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr><td width="50%">
-<form name="lotteryform" method="post" action="/users/lottery/<?php $curLottery['Lottery']['id']?>">
+<form name="lotteryform" method="post" action="/users/lottery/<?php $curLottery['Lottery']['id']?>#fraze">
 	<h2>Укажите фразу недели</h2>
 	<input type="text" name="lottery_fraze" value="<?php echo $lC['Userlottery']['fraze'];?>" /><br />
 <?php
