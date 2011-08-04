@@ -1214,7 +1214,8 @@ if (!empty($authUser['userid']) || $isWS)
 	}
 	else
 	{
-		$allPanels = array('hqpanel' => __('High definition video', true), 'sqpanel' => __('Standard definition video', true), 'mobpanel' => __('Video Mobile', true), 'webpanel' => __('Search in Web', true));
+		//$allPanels = array('hqpanel' => __('High definition video', true), 'sqpanel' => __('Standard definition video', true), 'mobpanel' => __('Video Mobile', true), 'webpanel' => __('Search in Web', true));
+		$allPanels = array('webpanel' => __('Search in Web', true));
 	}
 
 	if (!empty($ozons))

@@ -2575,9 +2575,9 @@ echo'</pre>';
 			case "send": //ДЕЙСТВИЕ ОТПРАВКИ ПИСЬМА АДМИНУ
 				Configure::write('debug', 1);
 				$geoPlace = '';
-				if (!empty($geoInfo['Geoip']['region_id']))
+				if (!empty($this->geoInfo['Geoip']['region_id']))
 				{
-					$geoPlace .= implode(' ', array($geoInfo['city'], $geoInfo['region']));
+					$geoPlace .= implode(' ', array($this->geoInfo['city'], $this->geoInfo['region']));
 				}
 				else
 				{

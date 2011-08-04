@@ -21,6 +21,60 @@
 	}
 ?>
 </ul>
+<?php
+/*
+<ul id="menu">
+    <li class="active"><a href="/index/about">Новости партнеров</a></li>
+    <li ><a href="#">СТС media</a></li>
+</ul>
+
+<div class="contentColumns">
+<div id="news_ID" class="news_item">
+    <div class="news_header">
+        <a href="/news/view/' . $l['News']['id'] . '" class="news_title">«СТС Медиа» создает объединенную производственную компанию – Story First Production</a>
+        <span class="news_date">28.07.2011</span>
+        <div class="news_header_r">
+            <a href="#" class="news_author"></a>
+        </div>
+    </div>
+    <div class="news_content">
+    	Москва, Россия — 28 июля 2011 года — Ведущая независимая медиакомпания России «СТС Медиа» (NASDAQ: CTCM) объявляет об объединении собственного производства на базе двух компаний холдинга – «Костафильм» и «Сохо Медиа», и создании новой производственной компании – ООО «Стори Фёрст Продакшн» (Story First Production). Генеральным директором объединенной компании назначен Василий Балашов. Он также вошел в состав Правления «СТС Медиа», заняв позицию Заместителя генерального директора по производству.
+        <br /><a href="/news/view/' . $l['News']['id'] . '">Читать далее...</a>
+    </div>
+</div>
+
+<div id="news_ID" class="news_item">
+    <div class="news_header">
+        <a href="/news/view/' . $l['News']['id'] . '" class="news_title">«СТС Медиа» мировые профессионалы телеиндустрии делятся опытом</a>
+        <span class="news_date">27.07.2011</span>
+        <div class="news_header_r">
+            <a href="#" class="news_author"></a>
+        </div>
+    </div>
+    <div class="news_content">
+    	Москва, Россия — 27 июля 2011 года — Ведущая независимая медиа компания России «СТС Медиа» (NASDAQ: CTCM) объявляет о проведении семинара одним из ведущих мировых профессионалов в области создания и производства оригинальных сериалов – Барбарой Уолл.
+        <br /><a href="/news/view/' . $l['News']['id'] . '">Читать далее...</a>
+    </div>
+</div>
+
+<div id="news_ID" class="news_item">
+    <div class="news_header">
+        <a href="/news/view/' . $l['News']['id'] . '" class="news_title">«СТС Медиа» провела консультативный совет сети СТС</a>
+        <span class="news_date">26.07.2011</span>
+        <div class="news_header_r">
+            <a href="#" class="news_author"></a>
+        </div>
+    </div>
+    <div class="news_content">
+    	Москва, Россия — 26 июля 2011 года — Ведущая независимая медиа компания России «СТС Медиа» (NASDAQ: CTCM) объявляет о проведении Консультативного совета Сети телеканала СТС.
+        <br /><a href="/news/view/' . $l['News']['id'] . '">Читать далее...</a>
+    </div>
+</div>
+
+
+</div>
+*/
+?>
 <div class="contentColumns">
 <?php
 	if (!empty($lst))

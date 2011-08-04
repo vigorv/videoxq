@@ -23,7 +23,7 @@ else
 {
 	$geoPlace .= __('unknown', true);
 }
-echo $form->textarea('msg', array('class' => 'textInput', 'value' => __('Hello', true) . "!\n{$site}" . __('is identified geographic location as', true) . " '{$geoPlace}'.\n" . __('In fact, I\'m in another city / region', true) . ".\n\n[" . __('specify where is', true) . "]")); ?></p>
+echo $form->textarea('msg', array('class' => 'textInput', 'value' => __('Hello', true) . "!\n{$site} " . __('is identified geographic location as', true) . " '{$geoPlace}'.\n" . __('In fact, I\'m in another city / region', true) . ".\n\n[" . __('specify where is', true) . "]")); ?></p>
 <br>
 <?php
 echo $form->end(__('Report error', true));

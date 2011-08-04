@@ -28,7 +28,7 @@ $links['http://fx.nsk54.com/'] = 'Обменник1';
 	{
 		$menuItems[__("root_forum_link", true)]	= __("Forum", true);
 		$menuItems['/pages/faq']	= 'FAQ';
-		$menuItems['/news']	= __("Projects", true);
+		$menuItems['/news2']	= __("Projects", true);
 		//$menuItems['/basket']		= __("Downloads", true);
 		if (!empty($curLottery))
 		{
@@ -39,6 +39,11 @@ $links['http://fx.nsk54.com/'] = 'Обменник1';
 	{
 		$menuItems[__("root_forum_link", true)]	= __("Forum", true);
 	}
+	//$menuItems['/news']	= 'Новости партнеров';
+	//$menuItems['http://ctcmedia.ru/rus']	= '<div class="stslogo"><img src="http://ctcmedia.ru/upload/chanels/ctc.png" /></div>';
+	//$menuItems['http://videomore.ru']	= '<div class="stslogo"><img src="http://videomore.ru/images/sts.png" /></div>';
+	//$menuItems['http://videomore.ru']	= '<img src="http://videomore.ru/images/sts_footer.png" />';
+	//$menuItems['http://videomore.ru']	= '<img src="http://videomore.ru/images/sts_media.png" />';
 	$links = $menuItems;
 
 ?>
