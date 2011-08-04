@@ -628,7 +628,7 @@ $linksContent .= '
 
 		function filmClk(id)
 		{
-			window.setTimeout(\'$.get("/utils/film_clicks/\' + id + \'")\', 100);
+			$.get("/utils/film_clicks/"+id)
 			return true;
 		}
 
@@ -795,7 +795,7 @@ if (count($variant['FilmFile']) > 0)
 			}
 			else
 			{
-        		$href='<a onclick="return filmClk(' . $Film['id'] . ');" href="' . $recUrl . '">' . basename($file['file_name']) . '</a>&nbsp;';
+        		$href='<a class="nocontext" onclick="return filmClk(' . $Film['id'] . ');" href="' . $recUrl . '">' . basename($file['file_name']) . '</a>&nbsp;';
 			}
         	//$share = Film::set_input_share($Film['dir']);
 	    	$lnkInfo = pathinfo(strtolower(basename($file['file_name'])));
@@ -862,6 +862,13 @@ if (count($variant['FilmFile']) > 0)
 <script type="text/javascript" src="/js/flowplayer/flowplayer-3.2.4.min.js"></script>
 <script type="text/javascript" src="/js/flowplayer/flowplayer.ipad-3.2.1.js"></script>
 <script type="text/javascript">
+$(document).ready(function()
+{
+       $(".nocontext").bind("contextmenu",function(e){
+              return false;
+       });
+});
+
 <!--
 		function addAviVideo' . $variant['id'] . '(num, path)
 		{
