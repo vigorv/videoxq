@@ -27,7 +27,7 @@ $links['http://fx.nsk54.com/'] = 'Обменник1';
 	if (Configure::read('Config.language') == _RUS_)
 	{
 		//$menuItems[__("root_forum_link", true)]	= __("Forum", true);
-		$menuItems[__("root_forum_link", true)]	= '/forum/index.php';//НА ВРЕМЯ АКЦИИ
+		$menuItems['/forum/index.php']	= __("Forum", true);//НА ВРЕМЯ АКЦИИ
 		$menuItems['/pages/faq']	= 'FAQ';
 		$menuItems['/news']	= __("Projects", true);
 		//$menuItems['/basket']		= __("Downloads", true);
