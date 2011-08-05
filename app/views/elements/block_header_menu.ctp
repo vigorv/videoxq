@@ -26,7 +26,8 @@ $links['http://fx.nsk54.com/'] = 'Обменник1';
 	);
 	if (Configure::read('Config.language') == _RUS_)
 	{
-		$menuItems[__("root_forum_link", true)]	= __("Forum", true);
+		//$menuItems[__("root_forum_link", true)]	= __("Forum", true);
+		$menuItems[__("root_forum_link", true)]	= '/forum/index.php';//НА ВРЕМЯ АКЦИИ
 		$menuItems['/pages/faq']	= 'FAQ';
 		$menuItems['/news']	= __("Projects", true);
 		//$menuItems['/basket']		= __("Downloads", true);
@@ -38,8 +39,7 @@ $links['http://fx.nsk54.com/'] = 'Обменник1';
 	}
 	else
 	{
-		//$menuItems[__("root_forum_link", true)]	= __("Forum", true);
-		$menuItems[__("root_forum_link", true)]	= '/forum/index.php';//НА ВРЕМЯ АКЦИИ
+		$menuItems[__("root_forum_link", true)]	= __("Forum", true);
 	}
 	//$menuItems['/news']	= 'Новости партнеров';
 	//$menuItems['http://ctcmedia.ru/rus']	= '<div class="stslogo"><img src="http://ctcmedia.ru/upload/chanels/ctc.png" /></div>';
