@@ -32,7 +32,8 @@ $links['http://fx.nsk54.com/'] = 'Обменник1';
 		//$menuItems['/basket']		= __("Downloads", true);
 		if (!empty($curLottery))
 		{
-			$menuItems['/users/lottery']	= $curLottery['Lottery']['hd'];
+			//$menuItems['/users/lottery']	= $curLottery['Lottery']['hd'];
+			$menuItems['/users/lottery']	= 'Внимание Конкурс';
 		}
 	}
 	else
