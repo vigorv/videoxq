@@ -3,7 +3,7 @@ class UsersController extends AppController
 {
 
     var $name = 'Users';
-    var $helpers = array('Html' , 'Form');
+    var $helpers = array('Html' , 'Form', 'PageNavigator');
     var $components = array('Captcha' , 'Email', 'ControllerList');
     var $uses = array('User', 'Group', 'UserActivation', 'Useragreement', 'Userlottery', 'Pay', 'Usermessage',
     'Vbpost',
@@ -282,7 +282,7 @@ if ($this->data["User"]["username"] == 'vanoveb')
 //$winDelay = 60;
 		if ((!empty($this->authUser['userid'])) && !empty($_POST['lottery_id']))//РЕГИСТРАЦИЯ УЧАСТИЯ В РОЗЫГРЫШЕ
 		{
-			$ip = $_SERVER['REMOTE_ADDR'];// . rand(0, 100);
+			$ip = $_SERVER['REMOTE_ADDR'];
 			$lotteryId = intval($_POST['lottery_id']);
 			$dup = $this->Userlottery->find(array('Userlottery.ip' => $ip, 'Userlottery.lottery_id' => $lotteryId));
 //$dup = 0;
@@ -313,7 +313,7 @@ if ($this->data["User"]["username"] == 'vanoveb')
 						$bidData = $data;
 						$bidData['Userlottery']['inv_user_id'] = $this->authUser['userid'];
 						$bidData['Userlottery']['user_id'] = $bidUser['User']['userid'];
-						$bidData['Userlottery']['unique_code'] = $this->getLotteryCode(array($bidUser['User']['userid'], $ip, $lotteryId));
+						$bidData['Userlottery']['unique_code'] = $this->getLotteryCode(array($bidUser['User']['userid'], ($ip . rand(0, 100)), $lotteryId));
 						//ДОБАВЛЯЕМ ЕЩЕ ШАНС ПРИГЛАСИВШЕМУ
 						$this->Userlottery->create();
 						$this->Userlottery->save($bidData);
@@ -1133,6 +1133,41 @@ exit;
 
         $groups = $this->User->Group->find('list');
         $this->set(compact('groups'));
+    }
+
+    /**
+     * статистика участников лотереи
+     *
+     * @param int $lotteryId
+     */
+    public function admin_lottery($lotteryId = 0)
+    {
+    	if (!empty($lotteryId))
+    	{
+			$statInfo = $this->Userlottery->getLotteryStat($lotteryId, $this->passedArgs);
+			if (!empty($statInfo))
+			{
+				foreach($statInfo as $key => $value)
+				{
+					if ($value[0]['cnt'] > 1)
+					{
+						//ВЫЯСНЯЕМ СКОЛЬКО ЕГО ПРИГЛАШЕНЫХ АКТИВНЫ
+						$cnt2 = $this->Userlottery->getActiveInvites($lotteryId, $value['userlotteries']['uid']);
+						//pr($cnt2);
+						if (!empty($cnt2[0][0]['cnt']))
+						{
+							$statInfo[$key][0]['cnt2'] = $cnt2[0][0]['cnt'];
+						}
+					}
+				}
+			}
+    		$this->set('statInfo', $statInfo);
+    	}
+    	else
+    	{
+    		$lotteryLst = $this->Lottery->findAll();
+    		$this->set('lotteryLst', $lotteryLst);
+    	}
     }
 
     /**

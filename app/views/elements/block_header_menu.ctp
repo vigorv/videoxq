@@ -38,7 +38,8 @@ $links['http://fx.nsk54.com/'] = 'Обменник1';
 	}
 	else
 	{
-		$menuItems[__("root_forum_link", true)]	= __("Forum", true);
+		//$menuItems[__("root_forum_link", true)]	= __("Forum", true);
+		$menuItems[__("root_forum_link", true)]	= '/forum/index.php';//НА ВРЕМЯ АКЦИИ
 	}
 	//$menuItems['/news']	= 'Новости партнеров';
 	//$menuItems['http://ctcmedia.ru/rus']	= '<div class="stslogo"><img src="http://ctcmedia.ru/upload/chanels/ctc.png" /></div>';

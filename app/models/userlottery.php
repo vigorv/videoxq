@@ -3,6 +3,33 @@ class Userlottery extends AppModel {
 
 	public $name = 'Userlottery';
 
+	public function getActiveInvites($lotteryId, $userId)
+	{
+   	    $sql = 'SELECT COUNT(userlotteries.id) as cnt FROM userlotteries
+   	    LEFT JOIN user ON (user.userid = userlotteries.bid_user_id)
+   	    INNER JOIN user as u2 ON (u2.userid=userlotteries.user_id AND u2.usergroupid != 3
+   	    	AND u2.lastvisit - u2.joindate > 1000)
+   	    WHERE userlotteries.lottery_id=' . $lotteryId . ' AND userlotteries.bid_user_id=' . $userId . ' GROUP BY userlotteries.bid_user_id ORDER BY cnt DESC';
+        $cnt = $this->query($sql);
+        return $cnt;
+	}
+
+	/**
+	 * получить статистику по лотерее
+	 *
+	 * @param int $id
+	 * @param mixed $args
+	 */
+	public function getLotteryStat($id, $args)
+	{
+   	    $sql = 'SELECT COUNT(userlotteries.id) as cnt, userlotteries.winner, userlotteries.registered, userlotteries.registered, userlotteries.user_id as uid, user.username, user.email
+   	    		 FROM userlotteries LEFT JOIN user ON (user.userid = userlotteries.user_id)
+   	    		 WHERE userlotteries.lottery_id=' . $id . '
+   	    		 GROUP BY userlotteries.user_id ORDER BY cnt DESC';
+        $lst = $this->query($sql);
+        return $lst;
+	}
+
 	/**
 	 * получить список победителей лотереи
 	 *
