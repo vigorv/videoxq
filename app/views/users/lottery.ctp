@@ -180,7 +180,6 @@ if (!empty($authUser['userid']) && !$isRegistered && ($lotteryData['Lottery']['i
 			{
 ?>
 <a name="fraze"></a>
-<!--
 <div class="bordered">
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr><td width="50%">
@@ -188,7 +187,7 @@ if (!empty($authUser['userid']) && !$isRegistered && ($lotteryData['Lottery']['i
 	<h2>Укажите фразу недели</h2>
 	<input type="text" name="lottery_fraze" value="<?php echo $lC['Userlottery']['fraze'];?>" /><br />
 <?php
-	if (!empty($lC['Userlottery']['fraze']) && (mb_strtolower($lC['Userlottery']['fraze']) == 'пижоны'))
+	if (!empty($lC['Userlottery']['fraze']) && ((mb_strtolower($lC['Userlottery']['fraze']) == 'материя') || (mb_strtolower($lC['Userlottery']['fraze']) == 'материи')))
 	{
 		echo'<font color="green">Это правильный ответ</font>';
 	}
@@ -203,10 +202,9 @@ if (!empty($authUser['userid']) && !$isRegistered && ($lotteryData['Lottery']['i
 ?>
 </form></td>
 <td><h2>Фильм недели</h2>
-<b>"<a href="/media/view/22493">Параграф 78: Фильм второй</a>" Россия, 2007</b><br />
-<b>вопрос:</b> <i>какое слово говорит герой, глядя на жетоны?</i> (время: 01:20:43)
+<b>"<a href="/media/view/26631">Учитель</a>" СССР 1941</b><br />
+<b>вопрос:</b> <i>какое слово говорит герой?</i> (время: 00:46:19)
 </td></tr></table></div>
--->
 <?php
 			}
 			if ($lC['Userlottery']['winner'])
