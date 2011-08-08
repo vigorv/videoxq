@@ -546,7 +546,6 @@ exit;
 
 		//РАССЫЛКА ПИСЕМ ПОБЕДИТЕЛЯМ
 				$winnersLst = $this->Userlottery->getWinners($this->curLottery['Lottery']['id']);
-$winnersLst = 0;
 				if (!empty($winnersLst))
 				{
 					foreach ($winnersLst as $w)
