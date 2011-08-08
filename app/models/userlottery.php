@@ -83,8 +83,8 @@ class Userlottery extends AppModel {
 	    	    	LEFT JOIN user ON (user.userid = userlotteries.bid_user_id)
 	    	    	INNER JOIN user as u2 ON (u2.userid=userlotteries.user_id AND u2.usergroupid != 3 AND u2.lastvisit - u2.joindate > 1000)
 	    	    	WHERE userlotteries.bid_user_id > 0 AND userlotteries.lottery_id=' . $lotteryId . '
-	    	    		AND u2.joindate > UNIX_TIMESTAMP("' . _START_LOTTERY_PERIOD_ . '")
-	    	    		AND u2.joindate < UNIX_TIMESTAMP("' . _FIN_LOTTERY_PERIOD_ . '")
+	    	    		AND userlotteries.registered > "' . _START_LOTTERY_PERIOD_ . '"
+	    	    		AND userlotteries.registered < "' . _FIN_LOTTERY_PERIOD_ . '"
 	    	    	GROUP BY userlotteries.bid_user_id ORDER BY cnt DESC';
 		        $cnt = $this->query($sql);
 				Cache::write('Office.invitescnt', $cnt, 'office');
