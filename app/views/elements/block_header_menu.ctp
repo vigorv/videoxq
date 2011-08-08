@@ -34,7 +34,7 @@ $links['http://fx.nsk54.com/'] = 'Обменник1';
 		if (!empty($curLottery))
 		{
 			//$menuItems['/users/lottery']	= $curLottery['Lottery']['hd'];
-			$menuItems['/users/lottery']	= 'Внимание Конкурс';
+			$menuItems['/users/lottery']	= 'Внимание Конкурс!';
 		}
 	}
 	else

@@ -18,3 +18,8 @@ echo 'Вы вошли как ' . $authUser['username'] . '<br>';
 echo $html->link(__('Exit', true), array('action'=>'logout', 'controller' => 'users')) . '<br>';
 endif;
 ?>
+<?if (!empty($curLottery))
+{?>
+<!--<div class="attention"><b>Внимание! Розыгрыш призов!<a href=http://videoxq.com/users/lottery>
+"Ищите и найдете"</a></b></div>--->
+<?}?>

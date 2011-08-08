@@ -129,53 +129,26 @@
 		';
 	}
 
+	if (!$authUser['agree']) //NOT AGREE
+	{
 	echo'
 		<div class="bordered">
 		<h2>' . __('User agreement', true) . '</h2>
 	';
-	if (!$authUser['agree']) //NOT AGREE
-	{
+
 		echo '<h4>' . __('You are not accepted user agreement', true) . '</h4><p>';
 	    echo __('WARNING! Pay for the service V.I.P. Access can be by taking a', true) . ' <a target="_blank" href="/pages/agreement">' . __('user agreement', true) . '</a>.';
 	    echo'<br /><a href="/pays/agree" onclick=\'return confirm("' . __("Are You sure?", true) . '");\'>' . __('I accept the agreement', true) . '</a></p>';
+	echo'</div>';
 	}
-	else
+	elseif(0)
 	{
 		echo '<h4>' . __('You are accepted user agreement', true) . '</h4><p>';
 	    echo '<a target="_blank" href="/pages/agreement">' . __('user agreement', true) . '</a>.';
-	    echo '<br /><a href="/users/drop" onclick=\'return confirm("' . __("Are You sure?", true) . '");\'>' . __('Reject and delete my account', true) . '</a></p>';
+	    //echo '<br /><a href="/users/drop" onclick=\'return confirm("' . __("Are You sure?", true) . '");\'>' . __('Reject and delete my account', true) . '</a></p>';
 	}
-	echo'</div>';
+	
 
-	if ($authUser['userid'] > 0)
-	{
-		echo'
-			<div class="bordered">
-			<h2>' . __('Geography', true) . '</h2>
-		';
-	    $geoPlace = '<h4>' . __('Your geographical location', true);
-	    if (!empty($geoInfo['Geoip']['region_id']))
-	    {
-	    	$geoPlace .= ' - ' . implode(' ', array($geoInfo['city'], $geoInfo['region'])) . '. ';;
-	    }
-	    else
-	    {
-	    	$geoPlace .= ' ' . __('not identified', true) . '. ';
-	    }
-
-	    if (!empty($authUser['userid']))
-	    {
-	    	$adminLink = '<a href="/media/geoerr">' . __("contact administrator", true) . '</a>';
-	    }
-	    else
-	    {
-	    	$adminLink = __("contact administrator", true);
-	    }
-	    echo $geoPlace . '<br />' . __("If your geographical location is incorrect", true) . ', ' . $adminLink . '.</h4>
-	    <p>' . __('Depends on this is available for download by you of certain films', true) . '</p>';
-
-	    echo '</div>';
-	}
 
 	if (!empty($curLottery))
 	{
@@ -293,6 +266,36 @@
 		}
 		echo '</ul></div>';
 	}
+	if ($authUser['userid'] > 0)
+	{
+		echo'
+			<div class="bordered">
+			<h2>' . __('Geography', true) . '</h2>
+		';
+	    $geoPlace = '<h4>' . __('Your geographical location', true);
+	    if (!empty($geoInfo['Geoip']['region_id']))
+	    {
+	    	$geoPlace .= ' - ' . implode(' ', array($geoInfo['city'], $geoInfo['region'])) . '. ';;
+	    }
+	    else
+	    {
+	    	$geoPlace .= ' ' . __('not identified', true) . '. ';
+	    }
+
+	    if (!empty($authUser['userid']))
+	    {
+	    	$adminLink = '<a href="/media/geoerr">' . __("contact administrator", true) . '</a>';
+	    }
+	    else
+	    {
+	    	$adminLink = __("contact administrator", true);
+	    }
+	    echo $geoPlace . '<br />' . __("If your geographical location is incorrect", true) . ', ' . $adminLink . '.</h4>
+	    <p>' . __('Depends on this is available for download by you of certain films', true) . '</p>';
+
+	    echo '</div>';
+	}
+
 /*
 pr($userLotteries);
 pr($lotteryList);

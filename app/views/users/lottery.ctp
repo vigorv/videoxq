@@ -49,7 +49,7 @@ if (!empty($lotteryData))
 	$voteMsg = '';
 ?>
 <a name="poll"></a><div class="bordered">
-<h2>Голосование</h2>
+<center><h2>Голосование</h2></center>
 
 <table><tr valign="top">
 <?php
