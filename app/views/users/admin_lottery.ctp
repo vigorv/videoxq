@@ -11,6 +11,7 @@ if (!empty($statInfo))
 			<td>' . date('Y-m-d H:i', strtotime($sInfo['userlotteries']['registered'])) . '</td>
 			<td>' . abs($sInfo['userlotteries']['winner']) . '</td>
 			<td>' . ($sInfo[0]['cnt'] - 1) . ((!empty($sInfo[0]['cnt2'])) ? '(активных ' . $sInfo[0]['cnt2'] . ')' : '' ). '</td>
+			<td>' . $sInfo['userlotteries']['fraze'] . '</td>
 		</tr>';
 	}
 	echo '</table>';

@@ -13,7 +13,10 @@ if (!empty($lotteryData))
 	}
 	else
 	{
-		echo '<h3>До конца акции ' . $app->timeFormat(strtotime($curLottery['Lottery']['finished']) - time()) . '</h3>';
+		if (date('Y-m-d H:i:s') < $curLottery['Lottery']['finished'])
+			echo '<h3>До конца акции ' . $app->timeFormat(strtotime($curLottery['Lottery']['finished']) - time()) . '</h3>';
+		if (date('Y-m-d H:i:s') < _FIN_LOTTERY_PERIOD_)
+			echo '<h3><font color="green">До следующего розыгрыша осталось ' . $app->timeFormat(strtotime(_FIN_LOTTERY_PERIOD_) - time()) . '</font></h3>';
 	}
 ?>
 	<h3>Правила участия</h3>
@@ -176,7 +179,9 @@ if (!empty($authUser['userid']) && !$isRegistered && ($lotteryData['Lottery']['i
 			if (($lC['Userlottery']['inv_user_id'] == 0) && ($lotteryData['Lottery']['id'] == $curLottery['Lottery']['id']))
 			{
 ?>
-<a name="fraze"></a><div class="bordered">
+<a name="fraze"></a>
+<!--
+<div class="bordered">
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr><td width="50%">
 <form name="lotteryform" method="post" action="/users/lottery/<?php $curLottery['Lottery']['id']?>#fraze">
@@ -201,6 +206,7 @@ if (!empty($authUser['userid']) && !$isRegistered && ($lotteryData['Lottery']['i
 <b>"<a href="/media/view/22493">Параграф 78: Фильм второй</a>" Россия, 2007</b><br />
 <b>вопрос:</b> <i>какое слово говорит герой, глядя на жетоны?</i> (время: 01:20:43)
 </td></tr></table></div>
+-->
 <?php
 			}
 			if ($lC['Userlottery']['winner'])
@@ -302,7 +308,7 @@ if (!empty($authUser['userid']) && !$isRegistered && ($lotteryData['Lottery']['i
 			else
 			{
 	?>
-	<h3>Вы никого не пригласили участвовать :(</h3>
+	<h3><font color="red">Вы никого не пригласили участвовать в период текущего розыгрыша (с <?php echo _START_LOTTERY_PERIOD_; ?> по <?php echo _FIN_LOTTERY_PERIOD_; ?>)</font></h3>
 	<?php
 			}
 
@@ -312,7 +318,7 @@ if (!empty($authUser['userid']) && !$isRegistered && ($lotteryData['Lottery']['i
 		if (!empty($userPostCnt[5]))
 			echo '<p>Коментов к фильмам: ' . $userPostsCnt[5][1] . ' (это ' . $userPostsCnt[5][0] . ' место)</p>';
 		else
-			echo '<p>Вы не оставляли комментарии к фильмам</p>';
+			echo '<p><font color="red">Вы не оставляли комментарии к фильмам в период текущего розыгрыша (с ' . _START_LOTTERY_PERIOD_ . ' по ' . _FIN_LOTTERY_PERIOD_ . ')</font></p>';
 		if (count($userPostsCnt) > 0)
 		{
 			$td1 .= '<ol><b>Первые по комментариям:</b>';
@@ -333,7 +339,7 @@ if (!empty($authUser['userid']) && !$isRegistered && ($lotteryData['Lottery']['i
 		if (!empty($userInvitesCnt[5]))
 			echo '<p>Количество ваших приглашенных: ' . $userInvitesCnt[5][1] . ' (это ' . $userInvitesCnt[5][0] . ' место)</p>';
 		else
-			echo '<p>Вы никого не пригласили участвовать</p>';
+			echo '<p><font color="red">Вы никого не пригласили участвовать в период текущего розыгрыша (с ' . _START_LOTTERY_PERIOD_ . ' по ' . _FIN_LOTTERY_PERIOD_ . ')</font></p>';
 		if (count($userInvitesCnt) > 0)
 		{
 			$td2 .= '<ol><b>Первые по приглашенным:</b>';

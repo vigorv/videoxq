@@ -124,7 +124,7 @@ if ((!empty($blockContent['right'])) && ($this->params['controller']=='media') &
 		<br />
 		<span>© «<a href="http://www.videoxq.com">videoxq.com</a>», 2007-<?php echo date('Y');?></span><br />
 		<span><a href="mailto:support@videoxq.com">email: support@videoxq.com</a></span><br />
-		<span><a href="/pages/reklama<?php echo $langFix;?>"><?php __("Advertisement"); ?></a> | <a href="/pages/kontaktyi<?php echo $langFix;?>"><?php __("Contacts"); ?></a> | <a href="/pages/nashi-partneryi<?php echo $langFix;?>"><?php __("Partners"); ?></a></span>
+		<span><a href="/pages/reklama<?php echo $langFix;?>"><?php __("Advertisement"); ?></a> | <a href="/pages/kontaktyi<?php echo $langFix;?>"><?php __("Contacts"); ?></a> | <a href="/pages/nashi-partneryi<?php echo $langFix;?>"><?php __("Partners"); ?></a> | <a href="/pages/agreement"><?php __('user agreement');?></a></a></span>
 	</div>
 <?php
 if (isset($authUserGroups) && in_array(Configure::read('VIPgroupId'), $authUserGroups))

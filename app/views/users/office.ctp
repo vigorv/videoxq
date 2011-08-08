@@ -147,7 +147,7 @@
 	    echo '<a target="_blank" href="/pages/agreement">' . __('user agreement', true) . '</a>.';
 	    //echo '<br /><a href="/users/drop" onclick=\'return confirm("' . __("Are You sure?", true) . '");\'>' . __('Reject and delete my account', true) . '</a></p>';
 	}
-	
+
 
 
 	if (!empty($curLottery))
@@ -158,7 +158,10 @@
 		';
 		echo '<h4>' . __('Acting lottery', true) . ' - "<i><a href="/users/lottery">' . $curLottery['Lottery']['hd'] . '</a></i>"</h4>';
 
-		echo 'До конца акции ' . $app->timeFormat(strtotime($curLottery['Lottery']['finished']) - time());
+		if (date('Y-m-d H:i:s') < $curLottery['Lottery']['finished'])
+			echo 'До конца акции ' . $app->timeFormat(strtotime($curLottery['Lottery']['finished']) - time());
+		if (date('Y-m-d H:i:s') < _FIN_LOTTERY_PERIOD_)
+			echo '<br /><font color="green">До следующего розыгрыша осталось ' . $app->timeFormat(strtotime(_FIN_LOTTERY_PERIOD_) - time()) . '</font>';
 
 		echo $takePartLink;
 
@@ -173,7 +176,7 @@
 			if (!empty($userPostCnt[5]))
 				echo '<p>Коментов к фильмам: ' . $userPostsCnt[5][1] . ' (это ' . $userPostsCnt[5][0] . ' место)</p>';
 			else
-				echo '<p>Вы не оставляли комментарии к фильмам</p>';
+				echo '<p>Вы не оставляли комментарии к фильмам в период текущего розыгрыша (с ' . _START_LOTTERY_PERIOD_ . ' по ' . _FIN_LOTTERY_PERIOD_ . ')</font></p>';
 			if (count($userPostsCnt) > 0)
 			{
 				$td1 .= '<ol><b>Первые по комментариям:</b>';
@@ -188,7 +191,7 @@
 			}
 		}
 		else
-			echo '<p>Вы не оставляли комментарии к фильмам</p>';
+			echo '<p>Вы не оставляли комментарии к фильмам в период текущего розыгрыша (с ' . _START_LOTTERY_PERIOD_ . ' по ' . _FIN_LOTTERY_PERIOD_ . ')</font></p>';
 
 		$td2 = '';
 		if (!empty($userInvitesCnt))
@@ -196,7 +199,7 @@
 			if (!empty($userInvitesCnt[5]))
 				echo '<p>Количество ваших приглашенных: ' . $userInvitesCnt[5][1] . ' (это ' . $userInvitesCnt[5][0] . ' место)</p>';
 			else
-				echo '<p>Вы никого не пригласили участвовать</p>';
+				echo '<p>Вы никого не пригласили участвовать в период текущего розыгрыша (с ' . _START_LOTTERY_PERIOD_ . ' по ' . _FIN_LOTTERY_PERIOD_ . ')</font></p>';
 			if (count($userInvitesCnt) > 0)
 			{
 				$td2 .= '<ol><b>Первые по приглашенным:</b>';
@@ -211,7 +214,7 @@
 			}
 		}
 		else
-			echo '<p>Вы никого не пригласили участвовать</p>';
+			echo '<p>Вы никого не пригласили участвовать в период текущего розыгрыша (с ' . _START_LOTTERY_PERIOD_ . ' по ' . _FIN_LOTTERY_PERIOD_ . ')</font></p>';
 ?>
 	<table cellpadding="0" cellspacing="5" border="0"><tr valign="top"><td width="50%">
 <?php
