@@ -531,6 +531,8 @@ exit;
             						'lastactivity' => time()
             						)
             					);
+    						$sql = 'insert into groups_users (group_id, user_id) values (' . Configure::read('VIPgroupId') . ', ' . $dL['userlotteries']['uid'] . ')';
+    						$this->User->query($sql);
             				//$this->User->save($uInfo);
 						}
 
