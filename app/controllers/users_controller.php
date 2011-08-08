@@ -498,6 +498,7 @@ exit;
 						//ПРОВЕРЯЕМ БЫЛ ЛИ ОПЛАЧЕН ПРИЗОВОЙ ВИП
 						$vipInfo = $this->Pay->find(array(
 							'Pay.summ' => 0,
+							'Pay.user_id' => $dL['userlotteries']['uid'],
 							'Pay.status' => _PAY_DONE_,
 							'Pay.paydate >' => strtotime($this->curLottery['Lottery']['created']),
 							'Pay.paydate <' => strtotime($this->curLottery['Lottery']['finished']),
@@ -543,6 +544,7 @@ exit;
 
 		//РАССЫЛКА ПИСЕМ ПОБЕДИТЕЛЯМ
 				$winnersLst = $this->Userlottery->getWinners($this->curLottery['Lottery']['id']);
+$winnersLst = 0;
 				if (!empty($winnersLst))
 				{
 					foreach ($winnersLst as $w)

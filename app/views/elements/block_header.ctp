@@ -75,16 +75,19 @@ else
     </div>
 </div>
 
-<?
+<?php
 if (!empty($curLottery))
 //if($authUser['usergroupid']==6)
-{?>
+{
+?>
 <div class="attention" style="width:100%">
-<H3><b><i>Пользователям Алтайского края! Конфеденциально!<a href=http://videoxq.com/users/lottery>
+<H3><b><i>Пользователям Алтайского края! Конфиденциально!<a href=http://videoxq.com/users/lottery>
 "Ищите и найдете"...</a></b></i></H3>
 
 </div>
 <br>
 <br>
-<?}?>
+<?php
+}
+?>
 
