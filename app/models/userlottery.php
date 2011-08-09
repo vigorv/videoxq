@@ -8,7 +8,7 @@ class Userlottery extends AppModel {
    	    $sql = 'SELECT COUNT(userlotteries.id) as cnt FROM userlotteries
    	    LEFT JOIN user ON (user.userid = userlotteries.bid_user_id)
    	    INNER JOIN user as u2 ON (u2.userid=userlotteries.user_id AND u2.usergroupid != 3
-   	    	AND u2.lastvisit - u2.joindate > 1000)
+   	    	AND u2.lastvisit - u2.joindate > 300)
    	    WHERE userlotteries.lottery_id=' . $lotteryId . ' AND userlotteries.bid_user_id=' . $userId . ' GROUP BY userlotteries.bid_user_id ORDER BY cnt DESC';
         $cnt = $this->query($sql);
         return $cnt;
