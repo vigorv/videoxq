@@ -6,6 +6,7 @@ if (!empty($statInfo))
 	foreach ($statInfo as $sInfo)
 	{
 		echo '<tr>
+			<td>' . $sInfo['userlotteries']['uid'] . '</td>
 			<td>' . $sInfo['user']['username'] . '</td>
 			<td>' . $sInfo['user']['email'] . '</td>
 			<td>' . date('Y-m-d H:i', strtotime($sInfo['userlotteries']['registered'])) . '</td>
