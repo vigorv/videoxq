@@ -21,7 +21,9 @@ if (!empty($lotteryData))
 ?>
 	<h3>Правила участия</h3>
 <?php
+	echo '<div id="text-box">';
 	echo $lotteryData['Lottery']['txt'];
+	echo '</div>';
 	$number = count($inviteUsers);
 
 	$isRegistered = false;
@@ -381,3 +383,11 @@ else
 }
 ?>
 </div><br />
+<script type="text/javascript" src="/css/nifty/niftycube.js"></script>
+<script type="text/javascript">
+window.onload=function(){
+Nifty("div#top-box","transparent");
+Nifty("div#text-box","transparent");
+Nifty("div#right-box","transparent");
+}
+</script>
