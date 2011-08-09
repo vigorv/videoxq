@@ -22,7 +22,8 @@ class Userlottery extends AppModel {
 	 */
 	public function getLotteryStat($id, $args)
 	{
-   	    $sql = 'SELECT COUNT(userlotteries.id) as cnt, userlotteries.winner, userlotteries.registered, userlotteries.registered, userlotteries.user_id as uid, user.username, user.email
+   	    $sql = 'SELECT COUNT(userlotteries.id) as cnt, userlotteries.winner, userlotteries.registered,
+   	    		userlotteries.user_id as uid, user.username, user.email, userlotteries.fraze
    	    		 FROM userlotteries LEFT JOIN user ON (user.userid = userlotteries.user_id)
    	    		 WHERE userlotteries.lottery_id=' . $id . '
    	    		 GROUP BY userlotteries.user_id ORDER BY cnt DESC';
