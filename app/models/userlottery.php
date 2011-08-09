@@ -82,7 +82,7 @@ class Userlottery extends AppModel {
 			{
 	    	    $sql = 'SELECT userlotteries.bid_user_id as uid, COUNT(userlotteries.id) as cnt, user.username FROM userlotteries
 	    	    	LEFT JOIN user ON (user.userid = userlotteries.bid_user_id)
-	    	    	INNER JOIN user as u2 ON (u2.userid=userlotteries.user_id AND u2.usergroupid != 3 AND u2.lastvisit - u2.joindate > 1000)
+	    	    	INNER JOIN user as u2 ON (u2.userid=userlotteries.user_id AND u2.usergroupid != 3 AND u2.lastvisit - u2.joindate > 300)
 	    	    	WHERE userlotteries.bid_user_id > 0 AND userlotteries.lottery_id=' . $lotteryId . '
 	    	    		AND userlotteries.registered > "' . _START_LOTTERY_PERIOD_ . '"
 	    	    		AND userlotteries.registered < "' . _FIN_LOTTERY_PERIOD_ . '"
