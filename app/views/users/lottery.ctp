@@ -53,7 +53,8 @@ if (!empty($lotteryData))
 {
 	$voteMsg = '';
 ?>
-<a name="poll"></a><div class="bordered">
+<a name="poll"></a><br />
+<div id="right-box">
 <center><h2>Голосование</h2></center>
 
 <table><tr valign="top">
@@ -180,7 +181,7 @@ if (!empty($authUser['userid']) && !$isRegistered && ($lotteryData['Lottery']['i
 			$lot = $lC['Userlottery']['unique_code'];
 			if (($lC['Userlottery']['inv_user_id'] == 0) && ($lotteryData['Lottery']['id'] == $curLottery['Lottery']['id']))
 			{
-?>
+?><br />
 <a name="fraze"></a>
 <div class="bordered">
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
@@ -383,11 +384,3 @@ else
 }
 ?>
 </div><br />
-<script type="text/javascript" src="/css/nifty/niftycube.js"></script>
-<script type="text/javascript">
-window.onload=function(){
-Nifty("div#top-box","transparent");
-Nifty("div#text-box","transparent");
-Nifty("div#right-box","transparent");
-}
-</script>

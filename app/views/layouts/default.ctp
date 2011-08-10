@@ -8,6 +8,7 @@
 echo $html->css('common');
 echo $html->css('nifty/niftycorners');
 echo $javascript->link(array('jquery.fancybox-1.3.4/jquery-1.4.3.min', 'scripts', 'validation'));
+echo $javascript->link(array('jquery.fancybox-1.3.4/jquery-1.4.3.min', 'scripts', 'validation'));
 /*
 if ($this->name == 'News')
 	echo $javascript->link(array('jquery.fancybox-1.3.4/jquery-1.4.3.min', 'scripts', 'validation'));
@@ -17,7 +18,7 @@ else
 echo $scripts_for_layout;
 //echo $javascript->link('lib');
 ?>
-
+<script type="text/javascript" src="/css/nifty/niftycube.js"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <?php
 	if (empty($metaExpires))
@@ -192,5 +193,12 @@ else
 <?php echo $cakeDebug;
 echo $BlockBanner->getTail();
 ?>
+<script type="text/javascript">
+window.onload=function(){
+Nifty("div#top-box","transparent");
+Nifty("div#text-box","transparent");
+Nifty("div#right-box","transparent");
+}
+</script>
 </body>
 </html>

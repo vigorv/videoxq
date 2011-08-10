@@ -80,9 +80,9 @@ if (!empty($curLottery))
 //if($authUser['usergroupid']==6)
 {
 ?>
-<div class="attention" style="margin-left:30px;width:90%">
+	<div id="top-box">
 	<h3><b><i>Пользователям Алтайского края! Конфиденциально! <a href="/users/lottery">"Ищите и найдете"...</a></b></i></h3>
-</div>
+	</div>
 <br>
 <br>
 <?php
