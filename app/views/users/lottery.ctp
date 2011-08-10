@@ -282,7 +282,7 @@ if (!empty($authUser['userid']) && !$isRegistered && ($lotteryData['Lottery']['i
 
 		if (!empty($winLot))
 		{
-			$winLot = '<div id="attention-box">' . $winLot . '</div><br />';
+			$winLot = '<br /><div id="attention-box">' . $winLot . '</div><br />';
 		}
 		//$chancesContent .= $winLot . '</p>';
 		$chancesContent .= '</p>';
