@@ -18,10 +18,8 @@ if (!empty($lotteryData))
 		if (date('Y-m-d H:i:s') < _FIN_LOTTERY_PERIOD_)
 			echo '<h3><font color="green">До следующего розыгрыша осталось ' . $app->timeFormat(strtotime(_FIN_LOTTERY_PERIOD_) - time()) . '</font></h3>';
 	}
-?>
-	<h3>Правила участия</h3>
-<?php
-	echo '<div id="text-box">';
+
+	echo '<div id="text-box"><h2>Правила участия</h2>';
 	echo $lotteryData['Lottery']['txt'];
 	echo '</div>';
 	$number = count($inviteUsers);
@@ -89,7 +87,7 @@ if ($main_voting_voted[$Poll['id']]
 }
 else
 {
-	$voteMsg = '<div class="attention">Пожалуйста, проголосуйте перед регистрацией!</div>';
+	$voteMsg = '<br /><div id="attention-box">Пожалуйста, проголосуйте перед регистрацией!</div>';
 echo $form->create('Poll', array('action' => 'vote', 'id' => "formid" . $Poll['id']));
 echo $form->hidden('redirect', array('value' => $this->here . '#poll', 'id' => "redirectid" . $Poll['id']));
 echo $form->hidden('id', array('value' => $Poll['id'], 'id' => "hiddenid" . $Poll['id']));
@@ -156,7 +154,7 @@ if (!empty($authUser['userid']) && !$isRegistered && ($lotteryData['Lottery']['i
 	{
 	//ЗНАЧИТ МОЖЕТ УЧАСТВОВАТЬ И НЕ ЗАРЕГИСТРИРОВАН
 ?>
-<br /><div class="bordered">
+<br /><div id="form-box">
 <form name="lotteryform" method="post" action="/users/lottery#fraze" <?php if (!empty($voteMsg)) echo 'onsubmit="alert(\'' . strip_tags($voteMsg) . '\')return false"'; ?>>
 	<h2>Форма регистрации в розыгрыше</h2>
 	<h4>Email <u>пригласившего вас</u> пользователя</h4>
@@ -183,9 +181,9 @@ if (!empty($authUser['userid']) && !$isRegistered && ($lotteryData['Lottery']['i
 			{
 ?><br />
 <a name="fraze"></a>
-<div class="bordered">
+<div id="fraze-box">
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
-<tr><td width="50%">
+<tr valign="top"><td width="50%">
 <form name="lotteryform" method="post" action="/users/lottery/<?php $curLottery['Lottery']['id']?>#fraze">
 	<h2>Укажите фразу недели</h2>
 	<input type="text" name="lottery_fraze" value="<?php echo $lC['Userlottery']['fraze'];?>" /><br />
@@ -284,7 +282,7 @@ if (!empty($authUser['userid']) && !$isRegistered && ($lotteryData['Lottery']['i
 
 		if (!empty($winLot))
 		{
-			$winLot = '<div class="attention">' . $winLot . '</div><br />';
+			$winLot = '<div id="attention-box">' . $winLot . '</div><br />';
 		}
 		//$chancesContent .= $winLot . '</p>';
 		$chancesContent .= '</p>';
@@ -309,7 +307,7 @@ if (!empty($authUser['userid']) && !$isRegistered && ($lotteryData['Lottery']['i
 			else
 			{
 	?>
-	<h3><font color="red">Вы никого не пригласили участвовать в период текущего розыгрыша (с <?php echo _START_LOTTERY_PERIOD_; ?> по <?php echo _FIN_LOTTERY_PERIOD_; ?>)</font></h3>
+	<br /><h3><font color="red">Вы никого не пригласили участвовать в период текущего розыгрыша (с <?php echo _START_LOTTERY_PERIOD_; ?> по <?php echo _FIN_LOTTERY_PERIOD_; ?>)</font></h3>
 	<?php
 			}
 

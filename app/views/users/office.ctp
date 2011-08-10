@@ -115,7 +115,7 @@
 
 	if (!$clearTakePart && !empty($curLottery) && !$curLottery['Lottery']['hidden'])
 	{
-		echo '<div class="attention">' . __('Attention! Lottery!', true) . ' <b>"' . $curLottery['Lottery']['hd'] . '"</b>' . $takePartButton . '</div><br />';
+		//echo '<div class="attention">' . __('Attention! Lottery!', true) . ' <b>"' . $curLottery['Lottery']['hd'] . '"</b>' . $takePartButton . '</div><br />';
 	}
 
 	if ($authUser['usergroupid'] == 3) //NOT CONFIRMED
@@ -153,7 +153,7 @@
 	if (!empty($curLottery))
 	{
 		echo'
-			<div class="bordered">
+			<div id="right-box">
 			<h2>' . __('Acting lottery', true) . '</h2>
 		';
 		echo '<h4>' . __('Acting lottery', true) . ' - "<i><a href="/users/lottery">' . $curLottery['Lottery']['hd'] . '</a></i>"</h4>';
@@ -167,7 +167,7 @@
 
 		if (!empty($curWinLot))
 		{
-			echo '<div class="attention">' . $curWinLot . '</div><br />';
+			//echo '<div class="attention">' . $curWinLot . '</div><br />';
 		}
 
 		$td1 = '';
@@ -225,7 +225,7 @@
 		echo $td2;
 ?>
 </td></tr></table>
-</div>
+</div><br />
 <?php
 	}
 

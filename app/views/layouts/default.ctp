@@ -198,6 +198,9 @@ window.onload=function(){
 Nifty("div#top-box","transparent");
 Nifty("div#text-box","transparent");
 Nifty("div#right-box","transparent");
+Nifty("div#fraze-box","transparent");
+Nifty("div#form-box","transparent");
+Nifty("div#attention-box","transparent");
 }
 </script>
 </body>
