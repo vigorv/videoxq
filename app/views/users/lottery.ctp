@@ -149,13 +149,16 @@ echo $form->end('Голосовать', array('id' => 'submitid' . $Poll['id']))
 
 if (!empty($authUser['userid']) && !$isRegistered && ($lotteryData['Lottery']['id'] == $curLottery['Lottery']['id']))
 {
-	if (!empty($voteMsg)) echo $voteMsg;
 	if (empty($dup))
 	{
 	//ЗНАЧИТ МОЖЕТ УЧАСТВОВАТЬ И НЕ ЗАРЕГИСТРИРОВАН
+		if (!empty($voteMsg))
+			echo $voteMsg;
+		else
+		{
 ?>
 <br /><div id="form-box">
-<form name="lotteryform" method="post" action="/users/lottery#fraze" <?php if (!empty($voteMsg)) echo 'onsubmit="alert(\'' . strip_tags($voteMsg) . '\')return false"'; ?>>
+<form name="lotteryform" method="post" action="/users/lottery#fraze">
 	<h2>Форма регистрации в розыгрыше</h2>
 	<h4>Email <u>пригласившего вас</u> пользователя</h4>
 	<input type="hidden" name="lottery_id" value="<?php echo $curLottery['Lottery']['id'];?>" />
@@ -163,6 +166,7 @@ if (!empty($authUser['userid']) && !$isRegistered && ($lotteryData['Lottery']['i
 	<input style="margin-top:10px;" type="submit" value="Хочу участвовать!">
 </form></div>
 <?php
+		}
 	}
 	else
 	{

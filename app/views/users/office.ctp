@@ -176,7 +176,7 @@
 			if (!empty($userPostCnt[5]))
 				echo '<p>Коментов к фильмам: ' . $userPostsCnt[5][1] . ' (это ' . $userPostsCnt[5][0] . ' место)</p>';
 			else
-				echo '<p>Вы не оставляли комментарии к фильмам в период текущего розыгрыша (с ' . _START_LOTTERY_PERIOD_ . ' по ' . _FIN_LOTTERY_PERIOD_ . ')</font></p>';
+				echo '<p>Вы не оставляли комментарии к фильмам в период текущего розыгрыша:<br /> • <i>с <b>' . _START_LOTTERY_PERIOD_ . '</b> по <b>' . _FIN_LOTTERY_PERIOD_ . '</b></i></font></p>';
 			if (count($userPostsCnt) > 0)
 			{
 				$td1 .= '<ol><b>Первые по комментариям:</b>';
@@ -191,7 +191,7 @@
 			}
 		}
 		else
-			echo '<p>Вы не оставляли комментарии к фильмам в период текущего розыгрыша (с ' . _START_LOTTERY_PERIOD_ . ' по ' . _FIN_LOTTERY_PERIOD_ . ')</font></p>';
+			echo '<p>Вы не оставляли комментарии к фильмам в период текущего розыгрыша:<br /> • <i>с <b>' . _START_LOTTERY_PERIOD_ . '</b> по <b>' . _FIN_LOTTERY_PERIOD_ . '</b></i></font></p>';
 
 		$td2 = '';
 		if (!empty($userInvitesCnt))
@@ -199,7 +199,7 @@
 			if (!empty($userInvitesCnt[5]))
 				echo '<p>Количество ваших приглашенных: ' . $userInvitesCnt[5][1] . ' (это ' . $userInvitesCnt[5][0] . ' место)</p>';
 			else
-				echo '<p>Вы никого не пригласили участвовать в период текущего розыгрыша (с ' . _START_LOTTERY_PERIOD_ . ' по ' . _FIN_LOTTERY_PERIOD_ . ')</font></p>';
+				echo '<p>Вы никого не пригласили участвовать в период текущего розыгрыша:<br /> • <i>с <b>' . _START_LOTTERY_PERIOD_ . '</b> по <b>' . _FIN_LOTTERY_PERIOD_ . '</b></i></font></p>';
 			if (count($userInvitesCnt) > 0)
 			{
 				$td2 .= '<ol><b>Первые по приглашенным:</b>';
@@ -214,7 +214,7 @@
 			}
 		}
 		else
-			echo '<p>Вы никого не пригласили участвовать в период текущего розыгрыша (с ' . _START_LOTTERY_PERIOD_ . ' по ' . _FIN_LOTTERY_PERIOD_ . ')</font></p>';
+			echo '<p>Вы никого не пригласили участвовать в период текущего розыгрыша:<br /> • <i>с <b>' . _START_LOTTERY_PERIOD_ . '</b> по <b>' . _FIN_LOTTERY_PERIOD_ . '</b></i></font></p>';
 ?>
 	<table cellpadding="0" cellspacing="5" border="0"><tr valign="top"><td width="50%">
 <?php

@@ -609,7 +609,7 @@ div.stslogo { margin-top: 7px; }
 
 .clearSnow {  clear: both;  content: ".";  display: block;  height: 0;  visibility: hidden;}
 .contentColumns{
-	min-width:880px; clear:left; margin:0 40px 0 40px; padding:0;
+	min-width:880px; clear:left; margin:0 40px 0 30px; padding:0;
 	width:1000px;
 }
 .contentColumnsAuto{ width:auto; clear:left; margin:0 40px 0 40px; padding:0;  }
