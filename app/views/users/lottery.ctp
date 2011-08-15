@@ -185,6 +185,7 @@ if (!empty($authUser['userid']) && !$isRegistered && ($lotteryData['Lottery']['i
 			{
 ?><br />
 <a name="fraze"></a>
+<!--
 <div id="fraze-box">
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr valign="top"><td width="50%">
@@ -210,6 +211,7 @@ if (!empty($authUser['userid']) && !$isRegistered && ($lotteryData['Lottery']['i
 <b>"<a href="/media/view/26631">Учитель</a>" СССР 1941</b><br />
 <b>вопрос:</b> <i>какое слово говорит герой?</i> (время: 00:46:19)
 </td></tr></table></div>
+-->
 <?php
 			}
 			if ($lC['Userlottery']['winner'])
