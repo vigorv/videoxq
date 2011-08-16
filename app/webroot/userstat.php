@@ -1,4 +1,5 @@
 <?php
+header("charset: windows-1251");
 $fromdate = $todate = $checkmonths = $checkdays = '';
 if ($_SERVER['REQUEST_METHOD'] == 'POST')
 {
