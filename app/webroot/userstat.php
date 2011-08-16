@@ -1,6 +1,7 @@
 <?php
 header("charset: windows-1251");
-$fromdate = $todate = $checkmonths = $checkdays = '';
+$fromdate = $todate = $checkdays = '';
+$checkmonths = 'checked';
 if ($_SERVER['REQUEST_METHOD'] == 'POST')
 {
     mysql_connect("localhost", "videoxq", "JJKqe8g45TCrtdqxG5Vn");
