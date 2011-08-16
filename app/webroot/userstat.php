@@ -51,10 +51,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
    	echo '<h3>Total users cnt - ' . $total . '</h3>';
 }
 ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1251" />
 <link rel="stylesheet" type="text/css" media="all" href="/css/calendar-blue.css" title="win2k-cold-1" />
 <script type="text/javascript" src="/js/calendar.js"></script>
 <script type="text/javascript" src="/js/calendar-en.js"></script>
 <script type="text/javascript" src="/js/calendar-setup.js"></script>
+</head>
+<body>
 <table border="1" cellpadding="3">
 <tr>
 <form method="post">
@@ -91,3 +97,5 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 </form>
 </tr>
 </table>
+</body>
+</html>
