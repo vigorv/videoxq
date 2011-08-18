@@ -48,7 +48,7 @@ class AppController extends Controller {
 
 //ОПРЕДЕЛЕНИЕ ГЕОГРАФИИ ПОЛЬЗОВАТЕЛЯ, УЧАСТВУЮЩЕГО В ЛОТЕРЕЕ (ИМЯ ФУНКЦИИ ХРАНИМ В ТАБЛИЦЕ ЛОТЕРЕЙ)
     public function isInBarnaulLottery() {
-    	return ($this->isWS == 'STKBAR');
+        return ($this->isWS == 'STKBAR');
         return true; //В ЭТОЙ ЛОТЕРЕЕ МОГУТ УЧАСТВОВАТЬ ВСЕ ПОЛЬЗОВАТЕЛИ
         $res = false;
         $lotteryCitiesIds = array(//СПИСОК ГОРОДОВ, УЧАСТВУЮЩИХ В ЛОТЕРЕЕ
@@ -148,6 +148,12 @@ class AppController extends Controller {
         $this->Cookie->path = Configure::read('App.cookiePath');
         $this->Cookie->domain = Configure::read('App.cookieDomain');
 
+        $litter = $this->Cookie->read('news_pop');
+        if (!$litter) {
+            $this->Cookie->write('news_pop', true);
+            $this->redirect('/news/view/25#cColumn_main');
+        }
+
         $redirect = '/';
         $referer = $this->referer();
 
@@ -164,7 +170,7 @@ class AppController extends Controller {
 
 
         $this->_checkLoginToken();
-            $this->_checkLoginCookie();
+        $this->_checkLoginCookie();
 //this improves performance
         $user = $this->Auth2->user();
         $this->authUser = $user['User'];
@@ -178,7 +184,8 @@ class AppController extends Controller {
                 $region_id = $this->User->query('select georegion_id from georegions_users where user_id=' . $this->authUser['userid']);
                 if (!empty($region_id))
                     $region_id = $region_id[0]['georegions_users']['georegion_id'];
-                else $region_id = 0;
+                else
+                    $region_id = 0;
             }
 
 //$geoInfo = $this->Geoip->find(array('Geoip.ip1 <=' . $ip, 'Geoip.ip2 >=' . $ip), array('Geoip.city_id', 'Geoip.region_id'));
@@ -212,7 +219,7 @@ class AppController extends Controller {
             }
             else
                 $geoInfo['Geoip']['region_id'] = 0; //ЗНАЧИТ НЕ ОПРЕДЕЛЕНО
-            $geoInfo['ip'] = $ip;
+ $geoInfo['ip'] = $ip;
 
             $this->Session->write('geoInfo', $geoInfo);
         }
@@ -727,14 +734,14 @@ LIMIT 1';
 
 
 
-                $_POST['data[User][username]'] = $user_info['User']['username'] = $uname . '_in'.md5($email.$provider);
+                $_POST['data[User][username]'] = $user_info['User']['username'] = $uname . '_in' . md5($email . $provider);
 
-                  $_POST['data[User][remember_me'] = $user_info['User']['remember_me'] = 1;
+                $_POST['data[User][remember_me'] = $user_info['User']['remember_me'] = 1;
 
                 $password2 = md5($email . $uname . $uid . $provider);
                 $password = $this->Auth2->password($password2);
 
-                        $_POST['data[User][password'] = $user_info['User']['password'] = $password2; // md5($email . $uname . $uid . $provider);
+                $_POST['data[User][password'] = $user_info['User']['password'] = $password2; // md5($email . $uname . $uid . $provider);
 
 
                 $user_i = $this->UserLoginza->findUserByProvider($res);
@@ -745,11 +752,11 @@ LIMIT 1';
                 }
                 $this->data['User'] = $user_info['User'];
 
-            //    $this->Auth2->login($uinfo);
+                //    $this->Auth2->login($uinfo);
                 //$user = $this->Auth2->user();
                 //$this->authUser = $user['User'];
-     //           $this->Session->write('Auth.' . $this->Auth2->userModel . '.vbpassword', $this->Vb->cookiePass($password));
-        //        $this->Vb->setLoginCookies($this->authUser['userid'], $this->data[$this->Auth2->userModel]['password']);
+                //           $this->Session->write('Auth.' . $this->Auth2->userModel . '.vbpassword', $this->Vb->cookiePass($password));
+                //        $this->Vb->setLoginCookies($this->authUser['userid'], $this->data[$this->Auth2->userModel]['password']);
                 return true;
             }
         }
@@ -806,9 +813,9 @@ LIMIT 1';
         $mailObj->setSubject($subj);
         $body .= "\n\nPS\nПисьмо отправлено почтовым роботом. Пожалуйста, не отвечайте на него.\n\n";
         if ($isHTML)
-        	$mailObj->setTextBodyHTML($body);
+            $mailObj->setTextBodyHTML($body);
         else
-        	$mailObj->setTextBody($body);
+            $mailObj->setTextBody($body);
         $mailObj->send();
         $mailObj = 0;
         $result = true;
