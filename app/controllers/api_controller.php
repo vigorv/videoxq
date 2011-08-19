@@ -24,7 +24,7 @@ class ApiController extends Controller {
     var $viewPath = 'api';
     var $helpers = array('Html', 'javascript', 'Xml');
     var $components = array();
-    var $uses = array('Film', 'Genres', 'FilmFast');
+    var $uses = array('Film', 'Genres', 'FilmFast','Server');
     var $imgPath;
     var $page;
     var $per_page;
@@ -33,13 +33,13 @@ class ApiController extends Controller {
         parent::BeforeFilter();
 //        $this->autoRender = false;
 
-                $geoInfo = array();
+        $geoInfo = array();
         $geoInfo = $this->Session->read('geoInfo');
         $ip = sprintf('%u', ip2long($_SERVER['REMOTE_ADDR']));
         if (!empty($geoInfo) && $geoInfo['ip'] <> $ip) {
             $geoInfo = array(); //ЕСЛИ ИЗМЕНИЛСЯ АДРЕС ГЕО ДАННЫЕ ОПРЕДЕЛЯЕМ ПО НОВОЙ
         }
-           $servers = Cache::read('servers', 'block');
+        $servers = Cache::read('servers', 'block');
         if (empty($servers)) {
             $servers = $this->Server->findAll(array('Server.is_active' => 1), null, 'Server.priority DESC');
             Cache::write('servers', $servers, 'block');
@@ -55,7 +55,7 @@ class ApiController extends Controller {
         }
         Configure::write('Catalog.downloadServers', $configServers); //Эмулируем старый способ
 //
-        
+
         $lang = Configure::read('Config.language');
         $this->langFix = '';
         if ($lang == _ENG_)
@@ -236,19 +236,19 @@ class ApiController extends Controller {
               $params['limit'] = 1;
               $data['Films'] = $this->Film->find('all', $params);
               foreach ($data['Films'] as &$film) {
-              
+
               }
               }
-             */ 
+             */
             $params = array();
             $params['lic'] = 1;
-            $params['variant']=2;
+            $params['variant'] = 2;
             $params['fields'] = '
                 Film.id, Film.title, Film.title_en,
                 Film.year, Film.imdb_rating,
                 Film.description, FilmPicture.file_name,
                 FilmFile.file_name,Film.dir';
-            $data['Films'] = $this->FilmFast->GetFilmA($filmId,$params);            
+            $data['Films'] = $this->FilmFast->GetFilmA($filmId, $params);
         }
 
         /*
@@ -257,17 +257,16 @@ class ApiController extends Controller {
         if (empty($data['Films'])) {
             $data['errors'][]['errors']['desc'] = 'No Film';
             unset($data['Films']);
-        }
-        else{
+        } else {
             $data['Films'][0]['poster']['href'] = $this->imgPath . $data['Films'][0]['FilmPicture']['file_name'];
-              unset($data['Films'][0]['FilmPicture']['file_name']);
-              unset($data['Films'][0]['FilmPicture']);
-              $data['Films'][0]['poster']['url'] = Film::set_input_server($data['Films'][0]['Film']['dir']) . '/'.$data['Films'][0]['FilmFile']['file_name'];
-              unset($data['Films'][0]['FilmFile']['file_name']);
-              unset($data['Films'][0]['FilmFile']);
-              unset($data['Films'][0]['Film']['dir']);
+            unset($data['Films'][0]['FilmPicture']['file_name']);
+            unset($data['Films'][0]['FilmPicture']);
+            $data['Films'][0]['poster']['url'] = Film::set_input_server($data['Films'][0]['Film']['dir']) . '/' . $data['Films'][0]['FilmFile']['file_name'];
+            unset($data['Films'][0]['FilmFile']['file_name']);
+            unset($data['Films'][0]['FilmFile']);
+            unset($data['Films'][0]['Film']['dir']);
         }
-            
+
         array_walk($data, 'quot_make');
         $this->set('xml_data', $data);
         $this->render('api_view');
