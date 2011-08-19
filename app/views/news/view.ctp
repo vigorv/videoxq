@@ -38,21 +38,6 @@ if (!empty($info))
                 </div>
             </div>
             <div class="news_content_full">
-            	<div id="newstext">
-	';
-//$info["News"]['img'] = '';
-	if (!empty($info["News"]['img']))
-	{
-		echo '<img class="news_content_full_img" src="/files/news/small/' . $info['News']['img'] . '" />';
-	}
-
-	if (strlen($info['News']['txt']) > strlen($info['News']['stxt']))
-		echo $info['News']['txt'];
-	else
-		echo $info['News']['stxt'];
-
-	echo'
-		</div>
 	';
 //pr($block_poll);
 	if (!empty($block_poll))
@@ -131,6 +116,23 @@ echo $form->end('Голосовать', array('id' => 'submitid' . $Poll['id']))
 </tr></table>
 <?php
 }
+	echo'
+            	<div id="newstext">
+	';
+//$info["News"]['img'] = '';
+	if (!empty($info["News"]['img']))
+	{
+		echo '<img class="news_content_full_img" src="/files/news/small/' . $info['News']['img'] . '" />';
+	}
+
+	if (strlen($info['News']['txt']) > strlen($info['News']['stxt']))
+		echo $info['News']['txt'];
+	else
+		echo $info['News']['stxt'];
+
+	echo'
+		</div>
+	';
 
 
 
