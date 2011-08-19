@@ -2,6 +2,6 @@
     <<?= $head; ?>><?
     foreach ($xml as $listed):
        ?><item<? foreach ($listed as $values)
-            foreach ($values as $key => $value): ?> <?= $key; ?>="<?= $value; ?>"<? endforeach; ?>/>
-    <? endforeach; ?>   
-    </<?= $head; ?>><?endforeach;?></vxq>
+            foreach ($values as $key => $value): ?> <?= $key; ?>="<?= $value; ?>"<? endforeach; ?>/><? endforeach; ?>
+</<?= $head; ?>><? endforeach; ?>
+</vxq>
