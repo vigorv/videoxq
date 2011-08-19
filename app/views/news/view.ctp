@@ -54,6 +54,86 @@ if (!empty($info))
 	echo'
 		</div>
 	';
+//pr($block_poll);
+	if (!empty($block_poll))
+//if (!empty($Poll))
+{
+	$voteMsg = '';
+?>
+<a name="poll"></a><br /><h2>Голосование</h2>
+
+<table><tr valign="top">
+<?php
+	foreach($block_poll as $bp)
+	{
+		extract($bp);
+		if (!empty($Poll))
+		{
+?>
+<td width="330" style="padding-right:20px;">
+<div class="polls">
+<p style="text-align: center;"><strong><?php echo $Poll['title']?></strong></p>
+<div class="polls-ans">
+<ul class="polls-ul">
+
+
+<?php
+
+if ($main_voting_voted[$Poll['id']]
+    || ($authUser['userid'] && strpos($Poll['voters'], ',' . $authUser['userid'] . ',') !== false))
+{
+    foreach ($Poll['data'] as $answer)
+    {
+    ?>
+        <li>
+        <?php echo $answer['answer'];?>(<?php echo $answer['percent']?>%, <?php echo $app->pluralForm($answer['voters'], array('голос', 'голоса', 'голосов'))?>)
+        <div style="width: <?php echo $answer['width']?>%;" class="pollbar" /></div>
+        </li>
+    <?php
+    }
+}
+else
+{
+	$voteMsg = '<br /><div id="attention-box">Пожалуйста, проголосуйте перед регистрацией!</div>';
+echo $form->create('Poll', array('action' => 'vote', 'id' => "formid" . $Poll['id']));
+echo $form->hidden('redirect', array('value' => $this->here . '#poll', 'id' => "redirectid" . $Poll['id']));
+echo $form->hidden('id', array('value' => $Poll['id'], 'id' => "hiddenid" . $Poll['id']));
+echo '<li>';
+if ($Poll["multiple"])
+{
+	foreach ($Poll['answers'] as $key => $answer)
+	{
+		echo $form->input($answer, array('name' => 'data[Poll][vote][' . $key . ']', 'type' => 'checkbox', 'value' => 1, 'id' => "chk_{$Poll['id']}_" . $key)) . '</li><li>';
+	}
+}
+else
+{
+	foreach ($Poll['answers'] as $key => $answer)
+	{
+		echo '<li><input type="radio" name="data[Poll][vote]" value="' . $key . '" id="radio_' . $Poll['id'] . '_' . $key . '" /> ' . $answer . '</li>';
+	}
+}
+//	echo $form->radio('vote', $Poll['answers'], array('legend' => false, 'separator' => '</li><li>'));
+//echo $form->input('vote', array('legend' => false, 'separator' => '<br>',
+//                                'options' => $Poll['answers'], 'type' => 'radio'));
+echo $form->end('Голосовать', array('id' => 'submitid' . $Poll['id']));
+	}
+?>
+</ul>
+<p style="text-align: center;">Всего проголосовало: <strong><?php echo $Poll['total_votes']?></strong></p>
+</div>
+</div>
+</td>
+<?php
+		}
+	}
+?>
+</tr></table>
+<?php
+}
+
+
+
 	$javascript->link('jquery.fancybox-1.3.4/fancybox/jquery.fancybox-1.3.4.pack', false);
     $html->css('fancybox-1.3.4/jquery.fancybox-1.3.4', null, array(), false);
 

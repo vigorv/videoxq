@@ -46,8 +46,7 @@ if (!empty($lotteryData))
 
 	//extract($block_poll);
 //pr($block_poll);
-	if (!empty($block_poll))
-//if (!empty($Poll))
+if (!empty($block_poll))
 {
 	$voteMsg = '';
 ?>

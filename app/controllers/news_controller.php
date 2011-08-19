@@ -5,6 +5,7 @@ class NewsController extends AppController {
     var $helpers = array('Html', 'Form');
 
     var $uses = array('News', 'Direction');
+    var $components = array('BlockStats');
 
 	/**
 	 * модель таблицы News
@@ -49,6 +50,11 @@ class NewsController extends AppController {
 
 		if (!empty($info))// && !$info['News']['hidden'])
 		{
+			if (!empty($info['News']['poll_id']))
+			{
+				$voteData = $this->BlockStats->getPoll($info['News']['poll_id']);
+				$this->set('block_poll', $voteData);
+			}
             $this->set('info', $info);
 
 	    	$dirs = $this->Direction->findAll(array('Direction.hidden' => 0), null, 'Direction.srt DESC');
