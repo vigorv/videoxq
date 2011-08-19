@@ -87,5 +87,18 @@ if (!empty($curLottery))
 <br>
 <?php
 }
+else
+{
+	if ($isWS == 'NSK')
+	{
+?>
+	<div id="top-box">
+	<h4><b><i><a href="/news/view/25">Новосибирским пользователям ресурса videoXQ!</a></b></i></h4>
+	</div>
+<br>
+<br>
+<?php
+	}
+}
 ?>
 
