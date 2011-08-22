@@ -28,14 +28,15 @@ class Vbpost extends AppModel {
 	    	    $sql = 'SELECT post.userid as uid, COUNT(post.postid) as cnt, post.username FROM post
 	    	    	INNER JOIN thread ON (thread.threadid = post.threadid AND thread.forumid = ' . Configure::read('forumId') . ')
 	    	    	INNER JOIN userlotteries ON (post.userid = userlotteries.user_id)
-	    	    	WHERE post.visible=1 AND post.username <> "MediaRobot" AND post.username <> "Igorm85"
 	    	    		AND post.dateline > UNIX_TIMESTAMP("' . _START_LOTTERY_PERIOD_ . '")
 	    	    		AND post.dateline < UNIX_TIMESTAMP("' . _FIN_LOTTERY_PERIOD_ . '")
+	    	    	WHERE post.visible=1 AND post.username <> "MediaRobot" AND post.username <> "Igorm85"
 	    	    	GROUP BY post.userid ORDER BY cnt DESC';
 		        $cnt = $this->query($sql);
 				Cache::write('Office.commentcnt', $cnt, 'office');
 			}
-//pr($cnt);
+if ($userId == 19876)//VANOVEB
+	pr($cnt);
 	        if (!empty($cnt))
 	        {
 	        	$res = array();//СКЛАДЫВАЕМ ТОП5 (5м индексом идет результат данного юзера)
