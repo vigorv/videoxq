@@ -36,7 +36,10 @@ class Vbpost extends AppModel {
 				Cache::write('Office.commentcnt', $cnt, 'office');
 			}
 if ($userId == 19876)//VANOVEB
+{
 	pr($cnt);
+exit;
+}
 	        if (!empty($cnt))
 	        {
 	        	$res = array();//СКЛАДЫВАЕМ ТОП5 (5м индексом идет результат данного юзера)
