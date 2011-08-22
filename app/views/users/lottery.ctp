@@ -319,7 +319,7 @@ if (!empty($authUser['userid']) && !$isRegistered && ($lotteryData['Lottery']['i
 	$td1 = '';
 	if (!empty($userPostsCnt))
 	{
-		if (!empty($userPostCnt[5]))
+		if (!empty($userPostsCnt[5]))
 			echo '<p>Коментов к фильмам: ' . $userPostsCnt[5][1] . ' (это ' . $userPostsCnt[5][0] . ' место)</p>';
 		else
 			echo '<p><font color="red">Вы не оставляли комментарии к фильмам в период текущего розыгрыша (с ' . _START_LOTTERY_PERIOD_ . ' по ' . _FIN_LOTTERY_PERIOD_ . ')</font></p>';
