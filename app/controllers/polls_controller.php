@@ -3,7 +3,21 @@ class PollsController extends AppController
 {
     var $name = 'Polls';
     var $helpers = array('Html', 'Form');
+	public $uses = array('Poll', 'PollOther');
 
+    /**
+     * модель таблицы голосований
+     *
+     * @var AppModel
+     */
+    public $Poll;
+
+    /**
+     * модель таблицы вариантов "другое"
+     *
+     * @var AppModel
+     */
+    public $PollOther;
 
     function vote()
     {
@@ -20,31 +34,58 @@ class PollsController extends AppController
             $this->redirect($this->data['Poll']['redirect']);
 
         $poll['Poll']['votes'] = explode('#', $poll['Poll']['votes']);
-        $vote = $this->data['Poll']['vote'];
-        if (is_array($vote))
+        if (!empty($this->data['Poll']['vote']))
         {
-        	foreach ($poll['Poll']['votes'] as $key => $val)
-        	{
-        		if (!empty($vote[$key]))
-        			$poll['Poll']['votes'][$key]++;
-        	}
-        }
-        else
-        	$poll['Poll']['votes'][intval($vote)]++;
+	        $vote = $this->data['Poll']['vote'];
+	        $lastSelected = false;
+	        if (is_array($vote))
+	        {
+	        	foreach ($poll['Poll']['votes'] as $key => $val)
+	        	{
+	        		if (!empty($vote[$key]))
+	        		{
+	        			$poll['Poll']['votes'][$key]++;
+	        			if ($key == count($poll['Poll']['votes']) - 1)
+	        			{
+	        				$lastSelected = true;//ПОСЛЕДНИЙ ВЫБОР ОТМЕЧЕН
+	        			}
+	        		}
+	        	}
+	        }
+	        else
+	        {
+	        	$poll['Poll']['votes'][intval($vote)]++;
+	        	if ($vote == count($poll['Poll']['votes']) - 1)
+				{
+					$lastSelected = true;//ПОСЛЕДНИЙ ВЫБОР ОТМЕЧЕН
+				}
+	        }
 
-        $poll['Poll']['votes'] = implode('#', $poll['Poll']['votes']);
-        $poll['Poll']['total_votes']++;
+	        $poll['Poll']['votes'] = implode('#', $poll['Poll']['votes']);
+	        $poll['Poll']['total_votes']++;
 
-        if ($this->authUser['userid'])
-        {
-            if (empty($poll['Poll']['voters']))
-                $poll['Poll']['voters'] = ',';
-            $poll['Poll']['voters'] .= $this->authUser['userid'] . ',';
+	        if ($this->authUser['userid'])
+	        {
+	            if (empty($poll['Poll']['voters']))
+	                $poll['Poll']['voters'] = ',';
+	            $poll['Poll']['voters'] .= $this->authUser['userid'] . ',';
+	        }
+	        $this->Poll->save($poll);
+	        if (!empty($this->data['Poll']['other']) && $lastSelected)
+	        {
+	        	$this->PollOther->create();
+	        	$otherInfo = array('PollOther' => array(
+	        			'user_id' => (empty($this->authUser['userid']) ? 0 : $this->authUser['userid']),
+	        			'poll_id' => $poll['Poll']['id'],
+	        			'txt'		=> $this->data['Poll']['other']
+	        		)
+	        	);
+	        	$this->PollOther->save($otherInfo);
+	        }
+	        Cache::delete('Block.mainVoting');
+	        $this->Cookie->write('Voting.' . $id, $vote, true, '+1 month');
         }
-        $this->Poll->save($poll);
-        Cache::delete('Block.mainVoting');
-        $this->Cookie->write('Voting.' . $id, $vote, true, '+1 month');
-        $this->redirect($this->data['Poll']['redirect']);
+        //$this->redirect($this->data['Poll']['redirect']);
     }
 
 
