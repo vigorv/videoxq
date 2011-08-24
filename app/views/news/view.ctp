@@ -39,10 +39,10 @@ if (!empty($info))
             </div>
             <div class="news_content_full">
 	';
-//pr($block_poll);
-	if (!empty($block_poll))
-//if (!empty($Poll))
+
+if (!empty($block_poll))
 {
+	ob_start();
 	$voteMsg = '';
 ?>
 <a name="poll"></a><br /><h2>Голосование</h2>
@@ -79,30 +79,34 @@ if ($main_voting_voted[$Poll['id']]
 }
 else
 {
-	$voteMsg = '<br /><div id="attention-box">Пожалуйста, проголосуйте перед регистрацией!</div>';
-echo $form->create('Poll', array('action' => 'vote', 'id' => "formid" . $Poll['id']));
-echo $form->hidden('redirect', array('value' => $this->here . '#poll', 'id' => "redirectid" . $Poll['id']));
-echo $form->hidden('id', array('value' => $Poll['id'], 'id' => "hiddenid" . $Poll['id']));
-echo '<li>';
-if ($Poll["multiple"])
-{
-	foreach ($Poll['answers'] as $key => $answer)
+	echo $form->create('Poll', array('action' => 'vote', 'id' => "formid" . $Poll['id']));
+	echo $form->hidden('redirect', array('value' => $this->here . '#poll', 'id' => "redirectid" . $Poll['id']));
+	echo $form->hidden('id', array('value' => $Poll['id'], 'id' => "hiddenid" . $Poll['id']));
+	echo '<li>';
+	if ($Poll["multiple"])
 	{
-		echo $form->input($answer, array('name' => 'data[Poll][vote][' . $key . ']', 'type' => 'checkbox', 'value' => 1, 'id' => "chk_{$Poll['id']}_" . $key)) . '</li><li>';
+		foreach ($Poll['answers'] as $key => $answer)
+		{
+			echo $form->input($answer, array('name' => 'data[Poll][vote][' . $key . ']', 'type' => 'checkbox', 'value' => 1, 'id' => "chk_{$Poll['id']}_" . $key)) . '</li><li>';
+		}
 	}
-}
-else
-{
-	foreach ($Poll['answers'] as $key => $answer)
+	else
 	{
-		echo '<li><input type="radio" name="data[Poll][vote]" value="' . $key . '" id="radio_' . $Poll['id'] . '_' . $key . '" /> ' . $answer . '</li>';
+		foreach ($Poll['answers'] as $key => $answer)
+		{
+			echo '<li><input type="radio" name="data[Poll][vote]" value="' . $key . '" id="radio_' . $Poll['id'] . '_' . $key . '" /> ' . $answer;
+			if ($key == count($Poll['answers']) - 1)
+			{
+				echo '<input type="text" name="data[Poll][other]" value="" id="other_' . $Poll['id'] . '_' . $key . '" />';
+			}
+			echo '</li>';
+		}
 	}
+	//	echo $form->radio('vote', $Poll['answers'], array('legend' => false, 'separator' => '</li><li>'));
+	//echo $form->input('vote', array('legend' => false, 'separator' => '<br>',
+	//                                'options' => $Poll['answers'], 'type' => 'radio'));
+	echo $form->end('Голосовать', array('id' => 'submitid' . $Poll['id']));
 }
-//	echo $form->radio('vote', $Poll['answers'], array('legend' => false, 'separator' => '</li><li>'));
-//echo $form->input('vote', array('legend' => false, 'separator' => '<br>',
-//                                'options' => $Poll['answers'], 'type' => 'radio'));
-echo $form->end('Голосовать', array('id' => 'submitid' . $Poll['id']));
-	}
 ?>
 </ul>
 <p style="text-align: center;">Всего проголосовало: <strong><?php echo $Poll['total_votes']?></strong></p>
@@ -115,7 +119,9 @@ echo $form->end('Голосовать', array('id' => 'submitid' . $Poll['id']))
 ?>
 </tr></table>
 <?php
+	$pollContent = ob_get_clean();
 }
+
 	echo'
             	<div id="newstext">
 	';
@@ -126,15 +132,21 @@ echo $form->end('Голосовать', array('id' => 'submitid' . $Poll['id']))
 	}
 
 	if (strlen($info['News']['txt']) > strlen($info['News']['stxt']))
-		echo $info['News']['txt'];
+		$txt = $info['News']['txt'];
 	else
-		echo $info['News']['stxt'];
+		$txt = $info['News']['stxt'];
 
-	echo'
-		</div>
-	';
+	if (!empty($pollContent))
+	{
+		if (strpos($txt, '{POLL_CONTENT}') === false)
+			echo $pollContent . $txt;
+		else
+			echo str_replace('{POLL_CONTENT}', $pollContent, $txt);
+	}
+	else
+		echo $txt;
 
-
+	echo'</div>';
 
 	$javascript->link('jquery.fancybox-1.3.4/fancybox/jquery.fancybox-1.3.4.pack', false);
     $html->css('fancybox-1.3.4/jquery.fancybox-1.3.4', null, array(), false);

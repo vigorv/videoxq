@@ -15,6 +15,7 @@
         echo $form->input('total_votes');
         echo $form->input('active');
         echo $form->input('multiple');
+        echo $form->input('other');
     ?>
     </fieldset>
 <?php echo $form->end('Submit');?>
