@@ -85,7 +85,7 @@ class PollsController extends AppController
 	        Cache::delete('Block.mainVoting');
 	        $this->Cookie->write('Voting.' . $id, $vote, true, '+1 month');
         }
-        //$this->redirect($this->data['Poll']['redirect']);
+        $this->redirect($this->data['Poll']['redirect']);
     }
 
 
