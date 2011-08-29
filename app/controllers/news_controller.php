@@ -134,6 +134,207 @@ class NewsController extends AppController {
     }
 
     /**
+     * импорт новостей партнеров
+     *
+     */
+    public function frompartners()
+    {
+    	$pDirection = Configure::read('News.partnerDirectionId');
+    	$feeds  = array(
+    		array(
+    			'partner'	=> 'ООО "Мастер Тэйп"',
+    			'url'		=> 'http://master-tape.ru',
+    			'prefix'	=> 'mastertape',
+    			'rss'		=> 'http://master-tape.ru/component/option,com_rss/feed,RSS2.0/no_html,1',
+    			'encoding'	=> 'windows-1251',
+    		),
+    	);
+
+			//ПАРСИНГ
+			global $tag;
+			global $item;
+			global $items;
+			global $itemStart;
+			global $encoding;
+
+			function mastertape_start_el($parser, $name, $attrs)
+			{
+			    global $tag;
+				global $item;
+				global $itemStart;
+			    $tag = strtoupper($name);
+
+			    switch ($tag)
+			    {
+			    	case "ITEM":
+			    		$itemStart = true;
+		    			$item = array();
+			    	break;
+			    }
+			}
+
+			function mastertape_data($parser, $data)
+			{
+			    global $tag;
+			    global $item;
+			    global $itemStart;
+			    global $encoding;
+
+				if (!trim($data))
+					return;
+
+				if (!$itemStart)
+					return;
+
+				$data = iconv($encoding, 'utf-8', $data);
+				switch ($tag)
+				{
+			    	case "TITLE":
+						$item['title'] = $data;
+						if (mb_strlen($data) >= 150)
+						{
+							mb_substr($data, 0, 145);
+							/*
+							$words = mb_split('[\s]{1,}', $data);
+							$str = '';
+							foreach($words as $w)
+							{
+								if (mb_strlen($str . $w . ' ') > 145)
+								{
+									break;
+								}
+								$str .= $w . ' ';
+							}
+							*/
+							$str .= '...';
+							$item['title'] = $str;
+						}
+					break;
+
+			    	case "LINK":
+						$item['link'] = $data;
+			    	break;
+
+			    	case "DESCRIPTION":
+						$item['stxt'] = '';
+						$item['txt'] = '';
+						if (mb_strlen($data) >= 255)
+						{
+							$item['txt'] = $data;
+						}
+						else
+						{
+							$item['stxt'] = $data;
+						}
+			    	break;
+
+			    	case "LINK":
+						$item['link'] = $data;
+			    	break;
+
+			    	case "PUBDATE":
+						$item['created'] = date('Y-m-d H:i:s', strtotime($data));
+						$item['modified'] = $item['created'];
+			    	break;
+				}
+			}
+
+			function mastertape_end_el($parser, $name)
+			{
+			    global $tag;
+			    global $item;
+			    global $items;
+			    global $itemStart;
+			    $tag = strtoupper($name);
+
+			    switch ($tag)
+			    {
+			    	case "ITEM":
+			    		$itemStart = false;
+		    			$items[] = $item;
+		    			$tag = '';
+			    	break;
+			    }
+			}
+
+	    	foreach($feeds as $feed)
+	    	{
+	    		if (!empty($feed['rss']))
+	    		{
+					$xml = file_get_contents($feed['rss']);
+					if (!empty($xml))
+					{
+						$items = array();
+						$encoding = $feed['encoding'];
+						$xml_parser = xml_parser_create();
+						xml_set_element_handler($xml_parser, $feed['prefix'] . "_start_el", $feed['prefix'] . "_end_el");
+						xml_set_character_data_handler($xml_parser, $feed['prefix'] . "_data");
+
+						if (!xml_parse($xml_parser, $xml))
+						{
+							echo xml_error_string(xml_get_error_code($xml_parser));
+                    		echo xml_get_current_line_number($xml_parser);
+						}
+						xml_parser_free($xml_parser);
+
+						if (!empty($items))
+						{
+//СОХРАНЕНИЕ В БД
+							foreach ($items as $item)
+							{
+								$dub = $this->News->find(array('News.created' => $item['created']));
+								if (empty($dub))
+								{
+									if (empty($item['txt']) && empty($item['stxt']))
+									{
+										$item['stxt'] = $item['title'];
+										$item['txt'] = '';
+									}
+
+									if(!empty($item['link']))
+									{
+										$a = '<br /><a href="' . $item['link'] . '">оригинал на сайте ' . $feed['partner'] . '</a>';
+										unset($item['link']);
+										if (!empty($item['txt']))
+										{
+											$item['txt'] .= $a;
+										}
+										if (!empty($item['stxt']))
+										{
+											$item['stxt'] .= $a;
+										}
+									}
+									$item['img'] = '';
+									$item['hidden'] = 0;
+									$item['filesinfo'] = '';
+									$item['matchesinfo'] = '';
+									$item['direction_id'] = Configure::read('News.partnerDirectionId');
+									$item['ftpdir'] = '';
+									$item['poll_id'] = 0;
+									$data = array('News' => $item);
+/*
+echo '<pre>';
+echo $xml;
+pr($data);
+echo '</pre>';
+//exit;
+//*/
+									$this->News->create();
+									$this->News->save($data);
+								}
+							}
+						}
+					}
+			    }
+			    else
+			    {
+			    	//ПАРСИМ СО СТРАНИЦЫ
+			    }
+	    	}
+
+    }
+
+    /**
      * администрирование списка новостей
      * если указан $dir_id, то выводим список новостей категорим
      *
