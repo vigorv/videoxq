@@ -130,6 +130,44 @@ class Utils
 
 		return $str;
 	}
+
+	/**
+	 * отрезать строку по границе слова
+	 *
+	 * @param string $data
+	 * @param integer $len
+	 * @return string
+	 */
+	static function substrWord($data, $len)
+	{
+		if (mb_strlen($data) <= $len)
+		{
+			return $data;
+		}
+
+		$words = mb_split('[ ]+', $data);
+/*o
+echo '<pre>';
+pr($words);
+echo '</pre>';
+*/
+		$str = '';
+		foreach($words as $w)
+		{
+			if (mb_strlen($str . $w . ' ') > $len)
+			{
+				break;
+			}
+			$str .= $w . ' ';
+		}
+
+		if (empty($str))
+		{
+			$str = mb_substr($data, 0, $len);
+		}
+
+		return $str;
+	}
 }
 
 

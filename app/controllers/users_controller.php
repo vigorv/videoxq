@@ -303,6 +303,7 @@ if ($this->data["User"]["username"] == 'vanoveb')
 						'bid_user_id'	=> 0,
 						'inv_user_id'	=> 0,
 						'fraze'			=> '',
+						'frazedate'		=> '',
 						'lottery_code'	=> '',
 				));
 				if (!empty($_POST['bid_username']))
@@ -410,6 +411,7 @@ exit;
 					if (!empty($chanceInfo))
 					{
 						$chanceInfo['Userlottery']['fraze'] = substr(trim($_POST['lottery_fraze']), 0, 255);
+						$chanceInfo['Userlottery']['frazedate'] = date('Y-m-d H:i:s');
 						$this->Userlottery->save($chanceInfo);
 					}
 				}
