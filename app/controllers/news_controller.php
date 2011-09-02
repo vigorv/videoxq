@@ -569,6 +569,7 @@ exit;
 //СОХРАНЕНИЕ В БД
 					foreach ($items as $item)
 					{
+						$item['link'] = prepareLink($feed['url'], $item['link']);
 						$dub = $this->News->find(array('News.link' => $item['link']));
 						if (empty($dub))
 						{
@@ -579,18 +580,14 @@ exit;
 							}
 
 							$item['title'] = Utils::substrWord(strip_tags($item['title']), 60);
-							if(!empty($item['link']))
+							$a = '<br /><a href="' . $item['link'] . '">оригинал на сайте ' . $feed['partner'] . '</a><br /><br />';
+							if (!empty($item['txt']))
 							{
-								$item['link'] = prepareLink($feed['url'], $item['link']);
-								$a = '<br /><a href="' . $item['link'] . '">оригинал на сайте ' . $feed['partner'] . '</a><br /><br />';
-								if (!empty($item['txt']))
-								{
-									$item['txt'] .= $a;
-								}
-								if (!empty($item['stxt']))
-								{
-									$item['stxt'] .= $a;
-								}
+								$item['txt'] .= $a;
+							}
+							if (!empty($item['stxt']))
+							{
+								$item['stxt'] .= $a;
 							}
 							$item['img'] = '';
 							$item['hidden'] = 0;
