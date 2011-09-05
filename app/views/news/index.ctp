@@ -9,14 +9,19 @@
 <?php
 	if (!empty($dirs))
 	{
-		foreach ($dirs as $d)
+		foreach ($dirs as $dk => $d)
 		{
 			$c = $d['Direction']['caption'];
 			if (empty($c))
 			{
 				$c = $d['Direction']['title'];
 			}
-			echo '<li><strong><a href="/news/#d' . $d['Direction']['id'] . '">' . $c . '</a></strong></li>';
+			if (empty($dir_id))
+				$hr = '/news#d';
+			else
+				$hr = '/news/index/';
+			echo '<li><strong><a href="' . $hr . $d['Direction']['id'] . '">' . $c . '</a></strong></li>';
+			$dirs[$dk]['Direction']['cnt'] = 0;
 		}
 	}
 ?>
@@ -81,15 +86,29 @@
 	{
 		if (!empty($dirs))
 		{
-			foreach($dirs as $d)
+			foreach($dirs as $dk => $d)
 			{
+				if (!empty($dir_id) && ($d['Direction']['id'] != $dir_id))
+				{
+					continue;
+				}
+
 				echo '<br />';
 				echo '<a name="d' . $d['Direction']['id'] . '"></a><h3>' . $d['Direction']['title'] . '</h3>';
 
 				foreach ($lst as $l)
 				{
 					if ($l["News"]['direction_id'] != $d['Direction']['id'])
+					{
 						continue;
+					}
+
+
+					if (empty($dir_id) && ($dirs[$dk]['Direction']['cnt']++ >= 1))
+					{
+						echo '<h3><a href="/news/index/' . $dirs[$dk]['Direction']['id'] .'">все новости раздела "' . $dirs[$dk]['Direction']['title'] . '" &raquo;</a></h3>';
+						break;
+					}
 
 					if (!empty($l['News']['img']))
 					{
@@ -97,7 +116,6 @@
 					}
 					else
 						$img = '';
-			//$img = '';
 						echo'
 			        <div id="news_ID" class="news_item">
 			            <div class="news_header">

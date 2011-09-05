@@ -28,6 +28,7 @@ class NewsController extends AppController {
 			$this->redirect('/media');
     	$dirs = $this->Direction->findAll(array('Direction.hidden' => 0), null, 'Direction.srt DESC');
     	$this->set('dirs', $dirs);
+    	$this->set('dir_id', $dir_id);
 
     	$conditions = array('News.hidden' => 0);
     	if (!empty($dir_id))
@@ -618,10 +619,9 @@ pr($data);
      */
     function admin_index($dir_id = 0) {
 
-        $dirs = $this->Direction->findAll(array('Direction.hidden' => 0), null, 'Direction.srt DESC');
+        $dirs = $this->Direction->findAll(null, null, 'Direction.srt DESC');
     	$this->set('dirs', $dirs);
     	$paginate = array(
-    		'conditions' => array('hidden' => 0),
     		'order' => 'created DESC'
     		);
     	if (!empty($dir_id))

@@ -89,6 +89,7 @@ if (!empty($curLottery))
 }
 else
 {
+	/*
 	if ($isWS == 'NSK')
 	{
 ?>
@@ -99,6 +100,7 @@ else
 <br>
 <?php
 	}
+	*/
 }
 ?>
 

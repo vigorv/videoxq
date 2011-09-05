@@ -184,7 +184,6 @@ if (!empty($authUser['userid']) && !$isRegistered && ($lotteryData['Lottery']['i
 			{
 ?><br />
 <a name="fraze"></a>
-
 <div id="fraze-box">
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr valign="top"><td width="50%">

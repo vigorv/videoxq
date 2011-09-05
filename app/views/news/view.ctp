@@ -10,14 +10,14 @@
 <?php
 	if (!empty($dirs))
 	{
-		foreach ($dirs as $d)
+		foreach ($dirs as $dk => $d)
 		{
 			$c = $d['Direction']['caption'];
 			if (empty($c))
 			{
 				$c = $d['Direction']['title'];
 			}
-			echo '<li><strong><a href="/news/#d' . $d['Direction']['id'] . '">' . $c . '</a></strong></li>';
+			echo '<li><strong><a href="/news/index/' . $d['Direction']['id'] . '">' . $c . '</a></strong></li>';
 		}
 	}
 ?>
