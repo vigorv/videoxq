@@ -151,7 +151,7 @@ class AppController extends Controller {
         $litter = $this->Cookie->read('news_pop');
         if (!$litter) {
             $this->Cookie->write('news_pop', true);
-            $this->redirect('/news/view/25#cColumn_main');
+            //$this->redirect('/news/view/25#cColumn_main');
         }
 
         $redirect = '/';
