@@ -104,7 +104,7 @@
 					}
 
 
-					if (empty($dir_id) && ($dirs[$dk]['Direction']['cnt']++ >= 1))
+					if (empty($dir_id) && ($dirs[$dk]['Direction']['cnt']++ >= 3))
 					{
 						echo '<h3><a href="/news/index/' . $dirs[$dk]['Direction']['id'] .'">все новости раздела "' . $dirs[$dk]['Direction']['title'] . '" &raquo;</a></h3>';
 						break;
