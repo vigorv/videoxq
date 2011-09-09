@@ -88,6 +88,7 @@ class UtilsController extends AppController
 
     function myinfo()
     {
+    	$this->layout = 'plain';
     	$zone = false;
    		$zones = Configure::read('Catalog.allowedIPs');
 	    $zone = checkAllowedMasks($zones, $_SERVER['REMOTE_ADDR'], 1);
