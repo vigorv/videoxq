@@ -64,12 +64,14 @@ foreach($links as $key => $name)
     printf('<li%s>%s<a href="%s">%s</a>%s</li>', $class, $strong,$key, $name, str_replace('<s', '</s', $strong));
     if (strpos($key, 'lottery'))
     {
+/*
     	echo'<li>
 <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" style="display:block;padding-top:12px;" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0" width="64" height="30" id="stars-banner" align="middle">
 <param name="allowScriptAccess" value="sameDomain" />
 <param name="movie" value="stars-banner.swf" /><param name="quality" value="high" /><param name="wmode" value="transparent" /><param name="bgcolor" value="#ffffff" /><embed src="/img/stars-banner.swf" quality="high" wmode="transparent" bgcolor="#ffffff" width="64" height="30" name="stars-banner" allowScriptAccess="sameDomain" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" />
 </object>
 		</li>';
+*/
     }
     //echo "\n";
     //echo '<li' . $class . '><a href="' . $key . '">' . $name . '</a></li>';

@@ -59,7 +59,7 @@ else
     }
 ?>
     	<div class="welcome">
-			<?php __("Office"); ?>, <a title="<?php __('Office');?>" href="/users/office"><?= $authUser['username'] ?></a>
+			<a title="<?php __('Office');?>" href="/users/office"><?php __("Office"); ?></a>, <a title="<?php __('Office');?>" href="/users/office"><?= $authUser['username'] ?></a>
             <?php
             if($pms>0)
             {
