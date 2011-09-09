@@ -86,7 +86,13 @@ class UtilsController extends AppController
         $this->translations[] = "секта Володарского";
     }
 
-
+    function myinfo()
+    {
+    	$zone = false;
+   		$zones = Configure::read('Catalog.allowedIPs');
+	    $zone = checkAllowedMasks($zones, $_SERVER['REMOTE_ADDR'], 1);
+    	$this->set("zone", $zone);
+    }
 
     function additional($date = null, $initial = false)
     {
