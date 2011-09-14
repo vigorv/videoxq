@@ -47,8 +47,9 @@ foreach ($keywords as $word):
         </td>
         <td>
             <?php
-            echo $word['SearchLog']['count'];
-            //echo $word[0]['count'];
+        //    pr($word);
+        //    echo $word['SearchLog']['count'];
+            echo $word[0]['count'];
             ?>
         </td>
     </tr>
