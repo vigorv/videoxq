@@ -2515,9 +2515,8 @@ echo'</pre>';
     {
         if (mb_strlen($keyword) < 3 || (is_numeric($keyword) && mb_strlen($keyword) < 2))
             return;
-
         $this->SearchLog->create();
-        $this->SearchLog->save(array('SearchLog' => array('keyword' => $keyword)));
+        $this->SearchLog->save(array('SearchLog' => array('keyword' => $keyword,'ip'=>$_SERVER['REMOTE_ADDR'],'user_id'=>$this->authUser['userid'])));
     }
 
 
