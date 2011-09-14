@@ -1336,14 +1336,15 @@ echo'</pre>';
             $to = $this->data['SearchLog']['to'];
             $this->redirect('/admin/utils/search_logs/' . $from . '/' . $to);
         }
-/*
+
         $this->paginate['SearchLog']['fields'] = array('COUNT(keyword) AS count', 'keyword');
         $this->paginate['SearchLog']['group'] = 'keyword';
         $this->paginate['SearchLog']['order'] = 'count desc, created desc';
-*/
-        $this->paginate['SearchLog']['fields'] = array('hits AS count', 'keyword');
+
+/*        $this->paginate['SearchLog']['fields'] = array('hits AS count', 'keyword');
         $this->paginate['SearchLog']['order'] = 'count desc, created desc';
         $this->paginate['SearchLog']['limit'] = 100;
+*/
 /*
 //ДЛЯ СТАРОГО ВАРИАНТА СТАТИСТИКИ ПОИСКА (БЕЗ СЧЕТЧИКОВ)
         if (!empty($from))
