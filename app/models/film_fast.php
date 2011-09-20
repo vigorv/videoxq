@@ -9,14 +9,14 @@ class FilmFast extends AppModel {
      * Получение списка фильмов
      * @param int $lic      0 - всё /1  - только лиц./2 - всё что не лиц.     флаг лицензии
      * @param int $page     - тут должана быть страница, начало с 1
-     * @param int $per_page - результатов на странице 
+     * @param int $per_page - результатов на странице
      * @return array $films -  массив с фильмами
      */
     private function GetPersons($id, $count=0) {
         $limit = '';
         if ($count > 0)
             $limit = ' Limit ' . (int) $count;
-        $persons = $this->query('SELECT * FROM films_persons AS FilmsPerson 
+        $persons = $this->query('SELECT * FROM films_persons AS FilmsPerson
                 INNER JOIN persons  AS Person ON Person.id = FilmsPerson.person_id
                 INNER JOIN professions ON FilmsPerson.profession_id = professions.id
                 Where FilmsPerson.film_id=' . $id . $limit);
@@ -27,7 +27,7 @@ class FilmFast extends AppModel {
         $limit = '';
         if ($count > 0)
             $limit = ' Limit ' . (int) $count;
-        $genres = $this->query('SELECT genres.title,genres.title_imdb  FROM films_genres 
+        $genres = $this->query('SELECT genres.title,genres.title_imdb  FROM films_genres
                             LEFT JOIN genres on genres.id = films_genres.genre_id
                             WHERE films_genres.film_id =' . $id . $limit);
         return $genres;
@@ -74,13 +74,13 @@ class FilmFast extends AppModel {
             }
 
             $films = $this->query('SELECT ' . $fields . ' FROM films as Film ' .
-                            $var_join . '  
+                            $var_join . '
                             LEFT JOIN film_pictures as FilmPicture ON FilmPicture.film_id = Film.id
                             LEFT JOIN media_ratings as MediaRating on MediaRating.object_id = Film.id
-                           Where Film.active = 1 ' . $license . ' ' . $variant . ' 
+                           Where Film.active = 1 ' . $license . ' ' . $variant . '
                            and FilmPicture.type = "smallposter"
                            and MediaRating.type = "film"
-                            GROUP BY Film.id                           
+                            GROUP BY Film.id
                            ORDER BY ' . $order . ' ' . $direction . ' Limit  ' . $offset . ',' . $per_page);
 
             foreach ($films as &$film) {
@@ -118,7 +118,7 @@ class FilmFast extends AppModel {
             $variant .=' and FilmGenre.genre_id =' . $conditions['genre_id'];
         }
         $films = $this->query('SELECT Count(*) FROM films as Film ' .
-                        $var_join . '  
+                        $var_join . '
                            Where Film.active = 1 ' . $license . ' ' . $variant);
         if (!empty($films))
             return $films[0][0]['Count(*)'];
@@ -128,7 +128,7 @@ class FilmFast extends AppModel {
 
     /**
      * same as GetFilms with minor changes for api
-     * 
+     *
      */
     function GetFilmsA($conditions= array('lic' => 1, 'variant' => 0), $page=1, $per_page=20) {
         $license = '';
@@ -169,11 +169,11 @@ class FilmFast extends AppModel {
                     Film.title_en LIKE '%" . $conditions['title'] . "%')";
             }
             $films = $this->query('SELECT ' . $fields . ' FROM films as Film ' .
-                            $var_join . '  
+                            $var_join . '
                             LEFT JOIN film_pictures as FilmPicture ON (FilmPicture.film_id = Film.id and FilmPicture.type = "smallposter")
                             LEFT JOIN media_ratings as MediaRating on (MediaRating.object_id = Film.id AND  MediaRating.type = "film" )
-                           Where Film.active = 1 ' . $license . ' ' . $variant . ' 
-                           GROUP BY Film.id                            
+                           Where Film.active = 1 ' . $license . ' ' . $variant . '
+                           GROUP BY Film.id
                            ORDER BY ' . $order . ' ' . $direction . ' Limit  ' . $offset . ',' . $per_page);
             Cache::write('Catalog.film_fast_' . $cache_name . '_' . $page . '_' . $per_page, $films, 'searchres');
         }
@@ -207,7 +207,7 @@ class FilmFast extends AppModel {
                             $var_join.'
                             LEFT JOIN film_pictures as FilmPicture ON (FilmPicture.film_id = Film.id and FilmPicture.type = "poster")
                             LEFT JOIN media_ratings as MediaRating on (MediaRating.object_id = Film.id AND  MediaRating.type = "film" )
-                           Where Film.active = 1 ' . $license . ' 
+                           Where Film.active = 1 ' . $license . '
                            and Film.id = ' . $id . ' Limit  1');
         if (!empty($films)){
             /*
@@ -219,9 +219,9 @@ class FilmFast extends AppModel {
         if (!empty($persons))
             $films['Person'] = $persons;
 */
-       
+
         return $films;
-        } 
+        }
         return NULL;
     }
 
@@ -232,12 +232,12 @@ class FilmFast extends AppModel {
         else if ($lic == 2)
             $license = ' and Film.is_license = 0';
 
-        $films = $this->query('SELECT Film.* , FilmPicture.*, MediaRating.* FROM films as Film 
+        $films = $this->query('SELECT Film.* , FilmPicture.*, MediaRating.* FROM films as Film
                             LEFT JOIN film_pictures as FilmPicture ON FilmPicture.film_id = Film.id
                             LEFT JOIN media_ratings as MediaRating on MediaRating.object_id = Film.id
-                           Where Film.active = 1 ' . $license . '  
+                           Where Film.active = 1 ' . $license . '
                            and FilmPicture.type = "smallposter"
-                           and MediaRating.type = "film"       
+                           and MediaRating.type = "film"
                            and Film.id = ' . $id . ' Limit  1');
         $genres = $this->GetGenres($films[0]['Film']['id']);
         if (!empty($genres))
@@ -300,7 +300,7 @@ class FilmFast extends AppModel {
             $pagination['Film']['conditions'] = array('is_license' => '1');
             $pagination['Film']['limit'] = 20;
             $pagination['Film']['sphinx']['matchMode'] = SPH_MATCH_ALL;
-            $pagination['Film']['sphinx']['index'] = array('films'); //ИЩЕМ ПО ИНДЕКСУ ФИЛЬМОВ
+            $pagination['Film']['sphinx']['index'] = array('videoxq_films'); //ИЩЕМ ПО ИНДЕКСУ ФИЛЬМОВ
             $pagination['Film']['sphinx']['sortMode'] = array(SPH_SORT_EXTENDED => '@relevance DESC');
             $pagination['Film']['search'] = $title;
             $films = $this->Film->find('all', $pagination["Film"]);
@@ -314,7 +314,7 @@ class FilmFast extends AppModel {
         $data = array();
         foreach ($genres as &$genre) {
             if (isset($genre['genres']['id']) && $genre['genres']['id']) {
-                $genre_count = $this->query("SELECT COUNT('films_genres.id') as count from films_genres 
+                $genre_count = $this->query("SELECT COUNT('films_genres.id') as count from films_genres
                         INNER JOIN films ON films_genres.film_id = films.id
                         WHERE films_genres.genre_id =" . $genre['genres']['id'] . " AND films.is_license=$lic");
                 $genre_count = (int) $genre_count[0][0]['count'];

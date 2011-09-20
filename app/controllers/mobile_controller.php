@@ -83,7 +83,7 @@ class MobileController extends AppController {
             $this->Film->recursive = 1;
             $pagination['Film']['limit'] = 20;
             $pagination['Film']['sphinx']['matchMode'] = SPH_MATCH_ALL;
-            $pagination['Film']['sphinx']['index'] = array('films'); //ИЩЕМ ПО ИНДЕКСУ ФИЛЬМОВ
+            $pagination['Film']['sphinx']['index'] = array('videoxq_films'); //ИЩЕМ ПО ИНДЕКСУ ФИЛЬМОВ
             $pagination['Film']['sphinx']['sortMode'] = array(SPH_SORT_EXTENDED => '@relevance DESC');
             $pagination['Film']['search'] = $title;
             $films = $this->Film->find('all', $pagination["Film"]);

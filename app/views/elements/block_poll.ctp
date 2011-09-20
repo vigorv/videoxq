@@ -1,7 +1,10 @@
 <?php
-extract($block_poll);
+	foreach($block_poll as $bp)
+	{
+		extract($bp);
 if (!empty($Poll))
 {
+//	pr($Poll);
 ?>
 
 
@@ -13,7 +16,7 @@ if (!empty($Poll))
 
 <?php
 
-if ($main_voting_voted
+if ($main_voting_voted[$Poll['id']]
     || ($authUser['userid'] && strpos($Poll['voters'], ',' . $authUser['userid'] . ',') !== false)):
 
     foreach ($Poll['data'] as $answer)
@@ -64,4 +67,5 @@ endif;
 }
 
  */
-?>
+break;
+	}

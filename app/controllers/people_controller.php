@@ -88,7 +88,7 @@ class PeopleController extends AppController {
 			$pagination = array();
 			$pagination['Person']['limit'] = 30;
             $pagination['Person']['sphinx']['matchMode'] = SPH_MATCH_ALL;
-            $pagination['Person']['sphinx']['index'] = array('persons');//ИЩЕМ ПО ИНДЕКСУ ПЕРСОН
+            $pagination['Person']['sphinx']['index'] = array('videoxq_persons');//ИЩЕМ ПО ИНДЕКСУ ПЕРСОН
             $pagination['Person']['sphinx']['sortMode'] = array(SPH_SORT_EXTENDED => '@relevance DESC');
             $pagination['Person']['search'] = $this->params['named']['search'];
     		$result = $this->Person->find('all', $pagination["Person"]);

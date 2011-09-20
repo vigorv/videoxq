@@ -815,15 +815,15 @@ return;//НЕПРАВИЛЬНО РАБОТАЕТ
 
 	function searchWsmedia()
 	{
-		return $this->searchSphinxIndex('wsmedia');
+		return $this->searchSphinxIndex('rumedia_post');
 	}
 
 	function searchAnimeBar()
 	{
-		return $this->searchSphinxIndex('animebar');
+		return $this->searchSphinxIndex('animebar_post');
 	}
 
-	function searchSphinxIndex($indexName = 'wsmedia')
+	function searchSphinxIndex($indexName = 'rumedia_post')
 	{
         if (!empty($this->params['named']['search']))
         {
@@ -1217,7 +1217,7 @@ if (!empty($this->params['named']['is_license']))
             }
             $pagination['Film']['sphinx']['matchMode'] = SPH_MATCH_ALL;
             $pagination['Film']['sphinx']['sortMode'] = array(SPH_SORT_EXTENDED => '@relevance DESC' . $sort);
-            $pagination['Film']['sphinx']['index'] = array('films');//ИЩЕМ ПО ИНДЕКСУ ФИЛЬМОВ
+            $pagination['Film']['sphinx']['index'] = array('videoxq_films');//ИЩЕМ ПО ИНДЕКСУ ФИЛЬМОВ
 
             $pagination['Film']['search'] = $search;
             $parts = explode(' ', $search);
@@ -1403,7 +1403,7 @@ echo'</pre>';
 			$pagination = array();
 			$pagination['Person']['limit'] = 1;
             $pagination['Person']['sphinx']['matchMode'] = SPH_MATCH_ALL;
-            $pagination['Person']['sphinx']['index'] = array('persons');//ИЩЕМ ПО ИНДЕКСУ ПЕРСОН
+            $pagination['Person']['sphinx']['index'] = array('videoxq_persons');//ИЩЕМ ПО ИНДЕКСУ ПЕРСОН
             $pagination['Person']['sphinx']['sortMode'] = array(SPH_SORT_EXTENDED => '@relevance DESC');
             $pagination['Person']['search'] = $search;
     		$result = $this->Film->Person->find('all', $pagination["Person"]);
@@ -1678,7 +1678,7 @@ echo'</pre>';
 	    		$this->Film->contain(array());
 				$pagination['Film']['limit'] = 20;
 	            $pagination['Film']['sphinx']['matchMode'] = SPH_MATCH_ALL;
-	            $pagination['Film']['sphinx']['index'] = array('films');//ИЩЕМ ПО ИНДЕКСУ ФИЛЬМОВ
+	            $pagination['Film']['sphinx']['index'] = array('videoxq_films');//ИЩЕМ ПО ИНДЕКСУ ФИЛЬМОВ
 	            $pagination['Film']['sphinx']['sortMode'] = array(SPH_SORT_EXTENDED => '@relevance DESC');
 	            $pagination['Film']['search'] = $searchFor;
 	    		$films = $this->Film->find('all', $pagination["Film"]);
@@ -2244,7 +2244,7 @@ $this->set("catalogVariants", $catalogVariants);
                                         'limit' => 20));
             $pagination['OzonProduct']['sphinx']['matchMode'] = SPH_MATCH_ALL;
             $pagination['OzonProduct']['sphinx']['sortMode'] = array(SPH_SORT_EXTENDED => '@relevance DESC');
-            $pagination['OzonProduct']['sphinx']['index'] = array('ozon');//ИЩЕМ ПО ИНДЕКСУ ПРОДУКТОВ ОЗОНА
+            $pagination['OzonProduct']['sphinx']['index'] = array('videoxq_ozon');//ИЩЕМ ПО ИНДЕКСУ ПРОДУКТОВ ОЗОНА
 
             if (!empty($film['Film']['title']))
             {

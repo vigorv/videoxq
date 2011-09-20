@@ -31,7 +31,7 @@ switch ($action)
 		$sphinx = new SphinxClient();
 		$sphinx->setLimits(0, 1000);
 
-		$sphinxResult = $sphinx->Query(iconv('utf8', 'windows-1251', $search), 'media1');
+		$sphinxResult = $sphinx->Query(iconv('utf8', 'windows-1251', $search), 'media1_films');
 
 		$ids = array();
 		if (!empty($sphinxResult["matches"]))
@@ -57,7 +57,7 @@ switch ($action)
 			mysql_free_result($res);
 		}
 
-		$sphinxResult = $sphinx->Query(iconv('utf8', 'windows-1251', $search), 'media1persons');
+		$sphinxResult = $sphinx->Query(iconv('utf8', 'windows-1251', $search), 'media1_persons');
 
 		$ids = array();
 		if (!empty($sphinxResult["matches"]))

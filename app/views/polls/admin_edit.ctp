@@ -16,6 +16,7 @@
         echo $form->input('active');
         echo $form->input('multiple');
         echo $form->input('other');
+        echo $form->input('block');
     ?>
     </fieldset>
 <?php echo $form->end('Submit');?>
