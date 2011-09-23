@@ -34,7 +34,7 @@ class PollsController extends AppController
             $this->redirect($this->data['Poll']['redirect']);
 
         $poll['Poll']['votes'] = explode('#', $poll['Poll']['votes']);
-        if (!empty($this->data['Poll']['vote']))
+        if (isset($this->data['Poll']['vote']))
         {
 	        $vote = $this->data['Poll']['vote'];
 	        $lastSelected = false;
