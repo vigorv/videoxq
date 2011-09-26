@@ -34,7 +34,7 @@ class PollsController extends AppController
             $this->redirect($this->data['Poll']['redirect']);
 
         $poll['Poll']['votes'] = explode('#', $poll['Poll']['votes']);
-        if (isset($this->data['Poll']['vote']))
+        if (!empty($this->data['Poll']['vote']))
         {
 	        $vote = $this->data['Poll']['vote'];
 	        $lastSelected = false;
@@ -42,7 +42,7 @@ class PollsController extends AppController
 	        {
 	        	foreach ($poll['Poll']['votes'] as $key => $val)
 	        	{
-	        		if (!empty($vote[$key]))
+	        		if (!empty($vote[$key + 1]))//($key + 1) - КОМПЕНСИРУЕМ ВСТАВКУ ХОЛОСТОГО ИНДЕКСА
 	        		{
 	        			$poll['Poll']['votes'][$key]++;
 	        			if ($key == count($poll['Poll']['votes']) - 1)
@@ -54,6 +54,7 @@ class PollsController extends AppController
 	        }
 	        else
 	        {
+	        	$vote--;//КОМПЕНСИРУЕМ ВСТАВКУ ХОЛОСТОГО ИНДЕКСА
 	        	$poll['Poll']['votes'][intval($vote)]++;
 	        	if ($vote == count($poll['Poll']['votes']) - 1)
 				{
