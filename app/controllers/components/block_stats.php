@@ -80,7 +80,7 @@ class BlockStatsComponent extends BlocksParentComponent
         }
 
         $model = ClassRegistry::init('Poll');
-        $dataAll = $model->findAll(array('Poll.active >' => 0));
+        $dataAll = $model->findAll(array('Poll.active >' => 0, 'block' => 0));
 //pr($dataAll);
         if (!empty($dataAll))
         {
