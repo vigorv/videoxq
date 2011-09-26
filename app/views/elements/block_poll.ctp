@@ -4,9 +4,8 @@
 		extract($bp);
 if (!empty($Poll))
 {
-//	pr($Poll);
+//	pr($Poll);s
 ?>
-
 
 <div class="polls" id="polls">
 <p style="text-align: center;"><strong><?php echo $Poll['title']?></strong></p>
@@ -33,11 +32,13 @@ echo $form->create('Poll', array('action' => 'vote'));
 echo $form->hidden('redirect', array('value' => $this->here));
 echo $form->hidden('id', array('value' => $Poll['id']));
 echo '<li>';
+array_unshift($Poll['answers'], 'value to be killed');//ВСТАВЛЯЕМ ЗНАЧЕНИЕ В НАЧАЛО ЧТОБЫ ИНКРЕМЕНТИРОВАТЬ ИНДЕКСЫ ОСТАЛЬНЫХ ЭЛЕМЕНТОВ
+unset($Poll['answers'][0]);
 if ($Poll["multiple"])
 {
 	foreach ($Poll['answers'] as $key => $answer)
 	{
-		echo $form->input($answer, array('name' => 'data[Poll][vote][' . $key . ']', 'type' => 'checkbox', 'value' => 1)) . '</li><li>';
+		echo '<input type="checkbox" name="data[Poll][vote][' . $key . ']" value="1" />' . $answer . '</li><li>';
 	}
 }
 else

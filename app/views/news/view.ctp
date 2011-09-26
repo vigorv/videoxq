@@ -83,11 +83,14 @@ else
 	echo $form->hidden('redirect', array('value' => $this->here . '#poll', 'id' => "redirectid" . $Poll['id']));
 	echo $form->hidden('id', array('value' => $Poll['id'], 'id' => "hiddenid" . $Poll['id']));
 	echo '<li>';
+array_unshift($Poll['answers'], 'value to be killed');//ВСТАВЛЯЕМ ЗНАЧЕНИЕ В НАЧАЛО ЧТОБЫ ИНКРЕМЕНТИРОВАТЬ ИНДЕКСЫ ОСТАЛЬНЫХ ЭЛЕМЕНТОВ
+unset($Poll['answers'][0]);
 	if ($Poll["multiple"])
 	{
 		foreach ($Poll['answers'] as $key => $answer)
 		{
-			echo $form->input($answer, array('name' => 'data[Poll][vote][' . $key . ']', 'type' => 'checkbox', 'value' => 1, 'id' => "chk_{$Poll['id']}_" . $key)) . '</li><li>';
+			echo '<input type="checkbox" id="chk_' . $Poll['id'] . '_' . $key . '" name="data[Poll][vote][' . $key . ']" value="1" />' . $answer . '</li><li>';
+//			echo $form->input($answer, array('name' => 'data[Poll][vote][' . $key . ']', 'type' => 'checkbox', 'value' => 1, 'id' => "chk_{$Poll['id']}_" . $key)) . '</li><li>';
 		}
 	}
 	else
