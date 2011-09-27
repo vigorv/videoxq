@@ -178,6 +178,19 @@ yaCounter1094491.trackLinks({external: true});
 <noscript><div style="position:absolute"><img src="//mc.yandex.ru/watch/1094491" alt=""
 /></div></noscript>
 <!-- /Yandex.Metrika -->
+
+<!--Openstat-->
+<span id="openstat2206442"></span>
+<script type="text/javascript">
+var openstat = { counter: 2206442, image: 93, color: "828282", next: openstat, track_links: "all" };
+(function(d, t, p) {
+var j = d.createElement(t); j.async = true; j.type = "text/javascript";
+j.src = ("https:" == p ? "https:" : "http:") + "//openstat.net/cnt.js";
+var s = d.getElementsByTagName(t)[0]; s.parentNode.insertBefore(j, s);
+})(document, "script", document.location.protocol);
+</script>
+<!--/Openstat-->
+
 </div>
 <?php
 if (isset($authUserGroups) && in_array(Configure::read('VIPgroupId'), $authUserGroups))
