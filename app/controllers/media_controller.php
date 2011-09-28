@@ -1401,7 +1401,7 @@ echo'</pre>';
             $this->Film->Person->contain();
             $search = '%' . $this->params['named']['search'] . '%';
 			$pagination = array();
-			$pagination['Person']['limit'] = 1;
+			$pagination['Person']['limit'] = 30;
             $pagination['Person']['sphinx']['matchMode'] = SPH_MATCH_ALL;
             $pagination['Person']['sphinx']['index'] = array('videoxq_persons');//ИЩЕМ ПО ИНДЕКСУ ПЕРСОН
             $pagination['Person']['sphinx']['sortMode'] = array(SPH_SORT_EXTENDED => '@relevance DESC');

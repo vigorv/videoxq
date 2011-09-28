@@ -679,7 +679,7 @@ class Film extends MediaModel {
     	}
 		$max = $max[0]['films']['id'];
 		if (empty($max))
-			$max = 20000;
+			$max = 30120;
 		return $max;
     }
 
