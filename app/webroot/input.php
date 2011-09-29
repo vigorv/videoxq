@@ -103,8 +103,8 @@ function to_base($user_ip,$event,$info,$param)
 
     if ($comeback)
     {
-		header('location: http://rumedia.ws/?_openstat=dmtrO3Zra2s7Mjsz');
-		exit;
+//		header('location: http://rumedia.ws/?_openstat=dmtrO3Zra2s7Mjsz');
+//		exit;
     }
 }
 
@@ -115,9 +115,11 @@ to_base($user_ip,$event,$b_info, $param);
 
 	switch ($param)
 	{
-		case 20: $uri = '/media/?_openstat=0Y_QvdC00LXQutGBINC00LjRgNC10LrRgiA70LrQvtC80L_QsNC90LjRjyDQv9C-INCh0KTQniA70L_RgNC-INGE0LjQu9GM0LzRiyA70LrQvtC90YLQtdC60YHRgiDQvdCwINGP0L3QtNC10LrRgdC1IA';
+		case 20:
+		    $uri = '/media/?_openstat=0Y_QvdC00LXQutGBINC00LjRgNC10LrRgiA70LrQvtC80L_QsNC90LjRjyDQv9C-INCh0KTQniA70L_RgNC-INGE0LjQu9GM0LzRiyA70LrQvtC90YLQtdC60YHRgiDQvdCwINGP0L3QtNC10LrRgdC1IA';
+		break;
 		default:
-			$uri = '/media';
+		$uri = '/media';
 	}
 	header('location: ' . $uri);
 }
