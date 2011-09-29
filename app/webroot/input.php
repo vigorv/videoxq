@@ -100,9 +100,15 @@ function to_base($user_ip,$event,$info,$param)
     }
 }
 
-to_base($user_ip,$event,$b_info, $param);
+	to_base($user_ip,$event,$b_info, $param);
 
-header('location: /');
+	switch ($param)
+	{
+		case 20: $uri = '/?_openstat=0Y_QvdC00LXQutGBINC00LjRgNC10LrRgiA70LrQvtC80L_QsNC90LjRjyDQv9C-INCh0KTQniA70L_RgNC-INGE0LjQu9GM0LzRiyA70LrQvtC90YLQtdC60YHRgiDQvdCwINGP0L3QtNC10LrRgdC1IA';
+		default:
+			$uri = '/';
+	}
+	header('location: ' . $uri);
 }
 else
 {
