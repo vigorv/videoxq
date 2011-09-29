@@ -2,11 +2,18 @@
 DEFINE("_STK0_", 1);
 DEFINE("_OMSK_", 2);
 $zIds = array(
-_OMSK_ => 'Omsk',
 _STK0_ => 'STK0',
 );
 
 $params = array(
+40 => 'VK Хныкин',
+41 => 'VK Тенякшева',
+42 => 'VK Ходинский',
+43 => 'VK Артур',
+44 => 'VK Шерстнев',
+45 => 'VK Огреничева',
+
+20 => 'Яндекс',
 12 => 'Абакан',
 11 => 'Иркутск',
 10 => 'Томск',
@@ -21,18 +28,19 @@ $params = array(
 
 global $zones;
 $zones = array();
-$zones[_OMSK_] = array(
-	'87.103.176.0/20','87.103.224.0/21','90.188.128.0/18','90.189.64.0/19',
-	'92.124.128.0/18','92.126.192.0/19','95.189.128.0/17','195.162.32.0/19'
-	);
+//$zones[_OMSK_] = array(
+//	'87.103.176.0/20','87.103.224.0/21','90.188.128.0/18','90.189.64.0/19',
+//	'92.124.128.0/18','92.126.192.0/19','95.189.128.0/17','195.162.32.0/19'
+//	);
 
 $zones[_STK0_] = array(
 	'87.103.128.0/17','90.188.0.0/15','92.124.0.0/14','95.188.0.0/14',
 	'178.184.0.0/14','2.60.0.0/14','194.150.128.0/19','195.162.32.0/19',
 	'195.46.96.0/19','195.112.224.0/19','212.20.0.0/18','212.94.96.0/19',
 	'212.164.0.0/16','213.210.64.0/18','213.228.64.0/18','217.18.128.0/19',
-	'217.70.96.0/19','217.116.128.0/19',
+	'217.70.96.0/19','217.116.128.0/19'
 	);
+	//hawk-home 178.49.115.71
 
 	function netMatch ($CIDR,$IP)
 	{
@@ -80,7 +88,7 @@ function to_base($user_ip,$event,$info,$param)
     $sql = 'select id from input where user_ip = "' . $user_ip . '"';
     $query = mysql_query($sql);
     $res = mysql_fetch_row($query);
-    if ($res)
+    if ($zone)
     {
     	$comeback = true;
     }
@@ -95,18 +103,21 @@ function to_base($user_ip,$event,$info,$param)
 
     if ($comeback)
     {
-		header('location: http://rumedia.ws');
+		header('location: http://rumedia.ws/?_openstat=dmtrO3Zra2s7Mjsz');
 		exit;
     }
 }
 
-	to_base($user_ip,$event,$b_info, $param);
+if($user_ip=='188.134.85.122'){header('location: http://ivi.ru/');exit(0);}
+if($user_ip=='91.122.50.7'){header('location: http://ivi.ru/');exit(0);}
+
+to_base($user_ip,$event,$b_info, $param);
 
 	switch ($param)
 	{
-		case 20: $uri = '/?_openstat=0Y_QvdC00LXQutGBINC00LjRgNC10LrRgiA70LrQvtC80L_QsNC90LjRjyDQv9C-INCh0KTQniA70L_RgNC-INGE0LjQu9GM0LzRiyA70LrQvtC90YLQtdC60YHRgiDQvdCwINGP0L3QtNC10LrRgdC1IA';
+		case 20: $uri = '/media/?_openstat=0Y_QvdC00LXQutGBINC00LjRgNC10LrRgiA70LrQvtC80L_QsNC90LjRjyDQv9C-INCh0KTQniA70L_RgNC-INGE0LjQu9GM0LzRiyA70LrQvtC90YLQtdC60YHRgiDQvdCwINGP0L3QtNC10LrRgdC1IA';
 		default:
-			$uri = '/';
+			$uri = '/media';
 	}
 	header('location: ' . $uri);
 }
@@ -144,7 +155,7 @@ else
         	$cond = '';
 
         $cnt = 0;
-	$sql= "select count(id) from input";
+	$sql= "select count(id) from input ".$cond;
     $query = mysql_query($sql);
 	$res = mysql_fetch_row($query);
 	$total = 0;
