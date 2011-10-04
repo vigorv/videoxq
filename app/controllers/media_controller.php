@@ -1341,6 +1341,8 @@ echo'</pre>';
 		{
 			$wsmediaResult = $this->searchWsmedia();
 			$animebarResult = $this->searchAnimeBar();
+			$this->set('wsmediaPostCount', count($wsmediaResult));
+			$this->set('animebarPostCount', count($animebarResult));
 		}
 
 		$countation = $pagination;
