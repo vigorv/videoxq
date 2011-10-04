@@ -15,32 +15,48 @@
 body {
     font-family: Helvetica;
     margin:0;
-    padding: 0;
-    overflow-x:none;
-    
+    padding: 0 0 0 0;
+    height:100%;
+    width:100%;
+    position:absolute;
     -webkit-user-select: none;
     -webkit-text-size-adjust: none;
 }
 
+
 div#header{
-
-    height:45px;
-    width:100%;
-    top:0;left:0;
-    position:absolute;
+    height:45px;    
+    width:100%;     
     text-align:center;
-    z-index:10;
-  }
-  
-  #iscroll{
-      width: 100%; position: absolute; top: 45px; bottom:0px;
-      /*overflow:scroll;*/
-      
-      
-  }
+    position: fixed;
+    margin:0;
+    top:0;
+    left:0;
+    z-index:100;
+    overflow:visible;
+}
 
-  
-    
+#iscroll{    
+    height:90%;
+    /*overflow:scroll;*/         
+    top:0px;
+    margin-top:45px;
+
+    width: 100%;
+    position: relative; 
+    padding-bottom:60px;
+}
+
+#Scroller{    
+    height:auto;    
+    position:relative;
+}
+#nextScreen{
+    height:auto;
+}
+
+
+
 
 
 #logo-icon{
@@ -81,22 +97,23 @@ div#header{
 }
 
 div a#logo-title{
-    font: 25px "Helvetica-Bold",Helvetica,Geneva,Arial,sans-serif;
+    font:25px  "Helvetica-Bold",Helvetica,Geneva,Arial,sans-serif;    
     text-decoration: none;
-    overflow:hidden;
-    padding: 10px;
+    overflow:visible;
+    padding: 8px;
     width:70%;
     margin:auto;   
     display:block;
-    
-    
+
+
     position:relative;
     white-space:nowrap;
     letter-spacing: -1px;
+
 }
 
 .bar {
-    position:relative;
+
     margin:0;
     padding:7px 8px;
     width:auto;
@@ -105,12 +122,16 @@ div a#logo-title{
     clear:left;
 }
 
+
+
 .bar input#search-input {
     border-style: solid;
     border-width: 1px;
-    font-size: 12px;
+    font-size: 18px;
+    padding-top:45px;
+
     font-weight: bold;
-    margin: 0;
+    margin:auto;
     padding: 5px;
     text-align: left;
     width: 90%;
@@ -125,37 +146,43 @@ div a#logo-title{
 
 
 ul {
-
-
     border: 1px solid #B4B4B4;
     font: bold 17px Helvetica;
     padding: 0;
     margin:0;
-/*    margin: 15px 10px 17px;
-    -webkit-border-radius: 8px;*/
+    /*    margin: 15px 10px 17px;
+        -webkit-border-radius: 8px;*/
+}
+
+ul li{
+    list-style-type: none;
+    clear:left;
 }
 
 
-ul li {
+ul#home li {
     list-style-type: none;
     padding: 10px 10px 10px 10px;
     clear:left;
+}
+ul#home li:hover{
+    background-color:#E0E0DD;
 }
 
 /* when you have a first LI item on any list */
 
 li:first-child {
-  /*  border-top: 0;
-    -webkit-border-top-left-radius: 8px;
-    -webkit-border-top-right-radius: 8px; */
+    /*  border-top: 0;
+      -webkit-border-top-left-radius: 8px;
+      -webkit-border-top-right-radius: 8px; */
 }
 
 li:last-child {
-   /* -webkit-border-bottom-left-radius: 8px;
-    -webkit-border-bottom-right-radius: 8px; */
+    /* -webkit-border-bottom-left-radius: 8px;
+     -webkit-border-bottom-right-radius: 8px; */
 }
 
-.text {
+.info_text {
     font-size: 14px;
 }
 
@@ -166,7 +193,7 @@ li:last-child {
 }
 
 .form li{
- text-align: center;    
+    text-align: center;    
 }
 
 .form li input{
@@ -209,13 +236,39 @@ li:last-child {
 }
 
 .href_li{
-    float:left;
+    display:block;
     text-decoration: none;
+    width:100%;   
+}
+
+li.videoinfo{
+    padding:5px;
 }
 
 
+#carousel{
+    margin:0;
+    padding:0;
+    width:100%;
+    overflow:hidden;
+    height:70%;
+    top:10%;
+}
+#mycarousel {
+    margin:0;
+    padding:0;
+    width:400%;
+    overflow: visible;
+}
+#mycarousel li {
+    float:left;
+    width:23%;
+    padding:0 1%;
+    margin:0;
+    height:80%;
+    clear:none;
 
+}    
+#mycarousel li.active{
 
-
- 
-
+}

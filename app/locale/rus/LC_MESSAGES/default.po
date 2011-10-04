@@ -8592,3 +8592,12 @@ msgstr "серия"
 
 msgid "Action"
 msgstr "Акция"
+
+msgid "Search film by title"
+msgstr "Поиск фильма по названию"
+
+msgid "Films"
+msgstr "Фильмы"
+
+msgid "Profile"
+msgstr "Профиль"

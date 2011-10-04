@@ -9,6 +9,8 @@
  * Description of mobile_controller
  *
  * @author snowing
+ * @property FilmFast $FilmFast
+ * @property UserFast $UserFast
  */
 class MobileController extends AppController {
 
@@ -18,22 +20,36 @@ class MobileController extends AppController {
     var $viewPath = 'mobile';
     var $helpers = array('Paginator', 'Form', 'Html');
     var $components = array('Captcha', 'Email', 'Cookie', 'RequestHandler', 'ControllerList');
-    var $uses = array('User', 'Group', 'Film', 'News', 'Media');
+    var $uses = array('User', 'Group', 'FilmFast', 'UserFast', 'News', 'Media');
     var $langFix = '';
     var $ImgPath;
     var $out, $outCount;
     var $paginate = array(
         'limit' => 10
     );
-    var $is_logged = false;
-
+    var $page;
+    var $per_page;
+    var $page_count = 0;
+    var $page_filter;
 
     function BeforeFilter() {
         parent::BeforeFilter();
-        if (isset($_GET['ajax']))
-            $this->layout = 'ajax';
 
-        //Configure::write('debug', 1);
+        //echo env('HTTP_USER_AGENT');
+        if (preg_match('/android/i', env('HTTP_USER_AGENT'))) {
+            $this->set('android_webkit', true);
+            View::set('android_webkit', true);
+        }
+        else
+            View::set('android_webkit', false);
+
+        $ajax = 0;
+        if (isset($_REQUEST['ajax'])) {
+            $this->layout = 'ajax';
+            $ajax = 1;
+            Configure::write('debug', 0);
+        }
+        Configure::write('debug', 1);
         $this->out = '';
         $this->outCount = '';
         $name = $this->passedArgs;
@@ -54,117 +70,38 @@ class MobileController extends AppController {
         $zone = false;
         $zones = Configure::read('Catalog.allowedIPs');
         $zone = checkAllowedMasks($zones, $_SERVER['REMOTE_ADDR'], 1);
+        $page = 1;
+        $per_page = 50;
+        $ajaxmode = 0;
+        if (isset($_GET['page'])) {
+            $page = filter_var($_GET['page'], FILTER_VALIDATE_INT);
+            if ($ajax)
+                $ajaxmode = 1;
+        }
+        if ($page > 0)
+            $this->page = $page;
+        else
+            $this->page = 1;
+        if (isset($_GET['per_page']))
+            $per_page = filter_var($_GET['per_page'], FILTER_VALIDATE_INT);
+        if (($per_page > 0) && ($per_page < 100))
+            $this->per_page = $per_page;
+        else
+            $this->per_page = 50;
+        if (isset($_GET['filter']))
+            $this->page_filter = filter_var($_GET['filter'], FILTER_SANITIZE_STRING);
+        else
+            $this->page_filter = '';
+        View::set('page_filter', $this->page_filter);
+        View::set('page_link', '/' . $this->params['controller'] . '/' . $this->params['action']);
+        $this->set('ajaxmode', $ajaxmode);
         if ($zone)
             $this->ImgPath = Configure::read('Catalog.imgPath');
         else
             $this->ImgPath = Configure::read('Catalog.imgPathInet');
     }
 
-    /**
-     * найти фильмы с похожим названием
-     *
-     * @param string $title
-     * @return array
-     */
-    private function SearchByTitle($title) {
-        $films = array();
-//pr($searchFor);
-        if (!$films = Cache::read('Catalog.film_search_' . $title, 'searchres')) {
-            $this->Film->contain(array(
-                'conditions' => array('is_license' => '1'),
-                'FilmType', 'Genre',
-                'Thread',
-                'FilmPicture' => array('conditions' => array('type <>' => 'smallposter')),
-                'Country',
-                'FilmVariant' => array('FilmFile' => array('order' => 'file_name'), 'VideoType', 'Track' => array('Language', 'Translation')),
-                'MediaRating',
-                    )
-            );
-            $this->Film->recursive = 1;
-            $pagination['Film']['limit'] = 20;
-            $pagination['Film']['sphinx']['matchMode'] = SPH_MATCH_ALL;
-            $pagination['Film']['sphinx']['index'] = array('videoxq_films'); //ИЩЕМ ПО ИНДЕКСУ ФИЛЬМОВ
-            $pagination['Film']['sphinx']['sortMode'] = array(SPH_SORT_EXTENDED => '@relevance DESC');
-            $pagination['Film']['search'] = $title;
-            $films = $this->Film->find('all', $pagination["Film"]);
-
-            $this->set('imgPath', $this->ImgPath);
-            Cache::write('Catalog.film_search_' . $title, 'searchres');
-        }
-        return $films;
-    }
-
-    /*
-     * get list of films
-     * @param array $cond
-     * @return array
-     */
-
-    protected function GetFilms($conditions=array()) {
-
-
-        if (!$films = Cache::read('Catalog.film_search_m_' . $title, 'searchres')) {
-            /*  $this->Film->contain(array('FilmType', 'Genre',
-              'Thread',
-              'FilmPicture' => array('conditions' => array('type <>' => 'smallposter')),
-              'Country',
-              'FilmVariant' => array('FilmFile' => array('order' => 'file_name'), 'VideoType', 'Track' => array('Language', 'Translation')),
-              'MediaRating',
-              )
-              );
-             */
-
-            //if (!$this->isWS) {
-            $license = ' and Film.is_license = 1';
-            //} else $license = '';
-
-            $films = $this->Film->query('SELECT * FROM films as Film
-                            INNER JOIN film_variants  as FilmVariant ON FilmVariant.film_id = Film.id
-                            LEFT JOIN film_pictures as FilmPicture ON FilmPicture.film_id = Film.id
-                            LEFT JOIN media_ratings as MediaRating on MediaRating.object_id = Film.id
-                           Where Film.active = 1 ' . $license . ' and FilmVariant.video_type_id = 13
-                           and FilmPicture.type = "smallposter"
-                           and MediaRating.type = "film"
-                           GROUP BY Film.id
-                           ORDER BY Film.year Limit 20');
-
-
-            foreach ($films as &$film) {
-                $gr = $this->Film->query('SELECT genres.title,genres.title_imdb FROM films_genres
-                            LEFT JOIN genres on genres.id = films_genres.genre_id
-                            WHERE films_genres.film_id =' . $film['Film']['id']);
-                foreach ($gr as $genre)
-                    $film['Genre'][] = $genre['genres'];
-            }
-
-            /* $conditions['Film.active'] = 1;
-              $postFix = '';
-              //
-              if ($this->isWS)
-              $order = array('Film.modified' => 'desc');
-              else {
-              $order = array('Film.year' => 'desc');
-              $conditions['Film.is_license'] = 1; //ВНЕШНИМ ПОКАЗЫВАЕМ ТОЛЬКО ЛИЦЕНЗИЮ
-              $postFix = 'Licensed';
-              }
-              $joins = array('table' => 'film_variants', 'alias' => 'FilmVariant', 'type' => 'inner', 'foreignKey' => false,
-              'conditions' => array('FilmVariant.video_type_id' => 13));
-
-              if (isset($this->passedArgs["sort"]))
-              $order = array($this->passedArgs["sort"] => $this->passedArgs["direction"]);
-
-              $films = false;
-              //$films = Cache::read('Catalog.' . $postFix . 'list_' . $this->out, 'searchres');
-              if ($films === false) {//ЕСЛИ ЕЩЕ НЕ КЭШИРОВАЛ
-             * $films = $this->Film->find('all', array('conditions' => $conditions, 'joins' => array($joins)));
-
-
-              Cache::write('Catalog.' . $postFix . 'list_' . $this->out, $films, 'searchres');
-              } */
-            Cache::write('Catalog.film_search_m_'.$title, $films, 'searchres');
-        }
-        $this->set('films', $films);
-
+    function BeforeRender() {
         $this->set('imgPath', $this->ImgPath);
     }
 
@@ -173,14 +110,16 @@ class MobileController extends AppController {
      */
 
     function index() {
-
         $this->pageTitle = __('Video catalog', true);
-        $this->GetFilms();
+        $films = $this->FilmFast->GetFilms(array('lic' => 1, 'variant' => 13, 'order' => 'RAND()'), 100);
+        $this->autoRender = false;
+        $this->set('films', $films);
+        $this->render('films');
     }
 
     function search() {
         $words = filter_var($_GET['s'], FILTER_SANITIZE_STRING);
-        $films = $this->SearchByTitle($words);
+        $films = $this->FilmFast->SearchByTitle($words);
         $this->set('films', $films);
         //$this->render('films');
     }
@@ -195,75 +134,55 @@ class MobileController extends AppController {
         }
     }
 
+    function genres($id=null) {
+        if (!$id) {
+            $genres = $this->FilmFast->GetFullGenresList(1,13);
+            
+            $this->set('genres', $genres);
+        } else {
+            $this->pageTitle = __('Video catalog', true);
+            $cond=array('lic' => 1, 'variant' => 13, 'order' => 'Film.year', 'genre_id' => $id);
+            $count = $this->FilmFast->GetFilmsCount($cond);
+            $films = $this->FilmFast->GetFilms($cond, 1, $this->page, $this->per_page);
+            $this->set('films', $films);
+            $this->render('films');
+        }
+    }
+
     function films($id=null) {
         if (!$id) {
             $this->pageTitle = __('Video catalog', true);
-            $this->GetFilms();
+            $films = $this->FilmFast->GetFilms(array('lic' => 1, 'variant' => 13, 'order' => 'RAND()'), 10);
+            $this->set('films', $films);
+            $this->render('films');
         } else {
-            $lang = Configure::read('Config.language');
-            if ($lang == _ENG_) {
-                App::import('Vendor', 'IMDB_Parser', array('file' => 'class.imdb_parser.php'));
-                App::import('Vendor', 'IMDB_Parser2', array('file' => 'class.imdb_parser2.php'));
-                $parser = new IMDB_Parser2();
-                $this->set('parser', $parser);
-                $this->set('imdb_website', (empty($imdb_website) ? '' : $imdb_website));
-            }
+            $id = (int) $id;
+            $film = $this->FilmFast->GetFilm($id);
 
-            //  if (!$film = Cache::read('Catalog.film_view_mob_' . $id, 'media')) {
-            /*  $film = $this->Film->query('SELECT * FROM films as Film
-              LEFT JOIN film_variants  as FilmVariant ON FilmVariant.film_id = Film.id
-              LEFT JOIN media_ratings as MediaRating on MediaRating.object_id = Film.id
-              Where Film.id = ' . $id . '
-              and Film.active = 1  and FilmVariant.video_type_id = 13
-              and MediaRating.type = "film"
-              ORDER BY Film.year Limit 1');
-              if (empty($film))
-              return null; */
-
-            //  if (!$film = Cache::read('Catalog.film_view_' . $id, 'media')) {
-            $this->Film->recursive = 0;
-            $this->Film->contain(array('FilmType',
-                'Genre',
-                'Thread',
-                'FilmPicture' => array('conditions' => array('type <>' => 'smallposter')),
-                'Country',
-                'FilmVariant' =>
-                array('conditions' => array('video_type_id' => 13),
-                    'FilmLink', 'FilmFile' => array('order' => 'file_name'), 'VideoType', 'Track' => array('Language', 'Translation')),
-                'MediaRating',
-                    )
-            );
-
-            /* $this->Film->FilmVariant->contain(
-              array('conditions'=>array('video_type_id'=>13),
-              'FilmLink', 'FilmFile' => array('order' => 'file_name'), 'VideoType', 'Track' => array('Language', 'Translation')));
-             */
-            $film = $this->Film->read(null, $id);
-
-
-
-            Cache::write('Catalog.film_view_' . $id, $film, 'media');
-            // }
-            if (!$film['Film']['active']) {
-                $this->Session->setFlash(__('Invalid Film', true));
-                $this->redirect(array('action' => 'films'));
-            }
-            $geoInfo = $this->Session->read('geoInfo');
-            $geoIsGood = false;
-            if (!empty($geoInfo)) {
-                if (!empty($geoInfo['Geoip']['region_id']) || !empty($geoInfo['Geoip']['city_id'])) {
-                    //ТК база GeoIP СОДЕРЖИТ ТОЛЬКО РОССИЙСКИЕ АДРЕСА
-                    //ЛИЦЕНЗИЯ ДЕЙСТВУЕТ НА ВСЮ РОССИЮ
-                    $geoIsGood = $film['Film']['is_license'];
+            if ($film) {
+                $lang = Configure::read('Config.language');
+                if ($lang == _ENG_) {
+                    $langFix = '_' . _ENG_;
+                    $imdb_website = Cache::read('Catalog.film_imdbinfo_' . $id, 'searchres');
+                    if (empty($imdb_website)) {
+                        if (!empty($film['Film']['imdb_id'])) {
+                            $fn = 'http://imdb.com/title/' . $film['Film']['imdb_id'];
+                            $imdb_website = file_get_contents($fn);
+                            Cache::write('Catalog.film_imdbinfo_' . $id, $imdb_website, 'searchres');
+                        }
+                    }
+                    App::import('Vendor', 'IMDB_Parser', array('file' => 'class.imdb_parser.php'));
+                    App::import('Vendor', 'IMDB_Parser2', array('file' => 'class.imdb_parser2.php'));
+                    $parser = new IMDB_Parser2();
+                    $this->set('parser', $parser);
+                    $this->set('imdb_website', (empty($imdb_website) ? '' : $imdb_website));
                 }
+                $this->pageTitle = __('Video catalog', true) . ' - ' . $film['Film']['title' . $this->langFix];
+                $this->set('files', $this->Media->findfiles($film['Film']['id']));
+                $this->set('film', $film);
+                $this->set('authUser', $this->authUser);
+                $this->render('view');
             }
-
-            $this->pageTitle = __('Video catalog', true) . ' - ' . $film['Film']['title' . $this->langFix];
-            $this->set('files', $this->Media->findfiles($film['Film']['id']));
-            $this->set('film', $film);
-            $this->set('imgPath', $this->ImgPath);
-            $this->set('authUser', $this->authUser);
-            $this->render('view');
         }
     }
 
@@ -272,15 +191,52 @@ class MobileController extends AppController {
             $this->render('login');
         } else {
             $this->set('user', $this->authUser);
+            isset($_GET['sub']) ? $sub = $_GET['sub'] : $sub = '';
+            switch ($sub) {
+                case 'history': {
+                        $this->render('history');
+                        break;
+                    }
+                case 'settings': {
+                        $this->render('settings');
+                        break;
+                    }
+                default: {
+                        
+                    }
+            }
+        }
+    }
+
+    function login() {
+        if ($_POST) {
+            $mail = filter_var($_POST['e-mail'], FILTER_SANITIZE_EMAIL);
+            $pass = filter_var($_POST['password'], FILTER_SANITIZE_STRING);
+            if ($mail <> '') {
+                $login = $this->UserFast->Login($mail, $pass);
+                if ($login) {
+                    $this->Session->write($this->Auth2->sessionKey, $login);
+                    $this->_loggedIn = true;
+                    $this->redirect('/mobile/profile');
+                }
+                else
+                    $this->set('error', 'Auth Failed');
+                //user error count login ++;
+            }
         }
     }
 
     function logout() {
         if ($_POST['logout']) {
+            $this->UserFast->logout();
+            $this->Vb->clearCookies();
             $this->Cookie->del('Auth.User');
+
+            //УДАЛЯЕМ КУКИ БЕЗ ДОМЕНА
             Configure::write('App.cookieDomain', '');
             $this->Cookie->del('Auth.User');
-            $this->Auth2->logout();
+
+            $this->redirect($this->Auth2->logout());
             $this->redirect('/mobile');
         }
     }
