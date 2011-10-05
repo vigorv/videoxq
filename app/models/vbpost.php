@@ -25,7 +25,7 @@ class Vbpost extends AppModel {
 			$cnt = Cache::read('Office.commentcnt', 'office');
 			if (!$cnt)
 			{
-	    	    $sql = 'SELECT post.userid as uid, COUNT(post.postid) as cnt, post.username FROM post
+	    	    $sql = 'SELECT post.userid as uid, COUNT(DISTINCT post.postid) as cnt, post.username FROM post
 	    	    	INNER JOIN thread ON (thread.threadid = post.threadid AND thread.forumid = ' . Configure::read('forumId') . ')
 	    	    	INNER JOIN userlotteries ON (post.userid = userlotteries.user_id)
 	    	    		AND post.dateline > UNIX_TIMESTAMP("' . _START_LOTTERY_PERIOD_ . '")
