@@ -14,9 +14,11 @@ class IMDB_Parser2 extends IMDB_Parser
             if ($name_and_id === True)
             {
                 #name and id
-                if (preg_match_all('/href="\/name\/(nm\d{1,8})\/">([^<]+)<\/a>/',$hit[0],$results, PREG_PATTERN_ORDER))
+                if (preg_match_all('/href="\/name\/(nm\d{1,8})\/"[^>]*>([^<]+)<\/a>/simU',$hit[0],$results, PREG_PATTERN_ORDER))
                 {
                     return $results;
+//pr($results)                	;
+//exit;
                 }
                 else
                 {
@@ -26,8 +28,10 @@ class IMDB_Parser2 extends IMDB_Parser
             else
             {
                 #only name, old version
-                if (preg_match_all('/href="\/name\/nm\d{1,8}\/">([^<]+)<\/a>/',$hit[0],$results, PREG_PATTERN_ORDER))
+                if (preg_match_all('/href="\/name\/nm\d{1,8}\/"[^>]*>([^<]+)<\/a>/simU',$hit[0],$results, PREG_PATTERN_ORDER))
                 {
+//pr($results)                	;
+//exit;
                     return $results[1];
                 }
                 else
@@ -45,8 +49,12 @@ class IMDB_Parser2 extends IMDB_Parser
     	$hit = array();
         if (preg_match('/Director(.*)?<\/div>/imsU', $imdb_website, $hit))
         {
-	        if (preg_match_all('/href="\/name\/[a-z0-9]+\/">(.+)<\/a>/simU', $hit[1], $hit, PREG_SET_ORDER))
+	        if (preg_match_all('/href="\/name\/[a-z0-9]+\/"(.*)?>(.+)<\/a>/simU', $hit[1], $hit, PREG_SET_ORDER))
 	        {
+	        	unset($hit[0][1]);
+				$hit[0] = array_values($hit[0]);
+//var_dump($hit);
+//exit;
 	            return $hit;
 	        }
         }
@@ -58,8 +66,10 @@ class IMDB_Parser2 extends IMDB_Parser
     	$hit = array();
         if (preg_match('/Writer(.*)?<\/div>/imsU', $imdb_website, $hit))
         {
-	        if (preg_match_all('/href="\/name\/[a-z0-9]+\/">(.+)<\/a>/simU', $hit[1], $hit, PREG_SET_ORDER))
+	        if (preg_match_all('/href="\/name\/[a-z0-9]+\/"(.*)?>(.+)<\/a>/simU', $hit[1], $hit, PREG_SET_ORDER))
 	        {
+	        	unset($hit[0][1]);
+				$hit[0] = array_values($hit[0]);
 	            return $hit;
 	        }
         }
@@ -73,7 +83,7 @@ class IMDB_Parser2 extends IMDB_Parser
         {
 //var_dump($hit);
 //exit;
-	        if (preg_match_all('/href="\/country\/[\S]{1,}">(.+)<\/a>/misU', $hit[1], $hit, PREG_SET_ORDER))
+	        if (preg_match_all('/href="\/country\/[\S]{1,}"[^>]*>(.+)<\/a>/misU', $hit[1], $hit, PREG_SET_ORDER))
 	        {
 	            return $hit;
 	        }
@@ -85,11 +95,14 @@ class IMDB_Parser2 extends IMDB_Parser
     {
         if (preg_match('/Genres?:(.*)?<\/div>/imsU', $imdb_website, $hit))
         {
-//var_dump($hit);
+//echo var_dump($hit);
 //exit;
-	        if (preg_match_all('/href="\/genre\/[\S]{1,}">(.+)<\/a>/misU', $hit[1], $hit, PREG_SET_ORDER))
+			$result = array();
+	        if (preg_match_all('/href="\/genre\/[^"]{1,}"[^>]*>(.*)?<\/a>/simU', $hit[0], $result, PREG_SET_ORDER))
 	        {
-	            return $hit;
+//echo var_dump($result);
+//exit;
+	            return $result;
 	        }
         }
 		return False;
@@ -97,11 +110,11 @@ class IMDB_Parser2 extends IMDB_Parser
 
     function getMovieTitle($imdb_website)
     {
-        if (preg_match('/<h1 class="header">(.*)?<span>/imsU', $imdb_website, $hit))
+        if (preg_match('/<h1 class="header"(.*)?>(.*)?<span>/imsU', $imdb_website, $hit))
         {
 //var_dump($hit);
 //exit;
-            return strip_tags($hit[1]);
+            return strip_tags($hit[2]);
         }
 		return False;
     }

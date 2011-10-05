@@ -1967,6 +1967,7 @@ echo'</pre>';
 		$this->set('film', $film);
 		$lang = Configure::read('Config.language');
 		$langFix = '';
+		/*
 		if ($lang == _ENG_)
 		{
 			$langFix = '_' . _ENG_;
@@ -1976,6 +1977,7 @@ echo'</pre>';
             $this->set('parser', $parser);
             $this->set('imdb_website', (empty($imdb_website) ? '' : $imdb_website));
 		}
+		*/
 		$this->set('lang', $lang);
 		$this->set('geoIsGood', $geoIsGood);
 
