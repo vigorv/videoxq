@@ -823,7 +823,7 @@ return;//НЕПРАВИЛЬНО РАБОТАЕТ
 		return $this->searchSphinxIndex('animebar_post');
 	}
 
-	function searchSphinxIndex($indexName = 'rumedia_post')
+	function searchSphinxIndex($indexName)
 	{
         if (!empty($this->params['named']['search']))
         {
@@ -833,6 +833,7 @@ return;//НЕПРАВИЛЬНО РАБОТАЕТ
 			$sphinx->SetServer('localhost', 3312);
 			$sphinx->setLimits(0, 1000);
 			$result = $sphinx->Query($search, $indexName);
+			unset($sphinx);
 
 			if (!empty($result["matches"]))
 			{
@@ -842,7 +843,7 @@ return;//НЕПРАВИЛЬНО РАБОТАЕТ
 			}
 
         }
-		return false;
+		return array();
 	}
 
 	function meta($id = 0, $vId = 0, $tId = 0)
