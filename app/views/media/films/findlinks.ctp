@@ -100,7 +100,7 @@ if (count($shareContent) > 0)
 				$panelContent .= '</ul>';
 			}
 			$startFL = 0;
-			if (!$isWS)
+			//if (!$isWS)
 			{
 				$panelContent .= '<h3 style="margin-bottom:0px;"><img src="/img/blackstar.png" width="20" />  <a target="_blank" href="' . $res['url'] . '">' . $res['title'] . '</a></h3>';
 				$panelContent .= '<p>' . $res['content'] . '</p>';
