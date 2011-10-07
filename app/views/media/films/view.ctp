@@ -1095,8 +1095,12 @@ if (!empty($authUser['userid']) || $isWS)
 					$panelContent .= '</ul>';
 				}
 				$startFL = 0;
-				$panelContent .= '<h3 style="margin-bottom:0px;"><img src="/img/blackstar.png" width="20" /> <a target="_blank" href="' . $link['link'] . '">' . $link['title'] . '</a></h3>';
-				$panelContent .= '<p>' . $link['descr'] . '</p>';
+
+				if (!$isWS)
+				{
+					$panelContent .= '<h3 style="margin-bottom:0px;"><img src="/img/blackstar.png" width="20" /> <a target="_blank" href="' . $link['link'] . '">' . $link['title'] . '</a></h3>';
+					$panelContent .= '<p>' . $link['descr'] . '</p>';
+				}
 			}
 
 			$linksCnt++;
