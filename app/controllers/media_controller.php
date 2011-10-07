@@ -1861,19 +1861,22 @@ echo'</pre>';
 		    	}
 		    }
 
-			$ch = curl_init();
-			$q = urlencode($film['Film']['title'] . ' ' . __('download', true));
-//$q = urlencode("'atrn ,fjxrb");
+		    $googleContent = array();
+		    if (!$this->isWS)
+		    {
+				$ch = curl_init();
+				$q = urlencode($film['Film']['title'] . ' ' . __('download', true));
+	//$q = urlencode("'atrn ,fjxrb");
 
-			curl_setopt($ch, CURLOPT_URL, "http://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=$q&rsz=large&hl=ru");
-			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-			curl_setopt($ch, CURLOPT_REFERER, Configure::read("App.siteUrl"));
-			$body = curl_exec($ch);
-			curl_close($ch);
+				curl_setopt($ch, CURLOPT_URL, "http://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=$q&rsz=large&hl=ru");
+				curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+				curl_setopt($ch, CURLOPT_REFERER, Configure::read("App.siteUrl"));
+				$body = curl_exec($ch);
+				curl_close($ch);
 
-			$json = json_decode($body);
-			$googleContent = $json->responseData->results;
-
+				$json = json_decode($body);
+				$googleContent = $json->responseData->results;
+		    }
 			$variantId = 0;
 //*
 //ИЩЕМ В СВЯЗЯХ ФИЛЬМА ВАРИАНТ ССЫЛОК
@@ -1946,18 +1949,21 @@ echo'</pre>';
 				));
 			}
 
-			foreach($googleContent as $res)
+			if (!empty($googleContent))
 			{
-				$links[] = array('FilmLink' => array(
-					//"link"	=> $res->visibleUrl,
-					"link"	=> $res->url,
-					"zone"	=> 'web',//НАШЛИ В ИНТЕРНЕТ
-					"film_variant_id"	=> $variantId,
-					"title"	=> $res->title,
-					"descr"	=> $res->content,
-					"filename"	=> '',
-					"dt"	=> date('Y-m-d H:i:s'),
-				));
+				foreach($googleContent as $res)
+				{
+					$links[] = array('FilmLink' => array(
+						//"link"	=> $res->visibleUrl,
+						"link"	=> $res->url,
+						"zone"	=> 'web',//НАШЛИ В ИНТЕРНЕТ
+						"film_variant_id"	=> $variantId,
+						"title"	=> $res->title,
+						"descr"	=> $res->content,
+						"filename"	=> '',
+						"dt"	=> date('Y-m-d H:i:s'),
+					));
+				}
 			}
 			$this->Film->FilmVariant->FilmLink->create();
 			$this->Film->FilmVariant->FilmLink->saveAll($links, array('validate' => false, 'atomic' => false));
