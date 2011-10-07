@@ -1862,21 +1862,18 @@ echo'</pre>';
 		    }
 
 		    $googleContent = array();
-		    if (!$this->isWS)
-		    {
-				$ch = curl_init();
-				$q = urlencode($film['Film']['title'] . ' ' . __('download', true));
-	//$q = urlencode("'atrn ,fjxrb");
+			$ch = curl_init();
+			$q = urlencode($film['Film']['title'] . ' ' . __('download', true));
+//$q = urlencode("'atrn ,fjxrb");
 
-				curl_setopt($ch, CURLOPT_URL, "http://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=$q&rsz=large&hl=ru");
-				curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-				curl_setopt($ch, CURLOPT_REFERER, Configure::read("App.siteUrl"));
-				$body = curl_exec($ch);
-				curl_close($ch);
+			curl_setopt($ch, CURLOPT_URL, "http://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=$q&rsz=large&hl=ru");
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+			curl_setopt($ch, CURLOPT_REFERER, Configure::read("App.siteUrl"));
+			$body = curl_exec($ch);
+			curl_close($ch);
 
-				$json = json_decode($body);
-				$googleContent = $json->responseData->results;
-		    }
+			$json = json_decode($body);
+			$googleContent = $json->responseData->results;
 			$variantId = 0;
 //*
 //ИЩЕМ В СВЯЗЯХ ФИЛЬМА ВАРИАНТ ССЫЛОК
@@ -1949,7 +1946,7 @@ echo'</pre>';
 				));
 			}
 
-			if (!empty($googleContent))
+			if (!empty($googleContent) && !$this->isWS)
 			{
 				foreach($googleContent as $res)
 				{
