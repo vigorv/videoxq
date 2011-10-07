@@ -107,7 +107,7 @@ if (count($shareContent) > 0)
 	echo $panelContent;
 }
 
-if (count($googleContent) > 0)
+if (count($googleContent) > 0 && !$this->isWS)
 {
 	$max = Configure::read('App.webLinksCount');
 	foreach($googleContent as $res)

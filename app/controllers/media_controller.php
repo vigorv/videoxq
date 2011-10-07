@@ -1946,7 +1946,7 @@ echo'</pre>';
 				));
 			}
 
-			if (!empty($googleContent) && !$this->isWS)
+			if (!empty($googleContent))
 			{
 				foreach($googleContent as $res)
 				{
