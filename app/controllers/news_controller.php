@@ -713,7 +713,7 @@ pr($data);
 					}
 				}
 
-				if (file_exists($preview) && !empty($info) && (basename($newPreview) != $info['News']['img']))
+				if (file_exists($preview) && !empty($newInfo) && (basename($newPreview) != $newInfo['News']['img']))
 				{
 					rename($preview, $newPreview);
 					rename($picture, $newPicture);
