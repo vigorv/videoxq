@@ -34,7 +34,7 @@ class BlockMediaComponent extends BlocksParentComponent
         	$postFix = 'Licensed';
         }
 
-        $filter = Cache::read('Catalog.indexFilter' . $postFix, 'default');
+        $filter = Cache::read('Catalog.indexFilter' . $postFix, 'block');
         if (empty($filter))
         {
         	$filter = array();
@@ -73,7 +73,7 @@ class BlockMediaComponent extends BlocksParentComponent
 	        $filter['is_license'] = range(0, 1);
 	        $filter['allowDownload'] = checkAllowedMasks(Configure::read('Catalog.allowedIPs'), $_SERVER['REMOTE_ADDR']);
 
-	        Cache::write('Catalog.indexFilter' . $postFix, $filter, array('config' => 'default', 'duration' => '+1 day'));
+	        Cache::write('Catalog.indexFilter' . $postFix, $filter, array('config' => 'block'));
     	}
         return $filter;
     }
