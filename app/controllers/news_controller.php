@@ -673,11 +673,21 @@ pr($data);
     	$dirs = $this->Direction->findAll(array('Direction.hidden' => 0), null, 'Direction.srt DESC');
     	$this->set('dirs', $dirs);
 
+        if (!empty($this->data['News']['id']))
+    	{
+	    	$id = $this->data['News']['id'];
+    	}
+        if (!empty($id)) {
+            $newInfo = $this->News->read(null, $id);
+            $this->set('info', $newInfo);
+        }
+        $this->set('authUser', $this->authUser);
+
         if (!empty($this->data)) {
         	if (!empty($this->data['picture']))
         	{
-        		//ПЕРЕИМЕНОВЫВАЕМ ВРЕМЕННЫЕ ИМЕНА
 				$dir = $_SERVER['DOCUMENT_ROOT'] . $uploadDir;
+        		//ПЕРЕИМЕНОВЫВАЕМ ВРЕМЕННЫЕ ИМЕНА
 				$picture = $dir . '/' . $this->findByPreview($dir, $this->data['picture']);
 				$info = pathinfo($picture);
 				$newPicture = $dir . '/' . $this->authUser['userid'] . '_' . time() . '.' . $info['extension'];
@@ -686,7 +696,24 @@ pr($data);
 				$info = pathinfo($preview);
 				$newPreview = $dir . '/small/' . $this->authUser['userid'] . '_' . time() . '.' . $info['extension'];
 
-				if (file_exists($preview))
+				if (!empty($info))
+				{
+					$old = $dir . '/' . $newInfo['News']['img'];
+					//УДАЛЕНИЕ ПРЕДЫДУЩЕЙ КАРТИНКИ
+					if (file_exists($old))
+					{
+						unlink($old);
+					}
+
+					$old = $dir . '/small/' . $newInfo['News']['img'];
+					//УДАЛЕНИЕ ПРЕДЫДУЩЕЙ ПРЕВЬЮШКИ
+					if (file_exists($old))
+					{
+						unlink($old);
+					}
+				}
+
+				if (file_exists($preview) && !empty($info) && (basename($newPreview) != $info['News']['img']))
 				{
 					rename($preview, $newPreview);
 					rename($picture, $newPicture);
@@ -710,11 +737,6 @@ pr($data);
             }
         }
 
-        if (!empty($id)) {
-            $info = $this->News->read(null, $id);
-            $this->set('info', $info);
-        }
-        $this->set('authUser', $this->authUser);
     }
 
     function admin_delete($id = null) {
