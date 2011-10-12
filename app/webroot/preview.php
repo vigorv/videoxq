@@ -98,7 +98,7 @@ if (!empty($_POST['filename']))
 	unlinkTempFiles($dir, $_POST['userid']);
 	unlinkTempFiles($dir . '/small', $_POST['userid']);
 
-	$newName = $info['dirname'] . '/temp_' . $_POST['userid'] . '_' . time() . '.' . $info['extension'];//СОЗДАЕМ ВРЕМЕННЫЙ ФАЙЛ
+	$newName = strtolower($info['dirname'] . '/temp_' . $_POST['userid'] . '_' . time() . '.' . $info['extension']);//СОЗДАЕМ ВРЕМЕННЫЙ ФАЙЛ
 	if (file_exists($fromName))
 	{
 		rename($fromName, $newName);
