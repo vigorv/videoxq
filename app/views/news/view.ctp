@@ -206,8 +206,8 @@ for ($match = 1; $match < 20; $match++)
 			$hideContent = '<h3>Фотографии</h3>';
 			foreach ($ftpInfo[$dir][$match]['foto'] as $key => $val)
 			{
-				//*
 				if (!$key) continue; //ПЕРВУЮ УЖЕ ВЫВЕЛИ
+				/*
 				$hideContent .= '
 					<a rel="foto' . $match . '" href="http://' . $flowServerAddr . '/' . $val . '"></a>
 				';
