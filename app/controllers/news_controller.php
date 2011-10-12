@@ -696,7 +696,7 @@ pr($data);
 				$info = pathinfo($preview);
 				$newPreview = $dir . '/small/' . $this->authUser['userid'] . '_' . time() . '.' . $info['extension'];
 
-				if (!empty($info))
+				if (!empty($info) && !empty($newInfo['News']['img']))
 				{
 					$old = $dir . '/' . $newInfo['News']['img'];
 					//УДАЛЕНИЕ ПРЕДЫДУЩЕЙ КАРТИНКИ
