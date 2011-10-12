@@ -131,7 +131,7 @@ unset($Poll['answers'][0]);
 //$info["News"]['img'] = '';
 	if (!empty($info["News"]['img']))
 	{
-		echo '<img class="news_content_full_img" src="/files/news/small/' . $info['News']['img'] . '" />';
+		echo '<a rel="attach" href="/files/news/' . $info['News']['img'] . '"><img class="news_content_full_img" src="/files/news/small/' . $info['News']['img'] . '" /></a>';
 	}
 
 	if (strlen($info['News']['txt']) > strlen($info['News']['stxt']))

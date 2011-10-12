@@ -83,6 +83,7 @@
 
 		  if (response)
 		  {
+//alert(response);
 			data = $.ajax({
 				url: "/preview.php",
 				type: "POST",
@@ -117,7 +118,7 @@
 <?php
         __('Attach image');
 ?>
-	<table><tr>
+	<table><tr align="left">
 		<td width="100%">
 			<input id="file_upload" name="file_upload" type="file" />
 		</td>
