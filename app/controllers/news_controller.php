@@ -690,35 +690,42 @@ pr($data);
         		//ПЕРЕИМЕНОВЫВАЕМ ВРЕМЕННЫЕ ИМЕНА
 				$picture = $dir . '/' . $this->findByPreview($dir, $this->data['picture']);
 				$info = pathinfo($picture);
-				$newPicture = $dir . '/' . $this->authUser['userid'] . '_' . time() . '.' . $info['extension'];
-
-				$preview = $dir . '/small/' . $this->data['picture'];
-				$info = pathinfo($preview);
-				$newPreview = $dir . '/small/' . $this->authUser['userid'] . '_' . time() . '.' . $info['extension'];
-
-				if (!empty($info) && !empty($newInfo['News']['img']))
+				if (!empty($info['extension']))
 				{
-					$old = $dir . '/' . $newInfo['News']['img'];
-					//УДАЛЕНИЕ ПРЕДЫДУЩЕЙ КАРТИНКИ
-					if (file_exists($old))
+					$newPicture = $dir . '/' . $this->authUser['userid'] . '_' . time() . '.' . $info['extension'];
+
+					$preview = $dir . '/small/' . $this->data['picture'];
+					$info = pathinfo($preview);
+					$newPreview = $dir . '/small/' . $this->authUser['userid'] . '_' . time() . '.' . $info['extension'];
+
+					if (!empty($info) && !empty($newInfo['News']['img']))
 					{
-						unlink($old);
+						$old = $dir . '/' . $newInfo['News']['img'];
+						//УДАЛЕНИЕ ПРЕДЫДУЩЕЙ КАРТИНКИ
+						if (file_exists($old))
+						{
+							unlink($old);
+						}
+
+						$old = $dir . '/small/' . $newInfo['News']['img'];
+						//УДАЛЕНИЕ ПРЕДЫДУЩЕЙ ПРЕВЬЮШКИ
+						if (file_exists($old))
+						{
+							unlink($old);
+						}
 					}
 
-					$old = $dir . '/small/' . $newInfo['News']['img'];
-					//УДАЛЕНИЕ ПРЕДЫДУЩЕЙ ПРЕВЬЮШКИ
-					if (file_exists($old))
+					if (file_exists($preview) && !empty($newInfo) && (basename($newPreview) != $newInfo['News']['img']))
 					{
-						unlink($old);
+						rename($preview, $newPreview);
+						rename($picture, $newPicture);
+	        			$this->data['News']['img'] = basename($newPreview);
 					}
-				}
-
-				if (file_exists($preview) && !empty($newInfo) && (basename($newPreview) != $newInfo['News']['img']))
-				{
-					rename($preview, $newPreview);
-					rename($picture, $newPicture);
-        			$this->data['News']['img'] = basename($newPreview);
-				}
+        		}
+	        	else
+	        	{
+	        		unset($this->data['News']['img']);
+	        	}
         	}
         	else
         	{
