@@ -7,6 +7,10 @@
 -->
     <li class="active"><strong><a href="/news">Наши проекты</a></strong></li>
 <?php
+	$javascript->link('jquery.fancybox-1.3.4/fancybox/jquery.fancybox-1.3.4.pack', false);
+    $html->css('fancybox-1.3.4/jquery.fancybox-1.3.4', null, array(), false);
+    $javascript->link('jquery.pngFix', false);
+
 	if (!empty($dirs))
 	{
 		foreach ($dirs as $dk => $d)
@@ -112,7 +116,7 @@
 
 					if (!empty($l['News']['img']))
 					{
-						$img = '<a href="/files/news/' . $l['News']['img'] . '" rel="fancybox" onclick="return stopdivx();"><img class="news_content_img"  height="120px" src="/files/news/' . $l['News']['img'] . '"></a>';
+						$img = '<a href="/files/news/' . $l['News']['img'] . '" rel="attach" onclick="return stopdivx();"><img class="news_content_img" height="120px" src="/files/news/small/' . $l['News']['img'] . '"></a>';
 					}
 					else
 						$img = '';
@@ -138,3 +142,16 @@
 	}
 ?>
 </div>
+<script type="text/javascript">
+<!--
+$(document).ready(function() {
+					$("a[rel=attach]").fancybox({
+				        "zoomSpeedIn":  0,
+				        "zoomSpeedOut": 0,
+				        "overlayShow":  true,
+				        "overlayOpacity": 0.8,
+						"showCloseButton": true
+					});
+});
+-->
+</script>
