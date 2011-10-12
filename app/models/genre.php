@@ -56,6 +56,9 @@ class Genre extends MediaModel {
 			$lang = Configure::read('Config.language');
 		$langFix = '';
 		if ($lang == _ENG_) $langFix = '_imdb';
+    $res = Cache::read('Genre.withCount' . $langFix, 'block');
+    if (empty($res))
+    {
 
         $sql =
         'select g.id, g.title' . $langFix . ', count(fg.film_id) as count
@@ -71,6 +74,8 @@ class Genre extends MediaModel {
         {
             $res[$record['g']['id']] = $record['g']['title' . $langFix] . ' (' . $record['0']['count'] . ')';
         }
+	Cache::write('Genre.withCount' . $langFix, $res, array('config' => 'block'));
+    }
         return $res;
     }
 
