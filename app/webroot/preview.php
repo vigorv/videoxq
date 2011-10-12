@@ -91,12 +91,12 @@ function unlinkTempFiles($dir, $userid)
 
 if (!empty($_POST['filename']))
 {
-	$fromName = $_POST['filename'];
+	$fromName = $_POST['filename'];//ЭТО ПУТЬ ОТ КОРНЯ СЕРВЕРА
 	$info = pathinfo($fromName);
 
 	$dir = $info['dirname'];
-	unlinkTempFiles($dir, $authUser['userid']);
-	unlinkTempFiles($dir . '/small', $authUser['userid']);
+	unlinkTempFiles($dir, $_POST['userid']);
+	unlinkTempFiles($dir . '/small', $_POST['userid']);
 
 	$newName = $info['dirname'] . '/temp_' . $_POST['userid'] . '_' . time() . '.' . $info['extension'];//СОЗДАЕМ ВРЕМЕННЫЙ ФАЙЛ
 	if (file_exists($fromName))
