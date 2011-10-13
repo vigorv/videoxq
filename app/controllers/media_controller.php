@@ -2469,6 +2469,7 @@ echo'</pre>';
 	        		$this->Session->setFlash(__('Comment added', true));
 
 	        		Cache::delete('Catalog.lastComments', 'default');//СБРАСЫВАЕМ КЭШ БЛОКА ПОСЛЕДНИХ КОМЕНТОВ
+	        		Cache::delete('Forum.lastFilmComments', 'media');//СБРАСЫВАЕМ КЭШ ВЫБОРКИ ПОСЛЕДНИХ КОМЕНТОВ
 				}
 	        }
         }
