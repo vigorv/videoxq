@@ -57,19 +57,26 @@ class Country extends MediaModel {
 		$lang = Configure::read('Config.language');
 		$langFix = '';
 		if ($lang == _ENG_) $langFix = '_imdb';
-        $sql =
-        'select c.id, c.title' . $langFix . ', count(cf.film_id) as count
-         from countries as c
-         join countries_films as cf on (cf.country_id=c.id)
-         join films as f on (cf.film_id = f.id AND f.active = 1)
-         group by c.id order by c.title ASC';
 
-        $records = $this->query($sql);
-        $res = array();
-        foreach ($records as $record)
-        {
-            $res[$record['c']['id']] = $record['c']['title' . $langFix] . ' (' . $record['0']['count'] . ')';
-        }
+		$res = Cache::read('Countries.filmCount' . $langFix, 'media');
+		if (!$res)
+		{
+	        $sql =
+	        'select c.id, c.title' . $langFix . ', count(cf.film_id) as count
+	         from countries as c
+	         join countries_films as cf on (cf.country_id=c.id)
+	         join films as f on (cf.film_id = f.id AND f.active = 1)
+	         group by c.id order by c.title ASC';
+
+	        $records = $this->query($sql);
+	        $res = array();
+	        foreach ($records as $record)
+	        {
+	            $res[$record['c']['id']] = $record['c']['title' . $langFix] . ' (' . $record['0']['count'] . ')';
+	        }
+			Cache::write('Countries.filmCount' . $langFix, $res, array('config' => 'media'));
+		}
+
         return $res;
 
     }

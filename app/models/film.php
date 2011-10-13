@@ -245,56 +245,61 @@ class Film extends MediaModel {
      */
     function getActivity()
     {
-        $sql = 'SELECT `Film`.`title`, `Film`.`id`, MAX(`Comment`.`created`) as created
-                FROM `film_comments` AS `Comment`
-                JOIN `films` AS `Film` ON (`Comment`.`film_id` = `Film`.`id`)
-                GROUP BY `Film`.`title` ORDER BY created DESC LIMIT 10';
+		$result = Cache::read('Forum.lastFilmComments', 'media');//КЭШ ДОЛЖЕН БЫТЬ СБРОШЕН ПРИ ДОБАВЛЕНИИ КОММЕНТАРИЯ
+		if (!$result)
+		{
+	        $sql = 'SELECT `Film`.`title`, `Film`.`id`, MAX(`Comment`.`created`) as created
+	                FROM `film_comments` AS `Comment`
+	                JOIN `films` AS `Film` ON (`Comment`.`film_id` = `Film`.`id`)
+	                GROUP BY `Film`.`title` ORDER BY created DESC LIMIT 10';
 
-        //ЗАПРОС К БАЗЕ ФОРУМА
-        $sql = 'SELECT `Comment`.`dateline` AS created, `Comment`.`threadid`
-                FROM `post` AS `Comment` INNER JOIN `thread` ON (`thread`.`threadid` = `Comment`.threadid AND `thread`.`forumid` = ' . Configure::read('forumId') . ') GROUP BY `Comment`.`threadid` ORDER BY created DESC LIMIT 10
-        ';
+	        //ЗАПРОС К БАЗЕ ФОРУМА
+	        $sql = 'SELECT `Comment`.`dateline` AS created, `Comment`.`threadid`
+	                FROM `post` AS `Comment` INNER JOIN `thread` ON (`thread`.`threadid` = `Comment`.threadid AND `thread`.`forumid` = ' . Configure::read('forumId') . ') GROUP BY `Comment`.`threadid` ORDER BY created DESC LIMIT 10
+	        ';
 
-        $pst = $this->Thread->Vbpost->query($sql);
-//echo '<pre>';
-//print_r($pst);
-//echo '</pre>';
-        $ids = array();
-        $result = array();
-        if (!empty($pst))
-        {
-        	//ТАБЛ�?ЦЫ ФОРУМА �? В�?ДЕОКАТАЛОГА В РАЗНЫХ БАЗАХ, ПОСЕМУ �?МЕЕМ СЛЕДУЮЩ�?Й БАЯН
-        	foreach ($pst as $p)
-        	{
-        		$ids[] = $p['Comment']['threadid'];
-        	}
-        	$result = $this->findAll(array('Film.thread_id' => $ids));
+	        $pst = $this->Thread->Vbpost->query($sql);
+	//echo '<pre>';
+	//print_r($pst);
+	//echo '</pre>';
+	        $ids = array();
+	        $result = array();
+	        if (!empty($pst))
+	        {
+	        	//ТАБЛ�?ЦЫ ФОРУМА �? В�?ДЕОКАТАЛОГА В РАЗНЫХ БАЗАХ, ПОСЕМУ �?МЕЕМ СЛЕДУЮЩ�?Й БАЯН
+	        	foreach ($pst as $p)
+	        	{
+	        		$ids[] = $p['Comment']['threadid'];
+	        	}
+	        	$result = $this->findAll(array('Film.thread_id' => $ids));
 
-        	if (!empty($result))
-        	{
-        		foreach ($result as $key => $value)
-        		{
-        			foreach ($pst as $p)
-        			{
-        				if ($value['Film']['thread_id'] == $p['Comment']['threadid'])
-        				{
-//echo '<p>' . date('Y-m-d H:i:s', $p['Comment']['created']);
+	        	if (!empty($result))
+	        	{
+	        		foreach ($result as $key => $value)
+	        		{
+	        			foreach ($pst as $p)
+	        			{
+	        				if ($value['Film']['thread_id'] == $p['Comment']['threadid'])
+	        				{
+	//echo '<p>' . date('Y-m-d H:i:s', $p['Comment']['created']);
 
-        					$result[$key][0]['created'] = date('Y-m-d H:i:s', $p['Comment']['created']);
-        					$result[$key][0]['createdstamp'] = $p['Comment']['created'];
-        				}
-        			}
-        		}
-        		function byCreated($a, $b)
-        		{
-        			if ($a[0]['createdstamp'] < $b[0]['createdstamp'])
-        				return 1; else return 0;
-        		}
-        		usort($result, "byCreated");
-        	}
-        }
+	        					$result[$key][0]['created'] = date('Y-m-d H:i:s', $p['Comment']['created']);
+	        					$result[$key][0]['createdstamp'] = $p['Comment']['created'];
+	        				}
+	        			}
+	        		}
+	        		function byCreated($a, $b)
+	        		{
+	        			if ($a[0]['createdstamp'] < $b[0]['createdstamp'])
+	        				return 1; else return 0;
+	        		}
+	        		usort($result, "byCreated");
+	        	}
+	        }
+			Cache::write('Forum.lastFilmComments', $result, array('config' => 'media'));
 
-        //return $this->query($sql);
+	        //return $this->query($sql);
+		}
         return $result;
     }
 
@@ -890,13 +895,19 @@ exit;
 		$lang = Configure::read('Config.language');
 		$langFix = '';
 		if ($lang == _ENG_) $langFix = '_en';
-        $sql = 'select Film.id, Film.title' . $langFix . ', g.id from films as Film
-         join films_genres as fg on (fg.film_id=Film.id)
-         join genres as g on (fg.genre_id = g.id)
-         where Film.active = 1 order by g.id, Film.title';
 
-        $this->contain(array());
-        $records = $this->query($sql);
+		$records = Cache::read('Catalog.filmsWithGenres' . $langFix, 'media');
+		if (!$records)
+		{
+	        $sql = 'select Film.id, Film.title' . $langFix . ', g.id from films as Film
+	         join films_genres as fg on (fg.film_id=Film.id)
+	         join genres as g on (fg.genre_id = g.id)
+	         where Film.active = 1 order by g.id, Film.title';
+
+	        $this->contain(array());
+	        $records = $this->query($sql);
+			Cache::write('Catalog.filmsWithGenres' . $langFix, $records, array('config' => 'media'));
+    	}
         return $records;
     }
 
@@ -910,12 +921,17 @@ exit;
 		$lang = Configure::read('Config.language');
 		$langFix = '';
 		if ($lang == _ENG_) $langFix = '_en';
-        $sql = 'select Film.id, Film.title' . $langFix . ', p.file_name from films as Film
-         join film_pictures as p on (p.film_id = Film.id and p.type="poster")
-         where Film.active = 1 group by Film.id';
+		$records = Cache::read('Catalog.filmsWithPictures' . $langFix, 'media');
+		if (!$records)
+		{
+	        $sql = 'select Film.id, Film.title' . $langFix . ', p.file_name from films as Film
+	         join film_pictures as p on (p.film_id = Film.id and p.type="poster")
+	         where Film.active = 1 group by Film.id';
 
-        $this->contain(array());
-        $records = $this->query($sql);
+	        $this->contain(array());
+	        $records = $this->query($sql);
+			Cache::write('Catalog.filmsWithPictures' . $langFix, $records, array('config' => 'media'));
+		}
         return $records;
     }
 

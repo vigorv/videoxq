@@ -58,8 +58,6 @@ class Blog extends AppModel {
      */
     function getActivity($blogId = null)
     {
-
-
         $condition = '';
         if ($blogId)
         {
