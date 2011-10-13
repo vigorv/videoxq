@@ -690,7 +690,7 @@ pr($data);
         		//ПЕРЕИМЕНОВЫВАЕМ ВРЕМЕННЫЕ ИМЕНА
 				$picture = $dir . '/' . $this->findByPreview($dir, $this->data['picture']);
 				$info = pathinfo($picture);
-				if (!empty($info['extension']))
+				if (!empty($newInfo) && !empty($newInfo['News']['img']) && ($newInfo['News']['img'] <> $this->data['picture']))
 				{
 					$newPicture = $dir . '/' . $this->authUser['userid'] . '_' . time() . '.' . $info['extension'];
 
@@ -698,7 +698,7 @@ pr($data);
 					$info = pathinfo($preview);
 					$newPreview = $dir . '/small/' . $this->authUser['userid'] . '_' . time() . '.' . $info['extension'];
 
-					if (!empty($info) && !empty($newInfo['News']['img']))
+					//if (!empty($newInfo) && !empty($newInfo['News']['img']))
 					{
 						$old = $dir . '/' . $newInfo['News']['img'];
 						//УДАЛЕНИЕ ПРЕДЫДУЩЕЙ КАРТИНКИ
