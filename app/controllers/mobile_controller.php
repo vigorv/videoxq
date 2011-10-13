@@ -49,7 +49,7 @@ class MobileController extends AppController {
             $ajax = 1;
             Configure::write('debug', 0);
         }
-        Configure::write('debug', 1);
+       // Configure::write('debug', 1);
         $this->out = '';
         $this->outCount = '';
         $name = $this->passedArgs;
