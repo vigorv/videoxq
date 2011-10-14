@@ -9,7 +9,7 @@ class Direction extends AppModel {
     var $order = 'Direction.lft ASC';
 
 
-    //проверка наличия новостей в списке категорий (массив id категорий)
+    //РїСЂРѕРІРµСЂРєР° РЅР°Р»РёС‡РёСЏ РЅРѕРІРѕСЃС‚РµР№ РІ СЃРїРёСЃРєРµ РєР°С‚РµРіРѕСЂРёР№ (РјР°СЃСЃРёРІ id РєР°С‚РµРіРѕСЂРёР№)
     function checkNoNewsInDirections($direction_ids = array()){
         App::import('model', 'News');
         $no_news_in_directions = false;
