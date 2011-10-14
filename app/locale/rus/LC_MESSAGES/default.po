@@ -8593,11 +8593,23 @@ msgstr "серия"
 msgid "Action"
 msgstr "Акция"
 
-msgid "Search film by title"
-msgstr "Поиск фильма по названию"
+msgid "copyrightholders"
+msgstr "Правообладатели"
 
-msgid "Films"
-msgstr "Фильмы"
+msgid "Search for copyrightholders"
+msgstr "Найти Правообладателя"
 
-msgid "Profile"
-msgstr "Профиль"
+msgid "Copyrightholders"
+msgstr "Правообладатели"
+
+msgid "Copyrightholder"
+msgstr "Правообладатель"
+
+msgid "Directions"
+msgstr "Категории новостей"
+
+msgid "Edit Directions"
+msgstr "Редактирование категорий новостей"
+
+msgid "List Directions"
+msgstr "Список категорий новостей"
