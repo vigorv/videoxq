@@ -22,7 +22,9 @@ $links['http://fx.nsk54.com/'] = 'Обменник1';
 	$menuItems = array(
 		'/'			=> __("Homepage", true),
 		'/media'	=> __("Video", true),
-		'/people'	=> __("People", true),
+		'/people'	=> __("People", true)/*,
+                '/copyrightholders'	=> __("Copyrightholders", true),*/
+
 	);
 	if (Configure::read('Config.language') == _RUS_)
 	{
