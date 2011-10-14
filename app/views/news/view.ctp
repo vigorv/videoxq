@@ -440,18 +440,17 @@ echo $hideJS;
 						).ipad();
 			return false;
 		}
-
-
+-->
+</script>
+<script type="text/javascript" src="/js/flowplayer/flowplayer-3.2.4.min.js"></script>
+<script type="text/javascript" src="/js/flowplayer/flowplayer.ipad-3.2.1.js"></script>
+<!--
 </div>
 </div>
 </div>
 </div>
 </div>
 -->
-</script>
-<script type="text/javascript" src="/js/flowplayer/flowplayer-3.2.4.min.js"></script>
-<script type="text/javascript" src="/js/flowplayer/flowplayer.ipad-3.2.1.js"></script>
-
 
 
 					</div>
