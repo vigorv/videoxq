@@ -1,7 +1,7 @@
 <?php
-	$javascript->link(array('slimbox2/slimbox2.js'), false);
+//	$javascript->link(array('slimbox2/slimbox2.js'), false);
+//	$html->css('../js/slimbox2/slimbox2.css', '', '', false);
 	$html->css('global', '', '', false);
-	$html->css('../js/slimbox2/slimbox2.css', '', '', false);
 ?>
 			<div id="middle">
 				<div class="left-block">
@@ -48,7 +48,7 @@
 						{
 							if (!empty($l['News']['img']))
 							{
-								$img = '<a href="/files/news/' . $l['News']['img'] . '" rel="attach" onclick="return stopdivx();"><img class="news_content_img" height="120px" src="/files/news/small/' . $l['News']['img'] . '"></a>';
+								$img = '<a href="/files/news/' . $l['News']['img'] . '" rel="attach"><img class="news_content_img" height="120px" src="/files/news/small/' . $l['News']['img'] . '"></a>';
 							}
 							else
 								$img = '';

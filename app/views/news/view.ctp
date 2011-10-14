@@ -87,9 +87,9 @@
 //КОНЕЦ ОБРАБОТКИ ВЫВОДА ГОЛОСОВАЛКИ
 
 
-	$javascript->link(array('slimbox2/slimbox2.js'), false);
+//	$javascript->link(array('slimbox2/slimbox2.js'), false);
+//	$html->css('../js/slimbox2/slimbox2.css', '', '', false);
 	$html->css('global', '', '', false);
-	$html->css('../js/slimbox2/slimbox2.css', '', '', false);
 ?>
 			<div id="middle">
 				<div class="left-block">
