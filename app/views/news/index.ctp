@@ -2,6 +2,10 @@
 //	$javascript->link(array('slimbox2/slimbox2.js'), false);
 //	$html->css('../js/slimbox2/slimbox2.css', '', '', false);
 	$html->css('global', '', '', false);
+
+	$javascript->link('jquery.fancybox-1.3.4/fancybox/jquery.fancybox-1.3.4.pack', false);
+    $html->css('fancybox-1.3.4/jquery.fancybox-1.3.4', null, array(), false);
+    $javascript->link('jquery.pngFix', false);
 ?>
 			<div id="middle">
 				<div class="left-block">
@@ -68,3 +72,16 @@
 				<div class="right-block">
 				</div>
 			</div>
+<script type="text/javascript">
+<!--
+$(document).ready(function() {
+					$("a[rel=attach]").fancybox({
+				        "zoomSpeedIn":  0,
+				        "zoomSpeedOut": 0,
+				        "overlayShow":  true,
+				        "overlayOpacity": 0.8,
+						"showCloseButton": true
+					});
+});
+-->
+</script>
