@@ -2,7 +2,7 @@
 class MediaController extends AppController {
 
     var $name = 'Media';
-    var $helpers = array('Html', 'Form', 'Rss', 'Text', 'PageNavigator');
+    var $helpers = array('Html', 'Form', 'Rss', 'Text', 'PageNavigator','Javascript','Autocomplete');
     var $components = array('Captcha', 'Cookie', 'RequestHandler'/*,'DebugKit.toolbar'*/);
     var $viewPath = 'media/films';
     var $uses = array('Film', 'Basket', 'FilmComment', 'SearchLog', 'Feedback', 'Thread', 'Vbpost', 'Vbgroup',
@@ -906,7 +906,7 @@ return;//НЕПРАВИЛЬНО РАБОТАЕТ
 		$this->set('fLst', $fLst);
 	}
 
-	function index()
+    function index()
     {
         $this->pageTitle = __('Video catalog', true);
         $this->Film->recursive = 1;
@@ -993,25 +993,38 @@ return;//НЕПРАВИЛЬНО РАБОТАЕТ
         $pagination = array('Film' => array('contain' =>
                                        array('FilmType',
                                              'Genre',
-                                     		 'FilmVariant' => array('VideoType'),
+                                             'FilmVariant' => array('VideoType'),
                                              'FilmPicture' => array('conditions' => array('type' => 'smallposter')),
                                              'Country',
-                                              'Person' => array('conditions' => array('FilmsPerson.profession_id' => array(1, 3, 4))),
+                                             'Person' => array('conditions' => array('FilmsPerson.profession_id' => array(1, 3, 4))),
                                              'MediaRating'),
+/*
+                                        'joins' => array(
+                                                        array('table' => 'films_genres', 'alias' => 'fg1', 'type' => 'INNER', 'conditions' => 'fg1.film_id = Film.id'),
+                                                        //array('table' => 'genres', 'alias' => 'g1', 'type' => 'INNER', 'conditions' => array ("and"=>array ( 'g1.id' => 'fg1.genre_id'), array('g1.id' => 20))),
+                                                        array('table' => 'genres', 'alias' => 'g1', 'type' => 'INNER', 'conditions' => '`g1`.`id`=`fg1`.`genre_id` and `g1`.`id` =20'),
+
+                                                        array('table' => 'films_genres', 'alias' => 'fg2', 'type' => 'INNER', 'conditions' => 'fg2.film_id = Film.id'),
+                                                        //array('table' => 'genres', 'alias' => 'g2', 'type' => 'INNER', 'conditions' => array ("and"=>array ( 'g2.id' => 'fg2.genre_id'), array('g2.id' => 23))),
+                                                        array('table' => 'genres', 'alias' => 'g2', 'type' => 'INNER', 'conditions' => '`g2`.`id`=`fg2`.`genre_id` and `g2`.`id` =23'),
+                                                        ),
+*/
                                         'order' => $order,
                                         'conditions' => $conditions,
                                         'group' => 'Film.id',
                                         'limit' => 30));
-//*
-		if ($this->isWS)
-		{
 
-		if ($isFirstPage)
+
+//        pr ($pagination["Film"]);
+        //exit;
+//*
+	if ($this->isWS)
+	{
+            if ($isFirstPage)
 		{
             $pagination['Film']['conditions'][] = array('Film.id' => $rIds);
 //	        $order=array('rand()');
 		}
-
     	}
 //*/
         if (!empty($this->params['named']['genre']))
@@ -1021,19 +1034,87 @@ return;//НЕПРАВИЛЬНО РАБОТАЕТ
             $genres = $this->params['named']['genre'];
             if (strpos($this->params['named']['genre'], ',') !== false)
                 $genres = explode(',', $this->params['named']['genre']);
-            //$pagination['Film']['conditions'][] = array('FilmsGenre.genre_id' => $genres);
-            $pagination['Film']['conditions']['FilmsGenre.genre_id'] = $genres;
+//
+            $condition = 'and';
+            //$pagination['Film']['sphinx']['filter'][] = array('genre_id', $genres, false);
             $pagination['Film']['sphinx']['filter'][] = array('genre_id', $genres);
+            $find = array($condition => array('FilmsGenre.genre_id' => $genres));
+
+            $pagination['Film']['conditions'][] = $find;
+
+
+
+/*[A1]********************************************************
+ * 14-09-2011
+ * формирование запроса inner join для выборки фильмов в
+ * которых есть все выделеные теги-жанры (AND)
+ *
+ **********************************************************/
+/*
+SELECT f.id
+from films f
+join films_genres fg1 on fg1.film_id = f.id
+join genres g1 on g1.id = fg1.genre_id and g1.id = 20
+join films_genres fg2 on fg2.film_id = f.id
+join genres g2 on g2.id = fg2.genre_id and g2.id = 23
+ */
+/*
+                                                        array('table' => 'films_genres', 'alias' => 'fg1', 'type' => 'INNER', 'conditions' => 'fg1.film_id = Film.id'),
+                                                        array('table' => 'genres', 'alias' => 'g1', 'type' => 'INNER', 'conditions' => '`g1`.`id`=`fg1`.`genre_id` and `g1`.`id` =20'),
+
+                                                        array('table' => 'films_genres', 'alias' => 'fg2', 'type' => 'INNER', 'conditions' => 'fg2.film_id = Film.id'),
+                                                        array('table' => 'genres', 'alias' => 'g2', 'type' => 'INNER', 'conditions' => '`g2`.`id`=`fg2`.`genre_id` and `g2`.`id` =23')
+*/
+
+
+            if (is_array($genres)){
+                $pagination['Film']['joins'] =  array();
+                $n=1;
+                foreach ($genres as $k=>$v){
+                    $pagination['Film']['joins'][]=array('table' => 'films_genres', 'alias' => 'fg'.$n, 'type' => 'INNER', 'conditions' => 'fg'.$n.'.film_id = Film.id');
+                    $pagination['Film']['joins'][]=array('table' => 'genres', 'alias' => 'g'.$n, 'type' => 'INNER', 'conditions' => '`g'.$n.'`.`id`=`fg'.$n.'`.`genre_id` and `g'.$n.'`.`id` = '.$v);
+                    $n++;
+                }
+            }
+
+            //pr ($pagination['Film']);
+/*[/A1]***********************************************************/
+
+            $this->Film->bindModel(array('hasOne' => array(
+                                          'FilmsGenre' => array(
+//                                           'className'	=> 'FilmsGenre',
+                                           'foreignKey' => 'film_id'
+                                          )
+                                        )), false);
+
+//
+/*
+
+//            $pagination['Film']['conditions'][] = array('FilmsGenre.genre_id' => $genres);
+//#            $pagination['Film']['conditions']['FilmsGenre.genre_id'] = $genres;
+//#            $pagination['Film']['conditions']['FilmsGenre.genre_id'] = $genres;
+            $pagination['Film']['conditions'][] =  array ( "and" => array ('FilmsGenre.genre_id ' => $genres));
+
+//            pr($pagination['Film']);
+
+//#            $pagination['Film']['sphinx']['filter'][] = array('genre_id', $genres);
+            $pagination['Film']['sphinx']['filter'][] = array('genre_id', $genres);
+//#            $pagination['Film']['sphinx']['matchMode'] = SPH_MATCH_BOOLEAN;
+//#            $pagination['Film']['sphinx']['matchMode'] = SPH_MATCH_ALL;
             $this->Film->bindModel(array('hasOne' => array(
                                           'FilmsGenre' => array(
                                            'foreignKey' => 'film_id'
                                           )
                                         )), false);
+*/
 
         }
 
-if (!empty($this->params['named']['is_license']))
-	$pagination['Film']['conditions']['Film.is_license'] = 1;
+//pr ($this->Film->_schema);
+
+
+        if (!empty($this->params['named']['is_license']))
+            $pagination['Film']['conditions']['Film.is_license'] = 1;
 
         if (!empty($this->params['named']['year_start']))
             $pagination['Film']['conditions']['Film.year >='] = $this->params['named']['year_start'];
@@ -1102,6 +1183,7 @@ if (!empty($this->params['named']['is_license']))
                                           )
                                         )), false);
         }
+
 
         if (!empty($this->params['named']['search']))
         {
@@ -1204,6 +1286,7 @@ if (!empty($this->params['named']['is_license']))
             	$translit = '';
 
             $sort = ', hits DESC';
+
             if (!empty($this->params['named']['sort']))
             {
                 $sort = explode('.', $this->params['named']['sort']);
@@ -1243,7 +1326,7 @@ if (!empty($this->params['named']['is_license']))
 echo'<pre>';
 var_dump($pagination);
 echo'</pre>';
-//*/
+*/
     $out='';
     $outCount='';
     $name=$this->passedArgs;
@@ -1257,6 +1340,7 @@ echo'</pre>';
         if ($k <> 'page')
         	$outCount.=$k."_".$v."_";
     }
+    //pr($name);
 //*
 
 		if (!empty($this->passedArgs['page']) && empty($this->params['named']['search']))
@@ -1272,6 +1356,7 @@ echo'</pre>';
 		if (empty($search))
 		{
 			unset($pagination['Film']['sphinx']);//СФИНКС ВСЕ РАВНО НЕ БУДЕТ ИСКАТЬ ПО ПУСТОЙ СТРОКЕ
+
 		}
 
 		if ($films === false)//ЕСЛИ ЕЩЕ НЕ КЭШИРОВАЛИ
@@ -1280,6 +1365,11 @@ echo'</pre>';
 			//$starSearch = transStarChars($search);
             //$pagination['Film']['search'] = $starSearch;
     		$films = $this->Film->find('all', $pagination["Film"]);
+
+
+//##                //pr ($pagination["Film"]);
+//##                //exit;
+
 
     		if (empty($films))
     		{
@@ -1375,23 +1465,79 @@ echo'</pre>';
         {
             $countation['Film']['contain'][] = 'FilmsGenre';
             $countation['Film']['contain'][] = 'Genre';
-//pr($countation);
         }
 
        	$filmCount = Cache::read('Catalog.' . $postFix . 'count_'.$outCount, 'searchres');
 //pr($countation);
+//$countation2 = $pagination;
+//unset ($countation2['Film']['limit']);
+
 
 		if (empty($filmCount))
 		{
-			if ((empty($this->passedArgs['type'])) && (empty($this->passedArgs['genre'])) && (empty($this->passedArgs['country'])))
-				$this->Film->contain(array());//НА ГЛАВНОЙ КОЛИЧЕСТВО ФИЛЬМОВ БЕЗ ПОДЗАПРОСОВ МОЖНО ПОДСЧИТАТЬ
-    		$filmCount = $this->Film->find('count', $countation["Film"]);
-    		//if ((isset($this->passedArgs['page'])) && $filmCount)
+                    if ((empty($this->passedArgs['type'])) && (empty($this->passedArgs['genre'])) && (empty($this->passedArgs['country'])))
+			$this->Film->contain(array());//НА ГЛАВНОЙ КОЛИЧЕСТВО ФИЛЬМОВ БЕЗ ПОДЗАПРОСОВ МОЖНО ПОДСЧИТАТЬ
+/*[A2]*********************************************************
+ * 15-09-2011
+ * модификация массива предыдущего запроса из $pagination['Film'], для
+ * вычисления общего количества строк в нем, оставляем параметры поиска.
+ * Удаляем limit, page, contain, order - для уменьшения нагрузки
+ * добавляем 'count(`Film`.`id`) as countrec' - но оно счиает, почему-то
+ * количество genres указаных в параметре поиска через join, поэтому получаем
+ * общее количество строк в массив и подсчитываем его, освобождая затем
+ * занятые всем этим делом переменные
+ **********************************************************/
+
+                    $countation = $pagination;
+                    //pr($countation);
+                    unset($countation["Film"]['limit']);
+                    unset($countation["Film"]['page']);
+                    unset($countation["Film"]['contain']);
+                    unset($countation["Film"]['order']);
+
+                    if ($isFirstPage)
+                    {
+                        unset($countation["Film"]['conditions']);
+                        $countation["Film"]['conditions'][] = array('Film.active' => 1);
+                    }
+                    if (!empty($this->params['named']['country']))
+                    {
+                        $countation['Film']['contain'][] = 'CountriesFilm';
+                        $countation['Film']['contain'][] = 'Country';
+                    }
+                    if (!empty($this->params['named']['type']))
+                    {
+                        $countation['Film']['contain'][] = 'FilmType';
+                    }
+                    if (!empty($this->params['named']['genre']))
+                    {
+                        //$countation['Film']['contain'][] = 'FilmsGenre';
+                        //$countation['Film']['contain'][] = 'Genre';
+                    }
+                    $countation['Film']['fields'] = array();
+                    $countation['Film']['fields'][] = 'count(`Film`.`id`) as countrec' ;
+                    //pr($countation);
+                    $filmCount_arr = $this->Film->find('all', $countation["Film"]);
+
+                    //pr($filmCount_arr[0]['countrec']);
+
+                    $filmCount = count($filmCount_arr);
+                    unset ($countation);
+                    unset ($filmCount_arr);
+                    //pr($filmCount);
+                    //exit;
+/*[/A2]***********************************************************/
+
+// старый вариант - глючный--------------------------
+//                    $filmCount = $this->Film->find('count', $countation2['Film']);
+//                    pr($countation["Film"]);
+//---------------------------------------------------
+    		if ((isset($this->passedArgs['page'])) && $filmCount)
     		{
 		    	Cache::write('Catalog.' . $postFix . 'count_'.$outCount, $filmCount, 'searchres');
     		}
 		}
-//pr($filmCount);
+
     	$pageCount = intval($filmCount / $pagination['Film']['limit'] + 1);
     	$this->set('filmCount', $filmCount);
     	$this->set('pageCount', $pageCount);
@@ -1409,7 +1555,7 @@ echo'</pre>';
             $pagination['Person']['sphinx']['index'] = array('videoxq_persons');//ИЩЕМ ПО ИНДЕКСУ ПЕРСОН
             $pagination['Person']['sphinx']['sortMode'] = array(SPH_SORT_EXTENDED => '@relevance DESC');
             $pagination['Person']['search'] = $search;
-    		$result = $this->Film->Person->find('all', $pagination["Person"]);
+            $result = $this->Film->Person->find('all', $pagination["Person"]);
 
             if (!empty($result))
                 $this->redirect(array('action' => 'index',
@@ -1426,7 +1572,7 @@ echo'</pre>';
         $this->set('films', $films);
         if (isset($search))
         {
-        	$this->set('search', $search);
+            $this->set('search', $search);
         }
     }
 
@@ -3232,4 +3378,71 @@ if (--$limit == 0) {
 		}
 		$this->redirect('/media');
     }
+
+
+//------------------------------------------------------------------------------
+
+    function autocomplete() {
+        //был ли ajax-запрос с непустым post?
+        if ($this->RequestHandler->isAjax() && $this->RequestHandler->isPost()) {
+            //разбор того что пришло
+            $model = $this->params['form']['model'];
+            $fields = explode(",",$this->params['form']['fields']);
+            $search_field = $this->params['form']['search'];
+            $search_for = $this->params['form']['query'];
+            $limit = $this->params['form']['numresult'];
+            $fields_ = $this->params['form']['fields'];
+            $rand = $this->params['form']['rand'];
+
+
+            //если мы вызываем autocomplete из frontend'а, то обрежем
+            //нежелдательную инфу, сформировав соотвествующий $condition, в
+            //зависимости от модели.
+            //юзерам ведь не надо видеть неактивные фильмы и скрытых
+            //правообладателей :))))
+            if (empty($this->params[Configure::read('Routing.admin')])){
+                switch ($model){
+                    case 'Film':
+                        if (!empty($this->isWS) && !$this->isWS){
+                            $frontend_condition = $model.'.is_license = 1 AND';
+                        }
+                        $frontend_condition = $model.'.active = 1';
+                        break;
+                    case 'Copyrightholder':
+                        $frontend_condition = $model.'.hidden = 0';
+                        break;
+                }
+            }
+
+            //формируем запрос
+            //основной фильтр запроса
+            $search_condition = $model.'.'.$search_field.' LIKE \'%'.$search_for.'%\'';
+
+            if(!empty($frontend_condition) && $frontend_condition){
+            //дополнительный фильтр запроса, если нужен для данной модели
+                $conditions = array('AND'=>array($search_condition, $frontend_condition));
+            }
+            else{
+                $conditions = array($search_condition);
+            }
+
+
+            $results = $this->{$model}->find('all',array(
+                                        'contain' => array(),
+                                        'fields' => $fields_,
+                                        'limit' => $limit,
+                                        'conditions' => $conditions));
+
+                //заполняем переменные предсавления для ответа
+                $this->set('results', $results);
+                $this->set('fields', $fields);
+                $this->set('model', $model);
+                $this->set('input_id', $rand);
+                $this->set('search', $search_field);
+                $this->render('autocomplete','ajax','autocomplete');
+        }
+    }
+//------------------------------------------------------------------------------
+
+
 }

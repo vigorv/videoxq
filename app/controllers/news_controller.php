@@ -2,7 +2,7 @@
 class NewsController extends AppController {
 
     var $name = 'News';
-    var $helpers = array('Html', 'Form');
+    var $helpers = array('Html', 'Form', 'Calendar');
 
     var $uses = array('News', 'Direction');
     var $components = array('BlockStats');
