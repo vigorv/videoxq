@@ -1,157 +1,72 @@
-<div class="viewright"></div><ul id="menu">
-<!--
-    <li ><a href="/index/about">О нас</a></li>
-    <li ><a href="#">Underground</a></li>
-    <li ><a href="#">Наша деятельность</a></li>
-    <li ><a href="#">Online-трансляции</a></li>
--->
-    <li class="active"><strong><a href="/news">Наши проекты</a></strong></li>
 <?php
-	$javascript->link('jquery.fancybox-1.3.4/fancybox/jquery.fancybox-1.3.4.pack', false);
-    $html->css('fancybox-1.3.4/jquery.fancybox-1.3.4', null, array(), false);
-    $javascript->link('jquery.pngFix', false);
-
-	if (!empty($dirs))
-	{
-		foreach ($dirs as $dk => $d)
-		{
-			$c = $d['Direction']['caption'];
-			if (empty($c))
-			{
-				$c = $d['Direction']['title'];
-			}
-			if (empty($dir_id))
-				$hr = '/news#d';
-			else
-				$hr = '/news/index/';
-			echo '<li><strong><a href="' . $hr . $d['Direction']['id'] . '">' . $c . '</a></strong></li>';
-			$dirs[$dk]['Direction']['cnt'] = 0;
-		}
-	}
+	$javascript->link(array('slimbox2/slimbox2.js'), false);
+	$html->css('global', '', '', false);
+	$html->css('../js/slimbox2/slimbox2.css', '', '', false);
 ?>
-</ul>
-<?php
-/*
-<ul id="menu">
-    <li class="active"><a href="/index/about">Новости партнеров</a></li>
-    <li ><a href="#">СТС media</a></li>
-</ul>
-
-<div class="contentColumns">
-<div id="news_ID" class="news_item">
-    <div class="news_header">
-        <a href="/news/view/' . $l['News']['id'] . '" class="news_title">«СТС Медиа» создает объединенную производственную компанию – Story First Production</a>
-        <span class="news_date">28.07.2011</span>
-        <div class="news_header_r">
-            <a href="#" class="news_author"></a>
-        </div>
-    </div>
-    <div class="news_content">
-    	Москва, Россия — 28 июля 2011 года — Ведущая независимая медиакомпания России «СТС Медиа» (NASDAQ: CTCM) объявляет об объединении собственного производства на базе двух компаний холдинга – «Костафильм» и «Сохо Медиа», и создании новой производственной компании – ООО «Стори Фёрст Продакшн» (Story First Production). Генеральным директором объединенной компании назначен Василий Балашов. Он также вошел в состав Правления «СТС Медиа», заняв позицию Заместителя генерального директора по производству.
-        <br /><a href="/news/view/' . $l['News']['id'] . '">Читать далее...</a>
-    </div>
-</div>
-
-<div id="news_ID" class="news_item">
-    <div class="news_header">
-        <a href="/news/view/' . $l['News']['id'] . '" class="news_title">«СТС Медиа» мировые профессионалы телеиндустрии делятся опытом</a>
-        <span class="news_date">27.07.2011</span>
-        <div class="news_header_r">
-            <a href="#" class="news_author"></a>
-        </div>
-    </div>
-    <div class="news_content">
-    	Москва, Россия — 27 июля 2011 года — Ведущая независимая медиа компания России «СТС Медиа» (NASDAQ: CTCM) объявляет о проведении семинара одним из ведущих мировых профессионалов в области создания и производства оригинальных сериалов – Барбарой Уолл.
-        <br /><a href="/news/view/' . $l['News']['id'] . '">Читать далее...</a>
-    </div>
-</div>
-
-<div id="news_ID" class="news_item">
-    <div class="news_header">
-        <a href="/news/view/' . $l['News']['id'] . '" class="news_title">«СТС Медиа» провела консультативный совет сети СТС</a>
-        <span class="news_date">26.07.2011</span>
-        <div class="news_header_r">
-            <a href="#" class="news_author"></a>
-        </div>
-    </div>
-    <div class="news_content">
-    	Москва, Россия — 26 июля 2011 года — Ведущая независимая медиа компания России «СТС Медиа» (NASDAQ: CTCM) объявляет о проведении Консультативного совета Сети телеканала СТС.
-        <br /><a href="/news/view/' . $l['News']['id'] . '">Читать далее...</a>
-    </div>
-</div>
-
-
-</div>
-*/
-?>
-<div class="contentColumns">
-<?php
-	if (!empty($lst))
-	{
-		if (!empty($dirs))
-		{
-			foreach($dirs as $dk => $d)
-			{
-				if (!empty($dir_id) && ($d['Direction']['id'] != $dir_id))
-				{
-					continue;
-				}
-
-				echo '<br />';
-				echo '<a name="d' . $d['Direction']['id'] . '"></a><h3>' . $d['Direction']['title'] . '</h3>';
-
-				foreach ($lst as $l)
-				{
-					if ($l["News"]['direction_id'] != $d['Direction']['id'])
+		<div id="wrap2">
+			<div id="middle">
+				<div class="left-block">
+					<div id="left-menu">
+						<ul>
+							<?php
+								$current = '';
+								if (empty($dir_id))
+									$current = 'class="active"';
+								echo '<li ' . $current . '><a ' . $current . ' href="/news">Все категории</a></li>';
+								foreach ($dirs as $d)
+								{
+									if (empty($d['Direction']['caption']))
+										continue;
+									$current = '';
+									if (!empty($dir_id) && ($dir_id == $d['Direction']['id']))
+										$current = 'class="active"';
+									echo '<li ' . $current . '><a ' . $current . ' href="/news/index/' . $d['Direction']['id'] . '">' . $d['Direction']['caption'] . '</a></li>';
+								}
+							?>
+						</ul>
+					</div>
+				</div>
+				<div class="center-block">
+					<div id="content-main">
+				<?php
+					$months = array(
+						'01' => 'января',
+						'02' => 'февраля',
+						'03' => 'марта',
+						'04' => 'апреля',
+						'05' => 'мая',
+						'06' => 'июня',
+						'07' => 'июля',
+						'08' => 'августа',
+						'09' => 'сентября',
+						'10' => 'октября',
+						'11' => 'ноября',
+						'12' => 'декабря',
+					);
+					if (!empty($lst))
 					{
-						continue;
+						foreach ($lst as $l)
+						{
+							if (!empty($l['News']['img']))
+							{
+								$img = '<a href="/files/news/' . $l['News']['img'] . '" rel="attach" onclick="return stopdivx();"><img class="news_content_img" height="120px" src="/files/news/small/' . $l['News']['img'] . '"></a>';
+							}
+							else
+								$img = '';
+							echo '
+						<div class="news-block">
+							' . $img . '
+							<p>' . intval(date('d', strtotime($l['News']['created']))) . ' ' . $months[date('m', strtotime($l['News']['created']))] . ' ' . date('Y', strtotime($l['News']['created'])) . ' года</p>
+							<p><a href="/news/view/' . $l['News']['id'] . '">' . $l['News']['title'] . '</a></p>
+							<p class="short">' . $l['News']['stxt'] . '</p>
+						</div>
+							';
+						}
 					}
-
-
-					if (empty($dir_id) && ($dirs[$dk]['Direction']['cnt']++ >= 3))
-					{
-						echo '<h3><a href="/news/index/' . $dirs[$dk]['Direction']['id'] .'">все новости раздела "' . $dirs[$dk]['Direction']['title'] . '" &raquo;</a></h3>';
-						break;
-					}
-
-					if (!empty($l['News']['img']))
-					{
-						$img = '<a href="/files/news/' . $l['News']['img'] . '" rel="attach" onclick="return stopdivx();"><img class="news_content_img" height="120px" src="/files/news/small/' . $l['News']['img'] . '"></a>';
-					}
-					else
-						$img = '';
-						echo'
-			        <div id="news_ID" class="news_item">
-			            <div class="news_header">
-			                <a href="/news/view/' . $l['News']['id'] . '" class="news_title">' . $l['News']['title'] . '</a>
-			                <span class="news_date">' . date('d.m.Y', strtotime($l['News']['created'])) . '</span>
-			                <div class="news_header_r">
-			                    <a href="#" class="news_author"></a>
-			                </div>
-			            </div>
-			            <div class="news_content">
-			                ' . $img . '
-			                ' . $l['News']['stxt'] . '
-			                <a href="/news/view/' . $l['News']['id'] . '">Читать далее...</a>
-			            </div>
-			        </div>
-						';
-				}
-			}
-		}
-	}
-?>
-</div>
-<script type="text/javascript">
-<!--
-$(document).ready(function() {
-					$("a[rel=attach]").fancybox({
-				        "zoomSpeedIn":  0,
-				        "zoomSpeedOut": 0,
-				        "overlayShow":  true,
-				        "overlayOpacity": 0.8,
-						"showCloseButton": true
-					});
-});
--->
-</script>
+				?>
+					</div>
+				</div>
+				<div class="right-block">
+				</div>
+			</div>
+		</div>
