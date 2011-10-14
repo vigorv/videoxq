@@ -27,7 +27,13 @@ else
 	echo '<br /><img title="English" src="/img/eng_a.gif" width="20" height="15" />';
 }
 ?>
+
 </div>
+<!--
+<div class="welcome" style="float: left">
+    <a href="/reports">Написать нам об использовании материала.</a>
+</div>
+-->
 <?php
 if ($authUser['userid'] == 0)
 {
