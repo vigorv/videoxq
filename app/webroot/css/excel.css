@@ -1,0 +1,12 @@
+.excel_table{
+/*    border: #bbb solid 1px;
+    border-left: 0;
+    border-bottom: 0;
+    width: 1000px;*/
+}
+.excel_table table td{
+    border: #bbb solid 1px;
+    /*border-top: 0;
+    border-right: 0;*/
+    /*background: #eee;*/
+}
