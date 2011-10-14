@@ -119,11 +119,6 @@
 					<div id="content-main">
 					<div id="content-news-read">
 				<?php
-				if (!empty($info["News"]['img']))
-				{
-					echo '<a rel="attach" href="/files/news/' . $info['News']['img'] . '"><img class="news_content_full_img" src="/files/news/small/' . $info['News']['img'] . '" /></a>';
-				}
-
 				$months = array(
 						'01' => 'января',
 						'02' => 'февраля',
@@ -142,6 +137,12 @@
 				<p>' . intval(date('d', strtotime($info['News']['created']))) . ' ' . $months[date('m', strtotime($info['News']['created']))] . ' ' . date('Y', strtotime($info['News']['created'])) . ' года</p>
 				<h1>' . $info['News']['title'] . '</h1>
 				';
+
+				if (!empty($info["News"]['img']))
+				{
+					echo '<a rel="attach" href="/files/news/' . $info['News']['img'] . '"><img class="news_content_full_img" src="/files/news/small/' . $info['News']['img'] . '" /></a>';
+				}
+
 				if (strlen($info['News']['txt']) > strlen($info['News']['stxt']))
 					$txt = $info['News']['txt'];
 				else
