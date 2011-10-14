@@ -1,155 +1,169 @@
-<div class="viewright"></div><ul id="menu">
-<!--
-
-    <li ><a href="/index/about">О нас</a></li>
-    <li ><a href="#">Underground</a></li>
-    <li ><a href="#">Наша деятельность</a></li>
-    <li ><a href="#">Online-трансляции</a></li>
--->
-    <li class="active"><strong><a href="/news">Наши проекты</a></strong></li>
 <?php
-	if (!empty($dirs))
+//НАЧАЛО ОБРАБОТКИ ВЫВОДА ГОЛОСОВАЛКИ
+	if (!empty($block_poll))
 	{
-		foreach ($dirs as $dk => $d)
+		ob_start();
+		$voteMsg = '';
+	?>
+	<a name="poll"></a><br /><h2>Голосование</h2>
+
+	<table><tr valign="top">
+	<?php
+		foreach($block_poll as $bp)
 		{
-			$c = $d['Direction']['caption'];
-			if (empty($c))
+			extract($bp);
+			if (!empty($Poll))
 			{
-				$c = $d['Direction']['title'];
-			}
-			echo '<li><strong><a href="/news/index/' . $d['Direction']['id'] . '">' . $c . '</a></strong></li>';
-		}
-	}
-?>
-</ul>
-<div class="contentColumns">
-<div id="cColumn_main" class="contentColumn_69p">
-    <div class="news_items">
-    <div class="news_item_full">
-<?php
-if (!empty($info))
-{
-	echo '
-        <div class="news_header">
-                <a noref class="news_title">' . $info['News']['title'] . '</a>
-                <span class="news_date">' . date('d.m.Y', strtotime($info['News']['created'])) . '</span>
-                <div class="news_header_r">
-                    <a href="#" class="news_author"></a>
-                </div>
-            </div>
-            <div class="news_content_full">
-	';
+	?>
+	<td width="330" style="padding-right:20px;">
+	<div class="polls">
+	<p style="text-align: center;"><strong><?php echo $Poll['title']?></strong></p>
+	<div class="polls-ans">
+	<ul class="polls-ul">
 
-if (!empty($block_poll))
-{
-	ob_start();
-	$voteMsg = '';
-?>
-<a name="poll"></a><br /><h2>Голосование</h2>
 
-<table><tr valign="top">
-<?php
-	foreach($block_poll as $bp)
+	<?php
+
+	if ($main_voting_voted[$Poll['id']]
+	    || ($authUser['userid'] && strpos($Poll['voters'], ',' . $authUser['userid'] . ',') !== false))
 	{
-		extract($bp);
-		if (!empty($Poll))
-		{
-?>
-<td width="330" style="padding-right:20px;">
-<div class="polls">
-<p style="text-align: center;"><strong><?php echo $Poll['title']?></strong></p>
-<div class="polls-ans">
-<ul class="polls-ul">
-
-
-<?php
-
-if ($main_voting_voted[$Poll['id']]
-    || ($authUser['userid'] && strpos($Poll['voters'], ',' . $authUser['userid'] . ',') !== false))
-{
-    foreach ($Poll['data'] as $answer)
-    {
-    ?>
-        <li>
-        <?php echo $answer['answer'];?>(<?php echo $answer['percent']?>%, <?php echo $app->pluralForm($answer['voters'], array('голос', 'голоса', 'голосов'))?>)
-        <div style="width: <?php echo $answer['width']?>%;" class="pollbar" /></div>
-        </li>
-    <?php
-    }
-}
-else
-{
-	echo $form->create('Poll', array('action' => 'vote', 'id' => "formid" . $Poll['id']));
-	echo $form->hidden('redirect', array('value' => $this->here . '#poll', 'id' => "redirectid" . $Poll['id']));
-	echo $form->hidden('id', array('value' => $Poll['id'], 'id' => "hiddenid" . $Poll['id']));
-	echo '<li>';
-array_unshift($Poll['answers'], 'value to be killed');//ВСТАВЛЯЕМ ЗНАЧЕНИЕ В НАЧАЛО ЧТОБЫ ИНКРЕМЕНТИРОВАТЬ ИНДЕКСЫ ОСТАЛЬНЫХ ЭЛЕМЕНТОВ
-unset($Poll['answers'][0]);
-	if ($Poll["multiple"])
-	{
-		foreach ($Poll['answers'] as $key => $answer)
-		{
-			echo '<input type="checkbox" id="chk_' . $Poll['id'] . '_' . $key . '" name="data[Poll][vote][' . $key . ']" value="1" />' . $answer . '</li><li>';
-//			echo $form->input($answer, array('name' => 'data[Poll][vote][' . $key . ']', 'type' => 'checkbox', 'value' => 1, 'id' => "chk_{$Poll['id']}_" . $key)) . '</li><li>';
-		}
+	    foreach ($Poll['data'] as $answer)
+	    {
+	    ?>
+	        <li>
+	        <?php echo $answer['answer'];?>(<?php echo $answer['percent']?>%, <?php echo $app->pluralForm($answer['voters'], array('голос', 'голоса', 'голосов'))?>)
+	        <div style="width: <?php echo $answer['width']?>%;" class="pollbar" /></div>
+	        </li>
+	    <?php
+	    }
 	}
 	else
 	{
-		foreach ($Poll['answers'] as $key => $answer)
+		echo $form->create('Poll', array('action' => 'vote', 'id' => "formid" . $Poll['id']));
+		echo $form->hidden('redirect', array('value' => $this->here . '#poll', 'id' => "redirectid" . $Poll['id']));
+		echo $form->hidden('id', array('value' => $Poll['id'], 'id' => "hiddenid" . $Poll['id']));
+		echo '<li>';
+	array_unshift($Poll['answers'], 'value to be killed');//ВСТАВЛЯЕМ ЗНАЧЕНИЕ В НАЧАЛО ЧТОБЫ ИНКРЕМЕНТИРОВАТЬ ИНДЕКСЫ ОСТАЛЬНЫХ ЭЛЕМЕНТОВ
+	unset($Poll['answers'][0]);
+		if ($Poll["multiple"])
 		{
-			echo '<li><input type="radio" name="data[Poll][vote]" value="' . $key . '" id="radio_' . $Poll['id'] . '_' . $key . '" /> ' . $answer;
-			if ($key == count($Poll['answers']) - 1)
+			foreach ($Poll['answers'] as $key => $answer)
 			{
-				echo '<input type="text" name="data[Poll][other]" value="" id="other_' . $Poll['id'] . '_' . $key . '" />';
+				echo '<input type="checkbox" id="chk_' . $Poll['id'] . '_' . $key . '" name="data[Poll][vote][' . $key . ']" value="1" />' . $answer . '</li><li>';
+	//			echo $form->input($answer, array('name' => 'data[Poll][vote][' . $key . ']', 'type' => 'checkbox', 'value' => 1, 'id' => "chk_{$Poll['id']}_" . $key)) . '</li><li>';
 			}
-			echo '</li>';
 		}
-	}
-	//	echo $form->radio('vote', $Poll['answers'], array('legend' => false, 'separator' => '</li><li>'));
-	//echo $form->input('vote', array('legend' => false, 'separator' => '<br>',
-	//                                'options' => $Poll['answers'], 'type' => 'radio'));
-	echo $form->end('Голосовать', array('id' => 'submitid' . $Poll['id']));
-}
-?>
-</ul>
-<p style="text-align: center;">Всего проголосовало: <strong><?php echo $Poll['total_votes']?></strong></p>
-</div>
-</div>
-</td>
-<?php
-		}
-	}
-?>
-</tr></table>
-<?php
-	$pollContent = ob_get_clean();
-}
-
-	echo'
-            	<div id="newstext">
-	';
-//$info["News"]['img'] = '';
-	if (!empty($info["News"]['img']))
-	{
-		echo '<a rel="attach" href="/files/news/' . $info['News']['img'] . '"><img class="news_content_full_img" src="/files/news/small/' . $info['News']['img'] . '" /></a>';
-	}
-
-	if (strlen($info['News']['txt']) > strlen($info['News']['stxt']))
-		$txt = $info['News']['txt'];
-	else
-		$txt = $info['News']['stxt'];
-
-	if (!empty($pollContent))
-	{
-		if (strpos($txt, '{POLL_CONTENT}') === false)
-			echo $pollContent . $txt;
 		else
-			echo str_replace('{POLL_CONTENT}', $pollContent, $txt);
+		{
+			foreach ($Poll['answers'] as $key => $answer)
+			{
+				echo '<li><input type="radio" name="data[Poll][vote]" value="' . $key . '" id="radio_' . $Poll['id'] . '_' . $key . '" /> ' . $answer;
+				if ($key == count($Poll['answers']) - 1)
+				{
+					echo '<input type="text" name="data[Poll][other]" value="" id="other_' . $Poll['id'] . '_' . $key . '" />';
+				}
+				echo '</li>';
+			}
+		}
+		//	echo $form->radio('vote', $Poll['answers'], array('legend' => false, 'separator' => '</li><li>'));
+		//echo $form->input('vote', array('legend' => false, 'separator' => '<br>',
+		//                                'options' => $Poll['answers'], 'type' => 'radio'));
+		echo $form->end('Голосовать', array('id' => 'submitid' . $Poll['id']));
 	}
-	else
-		echo $txt;
+	?>
+	</ul>
+	<p style="text-align: center;">Всего проголосовало: <strong><?php echo $Poll['total_votes']?></strong></p>
+	</div>
+	</div>
+	</td>
+	<?php
+			}
+		}
+	?>
+	</tr></table>
+	<?php
+		$pollContent = ob_get_clean();
+	}
+//КОНЕЦ ОБРАБОТКИ ВЫВОДА ГОЛОСОВАЛКИ
 
-	echo'</div>';
+
+	$javascript->link(array('slimbox2/slimbox2.js'), false);
+	$html->css('global', '', '', false);
+	$html->css('../js/slimbox2/slimbox2.css', '', '', false);
+?>
+			<div id="middle">
+				<div class="left-block">
+					<div id="left-menu">
+						<ul>
+							<?php
+								$dir_id = $info['News']['direction_id'];
+
+								$current = '';
+								if (empty($dir_id))
+									$current = 'class="active"';
+								echo '<li ' . $current . '><a ' . $current . ' href="/news">Все категории</a></li>';
+								foreach ($dirs as $d)
+								{
+									if (empty($d['Direction']['caption']))
+										continue;
+									$current = '';
+									if (!empty($dir_id) && ($dir_id == $d['Direction']['id']))
+										$current = 'class="active"';
+									echo '<li ' . $current . '><a ' . $current . ' href="/news/index/' . $d['Direction']['id'] . '">' . $d['Direction']['caption'] . '</a></li>';
+								}
+							?>
+						</ul>
+					</div>
+				</div>
+				<div class="center-block">
+					<div id="content-main">
+					<div id="content-news-read">
+				<?php
+				if (!empty($info["News"]['img']))
+				{
+					echo '<a rel="attach" href="/files/news/' . $info['News']['img'] . '"><img class="news_content_full_img" src="/files/news/small/' . $info['News']['img'] . '" /></a>';
+				}
+
+				$months = array(
+						'01' => 'января',
+						'02' => 'февраля',
+						'03' => 'марта',
+						'04' => 'апреля',
+						'05' => 'мая',
+						'06' => 'июня',
+						'07' => 'июля',
+						'08' => 'августа',
+						'09' => 'сентября',
+						'10' => 'октября',
+						'11' => 'ноября',
+						'12' => 'декабря',
+					);
+				echo '
+				<p>' . intval(date('d', strtotime($info['News']['created']))) . ' ' . $months[date('m', strtotime($info['News']['created']))] . ' ' . date('Y', strtotime($info['News']['created'])) . ' года</p>
+				<h1>' . $info['News']['title'] . '</h1>
+				';
+				if (strlen($info['News']['txt']) > strlen($info['News']['stxt']))
+					$txt = $info['News']['txt'];
+				else
+					$txt = $info['News']['stxt'];
+
+				if (!empty($pollContent))
+				{
+					if (strpos($txt, '{POLL_CONTENT}') === false)
+						echo $pollContent . $txt;
+					else
+						echo str_replace('{POLL_CONTENT}', $pollContent, $txt);
+				}
+				else
+					echo $txt;
+
+				echo'
+					</div>
+				';
+
+
+
+
 
 	$javascript->link('jquery.fancybox-1.3.4/fancybox/jquery.fancybox-1.3.4.pack', false);
     $html->css('fancybox-1.3.4/jquery.fancybox-1.3.4', null, array(), false);
@@ -426,16 +440,21 @@ echo $hideJS;
 			return false;
 		}
 
--->
-</script>
-<script type="text/javascript" src="/js/flowplayer/flowplayer-3.2.4.min.js"></script>
-<script type="text/javascript" src="/js/flowplayer/flowplayer.ipad-3.2.1.js"></script>
-<?php
-}
-?>
 
 </div>
 </div>
 </div>
 </div>
 </div>
+-->
+</script>
+<script type="text/javascript" src="/js/flowplayer/flowplayer-3.2.4.min.js"></script>
+<script type="text/javascript" src="/js/flowplayer/flowplayer.ipad-3.2.1.js"></script>
+
+
+
+					</div>
+				</div>
+				<div class="right-block">
+				</div>
+			</div>

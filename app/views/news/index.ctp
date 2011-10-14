@@ -3,7 +3,6 @@
 	$html->css('global', '', '', false);
 	$html->css('../js/slimbox2/slimbox2.css', '', '', false);
 ?>
-		<div id="wrap2">
 			<div id="middle">
 				<div class="left-block">
 					<div id="left-menu">
@@ -69,4 +68,3 @@
 				<div class="right-block">
 				</div>
 			</div>
-		</div>
