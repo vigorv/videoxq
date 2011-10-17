@@ -33,8 +33,28 @@ class NewsController extends AppController {
     	$conditions = array('News.hidden' => 0);
     	if (!empty($dir_id))
     	{
-    		$conditions['News.direction_id'] = $dir_id;
+    		if ($dir_id === intval($dir_id))
+    		{
+	    		$conditions['News.direction_id'] = $dir_id;
+    		}
+    		else
+    		{
+    			//ВЫБОРКА ПО ДАТЕ
+    			$ymd = explode('-', $dir_id);
+    			$year = $ymd[0];
+    			if (!empty($ymd[1])) $month = $ymd[1]; else $month = 1;
+    			if (!empty($ymd[2])) $day = $ymd[2]; else $day = 1;
+    			$strt = date('Y-m-d H:i:s', mktime(0, 0, 0, $month, $day, $year));
+
+    			if (!empty($ymd[2])) $day++;//ВЫБИРАЕМ ВСЕ ЗА ДЕНЬ
+    			if (empty($ymd[2])) $month++; //ВЫБИРАЕМ ЗА МЕСЯЦ
+    			$fin = date('Y-m-d H:i:s', mktime(0, 0, 0, $month, $day, $year) - 1);
+	    		$conditions['News.created >='] = $strt;
+	    		$conditions['News.created <='] = $fin;
+    		}
     	}
+//pr($conditions);
+
     	$lst = $this->News->findAll($conditions, null, 'News.created DESC');
     	$this->set('lst', $lst);
     }
@@ -688,16 +708,11 @@ pr($data);
         	{
 				$dir = $_SERVER['DOCUMENT_ROOT'] . $uploadDir;
         		//ПЕРЕИМЕНОВЫВАЕМ ВРЕМЕННЫЕ ИМЕНА
-				$picture = $dir . '/' . $this->findByPreview($dir, $this->data['picture']);
+        		$picture = $this->findByPreview($dir, $this->data['picture']);
+				$picture = $dir . '/' . $picture;
 				$info = pathinfo($picture);
 				if (!empty($newInfo) && !empty($newInfo['News']['img']) && ($newInfo['News']['img'] <> $this->data['picture']))
 				{
-					$newPicture = $dir . '/' . $this->authUser['userid'] . '_' . time() . '.' . $info['extension'];
-
-					$preview = $dir . '/small/' . $this->data['picture'];
-					$info = pathinfo($preview);
-					$newPreview = $dir . '/small/' . $this->authUser['userid'] . '_' . time() . '.' . $info['extension'];
-
 					//if (!empty($newInfo) && !empty($newInfo['News']['img']))
 					{
 						$old = $dir . '/' . $newInfo['News']['img'];
@@ -714,23 +729,39 @@ pr($data);
 							unlink($old);
 						}
 					}
-
-					if (file_exists($preview) && !empty($newInfo) && (basename($newPreview) != $newInfo['News']['img']))
-					{
-						rename($preview, $newPreview);
-						rename($picture, $newPicture);
-	        			$this->data['News']['img'] = basename($newPreview);
-					}
         		}
 	        	else
 	        	{
 	        		unset($this->data['News']['img']);
 	        	}
+
+				$newPicture = $dir . '/' . $this->authUser['userid'] . '_' . time() . '.' . $info['extension'];
+
+				$preview = $dir . '/small/' . $this->data['picture'];
+				$info = pathinfo($preview);
+				$newPreview = $dir . '/small/' . $this->authUser['userid'] . '_' . time() . '.' . $info['extension'];
+
+				if (file_exists($preview) &&
+					(empty($this->data['News']['id'])
+						|| (!empty($newInfo) && (basename($preview) != $newInfo['News']['img']))))
+				{
+					rename($preview, $newPreview);
+					rename($picture, $newPicture);
+        			$this->data['News']['img'] = basename($newPreview);
+				}
         	}
         	else
         	{
         		unset($this->data['News']['img']);
         	}
+
+        	if (empty($this->data['News']['id']))
+        	{
+        		$this->News->create();
+        		$this->data['News']['img'] = '';
+        		$this->data['News']['poll_id'] = 0;
+        	}
+
         	$this->data['News']['modified'] = date('Y-m-d H:i:s');
             if ($this->News->save($this->data)) {
 
@@ -743,7 +774,6 @@ pr($data);
                 $this->redirect(array('action'=>'index'));
             }
         }
-
     }
 
     function admin_delete($id = null) {
