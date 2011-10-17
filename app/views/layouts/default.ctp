@@ -43,8 +43,8 @@ echo $scripts_for_layout;
 <meta name="Robots" content="<?php echo $metaRobots; ?>" />
 <meta name='yandex-verification' content='41f90ac754cf4471' />
 <meta name="verify-v1" content="Q+iq7OY8RadE9126YoJFPl1cnjLTMbHmU//RrR0TTks=" />
-<meta name="keywords" content="видео, фильмы, сериалы, скачать фильм, webstream, вебстрим, videoxq.com <?php //if (isset($metaKeywords)) echo $metaKeywords; ?>" />
-<meta name="description" content="самый большой каталог бесплатных  видео фильмов и сериалов <?php //if (isset($metaDescription)) echo $metaDescription; ?>" />
+<meta name="keywords" content="Скачать -Боевик ,Вестерн, Драма, История ,Комедия, Мелодрама, Мистика ,Мультфильмы, Мьюзикл ,Триллер Ужасы  Фантастика Фэнтази  Черно-белые фильмы –смотреть он-лайн,  бесплатно, без регистрации <?php //if (isset($metaKeywords)) echo $metaKeywords; ?>" />
+<meta name="description" content="Скачать -Боевик ,Вестерн, Драма, История ,Комедия, Мелодрама, Мистика ,Мультфильмы, Мьюзикл ,Триллер Ужасы  Фантастика Фэнтази Черно-белые фильмы –смотреть он-лайн,  бесплатно, без регистрации <?php //if (isset($metaDescription)) echo $metaDescription; ?>" />
 <link rel="alternate" type="application/rss+xml" title='<?php echo Configure::read('App.siteName'); ?>' href="http://videoxq.com/rss.xml" />
 <title><?php echo Configure::read('App.siteName') . ' - ' . $title_for_layout; ?></title>
 </head>
@@ -128,6 +128,39 @@ if ((!empty($blockContent['right'])) && ($this->params['controller']=='media') &
 		<span><a href="mailto:support@videoxq.com">email: support@videoxq.com</a></span><br />
 		<span><a href="/pages/reklama<?php echo $langFix;?>"><?php __("Advertisement"); ?></a> | <a href="/pages/kontaktyi<?php echo $langFix;?>"><?php __("Contacts"); ?></a> | <a href="/pages/nashi-partneryi<?php echo $langFix;?>"><?php __("Partners"); ?></a> | <a href="/pages/agreement"><?php __('user agreement');?></a></a></span>
 	</div>
+	<div class="copy" width="80%" align="center" style=" padding-left:200px;padding-right:200px;">
+	<br />
+<span>
+<a href="/media/index/genre:25/sort:Film.modified">Аниме</a>
+|<a href="/media/index/genre:20/sort:Film.modified">Биография </a>
+|<a href="/media/index/genre:6/sort:Film.modified">Боевик </a>
+|<a href="/media/index/genre:48/sort:Film.modified">В показе </a>
+|<a href="/media/index/genre:11/sort:Film.modified">Вестерн</a>
+|<a href="/media/index/genre:18/sort:Film.modified">Война </a>
+|<a href="/media/index/genre:23/sort:Film.modified">Документальный </a>
+|<a href="/media/index/genre:2/sort:Film.modified">Драма </a>
+|<a href="/media/index/genre:19/sort:Film.modified">История</a>
+|<a href="/media/index/genre:4/sort:Film.modified">Комедия </a>
+|<a href="/media/index/genre:21/sort:Film.modified">Короткометражный</a>
+|<a href="/media/index/genre:1/sort:Film.modified">Криминал </a>
+|<a href="/media/index/genre:17/sort:Film.modified">Мелодрама</a>
+|<a href="/media/index/genre:8/sort:Film.modified">Мистика</a>
+|<a href="/media/index/genre:9/sort:Film.modified">Музыка </a>
+|<a href="/media/index/genre:13/sort:Film.modified">Мультфильм </a>
+|<a href="/media/index/genre:22/sort:Film.modified">Мьюзикл</a>
+|<a href="/media/index/genre:12/sort:Film.modified">Приключения </a>
+|<a href="/media/index/genre:24/sort:Film.modified">Разговорное шоу</a>
+|<a href="/media/index/genre:29/sort:Film.modified">Реал-ТВ</a>
+|<a href="/media/index/genre:15/sort:Film.modified">Семейный</a>
+|<a href="/media/index/genre:16/sort:Film.modified">Спорт</a>
+|<a href="/media/index/genre:3/sort:Film.modified">Триллер</a>
+|<a href="/media/index/genre:7/sort:Film.modified">Ужасы </a>
+|<a href="/media/index/genre:5/sort:Film.modified">Фантастика</a>
+|<a href="/media/index/genre:10/sort:Film.modified">Фэнтази</a>
+|<a href="/media/index/genre:26/sort:Film.modified">Черно-белый</a>
+</span>
+	</div>
+	
 <?php
 if (isset($authUserGroups) && in_array(Configure::read('VIPgroupId'), $authUserGroups))
 {
