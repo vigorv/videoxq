@@ -227,6 +227,7 @@ margin: 20px 0 50px 30px;
 #content-main div.news-block {
 	margin: 0 0 30px 0;
 	font: 16px/100% Trebuchet MS;
+	clear: both;
 }
 #content-main div.news-block a {
 	margin: 0px;
