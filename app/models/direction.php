@@ -20,5 +20,21 @@ class Direction extends AppModel {
 
         return $no_news_in_directions;
     }
+
+    //подсчет количества новостей в категории c id = $direction_id
+    function countNewsInDirection($direction_id = null, $do_count_hidden = false){
+        App::import('model', 'News');
+        $count_news_in_direction = 0;
+        if (!empty ($direction_id)){
+            $news = new News();
+            $conditions = array ('News.direction_id' => $direction_id);
+            //если не вести подсчет скрытых новостей то добавим условие
+            if (!$do_count_hidden){
+                $conditions[] = array ('hidden' => 0);
+            }
+            $count_news_in_direction = $news->findCount($conditions);
+        }
+        return $count_news_in_direction;
+    }
 }
 ?>
