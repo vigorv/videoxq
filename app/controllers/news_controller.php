@@ -33,10 +33,12 @@ class NewsController extends AppController {
     	$conditions = array('News.hidden' => 0);
     	if (!empty($dir_id))
     	{
-    		if ($dir_id === intval($dir_id))
+    		//if ($dir_id === intval($dir_id))
     		{
 	    		$conditions['News.direction_id'] = $dir_id;
     		}
+/*
+
     		else
     		{
     			//ВЫБОРКА ПО ДАТЕ
@@ -52,6 +54,7 @@ class NewsController extends AppController {
 	    		$conditions['News.created >='] = $strt;
 	    		$conditions['News.created <='] = $fin;
     		}
+*/
     	}
 //pr($conditions);
 
