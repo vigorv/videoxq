@@ -89,7 +89,7 @@ margin: 20px 0 50px 30px;
 	color: #4e337e;
 	text-decoration: underline;
 }
-#left-menu a:hover, a:visited {
+#left-menu a:hover, #left-menu a:visited {
 	margin: 0 0 0 10px;
 	display: block;
 	width: 250px;
