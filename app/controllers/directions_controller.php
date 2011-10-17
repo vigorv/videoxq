@@ -3,19 +3,63 @@ class DirectionsController extends AppController {
 
     var $name = 'Directions';
     var $components = array('RequestHandler','Security');
-    var $helpers = array('Html', 'Form', 'Javascript','Tree2');
+    var $helpers = array('Html', 'Form', 'Javascript','Tree2','Directions','Tree');
     var $uses = array('Direction','Categoriez');
-
-/*
- *   убрал т.к. смысла нет в ней (на всякий оставил ее мало ли, кто-то же воткнул ее суда :))
-      var $Directions;
- */
 
 
     function admin_index() {
-
         $tree_arr = $this->Direction->generatetreelist(null, null, null, '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;');
         $this->set('tree_arr', $tree_arr);
+
+        //----------------------------------------------------------------------
+        // test
+        //----------------------------------------------------------------------
+        //достаем данные дерева
+        //$tree_data = $this->Direction->findAllThreaded();
+        //обрабатывать ли скрытые разделы и новости?
+        $process_hidden = false;
+        $conditions = array();
+        if (!$process_hidden){
+            $conditions[] = array('hidden' => 0);
+        }
+        $tree_data = $this->Direction->find('all', array(
+            'conditions' => $conditions,
+            'fields' => array('id', 'title', 'lft', 'rght', 'hidden'),
+            'order' => 'lft ASC'));
+
+        //учитываем ли скрытые новости в подсчете?
+        $do_count_hidden = $process_hidden;
+        //добавим к этим данным, количество существующих новостей на каждую запись
+        foreach ($tree_data as $key=>$direction){
+            $tree_data[$key]['Direction']['count_news'] = $this->Direction->countNewsInDirection($direction['Direction']['id'], $do_count_hidden);
+        }
+        //pr($tree_data);
+
+
+        $directions_data  = array();
+        $directions_data['current_id'] = 6;
+        $directions_data['list'] = $tree_data;
+        $this->set('directions_data', $directions_data);
+
+
+/*
+        // 1
+        $tree_data = $this->Direction->find('all', array(
+            'fields' => array('title', 'lft', 'rght'),
+            'order' => 'lft ASC'));
+        // 2
+        $tree_data = $this->Direction->findAllThreaded();
+
+        // 3
+        $id = 2;
+        $showMeFirstChildrenOnly = false;
+        $tree_data = $this->Direction->children($id, $showMeFirstChildrenOnly);
+
+        // 4
+
+        $this->set('tree_data', $tree_data);
+*/
+
     }
 
 //------------------------------------------------------------------------------
