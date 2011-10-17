@@ -26,14 +26,16 @@ else
 	echo '<a title="Русский" href="/' . _RUS_ . '.php"><img title="Русский" src="/img/rus.gif" width="16" height="11" /></a>';
 	echo '<br /><img title="English" src="/img/eng_a.gif" width="20" height="15" />';
 }
-?>
-
-</div>
+/*
 <!--
 <div class="welcome" style="float: left">
     <a href="/reports">Написать нам об использовании материала.</a>
 </div>
 -->
+*/
+?>
+
+</div>
 <?php
 if ($authUser['userid'] == 0)
 {

@@ -20,7 +20,7 @@ $links['http://fx.nsk54.com/'] = 'Обменник1';
 
 //*/
 	$menuItems = array(
-		'/'			=> __("Homepage", true),
+		//'/'			=> __("Homepage", true),
 		'/media'	=> __("Video", true),
 		'/people'	=> __("People", true)/*,
                 '/copyrightholders'	=> __("Copyrightholders", true),*/
