@@ -7,20 +7,15 @@ $javascript->link('adm_directions.js', false);
 //pr($javascript);
 
 ?>
+<style>
+     .curent {
+//        color: #d00;
 
-
-
+</style>
 <script type="text/javascript">
 jQuery(document).ready(function() {
 
-
-
-
-
-
-
-
-
+$('.current').children('a').css('color','#f00');
 
 
 /*
@@ -76,5 +71,19 @@ foreach($tree_arr as $id => $title){
 <?php echo $html->link('Восстановление структуры дерева категорий', array('action'=>'recover'),array('class'=>'a_btn','style'=>'display: block; clear: both'));?>
 <?php echo $html->link('Переиндексация структуры дерева категорий', array('action'=>'reorder'),array('class'=>'a_btn','style'=>'display: block; clear: both'));?>
 <?php echo $html->link('Проверка структуры дерева категорий', array('action'=>'verify'),array('class'=>'a_btn','style'=>'display: block; clear: both'));?>
+
+
+<div style="text-align: left; clear: both">
+<?php
+if (!empty($directions_data) && $directions_data){
+    echo $directions->showTree($directions_data['list'],$directions_data['current_id']);
+}
+
+
+
+
+
+?>
+</div>
 
 
