@@ -1,12 +1,3 @@
-#html,#body {
-	margin:0;
-	padding:0;
-	background-color:#fff;
-	font: 14px/120% Arial;
-	font-weight: normal;
-	color:#2f336d;
-	text-align: left;
-}
 a {
 	color:#4e337e;
 	text-decoration: underline;
@@ -114,7 +105,7 @@ margin: 20px 0 50px 30px;
 	color: #fff;
 	text-decoration: none;
 }
-#left-menu a.active:hover, a.active:visited {
+#left-menu a.active:hover, #left-menu a.active:visited {
 	padding: 0 0 0 5px;
 	display: block;
 	width: 250px;
@@ -142,11 +133,11 @@ margin: 20px 0 50px 30px;
 	margin: 0;
 	padding: 0;
 }
-#calendar div.arrow a, a:visited {
+#calendar div.arrow a, #calendar div.arrow a:visited {
 	margin: 0;
 	padding: 0;
 }
-#calendar div.arrow a.left, a.left:visited {
+#calendar div.arrow a.left, #calendar div.arrow a.left:visited {
 	background: #f2f2e8 url('/img/calendar-arrow-left.png') no-repeat center center;
 }
 #calendar div.arrow a.left:hover {
@@ -155,7 +146,7 @@ margin: 20px 0 50px 30px;
 	height: 20px;
 	background: #f2f2e8 url('/img/calendar-arrow-left-active.png') no-repeat center center;
 }
-#calendar div.arrow a.right, a.right:visited {
+#calendar div.arrow a.right, #calendar div.arrow a.right:visited {
 	float: left;
 	display: block;
 	width: 20px;
@@ -204,13 +195,13 @@ margin: 20px 0 50px 30px;
 	text-decoration: underline;
 	text-align: center;
 }
-#calendar a.day-before-month, a.day-before-month:visited {
+#calendar a.day-before-month, #calendar a.day-before-month:visited {
 	color: #a47f89;
 }
 #calendar a.day-before-month:hover {
 	background: #ddd;
 }
-#calendar a.day-month, a.day-month:visited {
+#calendar a.day-month, #calendar a.day-month:visited {
 	color: #562632;
 }
 #calendar a.day-month:hover {
