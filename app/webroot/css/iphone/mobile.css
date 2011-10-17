@@ -272,3 +272,20 @@ li.videoinfo{
 #mycarousel li.active{
 
 }
+
+
+
+
+#search-input{
+    border-style: solid;
+    border-width: 1px;
+    font-size: 18px;
+    font-weight: bold;
+    margin:auto;
+    padding: 5px;
+    text-align: left;
+    width:90%;
+    
+    
+}
+

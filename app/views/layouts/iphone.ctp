@@ -33,7 +33,7 @@
                     window.onorientationchange=updateOrientation;
                     $(window).resize(function() {
                         sc_roll.css('height',(parseInt($('#sizer').height())-45)+'px');    
-                        setTimeout(function() { window.scrollTo(0, 1); }, 100);
+                        setTimeout(function() { window.scrollTo(0, 1); }, 1000);
                     });
                     $('#back_button').click(function(){ myPager.backToHome();  return false;});                
                 });
@@ -56,12 +56,14 @@
         <div id="iscroll" >
             <div  id="Scroller">                
                 <div id="top_bars" >
+                    <?php if (!isset($hide_search_bar)):?>
                     <div class="bar" style="text-align: center; vertical-align: bottom;">
                         <form action="/mobile/search" id="searchform" method="get">
                             <input  type="text" style="clear:left;" placeholder="<?=__('Search film by title',true);?>…" tabindex="1" id="search-input" onblur="window.scrollTo(0,1)" name="s"/>
                             <input type="hidden" tabindex="2" id="search-submit-hidden" name="submit" value="<?=__('Search',true);?>"/>
                         </form>
                     </div>
+                    <?php endif;?>
                     <div class="bar">
                         <a href="/mobile/genres" class="button"><?= __('Genres', true); ?></a>
                         <a href="/mobile/profile" class="button"><?= __('Profile', true); ?></a>

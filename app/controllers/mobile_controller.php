@@ -111,10 +111,11 @@ class MobileController extends AppController {
 
     function index() {
         $this->pageTitle = __('Video catalog', true);
-        $films = $this->FilmFast->GetFilms(array('lic' => 1, 'variant' => 13, 'order' => 'RAND()'), 100);
-        $this->autoRender = false;
-        $this->set('films', $films);
-        $this->render('films');
+        View::set('hide_search_bar',true);
+        //$films = $this->FilmFast->GetFilms(array('lic' => 1, 'variant' => 13, 'order' => 'RAND()'), 100);
+        //$this->autoRender = false;
+        //$this->set('films', $films);
+        //$this->render('index');
     }
 
     function search() {
