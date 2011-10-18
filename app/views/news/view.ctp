@@ -455,4 +455,6 @@ echo $hideJS;
 
 					</div>
 				</div>
+				<div class="right-block">
+				</div>
 			</div>
