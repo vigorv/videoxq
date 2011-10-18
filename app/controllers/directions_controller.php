@@ -29,9 +29,21 @@ class DirectionsController extends AppController {
 
         //учитываем ли скрытые новости в подсчете?
         $do_count_hidden = $process_hidden;
-        //добавим к этим данным, количество существующих новостей на каждую запись
+        //добавим к этим данным, количество существующих новостей на каждый
+        //раздел, включая его потомков.
+
         foreach ($tree_data as $key=>$direction){
-            $tree_data[$key]['Direction']['count_news'] = $this->Direction->countNewsInDirection($direction['Direction']['id'], $do_count_hidden);
+            //узнаем idшки вложенных категорий
+            //выберем список вложенных категорий
+            $directions = $this->Direction->getSubDirections($direction['Direction']['id']);
+            $directions_ids = array();
+            $directions_ids[] = $direction['Direction']['id'];
+            //и из этого списка создадим список id этих же категорий
+            foreach($directions as $direction_row){
+                $directions_ids[] = $direction_row['Direction']['id'];
+            }
+            
+            $tree_data[$key]['Direction']['count_news'] = $this->Direction->countNewsInDirections($directions_ids, $do_count_hidden);
         }
         //pr($tree_data);
 
