@@ -15,6 +15,13 @@ class NewsController extends AppController {
 	 */
     var $News;
 
+	/**
+	 * модель таблицы Directions
+	 *
+	 * @var Directions
+	 */
+    var $Direction;
+
     /**
      * вывод списка новостей
      * если указан $dir_id, то выводим список новостей категории
@@ -36,7 +43,17 @@ class NewsController extends AppController {
    			$ymd = explode('-', $dir_id);
     		if (count($ymd) <= 1)
     		{
-	    		$conditions['News.direction_id'] = $dir_id;
+	    		//$conditions['News.direction_id'] = $dir_id;
+		    	$subDirections = $this->Direction->getSubDirections($dir_id);
+		    	$ids = array($dir_id);
+		    	if (!empty($subDirections))
+		    	{
+		    		foreach ($subDirections as $sD)
+		    		{
+		    			$ids[] = $sD['Direction']['id'];
+		    		}
+		    	}
+		    	$conditions['News.direction_id'] = $ids;
     		}
     		else
     		{

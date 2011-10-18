@@ -13,7 +13,7 @@
 						<ul>
 							<?php
 								$current = '';
-								if (empty($dir_id))
+								if (empty($dir_id) || isset($year))
 									$current = 'class="active"';
 								echo '<li ' . $current . '><a ' . $current . ' href="/news">Все категории</a></li>';
 								foreach ($dirs as $d)

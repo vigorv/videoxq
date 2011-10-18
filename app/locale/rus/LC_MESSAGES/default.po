@@ -7607,7 +7607,8 @@ msgid "Video catalog"
 msgstr "VideoXQ"
 
 msgid "Patent Media"
-msgstr "ООО \"Патент Медиа\" , IT DELUXE ltd."
+#msgstr "ООО \"Патент Медиа\" , IT DELUXE ltd."
+msgstr ""
 
 msgid "Register"
 msgstr "регистрация"
@@ -7637,7 +7638,7 @@ msgid "Log out"
 msgstr "Выйти"
 
 msgid "Video"
-msgstr "Видео"
+msgstr "Каталог фильмов"
 
 msgid "People"
 msgstr "Люди"
@@ -8558,7 +8559,7 @@ msgid "Congratulations! You Win!"
 msgstr "Поздравляем! Вы выиграли!"
 
 msgid "Projects"
-msgstr "Наши проекты"
+msgstr "Новости"
 
 msgid "get the prize"
 msgstr "получить приз"
@@ -8593,8 +8594,8 @@ msgstr "серия"
 msgid "Action"
 msgstr "Акция"
 
-msgid "copyrightholders"
-msgstr "Правообладатели"
+msgid "wordsSEO"
+msgstr "скачать, смотреть он-лайн, бесплатно, без регистрации"
 
 msgid "Search for copyrightholders"
 msgstr "Найти Правообладателя"

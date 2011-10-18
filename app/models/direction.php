@@ -36,5 +36,31 @@ class Direction extends AppModel {
         }
         return $count_news_in_direction;
     }
+
+    /**
+     * получить список направлений-потомков по идентификатору предка
+     *
+     * @param integer $directionId - идентификатор направления-предка
+     * @return mixed - массив идентификаторов направлений-потомков
+     */
+    function getSubDirections($directionId = 0)
+    {
+    	$directions = array();
+
+    	if (empty($directionId))
+    	{
+    		return $directions;
+    	}
+    	else
+    	{
+    		$direction = $this->read(array('Direction.lft', 'Direction.rght'), $directionId);
+    		if (!empty($direction))
+    		{
+    			$directions = $this->findAll(array('Direction.lft >' => $direction['Direction']['lft'], 'Direction.rght <' => $direction['Direction']['rght']));
+    		}
+    	}
+
+    	return $directions;
+    }
 }
 ?>
