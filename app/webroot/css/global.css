@@ -50,13 +50,14 @@ width: 90%;
 #middle div.center-block {
 	float: left;
 	width: 540px;
-width: 60%;
+width: 70%;
 	background: #f2f8fc;
 }
 #middle div.right-block {
 	float: left;
 	margin: 0 0 0 20px;
 	width: 140px;
+	background: #f2f8fc;
 }
 
 /*���� � �����������*/
