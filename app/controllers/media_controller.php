@@ -2010,9 +2010,11 @@ echo'</pre>';
 		    $googleContent = array();
 			$ch = curl_init();
 			$q = urlencode($film['Film']['title'] . ' ' . __('download', true));
+//			if($this->authUser['userid']==2){$q ='maatrix';}
+
 //$q = urlencode("'atrn ,fjxrb");
 
-			curl_setopt($ch, CURLOPT_URL, "http://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=$q&rsz=large&hl=ru");
+			curl_setopt($ch, CURLOPT_URL, "http://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=$q&rsz=large&hl=ru&spell=1");
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 			curl_setopt($ch, CURLOPT_REFERER, Configure::read("App.siteUrl"));
 			$body = curl_exec($ch);
@@ -2020,6 +2022,7 @@ echo'</pre>';
 
 			$json = json_decode($body);
 			$googleContent = $json->responseData->results;
+//			if($this->authUser['userid']==2){echo "<pre>";print_r($json);die();}
 			$variantId = 0;
 //*
 //ИЩЕМ В СВЯЗЯХ ФИЛЬМА ВАРИАНТ ССЫЛОК
@@ -2354,7 +2357,8 @@ $this->set("catalogVariants", $catalogVariants);
 		$lang = Configure::read('Config.language');
 		$langFix = '';
 		if ($lang == _ENG_) $langFix = '_' . _ENG_;
-        $this->pageTitle = __('Video catalog', true) . ' - ' . $film['Film']['title' . $langFix];
+        //$this->pageTitle = __('Video catalog', true) . ' - ' . $film['Film']['title' . $langFix];
+        $this->pageTitle = '-' . $film['Film']['title' . $langFix]."-".__('wordsSEO',true);
         $this->set('film', $film);
         $this->set('lang', $lang);
 		$this->set('langFix', $langFix);

@@ -33,16 +33,14 @@ class NewsController extends AppController {
     	$conditions = array('News.hidden' => 0);
     	if (!empty($dir_id))
     	{
-    		//if ($dir_id === intval($dir_id))
+   			$ymd = explode('-', $dir_id);
+    		if (count($ymd) <= 1)
     		{
 	    		$conditions['News.direction_id'] = $dir_id;
     		}
-/*
-
     		else
     		{
     			//ВЫБОРКА ПО ДАТЕ
-    			$ymd = explode('-', $dir_id);
     			$year = $ymd[0];
     			if (!empty($ymd[1])) $month = $ymd[1]; else $month = 1;
     			if (!empty($ymd[2])) $day = $ymd[2]; else $day = 1;
@@ -53,8 +51,9 @@ class NewsController extends AppController {
     			$fin = date('Y-m-d H:i:s', mktime(0, 0, 0, $month, $day, $year) - 1);
 	    		$conditions['News.created >='] = $strt;
 	    		$conditions['News.created <='] = $fin;
+		    	$this->set('year', $year);
+    			$this->set('month', $month);
     		}
-*/
     	}
 //pr($conditions);
 
