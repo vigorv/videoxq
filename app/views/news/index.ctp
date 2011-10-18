@@ -69,8 +69,6 @@
 				?>
 					</div>
 				</div>
-				<div class="right-block">
-				</div>
 			</div>
 <script type="text/javascript">
 <!--
