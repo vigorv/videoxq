@@ -39,8 +39,8 @@ a:visited:hover {
 	margin: 20px 0 50px 0;
 margin: 20px 0 50px 30px;
 	float: left;
-	width: 960px;
-width: 90%;
+	width: 980px;
+width: 85%;
 	background: url('/img/columns-bg.png') repeat-y;
 }
 #middle div.left-block {
@@ -50,14 +50,14 @@ width: 90%;
 }
 #middle div.center-block {
 	float: left;
-	width: 540px;
-width: 70%;
+	width: 520px;
+width: 50%;
 	background: #f2f8fc;
 }
 #middle div.right-block {
 	float: left;
 	margin: 0 0 0 20px;
-	width: 140px;
+	width: 160px;
 	background: #f2f8fc;
 }
 
