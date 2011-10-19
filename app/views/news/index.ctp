@@ -1,7 +1,7 @@
 <?php
 	$javascript->link('calendarlite/jquery.calendarlite', false);
     $javascript->link('calendarlite/jquery.calendarlite', false);
-    //$javascript->link(array('slimbox2/slimbox2.js'), false);
+    $javascript->link(array('slimbox2/slimbox2.js'), false);
     $html->css('global', '', '', false);
     $html->css('calendarlite', '', '', false);
 
@@ -11,9 +11,7 @@
     $calendar->_jsCode_array(array("2011-10-01","2011-10-05","2011-10-11"));
     $calendar->ShowCalendar();
 ?>
-<<<<<<< .mine
-		<div id="wrap2">
-=======>>>>>>> .theirs			<div id="middle">
+<div id="middle">
 				<div class="left-block">
 					<div id="left-menu">
 						<ul>
