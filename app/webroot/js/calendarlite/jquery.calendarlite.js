@@ -1,12 +1,4 @@
 /**
- * jQuery calendarLite plugin
- *
- * Copyright (c) 2009 Snitko Roman
- * Dual licensed under the MIT (MIT-LICENSE.txt)
- * and GPL (GPL-LICENSE.txt) licenses.
- *
- * @author 	Roman Snitko snowcore.net@gmail.com
- * @link http://snowcore.net/
  * @version 0.1.11
  */
 ;(function($){
@@ -63,10 +55,16 @@
                 dates.push(tmpDate);
             }
         }
-        
+       
         var table = $('<table cellspacing="1" class="table"></table>');
-        var str = '<tbody><tr>' + this.getHead(o) + '</tr>', cl = '', c2 = '';
+        var str = '<tbody><tr>' + this.getHead(o) + '</tr>', cl = '';
         var line = [];
+        var href = [];
+        for (var g = 0; g < dates.length; g++) {
+            if (o.linkFormat != null && o.linkFormat != undefined) {
+                href[g] = _formatLink(o.linkFormat, dates[g]);
+            }
+            }
         for (var j = 0; j < dates.length; j++) {
             var day = dates[j].getDay();
             var month = dates[j].getMonth();
@@ -75,30 +73,32 @@
             var date = dates[j].getDate();
             var rel = _formatLink(o.dateFormat, dates[j]);
             cl = '';
-            c2 = '';
             
             
-            if (date == datenews && curMonth == today.getMonth() && curYear == today.getFullYear()) {
-                c2 = ' style="text-decoration:underline;"';
             if (date == today.getDate() && curMonth == today.getMonth() && curYear == today.getFullYear()) {
                 cl = ' class="curr"';
             } else if (day == 6 || day == 0) {
                 cl = ' class="weekend"';
             }
-            }
-            else 
+            
+            var cl2 = '';
+            
+            for (var di = 0; di < 31; di++) {
+            if (href[j] != 'news/index/'+days_array[di])
             {
-                if (date == today.getDate() && curMonth == today.getMonth() && curYear == today.getFullYear()) {
-                cl = ' class="curr"';
-            } else if (day == 6 || day == 0) {
-                cl = ' class="weekend"';
+                cl2 = ' style="cursor:default;"';
+            }
+            else
+            {
+                cl2 = ' style="font-weight:bold;cursor:pointer; text-decoration:underline;"';
+                di = 32;
             }
             }
-            var href = '#';
-            if (o.linkFormat != null && o.linkFormat != undefined) {
-                href = _formatLink(o.linkFormat, dates[j]);
+            if (di == 31)
+            {
+                href[j] = "javascript:void";
             }
-            line.push('<td' + cl + '' + c2 + '><a href="' + href + '" rel="' + rel + '">' + date + '</a></td>');
+            line.push('<td' + cl + ''+ cl2 +'><a href="' + href[j] + '" rel="' + rel + '" '+ cl2 +'>' + date + '</a></td>');
             if (dates[j].getDay() == 0) {
                 if (line.length < 7) {
                     var ln = line.length;
