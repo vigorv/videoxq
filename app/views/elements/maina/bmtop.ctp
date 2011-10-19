@@ -1,32 +1,41 @@
-<div id="showdown_menu">
+<?
+$m_a_s= 'class="menu_active"';
+$m_a_d='style="display:block;"';
+$parent_menu;
+
+?>
+<div id="Snow_menu">
     <ul>
-        <li><a href="/maina/profile"><?php __('Profile'); ?></a></li>
-        <li><a href="#">Фильмотека<img src="" alt="&#8659;"/></a>
-            <ul>
-                <li><a href="#">Избранное <img src="" alt="&#8658;"/></a>
-                    <ul>
-                        <li><a class="inactive" href="/maina/FilmList">Все фильмы</a></li>
-                        <li><a class="inactive" href="/maina/tags">Метки</a>
-                    </ul>
-                </li>
-                <li><a  href="/maina/userhistory">История скаченного</a></li>
-                <li><a class="inactive"  href="/maina/request">Заявки</a></li>
-                <li><a class="inactive" href="/maina/wishlist">Хочу посмотреть</a></li>
+        <li class="menu"><a <?if($parent_menu==0) echo $m_a_s;?>  href="#">My Page</a>
+            <ul class="submenu"<?if($parent_menu==0) echo $m_a_d;?>>
+                <li><a href="/<?= $controller; ?>/profile"><img class="info_image" src="/img/main/<?=$theme_id;?>/profile.png" alt="profile"/>Profile</a></li>
+                <li><a href="/<?= $controller; ?>/im"><img class="info_image" src="/img/main/<?=$theme_id;?>/email.png" alt="messages"/>Messages</a></li>
+                <li><a href="/<?= $controller; ?>/friends"><img class="info_image" src="/img/main/<?=$theme_id;?>/friends_group.png" alt="Friends"/>Friends</a></li>
+                <li><a href="/<?= $controller; ?>/userhistory"><img class="info_image" src="/img/main/<?=$theme_id;?>/history.png" alt="History"/>History</a></li>
+                <li><a href="/<?= $controller; ?>/profile"><img class="info_image" src="/img/main/<?= $theme_id; ?>/favorite.png" alt="Favorite"/>Favorites</a></li>
+                <li><a href="/<?= $controller; ?>/userrequest"><img class="info_image" src="/img/main/<?=$theme_id;?>/request.png" alt="request"/>Requests</a></li>
+                <li><a href="/<?= $controller; ?>/wishlist"><img class="info_image" src="/img/main/<?=$theme_id;?>/wishlist.png" alt="wishlist"/>Wishlist</a></li>
+            </ul>            
+        </li>
+        <li class="menu"><a <?if($parent_menu==1) echo $m_a_s;?> href="#">Films</a>
+            <ul class="submenu" <?if($parent_menu==1) echo $m_a_d;?>>
+                <li><a href="/<?= $controller; ?>/filmlist"><img class="info_image" src="/img/main/<?=$theme_id;?>/films.png" alt="FilmList"/>All films</a></li>
             </ul>
         </li>
-        <li><a class="inactive" href="/maina/backstage">Закулисы</a>
-        </li>
-        <li><a class="inactive" href="/maina/friends">Друзья</a>
-        </li>
+        <li class="menu">
+            <a   <?if($parent_menu==2) echo $m_a_s;?> href="#">Community</a>
+            <ul class="submenu"<?if($parent_menu==2) echo $m_a_d;?>>
+                <li><a href="/<?= $controller; ?>/userlist"><img class="info_image" src="/img/main/<?=$theme_id;?>/community.png" alt="Users"/>Users</a></li>
+        
+            </ul>
     </ul>
-
-
-
 </div>
+
+
 
 <script langauge="javascript">
     
-    $("#showdown_menu ul li  a").click(
+    $("#Snow_menu ul li a").click(
     function(event){
         event.preventDefault();
         var client_par = $(this);
@@ -36,42 +45,21 @@
             return false;
         }        
         var par = $(this).parent();
+       
         if (client_par.hasClass('inactive')) return;
         if (client_par.hasClass('menu_active')){
-            par.find('ul').first().slideUp('slow',
-            function(){client_par.removeClass('menu_active');
-            });           
+            //par.find('ul').first().hide('slow',
+            //function(){client_par.removeClass('menu_active');
+            //});           
         } else{
-            client_par.addClass('menu_active');
-            par.find('ul').first().slideDown('slow').show();           
+            var cpar=$('.menu_active').first();
+            
+            cpar.removeClass('menu_active');
+            client_par.addClass('menu_active'); 
+            cpar.parent().find('ul').first().fadeOut('slow',
+            function(){ 
+                par.find('ul').first().fadeIn();//;('slow').show();           
+            });           
         }
-        
     });
-    
-    $("#showdown_menu ul li a img").hover(
-    function(){
-        var client_par = $(this).parent();
-        if (client_par.hasClass('inactive')) return;
-        var par=client_par.parent();
-        if( !(client_par.hasClass('menu_active'))){
-            client_par.addClass('menu_active');
-            par.find('ul').first().slideDown('slow').show();           
-        }
-    },
-    null);
-   
-   
-    $("#showdown_menu ul li").hover(
-    function(){},
-    function(){
-        var par=$(this);
-        var client_par = $(this).find('a').first();
-        if (client_par.hasClass('inactive')) return;
-        par.find('ul').first().slideUp('slow',function(){
-            client_par.removeClass('menu_active');
-        });          
-    });
-
-       
-    
 </script>
