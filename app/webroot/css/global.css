@@ -1,3 +1,12 @@
+#html,#body {
+	margin:0;
+	padding:0;
+	background-color:#fff;
+	font: 14px/120% Arial;
+	font-weight: normal;
+	color:#2f336d;
+	text-align: left;
+}
 a {
 	color:#4e337e;
 	text-decoration: underline;
@@ -38,8 +47,8 @@ a:visited:hover {
 	margin: 20px 0 50px 0;
 margin: 20px 0 50px 30px;
 	float: left;
-	width: 960px;
-width: 90%;
+	width: 980px;
+width: 85%;
 	background: url('/img/columns-bg.png') repeat-y;
 }
 #middle div.left-block {
@@ -49,17 +58,20 @@ width: 90%;
 }
 #middle div.center-block {
 	float: left;
-	width: 540px;
-width: 70%;
+	width: 520px;
+    width: 50%;
 	background: #f2f8fc;
 }
 #middle div.right-block {
 	float: left;
-	margin: 0 0 0 20px;
-	width: 140px;
+	margin: 0 0 0 2px;
+	width: 160px;
+    padding: 0;
 	background: #f2f8fc;
 }
 
+/*calendar lite*/
+.right-block #calendarlite {background: #f2f8fc;}
 /*���� � �����������*/
 #left-menu ul {
 	margin: 0;
@@ -92,7 +104,7 @@ width: 70%;
 	color: #4e337e;
 	text-decoration: underline;
 }
-#left-menu a:hover, #left-menu a:visited {
+#left-menu a:hover, a:visited {
 	margin: 0 0 0 10px;
 	display: block;
 	width: 250px;
@@ -108,7 +120,7 @@ width: 70%;
 	color: #fff;
 	text-decoration: none;
 }
-#left-menu a.active:hover, #left-menu a.active:visited {
+#left-menu a.active:hover, a.active:visited {
 	padding: 0 0 0 5px;
 	display: block;
 	width: 250px;
@@ -136,11 +148,11 @@ width: 70%;
 	margin: 0;
 	padding: 0;
 }
-#calendar div.arrow a, #calendar div.arrow a:visited {
+#calendar div.arrow a, a:visited {
 	margin: 0;
 	padding: 0;
 }
-#calendar div.arrow a.left, #calendar div.arrow a.left:visited {
+#calendar div.arrow a.left, a.left:visited {
 	background: #f2f2e8 url('/img/calendar-arrow-left.png') no-repeat center center;
 }
 #calendar div.arrow a.left:hover {
@@ -149,7 +161,7 @@ width: 70%;
 	height: 20px;
 	background: #f2f2e8 url('/img/calendar-arrow-left-active.png') no-repeat center center;
 }
-#calendar div.arrow a.right, #calendar div.arrow a.right:visited {
+#calendar div.arrow a.right, a.right:visited {
 	float: left;
 	display: block;
 	width: 20px;
@@ -198,13 +210,13 @@ width: 70%;
 	text-decoration: underline;
 	text-align: center;
 }
-#calendar a.day-before-month, #calendar a.day-before-month:visited {
+#calendar a.day-before-month, a.day-before-month:visited {
 	color: #a47f89;
 }
 #calendar a.day-before-month:hover {
 	background: #ddd;
 }
-#calendar a.day-month, #calendar a.day-month:visited {
+#calendar a.day-month, a.day-month:visited {
 	color: #562632;
 }
 #calendar a.day-month:hover {
@@ -230,7 +242,6 @@ width: 70%;
 #content-main div.news-block {
 	margin: 0 0 30px 0;
 	font: 16px/100% Trebuchet MS;
-	clear: both;
 }
 #content-main div.news-block a {
 	margin: 0px;

@@ -197,7 +197,7 @@ li.search .adv2 { display: none; }
 .downloadingList .moviePreviewWrapper { margin:0 30px 0 0; position:relative; zoom:1; cursor:move; }
 .downloadingList .nu { font-size:1.5em; position:absolute; top:0; left:0; width:55px; text-align:right }
 .downloadingList .poster .imdb { color:#656565; font-size:0.92em }
-.downloadingList .poster { width:79px; padding:0 12px 0 0; overflow:hidden; float:left; margin:0 0 15px 0 }
+.downloadingList .poster { width:79px; padding:0 12px 0 0; overflow:hidden; float:left; margin:0 0 15px 0; }
 .downloadingList .poster img { display:block; margin:0 0 3px 0 }
 .downloadingList .remove { position:absolute; top:25px; left:32px; }
 .downloadingList { padding:0 50px 0 63px; position:relative; margin:0 0 15px 0; zoom:1; clear:both }
