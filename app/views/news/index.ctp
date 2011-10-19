@@ -1,13 +1,19 @@
 <?php
-//	$javascript->link(array('slimbox2/slimbox2.js'), false);
-//	$html->css('../js/slimbox2/slimbox2.css', '', '', false);
-	$html->css('global', '', '', false);
+	$javascript->link('calendarlite/jquery.calendarlite', false);
+    $javascript->link('calendarlite/jquery.calendarlite', false);
+    //$javascript->link(array('slimbox2/slimbox2.js'), false);
+    $html->css('global', '', '', false);
+    $html->css('calendarlite', '', '', false);
 
 	$javascript->link('jquery.fancybox-1.3.4/fancybox/jquery.fancybox-1.3.4.pack', false);
     $html->css('fancybox-1.3.4/jquery.fancybox-1.3.4', null, array(), false);
     $javascript->link('jquery.pngFix', false);
+    $calendar->_jsCode_array(array("2011-10-01","2011-10-05","2011-10-11"));
+    $calendar->ShowCalendar();
 ?>
-			<div id="middle">
+<<<<<<< .mine
+		<div id="wrap2">
+=======>>>>>>> .theirs			<div id="middle">
 				<div class="left-block">
 					<div id="left-menu">
 						<ul>
@@ -70,6 +76,7 @@
 					</div>
 				</div>
 				<div class="right-block">
+                <div id="calendarlite"></div>
 				</div>
 			</div>
 <script type="text/javascript">
