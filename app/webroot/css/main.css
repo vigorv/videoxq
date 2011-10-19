@@ -2,6 +2,7 @@
 #block_top{
     min-height:30px;
     width:100%;
+
 }
 
 
@@ -11,25 +12,38 @@
 
 #block_right{
     float:right;
+    clear:right;
     width:25%;
     min-height:10px;
-    border: 1px solid black;
+    padding:0;
+    margin:0;
+
 }
 
 #block_main{
     margin-top:10px;
     /*clear:left;*/
     float:none;
-    position:absolute;
+    /*    position:absolute; */
+    position:relative;
     width:70%;
     padding:2px 5px;
+    margin:10px 15px 5px;
+    border:5px double black;
     word-wrap: break-word;
     z-index:1;
+}
+
+#block_mid{
+    width:75%;
+    margin:0px;
+    padding:0px;
 }
 
 /*#block_main *{ z-index: 1;}*/
 
 #block_middle:after{clear: both;  content: ".";  display: block;  height: 0;  visibility: hidden;}
+#block_main:after{clear: both;  content: ".";  display: block;  height: 0;  visibility: hidden;}
 
 .b_r_item{
     border:1px solid #ccc;
@@ -44,7 +58,7 @@
     height:30px;
 }
 #showdown_menu ul {
-   z-index:10;
+    z-index:10;
     margin: 0;
     padding: 0;
     list-style: none;
@@ -55,7 +69,7 @@
 
 #showdown_menu ul li {
     position: relative;float:left;
-        margin: 0;
+    margin: 0;
     padding: 0;
     z-index:11;
 }
@@ -72,11 +86,11 @@
     position:absolute;
     clear:left;
     display: none;
-      border-top:0;
-      background-color: black;
-      float:left;
-      z-index: 100;
-      /*border:1px solid black;*/
+    border-top:0;
+    background-color: black;
+    float:left;
+    z-index: 100;
+    /*border:1px solid black;*/
 }
 #showdown_menu li ul li{
     clear:left;
@@ -89,22 +103,19 @@
     left:160px;
     top:5px;
     float:right;
-    border:1px inner blanchedalmond;
+    /*border:1px inner blanchedalmond;*/
 }
 
 #showdown_menu li ul li ul a{
     background-color:#EEF;
-
 }
 #showdown_menu li ul li a{
     background-color: #EFF;
-    
 }
 
 #showdown_menu a.menu_active{
     background-color:red;
 }
-
 
 /* Styles for Menu Items */
 #showdown_menu ul li a {    
@@ -114,11 +125,24 @@
     background: #fff;
     padding: 5px;
     width:150px;
-            
-     border-bottom: 1px solid #ccc; 
-     border-right: 1px solid #ccc; 
-   
+    border-bottom: 1px solid #ccc; 
+    border-right: 1px solid #ccc; 
 }
 
+/* Profile*/
 
+.editable_l li {clear:left;}
+.editable_l span{ width:100px; float:left;}
+.editable_l span.e_val {width:200px;}
+.h_save{ display:none;}
+.editable_l input {display:none; width:198px;}
+.adition_ch {display:none;clear:left;}
+.adition_ch input {display:inline;}
 
+/* FilmList */
+
+.movies .moviePreviewWrapper{
+    height:auto;
+    margin-bottom:5px;
+    margin-top:5px;
+}
