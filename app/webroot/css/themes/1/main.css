@@ -1,0 +1,75 @@
+#block_main{
+    width:738px;
+    height:415px;
+    margin:25px 30px 50px 25px;
+    border:0;    
+    position:relative;
+    overflow:hidden;   padding-top:15px;
+    background-color:white;
+}
+
+#block_m_top{
+    background-color: white;
+}
+
+#main_inner{
+    background-image: url('/img/main/1/tv.png');
+    background-color: white;
+    width:798px;
+    height:490px;
+    margin:10px auto 10px;
+    overflow: hidden;
+}
+
+#block_right{
+    background-color: white;
+}
+
+#block_top{
+    margin:0;
+    top:0;
+    position:relative;
+    background-image:url('/img/main/1/block_top.png');
+    background-repeat:repeat-x;
+    height:65px;
+    width:100%
+}
+
+#block_middle{
+    background-color:#eee;
+}
+
+#siteTitle{ 
+    font-size:20px;
+    color:white;
+    padding-top:20px;
+    padding-left:20px;
+    display: block;
+}
+
+.user_actions a{
+    text-decoration: none;
+    line-height: 16px;
+}
+
+#Snow_menu  {height:135px; background-color: white; width:100%;}
+#Snow_menu .menu_active { font-weight:bold;}
+
+#Snow_menu li { list-style:none; display:inline; }
+#Snow_menu li.menu { font-size: 16px; line-height:32px;}
+#Snow_menu .submenu {font-size:12px; background-color:white; padding: 10px 10px 3px 0;}
+#Snow_menu ul li ul{ display:none;}
+.submenu{
+    
+    position:absolute;
+    margin:0;
+    text-align: center;
+}
+#Snow_menu ul li ul li{
+    list-style:none;
+    display:block;
+    float:left;
+}
+
+.info_image{ width:48px; height:48px;display:block;}
+.submenu a{ display:block;}
