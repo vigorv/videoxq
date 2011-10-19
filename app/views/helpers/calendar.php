@@ -1,28 +1,39 @@
 <?php
 class CalendarHelper extends AppHelper {
     
-    public $linksArray;
     
     function _jsCode($content)
 	{
 		return "<script type=\"text/javascript\">$content</script>";
 	}
-    function setLinks ($links)
-    {
-        $linksArray= $links;
+    public function _jsCode_array($days)
+    {   
+        $count_days = sizeof($days);
+        echo "<script type=\"text/javascript\">var days_array = [];";
+        for ($i=0;$i < $count_days;$i++)
+        {
+            $days2 = explode("-",$days[$i]);
+            echo "days_array[$i]= '$days[$i]';";
+        }
+        echo "var count_days = $count_days;</script>";
     }
+    
+    //function setLinks ($links)
+    //{
+    //    $linksArray= $links;
+    //}
     //nastroika formata ssulok naprimer: http://site.ru/events/{%dd}-{%mm}-{%yyyy}
     function LinkFormat()
 	{
 	   
-		return "linkFormat: '{%dd}-{%mm}-{%yyyy}'";
+		return "linkFormat: 'news/index/{%yyyy}-{%mm}-{%dd}'";
 	}
     //nstroika callback function - poka test
     function CallbackFunction()
 	{
 		return "dateFormat: '{%yyyy}-{%m}-{%d}',
-                onSelect: function(date) {
-                    alert(date);
+                onClick: function() {
+                    return false;
                     }";
 	}
     //vneshnui vid kalendarya
@@ -35,8 +46,8 @@ class CalendarHelper extends AppHelper {
     public function ShowCalendar()
 	{
 		echo $this->_jsCode("$(document).ready(function(){
-                $('#calendar').calendarLite(
-                {".$this->LinkFormat("123").",
+                $('#calendarlite').calendarLite(
+                {".$this->LinkFormat().",
                 ".$this->CallbackFunction().",
                 ".$this->CalendarStyle()."}
                 );
