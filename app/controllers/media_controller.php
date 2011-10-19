@@ -1059,14 +1059,15 @@ join films_genres fg2 on fg2.film_id = f.id
 join genres g2 on g2.id = fg2.genre_id and g2.id = 23
  */
 /*
+ * пример
                                                         array('table' => 'films_genres', 'alias' => 'fg1', 'type' => 'INNER', 'conditions' => 'fg1.film_id = Film.id'),
                                                         array('table' => 'genres', 'alias' => 'g1', 'type' => 'INNER', 'conditions' => '`g1`.`id`=`fg1`.`genre_id` and `g1`.`id` =20'),
 
                                                         array('table' => 'films_genres', 'alias' => 'fg2', 'type' => 'INNER', 'conditions' => 'fg2.film_id = Film.id'),
                                                         array('table' => 'genres', 'alias' => 'g2', 'type' => 'INNER', 'conditions' => '`g2`.`id`=`fg2`.`genre_id` and `g2`.`id` =23')
 */
-
-
+/*
+<--------- временно убираем изменния контроллера
             if (is_array($genres)){
                 $pagination['Film']['joins'] =  array();
                 $n=1;
@@ -1076,7 +1077,8 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
                     $n++;
                 }
             }
-
+<--------------------------------------------------------
+*/
             //pr ($pagination['Film']);
 /*[/A1]***********************************************************/
 
