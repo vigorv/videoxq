@@ -2,20 +2,26 @@
 class TvvisionHelper extends AppHelper {
     
     
-    public function Eskiz ($film_info)
+    public function eskiz ($film_info)
 	{
 	   //ya4eika filma v televisore
-		echo '<div class="moviePreviewWrapper">
-        <div class="poster"><img src="'.$film_info[0]["poster"].'" />
+		echo '<div class="movies">
+        <div class="moviePreviewWrapper">
+        <div class="poster"><a href="/media/view/'.$film_info[0]["id"].'"><img src="'.$film_info[0]["poster"].'" width="80" /></a>
         <div class="knopki">
-        <img src="/img/main/facebook.png" />
-        <img src="/img/main/twitter.png" />
-        <img src="/img/main/vkontakte.png" />
+        <a href="#"><img src="/img/main/facebook.png" style="padding-left:5px;" /></a>
+        <a href="#"><img src="/img/main/twitter.png" /></a>
+        <a href="#"><img src="/img/main/vkontakte.png" /></a>
         </div></div>
-        <div class="text"><p class="text">
-        <span>«<a href="/media/view/'.$film_info[0]["id"].'">'.$film_info[0]["film_name_rus"].'</a>»</span>
+        <p class="text">
+        <span>Â«<a href="/media/view/'.$film_info[0]["id"].'">'.$film_info[0]["film_name_rus"].'</a>Â»</span>
         <p>'.$film_info[0]["film_name_org"].'</p>
         <p>'.$film_info[0]["year"].'</p>
+        <p>'.$film_info[0]["director"].'</p>
+        <p>'.$film_info[0]["actors"][0].',</p>
+        <p>'.$film_info[0]["actors"][1].',</p>
+        <p>'.$film_info[0]["actors"][2].',</p>
+        <p>'.$film_info[0]["actors"][3].'.</p>
         </div></div>';
 	}
 }

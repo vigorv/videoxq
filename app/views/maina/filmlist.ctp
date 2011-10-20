@@ -1,13 +1,13 @@
 <?
 echo $this->element('maina/text_filter');
 echo $this->element('maina/paginate');
-$tvvision->Eskiz(array(0 => array(
+$tvvision->eskiz(array(0 => array(
   'id'   => 160,
   'year'   => '1980',
   'film_name_rus'   => 'Название',
   'film_name_org' => 'Оригинальное Название',
   'director'  => 'Режиссер',
-  'poster'  => '/img/main/list.png',
+  'poster'  => 'http://media1.anka.ws/smallposters/the_public_enemy.jpeg',
   'actors'  => array(
         'Актер 1',
         'Актер 2',
