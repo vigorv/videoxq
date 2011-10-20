@@ -22,23 +22,32 @@ class UserDownloadHistory extends AppModel {
                     WHERE user_id =' . $id . ' LIMIT ' . $offset . ',' . $count);*/
             $history = $this->query('SELECT * FROM film_clicks
                     WHERE user_id =' . $id . ' LIMIT ' . $offset . ',' . $count);
+/* //SNOW CODE
             App::import('FilmFast');
             $filmfast= new FilmFast;
             foreach ($history as &$hinfo){
                 $hinfo['film']=$filmfast->GetFilmOv($hinfo['film_clicks']['film_id'],1);
             }
-            
+//*/
+
+//* //VANO CODE
+            App::import('Film');
+            $film = new Film;
+            foreach ($history as &$hinfo){
+                $hinfo['film'] = $film->getShortFilmInfo($hinfo['film_clicks']['film_id']);
+            }
+//*/
             return $history;
-            
+
         }
     }
-    
+
     function GetHistoryCountForUser($id){
         if ($id) {
             $historycount = $this->query('SELECT COUNT("id") FROM film_clicks
                     WHERE user_id =' . $id );
             return $historycount[0][0]['COUNT("id")'];
-        }        
+        }
     }
 
 }

@@ -243,6 +243,42 @@ class Film extends MediaModel {
         return $persons;
     }
 
+    /**
+     * Выборка краткой информации о фильме
+     *
+     * @param integer $id - идентификатор фильма
+     * @return mixed
+     */
+    public function getShortFilmInfo($id)
+    {
+        $this->recursive = 0;
+        $this->contain(array('FilmPicture' => array('conditions' => array('type' => 'smallposter')),
+                             'MediaRating',
+                            )
+                      );
+		$film = Cache::read('Catalog.shortFilmInfo_' . $id, 'media');
+		if (!$film)
+		{
+        	$film = $this->read(null, $id);
+        	if ($film)
+        	{
+        		$film['Person'] = $this->getFilmPersons($id);
+	    		Cache::write('Catalog.shortFilmInfo_' . $id, $film, 'media');
+        	}
+		}
+
+/*
+print_r($max);
+echo '<pre>';
+print_r($id);
+print_r($film);
+echo '</pre>';
+exit;
+//*/
+		return $film;
+    }
+
+
     function updateHits($id, $increment = 1)
     {
         $db =& ConnectionManager::getDataSource($this->useDbConfig);

@@ -1,16 +1,17 @@
-<?
+<?php
 echo $this->element('maina/paginate');
 $html->addCrumb(__('Films', true), '');
 $html->addCrumb(__('Download History', true), '');
 echo $html->getCrumbs(' > ', 'Home');
 ?>
 <h3>История Скаченного</h3>
-<div class="movies">
-<?
-foreach ($history as $hinfo):
+<div class="movies"> ---------------
+<?php
+foreach ($history as $hinfo)
+{
     extract($hinfo['film']);
-    if (!empty($FilmPicture['file_name']))
-        $poster = $html->image($imgPath . $FilmPicture['file_name'], array('width' => 80));
+    if (!empty($FilmPicture[0]['file_name']))
+        $poster = $html->image($imgPath . $FilmPicture[0]['file_name'], array('width' => 80));
     else
         $poster=$html->image('/img/vusic/noposter.jpg', array('width' => 80));
     if ($Film['imdb_rating'] != 0)
@@ -28,11 +29,11 @@ foreach ($history as $hinfo):
         </div>
         <p class="text">
             <?php
+
             $directors = array();
             $actors = array();
             if (isset($Person))
-                foreach ($Person as $data) {
-                    /*
+                foreach ($Person as $p) {
                       if ($data['FilmsPerson']['profession_id'] == 1 && count($directors) < 4) {
                       if ($lang == _ENG_) {
                       if (!empty($data['name' . $langFix]))
@@ -50,7 +51,7 @@ foreach ($history as $hinfo):
                       }
                       else
                       $actors[] = $data['name' . $langFix] ? $data['name' . $langFix] : $data['name_en'];
-                      } */
+                      }
                 }
             if (!empty($directors))
                 echo implode(', ', $directors) . '.';
@@ -78,5 +79,7 @@ foreach ($history as $hinfo):
             ?></em>
         </p>
     </div>
-<? endforeach; ?>
+<?php
+}
+?>
 </div>

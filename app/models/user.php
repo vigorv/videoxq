@@ -31,7 +31,14 @@ class User extends AppModel
                                 'conditions' => '',
                                 'fields' => '',
                                 'order' => ''
-            )
+            ),
+            'UserOption' => array('className' => 'UserOption',
+                                'foreignKey' => 'user_id',
+                                'dependent' => false,
+                                'conditions' => '',
+                                'fields' => '',
+                                'order' => ''
+            ),
     );
 
    var $hasAndBelongsToMany = array(

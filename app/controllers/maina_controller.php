@@ -107,7 +107,7 @@ class MainaController extends AppController {
         if (isset($_GET['link'])) {
             $link = filter_var($_GET['link'], FILTER_SANITIZE_STRING);
             switch ($block) {
-                
+
             }
         }
     }
@@ -125,7 +125,7 @@ class MainaController extends AppController {
      * Страница "станьте Вип-Пользователем"
      */
     function becomevip() {
-        
+
     }
 
     /**
@@ -140,7 +140,7 @@ class MainaController extends AppController {
      *
      */
     public function profile() {
-        
+
     }
 
     public function friends($sub_act='list') {
@@ -167,7 +167,7 @@ class MainaController extends AppController {
 
     /**
      * Страница Личных сообщений
-     * @param type $sub_act 
+     * @param type $sub_act
      */
     public function im($sub_act='in') {
         //-----  Проверка Созданного сообщения ------//
@@ -216,6 +216,12 @@ class MainaController extends AppController {
      */
     public function userhistory() {
         if ($this->authUser) {
+
+        	if (!empty($this->page))
+        	{
+        		//$this->Session->write('Profile.historyCurrentPage', $this->page);
+        	}
+
             $history = $this->UserDownloadHistory->GetHistoryForUser($this->authUser['userid'], $this->page, $this->per_page);
             $count = $this->UserDownloadHistory->GetHistoryCountForUser($this->authUser['userid']);
             $this->set('history', $history);
@@ -224,11 +230,11 @@ class MainaController extends AppController {
     }
 
     /**
-     * 
+     *
      */
     public function tags() {
         if ($_POST) {
-            
+
         }
 //$ta
 //$tags= $this->UserTags->query('SELECT * FROM `usertags` WHERE user_id='.$this->authUser['id'].' LIMIT 50');
@@ -236,7 +242,7 @@ class MainaController extends AppController {
 
     /**
      * Страница желаний
-     * @param type $wish_id 
+     * @param type $wish_id
      */
     public function wishlist($wish_id = null) {
         if ($_POST) {
@@ -258,7 +264,7 @@ class MainaController extends AppController {
                 break;
         }
     }
-    
+
     /**
      * Список фильмов
      * @param type $id  - фильм
@@ -284,7 +290,7 @@ class MainaController extends AppController {
         }
     }
 
-    
+
 
     /**
      *  Community
@@ -391,11 +397,11 @@ class MainaController extends AppController {
     }
 
     private function user_request_add() {
-        
+
     }
 
     private function user_request_del() {
-        
+
     }
 
     public function user_favorite() {

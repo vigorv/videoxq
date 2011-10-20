@@ -224,6 +224,19 @@ class AppController extends Controller {
             $this->Session->write('geoInfo', $geoInfo);
         }
         $this->geoInfo = $geoInfo;
+
+
+		$userOptions = $this->Session->read('Profile.userOptions');
+		if (empty($userOptions))
+		{
+//ОБРАБОТКА ОПЦИЙ ЛИЧНОГО КАБИНЕТА
+			$userOptions = array();
+			if (!empty($user['UserOption']))
+				$userOptions = unserialize($user['UserOption']['options']);
+//			if (!empty($userOptions))
+//				$this->Session->write('Profile.userOptions', $userOptions);
+		}
+
         /*
           //ДЛЯ ОТЛАДКИ
           $geoInfo['Geoip']['region_id'] = 1;
