@@ -10,9 +10,21 @@ class DirectionsController extends AppController {
     function admin_index() {
         $tree_arr = $this->Direction->generatetreelist(null, null, null, '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;');
         $this->set('tree_arr', $tree_arr);
+        //переберем весь массив и добавим признак скрытой категории 'hidden'
+        //конечно не очень рационально, но массив не такой большой, и для
+        //админки потянет :)
+        //в дальнейшем можно все засунуть в минимум запросов
+        pr($tree_arr);
+        foreach ($tree_arr as $key => $val){
+            $tree_arr[$key] = ($this->Direction->checkDirectionIsHidden($key))? $val.' (скрыто)'  : $val;
+        }
+
+
+
+
 
         //----------------------------------------------------------------------
-        // test
+        // тестовый вывод дерева с помощью хелпера
         //----------------------------------------------------------------------
         //достаем данные дерева
         //$tree_data = $this->Direction->findAllThreaded();
@@ -42,35 +54,20 @@ class DirectionsController extends AppController {
             foreach($directions as $direction_row){
                 $directions_ids[] = $direction_row['Direction']['id'];
             }
-            
+
             $tree_data[$key]['Direction']['count_news'] = $this->Direction->countNewsInDirections($directions_ids, $do_count_hidden);
         }
-        //pr($tree_data);
-
 
         $directions_data  = array();
         $directions_data['current_id'] = 6;
         $directions_data['list'] = $tree_data;
         $this->set('directions_data', $directions_data);
 
+        //----------------------------------------------------------------------
+        //конец тестового вывода дерева
+        //----------------------------------------------------------------------
 
-/*
-        // 1
-        $tree_data = $this->Direction->find('all', array(
-            'fields' => array('title', 'lft', 'rght'),
-            'order' => 'lft ASC'));
-        // 2
-        $tree_data = $this->Direction->findAllThreaded();
 
-        // 3
-        $id = 2;
-        $showMeFirstChildrenOnly = false;
-        $tree_data = $this->Direction->children($id, $showMeFirstChildrenOnly);
-
-        // 4
-
-        $this->set('tree_data', $tree_data);
-*/
 
     }
 
