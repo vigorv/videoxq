@@ -6,7 +6,7 @@ class MediaController extends AppController {
     var $components = array('Captcha', 'Cookie', 'RequestHandler'/*,'DebugKit.toolbar'*/);
     var $viewPath = 'media/films';
     var $uses = array('Film', 'Basket', 'FilmComment', 'SearchLog', 'Feedback', 'Thread', 'Vbpost', 'Vbgroup',
-    'Forum', 'Userban', 'Transtat', 'Genre', 'Bookmark', 'CybChat', 'Smile', 'Migration',
+    'Forum', 'Userban', 'Transtat', 'Genre', 'Bookmark', 'CybChat', 'Smile', 'Migration', 'Favorite',
     //'DlePost',
     'SimilarFilm',
     'OzonProduct'
@@ -2665,6 +2665,11 @@ echo'</pre>';
         Cache::write('Catalog.basket_' . $this->authUser['userid'], $basket,'basket');
         $this->set('basket', $basket);
         $this->set('players', $this->getPlayerList());
+
+        //установим флаг для представления, о том есть ли фильм избранном
+        $exist_film_in_favorites = $this->Favorite->checkExistFilmInFavorites($this->authUser['userid'], $id);
+        $this->set('exist_film_in_favorites', $exist_film_in_favorites);
+
     }
 
     /**
@@ -3447,6 +3452,44 @@ if (--$limit == 0) {
                 $this->set('search', $search_field);
                 $this->render('autocomplete','ajax','autocomplete');
         }
+    }
+//------------------------------------------------------------------------------
+    /*
+     * Добавление в избранное фильма с
+     *
+     * @params film_id - id фильма для внесения в избранное
+     */
+    function addtofavorites($film_id = null){
+        //корректен ли прилетевший $film_id
+        if (!empty($film_id) && intval($film_id)){
+            //если юзер вошел в систему значит у него есть id !!! вот его как
+            //раз и не хватало :)
+            if (!empty($this->authUser['userid']) && $this->authUser['userid']) {
+                $film_id = intval($film_id);
+                $user_id = $this->authUser['userid'];
+                //если фильм уже есть в избранном то не добавляем его говорим
+                //юзеру про это
+                if ($this->Favorite->checkExistFilmInFavorites($user_id, $film_id)){
+                    $this->Session->setFlash('Ошибка, фильм уже был добавлен в избранное', true);
+                    $this->redirect('/media/view/' . $film_id);
+                }
+                $description = '';
+                //получим описание добавляемого в избранное фильма
+                $result = $this->Film->find('first',  array(
+                    'conditions' => array('Film.id' => $film_id),
+                    'fields' => array('Film.title', 'Film.year'),
+                    'recursive' => 0
+                        ));
+                if ($result){
+                    $description = $result['Film']['title'] . ', ' .$result['Film']['year'].' г.';
+                }
+                $this->Session->setFlash('Фильм добавлен в избранное', true);
+                $this->Favorite->addToFavorite($user_id, $film_id, $description);
+                $this->redirect('/media/view/' . $film_id);
+            }
+        }
+        $this->Session->setFlash('Ошибка, Фильм не добавлен в избранное', true);
+        $this->redirect('/media');
     }
 //------------------------------------------------------------------------------
 
