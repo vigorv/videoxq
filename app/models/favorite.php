@@ -17,7 +17,7 @@ class Favorite extends MediaModel {
      *
      * @return boolean $result - результат выполнения вставки (save)
      */
-    function addToFavorite($user_id = null, $film_id = null , $description = null){
+    function addToFavorites($user_id = null, $film_id = null , $description = null){
         $result = false;
         if (!empty($user_id) && $user_id && !empty($film_id) && $film_id){
             $new_data = array('Favorite' => array(
@@ -27,6 +27,27 @@ class Favorite extends MediaModel {
             ));
 
             $result = $this->save($new_data);
+        }
+        return $result;
+    }
+
+//------------------------------------------------------------------------------
+    /*
+     *  Удаление фильма из избранного
+     *
+     * @param integer $user_id - id пользователя
+     * @param integer $film_id - id фильма
+     *
+     * @return boolean $result - результат выполнения вставки (save)
+     */
+    function removeFromFavorites($user_id = null, $film_id = null){
+        $result = false;
+        if (!empty($user_id) && $user_id && !empty($film_id) && $film_id){
+            $sql = 'delete  from favorites
+                            where
+                            favorites.film_id='.$film_id.' AND
+                            favorites.user_id='.$user_id;
+            $result = $this->query($sql);
         }
         return $result;
     }
