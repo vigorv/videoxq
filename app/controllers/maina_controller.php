@@ -413,7 +413,7 @@ class MainaController extends AppController {
 
     /*
      * Избранное - вывод избранных пользователем фильмов
-     * 
+     *
      */
     public function favorites(){
         $user_id = $this->authUser['userid'];
@@ -422,6 +422,8 @@ class MainaController extends AppController {
         $fav_data = $this->Favorite->getFavoritesFilmsInfo($user_id);
         //максимальное кол-во актеров для вывода
         $max_num_of_actors = 4;
+        //начальный url к постерам
+        $poster_img_path = Configure::read('Catalog.imgPath');
         //дополним эти данные более подробными, из модели Films
         foreach ($fav_data as $row){
             //$favorites_data['Favorite']['']
@@ -435,7 +437,7 @@ class MainaController extends AppController {
             //точнее пока просто выбираем один постер :)
             if (!empty($film_data['FilmPicture']) && $film_data['FilmPicture']){
                 foreach($film_data['FilmPicture'] as $pic_data){
-                   $poster =  $pic_data['file_name'];
+                   $poster =  $poster_img_path.$pic_data['file_name'];
                    break;
                 }
             }
@@ -467,6 +469,7 @@ class MainaController extends AppController {
                 'poster'  => $poster
                 );
         }
+        
         $this->set('favorites_data',$favorites_data);
     }
 
