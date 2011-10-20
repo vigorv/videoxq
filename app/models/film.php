@@ -236,7 +236,7 @@ class Film extends MediaModel {
 	        LEFT JOIN `professions` AS `Profession` ON (`FilmsPerson`.`profession_id` = `Profession`.`id`)
 	        LEFT JOIN person_pictures AS PersonPicture ON ( `Person`.`id` = PersonPicture.person_id )
 	        WHERE `FilmsPerson`.`film_id` = ' . $db->value($id, 'integer')
-	        . ' ORDER BY ' . $order;
+	        . ' GROUP BY `Person`.`id` ORDER BY ' . $order;
 	        $persons = $this->query($sql);
 		    Cache::write('Catalog.film_view_' . $id.'_persons', $persons,'media');
         }
