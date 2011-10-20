@@ -13,7 +13,8 @@ class Direction extends AppModel {
      * проверка наличия новостей в списке категорий (массив id категорий)
      *
      * @param integer $direction_ids - массив идентификаторов направления
-     * @return integer $no_news_in_directions - нет новостей в этом направлении?
+     *
+     * @return boolean $no_news_in_directions - нет новостей в этом направлении?
      */
     function checkNoNewsInDirections($direction_ids = array()){
         App::import('model', 'News');
@@ -26,14 +27,33 @@ class Direction extends AppModel {
         return $no_news_in_directions;
     }
 
+    /**
+     * проверка скрытости категории (направления)
+     *
+     * @param integer $direction_id - идентификатор направления
+     *
+     * @return boolean $visible - нет новостей в этом направлении?
+     */
+    function checkDirectionIsHidden($direction_id = null){
+        $is_hidden = false;
+        if (!empty($direction_id) && $direction_id){
+            $conditions = array ('hidden' => 1);
+            $result = $this->find('first',$conditions,array('id'));
+            if ($result) {$is_hidden = true;}
+        }
+        return $is_hidden;
+    }
 
 
     /**
      * подсчет количества новостей в списке категорий (массив id категорий)
      *
      * @param integer $direction_ids - массив идентификаторов направления
-     * @param boolean $do_count_hidden - учитывать ли в подсчете скрытые направления
-     * @return integer $count_news_in_direction - количество новостей в направлении
+     * @param boolean $do_count_hidden - учитывать ли в подсчете скрытые
+     * направления
+     *
+     * @return integer $count_news_in_direction - количество новостей в
+     * направлении
      */
     function countNewsInDirections($direction_ids = null, $do_count_hidden = false){
         App::import('model', 'News');
@@ -54,8 +74,10 @@ class Direction extends AppModel {
      * подсчет количества новостей в направлении c id = $direction_id
      *
      * @param integer $direction_id - идентификатор направления
-     * @param boolean $do_count_hidden - учитывать ли в подсчете скрытые направления
-     * @return integer $count_news_in_direction - количество новостей в направлении
+     * @param boolean $do_count_hidden - учитывать ли в подсчете скрытые
+     * направления
+     * @return integer $count_news_in_direction - количество новостей в
+     * направлении
      */
     function countNewsInDirection($direction_id = null, $do_count_hidden = false){
         App::import('model', 'News');
@@ -77,6 +99,7 @@ class Direction extends AppModel {
      *
      * @param integer $directionId - идентификатор направления-предка
      * @param boolean $get_hidden - включить в выборку скрытые направления
+     * 
      * @return mixed - массив идентификаторов направлений-потомков
      */
     function getSubDirections($directionId = 0, $get_hidden = true)
@@ -103,5 +126,8 @@ class Direction extends AppModel {
 
     	return $directions;
     }
+
+
+
 }
 ?>
