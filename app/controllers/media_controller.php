@@ -3484,7 +3484,7 @@ if (--$limit == 0) {
                     $description = $result['Film']['title'] . ', ' .$result['Film']['year'].' г.';
                 }
                 $this->Session->setFlash('Фильм добавлен в избранное', true);
-                $this->Favorite->addToFavorite($user_id, $film_id, $description);
+                $this->Favorite->addToFavorites($user_id, $film_id, $description);
                 $this->redirect('/media/view/' . $film_id);
             }
         }
@@ -3492,6 +3492,35 @@ if (--$limit == 0) {
         $this->redirect('/media');
     }
 //------------------------------------------------------------------------------
+    /*
+     * Удаление фильма из избранного
+     *
+     * @params film_id - id фильма
+     */
+    function removefromfavorites($film_id = null){
+        //корректен ли прилетевший $film_id
+        if (!empty($film_id) && intval($film_id)){
+            //если юзер вошел в систему значит у него есть id !!! вот его как
+            //раз и не хватало :)
+            if (!empty($this->authUser['userid']) && $this->authUser['userid']) {
+                $film_id = intval($film_id);
+                $user_id = $this->authUser['userid'];
+                //если фильм уже есть в избранном, то удалим его от туда
+                if ($this->Favorite->checkExistFilmInFavorites($user_id, $film_id)){
+                    $this->Favorite->removeFromFavorites($user_id, $film_id);
+                    $this->Session->setFlash('Фильм был удален из избранного', true);
+                    $this->redirect('/media/view/' . $film_id);
+                }
+                else{
 
+                    $this->Session->setFlash('Такого фильма нет в избранном', true);
+                    $this->redirect('/media/view/' . $film_id);
+                }
+            }
+        }
+        $this->Session->setFlash('Ошибка, Фильм удален из избранного', true);
+        $this->redirect('/media');
+    }
+//------------------------------------------------------------------------------
 
 }
