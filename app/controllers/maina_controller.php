@@ -22,11 +22,12 @@ class MainaController extends AppController {
     var $viewPath = 'maina';
     var $helpers = array('Html', 'javascript', 'tvvision');
     var $components = array();
-    var $uses = array('Film', 'Direction', 'News',
+    var $uses = array('Film', 'Direction', 'News', 'Favorite',
         'UserDownloadHistory',
         'UserWishlist', 'UserFriends',
         'FilmFast', 'UserFast', 'UserMessages',
         'UserRequest'
+
     );
     var $page;
     var $per_page;
@@ -407,6 +408,66 @@ class MainaController extends AppController {
     public function user_favorite() {
 //$ufavorite = $this->UserFavorite->query('Select * FROM `userfavorite` WHERE user_id= '.$this->authUser['id'].' LIMIT 20');
 //$this -> set('ufavorite',$ufavorite);
+    }
+
+
+    /*
+     * Избранное - вывод избранных пользователем фильмов
+     * 
+     */
+    public function favorites(){
+        $user_id = $this->authUser['userid'];
+        //достанем данные по избранным фильмам
+        $favorites_data = array();
+        $fav_data = $this->Favorite->getFavoritesFilmsInfo($user_id);
+        //максимальное кол-во актеров для вывода
+        $max_num_of_actors = 4;
+        //дополним эти данные более подробными, из модели Films
+        foreach ($fav_data as $row){
+            //$favorites_data['Favorite']['']
+            $film_data = $this->Film->getShortFilmInfo($row['Favorite']['film_id']);
+            //pr ($film_data);
+            //формируем массив для вывода инфы о фильмах
+            $film_director = '';
+            $actors = array();
+            $poster = '';
+            //формируем массив путей картинок для постеров
+            //точнее пока просто выбираем один постер :)
+            if (!empty($film_data['FilmPicture']) && $film_data['FilmPicture']){
+                foreach($film_data['FilmPicture'] as $pic_data){
+                   $poster =  $pic_data['file_name'];
+                   break;
+                }
+            }
+
+            //формируем массив актеров
+            if (!empty($film_data['Person']) && $film_data['Person']){
+                foreach($film_data['Person'] as $person_data){
+                        //проверим, не режисер ли нам попался? если он самый, то
+                        //запомним его имя ))))
+                        if ($person_data['FilmsPerson']['profession_id'] == 1){
+                            $film_director = $person_data['Person']['name'];
+                        }
+                        //а если это актер, то в список его... в отдельный!!!!
+                        elseif ($person_data['FilmsPerson']['profession_id'] == 3 && count($actors)<= $max_num_of_actors){
+                            $actors[] =  $person_data['Person']['name'];
+                        }
+                    //4х актеров и режисера вполне достаточно!... еще бы актрис... но нельзя :)))
+                    if(count($actors)>= $max_num_of_actors && $film_director) break;
+                }
+            }
+
+            $favorites_data[] = array(
+                'id'   => $film_data['Film']['id'],
+                'year' => $film_data['Film']['year'],
+                'film_name_rus'   => $film_data['Film']['title'],
+                'film_name_org' => $film_data['Film']['title_en'],
+                'director'  => $film_director,
+                'actors'  => $actors,
+                'poster'  => $poster
+                );
+        }
+        $this->set('favorites_data',$favorites_data);
     }
 
 }
