@@ -1,6 +1,21 @@
 <?
 echo $this->element('maina/text_filter');
 echo $this->element('maina/paginate');
+$tvvision->Eskiz(array(0 => array(
+  'id'   => 160,
+  'year'   => '1980',
+  'film_name_rus'   => 'Название',
+  'film_name_org' => 'Оригинальное Название',
+  'director'  => 'Режиссер',
+  'poster'  => '/img/main/list.png',
+  'actors'  => array(
+        'Актер 1',
+        'Актер 2',
+        'Актер 3',
+        'Актер 4'
+  )
+ ))
+);
 ?>
 
 <div class="movies">
