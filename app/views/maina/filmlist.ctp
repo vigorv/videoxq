@@ -14,8 +14,20 @@ $tvvision->eskiz(array(0 => array(
         'Актер 3',
         'Актер 4'
   )
- ))
-);
+ ), 1 => array(
+  'id'   => 160,
+  'year'   => '1987',
+  'film_name_rus'   => 'Название2',
+  'film_name_org' => 'Оригинальное Название2',
+  'director'  => 'Режиссер2',
+  'poster'  => 'http://media1.anka.ws/smallposters/the_public_enemy.jpeg',
+  'actors'  => array(
+        'Бабаюнов',
+        'Актер 2',
+        'Актер 3',
+        'Актер 4'
+  ))
+));
 ?>
 
 <div class="movies">
