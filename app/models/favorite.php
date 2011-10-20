@@ -52,5 +52,25 @@ class Favorite extends MediaModel {
         return $result;
     }
 
+//------------------------------------------------------------------------------
+    /*
+     * Выборка инфы об избранных фильмах для юзера с указанным id
+     *
+     * @param integer $user_id - id пользователя
+     *
+     * @return mixed $info - массив с данными
+     */
+
+    function getFavoritesFilmsInfo($user_id = null){
+        $data = array();
+        if (!empty($user_id) && $user_id){
+            $data = $this->find('all',array(
+                'conditions'=>array('user_id'=>$user_id),
+                'fields' => array('film_id','description')
+                ));
+        }
+        return $data;
+    }
+
 }
 ?>
