@@ -136,20 +136,7 @@ echo'</pre>';
     }
 ?>
 <div style="float: right; clear: both;">
-<?php
-    $imgUrl = $imgPath . $posters[array_rand($posters)]['file_name'];
-    $img = $html->image($imgUrl, array('class' => 'poster', 'title' => $posterTitle));
-    echo  $html->link($img, $imgUrl, array('rel' => 'posters', 'title' => $posterTitle), false, false) . "\n";?>
-    <div id="posters" style="display: none;">
-    <?php
-    if (!empty($authUser['userid']))
-    {
-        $posters = am($bigposters, $posters);
-        foreach ($posters as $poster)
-            echo $html->link($imgPath . $poster['file_name'], null, array('rel' => 'posters')) . "\n";
-    }
-    ?>
-    </div>
+
     <table border="0" align="right"><tr><td>
         <div class="userRate">
     <?php if (!empty($authUser['userid']) && $votingAllowed): ?>
@@ -181,17 +168,88 @@ echo'</pre>';
                 echo __('For this film did not vote.', true);
     ?>
         </div>
-    </td></tr><tr height="100"><td align="center">
+    </td></tr>
+        <tr>
+            <td>
+                <div id="posters" style="display: none;">
+                <?php
+                if (!empty($authUser['userid']))
+                {
+                    $posters = am($bigposters, $posters);
+                    foreach ($posters as $poster){
+                        echo $html->link($imgPath . $poster['file_name'], null, array('rel' => 'posters')) . "\n";
+                        }
+                }
+
+                ?>
+                </div>
+                <?php
+                    $imgUrl = $imgPath . $posters[array_rand($posters)]['file_name'];
+                    $img = $html->image($imgUrl, array('class' => 'poster', 'title' => $posterTitle));
+                    echo  $html->link($img, $imgUrl, array('rel' => 'posters', 'title' => $posterTitle), false, false) . "\n";
+                ?>
+            </td>
+        </tr>
+        <tr>
+            <td>
+<?php
+
+    //для зарегеных юзеров функционал "избранное"!
+    if (!empty($authUser['userid'])){
+        if (!empty($exist_film_in_favorites) && $exist_film_in_favorites){
+            //если фильм уже в избранном, то выведем сооствествующий значок
+            //с подписью на память :)
+            echo  '<img src="/img/icons/favorites-icon_32x32.png" title="Фильм находится в избранном"/> Фильм находится в избранном';
+        }
+        else{
+            //иначе добавляем кнопку в избранное
+            echo  '<a style="" href="/media/addtofavorites/'.$Film['id'].'"><img src="/img/icons/add-to-favorites-icon_32x32.png" title="Добавить в избранное"/> Добавить в избранное</a>';
+        }
+
+/*
+        if ( isset($ajax) ) {
+            echo $ajax->link('Добавить в избранное', '/media/addtofavorites/' . $Film['id'] ,
+                array(
+                    'update'=>'updated',
+                    'loading' =>"Element.show('loading')",
+                    'complete' => "Element.hide('loading')"
+                    ));
+        } else {
+          echo $html->link('Добавить в избранное', '/media/addtofavorites/' . $Film['id']);
+        }
+
+*/
+    }
+
+
+?>
+            </td>
+        </tr>
+
+
+<!--
+        <tr height="100">
+            <td align="center">
 		<a rel="nohref" nohref="nohref" title="Перейти на рекомендуемый для промотра сайт"><img height="108" src="/img/about/play2.jpg"></a>
-	</td></tr><tr><td align="center">
+            </td>
+        </tr>
+
+
+        <tr>
+            <td align="center">
 <?php
 	if (!$Film['is_license'])
 	{
     	echo '<font size="1" color="grey">на правах рекламы</font>';
 	}
 ?>
-	</td></tr>
+            </td>
+        </tr>
+-->
+
 	</table>
+
+
 </div>
     <h2>«<a rel="nohref" nohref="nohref"><?php
     	if ($lang == _ENG_)
