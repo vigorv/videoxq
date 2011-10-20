@@ -329,6 +329,15 @@ li.search .adv2 { display: none; }
 .movies .moviePreviewWrapper p span { font-size:1.08em; display:block; margin:4px 0 4px 0; padding-left:7px; position:relative; left:-7px }
 .movies .moviePreviewWrapper p span i { margin:0 0 0 -7px; font-style:normal }
 .movies .moviePreviewWrapper p span strong { font-weight:normal; color:#0066ff; text-decoration:underline }
+/*vid listom v TV*/
+.movies .moviePreviewWrapper_list .poster .knopki { padding-top:5px; float: left; height:20px; width: 80px;}
+.movies .moviePreviewWrapper_list .poster img { margin:0 7px 3px 0; }
+.movies .moviePreviewWrapper_list { float:left; width:210px; display:inline; margin:0 30px 0 0; height:195px; position:relative; zoom:1 }
+.movies .moviePreviewWrapper_list p { float:left; width:210px; font-size:0.92em; line-height:1.32em; margin:0 }
+.movies .moviePreviewWrapper_list p em { font-style:normal; color:#656565; display:block; margin:4px 0 0 0 }
+.movies .moviePreviewWrapper_list p span { font-size:1.08em; display:block; margin:4px 0 4px 0; padding-left:7px; position:relative; left:-7px }
+.movies .moviePreviewWrapper_list p span i { margin:0 0 0 -7px; font-style:normal }
+.movies .moviePreviewWrapper_list p span strong { font-weight:normal; color:#0066ff; text-decoration:underline }
 .movies { padding-top: 10px;}
 .movies a.moviePreview { display:block }
 
