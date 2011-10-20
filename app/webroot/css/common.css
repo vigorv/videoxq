@@ -197,7 +197,7 @@ li.search .adv2 { display: none; }
 .downloadingList .moviePreviewWrapper { margin:0 30px 0 0; position:relative; zoom:1; cursor:move; }
 .downloadingList .nu { font-size:1.5em; position:absolute; top:0; left:0; width:55px; text-align:right }
 .downloadingList .poster .imdb { color:#656565; font-size:0.92em }
-.downloadingList .poster { width:79px; padding:0 12px 0 0; overflow:hidden; float:left; margin:0 0 15px 0; }
+.downloadingList .poster { width:79px; padding:0 12px 0 0; overflow:hidden; float:left; margin:0 0 15px 0;}
 .downloadingList .poster img { display:block; margin:0 0 3px 0 }
 .downloadingList .remove { position:absolute; top:25px; left:32px; }
 .downloadingList { padding:0 50px 0 63px; position:relative; margin:0 0 15px 0; zoom:1; clear:both }
@@ -319,7 +319,7 @@ li.search .adv2 { display: none; }
 .movies .hd3 { position:absolute; top:20px; left:-5px; width:30px; height:21px; overflow:hidden; zoom:1 }
 .movies .hd4 { position:absolute; top:20px; left:25px; width:30px; height:21px; overflow:hidden; zoom:1 }
 .movies .moviePreviewWrapper .poster .imdb { color:#656565; font-size:0.92em }
-.movies .moviePreviewWrapper .poster { width:79px; padding:0 12px 0 0; overflow:hidden; float:left }
+.movies .moviePreviewWrapper .poster { width:79px; padding:0 12px 0 0; overflow:hidden; float:left;height:180px; }
 .movies .moviePreviewWrapper .poster img { display:block; margin:0 0 3px 0 }
 .movies .moviePreviewWrapper { float:left; width:210px; display:inline; margin:0 30px 0 0; height:195px; position:relative; zoom:1 }
 .movies .moviePreviewWrapper p { float:left; width:118px; font-size:0.92em; line-height:1.32em; margin:0 }
@@ -327,7 +327,7 @@ li.search .adv2 { display: none; }
 .movies .moviePreviewWrapper p span { font-size:1.08em; display:block; margin:4px 0 4px 0; padding-left:7px; position:relative; left:-7px }
 .movies .moviePreviewWrapper p span i { margin:0 0 0 -7px; font-style:normal }
 .movies .moviePreviewWrapper p span strong { font-weight:normal; color:#0066ff; text-decoration:underline }
-.movies { }
+.movies { padding-top: 10px;}
 .movies a.moviePreview { display:block }
 
 .pages { clear:both; line-height:2em; width:95%; font:1.42em/1.17em Arial, Helvetica, sans-serif; padding:30px 0 0 0; }
