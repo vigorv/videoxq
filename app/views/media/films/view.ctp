@@ -200,6 +200,9 @@ echo'</pre>';
             //если фильм уже в избранном, то выведем сооствествующий значок
             //с подписью на память :)
             echo  '<img src="/img/icons/favorites-icon_32x32.png" title="Фильм находится в избранном"/> Фильм находится в избранном';
+            echo '<br/>';
+            //Добаим значок удалить из избранного
+            echo  '<a style="" href="/media/removefromfavorites/'.$Film['id'].'"><img src="/img/icons/remove-from-favorites-icon_32x32.png" title="Удалить из избранного"/>Удалить из избранного</a>';
         }
         else{
             //иначе добавляем кнопку в избранное
