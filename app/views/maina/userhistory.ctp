@@ -98,6 +98,6 @@ foreach ($history as $hinfo)
 	}
 	else
 		$tvvision->Eskiz($filmInfo);
-/*/
+//*/
 ?>
 </div>
