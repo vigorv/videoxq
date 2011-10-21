@@ -2,7 +2,7 @@
     width:700px;
     height:392px;
     margin:32px 30px 50px 34px;
-    border:0;    
+    border:0;
     position:relative;
     overflow:hidden;   padding-top:15px; padding-left:15px;
     background-color:white;
@@ -36,10 +36,10 @@
 }
 
 #block_middle{
-    background-color:#eee;
+/*    background-color:#eee;*/
 }
 
-#siteTitle{ 
+#siteTitle{
     font-size:20px;
     color:white;
     padding-top:20px;
@@ -60,7 +60,7 @@
 #Snow_menu .submenu {font-size:12px; background-color:white; padding: 10px 10px 3px 0;}
 #Snow_menu ul li ul{ display:none;}
 .submenu{
-    
+
     position:absolute;
     margin:0;
     text-align: center;
