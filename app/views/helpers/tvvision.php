@@ -4,7 +4,7 @@ class TvvisionHelper extends AppHelper {
     //eskiz
     public function eskiz ($film_info)
 	{  
-	   if (isset($film_info) and !empty($film_info))
+	   if (is_array($film_info) and !empty($film_info))
        {
 	   //ya4eika filma v televisore
        echo '<div class="movies">';
@@ -41,7 +41,7 @@ class TvvisionHelper extends AppHelper {
     //list
     public function list_view ($film_info)
 	{  
-	   if (isset($film_info) and !empty($film_info))
+	   if (is_array($film_info) and !empty($film_info))
        {
 	   //ya4eika filma v televisore
        echo '<div class="movies_list">';
