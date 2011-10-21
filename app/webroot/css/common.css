@@ -688,7 +688,7 @@ div.stslogo { margin-top: 7px; }
 .news_content_media_video { font-size:26px; margin:0 40px;}
 .news_content_media_photo { font-size:26px;margin:0 40px;}
 
-.MainPage { margin:10px 30px;}
+.MainPage { margin:0;}
 
 .block_clear { clear:left;}
 .block_clear:after{  clear: both;  content: ".";  display: block;  height: 0;  visibility: hidden;}
