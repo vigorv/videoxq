@@ -74,7 +74,7 @@
 .info_image{ width:48px; height:48px;display:block;}
 .submenu a{ display:block;}
 /*navigation under TV*/
-#navigation_tv { width:755px; vertical-align: middle; margin:-114px auto 80px auto; padding-left: 30px; padding-right: 30px;}
+#navigation_tv { width:755px; vertical-align: middle; margin:-116px auto 80px auto; padding-left: 30px; padding-right: 30px;}
 #icon_r_arrow { float:right;}
 #icon_refresh { margin-left: 100px; margin-bottom: 2px;}
 #icon_list { margin-left: 400px;margin-right: 5px; }
