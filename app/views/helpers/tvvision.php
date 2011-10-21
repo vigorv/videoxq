@@ -45,7 +45,7 @@ class TvvisionHelper extends AppHelper {
        {
 	   //ya4eika filma v televisore
        echo '<div class="movies_list">';
-       echo '<div class="movies_l"><ol>';
+       echo '<div class="movies_l">';
        for ($i = 0; $i < sizeof($film_info)/2;$i++)
        {
 		echo '
@@ -56,8 +56,8 @@ class TvvisionHelper extends AppHelper {
          / '.$film_info[$i]["film_name_org"].'
          / '.$film_info[$i]["year"].'</a></span></li></p></div>';
 	   }
-       echo '</ol></div>';
-       echo '<div class="movies_r"><ol start="'.((sizeof($film_info)/2)+1).'">';
+       echo '</div>';
+       echo '<div class="movies_r">';
        for ($i = (sizeof($film_info)/2)+1; $i < sizeof($film_info);$i++)
        {
 		echo '<div class="moviePreviewWrapper_list">
@@ -67,7 +67,7 @@ class TvvisionHelper extends AppHelper {
          / '.$film_info[$i]["film_name_org"].'
          / '.$film_info[$i]["year"].'</a></span></li></p></div>';
 	   }
-       echo '</ol></div>';
+       echo '</div>';
        echo '</div>';
     }
     else
