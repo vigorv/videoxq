@@ -8614,3 +8614,6 @@ msgstr "Редактирование категорий новостей"
 
 msgid "List Directions"
 msgstr "Список категорий новостей"
+
+msgid "You do not download from our website"
+msgstr "Вы ничего не скачивали с нашего сайта"

@@ -80,6 +80,11 @@ foreach ($history as $hinfo)
 //echo '----------------';
 //pr($userOptions);
 //*
+	if (empty($filmInfo))
+	{
+		$filmInfo = __('You do not download from our website', true);
+	}
+
 	if (!empty($userOptions['Profile.itemsView']))
 	{
 		switch ($userOptions['Profile.itemsView'])

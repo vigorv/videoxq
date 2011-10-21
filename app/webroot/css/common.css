@@ -698,4 +698,6 @@ div.stslogo { margin-top: 7px; }
 .right_45 {float:right;}
 /* - css styles snow -*/
 
-profileinput { border: 1px dotted grey; }
+.profileinput { border: 1px dotted grey; }
+
+.currentTvIcon { border: 1px solid green; }
