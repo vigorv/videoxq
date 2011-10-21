@@ -5,7 +5,8 @@
         echo $html->css('common');
         echo $html->css('main');
         echo $html->css('themes/' . $theme_id . '/main');
-        echo $javascript->link(array('jquery.fancybox-1.3.4/jquery-1.4.3.min', 'scripts', 'validation'));
+        //echo $javascript->link(array('jquery.fancybox-1.3.4/jquery-1.4.3.min', 'scripts', 'validation'));
+        echo $javascript->link(array('jquery-1.6.4.min', 'scripts', 'validation'));
         echo $scripts_for_layout;
         ?>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -86,7 +87,7 @@
             <a href="#"><img src="/img/main/right_arrow.png" id="icon_r_arrow" alt="Листать вправо" /></a>
             </div>
             </div>
-            
+
             <div class="footer">
                 <div class="copy" width="100%" align="center">
                     <br />
