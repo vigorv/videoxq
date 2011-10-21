@@ -9,7 +9,7 @@ echo $html->css('common');
 echo $html->css('nifty/niftycorners');
 //echo $javascript->link(array('jquery.fancybox-1.3.4/jquery-1.4.3.min', 'scripts', 'validation'));
 //echo $javascript->link(array('jquery.fancybox-1.3.4/jquery-1.4.3.min', 'scripts', 'validation'));
-echo $javascript->link(array('jquery-1.6.4.min', 'scripts', 'validation'));
+echo $javascript->link(array('jquery-1.6.4.min', 'scripts', 'validation')); 
 /*
 if ($this->name == 'News')
 	echo $javascript->link(array('jquery.fancybox-1.3.4/jquery-1.4.3.min', 'scripts', 'validation'));
