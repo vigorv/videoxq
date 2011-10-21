@@ -58,7 +58,7 @@ class TvvisionHelper extends AppHelper {
 	   }
        echo '</div>';
        echo '<div class="movies_r">';
-       for ($i = (sizeof($film_info)/2)+1; $i < sizeof($film_info);$i++)
+       for ($i = (sizeof($film_info)/2); $i < sizeof($film_info);$i++)
        {
 		echo '<div class="moviePreviewWrapper_list">
         <li style="float:left; margin:0; padding:0;">

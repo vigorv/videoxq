@@ -334,6 +334,7 @@ li.search .adv2 { display: none; }
 .movies_l .moviePreviewWrapper_list .poster .knopki { padding-top:5px; float: left; height:20px; width: 80px;}
 .movies_l .moviePreviewWrapper_list .poster img { margin:0 7px 3px 0; }
 .movies_l .moviePreviewWrapper_list {  width:300px; display:inline; margin:0 30px 0 0; height:30px;  zoom:1 }
+.movies_l .moviePreviewWrapper_list li { list-style-type: none;}
 .movies_l .moviePreviewWrapper_list p { float:left; width:300px; font-size:0.92em; line-height:1.32em; margin:0; padding-top: 5px; }
 .movies_l .moviePreviewWrapper_list p em { font-style:normal; color:#656565; display:block; margin:4px 0 0 0 }
 .movies_l .moviePreviewWrapper_list p span { font-size:1.08em; display:block; margin:4px 0 4px 0; padding-left:7px; position:relative; left:-7px }
@@ -346,6 +347,7 @@ li.search .adv2 { display: none; }
 .movies_r .moviePreviewWrapper_list .poster .knopki { padding-top:5px; float: left; height:20px; width: 80px;}
 .movies_r .moviePreviewWrapper_list .poster img { margin:0 7px 3px 0; }
 .movies_r .moviePreviewWrapper_list {  width:300px; display:inline; margin:0 30px 0 0; height:20px; position:relative; zoom:1 }
+.movies_r .moviePreviewWrapper_list li { list-style-type: none;}
 .movies_r .moviePreviewWrapper_list p { float:left; width:100%; font-size:0.92em; line-height:1.32em; margin:0; padding-top: 5px; }
 .movies_r .moviePreviewWrapper_list p em { font-style:normal; color:#656565; display:block; margin:4px 0 0 0 }
 .movies_r .moviePreviewWrapper_list p span { font-size:1.08em; display:block; margin:4px 0 4px 0; padding-left:7px; position:relative; left:-7px }
@@ -700,4 +702,4 @@ div.stslogo { margin-top: 7px; }
 
 .profileinput { border: 1px dotted grey; }
 
-.currentTvIcon { border: 1px solid green; }
+.currentTvIcon {  }
