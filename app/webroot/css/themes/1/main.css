@@ -1,7 +1,7 @@
 #block_main{
-    width:700px;
-    height:392px;
-    margin:32px 30px 50px 34px;
+    width:88%;
+    height:68%;
+    margin:36px 30px 50px 38px;
     border:0;
     position:relative;
     overflow:hidden;   padding-top:15px; padding-left:15px;
@@ -15,8 +15,8 @@
 #main_inner{
     background-image: url('/img/main/1/tv1.png');
     background-color: white;
-    width:790px;
-    height:547px;
+    width:850px;
+    height:588px;
     margin:10px auto 10px;
     overflow: hidden;
 }
@@ -74,7 +74,7 @@
 .info_image{ width:48px; height:48px;display:block;}
 .submenu a{ display:block;}
 /*navigation under TV*/
-#navigation_tv { width:755px; vertical-align: middle; margin:-110px auto 80px auto; padding-left: 30px; padding-right: 30px;}
+#navigation_tv { width:755px; vertical-align: middle; margin:-114px auto 80px auto; padding-left: 30px; padding-right: 30px;}
 #icon_r_arrow { float:right;}
 #icon_refresh { margin-left: 100px; margin-bottom: 2px;}
 #icon_list { margin-left: 400px;margin-right: 5px; }
