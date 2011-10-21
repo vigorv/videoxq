@@ -55,7 +55,7 @@ foreach ($history as $hinfo)
 					$director = $p['Person']['name'] ? $p['Person']['name'] : $p['Person']['name_en'];
 			}
 
-			if (($p['Profession']['id'] == 3) && count($actors) < 3)
+			if (($p['Profession']['id'] == 3) && count($actors) < 4)
 			{
 				if ($lang == _ENG_)
 				{
@@ -76,8 +76,23 @@ foreach ($history as $hinfo)
 		'director'			=> $director,
 		'actors'			=> $actors
 	);
-	//pr($filmInfo);
 }
-
+//echo '----------------';
+//pr($userOptions);
+//*
+	if (!empty($userOptions['Profile.itemsView']))
+	{
+		switch ($userOptions['Profile.itemsView'])
+		{
+			case 'list':
+				$tvvision->list_view($filmInfo);
+			break;
+			default:
+				$tvvision->Eskiz($filmInfo);
+		}
+	}
+	else
+		$tvvision->Eskiz($filmInfo);
+/*/
 ?>
 </div>

@@ -21,12 +21,12 @@ class MainaController extends AppController {
     var $layout = 'newstyle';
     var $viewPath = 'maina';
     var $helpers = array('Html', 'javascript', 'tvvision');
-    var $components = array();
+    //var $components = array();
     var $uses = array('Film', 'Direction', 'News', 'Favorite',
         'UserDownloadHistory',
         'UserWishlist', 'UserFriends',
         'FilmFast', 'UserFast', 'UserMessages',
-        'UserRequest'
+        'UserRequest', 'UserOption'
 
     );
     var $page;
@@ -34,6 +34,13 @@ class MainaController extends AppController {
     var $page_count = 0;
     var $page_filter;
     var $parent_menu = 0;
+
+    /**
+     * модель настроек пользователя
+     *
+     * @var UserOption
+     */
+    public $UserOption;
 
     function BeforeFilter() {
         parent::beforeFilter();
@@ -213,6 +220,45 @@ class MainaController extends AppController {
     }
 
     /**
+     * Сохранить изменения в опции пользователя
+     *
+     * данные передаются методом POST
+     * структура данных:
+     * 		$_POST['optionName']	- название опции (имя)
+     * 		$_POST['optionValue']	- значение опции
+     *
+     */
+    public function saveoption()
+    {
+    	$result = '';
+    	if (!empty($_POST['optionName']) && !empty($this->authUser['userid']))
+    	{
+    		$name = $_POST['optionName'];
+    		$val = (empty($_POST['optionValue']) ? '' : $_POST['optionValue']);
+    		$this->userOptions[$name] = $val;
+			$this->Session->write('Profile.userOptions', $this->userOptions);
+    		$this->UserOption->setOptions($this->authUser['userid'], $this->userOptions);
+    		$result = 'ok';
+    	}
+    	$this->set('result', $result);
+    }
+
+    /**
+     * Отображение фильма в телевизоре
+     */
+    public function filmview($filmId) {
+		App::import('Controller','Media');
+		//App::import('Controller', 'MediaController', true, array('d:/vano/home/videoxq-wc2/www/app/controllers'));
+ 	 	$media = new MediaController;
+		$media->constructClasses();
+		$this->viewPath = 'media/films';
+
+		$this->view = 'view.ctp';
+		$media->render('view');
+		//$media->view($filmId);
+    }
+
+    /**
      * Страница "История скаченного
      */
     public function userhistory() {
@@ -222,7 +268,6 @@ class MainaController extends AppController {
         	{
         		//$this->Session->write('Profile.historyCurrentPage', $this->page);
         	}
-
             $history = $this->UserDownloadHistory->GetHistoryForUser($this->authUser['userid'], $this->page, $this->per_page);
             $count = $this->UserDownloadHistory->GetHistoryCountForUser($this->authUser['userid']);
             $this->set('history', $history);
@@ -469,7 +514,7 @@ class MainaController extends AppController {
                 'poster'  => $poster
                 );
         }
-        
+
         $this->set('favorites_data',$favorites_data);
     }
 

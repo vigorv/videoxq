@@ -226,17 +226,22 @@ class AppController extends Controller {
         $this->geoInfo = $geoInfo;
 
 
-		$userOptions = $this->Session->read('Profile.userOptions');
-		if (empty($userOptions))
+		$this->userOptions = $this->Session->read('Profile.userOptions');
+		if (empty($this->userOptions))
 		{
-//ОБРАБОТКА ОПЦИЙ ЛИЧНОГО КАБИНЕТА
-			$userOptions = array();
+//ОБРАБОТКА ОПЦИЙ ПОЛЬЗОВАТЕЛЯ (ДЛЯ САЙТА, ЛИЧНОГО КАБИНЕТА ИТД)
+//ОПЦИИ ХРАНИМ В БД, ИСПОЛЬЗУЕМ ЧЕРЕЗ СЕССИЮ
+			$this->userOptions = array();
 			if (!empty($user['UserOption']))
-				$userOptions = unserialize($user['UserOption']['options']);
-//			if (!empty($userOptions))
-//				$this->Session->write('Profile.userOptions', $userOptions);
+			{
+				$this->userOptions = unserialize($user['UserOption']['options']);
+			}
+			if (!empty($this->userOptions) && is_array($this->userOptions))
+			{
+				$this->Session->write('Profile.userOptions', $this->userOptions);
+			}
 		}
-
+		$this->set('userOptions', $this->userOptions);
         /*
           //ДЛЯ ОТЛАДКИ
           $geoInfo['Geoip']['region_id'] = 1;

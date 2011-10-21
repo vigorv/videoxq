@@ -41,6 +41,9 @@ $parent_menu;
         var client_par = $(this);
         var link = $(this).attr("href");
         if (link!='#') {
+        	//currentTVLink = link;
+        	$('.currentSubMenu').removeClass('currentSubMenu');
+        	$(this).addClass('currentSubMenu');
             $('#block_main').load(link,'ajax',function(){});
             return false;
         }
@@ -62,4 +65,5 @@ $parent_menu;
             });
         }
     });
+
 </script>
