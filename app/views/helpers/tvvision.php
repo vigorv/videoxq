@@ -49,9 +49,10 @@ class TvvisionHelper extends AppHelper {
        for ($i = 0; $i < sizeof($film_info)/2;$i++)
        {
 		echo '
-        <div class="moviePreviewWrapper_list">
         <p class="text">
-        <li style="float:left; margin:0; padding:0;"><span><a href="/media/view/'.$film_info[$i]["id"].'">'.$film_info[$i]["film_name_rus"].'
+        <li style="float:left; margin:0; padding:0;">
+        <div class="moviePreviewWrapper_list">
+        <span><a href="/media/view/'.$film_info[$i]["id"].'">'.$film_info[$i]["film_name_rus"].'
          / '.$film_info[$i]["film_name_org"].'
          / '.$film_info[$i]["year"].'</a></span></li></p></div>';
 	   }
@@ -60,9 +61,10 @@ class TvvisionHelper extends AppHelper {
        for ($i = (sizeof($film_info)/2)+1; $i < sizeof($film_info);$i++)
        {
 		echo '
-        <div class="moviePreviewWrapper_list">
         <p class="text">
-        <li style="float:left; margin:0; padding:0;"><span><a href="/media/view/'.$film_info[$i]["id"].'">'.$film_info[$i]["film_name_rus"].'
+        <li style="float:left; margin:0; padding:0;">
+        <div class="moviePreviewWrapper_list">
+        <span><a href="/media/view/'.$film_info[$i]["id"].'">'.$film_info[$i]["film_name_rus"].'
          / '.$film_info[$i]["film_name_org"].'
          / '.$film_info[$i]["year"].'</a></span></li></p></div>';
 	   }
