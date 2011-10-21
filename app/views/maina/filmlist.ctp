@@ -1,7 +1,8 @@
 <?
 echo $this->element('maina/text_filter');
 echo $this->element('maina/paginate');
-$tvvision->list_view(array(0 => array(
+$javascript->link('jquery.autocolumnlist', false);
+$tvvision->eskiz(array(0 => array(
   'id'   => 160,
   'year'   => '1980',
   'film_name_rus'   => 'Название',
@@ -29,6 +30,318 @@ $tvvision->list_view(array(0 => array(
   'id'   => 160,
   'year'   => '1987',
   'film_name_rus'   => 'Название2',
+  'film_name_org' => 'Оригинальное Название2',
+  'director'  => 'Режиссер2',
+  'poster'  => 'http://media1.anka.ws/smallposters/the_public_enemy.jpeg',
+  'actors'  => array(
+        'Бабаюнов',
+        'Актер 2',
+        'Актер 3',
+        'Актер 4'
+  )), 3 => array(
+  'id'   => 160,
+  'year'   => '1987',
+  'film_name_rus'   => 'Название2',
+  'film_name_org' => 'Оригинальное Название2',
+  'director'  => 'Режиссер2',
+  'poster'  => 'http://media1.anka.ws/smallposters/the_public_enemy.jpeg',
+  'actors'  => array(
+        'Бабаюнов',
+        'Актер 2',
+        'Актер 3',
+        'Актер 4'
+  )), 4 => array(
+  'id'   => 160,
+  'year'   => '1987',
+  'film_name_rus'   => 'Название2',
+  'film_name_org' => 'Оригинальное Название2',
+  'director'  => 'Режиссер2',
+  'poster'  => 'http://media1.anka.ws/smallposters/the_public_enemy.jpeg',
+  'actors'  => array(
+        'Бабаюнов',
+        'Актер 2',
+        'Актер 3',
+        'Актер 4'
+  )), 5 => array(
+  'id'   => 160,
+  'year'   => '1987',
+  'film_name_rus'   => 'Название2',
+  'film_name_org' => 'Оригинальное Название2',
+  'director'  => 'Режиссер2',
+  'poster'  => 'http://media1.anka.ws/smallposters/the_public_enemy.jpeg',
+  'actors'  => array(
+        'Бабаюнов',
+        'Актер 2',
+        'Актер 3',
+        'Актер 4'
+  )), 6 => array(
+  'id'   => 160,
+  'year'   => '1987',
+  'film_name_rus'   => 'Название2',
+  'film_name_org' => 'Оригинальное Название2',
+  'director'  => 'Режиссер2',
+  'poster'  => 'http://media1.anka.ws/smallposters/the_public_enemy.jpeg',
+  'actors'  => array(
+        'Бабаюнов',
+        'Актер 2',
+        'Актер 3',
+        'Актер 4'
+  )), 7 => array(
+  'id'   => 160,
+  'year'   => '1987',
+  'film_name_rus'   => 'Название2',
+  'film_name_org' => 'Оригинальное Название2',
+  'director'  => 'Режиссер2',
+  'poster'  => 'http://media1.anka.ws/smallposters/the_public_enemy.jpeg',
+  'actors'  => array(
+        'Бабаюнов',
+        'Актер 2',
+        'Актер 3',
+        'Актер 4'
+  )), 8 => array(
+  'id'   => 160,
+  'year'   => '1987',
+  'film_name_rus'   => 'Название2',
+  'film_name_org' => 'Оригинальное Название2',
+  'director'  => 'Режиссер2',
+  'poster'  => 'http://media1.anka.ws/smallposters/the_public_enemy.jpeg',
+  'actors'  => array(
+        'Бабаюнов',
+        'Актер 2',
+        'Актер 3',
+        'Актер 4'
+  )), 9 => array(
+  'id'   => 160,
+  'year'   => '1987',
+  'film_name_rus'   => 'Название2',
+  'film_name_org' => 'Оригинальное Название2',
+  'director'  => 'Режиссер2',
+  'poster'  => 'http://media1.anka.ws/smallposters/the_public_enemy.jpeg',
+  'actors'  => array(
+        'Бабаюнов',
+        'Актер 2',
+        'Актер 3',
+        'Актер 4'
+  )), 10 => array(
+  'id'   => 160,
+  'year'   => '1987',
+  'film_name_rus'   => 'Название2',
+  'film_name_org' => 'Оригинальное Название2',
+  'director'  => 'Режиссер2',
+  'poster'  => 'http://media1.anka.ws/smallposters/the_public_enemy.jpeg',
+  'actors'  => array(
+        'Бабаюнов',
+        'Актер 2',
+        'Актер 3',
+        'Актер 4'
+  )), 11 => array(
+  'id'   => 160,
+  'year'   => '1987',
+  'film_name_rus'   => 'Название2',
+  'film_name_org' => 'Оригинальное Название2',
+  'director'  => 'Режиссер2',
+  'poster'  => 'http://media1.anka.ws/smallposters/the_public_enemy.jpeg',
+  'actors'  => array(
+        'Бабаюнов',
+        'Актер 2',
+        'Актер 3',
+        'Актер 4'
+  )), 12 => array(
+  'id'   => 160,
+  'year'   => '1987',
+  'film_name_rus'   => 'Название2',
+  'film_name_org' => 'Оригинальное Название2',
+  'director'  => 'Режиссер2',
+  'poster'  => 'http://media1.anka.ws/smallposters/the_public_enemy.jpeg',
+  'actors'  => array(
+        'Бабаюнов',
+        'Актер 2',
+        'Актер 3',
+        'Актер 4'
+  )), 13 => array(
+  'id'   => 160,
+  'year'   => '1987',
+  'film_name_rus'   => 'Название2',
+  'film_name_org' => 'Оригинальное Название2',
+  'director'  => 'Режиссер2',
+  'poster'  => 'http://media1.anka.ws/smallposters/the_public_enemy.jpeg',
+  'actors'  => array(
+        'Бабаюнов',
+        'Актер 2',
+        'Актер 3',
+        'Актер 4'
+  )), 14 => array(
+  'id'   => 160,
+  'year'   => '1987',
+  'film_name_rus'   => 'Название2',
+  'film_name_org' => 'Оригинальное Название2',
+  'director'  => 'Режиссер2',
+  'poster'  => 'http://media1.anka.ws/smallposters/the_public_enemy.jpeg',
+  'actors'  => array(
+        'Бабаюнов',
+        'Актер 2',
+        'Актер 3',
+        'Актер 4'
+  )), 15 => array(
+  'id'   => 160,
+  'year'   => '1987',
+  'film_name_rus'   => '121243124Название2',
+  'film_name_org' => 'Оригинальное Название2',
+  'director'  => 'Режиссер2',
+  'poster'  => 'http://media1.anka.ws/smallposters/the_public_enemy.jpeg',
+  'actors'  => array(
+        'Бабаюнов',
+        'Актер 2',
+        'Актер 3',
+        'Актер 4'
+  )), 16 => array(
+  'id'   => 160,
+  'year'   => '1987',
+  'film_name_rus'   => 'Название2',
+  'film_name_org' => 'Оригинальное Название2',
+  'director'  => 'Режиссер2',
+  'poster'  => 'http://media1.anka.ws/smallposters/the_public_enemy.jpeg',
+  'actors'  => array(
+        'Бабаюнов',
+        'Актер 2',
+        'Актер 3',
+        'Актер 4'
+  )), 17 => array(
+  'id'   => 160,
+  'year'   => '1987',
+  'film_name_rus'   => 'Название2',
+  'film_name_org' => 'Оригинальное Название2',
+  'director'  => 'Режиссер2',
+  'poster'  => 'http://media1.anka.ws/smallposters/the_public_enemy.jpeg',
+  'actors'  => array(
+        'Бабаюнов',
+        'Актер 2',
+        'Актер 3',
+        'Актер 4'
+  )), 18 => array(
+  'id'   => 160,
+  'year'   => '1987',
+  'film_name_rus'   => 'Название2',
+  'film_name_org' => 'Оригинальное Название2',
+  'director'  => 'Режиссер2',
+  'poster'  => 'http://media1.anka.ws/smallposters/the_public_enemy.jpeg',
+  'actors'  => array(
+        'Бабаюнов',
+        'Актер 2',
+        'Актер 3',
+        'Актер 4'
+  )), 19 => array(
+  'id'   => 160,
+  'year'   => '1987',
+  'film_name_rus'   => 'Название2',
+  'film_name_org' => 'Оригинальное Название2',
+  'director'  => 'Режиссер2',
+  'poster'  => 'http://media1.anka.ws/smallposters/the_public_enemy.jpeg',
+  'actors'  => array(
+        'Бабаюнов',
+        'Актер 2',
+        'Актер 3',
+        'Актер 4'
+  )), 20 => array(
+  'id'   => 160,
+  'year'   => '1987',
+  'film_name_rus'   => 'Название2',
+  'film_name_org' => 'Оригинальное Название2',
+  'director'  => 'Режиссер2',
+  'poster'  => 'http://media1.anka.ws/smallposters/the_public_enemy.jpeg',
+  'actors'  => array(
+        'Бабаюнов',
+        'Актер 2',
+        'Актер 3',
+        'Актер 4'
+  )), 21 => array(
+  'id'   => 160,
+  'year'   => '1987',
+  'film_name_rus'   => 'Название2',
+  'film_name_org' => 'Оригинальное Название2',
+  'director'  => 'Режиссер2',
+  'poster'  => 'http://media1.anka.ws/smallposters/the_public_enemy.jpeg',
+  'actors'  => array(
+        'Бабаюнов',
+        'Актер 2',
+        'Актер 3',
+        'Актер 4'
+  )), 22 => array(
+  'id'   => 160,
+  'year'   => '1987',
+  'film_name_rus'   => 'Название2',
+  'film_name_org' => 'Оригинальное Название2',
+  'director'  => 'Режиссер2',
+  'poster'  => 'http://media1.anka.ws/smallposters/the_public_enemy.jpeg',
+  'actors'  => array(
+        'Бабаюнов',
+        'Актер 2',
+        'Актер 3',
+        'Актер 4'
+  )), 23 => array(
+  'id'   => 160,
+  'year'   => '1987',
+  'film_name_rus'   => 'Название2',
+  'film_name_org' => 'Оригинальное Название2',
+  'director'  => 'Режиссер2',
+  'poster'  => 'http://media1.anka.ws/smallposters/the_public_enemy.jpeg',
+  'actors'  => array(
+        'Бабаюнов',
+        'Актер 2',
+        'Актер 3',
+        'Актер 4'
+  )), 24 => array(
+  'id'   => 160,
+  'year'   => '1987',
+  'film_name_rus'   => 'Название2',
+  'film_name_org' => 'Оригинальное Название2',
+  'director'  => 'Режиссер2',
+  'poster'  => 'http://media1.anka.ws/smallposters/the_public_enemy.jpeg',
+  'actors'  => array(
+        'Бабаюнов',
+        'Актер 2',
+        'Актер 3',
+        'Актер 4'
+  )), 25 => array(
+  'id'   => 160,
+  'year'   => '1987',
+  'film_name_rus'   => 'Название2',
+  'film_name_org' => 'Оригинальное Название2',
+  'director'  => 'Режиссер2',
+  'poster'  => 'http://media1.anka.ws/smallposters/the_public_enemy.jpeg',
+  'actors'  => array(
+        'Бабаюнов',
+        'Актер 2',
+        'Актер 3',
+        'Актер 4'
+  )), 26 => array(
+  'id'   => 160,
+  'year'   => '1987',
+  'film_name_rus'   => 'Название2',
+  'film_name_org' => 'Оригинальное Название2',
+  'director'  => 'Режиссер2',
+  'poster'  => 'http://media1.anka.ws/smallposters/the_public_enemy.jpeg',
+  'actors'  => array(
+        'Бабаюнов',
+        'Актер 2',
+        'Актер 3',
+        'Актер 4'
+  )), 27 => array(
+  'id'   => 161,
+  'year'   => '1987',
+  'film_name_rus'   => 'На124124звание2',
+  'film_name_org' => 'Оригинальное Название2',
+  'director'  => 'Режиссер2',
+  'poster'  => 'http://media1.anka.ws/smallposters/the_public_enemy.jpeg',
+  'actors'  => array(
+        'Бабаюнов',
+        'Актер 2',
+        'Актер 3',
+        'Актер 4'
+  )), 28 => array(
+  'id'   => 162,
+  'year'   => '1987',
+  'film_name_rus'   => 'Н124азвание2',
   'film_name_org' => 'Оригинальное Название2',
   'director'  => 'Режиссер2',
   'poster'  => 'http://media1.anka.ws/smallposters/the_public_enemy.jpeg',

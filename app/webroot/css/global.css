@@ -37,30 +37,34 @@ a:visited:hover {
 
 #middle {
 	margin: 20px 0 50px 0;
-margin: 20px 0 50px 30px;
+margin: 0 auto 0;
+padding-top: 20px;
 	float: left;
-	width: 980px;
-width: 85%;
+width: 100%;
 	background: url('/img/columns-bg.png') repeat-y;
 }
 #middle div.left-block {
 	float: left;
 	width: 250px;
 	background:  url('/img/left-bg.png') repeat-y right top;
+    
 }
 #middle div.center-block {
 	float: left;
 	width: 520px;
-width: 50%;
-	background: #f2f8fc;
+width: 65%;
+	background: #fff;
+    border-right: 1px solid #000;
 }
 #middle div.right-block {
 	float: left;
 	margin: 0 0 0 2px;
 	width: 160px;
 	background: #f2f8fc;
+    
+    
 }
-
+#calendarlite {width:220px;}
 /*���� � �����������*/
 #left-menu ul {
 	margin: 0;
@@ -82,7 +86,7 @@ width: 50%;
 	margin: 0;
 	width: 250px;
 	height: 50px;
-	background: url('/img/left-menu-active.png') no-repeat left top;
+	background: url('/img/left-menu-active1.png') no-repeat left top;
 }
 #left-menu a {
 	margin: 0 0 0 10px;

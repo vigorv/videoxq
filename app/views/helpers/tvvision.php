@@ -4,6 +4,8 @@ class TvvisionHelper extends AppHelper {
     //eskiz
     public function eskiz ($film_info)
 	{  
+	   if (isset($film_info) and !empty($film_info))
+       {
 	   //ya4eika filma v televisore
        echo '<div class="movies">';
        for ($i = 0; $i < sizeof($film_info);$i++)
@@ -20,7 +22,7 @@ class TvvisionHelper extends AppHelper {
         <span>«<a href="/media/view/'.$film_info[$i]["id"].'">'.$film_info[$i]["film_name_rus"].'</a>»</span>
         <p>'.$film_info[$i]["film_name_org"].'</p>
         <p>'.$film_info[$i]["year"].'</p>
-        <p>'.$film_info[$i]["director"].'</p>';
+        <p>'.$film_info[$i]["director"].'</p></p>';
         $z='';
         for ($j = 0; $j < sizeof($film_info[$i]["actors"]);$j++)
         {
@@ -31,29 +33,46 @@ class TvvisionHelper extends AppHelper {
 	   }
        echo '</div>';
     }
+    else
+    {
+        echo "<p>Список пуст!</p>";
+    }
+  }
     //list
     public function list_view ($film_info)
 	{  
+	   if (isset($film_info) and !empty($film_info))
+       {
 	   //ya4eika filma v televisore
-       echo '<div class="movies">';
-       for ($i = 0; $i < sizeof($film_info);$i++)
+       echo '<div class="movies_list">';
+       echo '<div class="movies_l"><ol>';
+       for ($i = 0; $i < sizeof($film_info)/2;$i++)
        {
 		echo '
         <div class="moviePreviewWrapper_list">
         <p class="text">
-        <span style="text-align:center">«<a href="/media/view/'.$film_info[$i]["id"].'">'.$film_info[$i]["film_name_rus"].'</a>»</span>
-        <p><span style="text-align:center">'.$film_info[$i]["film_name_org"].'</span></p>
-        <p><span style="text-align:center">'.$film_info[$i]["year"].'</span></p>
-        <p>'.$film_info[$i]["director"].'</p>';
-        $z='';
-        for ($j = 0; $j < sizeof($film_info[$i]["actors"]);$j++)
-        {
-        echo $z.$film_info[$i]["actors"][$j];
-        $z=', ';
-        }
-        echo '.</div>';
+        <li style="float:left; margin:0; padding:0;"><span><a href="/media/view/'.$film_info[$i]["id"].'">'.$film_info[$i]["film_name_rus"].'
+         / '.$film_info[$i]["film_name_org"].'
+         / '.$film_info[$i]["year"].'</a></span></li></p></div>';
 	   }
+       echo '</ol></div>';
+       echo '<div class="movies_r"><ol start="'.((sizeof($film_info)/2)+1).'">';
+       for ($i = (sizeof($film_info)/2)+1; $i < sizeof($film_info);$i++)
+       {
+		echo '
+        <div class="moviePreviewWrapper_list">
+        <p class="text">
+        <li style="float:left; margin:0; padding:0;"><span><a href="/media/view/'.$film_info[$i]["id"].'">'.$film_info[$i]["film_name_rus"].'
+         / '.$film_info[$i]["film_name_org"].'
+         / '.$film_info[$i]["year"].'</a></span></li></p></div>';
+	   }
+       echo '</ol></div>';
        echo '</div>';
     }
+    else
+    {
+        echo "<p>Список пуст!</p>";
+    }
+  }
 }
 ?>

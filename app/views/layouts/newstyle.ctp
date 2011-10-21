@@ -76,16 +76,18 @@
                     <div id="main_inner">
                         <div id="block_main">
                             <?= $content_for_layout; ?>
+                                                        
                         </div>
+                                                
                     </div>
-                </div>
-            <div id="navigation_tv">
+                    <div id="navigation_tv">
             <a href="#"><img src="/img/main/left_arrow.png" alt="Листать влево" /></a>
             <a href="#"><img src="/img/main/refresh.png" id="icon_refresh" alt="Обновить" /></a>
             <a href="#"><img src="/img/main/list.png" id="icon_list" alt="Вид отображения: Список" /></a>
             <a href="#"><img src="/img/main/eskiz.png" id="icon_eskiz" alt="Вид отображения: Эскизом" /></a>
             <a href="#"><img src="/img/main/right_arrow.png" id="icon_r_arrow" alt="Листать вправо" /></a>
-            </div>
+            </div>                    
+                </div>
             </div>
 
             <div class="footer">
