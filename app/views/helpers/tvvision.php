@@ -35,7 +35,7 @@ class TvvisionHelper extends AppHelper {
     }
     else
     {
-        echo "<p>Список пуст!</p>";
+        echo "<p>".$film_info."</p>";
     }
   }
     //list
@@ -49,9 +49,9 @@ class TvvisionHelper extends AppHelper {
        for ($i = 0; $i < sizeof($film_info)/2;$i++)
        {
 		echo '
-        <p class="text">
         <li style="float:left; margin:0; padding:0;">
         <div class="moviePreviewWrapper_list">
+        <p class="text">
         <span><a href="/media/view/'.$film_info[$i]["id"].'">'.$film_info[$i]["film_name_rus"].'
          / '.$film_info[$i]["film_name_org"].'
          / '.$film_info[$i]["year"].'</a></span></li></p></div>';
@@ -61,8 +61,8 @@ class TvvisionHelper extends AppHelper {
        for ($i = (sizeof($film_info)/2)+1; $i < sizeof($film_info);$i++)
        {
 		echo '
-        <p class="text">
         <li style="float:left; margin:0; padding:0;">
+        <p class="text">
         <div class="moviePreviewWrapper_list">
         <span><a href="/media/view/'.$film_info[$i]["id"].'">'.$film_info[$i]["film_name_rus"].'
          / '.$film_info[$i]["film_name_org"].'
@@ -73,7 +73,7 @@ class TvvisionHelper extends AppHelper {
     }
     else
     {
-        echo "<p>Список пуст!</p>";
+        echo "<p>".$film_info."</p>";
     }
   }
 }
