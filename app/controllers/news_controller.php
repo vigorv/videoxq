@@ -2,7 +2,7 @@
 class NewsController extends AppController {
 
     var $name = 'News';
-    var $helpers = array('Html', 'Form', 'Calendar');
+    var $helpers = array('Html', 'Form', 'Calendar', 'Directions');
 
     var $uses = array('News', 'Direction');
     var $components = array('BlockStats');
@@ -30,12 +30,49 @@ class NewsController extends AppController {
      */
     function index($dir_id = 0)
     {
-		$lang = $this->Session->read("language");
-		if ($lang == _ENG_)
-			$this->redirect('/media');
+	$lang = $this->Session->read("language");
+	if ($lang == _ENG_)
+            $this->redirect('/media');
+/*
+ * Старый (простой одноуровневый список) способ вывода разделов новостей
+ *
     	$dirs = $this->Direction->findAll(array('Direction.hidden' => 0), null, 'Direction.srt DESC');
     	$this->set('dirs', $dirs);
     	$this->set('dir_id', $dir_id);
+*/
+        $dir_id = intval($dir_id);
+        //----------------------------------------------------------------------
+        //упрощенный, оптимизированый способ генерации дерева html в виде
+        //списка, с использванием кейковскоко метода модель->generatetreelist()
+        //очень удобно! не надо заморачиваться с рекурсией и т.п. на выходе уже
+        //готовое дерево, отсортировано и по порядку вложенности, для пометки и
+        //подсчета уровня вложенности, используем символ "#", количество "#" в
+        //начале строки, соотвествует уровню вложенности. ВНИМАНИЕ! Этот символ
+        //"#" являеется "служебным", и не должен присутствовать в значении
+        //самого заголовка, в нашем случае поле 'title' данной модели, иначе
+        //используем другой специальный символ.
+        //
+        //задаем параметры выборки
+        $conditions = array();
+        if (empty($process_hidden) || !$process_hidden){
+            //нам скрытые разделы не нужны!!!
+            $conditions[] = array('hidden' => 0);
+        }
+        //задаем наш служебный спец.символ
+        $level_char = '#';
+        //генерируем список элементов html
+        $tree_arr = $this->Direction->generatetreelist($conditions, null, null, $level_char);
+        //формируем массив данных для хелпера вывода html дерева 
+        $directions_data = array(
+            'list' => $tree_arr,
+            'current_id' => $dir_id,
+            'level_char' => $level_char
+        );
+        $this->set('directions_data', $directions_data);
+        //----------------------------------------------------------------------
+
+
+
 
     	$conditions = array('News.hidden' => 0);
     	if (!empty($dir_id))
