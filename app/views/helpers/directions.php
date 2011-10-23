@@ -86,7 +86,7 @@ jQuery(document).ready(function() {
      */
     function showHtmlTree($tree_list_data = array(), $current_id = null, $level_char = '#'){
         $this->Javascript->link('jstree/jquery.jstree.js', false);
-        
+
         $this->output.=$this->Javascript->codeBlock('
             jQuery(document).ready(function() {
                 $("#current_element").children("a").css("color","#f00");
@@ -153,7 +153,7 @@ jQuery(document).ready(function() {
             if (mb_strlen ($direction_title_caption) > $title_max_size){
                 $direction_title_caption = mb_substr($direction_title_caption, 0, $title_max_size - 3).'...';
             }
-            $html_tree .= '<a href="/news/index/' . $direction_id . '" title="' . $direction_title . '">' ;
+            $html_tree .= '<a href="/news/index/' . $direction_id . '" title="' . $direction_title . '" onclick="alert($(this).attr(\'href\'));window.location.href =$(this).attr(\'href\')">' ;
             $html_tree .= $direction_title_caption;
             $html_tree .= '</a>';
             //перед следующим циклом сохраняем текущее кол-во $level_char в $n
