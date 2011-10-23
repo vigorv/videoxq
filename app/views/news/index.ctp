@@ -1,5 +1,12 @@
+<style>
+</style>
+<script type="text/javascript">
+jQuery(document).ready(function() {
+});
+</script>
 <?php
-	$javascript->link('calendarlite/jquery.calendarlite', false);
+
+    $javascript->link('calendarlite/jquery.calendarlite', false);
     $javascript->link('calendarlite/jquery.calendarlite', false);
     $javascript->link(array('slimbox2/slimbox2.js'), false);
     $html->css('global', '', '', false);
@@ -13,9 +20,19 @@
 ?>
 <div id="middle">
 				<div class="left-block">
-					<div id="left-menu">
-						<ul>
-							<?php
+					<div id="left-menu_">
+
+                                                <?php
+
+                                                if (!empty($directions_data) && $directions_data){
+                                                    echo $directions->showHtmlTree($directions_data['list'],$directions_data['current_id'], $directions_data['level_char']);
+                                                }
+
+/*
+                                               //Старый (простой одноуровневый список) способ вывода разделов новостей
+
+						echo '<ul>';
+
 								$current = '';
 								if (empty($dir_id) || isset($year))
 									$current = 'class="active"';
@@ -29,8 +46,9 @@
 										$current = 'class="active"';
 									echo '<li ' . $current . '><a ' . $current . ' href="/news/index/' . $d['Direction']['id'] . '">' . $d['Direction']['caption'] . '</a></li>';
 								}
-							?>
-						</ul>
+						echo '</ul>';
+*/
+						?>
 					</div>
 				</div>
 				<div class="center-block">
