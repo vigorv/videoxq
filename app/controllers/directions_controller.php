@@ -14,7 +14,7 @@ class DirectionsController extends AppController {
         //конечно не очень рационально, но массив не такой большой, и для
         //админки потянет :)
         //в дальнейшем можно все засунуть в минимум запросов
-        pr($tree_arr);
+        //pr($tree_arr);
         foreach ($tree_arr as $key => $val){
             $tree_arr[$key] = ($this->Direction->checkDirectionIsHidden($key))? $val.' (скрыто)'  : $val;
         }
