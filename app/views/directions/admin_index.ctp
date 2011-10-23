@@ -2,33 +2,34 @@
 $html->css('adm_directions','',array(),false);
 $javascript->link('adm_directions.js', false);
 //$javascript->link('jstree/_lib/jquery.js', false);
-//$javascript->link('jstree/jquery.jstree.js', false);
+$javascript->link('jstree/jquery.jstree.js', false);
 
 //pr($javascript);
 
 ?>
 <style>
+
+
      .curent {
 //        color: #d00;
 
 </style>
 <script type="text/javascript">
 jQuery(document).ready(function() {
-
 $('.current').children('a').css('color','#f00');
 
 
-/*
+
 $("#tree1")
                 // call `.jstree` with the options object
 	        .jstree({
 	            // the `plugins` array allows you to configure the active plugins on this instance
-	            "plugins" : ["themes","html_data","ui","crrm"],
+	            "plugins" : ["themes","html_data","ui"],
 	            // each plugin you have included can have its own config object
-	            "core" : { "initially_open" : [ "phtml_1" ] }
+	            "core" : { "initially_open" : [ "current_item" ]}
 	            // it makes sense to configure a plugin only if overriding the defaults
 	        })
-*/
+
 
 
 
@@ -40,7 +41,7 @@ $("#tree1")
 
 
 
-<div style="text-align: left" id="tree1">
+<div style="text-align: left" >
 <?php
 //echo $tree2->generate($stuff, array('alias' => 'title'));
 ?>
@@ -73,7 +74,7 @@ foreach($tree_arr as $id => $title){
 <?php echo $html->link('Проверка структуры дерева категорий', array('action'=>'verify'),array('class'=>'a_btn','style'=>'display: block; clear: both'));?>
 
 
-<div style="text-align: left; clear: both">
+<div style="text-align: left; clear: both" id="tree1">
 <?php
 if (!empty($directions_data) && $directions_data){
     echo $directions->showTree($directions_data['list'],$directions_data['current_id']);
