@@ -93,7 +93,8 @@ jQuery(document).ready(function() {
 
                 $("#left-menu_").jstree({
                     "plugins" : ["themes","html_data","ui"],
-                    "core" : { "initially_open" : [ "current_element" ]}
+                    "core" : { "initially_open" : [ "current_element" ]},
+                    "ui" : {"disable_selecting_children" : ["true"]}
                     })
             });'
         );
@@ -153,7 +154,7 @@ jQuery(document).ready(function() {
             if (mb_strlen ($direction_title_caption) > $title_max_size){
                 $direction_title_caption = mb_substr($direction_title_caption, 0, $title_max_size - 3).'...';
             }
-            $html_tree .= '<a href="/news/index/' . $direction_id . '" title="' . $direction_title . '" onclick="alert($(this).attr(\'href\'));window.location.href =$(this).attr(\'href\')">' ;
+            $html_tree .= '<a href="/news/index/' . $direction_id . '" title="' . $direction_title . '" onclick="window.location.href =$(this).attr(\'href\')">' ;
             $html_tree .= $direction_title_caption;
             $html_tree .= '</a>';
             //перед следующим циклом сохраняем текущее кол-во $level_char в $n
