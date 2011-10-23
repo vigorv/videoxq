@@ -61,13 +61,124 @@ jQuery(document).ready(function() {
             'type' => 'ul',
             'itemType' => 'li',
             'element' => 'directions_item',
-            'class' => 'top_lvl_item'
+//            'class' => 'top_lvl_item',
+            'id' => 'top_lvl_item'
         );
 
         $this->output .= $this->Tree->generate($tree_data, $settings);
 
         return $this->output;
     }
+
+    /*--------------------------------------------------------------------------
+     * showHtmlTree
+     *--------------
+     *
+     * упрощенный, оптимизированый способ генерации дерева html в виде
+     * списка, с использванием кейковскоко метода модель->generatetreelist()
+     * очень удобно! не надо заморачиваться с рекурсией и т.п. на выходе уже
+     * готовое дерево, отсортировано и по порядку вложенности, для пометки и
+     * подсчета уровня вложенности, используем символ "#", количество "#" в
+     * начале строки, соотвествует уровню вложенности. ВНИМАНИЕ! Этот символ
+     * "#" являеется "служебным", и не должен присутствовать в значении
+     * самого заголовка, в нашем случае поле 'title' данной модели, иначе
+     * используем другой специальный символ.
+     */
+    function showHtmlTree($tree_list_data = array(), $current_id = null, $level_char = '#'){
+        $this->Javascript->link('jstree/jquery.jstree.js', false);
+        
+        $this->output.=$this->Javascript->codeBlock('
+            jQuery(document).ready(function() {
+                $("#current_element").children("a").css("color","#f00");
+
+                $("#left-menu_").jstree({
+                    "plugins" : ["themes","html_data","ui"],
+                    "core" : { "initially_open" : [ "current_element" ]}
+                    })
+            });'
+        );
+
+        //инициализируем рабочие переменные
+        $html_tree = '';
+        $n=0;
+
+        foreach($tree_list_data as $direction_id => $direction_title){
+            //смотрим кол-во $level_char в текущей строке
+            $n2 = substr_count ( $direction_title, $level_char);
+            //разберем все случаи перед открытием тега <li>, когда нужно закрыть
+            //предыдущие теги (уйти на уровень назад) или открыть новые ul (уйти
+            //на уревень вверх)
+            //
+            //количество $level_char в предыдущей строке хранится в $n
+            //
+            //если кол-во $level_char осталось такое же, как было, то просто
+            //закрываем открытый тег <li> и все
+            if($n2 == $n) {$html_tree .= '</li>';}
+
+            //если кол-во $level_char увеличилось, значит это новый уровень
+            //вложенности, а это повод открыть тег <ul> :)))))
+            //увеличивается уровень только на 1 (это гарантируем кейковский
+            //метод модели генерации списка)
+            elseif($n2 > $n) {
+                $tag_id = '';
+                //если это самый первый, т.е. корневой элемент, назначим
+                //id ="root" для тега <ul>, может пригодиться в дальнейшем :)
+                //if (!$html_tree) {$tag_id = ' id="root"';}
+                $html_tree .= '<ul'.$tag_id.'>';
+            }
+
+            //если кол-во $level_char уменьшилось, значит возвращаемся на один
+            //из предыдущих уровней вложенности, на какой именно зависит от
+            //разницы  в количестве $level_char, это повод закрыть теги <li><ul>
+            // :)))))
+            // если $n-$n2=1 то уходим на один уровень назад, т.е. добавляем
+            //к строке вывода "</li></ul>", если =2, то "</li></ul></li></ul>",
+            //и в конец всего этого дела еще добавляем "</li>" для закрытия
+            //ранее открытого тега <li>
+            elseif($n2 < $n) {$html_tree .= str_repeat('</li></ul>',$n-$n2).'</li>';}
+
+            //и наконец-то после длительного анализаоткрываем тег  <li>, для
+            //текущего элемента, если его id совпадает с id выбранного раздела,
+            //то пометим этот тег как текущий, дабы JS-скрипт знак какой элемент
+            //дерева раскрыть по умолчанию
+            $current_element = '';
+            if ($direction_id == $current_id) {$current_element = ' id="current_element"';}
+            $html_tree .= '<li'.$current_element.'>';
+            //и добавим сам текст заголовка, удалив из него все вхождения спец.
+            //символа
+            $direction_title = str_replace($level_char, '', $direction_title);
+            $direction_title_caption = $direction_title;
+            //если надо обрежем слишкоб длинную строку, превышающую $title_max_size
+            $title_max_size = 15;
+            if (mb_strlen ($direction_title_caption) > $title_max_size){
+                $direction_title_caption = mb_substr($direction_title_caption, 0, $title_max_size - 3).'...';
+            }
+            $html_tree .= '<a href="/news/index/' . $direction_id . '" title="' . $direction_title . '">' ;
+            $html_tree .= $direction_title_caption;
+            $html_tree .= '</a>';
+            //перед следующим циклом сохраняем текущее кол-во $level_char в $n
+            $n = $n2;
+        }
+        //если были элементы в списке то надо закрыть первоначальный тег ul
+        if ($html_tree) $html_tree .= '</ul>';
+        //обернем все меню еще одним главным пунктом "Все категории" и назначим
+        //ему id="root"
+        $html_tree = '<ul id="root">'.
+                '<li><a href="/news">Все категории</a></li>'.
+                $html_tree.
+                '</ul>';
+
+
+
+
+
+        $this->output .= $html_tree;
+
+
+        return $this->output;
+
+    }
+
 }
 
 ?>
