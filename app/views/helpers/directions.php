@@ -120,7 +120,9 @@ jQuery(document).ready(function() {
         $html_tree = '';
         $n=-1;
 
-        foreach($tree_list_data as $direction_id => $direction_title){
+        foreach($tree_list_data as $direction_id => $direction_data){
+            $direction_title = $direction_data['title'];
+            $news_count = $direction_data['count'];
             //смотрим кол-во $level_char в текущей строке
             $n2 = substr_count ( $direction_title, $level_char);
             //разберем все случаи перед открытием тега <li>, когда нужно закрыть
@@ -167,13 +169,29 @@ jQuery(document).ready(function() {
             $direction_title = str_replace($level_char, '', $direction_title);
             $direction_title_caption = $direction_title;
             //если надо обрежем слишкоб длинную строку, превышающую $title_max_size
-            $title_max_size = 15;
+            $title_max_size = 25;
             if (mb_strlen ($direction_title_caption) > $title_max_size){
                 $direction_title_caption = mb_substr($direction_title_caption, 0, $title_max_size - 3).'...';
             }
-            $html_tree .= '<a href="/news/index/' . $direction_id . '" title="' . $direction_title . '" onclick="window.location.href =$(this).attr(\'href\')">' ;
-            $html_tree .= $direction_title_caption;
-            $html_tree .= '</a>';
+
+
+            //если в разделе есть новости то укажем ссылку на этот раздел, иначе
+            //пустую сссылку - нефиг смотреть пустые новости :)))))))
+            if ($news_count){
+                $direction_href = '/news/index/' . $direction_id . '';
+                $onclick = 'onclick="window.location.href =$(this).attr(\'href\')"';
+                $direction_title_caption = $direction_title_caption . ' (' . $news_count . ')';
+            }
+            else {
+                $direction_href = '#';
+                $onclick = '';
+                $title = '';
+            }
+
+                $html_tree .= '<a href="'.$direction_href.'" title="' . $direction_title . '" ' . $onclick . '>' ;
+                $html_tree .= $direction_title_caption;
+                $html_tree .= '</a>';
+
             //перед следующим циклом сохраняем текущее кол-во $level_char в $n
             $n = $n2;
         }
