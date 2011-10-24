@@ -8,6 +8,9 @@ class CalendarHelper extends AppHelper {
 	}
     public function _jsCode_array($days)
     {
+        $cur_year = (substr($_GET['current'],0,4));
+        $cur_month = (substr($_GET['current'],6,1));
+        $cur_day = (substr($_GET['current'],8,4));
         $count_days = sizeof($days);
         echo "<script type=\"text/javascript\">var days_array = [];";
         for ($i=0;$i < $count_days;$i++)
@@ -15,7 +18,7 @@ class CalendarHelper extends AppHelper {
             $days2 = explode("-",$days[$i]);
             echo "days_array[$i]= '$days[$i]';";
         }
-        echo "var count_days = $count_days;</script>";
+        echo "var count_days = $count_days;var current_day = $cur_day;var current_month = $cur_month;var current_year = $cur_year;</script>";
     }
 
     //function setLinks ($links)
@@ -31,6 +34,12 @@ class CalendarHelper extends AppHelper {
         $this->category = $id;
         echo "<script type=\"text/javascript\">var index = $id;</script>";
     }
+    function SetDay($day)
+    {
+        $this->current_day = $day;
+        echo "<script type=\"text/javascript\">var index = $id;</script>";
+    }
+    
     function LinkFormat()
 	{
 

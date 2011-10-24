@@ -35,6 +35,7 @@
 
         var today = new Date();
         var srcDate = new Date();
+        srcDate.setMonth(current_month-1);
         if (!isNaN(year)) {
             srcDate.setDate(1);
             srcDate.setFullYear(year);
@@ -46,7 +47,10 @@
         var curDate = srcDate.getDate();
         var curMonth = srcDate.getMonth();
         var curYear = srcDate.getFullYear();
-
+        
+        
+        
+        
         var dates = [];
         var dayCount = new Date(curYear, curMonth + 1, 0).getDate();
         for (var i = 1; i <= dayCount; i++) {
@@ -60,6 +64,7 @@
         var str = '<tbody><tr>' + this.getHead(o) + '</tr>', cl = '';
         var line = [];
         var href = [];
+        var href_s = [];
         for (var g = 0; g < dates.length; g++) {
             if (o.linkFormat != null && o.linkFormat != undefined) {
                 href[g] = _formatLink(o.linkFormat, dates[g]);
@@ -75,7 +80,7 @@
             cl = '';
             
             
-            if (date == today.getDate() && curMonth == today.getMonth() && curYear == today.getFullYear()) {
+            if (date == current_day && curMonth == current_month-1 && curYear == current_year) {
                 cl = ' class="curr"';
             } else if (day == 6 || day == 0) {
                 cl = ' class="weekend"';
@@ -98,7 +103,11 @@
             {
                 href[j] = "javascript:void";
             }
-            line.push('<td' + cl + ''+ cl2 +'><a href="' + href[j] + '" rel="' + rel + '" '+ cl2 +'>' + date + '</a></td>');
+            
+            
+            href_s[j] = href[j].substr(-10);
+            
+            line.push('<td' + cl + ''+ cl2 +'><a href="' + href[j] + '?current='+href_s[j]+'" rel="' + rel + '" '+ cl2 +'>' + date + '</a></td>');
             if (dates[j].getDay() == 0) {
                 if (line.length < 7) {
                     var ln = line.length;

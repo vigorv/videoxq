@@ -29,7 +29,6 @@
 }
 </style>
 <?php
-
     $javascript->link('calendarlite/jquery.calendarlite', false);
     $javascript->link('calendarlite/jquery.calendarlite', false);
     $javascript->link(array('slimbox2/slimbox2.js'), false);
