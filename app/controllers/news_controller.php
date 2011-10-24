@@ -136,6 +136,7 @@ class NewsController extends AppController {
 	    	$conditions['News.direction_id'] = $ids;
     	}
 		$this->set('dir_id', $dir_id);
+		$this->set('dt', $dt);
 //pr($conditions);
 
         //$this->Paginator->options(array('url' => 'news/index/'.$dir_id));
@@ -174,10 +175,52 @@ class NewsController extends AppController {
             $this->redirect('/');
         }
 
-		if (is_numeric($id))
+        $conditions = array();
+        $conditions[] = array('hidden' => 0);//нам скрытые разделы не нужны!!!
+        //задаем наш служебный спец.символ
+        $level_char = '#';
+
+        $tree_arr = Cache::read('News.categoriesFullTree', 'block');
+        if (empty($tree_arr))
+        {
+	        //генерируем список элементов html
+	        $tree_arr = $this->Direction->generatetreelist($conditions, null, null, $level_char);
+	        Cache::write('News.categoriesFullTree', $tree_arr, 'block');
+        }
+
+        $dir_id = 0;
+        if (is_numeric($id))
 		{
 			$info = $this->News->findById($id);
 		}
+
+		if (!empty($info))
+		{
+			$dir_id = $info['News']['direction_id'];
+		}
+
+        //формируем массив данных для хелпера вывода html дерева
+        $directions_data = array(
+            'list' => $tree_arr,
+            'current_id' => $dir_id,
+            'level_char' => $level_char
+        );
+        $this->set('directions_data', $directions_data);
+
+    	$conditions = array('News.hidden' => 0);
+    	$subDirections = $this->Direction->getSubDirections($dir_id);
+    	$ids = array($dir_id);
+    	if (!empty($subDirections))
+    	{
+    		foreach ($subDirections as $sD)
+    		{
+    			$ids[] = $sD['Direction']['id'];
+    		}
+    	}
+    	$conditions['News.direction_id'] = $ids;
+    	$lst = $this->News->findAll($conditions, null, 'News.created DESC');
+    	$this->set('lst', $lst);
+		$this->set('dir_id', $dir_id);
 
 		if (!empty($info))// && !$info['News']['hidden'])
 		{

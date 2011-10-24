@@ -68,7 +68,6 @@ class DirectionsController extends AppController {
         //----------------------------------------------------------------------
 
 
-
     }
 
 //------------------------------------------------------------------------------
@@ -77,6 +76,8 @@ class DirectionsController extends AppController {
         if (!empty($id) && $id) {
             $info = $this->Direction->moveup($id,1);
             $this->Session->setFlash('Категория перемещена вверх!', true);
+
+            Cache::delete('News.categoriesFullTree', 'block');
         }
         else{
             $this->Session->setFlash('Ошибка. Куда делcя id?', true);
@@ -90,6 +91,8 @@ class DirectionsController extends AppController {
         if (!empty($id) && $id) {
             $info = $this->Direction->movedown($id,1);
             $this->Session->setFlash('Категория перемещена вниз!', true);
+
+            Cache::delete('News.categoriesFullTree', 'block');
         }
         else{
             $this->Session->setFlash('Ошибка. Куда делcя id?', true);
@@ -127,6 +130,9 @@ class DirectionsController extends AppController {
             //пишем в БД!
             if ($this->Direction->save($new_data)) {
                 $this->Session->setFlash('Категория добавлена!', true);
+
+	            Cache::delete('News.categoriesFullTree', 'block');
+
                 $this->redirect(array('action'=>'index'));
                     }
             }
@@ -194,6 +200,9 @@ class DirectionsController extends AppController {
             //пишем в БД!
             if ($this->Direction->save($new_data)) {
                 $this->Session->setFlash('Категория изменена!', true);
+
+	            Cache::delete('News.categoriesFullTree', 'block');
+
                 $this->redirect(array('action'=>'index'));
                     }
                else{
@@ -258,6 +267,8 @@ class DirectionsController extends AppController {
             if ($no_news_in_directions){
                 $info = $this->Direction->removefromtree($id,true);
                 $this->Session->setFlash('Категория удалена.', true);
+
+	            Cache::delete('News.categoriesFullTree', 'block');
             }
             else {
                 $this->Session->setFlash('Ошибка. Категория не пуста, в ней есть новости', true);
@@ -275,7 +286,10 @@ class DirectionsController extends AppController {
     function admin_reorder(){
         //$result = $this->Direction->reorder();
         $this->Session->setFlash('Переиндексация сруктуры категорий прошло успешно!', true);
-	$this->redirect(array('action'=>'index'));
+
+        Cache::delete('News.categoriesFullTree', 'block');
+
+        $this->redirect(array('action'=>'index'));
     }
 
 //------------------------------------------------------------------------------
@@ -283,7 +297,10 @@ class DirectionsController extends AppController {
     function admin_recover(){
         //$result = $this->Direction->recover();
         $this->Session->setFlash('Восстановление сруктуры категорий прошло успешно!', true);
-	$this->redirect(array('action'=>'index'));
+
+		Cache::delete('News.categoriesFullTree', 'block');
+
+		$this->redirect(array('action'=>'index'));
     }
 
 //------------------------------------------------------------------------------
