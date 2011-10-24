@@ -115,7 +115,7 @@ class NewsController extends AppController {
 
 
 
-        $rows_per_page = 30;
+        $rows_per_page = 10;
         $this->paginate = array(
 //                    'page' => 1,
                     'conditions' => $conditions,
@@ -131,12 +131,14 @@ class NewsController extends AppController {
                                                                 'recursive' => 0));
 
 */
-        $data = $this->paginate('News');
+        $lst = $this->paginate('News');
 //        pr ($data);
 
 
 
-    	$lst = $this->News->findAll($conditions, null, 'News.created DESC');
+    	//$lst = $this->News->findAll($conditions, null, 'News.created DESC');
+
+
     	$this->set('lst', $lst);
     }
 
