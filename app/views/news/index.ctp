@@ -9,7 +9,21 @@
 	$javascript->link('jquery.fancybox-1.3.4/fancybox/jquery.fancybox-1.3.4.pack', false);
     $html->css('fancybox-1.3.4/jquery.fancybox-1.3.4', null, array(), false);
     $javascript->link('jquery.pngFix', false);
-    $calendar->_jsCode_array(array("2011-10-01","2011-10-05","2011-10-11"));
+
+    $dateArr = array();
+    if (!empty($lst))
+    {
+    	//$dirPrefix = $dir_id . '/';
+    	foreach ($lst as $l)
+    	{
+    		$d = explode(' ', $l['News']['created']);
+    		//$dateArr[] = $dirPrefix . $d[0];
+    		$dateArr[] = $d[0];
+    	}
+    }
+//pr($dateArr);
+	$calendar->setCategory($dir_id);
+    $calendar->_jsCode_array($dateArr);
     $calendar->ShowCalendar();
 ?>
 <div id="middle">
