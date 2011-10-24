@@ -18,7 +18,6 @@
 .jstree-default .jstree-hovered, .jstree-default .jstree-hovered:visited, #current_element > a  {
     background:#8D8D8D;
     color: #fff;
-    border: 1px solid #aaa;
     text-decoration: none;
     -moz-border-radius: 5px;
     border-radius: 5px;
