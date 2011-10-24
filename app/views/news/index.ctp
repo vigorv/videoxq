@@ -1,3 +1,33 @@
+<style>
+.pagination_nav {
+    padding: 15px 5px 15px 5px;
+    text-align: center;
+    border-top: 1px solid #aaa;
+}
+
+.pagination_nav a {
+    padding: 3px 5px;
+    margin: 1px;
+    background: #f4f4f4;
+    border: 1px solid #aaa;
+    text-decoration: none;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+.pagination_nav a:hover{
+    background: #ddd;
+    color: #d00;
+}
+.pagination_nav strong {
+    padding: 3px 5px;
+    margin: 1px 5px 1px 1px;
+    background: #e4e4e4;
+    border: 1px solid #aaa;
+    text-decoration: none;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+</style>
 <?php
 
     $javascript->link('calendarlite/jquery.calendarlite', false);
@@ -28,7 +58,7 @@
 ?>
 <div id="middle">
 				<div class="left-block">
-					<div id="left-menu_">
+
 
                                                 <?php
 
@@ -39,7 +69,7 @@
 /*
                                                //Старый (простой одноуровневый список) способ вывода разделов новостей
 
-						echo '<ul>';
+						echo '<div id="left-menu_"><ul>';
 
 								$current = '';
 								if (empty($dir_id) || isset($year))
@@ -54,10 +84,10 @@
 										$current = 'class="active"';
 									echo '<li ' . $current . '><a ' . $current . ' href="/news/index/' . $d['Direction']['id'] . '">' . $d['Direction']['caption'] . '</a></li>';
 								}
-						echo '</ul>';
+						echo '</ul></div>';
 */
 						?>
-					</div>
+
 				</div>
 				<div class="center-block">
 					<div id="content-main">
@@ -97,11 +127,19 @@
 						}
 					}
 				?>
+
+
+
+<div class="pagination_nav">
+<?php echo $this->element('paging'); ?>
+</div>
+
 					</div>
 				</div>
 				<div class="right-block">
                 <div id="calendarlite"></div>
 				</div>
+
 			</div>
 <script type="text/javascript">
 <!--
