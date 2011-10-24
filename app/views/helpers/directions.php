@@ -92,13 +92,13 @@ jQuery(document).ready(function() {
      *
      * @return string $this->output - подготовленный список дерева <ul>...
      */
-    function showHtmlTree($tree_list_data = array(), $current_id = null, $level_char = '#', $html_container_id = 'left-menu'){
+    function showHtmlTree($tree_list_data = array(), $current_id = 0, $level_char = '#', $html_container_id = 'left-menu'){
         $this->Javascript->link('jstree/jquery.jstree.js', false);
 
         $this->output.=$this->Javascript->codeBlock('
             jQuery(document).ready(function() {
 //                $("#current_element").children("a").css({"background-color" : "#aaa", "color" : "#fff", "width" : "250px", "padding" : "8px 0 8px 3px"});
-
+                $("#'.$html_container_id.'").hide();
                 $("#'.$html_container_id.'").jstree({
                     "plugins" : ["themes","html_data","ui"],
                     "core" : { "initially_open" : [ "current_element" ]},
@@ -109,6 +109,7 @@ jQuery(document).ready(function() {
 			"icons" : false
                         }
                     })
+                $("#'.$html_container_id.'").fadeIn();
             });
             '
         );
@@ -185,10 +186,16 @@ jQuery(document).ready(function() {
         }
         //если были элементы в списке то надо закрыть первоначальный тег ul
         if ($html_tree) $html_tree .= '</ul>';
+
+
+/* обертывание пока отменяется ))))))))))))
+ **/
         //обернем все меню еще одним главным пунктом "Все категории" и назначим
         //ему id="root"
+        $current_element = '';
+        if (!$current_id) { $current_element = ' id="current_element"';}
         $html_tree = '<ul id="root">'.
-                '<li><a href="/news">Все категории</a></li>'.
+                '<li'.$current_element.'><a href="/news" onclick="window.location.href =$(this).attr(\'href\')">Все категории</a></li>'.
                 $html_tree.
                 '</ul>';
 
