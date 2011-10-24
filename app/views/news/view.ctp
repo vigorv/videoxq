@@ -93,10 +93,16 @@
 ?>
 			<div id="middle">
 				<div class="left-block">
+							<?php
+                                                if (!empty($directions_data) && $directions_data){
+                                                    echo $directions->showHtmlTree($directions_data['list'],$directions_data['current_id'], $directions_data['level_char'], 'left-menu_');
+                                                }
+
+                                //ПРОСТАЯ НАВИГАЦИЯ
+/*
 					<div id="left-menu">
 						<ul>
-							<?php
-								$dir_id = $info['News']['direction_id'];
+                                $dir_id = $info['News']['direction_id'];
 
 								$current = '';
 								if (empty($dir_id))
@@ -111,9 +117,10 @@
 										$current = 'class="active"';
 									echo '<li ' . $current . '><a ' . $current . ' href="/news/index/' . $d['Direction']['id'] . '">' . $d['Direction']['caption'] . '</a></li>';
 								}
-							?>
 						</ul>
 					</div>
+//*/
+							?>
 				</div>
 				<div class="center-block">
 					<div id="content-main">
@@ -168,6 +175,12 @@
 
 	$javascript->link('jquery.fancybox-1.3.4/fancybox/jquery.fancybox-1.3.4.pack', false);
     $html->css('fancybox-1.3.4/jquery.fancybox-1.3.4', null, array(), false);
+
+    $javascript->link('calendarlite/jquery.calendarlite', false);
+    $javascript->link('calendarlite/jquery.calendarlite', false);
+    $javascript->link(array('slimbox2/slimbox2.js'), false);
+    $html->css('global', '', '', false);
+    $html->css('calendarlite', '', '', false);
 
     $javascript->link('jquery.pngFix', false);
     $matchesInfo = explode('|', $info['News']['matchesinfo']);
@@ -456,5 +469,23 @@ echo $hideJS;
 					</div>
 				</div>
 				<div class="right-block">
+<?php
+    $dateArr = array();
+    if (!empty($lst))
+    {
+    	//$dirPrefix = $dir_id . '/';
+    	foreach ($lst as $l)
+    	{
+    		$d = explode(' ', $l['News']['created']);
+    		//$dateArr[] = $dirPrefix . $d[0];
+    		$dateArr[] = $d[0];
+    	}
+    }
+//pr($dateArr);
+	$calendar->SetCategory($dir_id);
+    $calendar->_jsCode_array($dateArr);
+    $calendar->ShowCalendar();
+?>
+                <div id="calendarlite"></div>
 				</div>
 			</div>
