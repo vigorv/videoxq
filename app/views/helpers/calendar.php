@@ -23,6 +23,7 @@ class CalendarHelper extends AppHelper {
     //    $linksArray= $links;
     //}
     //nastroika formata ssulok naprimer: http://site.ru/events/{%dd}-{%mm}-{%yyyy}
+    $category = 0;
     function SetCategory($id)
     {
         $this->category = $id;
