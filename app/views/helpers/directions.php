@@ -83,18 +83,31 @@ jQuery(document).ready(function() {
      * "#" являеется "служебным", и не должен присутствовать в значении
      * самого заголовка, в нашем случае поле 'title' данной модели, иначе
      * используем другой специальный символ.
+     *
+     *
+     * @param array $tree_list_data - результат кейковскоко метода модель->generatetreelist()
+     * @param integer $current_id - id раздела новостей
+     * @param string $level_char - спец. символ для подсчета уровня вложенности
+     * @param string $html_container_id - id html контейнера для дерева <ul>...
+     *
+     * @return string $this->output - подготовленный список дерева <ul>...
      */
-    function showHtmlTree($tree_list_data = array(), $current_id = null, $level_char = '#'){
+    function showHtmlTree($tree_list_data = array(), $current_id = null, $level_char = '#', $html_container_id = 'left-menu'){
         $this->Javascript->link('jstree/jquery.jstree.js', false);
 
         $this->output.=$this->Javascript->codeBlock('
             jQuery(document).ready(function() {
                 $("#current_element").children("a").css("color","#f00");
 
-                $("#left-menu_").jstree({
+                $("#'.$html_container_id.'").jstree({
                     "plugins" : ["themes","html_data","ui"],
                     "core" : { "initially_open" : [ "current_element" ]},
-                    "ui" : {"disable_selecting_children" : ["true"]}
+                    "ui" : {"disable_selecting_children" : ["true"]},
+                    "themes" : {
+			"theme" : "default",
+			"dots" : false,
+			"icons" : false
+                        }
                     })
             });'
         );
