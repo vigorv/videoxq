@@ -31,7 +31,7 @@ class CalendarHelper extends AppHelper {
     function LinkFormat()
 	{
 	   
-		return "linkFormat: 'news/index/$this->category/{%yyyy}-{%mm}-{%dd}'";
+		return "linkFormat: '/news/index/$this->category/{%yyyy}-{%mm}-{%dd}'";
 	}
     //nstroika callback function - poka test
     function CallbackFunction()
