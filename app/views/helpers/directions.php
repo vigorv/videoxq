@@ -97,7 +97,7 @@ jQuery(document).ready(function() {
 
         $this->output.=$this->Javascript->codeBlock('
             jQuery(document).ready(function() {
-                $("#current_element").children("a").css("color","#f00");
+//                $("#current_element").children("a").css({"background-color" : "#aaa", "color" : "#fff", "width" : "250px", "padding" : "8px 0 8px 3px"});
 
                 $("#'.$html_container_id.'").jstree({
                     "plugins" : ["themes","html_data","ui"],
@@ -109,8 +109,18 @@ jQuery(document).ready(function() {
 			"icons" : false
                         }
                     })
-            });'
+            });
+            '
         );
+
+        $this->output.='
+<style>
+
+#current_element a{
+
+}
+</style>
+            ';
 
         //инициализируем рабочие переменные
         $html_tree = '';
