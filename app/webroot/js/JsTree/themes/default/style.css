@@ -12,8 +12,21 @@
 .jstree-default .jstree-closed > ins { background-position:-54px 0; }
 .jstree-default .jstree-leaf > ins { background-position:-36px 0; }
 
-.jstree-default .jstree-hovered { background:#e7f4f9; border:1px solid #d8f0fa; padding:0 2px 0 1px; }
-.jstree-default .jstree-clicked { background:#beebff; border:1px solid #99defd; padding:0 2px 0 1px; }
+.jstree-default a {width: 250px; padding: 5px 0 5px 5px;}
+/*.jstree-default .jstree-hovered { background:#e7f4f9; border:1px solid #d8f0fa; padding:0 2px 0 1px; }*/
+/*.jstree-default .jstree-clicked { background:#beebff; border:1px solid #99defd; padding:0 2px 0 1px; }*/
+.jstree-default .jstree-hovered, .jstree-default .jstree-hovered:visited, #current_element > a  {
+    background:#8D8D8D;
+    color: #fff;
+    border: 1px solid #aaa;
+    text-decoration: none;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+/*.jstree-default .jstree-clicked { background:#aaa; color: #fff}*/
+
+
+
 .jstree-default a .jstree-icon { background-position:-56px -19px; }
 .jstree-default a.jstree-loading .jstree-icon { background:url("throbber.gif") center center no-repeat !important; }
 
