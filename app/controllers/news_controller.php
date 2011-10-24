@@ -62,7 +62,7 @@ class NewsController extends AppController {
         $level_char = '#';
         //генерируем список элементов html
         $tree_arr = $this->Direction->generatetreelist($conditions, null, null, $level_char);
-        //формируем массив данных для хелпера вывода html дерева 
+        //формируем массив данных для хелпера вывода html дерева
         $directions_data = array(
             'list' => $tree_arr,
             'current_id' => $dir_id,
@@ -110,6 +110,29 @@ class NewsController extends AppController {
     		}
     	}
 //pr($conditions);
+
+
+
+        $rows_per_page = 30;
+        $this->paginate = array(
+//                    'page' => 1,
+                    'conditions' => $conditions,
+                    'limit' => $rows_per_page,
+                    'order' => array(
+                        'News.title' => 'asc'
+                        )
+                    );
+ /*
+            $total_rows_count = $this->News->find('count',
+                                                            array(
+                                                                'conditions' =>$conditions,
+                                                                'recursive' => 0));
+
+*/
+        $data = $this->paginate('News');
+//        pr ($data);
+
+
 
     	$lst = $this->News->findAll($conditions, null, 'News.created DESC');
     	$this->set('lst', $lst);
