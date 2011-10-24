@@ -22,7 +22,7 @@
     	}
     }
 //pr($dateArr);
-	$calendar->setCategory($dir_id);
+	$calendar->SetCategory($dir_id);
     $calendar->_jsCode_array($dateArr);
     $calendar->ShowCalendar();
 ?>
