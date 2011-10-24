@@ -84,7 +84,7 @@
             var cl2 = '';
             
             for (var di = 0; di < 31; di++) {
-            if (href[j] != 'news/index/'+index+'/'+days_array[di])
+            if (href[j] != '/news/index/'+index+'/'+days_array[di])
             {
                 cl2 = ' style="cursor:default;"';
             }
