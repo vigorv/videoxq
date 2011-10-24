@@ -27,8 +27,9 @@ class NewsController extends AppController {
      * если указан $dir_id, то выводим список новостей категории
      *
      * @param integer $dir_id - идентификатор направления (категории)
+     * @param integer $dt - дата в формате YYYY-MM-DD или YYYY-MM
      */
-    function index($dir_id = 0)
+    function index($dir_id = 0, $dt = '')
     {
 	$lang = $this->Session->read("language");
 	if ($lang == _ENG_)
@@ -54,14 +55,17 @@ class NewsController extends AppController {
         //
         //задаем параметры выборки
         $conditions = array();
-        if (empty($process_hidden) || !$process_hidden){
-            //нам скрытые разделы не нужны!!!
-            $conditions[] = array('hidden' => 0);
-        }
+        $conditions[] = array('hidden' => 0);//нам скрытые разделы не нужны!!!
         //задаем наш служебный спец.символ
         $level_char = '#';
-        //генерируем список элементов html
-        $tree_arr = $this->Direction->generatetreelist($conditions, null, null, $level_char);
+
+        $tree_arr = Cache::read('News.categoriesFullTree', 'block');
+        if (empty($tree_arr))
+        {
+	        //генерируем список элементов html
+	        $tree_arr = $this->Direction->generatetreelist($conditions, null, null, $level_char);
+	        Cache::write('News.categoriesFullTree', $tree_arr, 'block');
+        }
         //формируем массив данных для хелпера вывода html дерева
         $directions_data = array(
             'list' => $tree_arr,
@@ -77,23 +81,9 @@ class NewsController extends AppController {
     	$conditions = array('News.hidden' => 0);
     	if (!empty($dir_id))
     	{
-   			$ymd = explode('-', $dir_id);
-    		if (count($ymd) <= 1)
+    		if (!empty($dt))
     		{
-	    		//$conditions['News.direction_id'] = $dir_id;
-		    	$subDirections = $this->Direction->getSubDirections($dir_id);
-		    	$ids = array($dir_id);
-		    	if (!empty($subDirections))
-		    	{
-		    		foreach ($subDirections as $sD)
-		    		{
-		    			$ids[] = $sD['Direction']['id'];
-		    		}
-		    	}
-		    	$conditions['News.direction_id'] = $ids;
-    		}
-    		else
-    		{
+	   			$ymd = explode('-', $dt);
     			//ВЫБОРКА ПО ДАТЕ
     			$year = $ymd[0];
     			if (!empty($ymd[1])) $month = $ymd[1]; else $month = 1;
@@ -108,7 +98,19 @@ class NewsController extends AppController {
 		    	$this->set('year', $year);
     			$this->set('month', $month);
     		}
+    		//$conditions['News.direction_id'] = $dir_id;
+	    	$subDirections = $this->Direction->getSubDirections($dir_id);
+	    	$ids = array($dir_id);
+	    	if (!empty($subDirections))
+	    	{
+	    		foreach ($subDirections as $sD)
+	    		{
+	    			$ids[] = $sD['Direction']['id'];
+	    		}
+	    	}
+	    	$conditions['News.direction_id'] = $ids;
     	}
+		$this->set('dir_id', $dir_id);
 //pr($conditions);
 
 
