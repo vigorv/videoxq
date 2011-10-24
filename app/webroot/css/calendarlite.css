@@ -1,10 +1,9 @@
 .table {
-  border:2px solid #4A4F45;
   font-size: 12px;
-  background-color: #4A4F45;
-  color: #EFEFEF;
+  background-color: #ffffff;
+  color: #555;
 }
-
+#calendarlite {width:190px; padding-left: 5px;}
 td {
   background-color: #eeeeee;
   text-align: center;

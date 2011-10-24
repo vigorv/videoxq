@@ -23,10 +23,15 @@ class CalendarHelper extends AppHelper {
     //    $linksArray= $links;
     //}
     //nastroika formata ssulok naprimer: http://site.ru/events/{%dd}-{%mm}-{%yyyy}
+    function SetCategory($id)
+    {
+        $this->category = $id;
+        echo "<script type=\"text/javascript\">var index = $id;</script>";
+    }
     function LinkFormat()
 	{
 	   
-		return "linkFormat: 'news/index/{%yyyy}-{%mm}-{%dd}'";
+		return "linkFormat: 'news/index/$this->category/{%yyyy}-{%mm}-{%dd}'";
 	}
     //nstroika callback function - poka test
     function CallbackFunction()
@@ -40,8 +45,8 @@ class CalendarHelper extends AppHelper {
     function CalendarStyle()
 	{
 		return "showYear: true,
-                prevArrow: '<---',
-                nextArrow: '--->'";
+                prevArrow: '&#9668;',
+                nextArrow: '&#9658;'";
 	}
     public function ShowCalendar()
 	{

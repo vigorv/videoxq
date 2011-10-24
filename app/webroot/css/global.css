@@ -41,12 +41,13 @@ margin: 0 auto 0;
 padding-top: 20px;
 	float: left;
 width: 100%;
-	background: url('/img/columns-bg.png') repeat-y;
+	
 }
 #middle div.left-block {
 	float: left;
 	width: 250px;
-	background:  url('/img/left-bg.png') repeat-y right top;
+width: 20%;
+	
     
 }
 #middle div.center-block {
@@ -55,16 +56,19 @@ width: 100%;
 width: 65%;
 	background: #fff;
     border-right: 1px solid #000;
+    border-left: 1px solid #000;
+    text-align: justify;
 }
 #middle div.right-block {
 	float: left;
-	margin: 0 0 0 2px;
+	margin: 0 10px 0 2px;
 	width: 160px;
+width: 10%;
 	background: #f2f8fc;
     
     
 }
-#calendarlite {width:220px;}
+
 /*���� � �����������*/
 #left-menu ul {
 	margin: 0;
