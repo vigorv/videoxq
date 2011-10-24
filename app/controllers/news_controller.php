@@ -64,6 +64,31 @@ class NewsController extends AppController {
         {
 	        //генерируем список элементов html
 	        $tree_arr = $this->Direction->generatetreelist($conditions, null, null, $level_char);
+
+                //учитываем ли скрытые новости в подсчете?
+                $do_count_hidden = false;
+                //добавим к этим данным, количество существующих новостей на каждый
+                //раздел, включая его потомков.
+                foreach ($tree_arr  as $direction_id=>$direction_title){
+                    //узнаем idшки вложенных категорий
+                    //выберем список вложенных категорий
+                    $directions = $this->Direction->getSubDirections($direction_id);
+                    $directions_ids = array();
+                    $directions_ids[] = $direction_id;
+                    //и из этого списка создадим список id этих же категорий
+                    foreach($directions as $direction_row){
+                        $directions_ids[] = $direction_row['Direction']['id'];
+                    }
+
+                    $tree_arr[$direction_id] = array (
+                        'title' => $direction_title,
+                        'count' => $this->Direction->countNewsInDirections($directions_ids, $do_count_hidden)
+                        );
+                }
+
+
+
+
 	        Cache::write('News.categoriesFullTree', $tree_arr, 'block');
         }
         //формируем массив данных для хелпера вывода html дерева
@@ -113,7 +138,7 @@ class NewsController extends AppController {
 		$this->set('dir_id', $dir_id);
 //pr($conditions);
 
-
+        //$this->Paginator->options(array('url' => 'news/index/'.$dir_id));
 
         $rows_per_page = 10;
         $this->paginate = array(
@@ -124,6 +149,7 @@ class NewsController extends AppController {
                         'News.title' => 'asc'
                         )
                     );
+
  /*
             $total_rows_count = $this->News->find('count',
                                                             array(
