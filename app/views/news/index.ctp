@@ -131,7 +131,10 @@
 
 
 <div class="pagination_nav">
-<?php echo $this->element('paging'); ?>
+<?php
+    $paginator->options(array('url'=>array('controller'=>'News', 'action'=>'index/'.$dir_id)));
+    echo $this->element('paging');
+?>
 </div>
 
 					</div>
