@@ -1,9 +1,3 @@
-<style>
-</style>
-<script type="text/javascript">
-jQuery(document).ready(function() {
-});
-</script>
 <?php
 
     $javascript->link('calendarlite/jquery.calendarlite', false);
@@ -25,7 +19,7 @@ jQuery(document).ready(function() {
                                                 <?php
 
                                                 if (!empty($directions_data) && $directions_data){
-                                                    echo $directions->showHtmlTree($directions_data['list'],$directions_data['current_id'], $directions_data['level_char']);
+                                                    echo $directions->showHtmlTree($directions_data['list'],$directions_data['current_id'], $directions_data['level_char'], 'left-menu_');
                                                 }
 
 /*
