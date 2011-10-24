@@ -1,13 +1,13 @@
 <?php
 class CalendarHelper extends AppHelper {
-    
-    
+
+
     function _jsCode($content)
 	{
 		return "<script type=\"text/javascript\">$content</script>";
 	}
     public function _jsCode_array($days)
-    {   
+    {
         $count_days = sizeof($days);
         echo "<script type=\"text/javascript\">var days_array = [];";
         for ($i=0;$i < $count_days;$i++)
@@ -17,13 +17,15 @@ class CalendarHelper extends AppHelper {
         }
         echo "var count_days = $count_days;</script>";
     }
-    
+
     //function setLinks ($links)
     //{
     //    $linksArray= $links;
     //}
     //nastroika formata ssulok naprimer: http://site.ru/events/{%dd}-{%mm}-{%yyyy}
-    $category = 0;
+
+    public $category = 0;
+
     function SetCategory($id)
     {
         $this->category = $id;
@@ -31,7 +33,7 @@ class CalendarHelper extends AppHelper {
     }
     function LinkFormat()
 	{
-	   
+
 		return "linkFormat: '/news/index/$this->category/{%yyyy}-{%mm}-{%dd}'";
 	}
     //nstroika callback function - poka test
