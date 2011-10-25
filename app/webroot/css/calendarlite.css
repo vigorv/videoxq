@@ -7,19 +7,18 @@
 td {
   background-color: #eeeeee;
   text-align: center;
-  
+  padding:3px;
 }
 /* Current date */
 .table .curr { background-color: #EFDC0E;}
+/*ssulki*/
+.table .have { text-decoration: underline;}
 
 /* Weekend  */
 .table .weekend { background-color: #A7BBDF;}
-/* Noactive  */
-/*.table .noactived { cursor: }
-/* Active  */
-/*.table .actived { background-color: #eeeeee; font-weight: bold;}
+
 /* Cell link */
-.table td a {text-decoration: none; color: #2F2F2F;cursor:default; padding:3px;}
+.table td a {text-decoration: none; color: #2F2F2F;}
 
 /* Cell link hover */
 .table td:hover {background-color: #aaccee;}
