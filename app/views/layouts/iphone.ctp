@@ -110,7 +110,7 @@
 
                 </ul>
                 <div id="footer">
-                    <a href="/mobile/ver?id=1" ><? __("Click for full version of site",true);?></a><br/>
+                    <a href="/mobile/ver?id=1" ><?=__("Click for full version of site",true);?></a><br/>
                     <span>© «<a href="http://www.videoxq.com">videoxq.com</a>», 2007-<?php echo date('Y'); ?></span><br />
                     <span><a href="mailto:support@videoxq.com">email: support@videoxq.com</a></span><br />
                     <span><a href="/pages/reklama<?php echo $langFix; ?>"><?php __("Advertisement"); ?></a> | <a href="/pages/kontaktyi<?php echo $langFix; ?>"><?php __("Contacts"); ?></a> | <a href="/pages/nashi-partneryi<?php echo $langFix; ?>"><?php __("Partners"); ?></a></span>
