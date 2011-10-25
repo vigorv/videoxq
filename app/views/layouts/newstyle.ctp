@@ -42,7 +42,7 @@
             else
                 location.hash=link;
             if (link!='#') {
-                $('#block_main').load(link,'ajax',function(){});
+                $('.Frame_Content').load(link,'ajax',function(){});
                 return false;
             }
         }
@@ -72,10 +72,8 @@
         return false;
     }
         </script>
-        <style type="text/css">
-		
-	</style>
-    </head>
+
+  </head>
     <body>
         <div id="wrap">
             <div id="block_top">
@@ -191,5 +189,6 @@
             <?php
             echo $cakeDebug;
             ?>
+
     </body>
 </html>
