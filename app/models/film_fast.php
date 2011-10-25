@@ -1,7 +1,7 @@
 <?php
 
 /**
- * 
+ *
  */
 class FilmFast extends AppModel {
 
@@ -12,7 +12,7 @@ class FilmFast extends AppModel {
      *
      * @param type $id
      * @param type $count
-     * @return type 
+     * @return type
      */
     private function GetPersons($id, $count=0) {
         $limit = '';
@@ -29,7 +29,7 @@ class FilmFast extends AppModel {
      *
      * @param type $id
      * @param type $count
-     * @return type 
+     * @return type
      */
     private function GetGenres($id, $count=0) {
         $limit = '';
@@ -88,7 +88,7 @@ class FilmFast extends AppModel {
                     $var_join . '
                             LEFT JOIN film_pictures as FilmPicture ON (FilmPicture.film_id = Film.id and FilmPicture.type = "smallposter")
                             LEFT JOIN media_ratings as MediaRating on (MediaRating.object_id = Film.id and MediaRating.type = "film")
-                           Where Film.active = 1 ' . $license . ' ' . $variant . '                                                   
+                           Where Film.active = 1 ' . $license . ' ' . $variant . '
                                Group By Film.id
                            ORDER BY ' . $order . ' ' . $direction . ' Limit  ' . $offset . ',' . $per_page);
 
@@ -109,7 +109,7 @@ class FilmFast extends AppModel {
     /**
      *
      * @param type $conditions
-     * @return type 
+     * @return type
      */
     function GetFilmsCount($conditions= array('lic' => 1, 'variant' => 0)) {
         $license = '';
@@ -239,7 +239,7 @@ class FilmFast extends AppModel {
      *
      * @param type $id
      * @param type $lic
-     * @return type 
+     * @return type
      */
     function GetFilmOv($id=0, $lic=1) {
         $license = '';
@@ -267,7 +267,7 @@ class FilmFast extends AppModel {
      * Mobile version
      * @param type $id
      * @param type $lic
-     * @return type 
+     * @return type
      */
     function GetFilm($id =0, $lic =1) {
         App::import('Film');
@@ -307,7 +307,7 @@ class FilmFast extends AppModel {
      * @param type $lic
      * @param type $page
      * @param type $per_page
-     * @return type 
+     * @return type
      */
     function SearchByTitle($title, $lic=1, $page=1, $per_page=20) {
         $films = array();
@@ -336,12 +336,12 @@ class FilmFast extends AppModel {
             $pagination['Film']['sphinx']['sortMode'] = array(SPH_SORT_EXTENDED => '@relevance DESC');
             $pagination['Film']['search'] = $title;
             $films = $this->Film->find('all', $pagination["Film"],null);
-            
+
             Cache::write('Catalog.film_search_' . $title.'_'.$page.'_'.$per_page,$films, 'searchres');
         }
         return $films;
     }
-    
+
     function SearchByTitleCount($title, $lic=1) {
         App::import('Film');
         $this->Film = new Film;
@@ -361,7 +361,7 @@ class FilmFast extends AppModel {
         }
         return $count;
     }
-    
+
 
     function GetFullGenresList($lic=1, $variant=0) {
         $genres = $this->query("SELECT id,title,title_imdb FROM genres");
@@ -386,7 +386,7 @@ class FilmFast extends AppModel {
         }
         return $data;
     }
-    
+
     function getGenreInfo($id){
         $genre = $this->query("SELECT id,title,title_imdb FROM genres WHERE id=".$id);
         return $genre;
@@ -408,7 +408,7 @@ class FilmFast extends AppModel {
 SELECT film_id
 FROM films_genres
 WHERE genre_id
-IN ( 1, 2, 3, 4, 5, 6 ) 
+IN ( 1, 2, 3, 4, 5, 6 )
 GROUP BY film_id
 HAVING COUNT( film_id ) =6
 ORDER BY film_id
@@ -440,23 +440,24 @@ SELECT FILM.* from (
               Limit 0,30
              ) as film_gen
   LEFT JOIN films as FILM on FILM.id=film_gen.film_id
- * 
- * 
- * 
- * 
- * 
- * 
- * SELECT FILM . * 
+ *
+ *
+ *
+ *
+ *
+ *
+ * SELECT FILM . *
 FROM films AS FILM
 RIGHT JOIN (
 
 SELECT film_id
 FROM films_genres
 WHERE genre_id
-IN ( 1, 2, 3, 4, 5, 6 ) 
+IN ( 1, 2, 3, 4, 5, 6 )
 GROUP BY film_id
 HAVING COUNT( film_id ) =6
 ORDER BY film_id
 LIMIT 0 , 30
 ) AS film_gen ON FILM.id = film_gen.film_id
  */
+?>
