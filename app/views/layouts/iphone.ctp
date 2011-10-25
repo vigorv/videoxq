@@ -7,7 +7,7 @@
         <?= $html->css('iphone/mobile'); ?>
         <?= $html->css('iphone/iblack'); ?>
         <?= $html->css('iphone/skins/tango/skin.css'); ?>
-        <?= $javascript->link(array('mobile/webkit', 'mobile/jquery', 'mobile/iscroll.min')); ?>
+        <?= $javascript->link(array('mobile/webkit', 'mobile/jquery')); ?>
         <?
         /*
           if ($android_webkitt) {
@@ -80,7 +80,7 @@
                     <?php if (!isset($hide_search_bar)): ?>
                         <div class="bar" style="text-align: center; vertical-align: bottom;">
                             <form action="/mobile/search" id="searchform" method="get">
-                                <input  type="text" style="clear:left;" placeholder="<?= __('Search film by title', true); ?>…" tabindex="1" id="search-input" onblur="window.scrollTo(0,1)" name="s"/>
+                                <input  type="search" style="clear:left;" placeholder="<?= __('Search film by title', true); ?>…" tabindex="1" id="search-input" onblur="window.scrollTo(0,1)" name="s"/>
                                 <input type="hidden" tabindex="2" id="search-submit-hidden" name="submit" value="<?= __('Search', true); ?>"/>
                             </form>
                         </div>

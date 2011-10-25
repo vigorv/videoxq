@@ -22,8 +22,13 @@
         <h1 style="background-color:black;padding:0 10px; margin:auto; color:white;">VideoXQ.com</h1>
         <hr size="1" noshade="1" color="#999" style="width:100%;height:1px;margin:2px 0;padding:0;" />
         <div id="content" style="padding:5px; margin:0px;width:90%;">
-            <h3><?=__('Sorry, Your mobile device didn\'t supported');?></h3>            
-            <h4><?=__('You can open this site from computer');?></h4>
+            <?php if ($lang == _ENG_): ?>
+                <h3><?= __('Sorry, Your mobile device didn\'t supported'); ?></h3>            
+                <h4><?= __('You can open this site from computer'); ?></h4>
+            <?php else: ?>
+                <h3><?= __('Извините, Ваше устройство не поддерживается '); ?></h3>            
+                <h4><?= __('Вы можете попасть на наш сайт используя компьютер'); ?></h4>
+            <? endif; ?>
         </div>
         <div style="border-top:1px solid #999;font-size:80%;background:#EEE;text-align:center">
             <br/>

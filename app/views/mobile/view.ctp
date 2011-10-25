@@ -39,7 +39,7 @@ $actors = array_slice($actors, 0, 10);
 if ($lang == _ENG_) {
     if ((empty($imdb_website))) {
         echo '<h3 style="margin-left:45px;">' . __('Sorry, we do not have a detailed description of the movie', true) . ' &laquo;' . $film['Film']['title_en'] . '&raquo;</h3><br /><br /><br />';
-    } else {       
+    } else {
         $Actors = array();
         $a_actors = $parser->getMovieActors($imdb_website, $name_and_id = True);
         for ($i = 0; $i < count($a_actors[1]); $i++)
@@ -112,13 +112,30 @@ if ($lang == _ENG_) {
 <li class="videoinfo">
     <? if (isset($FilmVariant) && (!empty($FilmVariant[0]['FilmFile']))) :
         $lnk = Film::set_input_server($Film['dir']) . '/' . $FilmVariant[0]['FilmFile'][0]['file_name']; ?>
-        <video id="VideoPlayer" style="position:absolute;top:-320px;left:-320px; max-width:320px" tabindex="0" height="auto" onclick="this.play();" >
-            <source  src="<?= $lnk; ?>" >
+        <img height="200px" src="<?= $imgUrl; ?>" />
+        <br/>
+        <br/>
+        <div id="Can_play" style="display:none;">
+
+            <a href="#" onClick="document.getElementById('VideoPlayer').play();return false;"><?= __('Click To Play', true); ?></a>
+        </div>
+        <video id="VideoPlayer" style="position:absolute;top:-320px;left:-320px;max-width:320px" onloadstart="$('#Can_play').show();" tabindex="0" height="auto" onclick="this.play();" >
+            <source  src="<?= $lnk; ?>" />
+            <source  type="video/mp4" src="<?= $lnk; ?>" />
         </video>
-        <img height="200px" src="<?= $imgUrl; ?>" /><br/>
-        <a href="#" onClick="document.getElementById('VideoPlayer').play();return false;"><?= __('Click To Play', true); ?></a>
+
+
+        <span style="font-style:italic; color:green; font-size:0.7em;"> 
+            <? if ($lang <> _ENG_): ?>Выше появится ссылка, если фильм доступен для воспроизведения <? else: ?>
+                You 'll see link below this text, if video aviable to play
+            <? endif; ?>
+        </span>
     <? else: ?>
         <img height="200px" src="<?= $imgUrl; ?>" /><br/>
+        <span style="font-style:italic; color:red; font-size:0.7em;">
+            <? if ($lang <> _ENG_): ?>Нет видео для воспроизведения <? else: ?>
+                No video to play<? endif; ?>
+        </span>
     <? endif; ?>
 
     <h2>«<?= $title; ?>»</h2>
@@ -196,3 +213,4 @@ if ($lang == _ENG_) {
         endif;
         ?>
 </li>
+
