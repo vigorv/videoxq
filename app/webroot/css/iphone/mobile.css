@@ -28,7 +28,7 @@ div#header{
     height:45px;    
     width:100%;     
     text-align:center;
-    position: fixed;
+    position: relative;
     margin:0;
     top:0;
     left:0;
