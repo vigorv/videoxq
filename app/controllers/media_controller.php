@@ -2047,7 +2047,7 @@ echo'</pre>';
 					'film_id'		=> $film['Film']['id'],
 					'video_type_id'	=> $webTypeId,
 					'resolution'	=> '',
-					'duration'		=> '',
+					'duration'		=> '00:00:00',
 					'active'		=> 1,
 					'created'		=> date('Y-m-d H:i:s'),
 					'modified'		=> date('Y-m-d H:i:s'),
@@ -2087,7 +2087,7 @@ echo'</pre>';
 			{
 				$links[] = array('FilmLink' => array(
 					//"link"	=> $res->visibleUrl,
-					"link"	=> $res['url'],
+					"link"	=> substr($res['url'], 0, 250),
 					"zone"	=> '',
 					"film_variant_id"	=> $variantId,
 					"title"	=> $res['title'],
@@ -2103,7 +2103,7 @@ echo'</pre>';
 				{
 					$links[] = array('FilmLink' => array(
 						//"link"	=> $res->visibleUrl,
-						"link"	=> $res->url,
+						"link"	=> substr($res->url, 0, 250),
 						"zone"	=> 'web',//НАШЛИ В ИНТЕРНЕТ
 						"film_variant_id"	=> $variantId,
 						"title"	=> $res->title,

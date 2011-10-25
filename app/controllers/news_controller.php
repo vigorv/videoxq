@@ -916,6 +916,14 @@ pr($data);
         	}
 
         	$this->data['News']['modified'] = date('Y-m-d H:i:s');
+
+        	//ВЫРЕЗАЕМ ТЭГИ ФОНТОВ
+        	$this->data['News']['stxt'] = preg_replace('/<font face[^>]{1,}>/imU', '', $this->data['News']['stxt']);
+        	$this->data['News']['stxt'] = preg_replace('/<font size[^>]{1,}>/imU', '', $this->data['News']['stxt']);
+        	$this->data['News']['stxt'] = str_ireplace('</font>', '', $this->data['News']['stxt']);
+        	$this->data['News']['txt'] = preg_replace('/<font face[^>]{1,}>/imU', '', $this->data['News']['txt']);
+        	$this->data['News']['txt'] = preg_replace('/<font size[^>]{1,}>/imU', '', $this->data['News']['txt']);
+        	$this->data['News']['txt'] = str_ireplace('</font>', '', $this->data['News']['txt']);
             if ($this->News->save($this->data)) {
 
             	if ($this->data['News']['id'])
