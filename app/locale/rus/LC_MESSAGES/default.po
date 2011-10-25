@@ -8642,3 +8642,8 @@ msgstr "Промотать вверх"
 msgid "You do not download from our website"
 msgstr "Вы ничего не скачивали с нашего сайта"
 
+msgid "You can try to search on full version of site"
+msgstr "Вы можете попробовать найти то, что вы искали на полной версии сайта"
+
+msgid "Click for full version of site"
+msgstr "Перейти на полную версию сайта"

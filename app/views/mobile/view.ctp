@@ -112,21 +112,29 @@ if ($lang == _ENG_) {
 <li class="videoinfo">
     <? if (isset($FilmVariant) && (!empty($FilmVariant[0]['FilmFile']))) :
         $lnk = Film::set_input_server($Film['dir']) . '/' . $FilmVariant[0]['FilmFile'][0]['file_name']; ?>
-        <img height="200px" src="<?= $imgUrl; ?>" />
+        <div style="text-align:center;margin:auto">
+            <? if (count($bigposters)):
+                $imgUrl = $imgPath . $bigposters[0]['file_name']; ?>
+                <img id="poster" height="400px" width="300px" src="<?= $imgUrl; ?>" />
+            <? else: ?>
+
+                <img id="poster" height=200 src="<?= $imgUrl; ?>" />
+            <? endif; ?>
+        </div>
         <br/>
         <br/>
         <div id="Can_play" style="display:none;">
 
             <a href="#" onClick="document.getElementById('VideoPlayer').play();return false;"><?= __('Click To Play', true); ?></a>
         </div>
-        <video id="VideoPlayer" style="position:absolute;top:-320px;left:-320px;max-width:320px" onloadstart="$('#Can_play').show();" tabindex="0" height="auto" onclick="this.play();" >
+        <video id="VideoPlayer" style="position:absolute;top:-320px;left:-320px;max-width:320px" onloadstart="$('#Can_play').show(); $('#WaitForFilm').hide();" tabindex="0" height="auto" onclick="this.play();" >
             <source  src="<?= $lnk; ?>" />
             <source  type="video/mp4" src="<?= $lnk; ?>" />
         </video>
 
 
-        <span style="font-style:italic; color:green; font-size:0.7em;"> 
-            <? if ($lang <> _ENG_): ?>Выше появится ссылка, если фильм доступен для воспроизведения <? else: ?>
+        <span id="WaitForFilm" style="font-style:italic; color:green; font-size:0.7em;"> 
+            <? if ($lang <> _ENG_): ?>Над этим текстом появится ссылка, если фильм доступен для воспроизведения <? else: ?>
                 You 'll see link below this text, if video aviable to play
             <? endif; ?>
         </span>
@@ -213,4 +221,12 @@ if ($lang == _ENG_) {
         endif;
         ?>
 </li>
+<script language="javascript">
+    $(document).ready(function() {
+        elem =$("#poster");
+        setTimeout(function() { 
+            //$('body').scrollTop(elem[0].y); 
+                 window.scrollTo(0, elem[0].y);
+        }, 1000);});      
+</script>
 

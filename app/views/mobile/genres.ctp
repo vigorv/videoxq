@@ -21,8 +21,13 @@
     endif;
 ?>
     
-     <a id="up_button" style="color:black;text-decoration: none;"  href="" onclick=" myScroll.refresh();setTimeout(function() { window.scrollTo(0, 1); }, 100);myScroll.scrollTo(0,0); return false">
+     <a id="up_button" style="color:black;text-decoration: none;"  href="" onclick="
+         //myScroll.refresh();
+         setTimeout(function() { window.scrollTo(0, 1); }, 100);
+         //myScroll.scrollTo(0,0); 
+         return false">
     <div class="barA" style="background-color: #CCC">  
 
         <?= __('Scroll up', true) ?> &uarr;
     </div>
+     </a>

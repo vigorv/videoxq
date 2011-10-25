@@ -1,3 +1,4 @@
+
 <? if (isset($ajax_draw)): ?>
     <div style="float:right; font-weight:900;margin:0;padding:0; font-size:25px">
         <a id="up_button" style="color:black;text-decoration: none;"  href="" onclick=" myScroll.refresh();setTimeout(function() { window.scrollTo(0, 1); }, 100);myScroll.scrollTo(0,0); return false">&uarr;</a>&nbsp;
@@ -7,9 +8,15 @@
         <?php echo ($page - 1) * 10; ?>
     </div>
 <? endif; ?>
+ 
 <?php
-if (empty($films))
+if (empty($films)){
     echo '<div class="barA">' . __('No results for your search', true) . ' :(</div>';
+   echo ' <div class="barA">'.__('You can try to search on full version of site').'</div>';
+   echo ' <div class="barA"><a href="/mobile/ver?id=1" >';
+   echo  __("Click for full version of site",true);
+   echo '</a><br/></div>';
+}
 else
 if (!is_array($films)) {
     echo '<div class="barA">' . __('You do it to fast', true) . '</div>';
@@ -27,12 +34,6 @@ if (!is_array($films)) {
 
                 <div class="poster">
                     <?= $poster; ?>
-                    <? if (isset($MediaRating)): ?>
-                        <div class="ratings rated_<?= round($MediaRating['rating']) ?>"></div>
-                    <? endif; ?>
-                    <? if ($Film['imdb_rating'] != 0): ?>
-                        <span class="imdb">IMDb: <?= $Film['imdb_rating'] ?></span>
-                    <? endif; ?>
                 </div>
                 <p class="text">
                     <?php
@@ -92,19 +93,18 @@ if (!is_array($films)) {
         <div id="more">    
         </div>
     <?php endif; ?>
-    <div style="float:right; font-weight:900;margin:0;padding:0; font-size:25px">
-        <a id="up_button" style="color:black;text-decoration: none;"  href="" onclick=" myScroll.refresh();setTimeout(function() { window.scrollTo(0, 1); }, 100);myScroll.scrollTo(0,0); return false">&uarr;</a>&nbsp;
-    </div>
-    <div class="barA" style="background-color: #CCC">  
-        <?= __('Total', true) ?>: <?= $count; ?> 
-    </div>
+    <a id="up_button" style="color:black;text-decoration: none;"  href="" onclick="setTimeout(function() { window.scrollTo(0, 1); }, 100); return false">
+        <div class="barA" style="background-color: #CCC">  
+            <?= __('Scroll up', true) ?> &uarr;
+        </div>
+    </a>
 
     <?php if ($count > 10): ?>
         <div id="TenMoreError">
             
         </div>
         
-        <li id="TenMore" class="barA" style="min-height:0;">
+        <li id="TenMore" class="barA" style="min-height:0;text-align: center">
             <a class="footer_ten" href="#" onClick="myPager.tenMore();return false;" ><?= __('Show more videos', true); ?></a>
         </li>
     <?php endif; ?>

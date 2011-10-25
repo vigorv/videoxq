@@ -1,4 +1,5 @@
 <?php if (!isset($ajax_draw)): ?>
+
     <li style="text-align:center;">
         <div  style="text-align: center; vertical-align: bottom; margin:auto;padding:10% 5px;">
             <form action="/mobile/search" id="searchform" method="get" >
@@ -55,15 +56,8 @@ if (!is_array($films)) {
         ?>
         <li> 
             <a class="href_li" href="/mobile/films/<?= $Film['id'] ?>" onClick="return myPager.nextScreen(this); ">
-
                 <div class="poster">
                     <?= $poster; ?>
-                    <? if (isset($MediaRating)): ?>
-                        <div class="ratings rated_<?= round($MediaRating['rating']) ?>"></div>
-                    <? endif; ?>
-                    <? if ($Film['imdb_rating'] != 0): ?>
-                        <span class="imdb">IMDb: <?= $Film['imdb_rating'] ?></span>
-                    <? endif; ?>
                 </div>
                 <p class="info_text">
                     <?
@@ -108,17 +102,16 @@ if (!is_array($films)) {
         <div id="more">    
         </div>
     <?php endif; ?>
-    <div style="float:right; font-weight:900;margin:0;padding:0; font-size:25px">
-        <a id="up_button" style="color:black;text-decoration: none;"  href="" onclick=" myScroll.refresh();setTimeout(function() { window.scrollTo(0, 1); }, 100);myScroll.scrollTo(0,0); return false">&uarr;</a>&nbsp;
-    </div>
-    <div class="barA" style="background-color: #CCC">        
-        <?= __('Total', true) ?>: <?= $count; ?> 
-    </div>
+    <a id="up_button" style="color:black;text-decoration: none;"  href="" onclick="setTimeout(function() { window.scrollTo(0, 1); }, 100); return false">
+        <div class="barA" style="background-color: #CCC">  
+            <?= __('Scroll up', true) ?> &uarr;
+        </div>
+    </a>
     <?php if ($count > 10): ?>
         <div id="TenMoreError">
             
         </div>
-        <li id="TenMore" class="barA" style="min-height:0;">
+        <li id="TenMore" class="barA" style="min-height:0; text-align: center">
             <a class="footer_ten" href="#" onClick="myPager.tenMore();return false;" ><?= __('Show more videos', true); ?></a>
         </li>
     <?php endif; ?>
