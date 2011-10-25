@@ -5,6 +5,6 @@
     {
         var ivalue=this.value;
         var link ='<?=$page_link;?>';
-        $('#block_main').load(link,'ajax=1&filter='+ivalue,function(){});
+        $('.Frame_Content').load(link,'ajax=1&filter='+ivalue,function(){});
     });
 </script>
