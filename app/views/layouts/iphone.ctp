@@ -36,7 +36,7 @@
         $(window).resize(function() {
             sc_roll.css('height',(parseInt($('#sizer').height())-43)+'px');    
             //setTimeout(myScroll.refresh(),1000);
-            setTimeout(function() { window.scrollTo(0, 1); }, 1000);            
+         //   setTimeout(function() { window.scrollTo(0, 1); }, 1000);            
         });
         $('#back_button').click(function(){ myPager.backToHome();  return false;});                
     });

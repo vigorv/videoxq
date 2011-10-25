@@ -385,6 +385,7 @@ class AppController extends Controller {
         $this->set('here', $this->here);
 
         if (($this->RequestHandler->isMobileOld())){
+            if (($this->params['controller'] <> 'mobile') && ($this->params['action'] <> 'old'))
                 $this->redirect('/mobile/old');
         }
         
