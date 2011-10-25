@@ -55,6 +55,7 @@
 	$calendar->SetCategory($dir_id);
     $calendar->_jsCode_array($dateArr);
     $calendar->ShowCalendar();
+
 ?>
 <div id="middle">
 				<div class="left-block">
