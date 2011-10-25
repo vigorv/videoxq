@@ -34,7 +34,7 @@ var snowPager = function(){
         $('#back_button').hide();
         $('#nextScreen').text('');      
         if (!this.mob)
-            $('#iscroll').scrollTop(this.sc_top);
+            $('#iscroll').scrllTop(this.sc_top);
         //myScroll.scrollTo(0,this.sc_top,0);
         $('li.selected').removeClass('selected');
         myCarousel=null;   
