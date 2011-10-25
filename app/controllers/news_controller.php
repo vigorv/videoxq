@@ -64,7 +64,6 @@ class NewsController extends AppController {
         {
 	        //генерируем список элементов html
 	        $tree_arr = $this->Direction->generatetreelist($conditions, null, null, $level_char);
-
                 //учитываем ли скрытые новости в подсчете?
                 $do_count_hidden = false;
                 //добавим к этим данным, количество существующих новостей на каждый
@@ -91,6 +90,11 @@ class NewsController extends AppController {
 
 	        Cache::write('News.categoriesFullTree', $tree_arr, 'block');
         }
+        //если не задали текущий раздел, то выцепим id корневого элемента
+        if (!$dir_id && $tree_arr) {
+            reset($tree_arr);
+            $dir_id = key($tree_arr);
+            }
         //формируем массив данных для хелпера вывода html дерева
         $directions_data = array(
             'list' => $tree_arr,
