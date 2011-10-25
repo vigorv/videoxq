@@ -9,11 +9,10 @@ class FilmFast extends AppModel {
     var $useTable = 'films';
 
     /**
-     * Получение списка фильмов
-     * @param int $lic      0 - всё /1  - только лиц./2 - всё что не лиц.     флаг лицензии
-     * @param int $page     - тут должана быть страница, начало с 1
-     * @param int $per_page - результатов на странице
-     * @return array $films -  массив с фильмами
+     *
+     * @param type $id
+     * @param type $count
+     * @return type 
      */
     private function GetPersons($id, $count=0) {
         $limit = '';
@@ -26,6 +25,12 @@ class FilmFast extends AppModel {
         return$persons;
     }
 
+    /**
+     *
+     * @param type $id
+     * @param type $count
+     * @return type 
+     */
     private function GetGenres($id, $count=0) {
         $limit = '';
         if ($count > 0)
@@ -36,6 +41,13 @@ class FilmFast extends AppModel {
         return $genres;
     }
 
+    /**
+     * Получение списка фильмов
+     * @param int $lic      0 - всё /1  - только лиц./2 - всё что не лиц.     флаг лицензии
+     * @param int $page     - тут должана быть страница, начало с 1
+     * @param int $per_page - результатов на странице
+     * @return array $films -  массив с фильмами
+     */
     function GetFilms($conditions= array('lic' => 1, 'variant' => 0), $cache_time=86400, $page=1, $per_page=20) {
         $license = '';
         $variant = '';
@@ -84,8 +96,8 @@ class FilmFast extends AppModel {
                 $genres = $this->GetGenres($film['Film']['id']);
                 if (!empty($genres))
                     $film['Genre'] = $genres;
-                //foreach($genres as $genre) $film['Genre'][] = $genre['genres'];
-                //$persons = $this->GetPersons($film['Film']['id'], 3);
+//foreach($genres as $genre) $film['Genre'][] = $genre['genres'];
+//$persons = $this->GetPersons($film['Film']['id'], 3);
                 if (!empty($persons))
                     $film['Person'] = $persons;
             }
@@ -94,6 +106,11 @@ class FilmFast extends AppModel {
         return $films;
     }
 
+    /**
+     *
+     * @param type $conditions
+     * @return type 
+     */
     function GetFilmsCount($conditions= array('lic' => 1, 'variant' => 0)) {
         $license = '';
         $variant = '';
@@ -218,6 +235,12 @@ class FilmFast extends AppModel {
         return NULL;
     }
 
+    /**
+     *
+     * @param type $id
+     * @param type $lic
+     * @return type 
+     */
     function GetFilmOv($id=0, $lic=1) {
         $license = '';
         if ($lic == 1)
@@ -233,13 +256,19 @@ class FilmFast extends AppModel {
         $genres = $this->GetGenres($films[0]['Film']['id']);
         if (!empty($genres))
             $films[0]['Genre'] = $genres;
-        //foreach($genres as $genre) $film['Genre'][] = $genre['genres'];
+//foreach($genres as $genre) $film['Genre'][] = $genre['genres'];
         $persons = $this->GetPersons($films[0]['Film']['id'], 3);
         if (!empty($persons))
             $films['Person'] = $persons;
         return $films[0];
     }
 
+    /**
+     * Mobile version
+     * @param type $id
+     * @param type $lic
+     * @return type 
+     */
     function GetFilm($id =0, $lic =1) {
         App::import('Film');
         if ($id > 0) {
@@ -272,37 +301,72 @@ class FilmFast extends AppModel {
         return null;
     }
 
-    function SearchByTitle($title, $lic=1, $page=0, $per_page=20) {
+    /**
+     *
+     * @param type $title
+     * @param type $lic
+     * @param type $page
+     * @param type $per_page
+     * @return type 
+     */
+    function SearchByTitle($title, $lic=1, $page=1, $per_page=20) {
         $films = array();
-//pr($searchFor);
         App::import('Film');
         $this->Film = new Film;
-        if (!$films = Cache::read('Catalog.film_search_' . $title, 'searchres')) {
+        if ($page > 1)
+            $offset = ($page - 1) * $per_page;
+        else
+            $offset = 0;
+        if (!$films = Cache::read('Catalog.film_search_' . $title.'_'.$page.'_'.$per_page, 'searchres')) {
             $this->Film->contain(array(
                 'FilmType', 'Genre',
-                'Thread',
-                'FilmPicture' => array('conditions' => array('type <>' => 'smallposter')),
-                'Country',
-                'FilmVariant' => array('FilmFile' => array('order' => 'file_name'), 'VideoType', 'Track' => array('Language', 'Translation')),
+                //'Thread',
+                'FilmPicture' => array('conditions' => array('type =' => 'smallposter')),
+                //'Country',
+                //'FilmVariant' => array('FilmFile' => array('order' => 'file_name'), 'VideoType', 'Track' => array('Language', 'Translation')),
                 'MediaRating',
                     )
             );
             $this->Film->recursive = 1;
-            $pagination['Film']['conditions'] = array('is_license' => '1','active'=>1);
-            $pagination['Film']['limit'] = 20;
+            $pagination['Film']['conditions'] = array('is_license' => '1', 'active' => 1);
+            $pagination['Film']['page']=$page;
+            $pagination['Film']['limit'] = $per_page;
             $pagination['Film']['sphinx']['matchMode'] = SPH_MATCH_ALL;
-            $pagination['Film']['sphinx']['index'] = array('videoxq_films'); //ИЩЕМ ПО ИНДЕКСУ ФИЛЬМОВ
+            $pagination['Film']['sphinx']['index'] = array('videoxq_films_lic'); //ИЩЕМ ПО ИНДЕКСУ ФИЛЬМОВ
             $pagination['Film']['sphinx']['sortMode'] = array(SPH_SORT_EXTENDED => '@relevance DESC');
             $pagination['Film']['search'] = $title;
-            $films = $this->Film->find('all', $pagination["Film"]);
-            Cache::write('Catalog.film_search_' . $title, 'searchres');
+            $films = $this->Film->find('all', $pagination["Film"],null);
+            
+            Cache::write('Catalog.film_search_' . $title.'_'.$page.'_'.$per_page,$films, 'searchres');
         }
         return $films;
     }
+    
+    function SearchByTitleCount($title, $lic=1) {
+        App::import('Film');
+        $this->Film = new Film;
+        if (!$count = Cache::read('Catalog.film_search_count_' . $title, 'searchres')) {
+            $this->Film->contain();
+            $this->Film->recursive = 1;
+            $pagination['Film']['conditions'] = array('is_license' => '1', 'active' => 1);
+            $pagination['Film']['fields'] = array('id');
+            $pagination['Film']['limit'] = 1000;
+            $pagination['Film']['sphinx']['matchMode'] = SPH_MATCH_ALL;
+            $pagination['Film']['sphinx']['index'] = array('videoxq_films_lic'); //ИЩЕМ ПО ИНДЕКСУ ФИЛЬМОВ
+            $pagination['Film']['sphinx']['sortMode'] = array(SPH_SORT_EXTENDED => '@relevance DESC');
+            $pagination['Film']['search'] = $title;
+            $ctemp=$this->Film->find('all', $pagination["Film"]);
+            $count = count($ctemp);
+            Cache::write('Catalog.film_search_' . $title,$count, 'searchres');
+        }
+        return $count;
+    }
+    
 
-    function GetFullGenresList($lic=1,$variant=0) {
+    function GetFullGenresList($lic=1, $variant=0) {
         $genres = $this->query("SELECT id,title,title_imdb FROM genres");
-        $data = array();$var_join ='';
+        $data = array();
+        $var_join = '';
         if ($variant) {
             $var_join = 'INNER JOIN film_variants  as FilmVariant
                 ON (FilmVariant.film_id = films.id and FilmVariant.video_type_id =' . $variant . ')';
@@ -310,8 +374,8 @@ class FilmFast extends AppModel {
         foreach ($genres as &$genre) {
             if (isset($genre['genres']['id']) && $genre['genres']['id']) {
                 $genre_count = $this->query("SELECT COUNT('films.id') as count from films
-                        INNER JOIN films_genres ON (films_genres.film_id = films.id and  films_genres.genre_id =" . $genre['genres']['id']." ) "
-                        .$var_join."
+                        INNER JOIN films_genres ON (films_genres.film_id = films.id and  films_genres.genre_id =" . $genre['genres']['id'] . " ) "
+                        . $var_join . "
                         WHERE  films.active =1 AND ((films.is_license=$lic) or (films.is_public=1))  ");
                 $genre_count = (int) $genre_count[0][0]['count'];
                 if (($genre_count > 0)) {
@@ -322,7 +386,80 @@ class FilmFast extends AppModel {
         }
         return $data;
     }
+    
+    function getGenreInfo($id){
+        $genre = $this->query("SELECT id,title,title_imdb FROM genres WHERE id=".$id);
+        return $genre;
+    }
+
+    function TestFilmListByGenres($genres) {
+        echo 1;
+        $this->Film = new Film;
+        $pagination = array('Film' => array('contain' =>
+                array('FilmType',
+                    'Genre',
+                    'FilmVariant' => array('VideoType'),
+                    'FilmPicture' => array('conditions' => array('type' => 'smallposter')),
+                    'Country',
+                    'Person' => array('conditions' => array('FilmsPerson.profession_id' => array(1, 3, 4))),
+                    'MediaRating'),
+                'joins' => array('
+     RIGHT JOIN (
+SELECT film_id
+FROM films_genres
+WHERE genre_id
+IN ( 1, 2, 3, 4, 5, 6 ) 
+GROUP BY film_id
+HAVING COUNT( film_id ) =6
+ORDER BY film_id
+LIMIT 0 , 30
+) AS film_gen ON Film.id = film_gen.film_id
+                                                        '
+                ),
+                'order' => $order,
+                'conditions' => $conditions,
+                'group' => 'Film.id',
+                'limit' => 30));
+
+
+        $res= $this->Film->find('all', $pagination['Film']);
+        print_r($res);
+        return $res;
+    }
 
 }
 
+/**
+  Film in Multiple Genre
+SELECT FILM.* from (
+          SELECT film_id from films_genres
+             where genre_id in (1,2,3,4,5,6)
+             group by film_id
+            having count(film_id)=6
+             ORDER BY film_id
+              Limit 0,30
+             ) as film_gen
+  LEFT JOIN films as FILM on FILM.id=film_gen.film_id
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * SELECT FILM . * 
+FROM films AS FILM
+RIGHT JOIN (
+
+SELECT film_id
+FROM films_genres
+WHERE genre_id
+IN ( 1, 2, 3, 4, 5, 6 ) 
+GROUP BY film_id
+HAVING COUNT( film_id ) =6
+ORDER BY film_id
+LIMIT 0 , 30
+) AS film_gen ON FILM.id = film_gen.film_id
+ */
 ?>
+
+

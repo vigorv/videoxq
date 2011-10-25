@@ -1,6 +1,7 @@
 <?php
 $isVip = (!empty($authUserGroups) && in_array(Configure::read('VIPgroupId'), $authUserGroups));
 
+//print_r($film);
 function sortLL($a, $b) {
     return strnatcmp($a['Film']['title'], $b['Film']['title']);
 }
@@ -34,93 +35,92 @@ if (!empty($persons))
 $actors = array_slice($actors, 0, 10);
 //$actors[] = '<a href="#">' . __('more', true) . '...</a>';
 ?>
-<li class="videoinfo">
-    <?
-    if ($lang == _ENG_) {
-        if ((empty($imdb_website))) {
-            echo '<h3 style="margin-left:45px;">' . __('Sorry, we do not have a detailed description of the movie', true) . ' &laquo;' . $film['Film']['title_en'] . '&raquo;</h3><br /><br /><br />';
-        } else {
+<?
+if ($lang == _ENG_) {
+    if ((empty($imdb_website))) {
+        echo '<h3 style="margin-left:45px;">' . __('Sorry, we do not have a detailed description of the movie', true) . ' &laquo;' . $film['Film']['title_en'] . '&raquo;</h3><br /><br /><br />';
+    } else {       
+        $Actors = array();
+        $a_actors = $parser->getMovieActors($imdb_website, $name_and_id = True);
+        for ($i = 0; $i < count($a_actors[1]); $i++)
+            $Actors[] = $a_actors[2][$i];
+        $Actors = implode(', ', $Actors);
+        $countries = array();
+        $imdbCountry = $parser->getMovieCountry($imdb_website);
 
-            $Actors = array();
-            $a_actors = $parser->getMovieActors($imdb_website, $name_and_id = True);
-            for ($i = 0; $i < count($a_actors[1]); $i++)
-                $Actors[] = $a_actors[2][$i];
-            $Actors = implode(', ', $Actors);
-            $countries = array();
-            $imdbCountry = $parser->getMovieCountry($imdb_website);
+        for ($i = 0; $i < count($imdbCountry); $i++)
+            $countries[] = $imdbCountry[$i][1];
 
-            for ($i = 0; $i < count($imdbCountry); $i++)
-                $countries[] = $imdbCountry[$i][1];
+        $countries = implode(', ', $countries);
 
-            $countries = implode(', ', $countries);
+        $directedBy = array();
+        $imdbDirectors = $parser->getMovieDirectedBy($imdb_website);
 
-            $directedBy = array();
-            $imdbDirectors = $parser->getMovieDirectedBy($imdb_website);
+        for ($i = 0; $i < count($imdbDirectors); $i++)
+            $directedBy[] = $imdbDirectors[$i][1];
 
-            for ($i = 0; $i < count($imdbDirectors); $i++)
-                $directedBy[] = $imdbDirectors[$i][1];
+        $directedBy = implode(', ', $directedBy);
 
-            $directedBy = implode(', ', $directedBy);
+        $writtenBy = array();
+        $imdbWriters = $parser->getMovieWriters($imdb_website);
 
-            $writtenBy = array();
-            $imdbWriters = $parser->getMovieWriters($imdb_website);
+        for ($i = 0; $i < count($imdbWriters); $i++)
+            $writtenBy[] = $imdbWriters[$i][1];
 
-            for ($i = 0; $i < count($imdbWriters); $i++)
-                $writtenBy[] = $imdbWriters[$i][1];
-
-            $writtenBy = implode(', ', $writtenBy);
-            $imdbGenres = array();
-            $imdbGenre = $parser->getMovieGenres($imdb_website);
-            for ($i = 0; $i < count($imdbGenre); $i++) {
-                $imdbGenres[] = $imdbGenre[$i][1];
-            }
-            $imdbGenres = implode(', ', $imdbGenres);
-            $imdbRating = $parser->getMovieStars($imdb_website);
-
-
-
-            $title = $parser->getMovieTitle($imdb_website);
-            $title_orig = '';
-
-            if (!empty($imdbRating))
-                $rating = '<strong>IMDb: ' . $imdbRating . '</strong>';
-            else
-                $rating = '';
-
-            $Genres = $imdbGenres;
-            $description = $parser->getMovieStory($imdb_website);
+        $writtenBy = implode(', ', $writtenBy);
+        $imdbGenres = array();
+        $imdbGenre = $parser->getMovieGenres($imdb_website);
+        for ($i = 0; $i < count($imdbGenre); $i++) {
+            $imdbGenres[] = $imdbGenre[$i][1];
         }
-    } else {
-        $title = $Film['title'];
-        $title_orig = '<h3>' . $Film['title_en'] . '</h3>';
-        $countries = $app->implodeWithParams(', ', $Country);
-        if ($Film['imdb_rating'] != 0)
-            $rating = '<strong>IMDb: ' . $Film['imdb_rating'] . '</strong>';
-        else $rating='';
-        if (!empty($directors))
-            $directedBy = implode(', ', $directors);
-        if (!empty($story))
-            $writtenBy = implode(', ', $story);
-        if (!empty($actors))
-            $Actors = implode(', ', $actors);
-        if (!empty($Genre))
-            $Genres = $app->implodeWithParams(', ', $Genre);
-        $description = $Film['description'];
+        $imdbGenres = implode(', ', $imdbGenres);
+        $imdbRating = $parser->getMovieStars($imdb_website);
+
+
+
+        $title = $parser->getMovieTitle($imdb_website);
+        $title_orig = '';
+
+        if (!empty($imdbRating))
+            $rating = '<strong>IMDb: ' . $imdbRating . '</strong>';
+        else
+            $rating = '';
+
+        $Genres = $imdbGenres;
+        $description = $parser->getMovieStory($imdb_website);
     }
-    ?>
+} else {
+    $title = $Film['title'];
+    $title_orig = '<h3>' . $Film['title_en'] . '</h3>';
+    $countries = $app->implodeWithParams(', ', $Country);
+    if ($Film['imdb_rating'] != 0)
+        $rating = '<strong>IMDb: ' . $Film['imdb_rating'] . '</strong>';
+    else
+        $rating = '';
+    if (!empty($directors))
+        $directedBy = implode(', ', $directors);
+    if (!empty($story))
+        $writtenBy = implode(', ', $story);
+    if (!empty($actors))
+        $Actors = implode(', ', $actors);
+    if (!empty($Genre))
+        $Genres = $app->implodeWithParams(', ', $Genre);
+    $description = $Film['description'];
+}
+?>
 
-
-
+<li class="videoinfo">
     <? if (isset($FilmVariant) && (!empty($FilmVariant[0]['FilmFile']))) :
         $lnk = Film::set_input_server($Film['dir']) . '/' . $FilmVariant[0]['FilmFile'][0]['file_name']; ?>
-        <video id="VideoPlayer" style="max-width:320px" tabindex="0" height="auto" onclick="this.play();" poster="<?= $imgUrl; ?>">
+        <video id="VideoPlayer" style="position:absolute;top:-320px;left:-320px; max-width:320px" tabindex="0" height="auto" onclick="this.play();" >
             <source  src="<?= $lnk; ?>" >
         </video>
-    <br/>
-    <a href="#" onClick="document.getElementById('VideoPlayer').play();return false;">Click To Play</a>
+        <img height="200px" src="<?= $imgUrl; ?>" /><br/>
+        <a href="#" onClick="document.getElementById('VideoPlayer').play();return false;"><?= __('Click To Play', true); ?></a>
     <? else: ?>
-        <?= $html->link($img, $imgUrl, array('rel' => 'posters', 'title' => $posterTitle), false, false) . "\n"; ?>            
+        <img height="200px" src="<?= $imgUrl; ?>" /><br/>
     <? endif; ?>
+
     <h2>«<?= $title; ?>»</h2>
     <?= $title_orig; ?>
     <?= $countries; ?>            

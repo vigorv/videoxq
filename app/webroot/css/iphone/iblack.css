@@ -17,11 +17,16 @@ body{
 }
 
 #iscroll{
-    background-color:white;
+    /*background-color:white;*/
+    background-color: black;
 }
 
 div#header{
     background-color:black;
+}
+
+#back_button{
+    color:white;
 }
 
 #menu_button {
@@ -34,6 +39,7 @@ div a#logo-title{
 
 .bar {
     background-color:black;
+    border:1px solid #111;
 }
 
 .bar .button{
@@ -54,10 +60,37 @@ ul li {
     border-top: 1px solid #B4B4B4;
 }
 
+ul#home li:hover{
+    background-color:#E0E0DD;
+}
+
+.href_li,.href_li:visited,.href_li:active{
+    color:#124;
+}
+
 .text{
     color:#111;
 }
 
 .poster{
     color:#111;
+}
+
+.info_text{
+    color:black;
+}
+
+.footer_ten,.footer_ten:active{
+    color:black;
+}
+
+#footer{
+    background-color:black;
+    color:white;
+    
+}
+
+#footer a,#footer a:active,#footer a:visited{
+    color:white;
+    
 }

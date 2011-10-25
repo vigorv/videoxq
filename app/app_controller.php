@@ -18,6 +18,7 @@ class AppController extends Controller {
     var $isWS;  //ФЛАГ - ПОЛЬЗОВАТЕЛЬ - АБОНЕНТ WEBSTREAM
     var $inLottery; //ФЛАГ - ПОЛЬЗОВАТЕЛЬ МОЖЕТ УЧАСТВОВАТЬ В ЛОТЕРЕЕ
     var $geoInfo; //ГЕОДАННЫЕ ПОЛЬЗОВАТЕЛЯ
+    var $first_time;
     var $adminAtribs = array();
     var $_adminAtribs = array(
         'ManageOpions' => array('New %' => 'add', 'List %' => 'index'),
@@ -148,6 +149,12 @@ class AppController extends Controller {
         $this->Cookie->path = Configure::read('App.cookiePath');
         $this->Cookie->domain = Configure::read('App.cookieDomain');
 
+        $this->first_time = $this->Cookie->read('first_time');
+        if(!$this->first_time){
+            $this->Cookie->write('first_time', true);
+        }
+        
+        
         $litter = $this->Cookie->read('news_pop');
         if (!$litter) {
             $this->Cookie->write('news_pop', true);
@@ -377,10 +384,18 @@ class AppController extends Controller {
         $this->set('isWS', $isWS); //ОПРЕДЕЛИЛИ ВЕБСТРИМ или нет
         $this->set('here', $this->here);
 
-        if ($this->RequestHandler->isMobile()) {
+        if (($this->RequestHandler->isMobileOld())){
+                $this->redirect('/mobile/old');
+        }
+        
+        
+        $version =$this->Cookie->read('version');
+        if ((($this->RequestHandler->isMobile())&& (!($version=='desk'))) || ($version=='mob')) {
+           if (!$version) $this->Cookie->write('version','mob');
             if (($this->params['controller'] <> 'mobile') && ($this->params['controller'] <> 'login'))
                 $this->redirect('/mobile');
-        }
+        } else
+        if (!$version) $this->Cookie->write('version','desk');
     }
 
     public function getOnlineUsersCnt() {

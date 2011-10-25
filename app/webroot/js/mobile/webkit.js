@@ -1,18 +1,30 @@
 var snowPager = function(){
     var sc_top;
+    var mob;
+    var page_loaded = 1;
+    var update = false;
+    var link = '';
     this.nextScreen = function (url, bars){
+        return true;
         this.sc_top = $('#iscroll').scrollTop();
+        if(this.sc_top==0){
+            //this.sc_top=myScroll.y;
+            this.mob=true;
+        }
         var link = $(url).attr("href");
         $('#nextScreen').load(link,'ajax',
-            function(){
-                if (!bars)
-                    $('#top_bars').hide();
-                $('#home').hide();                       
-                $('#nextScreen').show().scrollLeft();
-                $('#back_button').show();
-                myScroll.scrollTo(0,0,0);
-            }
-            );
+        function(){
+            //myScroll.scrollTo(0,0,0);        
+            if (!bars)
+                $('#top_bars').hide();
+            $('#home').hide();                       
+            $('#nextScreen').show().scrollLeft();
+            $('#back_button').show();
+            //setTimeout(myScroll.refresh(),1000);
+                $('#iscroll').scrollTop(0);
+                    
+        }
+    );
     }
 
     this.backToHome= function (){
@@ -21,10 +33,40 @@ var snowPager = function(){
         $('#nextScreen').hide();
         $('#back_button').hide();
         $('#nextScreen').text('');      
-        $('#iscroll').scrollTop(this.sc_top);
+        if (!this.mob)
+            $('#iscroll').scrollTop(this.sc_top);
+        //myScroll.scrollTo(0,this.sc_top,0);
         $('li.selected').removeClass('selected');
         myCarousel=null;   
     }
+    
+    this.tenMore = function(){
+        if (update) return;
+        $("#TenMoreError").html('<span>Загружаю... (Loading...)</span>');
+        update=true;
+        var lnk;
+        if (this.link.href==''){
+            lnk = this.link.href+"?ajax=1&page="+(page_loaded+1);
+        } else{
+            lnk = this.link.href+"&ajax=1&page="+(page_loaded+1);
+        }
+            
+        $.get(lnk,
+        function(data){
+            //  alert('success');
+            $('#more').append(data);
+            $("#TenMoreError").html('');
+            page_loaded++;
+            //setTimeout(myScroll.refresh(),1000);
+            //
+            update=false;
+        }) .error(function() {
+            $("#TenMoreError").html('<span> Ошибка Загрузки (Error Loading)</span>');
+            //setTimeout(myScroll.refresh(),1000);
+            update=false    
+        });
+    }
+    
 }
 
 var snowCarousel = function(name,pcount){
@@ -73,7 +115,8 @@ var snowCarousel = function(name,pcount){
                 marginLeft: 0
             });    
         }
-        myScroll.scrollTo(0,0);
+        $('#iscroll').scrollTop(0);
+        //myScroll.scrollTo(0,0);
     } 
     
 };

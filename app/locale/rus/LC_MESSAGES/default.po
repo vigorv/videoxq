@@ -8594,6 +8594,18 @@ msgstr "серия"
 msgid "Action"
 msgstr "Акция"
 
+msgid "Search film by title"
+msgstr "Поиск фильма по названию"
+
+msgid "Films"
+msgstr "Фильмы"
+
+msgid "Profile"
+msgstr "Профиль"
+
+msgid "copyrightholders"
+msgstr "Правообладатели"
+
 msgid "wordsSEO"
 msgstr "скачать, смотреть он-лайн, бесплатно, без регистрации"
 
@@ -8615,5 +8627,18 @@ msgstr "Редактирование категорий новостей"
 msgid "List Directions"
 msgstr "Список категорий новостей"
 
+msgid "Click To Play"
+msgstr "Посмотреть фильм"
+
+msgid "Total"
+msgstr "Всего"
+
+msgid "Show more videos"
+msgstr "Показать еще видео"
+
+msgid "Scroll up"
+msgstr "Промотать вверх"
+
 msgid "You do not download from our website"
 msgstr "Вы ничего не скачивали с нашего сайта"
+

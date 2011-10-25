@@ -11,6 +11,7 @@
  * @author snowing
  * @property FilmFast $FilmFast
  * @property UserFast $UserFast
+ * @property Cookie $Cookie
  */
 class MobileController extends AppController {
 
@@ -22,6 +23,7 @@ class MobileController extends AppController {
     var $components = array('Captcha', 'Email', 'Cookie', 'RequestHandler', 'ControllerList');
     var $uses = array('User', 'Group', 'FilmFast', 'UserFast', 'News', 'Media');
     var $langFix = '';
+    var $lang;
     var $ImgPath;
     var $out, $outCount;
     var $paginate = array(
@@ -44,12 +46,13 @@ class MobileController extends AppController {
             View::set('android_webkit', false);
 
         $ajax = 0;
-        if (isset($_REQUEST['ajax'])) {
+        if (isset($_REQUEST['ajax']) or (isset($_GET['ajax']))) {
             $this->layout = 'ajax';
             $ajax = 1;
+            View::set('ajax_draw', 1);
             Configure::write('debug', 0);
         }
-       // Configure::write('debug', 1);
+        // Configure::write('debug', 10);
         $this->out = '';
         $this->outCount = '';
         $name = $this->passedArgs;
@@ -60,18 +63,16 @@ class MobileController extends AppController {
                 $this->outCount.=$k . "_" . $v . "_";
         }
 
-        $lang = Configure::read('Config.language');
+        $this->lang = Configure::read('Config.language');
         $this->langFix = '';
-        if ($lang == _ENG_)
+        if ($this->lang == _ENG_)
             $this->langFix = '_' . _ENG_;
 
-        $this->set('lang', $lang);
-        $this->set('langFix', $this->langFix);
         $zone = false;
         $zones = Configure::read('Catalog.allowedIPs');
         $zone = checkAllowedMasks($zones, $_SERVER['REMOTE_ADDR'], 1);
         $page = 1;
-        $per_page = 50;
+        $per_page = 10;
         $ajaxmode = 0;
         if (isset($_GET['page'])) {
             $page = filter_var($_GET['page'], FILTER_VALIDATE_INT);
@@ -87,13 +88,14 @@ class MobileController extends AppController {
         if (($per_page > 0) && ($per_page < 100))
             $this->per_page = $per_page;
         else
-            $this->per_page = 50;
+            $this->per_page = 10;
         if (isset($_GET['filter']))
             $this->page_filter = filter_var($_GET['filter'], FILTER_SANITIZE_STRING);
         else
             $this->page_filter = '';
         View::set('page_filter', $this->page_filter);
         View::set('page_link', '/' . $this->params['controller'] . '/' . $this->params['action']);
+        View::set('first_time',$this->first_time);
         $this->set('ajaxmode', $ajaxmode);
         if ($zone)
             $this->ImgPath = Configure::read('Catalog.imgPath');
@@ -103,6 +105,9 @@ class MobileController extends AppController {
 
     function BeforeRender() {
         $this->set('imgPath', $this->ImgPath);
+        $this->set('page', $this->page);
+        $this->set('lang', $this->lang);
+        $this->set('langFix', $this->langFix);
     }
 
     /*
@@ -111,17 +116,22 @@ class MobileController extends AppController {
 
     function index() {
         $this->pageTitle = __('Video catalog', true);
-        View::set('hide_search_bar',true);
-        //$films = $this->FilmFast->GetFilms(array('lic' => 1, 'variant' => 13, 'order' => 'RAND()'), 100);
+        View::set('hide_search_bar', true);
+        $films = $this->FilmFast->GetFilms(array('lic' => 1, 'variant' => 13, 'order' => 'Year', 'direction' => 'DESC'), 100, $this->page, $this->per_page);
+        $count = $this->FilmFast->GetFilmsCount(array('lic' => 1, 'variant' => 13, 'order' => 'Year', 'direction' => 'DESC'));
         //$this->autoRender = false;
-        //$this->set('films', $films);
+        $this->set('films', $films);
+        $this->set('count', $count);
         //$this->render('index');
     }
 
     function search() {
         $words = filter_var($_GET['s'], FILTER_SANITIZE_STRING);
-        $films = $this->FilmFast->SearchByTitle($words);
+        $films = $this->FilmFast->SearchByTitle($words, 1, $this->page, $this->per_page);
+        $count = $this->FilmFast->SearchByTitleCount($words, 1);
+
         $this->set('films', $films);
+        $this->set('count', $count);
         //$this->render('films');
     }
 
@@ -137,15 +147,18 @@ class MobileController extends AppController {
 
     function genres($id=null) {
         if (!$id) {
-            $genres = $this->FilmFast->GetFullGenresList(1,13);
-            
+            $genres = $this->FilmFast->GetFullGenresList(1, 13);
+
             $this->set('genres', $genres);
         } else {
             $this->pageTitle = __('Video catalog', true);
-            $cond=array('lic' => 1, 'variant' => 13, 'order' => 'Film.year', 'genre_id' => $id);
+            $genre = $this->FilmFast->getGenreInfo($id);
+            $this->set('genre', $genre);
+            $cond = array('lic' => 1, 'variant' => 13, 'order' => 'Film.year', 'direction' => "DESC", 'genre_id' => $id, $this->page, $this->per_page);
             $count = $this->FilmFast->GetFilmsCount($cond);
             $films = $this->FilmFast->GetFilms($cond, 1, $this->page, $this->per_page);
             $this->set('films', $films);
+            $this->set('count', $count);
             $this->render('films');
         }
     }
@@ -153,17 +166,18 @@ class MobileController extends AppController {
     function films($id=null) {
         if (!$id) {
             $this->pageTitle = __('Video catalog', true);
-            $films = $this->FilmFast->GetFilms(array('lic' => 1, 'variant' => 13, 'order' => 'RAND()'), 10);
+            $films = $this->FilmFast->GetFilms(array('lic' => 1, 'variant' => 13, 'order' => 'Year', 'direction' => 'DESC'), 1000, $this->page, $this->per_page);
+            $count = $this->FilmFast->GetFilmsCount(array('lic' => 1, 'variant' => 13, 'order' => 'Year', 'direction' => 'DESC'));
+            //    $films = $this->FilmFast->GetFilms(array('lic' => 1, 'variant' => 13, 'order' => 'RAND()'), 10);
             $this->set('films', $films);
+            $this->set('count', $count);
             $this->render('films');
         } else {
             $id = (int) $id;
             $film = $this->FilmFast->GetFilm($id);
 
             if ($film) {
-                $lang = Configure::read('Config.language');
-                if ($lang == _ENG_) {
-                    $langFix = '_' . _ENG_;
+                if ($this->lang == _ENG_) {
                     $imdb_website = Cache::read('Catalog.film_imdbinfo_' . $id, 'searchres');
                     if (empty($imdb_website)) {
                         if (!empty($film['Film']['imdb_id'])) {
@@ -242,5 +256,21 @@ class MobileController extends AppController {
         }
     }
 
+    function ver() {
+        switch ($_GET['id']) {
+            case 1:
+                $this->Cookie->write('version', 'desk');
+                break;
+            case 2:
+                $this->Cookie->write('version', 'mob');
+                break;
+        }
+        $this->redirect('/');
+    }
+
+    function old(){
+      $this->layout='old_mobile';     
+    }
+    
 }
 
