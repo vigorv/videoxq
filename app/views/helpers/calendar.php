@@ -40,11 +40,11 @@ class CalendarHelper extends AppHelper {
         $this->current_date = $date;
         if (!empty($date))
         {
-        echo "<script type=\"text/javascript\">var current_date = $date;</script>";
+        echo "<script type=\"text/javascript\">var current_date = '$date';</script>";
         }
         else
         {
-        echo "<script type=\"text/javascript\">var current_date = $cur_year-$cur_month-$cur_day;</script>";
+        echo "<script type=\"text/javascript\">var current_date = '$cur_year-$cur_month-$cur_day';</script>";
         }
     }
     

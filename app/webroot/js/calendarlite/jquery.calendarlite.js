@@ -32,9 +32,13 @@
         
         month = parseInt(o.month, 10);
         year = parseInt(o.year, 10);
-
+        /*tecuchaya data*/
+        var date_array = [];
+        date_array = (current_date.split("-",3));
+        
         var today = new Date();
         var srcDate = new Date();
+        srcDate.setMonth(date_array[1]-1);
         if (!isNaN(year)) {
             srcDate.setDate(1);
             srcDate.setFullYear(year);
@@ -77,8 +81,8 @@
             var rel = _formatLink(o.dateFormat, dates[j]);
             cl = '';
             
-           alert(current_date); 
-            if (date == 15 && curMonth == 9 && curYear == 2011) {
+                        
+            if (date == date_array[2] && curMonth == (date_array[1]-1) && curYear == date_array[0]) {
                 cl = ' class="curr"';
             } else if (day == 6 || day == 0) {
                 cl = ' class="weekend"';
