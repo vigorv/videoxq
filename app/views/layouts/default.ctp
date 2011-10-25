@@ -1,6 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<title><?php echo Configure::read('App.siteName') ." ". $title_for_layout; ?></title>
 <?php
 //echo $html->css('style');
 //echo $html->css('vusic');
@@ -9,7 +10,7 @@ echo $html->css('common');
 echo $html->css('nifty/niftycorners');
 //echo $javascript->link(array('jquery.fancybox-1.3.4/jquery-1.4.3.min', 'scripts', 'validation'));
 //echo $javascript->link(array('jquery.fancybox-1.3.4/jquery-1.4.3.min', 'scripts', 'validation'));
-echo $javascript->link(array('jquery-1.6.4.min', 'scripts', 'validation')); 
+echo $javascript->link(array('jquery-1.6.4.min', 'scripts', 'validation'));
 /*
 if ($this->name == 'News')
 	echo $javascript->link(array('jquery.fancybox-1.3.4/jquery-1.4.3.min', 'scripts', 'validation'));
@@ -21,6 +22,10 @@ echo $scripts_for_layout;
 ?>
 <script type="text/javascript" src="/css/nifty/niftycube.js"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Language" content="ru">
+<meta name="keywords" content="фильм, фильмы, кино, сериалы, бесплатные фильмы, лицензионные фильмы, фильмы бесплатно, скачать фильмы бесплатно без регистрации, отечественные фильмы, старые фильмы, скачать сериалы <?php //if (isset($metaKeywords)) echo $metaKeywords; ?>" />
+<meta name="description" content="Сайт для скачивания фильмов и сериалов. Классика и новинки кино на VIDEOXQ.com Только лицензионное качество фильмов – бесплатно, без регистрации и СМС<?php //if (isset($metaDescription)) echo $metaDescription; ?>" />
+<link rel="alternate" type="application/rss+xml" title='<?php echo Configure::read('App.siteName'); ?>' href="http://videoxq.com/rss.xml" />
 <?php
 	if (empty($metaExpires))
 	{
@@ -44,8 +49,6 @@ echo $scripts_for_layout;
 <meta name="Robots" content="<?php echo $metaRobots; ?>" />
 <meta name='yandex-verification' content='41f90ac754cf4471' />
 <meta name="verify-v1" content="Q+iq7OY8RadE9126YoJFPl1cnjLTMbHmU//RrR0TTks=" />
-<meta name="keywords" content="Скачать -Боевик ,Вестерн, Драма, История ,Комедия, Мелодрама, Мистика ,Мультфильмы, Мьюзикл ,Триллер Ужасы  Фантастика Фэнтази  Черно-белые фильмы –смотреть он-лайн,  бесплатно, без регистрации <?php //if (isset($metaKeywords)) echo $metaKeywords; ?>" />
-<meta name="description" content="Скачать -Боевик ,Вестерн, Драма, История ,Комедия, Мелодрама, Мистика ,Мультфильмы, Мьюзикл ,Триллер Ужасы  Фантастика Фэнтази Черно-белые фильмы –смотреть он-лайн,  бесплатно, без регистрации <?php //if (isset($metaDescription)) echo $metaDescription; ?>" />
 <link rel="alternate" type="application/rss+xml" title='<?php echo Configure::read('App.siteName'); ?>' href="http://videoxq.com/rss.xml" />
 <title><?php echo Configure::read('App.siteName') . ' - ' . $title_for_layout; ?></title>
 </head>
@@ -132,33 +135,32 @@ if ((!empty($blockContent['right'])) && ($this->params['controller']=='media') &
 	<div class="copy" width="80%" align="center" style=" padding-left:200px;padding-right:200px;">
 	<br />
 <span>
-<a href="/media/index/genre:25/sort:Film.modified">Аниме</a>
-|<a href="/media/index/genre:20/sort:Film.modified">Биография </a>
-|<a href="/media/index/genre:6/sort:Film.modified">Боевик </a>
-|<a href="/media/index/genre:48/sort:Film.modified">В показе </a>
-|<a href="/media/index/genre:11/sort:Film.modified">Вестерн</a>
-|<a href="/media/index/genre:18/sort:Film.modified">Война </a>
-|<a href="/media/index/genre:23/sort:Film.modified">Документальный </a>
-|<a href="/media/index/genre:2/sort:Film.modified">Драма </a>
-|<a href="/media/index/genre:19/sort:Film.modified">История</a>
-|<a href="/media/index/genre:4/sort:Film.modified">Комедия </a>
-|<a href="/media/index/genre:21/sort:Film.modified">Короткометражный</a>
-|<a href="/media/index/genre:1/sort:Film.modified">Криминал </a>
-|<a href="/media/index/genre:17/sort:Film.modified">Мелодрама</a>
-|<a href="/media/index/genre:8/sort:Film.modified">Мистика</a>
-|<a href="/media/index/genre:9/sort:Film.modified">Музыка </a>
-|<a href="/media/index/genre:13/sort:Film.modified">Мультфильм </a>
-|<a href="/media/index/genre:22/sort:Film.modified">Мьюзикл</a>
-|<a href="/media/index/genre:12/sort:Film.modified">Приключения </a>
-|<a href="/media/index/genre:24/sort:Film.modified">Разговорное шоу</a>
-|<a href="/media/index/genre:29/sort:Film.modified">Реал-ТВ</a>
-|<a href="/media/index/genre:15/sort:Film.modified">Семейный</a>
-|<a href="/media/index/genre:16/sort:Film.modified">Спорт</a>
-|<a href="/media/index/genre:3/sort:Film.modified">Триллер</a>
-|<a href="/media/index/genre:7/sort:Film.modified">Ужасы </a>
-|<a href="/media/index/genre:5/sort:Film.modified">Фантастика</a>
-|<a href="/media/index/genre:10/sort:Film.modified">Фэнтази</a>
-|<a href="/media/index/genre:26/sort:Film.modified">Черно-белый</a>
+<a href="/media/index/genre:25/sort:Film.modified" title="Скачать Аниме">Аниме</a>
+|<a href="/media/index/genre:20/sort:Film.modified" title="Скачать Биография">Биография </a>
+|<a href="/media/index/genre:6/sort:Film.modified" title="Скачать Боевики" >Боевик </a>
+|<a href="/media/index/genre:11/sort:Film.modified" title="Скачать Вестерны">Вестерн</a>
+|<a href="/media/index/genre:18/sort:Film.modified" title="Скачать фильмы о Войне">Фильмы о войне </a>
+|<a href="/media/index/genre:23/sort:Film.modified" title="Скачать Документальные фильмы">Документальные фильмы </a>
+|<a href="/media/index/genre:2/sort:Film.modified" title="Скачать Драма">Драма </a>
+|<a href="/media/index/genre:19/sort:Film.modified" title="Скачать исторические фильмы">Исторические фильмы</a>
+|<a href="/media/index/genre:4/sort:Film.modified" title="Скачать комедии">Комедия </a>
+|<a href="/media/index/genre:21/sort:Film.modified" title="Скачать короткометражные фильмы">Короткометражные фильмы</a>
+|<a href="/media/index/genre:1/sort:Film.modified" title="Скачать фильмы о Криминале">Криминал </a>
+|<a href="/media/index/genre:17/sort:Film.modified" title="Скачать Мелодрамы">Мелодрама</a>
+|<a href="/media/index/genre:8/sort:Film.modified" title="Скачать фильмы о Мистики">Мистика</a>
+|<a href="/media/index/genre:9/sort:Film.modified" title="Скачать Музыкальные фильмы">Музыка </a>
+|<a href="/media/index/genre:13/sort:Film.modified" title="Скачать мультфильмы">Мультфильм </a>
+|<a href="/media/index/genre:22/sort:Film.modified" title="Скачать мюзиклы">Мьюзикл</a>
+|<a href="/media/index/genre:12/sort:Film.modified" title="Скачать приключенческие фильмы">Приключения </a>
+|<a href="/media/index/genre:24/sort:Film.modified" title="Скачать фильмы - Разговорное шоу">Разговорное шоу</a>
+|<a href="/media/index/genre:29/sort:Film.modified" title="Скачать фильмы Реал-ТВ">Реал-ТВ</a>
+|<a href="/media/index/genre:15/sort:Film.modified" title="Скачать семейные фильмы">Семейные фильмы</a>
+|<a href="/media/index/genre:16/sort:Film.modified" title="Скачать фильмы о спорте">Спорт</a>
+|<a href="/media/index/genre:3/sort:Film.modified" title="Скачать Триллеры">Триллер</a>
+|<a href="/media/index/genre:7/sort:Film.modified" title="Скачать ужасы">Ужасы</a>
+|<a href="/media/index/genre:5/sort:Film.modified" title="Скачать фантастические фильмы">Фантастика</a>
+|<a href="/media/index/genre:10/sort:Film.modified" title="Скачать фильмы фентези" >Фэнтази</a>
+|<a href="/media/index/genre:26/sort:Film.modified" title="Скачать Черно-белые фильмы">Черно-белые фильмы</a>
 </span>
 	</div>
 
