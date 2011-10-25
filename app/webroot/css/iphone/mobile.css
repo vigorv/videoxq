@@ -173,11 +173,11 @@ ul li{
     list-style-type: none;
     padding: 2px 4px;
     clear:left;
-   min-height:87px;       
+  /* min-height:77px; */       
 }
 
 #home li.genre_li{
-    min-height:0;
+    /* min-height:0; */
 }
 
 
