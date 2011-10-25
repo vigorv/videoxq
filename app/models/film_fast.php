@@ -460,6 +460,3 @@ ORDER BY film_id
 LIMIT 0 , 30
 ) AS film_gen ON FILM.id = film_gen.film_id
  */
-?>
-
-
