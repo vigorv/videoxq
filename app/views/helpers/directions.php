@@ -94,24 +94,32 @@ jQuery(document).ready(function() {
      */
     function showHtmlTree($tree_list_data = array(), $current_id = 0, $level_char = '#', $html_container_id = 'left-menu'){
         $this->Javascript->link('jstree/jquery.jstree.js', false);
+        $this->Javascript->link('jstree/_lib/jquery.cookie.js', false);
 
-//                $("#current_element").children("a").css({"background-color" : "#aaa", "color" : "#fff", "width" : "250px", "padding" : "8px 0 8px 3px"});
-//                $("#'.$html_container_id.'").hide();
-//                    "ui" : {"disable_selecting_children" : ["true"]},
+/*
+                $("#current_element").children("a").css({"background-color" : "#aaa", "color" : "#fff", "width" : "250px", "padding" : "8px 0 8px 3px"});
+                $("#'.$html_container_id.'").hide();
+                    "ui" : {"disable_selecting_children" : ["true"]},
+*/
+/*
+                    "core" : { "initially_open" : [ "current_element" ],
+                            "open_parents" : true
+                            },
+*/
 
         $this->output.=$this->Javascript->codeBlock('
             jQuery(document).ready(function() {
 
                 $("#'.$html_container_id.'").jstree({
                     "plugins" : ["themes","html_data","ui"],
-                    "core" : { "initially_open" : [ "current_element" ],
-                            "open_parents" : true
-                            },
+
                     "themes" : {
 			"theme" : "default",
 			"dots" : false,
 			"icons" : false
-                        }
+                        },
+                    "ui" :{ "initially_select" : ["#current_element"] }
+
                     });
                 $("#'.$html_container_id.'").fadeIn(800);
             });
