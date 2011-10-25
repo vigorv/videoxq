@@ -77,5 +77,6 @@
 #navigation_tv { width:755px; vertical-align: middle; margin:-116px auto 80px auto; padding-left: 30px; padding-right: 30px;}
 #icon_r_arrow { float:right;}
 #icon_refresh { margin-left: 100px; margin-bottom: 2px;}
-#icon_list { margin-left: 400px;margin-right: 5px; }
-#icon_eskiz { padding-left: 5px; border-left: 2px solid #000;}
+.icon_list { margin-left: 400px;margin-right: 5px;opacity:0.6;filter:progid:DXImageTransform.Microsoft.Alpha(opacity=60); border: 0; }
+.icon_eskiz { padding-left: 5px; border-left: 2px solid #000;opacity:0.6;filter:progid:DXImageTransform.Microsoft.Alpha(opacity=60); border: 0;}
+.currentTvIcon { opacity: 1;filter:progid:DXImageTransform.Microsoft.Alpha(opacity=100); }

@@ -44,9 +44,10 @@ class TvvisionHelper extends AppHelper {
 	   if (is_array($film_info) and !empty($film_info))
        {
 	   //ya4eika filma v televisore
+       
        echo '<div class="movies_list">';
        echo '<div class="movies_l">';
-       for ($i = 0; $i < sizeof($film_info)/2;$i++)
+       for ($i = 0; $i < round(sizeof($film_info)/2);$i++)
        {
 		echo '
         <div class="moviePreviewWrapper_list">
@@ -58,7 +59,7 @@ class TvvisionHelper extends AppHelper {
 	   }
        echo '</div>';
        echo '<div class="movies_r">';
-       for ($i = ((sizeof($film_info)/2)+1); $i < sizeof($film_info);$i++)
+       for ($i = (round(sizeof($film_info)/2)); $i < sizeof($film_info);$i++)
        {
 		echo '<div class="moviePreviewWrapper_list">
         <li style="float:left; margin:0; padding:0;">
