@@ -62,7 +62,6 @@
 
 
                                                 <?php
-
                                                 if (!empty($directions_data) && $directions_data){
                                                     echo $directions->showHtmlTree($directions_data['list'],$directions_data['current_id'], $directions_data['level_char'], 'left-menu_');
                                                 }
