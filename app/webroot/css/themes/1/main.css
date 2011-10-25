@@ -1,6 +1,6 @@
 #block_main{
     width:88%;
-    height:68%;
+    height:100%;
     margin:36px 30px 50px 38px;
     border:0;
     position:relative;
@@ -13,13 +13,129 @@
 }
 
 #main_inner{
-    background-image: url('/img/main/1/tv1.png');
+    
     background-color: white;
-    width:850px;
-    height:588px;
+    width:880px;
+    height:720px;
     margin:10px auto 10px;
     overflow: hidden;
 }
+/*TV SET PROFILE*/
+div.SmartFrame
+		{
+			width: 100%;
+		}
+		div.ClearClass
+		{
+			float: none;
+			clear: both;
+		}
+		div.Frame_Top
+		{
+			height: 48px;
+			background-image: url('/img/main/1/tv/left_top_verx.png');
+			background-position: top top;
+			background-repeat: repeat-x;
+            
+			margin-left: 8px;
+			margin-right: 8px;
+		}
+		div.Frame_LeftTop
+		{
+			float: left;
+			margin-left: -10px;
+            
+			background-image: url('/img/main/1/tv/left_top_tv.png');
+			width: 53px;
+			height: 318px;
+            position: absolute;            
+            
+		}
+		div.Frame_RightTop
+		{
+			margin-right: -8px;
+			float: right;
+			background-image: url('/img/main/1/tv/right_top_tv2.png');
+            
+			width: 66px;
+			height: 312px;
+		}
+		div.Frame_Content
+		{
+		width:100%;
+        height: 500px;
+        margin-left: 40px;
+        text-align: justify;
+        padding-left: 15px;
+		}
+		div.Frame_Left
+		{
+			background-image: url('/img/main/1/tv/left_center_tv.png');
+			background-repeat: repeat-y;
+            margin-left: -2px;
+            margin-top: -15px;
+            padding-top: 10px;
+            
+		}
+		div.Frame_LeftGradient
+		{
+			background-image: url('/img/main/1/tv/left_center_tv.png');
+			width:38px;
+			float: left;
+            
+		}
+		div.Frame_Right
+		{
+			background-image: url('/img/main/1/tv/right_center_tv.png');
+			background-repeat: repeat-y;
+			background-position: right top;
+			margin-left: 8px;
+            
+		}
+		div.Frame_RightGradient
+		{
+			background-image: url('/img/main/1/tv/right_center_tv.png');
+			width: 47px;
+			
+			float: right;
+		}
+		div.Frame_Bottom
+		{
+			margin-left: 45px;
+			margin-right: 48px;
+			background-image: url('/img/main/1/tv/right_bottom_niz_tv2.png');
+            
+			height: 52px;
+            
+		}
+		div.Frame_LeftBottom
+		{
+			margin-left: -47px;
+            margin-top: -107px;
+			background-image: url('/img/main/1/tv/left_bottom_tv.png');
+			float: left;
+			width: 58px;
+			height: 161px;
+		}
+		div.Frame_RightBottom
+		{
+			margin-right: -48px;
+            margin-top: -124px;
+			background-image: url('/img/main/1/tv/right_bottom_tv2.png');
+			width: 56px;
+			height: 178px;
+			float: right;
+		}
+        div.tv_label
+		{
+		    background-image: url('/img/main/1/tv/center_bottom_tv.png');
+            background-repeat: no-repeat;
+			text-align:center;
+            height: 116px;
+            width:769px;
+            margin: -52px auto;
+            
+		}
 
 #block_right{
     background-color: white;
@@ -74,7 +190,7 @@
 .info_image{ width:48px; height:48px;display:block;}
 .submenu a{ display:block;}
 /*navigation under TV*/
-#navigation_tv { width:755px; vertical-align: middle; margin:-116px auto 80px auto; padding-left: 30px; padding-right: 30px;}
+#navigation_tv { width:755px; vertical-align: middle;  padding-left: 30px; padding-right: 30px;margin:-116px auto 80px auto;}
 #icon_r_arrow { float:right;}
 #icon_refresh { margin-left: 100px; margin-bottom: 2px;}
 .icon_list { margin-left: 400px;margin-right: 5px;opacity:0.6;filter:progid:DXImageTransform.Microsoft.Alpha(opacity=60); border: 0; }

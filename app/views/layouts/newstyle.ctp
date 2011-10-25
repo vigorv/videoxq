@@ -72,6 +72,9 @@
         return false;
     }
         </script>
+        <style type="text/css">
+		
+	</style>
     </head>
     <body>
         <div id="wrap">
@@ -93,8 +96,36 @@
                     </div>
                     <div id="main_inner">
                         <div id="block_main">
-                            <?= $content_for_layout; ?>
-
+                        <div class="Frame">
+		<div class="Frame_Top">
+			<div class="Frame_LeftTop">
+			</div>
+			<div class="Frame_RightTop">
+			</div>
+			<div class="ClearClass">
+			</div>
+		</div>
+		<div class="Frame_Left">
+			<div class="Frame_LeftGradient">
+			</div>
+			<div class="Frame_Right">
+				<div class="Frame_RightGradient">
+				</div>
+				<div class="Frame_Content">
+					<?= $content_for_layout; ?>
+                </div>
+			</div>
+		</div>
+		<div class="Frame_Bottom">
+			<div class="Frame_LeftBottom">
+			</div>
+			<div class="Frame_RightBottom">
+			</div>
+			<div class="ClearClass">
+			</div>
+		</div>
+        <div class="tv_label"></div>
+	</div>
                         </div>
 
                     </div>
