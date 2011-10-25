@@ -95,22 +95,27 @@ jQuery(document).ready(function() {
     function showHtmlTree($tree_list_data = array(), $current_id = 0, $level_char = '#', $html_container_id = 'left-menu'){
         $this->Javascript->link('jstree/jquery.jstree.js', false);
 
-        $this->output.=$this->Javascript->codeBlock('
-            jQuery(document).ready(function() {
 //                $("#current_element").children("a").css({"background-color" : "#aaa", "color" : "#fff", "width" : "250px", "padding" : "8px 0 8px 3px"});
 //                $("#'.$html_container_id.'").hide();
+//                    "ui" : {"disable_selecting_children" : ["true"]},
+
+        $this->output.=$this->Javascript->codeBlock('
+            jQuery(document).ready(function() {
+
                 $("#'.$html_container_id.'").jstree({
                     "plugins" : ["themes","html_data","ui"],
-                    "core" : { "initially_open" : [ "current_element" ]},
-                    "ui" : {"disable_selecting_children" : ["true"]},
+                    "core" : { "initially_open" : [ "current_element" ],
+                            "open_parents" : true
+                            },
                     "themes" : {
 			"theme" : "default",
 			"dots" : false,
 			"icons" : false
                         }
-                    })
-                $("#'.$html_container_id.'").fadeIn();
+                    });
+                $("#'.$html_container_id.'").fadeIn(800);
             });
+
             '
         );
 
@@ -161,9 +166,10 @@ jQuery(document).ready(function() {
             //текущего элемента, если его id совпадает с id выбранного раздела,
             //то пометим этот тег как текущий, дабы JS-скрипт знак какой элемент
             //дерева раскрыть по умолчанию
-            $current_element = '';
-            if ($direction_id == $current_id) {$current_element = ' id="current_element"';}
-            $html_tree .= '<li'.$current_element.'>';
+            $item_id = $direction_id;
+            if ($direction_id == $current_id) {$item_id = 'current_element';}
+
+            $html_tree .= '<li id="' . $item_id . '">';
             //и добавим сам текст заголовка, удалив из него все вхождения спец.
             //символа
             $direction_title = str_replace($level_char, '', $direction_title);
@@ -179,18 +185,18 @@ jQuery(document).ready(function() {
             //пустую сссылку - нефиг смотреть пустые новости :)))))))
             if ($news_count){
                 $direction_href = '/news/index/' . $direction_id . '';
-                $onclick = 'onclick="window.location.href =$(this).attr(\'href\')"';
+                $attr = 'onclick="window.location.href =$(this).attr(\'href\')"';
                 $direction_title_caption = $direction_title_caption . ' (' . $news_count . ')';
             }
             else {
                 $direction_href = '#';
-                $onclick = '';
-                $title = '';
+                $attr = 'style="cursor: default"';
+                $direction_title .= ' (новостей нет)';
             }
 
-                $html_tree .= '<a href="'.$direction_href.'" title="' . $direction_title . '" ' . $onclick . '>' ;
-                $html_tree .= $direction_title_caption;
-                $html_tree .= '</a>';
+            $html_tree .= '<a href="'.$direction_href.'" title="' . $direction_title . '" ' . $attr . '>' ;
+            $html_tree .= $direction_title_caption;
+            $html_tree .= '</a>';
 
             //перед следующим циклом сохраняем текущее кол-во $level_char в $n
             $n = $n2;
@@ -212,7 +218,7 @@ jQuery(document).ready(function() {
 */
 
         //всю менюшку в контейнер <div> !!!!
-        $html_tree = '<div id="' . $html_container_id . '" style="display: none">' . $html_tree . '</div>';
+        $html_tree = '<div id="' . $html_container_id . '" style="display: none; width: 250px; overflow:hidden">' . $html_tree . '</div>';
         $this->output .= $html_tree;
         return $this->output;
     }
