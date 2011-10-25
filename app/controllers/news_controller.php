@@ -147,7 +147,7 @@ class NewsController extends AppController {
                     'conditions' => $conditions,
                     'limit' => $rows_per_page,
                     'order' => array(
-                        'News.title' => 'asc'
+                        'News.created' => 'desc'
                         )
                     );
 
@@ -188,11 +188,8 @@ class NewsController extends AppController {
 	        Cache::write('News.categoriesFullTree', $tree_arr, 'block');
         }
 
-        $dir_id = 0;
-        if (is_numeric($id))
-		{
-			$info = $this->News->findById($id);
-		}
+        $dir_id = 0; $id = intval($id);
+		$info = $this->News->findById($id);
 
 		if (!empty($info))
 		{
