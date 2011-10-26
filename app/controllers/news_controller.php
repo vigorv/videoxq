@@ -179,35 +179,71 @@ class NewsController extends AppController {
             $this->Session->setFlash(__('Invalid New.', true));
             $this->redirect('/');
         }
-
+        $id = intval($id);
+        //----------------------------------------------------------------------
+        //задаем параметры выборки
         $conditions = array();
         $conditions[] = array('hidden' => 0);//нам скрытые разделы не нужны!!!
         //задаем наш служебный спец.символ
-        $level_char = '#';
+        $level_char = '';
 
         $tree_arr = Cache::read('News.categoriesFullTree', 'block');
         if (empty($tree_arr))
         {
 	        //генерируем список элементов html
 	        $tree_arr = $this->Direction->generatetreelist($conditions, null, null, $level_char);
+                //учитываем ли скрытые новости в подсчете?
+                $do_count_hidden = false;
+                //добавим к этим данным, количество существующих новостей на каждый
+                //раздел, включая его потомков.
+                foreach ($tree_arr  as $direction_id=>$direction_title){
+                    //узнаем idшки вложенных категорий
+                    //выберем список вложенных категорий
+                    $directions = $this->Direction->getSubDirections($direction_id);
+                    $directions_ids = array();
+                    $directions_ids[] = $direction_id;
+                    //и из этого списка создадим список id этих же категорий
+                    foreach($directions as $direction_row){
+                        $directions_ids[] = $direction_row['Direction']['id'];
+                    }
+
+                    $tree_arr[$direction_id] = array (
+                        'title' => $direction_title,
+                        'count' => $this->Direction->countNewsInDirections($directions_ids, $do_count_hidden)
+                        );
+                }
+
+
+
+
 	        Cache::write('News.categoriesFullTree', $tree_arr, 'block');
         }
 
-        $dir_id = 0; $id = intval($id);
-		$info = $this->News->findById($id);
+        $dir_id = 0;
+        $info = $this->News->findById($id);
 
-		if (!empty($info))
-		{
-			$dir_id = $info['News']['direction_id'];
-		}
+        if (!empty($info))
+        {
+                $dir_id = $info['News']['direction_id'];
+        }
+
+        //если не задали текущий раздел, то выцепим id корневого элемента
+        if (!$dir_id && $tree_arr) {
+            reset($tree_arr);
+            $dir_id = key($tree_arr);
+            }
 
         //формируем массив данных для хелпера вывода html дерева
         $directions_data = array(
             'list' => $tree_arr,
             'current_id' => $dir_id,
-            'level_char' => $level_char
+            'level_char' => $level_char,
+            'html_container_id' => 'left-menu'
         );
         $this->set('directions_data', $directions_data);
+        //----------------------------------------------------------------------
+
+
 
     	$conditions = array('News.hidden' => 0);
     	$subDirections = $this->Direction->getSubDirections($dir_id);
