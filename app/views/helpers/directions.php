@@ -244,7 +244,7 @@ jQuery(document).ready(function() {
 
             $direction_title_caption = $direction_title;
             //если надо обрежем слишкоб длинную строку, превышающую $title_max_size
-            $title_max_size = 25;
+            $title_max_size = 23;
             if (mb_strlen ($direction_title_caption) > $title_max_size){
                 $direction_title_caption = mb_substr($direction_title_caption, 0, $title_max_size - 3).'...';
             }
