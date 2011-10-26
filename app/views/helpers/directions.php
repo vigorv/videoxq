@@ -234,6 +234,7 @@ jQuery(document).ready(function() {
     function showFlatList($tree_list_data = array(), $current_id = 0, $level_char = '', $html_container_id = 'left-menu'){
         $html = '';
         foreach($tree_list_data as $direction_id => $direction_data){
+            $direction_caption = $direction_data['caption'];
             $direction_title = $direction_data['title'];
             $news_count = $direction_data['count'];
 
@@ -242,11 +243,11 @@ jQuery(document).ready(function() {
             $item_id = $direction_id;
             $html .= '<li id="' . $item_id .'"'.$class.'>';
 
-            $direction_title_caption = $direction_title;
+            //$direction_title_caption = $direction_title;
             //если надо обрежем слишкоб длинную строку, превышающую $title_max_size
             $title_max_size = 23;
-            if (mb_strlen ($direction_title_caption) > $title_max_size){
-                $direction_title_caption = mb_substr($direction_title_caption, 0, $title_max_size - 3).'...';
+            if (mb_strlen ($direction_caption) > $title_max_size){
+                $direction_caption = mb_substr($direction_caption, 0, $title_max_size - 3).'...';
             }
 
             //если в разделе есть новости то укажем ссылку на этот раздел, иначе
@@ -254,7 +255,7 @@ jQuery(document).ready(function() {
             if ($news_count){
                 $direction_href = '/news/index/' . $direction_id . '';
                 $attr = '';
-                $direction_title_caption = $direction_title_caption . ' (' . $news_count . ')';
+                //$direction_caption = $direction_caption . ' (' . $news_count . ')';
             }
             else {
                 $direction_href = '#';
@@ -262,7 +263,7 @@ jQuery(document).ready(function() {
                 $direction_title .= ' (новостей нет)';
             }
             $html .= '<a href="'.$direction_href.'" title="' . $direction_title . '" ' . $attr . $class . '>' ;
-            $html .= $direction_title_caption;
+            $html .= $direction_caption;
             $html .= '</a>';
             $html .= '</li>';
 
