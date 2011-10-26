@@ -63,14 +63,28 @@ class NewsController extends AppController {
         if (empty($tree_arr))
         {
 	        //генерируем список элементов html
-	        $tree_arr = $this->Direction->generatetreelist($conditions, null, null, $level_char);
+                //следующий метод использовать в плоском меню нецелесообразно,
+                //так как, нам еще нужны дополнительные поля, а сортировать будем  по lft
+                //закомментим строчу и заменим пока на другую
+	        //---$tree_arr = $this->Direction->generatetreelist($conditions, null, null, $level_char);
+                $tree_arr = array();
+                $tree_data_arr = $this->Direction->find('all',
+                        array (
+                            'conditions'=>$conditions,
+                            'fields'=>array ('id','title','caption'),
+                            'order'=>'lft ASC'));
+
                 //учитываем ли скрытые новости в подсчете?
                 $do_count_hidden = false;
                 //добавим к этим данным, количество существующих новостей на каждый
                 //раздел, включая его потомков.
-                foreach ($tree_arr  as $direction_id=>$direction_title){
+                //---foreach ($tree_arr  as $direction_id=>$direction_title){
+                foreach ($tree_data_arr  as $directions_data){
                     //узнаем idшки вложенных категорий
                     //выберем список вложенных категорий
+                    $direction_id = $directions_data['Direction']['id'];
+                    $direction_title = $directions_data['Direction']['title'];
+                    $direction_caption = $directions_data['Direction']['caption'];
                     $directions = $this->Direction->getSubDirections($direction_id);
                     $directions_ids = array();
                     $directions_ids[] = $direction_id;
@@ -81,6 +95,7 @@ class NewsController extends AppController {
 
                     $tree_arr[$direction_id] = array (
                         'title' => $direction_title,
+                        'caption' => $direction_caption,
                         'count' => $this->Direction->countNewsInDirections($directions_ids, $do_count_hidden)
                         );
                 }
@@ -95,6 +110,7 @@ class NewsController extends AppController {
             reset($tree_arr);
             $dir_id = key($tree_arr);
             }
+
         //формируем массив данных для хелпера вывода html дерева
         $directions_data = array(
             'list' => $tree_arr,
@@ -191,14 +207,28 @@ class NewsController extends AppController {
         if (empty($tree_arr))
         {
 	        //генерируем список элементов html
-	        $tree_arr = $this->Direction->generatetreelist($conditions, null, null, $level_char);
+                //следующий метод использовать в плоском меню нецелесообразно,
+                //так как, нам еще нужны дополнительные поля, а сортировать будем  по lft
+                //закомментим строчу и заменим пока на другую
+	        //---$tree_arr = $this->Direction->generatetreelist($conditions, null, null, $level_char);
+                $tree_arr = array();
+                $tree_data_arr = $this->Direction->find('all',
+                        array (
+                            'conditions'=>$conditions,
+                            'fields'=>array ('id','title','caption'),
+                            'order'=>'lft ASC'));
+
                 //учитываем ли скрытые новости в подсчете?
                 $do_count_hidden = false;
                 //добавим к этим данным, количество существующих новостей на каждый
                 //раздел, включая его потомков.
-                foreach ($tree_arr  as $direction_id=>$direction_title){
+                //---foreach ($tree_arr  as $direction_id=>$direction_title){
+                foreach ($tree_data_arr  as $directions_data){
                     //узнаем idшки вложенных категорий
                     //выберем список вложенных категорий
+                    $direction_id = $directions_data['Direction']['id'];
+                    $direction_title = $directions_data['Direction']['title'];
+                    $direction_caption = $directions_data['Direction']['caption'];
                     $directions = $this->Direction->getSubDirections($direction_id);
                     $directions_ids = array();
                     $directions_ids[] = $direction_id;
@@ -209,6 +239,7 @@ class NewsController extends AppController {
 
                     $tree_arr[$direction_id] = array (
                         'title' => $direction_title,
+                        'caption' => $direction_caption,
                         'count' => $this->Direction->countNewsInDirections($directions_ids, $do_count_hidden)
                         );
                 }
@@ -218,6 +249,7 @@ class NewsController extends AppController {
 
 	        Cache::write('News.categoriesFullTree', $tree_arr, 'block');
         }
+       
 
         $dir_id = 0;
         $info = $this->News->findById($id);
