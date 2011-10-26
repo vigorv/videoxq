@@ -9,19 +9,23 @@ class DirectionsController extends AppController {
 
     function admin_index() {
         $tree_arr = $this->Direction->generatetreelist(null, null, null, '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;');
-        $this->set('tree_arr', $tree_arr);
+
         //переберем весь массив и добавим признак скрытой категории 'hidden'
         //конечно не очень рационально, но массив не такой большой, и для
         //админки потянет :)
         //в дальнейшем можно все засунуть в минимум запросов
         //pr($tree_arr);
         foreach ($tree_arr as $key => $val){
-            $tree_arr[$key] = ($this->Direction->checkDirectionIsHidden($key))? $val.' (скрыто)'  : $val;
+            if ($this->Direction->checkDirectionIsHidden($key)){
+                $tree_arr[$key] = '<span style="color:#777">'.$val.' (скрыто)</span>';
+            }
         }
+        $this->set('tree_arr', $tree_arr);
 
 
 
 
+/*
 
         //----------------------------------------------------------------------
         // тестовый вывод дерева с помощью хелпера
@@ -66,7 +70,7 @@ class DirectionsController extends AppController {
         //----------------------------------------------------------------------
         //конец тестового вывода дерева
         //----------------------------------------------------------------------
-
+*/
 
     }
 
