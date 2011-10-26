@@ -78,9 +78,7 @@
                       <?php if (!isset($hide_search_bar)): ?>
                       <div class="bar" style="text-align: center; vertical-align: bottom;">
                       <form action="/mobile/search" id="searchform" method="get">
-                      <input  type="search" style="clear:left;" placeholder="<?= __('Search film by title', true); ?>…" tabindex="1" id="search-input" onblur="
-                    //       window.scrollTo(0,1)
-                              " name="s"/><br/>
+                      <input  type="search" style="clear:left;" placeholder="<?= __('Search film by title', true); ?>…" tabindex="1" id="search-input"  name="s"/><br/>
                       <input type="submit" tabindex="2"  style="font-size:1.5em; margin:4px auto;" id="search-submit-hidden" name="submit" value="<?= __('Search', true); ?>"/>
                       </form>
                       </div>
