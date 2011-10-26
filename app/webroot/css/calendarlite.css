@@ -10,7 +10,8 @@ td {
   padding:3px;
 }
 /* Current date */
-.table .curr { background-color: #663333;}
+.table .curr { background-color: #663333; }
+.table .curr a { color: white; }
 /*ssulki*/
 .table .have { text-decoration: underline; color: #996699;}
 
