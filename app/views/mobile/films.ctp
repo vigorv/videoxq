@@ -5,15 +5,6 @@ else
     $gen_fix = '';
 ?>
 <? if (isset($ajax_draw)): ?>
-    <div style="float:right; font-weight:900;margin:0;padding:0; font-size:25px">
-        <a id="up_button" style="color:black;text-decoration: none;"  href="" onclick=" myScroll.refresh();setTimeout(function() { window.scrollTo(0, 1); }, 100);myScroll.scrollTo(0,0); return false">&uarr;</a>&nbsp;
-    </div>
-    <div class="barA" style="background-color: #CCC">
-        <?
-        if ((isset($genre)) && count($genre))
-            echo $genre[0]['genres']['title' . $gen_fix] . ' | ';
-        ?> <?php echo ($page - 1) * 10; ?> 
-    </div>
 <? else: ?>
     <? if ((isset($genre)) && count($genre)): ?>
         <div class="barA" style="background-color: #CCC">     
