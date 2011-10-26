@@ -19,9 +19,12 @@ if (!empty($genres)) :
         <?
     endforeach;
 endif;
-?>
-<a id="up_button" style="color:black;text-decoration: none;"  href="" onclick="setTimeout(function() { window.scrollTo(0, 1); }, 100);  return false">
+/*
+ * 
+ * <a id="up_button" style="color:black;text-decoration: none;"  href="" onclick="setTimeout(function() { window.scrollTo(0, 1); }, 100);  return false">
     <div class="barA" style="background-color: #CCC">  
         <?= __('Scroll up', true) ?> &uarr;
     </div>
 </a>
+ */
+?>
