@@ -117,7 +117,7 @@ class MobileController extends AppController {
 
     function index() {
         $this->pageTitle = __('Video catalog', true);
-        View::set('hide_search_bar', true);
+       // View::set('hide_search_bar', true);
         $films = $this->FilmFast->GetFilms(array('lic' => 1, 'variant' => 13, 'order' => 'Year', 'direction' => 'DESC'), 100, $this->page, $this->per_page);
         $count = $this->FilmFast->GetFilmsCount(array('lic' => 1, 'variant' => 13, 'order' => 'Year', 'direction' => 'DESC'));
         //$this->autoRender = false;
@@ -176,7 +176,6 @@ class MobileController extends AppController {
         } else {
             $id = (int) $id;
             $film = $this->FilmFast->GetFilm($id);
-
             if ($film) {
                 if ($this->lang == _ENG_) {
                     $imdb_website = Cache::read('Catalog.film_imdbinfo_' . $id, 'searchres');
