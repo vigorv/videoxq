@@ -61,7 +61,7 @@ if (!is_array($films)) {
             }
         ?>
         <li> 
-            <a class="href_li" href="/mobile/films/<?= $Film['id'] ?>" onClick="return myPager.nextScreen(this); ">
+            <a class="href_li" href="/mobile/films/<?= $Film['id'] ?>#home" onClick="return myPager.nextScreen(this); ">
 
                 <div class="poster">
                     <?= $poster; ?>

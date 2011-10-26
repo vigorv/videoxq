@@ -320,9 +320,9 @@ class FilmFast extends AppModel {
         if (!$films = Cache::read('Catalog.film_search_' . $title.'_'.$page.'_'.$per_page, 'searchres')) {
             $this->Film->contain(array(
                 'FilmType', 'Genre',
-                //'Thread',
+                'Thread',
                 'FilmPicture' => array('conditions' => array('type =' => 'smallposter')),
-                //'Country',
+                'Country',
                 //'FilmVariant' => array('FilmFile' => array('order' => 'file_name'), 'VideoType', 'Track' => array('Language', 'Translation')),
                 'MediaRating',
                     )
@@ -331,6 +331,7 @@ class FilmFast extends AppModel {
             $pagination['Film']['conditions'] = array('is_license' => '1', 'active' => 1);
             $pagination['Film']['page']=$page;
             $pagination['Film']['limit'] = $per_page;
+            $pagination['Film']['order'] = 'Film.year';
             $pagination['Film']['sphinx']['matchMode'] = SPH_MATCH_ALL;
             $pagination['Film']['sphinx']['index'] = array('videoxq_films_lic'); //ИЩЕМ ПО ИНДЕКСУ ФИЛЬМОВ
             $pagination['Film']['sphinx']['sortMode'] = array(SPH_SORT_EXTENDED => '@relevance DESC');

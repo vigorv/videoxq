@@ -38,22 +38,19 @@
             //setTimeout(myScroll.refresh(),1000);
             //   setTimeout(function() { window.scrollTo(0, 1); }, 1000);            
         });
-        $('#back_button').click(function(){ myPager.backToHome();  return false;});                
+        //$('#back_button').click(function(){ myPager.backToHome();  return false;});                
     });
         </script>
         <? if (Configure::read('debug')): ?>
         <style type="text/css">
-            div#header,div#iscroll { position:relative;margin-top:0}            
             body { background-color:white;}
-
         </style>
         <? endif; ?>
 
     </head>
-    <body onload="
-        setTimeout(function() { window.scrollTo(0, 1); }, 100); <? if (!$android_webkit): ?>
-        //myScroll = new iScroll('Scroller');
-          <? endif; ?>">
+    <body onload="<? if ($action!='films'): ?>
+            setTimeout(function() { window.scrollTo(0, 1); }, 100); 
+         <? endif; ?>">
         <div id="sizer" style="position:absolute;height:100%;width:100%;z-index:0"></div>
         <div id="header">
             <a id="logo-title" href="/mobile" <?php /*

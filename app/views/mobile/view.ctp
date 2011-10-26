@@ -125,7 +125,9 @@ if ($lang == _ENG_) {
         <br/>
         <div id="Can_play" style="display:none;">
 
-            <a href="#" onClick="document.getElementById('VideoPlayer').play();return false;"><?= __('Click To Play', true); ?></a>
+            <a href="#" onClick="document.getElementById('VideoPlayer').play(); 
+                document.getElementById('VideoPlayer').fullscreen=true;
+                return false;"><?= __('Click To Play', true); ?></a>
         </div>
         <video id="VideoPlayer" style="position:absolute;top:-320px;left:-320px;max-width:320px" onloadstart="$('#Can_play').show(); $('#WaitForFilm').hide();" tabindex="0" height="auto" onclick="this.play();" >
             <source  src="<?= $lnk; ?>" />
@@ -221,12 +223,13 @@ if ($lang == _ENG_) {
         endif;
         ?>
 </li>
+<? /*
 <script language="javascript">
-    $(document).ready(function() {
-        elem =$("#poster");
-        setTimeout(function() { 
+    //$(document).ready(function() {
+//        elem =$("#poster");
+     //   setTimeout(function() { 
             //$('body').scrollTop(elem[0].y); 
                  window.scrollTo(0, elem[0].y);
         }, 1000);});      
 </script>
-
+*/?>

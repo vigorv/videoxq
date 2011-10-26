@@ -96,6 +96,7 @@ class MobileController extends AppController {
         View::set('page_filter', $this->page_filter);
         View::set('page_link', '/' . $this->params['controller'] . '/' . $this->params['action']);
         View::set('first_time',$this->first_time);
+        View::set('action',$this->params['action']);
         $this->set('ajaxmode', $ajaxmode);
         if ($zone)
             $this->ImgPath = Configure::read('Catalog.imgPath');

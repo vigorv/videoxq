@@ -30,7 +30,7 @@ if (!is_array($films)) {
             $poster = $html->image('/img/vusic/noposter.jpg', array('width' => 40, 'height' => 55));
         ?>
         <li> 
-            <a class="href_li" href="/mobile/films/<?= $Film['id'] ?>" onclick="return myPager.nextScreen(this);">
+            <a class="href_li" href="/mobile/films/<?= $Film['id'] ?>#home" onclick="return myPager.nextScreen(this);">
 
                 <div class="poster">
                     <?= $poster; ?>

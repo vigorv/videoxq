@@ -39,18 +39,14 @@ div#header{
 div #footer{
     text-align: center;
     padding: 10px 0;
-    font-size:0.9em;
+    font-size:1em;
     line-height:1.4em;
 }
 #iscroll{    
-    height:90%;
-    /*overflow:scroll;*/         
     top:0px;
-    margin-top:45px;
-
     width: 100%;
     position: relative; 
-    padding-bottom:60px;
+    
 }
 
 #Scroller{    
