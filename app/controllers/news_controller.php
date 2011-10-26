@@ -57,7 +57,7 @@ class NewsController extends AppController {
         $conditions = array();
         $conditions[] = array('hidden' => 0);//нам скрытые разделы не нужны!!!
         //задаем наш служебный спец.символ
-        $level_char = '#';
+        $level_char = '';
 
         $tree_arr = Cache::read('News.categoriesFullTree', 'block');
         if (empty($tree_arr))
@@ -99,7 +99,8 @@ class NewsController extends AppController {
         $directions_data = array(
             'list' => $tree_arr,
             'current_id' => $dir_id,
-            'level_char' => $level_char
+            'level_char' => $level_char,
+            'html_container_id' => 'left-menu'
         );
         $this->set('directions_data', $directions_data);
         //----------------------------------------------------------------------
