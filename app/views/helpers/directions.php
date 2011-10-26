@@ -237,10 +237,10 @@ jQuery(document).ready(function() {
             $direction_title = $direction_data['title'];
             $news_count = $direction_data['count'];
 
-            $attr = '';
-            if ($direction_id == $current_id) {$attr = 'class = "active"';}
+            $class = '';
+            if ($direction_id == $current_id) {$class = ' class = "active"';}
             $item_id = $direction_id;
-            $html .= '<li id="' . $item_id .'"'.$attr.'>';
+            $html .= '<li id="' . $item_id .'"'.$class.'>';
 
             $direction_title_caption = $direction_title;
             //если надо обрежем слишкоб длинную строку, превышающую $title_max_size
@@ -261,7 +261,7 @@ jQuery(document).ready(function() {
                 $attr = 'style="cursor: default"';
                 $direction_title .= ' (новостей нет)';
             }
-            $html .= '<a href="'.$direction_href.'" title="' . $direction_title . '" ' . $attr . '>' ;
+            $html .= '<a href="'.$direction_href.'" title="' . $direction_title . '" ' . $attr . $class . '>' ;
             $html .= $direction_title_caption;
             $html .= '</a>';
             $html .= '</li>';
