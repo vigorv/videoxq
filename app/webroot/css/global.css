@@ -42,13 +42,14 @@ padding-top: 20px;
 padding-bottom: 20px;
 	float: left;
 width: 100%;
+background: url('../img/columns-bg.png') repeat-y;
 	
 }
 #middle div.left-block {
 	float: left;
 	width: 250px;
 width: 17%;
-	
+	background:  url('../img/left-bg.png') repeat-y right top;
     
 }
 #middle div.center-block {
@@ -56,9 +57,8 @@ width: 17%;
 	width: 520px;
 width: 65%;
 	background: #fff;
-    border-right: 1px solid #000;
-    border-left: 1px solid #000;
     text-align: justify;
+    background: #f2f8fc;
 }
 #middle div.right-block {
 	float: left;
