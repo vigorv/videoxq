@@ -391,7 +391,7 @@ class AppController extends Controller {
         
         
         $version =$this->Cookie->read('version');
-        if ((($this->RequestHandler->isMobile())&& (!($version=='desk'))) || ($version=='mob')) {
+        if ((($this->RequestHandler->isMobile())&& (!($version=='desk'))) ) {
            if (!$version) $this->Cookie->write('version','mob');
             if (($this->params['controller'] <> 'mobile') && ($this->params['controller'] <> 'login'))
                 $this->redirect('/mobile');
