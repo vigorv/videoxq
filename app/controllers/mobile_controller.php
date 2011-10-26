@@ -258,15 +258,18 @@ class MobileController extends AppController {
     }
 
     function ver() {
+        $this->autoRender=false;
         switch ($_GET['id']) {
             case 1:
                 $this->Cookie->write('version', 'desk');
+                $this->redirect('/');
                 break;
             case 2:
                 $this->Cookie->write('version', 'mob');
+                $this->redirect('/mobile');
                 break;
         }
-        $this->redirect('/');
+        
     }
 
     function old(){
