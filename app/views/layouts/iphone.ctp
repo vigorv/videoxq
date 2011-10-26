@@ -89,12 +89,12 @@
                     <div class="bar">
                         <a href="/mobile/genres" class="button"><?= __('Genres', true); ?></a>
                         <?
-                        /* <a href="/mobile/profile" class="button"><?= __('Profile', true); ?></a> */
-                        ?>
+                        /* <a href="/mobile/profile" class="button"><?= __('Profile', true); ?></a>                         
                         <div style="float:right">
                             <a style="text-decoration:none" href="/ru.php">&nbsp;<img src="/img/rus.gif" alt="ru"/>&nbsp;</a>&nbsp;
                             <a style="text-decoration:none" href="/en.php">&nbsp;<img src="/img/eng.jpg" alt="ru"/>&nbsp;</a>&nbsp;
-                        </div>
+                        </div>*/
+                            ?>
                     </div>
                 </div>
                 <ul id="home" title="VideoXQ" selected="true">
@@ -107,10 +107,10 @@
 
                 </ul>
                 <div id="footer">
-                    <a href="/mobile/ver?id=1" ><?=__("Click for full version of site",true);?></a><br/>
-                    <span>© «<a href="http://www.videoxq.com">videoxq.com</a>», 2007-<?php echo date('Y'); ?></span><br />
-                    <span><a href="mailto:support@videoxq.com">email: support@videoxq.com</a></span><br />
-                    <span><a href="/pages/reklama<?php echo $langFix; ?>"><?php __("Advertisement"); ?></a> | <a href="/pages/kontaktyi<?php echo $langFix; ?>"><?php __("Contacts"); ?></a> | <a href="/pages/nashi-partneryi<?php echo $langFix; ?>"><?php __("Partners"); ?></a></span>
+                    <br/>
+                    <a style="font-size:26px" href="/mobile/ver?id=1" ><?=__("Click for full version of site",true);?></a><br/>
+                    <br/>
+                    <span><a href="mailto:support@videoxq.com">email: support@videoxq.com</a></span><br />           
                 </div>
             </div>
         </div>   
