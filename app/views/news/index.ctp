@@ -28,6 +28,23 @@
     border-radius: 5px;
 }
 </style>
+<script type="text/javascript">
+<!--
+$(document).ready(function() {
+    equalHeight($('.left-block, .center-block, .right-block'));
+});
+function equalHeight(group) {
+  tallest = 0;
+  group.each(function() {
+    thisHeight = $(this).height();
+    if(thisHeight > tallest) {
+      tallest = thisHeight;
+    }
+  });
+  group.height(tallest);
+}
+-->
+</script>
 <?php
     $javascript->link('calendarlite/jquery.calendarlite', false);
     $javascript->link('calendarlite/jquery.calendarlite', false);

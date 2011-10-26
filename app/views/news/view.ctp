@@ -1,3 +1,20 @@
+<script type="text/javascript">
+<!--
+$(document).ready(function() {
+    equalHeight($('.left-block, .center-block, .right-block'));
+});
+function equalHeight(group) {
+  tallest = 0;
+  group.each(function() {
+    thisHeight = $(this).height();
+    if(thisHeight > tallest) {
+      tallest = thisHeight;
+    }
+  });
+  group.height(tallest);
+}
+-->
+</script>
 <?php
 //НАЧАЛО ОБРАБОТКИ ВЫВОДА ГОЛОСОВАЛКИ
 	if (!empty($block_poll))
