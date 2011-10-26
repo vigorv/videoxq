@@ -21,7 +21,7 @@ class TvvisionHelper extends AppHelper {
         <p class="text">
         <span>«<a href="/media/view/'.$film_info[$i]["id"].'">'.$film_info[$i]["film_name_rus"].'</a>»</span>
         <p>'.$film_info[$i]["film_name_org"].'</p>
-        <p>'.$film_info[$i]["year"].'</p>
+        <p align="center">'.$film_info[$i]["year"].'</p>
         <p>'.$film_info[$i]["director"].'</p></p>';
         $z='';
         for ($j = 0; $j < sizeof($film_info[$i]["actors"]);$j++)
