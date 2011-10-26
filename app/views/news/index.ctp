@@ -63,13 +63,14 @@
 
                                                 <?php
                                                 if (!empty($directions_data) && $directions_data){
-                                                    echo $directions->showHtmlTree($directions_data['list'],$directions_data['current_id'], $directions_data['level_char'], 'left-menu_');
+                                                    //echo $directions->showHtmlTree($directions_data['list'],$directions_data['current_id'], $directions_data['level_char'], $directions_data['html_container_id']);
+                                                    echo $directions->showFlatList($directions_data['list'],$directions_data['current_id'], $directions_data['level_char'], $directions_data['html_container_id']);
                                                 }
 
 /*
                                                //Старый (простой одноуровневый список) способ вывода разделов новостей
 
-						echo '<div id="left-menu_"><ul>';
+						echo '<div id="left-menu"><ul>';
 
 								$current = '';
 								if (empty($dir_id) || isset($year))
