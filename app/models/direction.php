@@ -37,8 +37,8 @@ class Direction extends AppModel {
     function checkDirectionIsHidden($direction_id = null){
         $is_hidden = false;
         if (!empty($direction_id) && $direction_id){
-            $conditions = array ('hidden' => 1);
-            $result = $this->find('first',$conditions,array('id'));
+            $conditions = array ('hidden' => 1, 'id'=>$direction_id);
+            $result = $this->find('first',array('conditions' => $conditions, 'fields'=>array('id')));
             if ($result) {$is_hidden = true;}
         }
         return $is_hidden;
@@ -99,7 +99,7 @@ class Direction extends AppModel {
      *
      * @param integer $directionId - идентификатор направления-предка
      * @param boolean $get_hidden - включить в выборку скрытые направления
-     * 
+     *
      * @return mixed - массив идентификаторов направлений-потомков
      */
     function getSubDirections($directionId = 0, $get_hidden = true)
