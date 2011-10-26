@@ -231,6 +231,50 @@ jQuery(document).ready(function() {
         return $this->output;
     }
 
+    function showFlatList($tree_list_data = array(), $current_id = 0, $level_char = '', $html_container_id = 'left-menu'){
+        $html = '';
+        foreach($tree_list_data as $direction_id => $direction_data){
+            $direction_title = $direction_data['title'];
+            $news_count = $direction_data['count'];
+
+            $attr = '';
+            if ($direction_id == $current_id) {$attr = 'class = "active"';}
+            $item_id = $direction_id;
+            $html .= '<li id="' . $item_id .'"'.$attr.'>';
+
+            $direction_title_caption = $direction_title;
+            //если надо обрежем слишкоб длинную строку, превышающую $title_max_size
+            $title_max_size = 25;
+            if (mb_strlen ($direction_title_caption) > $title_max_size){
+                $direction_title_caption = mb_substr($direction_title_caption, 0, $title_max_size - 3).'...';
+            }
+
+            //если в разделе есть новости то укажем ссылку на этот раздел, иначе
+            //пустую сссылку - нефиг смотреть пустые новости :)))))))
+            if ($news_count){
+                $direction_href = '/news/index/' . $direction_id . '';
+                $attr = '';
+                $direction_title_caption = $direction_title_caption . ' (' . $news_count . ')';
+            }
+            else {
+                $direction_href = '#';
+                $attr = 'style="cursor: default"';
+                $direction_title .= ' (новостей нет)';
+            }
+            $html .= '<a href="'.$direction_href.'" title="' . $direction_title . '" ' . $attr . '>' ;
+            $html .= $direction_title_caption;
+            $html .= '</a>';
+            $html .= '</li>';
+
+
+        }
+
+        //всю менюшку в контейнер <div> !!!!
+        $html = '<div id="' . $html_container_id . '" ><ul>' . $html . '</ul></div>';
+        $this->output .= $html;
+        return $this->output;
+    }
+
 }
 
 ?>
