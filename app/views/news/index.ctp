@@ -141,7 +141,7 @@
 					</div>
 				</div>
 				<div class="right-block">
-                <p style="padding-left: 20px;">Календарь событий</p>
+                <p id="calendar_nadpis">Календарь событий</p>
                 <div id="calendarlite"></div>
 				</div>
 

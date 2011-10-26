@@ -69,7 +69,11 @@ width: 13%;
     
     
 }
-#calendarlite {width:180px; padding-left: 5px;}
+/*calendar v novostyax*/
+#calendarlite {width:180px; padding-left: 5px; margin:auto;}
+#calendar_nadpis { padding-left: 5px; font-size: 13px; font-weight: bold; color:#663333;width:185px;}
+/*end calendar*/
+
 /*���� � �����������*/
 #left-menu ul {
 	margin: 0;
