@@ -64,6 +64,10 @@ ul#home li:hover{
     background-color:#E0E0DD;
 }
 
+#TenMore{
+    background-color:#E0E0DD;
+}
+
 .href_li,.href_li:visited,.href_li:active{
     color:#124;
 }
