@@ -355,7 +355,7 @@ class FilmFast extends AppModel {
             $pagination['Film']['page'] = $page;
             $pagination['Film']['limit'] = $per_page;
             $pagination['Film']['order'] = 'Film.year';
-            $pagination['Film']['direction']='asc';
+            $pagination['Film']['direction']='desc';
             $pagination['Film']['sphinx']['matchMode'] = SPH_MATCH_ALL;
             $pagination['Film']['sphinx']['index'] = array('videoxq_films_lic'); //ИЩЕМ ПО ИНДЕКСУ ФИЛЬМОВ
             $pagination['Film']['sphinx']['sortMode'] = array(SPH_SORT_EXTENDED => '@relevance DESC');
