@@ -410,7 +410,7 @@ class FilmFast extends AppModel {
         else if ($lic == 2)
             $license = ' and Film.is_license = 0';
         return $this->query("SELECT FilmFile.file_name,Film.id,Film.dir from film_files as FilmFile 
-            INNER JOIN film_variants as FilmVariant on FilmFile.film_variant_id = FilmVariant.id
+            RIGHT JOIN film_variants as FilmVariant on FilmFile.film_variant_id = FilmVariant.id
             INNER JOIN films as Film on FilmVariant.film_id = Film.id
             WHERE Film.active=1 
             ".$license."
