@@ -195,13 +195,13 @@ li:last-child {
 }
 .genre_li a {
     padding: 10px 2px;
-    
+    margin:0;
 }
 
 .info_text {
     font-size: 14px;
     padding: 0.3em;
-
+    margin:0;
 }
 
 .poster{
