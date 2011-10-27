@@ -331,7 +331,7 @@ class FilmFast extends AppModel {
               
            
        
-        if (!$films = Cache::read('Catalog.film_search_' . $title . '_' . $page . '_' . $per_page, 'searchres')) {
+        if (!$films = Cache::read('Catalog.film_fast_search_' . $title . '_' . $page . '_' . $per_page, 'searchres')) {
             if (isset($conditions['variant'])) {
             $this->Film->contain(array(
                 'FilmType', 'Genre',
@@ -362,7 +362,7 @@ class FilmFast extends AppModel {
             $pagination['Film']['search'] = $title;
             $films = $this->Film->find('all', $pagination["Film"], null);
 
-            Cache::write('Catalog.film_search_' . $title . '_' . $page . '_' . $per_page, $films, 'searchres');
+            Cache::write('Catalog.film_fast_search_' . $title . '_' . $page . '_' . $per_page, $films, 'searchres');
         }
         return $films;
     }
