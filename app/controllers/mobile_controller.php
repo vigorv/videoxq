@@ -174,13 +174,13 @@ class MobileController extends AppController {
                         if (!isset($_GET['hide_links'])) {
                             $lnk = Film::set_input_server($link['Film']['dir']) . '/' . $link['FilmFile']['file_name'];
                             echo $lnk;
+                            echo "<br/>";
                         }
                     } else {
                         if (isset($_GET['errors']))
                             echo $link['Film']['id'];
-                    }
-
-                    echo "<br/>";
+                            echo "<br/>";
+                    }                  
                 }
             } else {
                 $this->pageTitle = __('Video catalog', true);
