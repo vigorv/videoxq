@@ -280,12 +280,16 @@ class FilmFast extends AppModel {
                     $params['conditions']=array('OR'=>array
                         ("is_license"=>1,
                         "is_public"=>1));
-                        
                 }
                 else if ($lic == 2)
                     $params['conditions']['is_license'] = 0;
-                $params['conditions']['active'] = 1;
-                $params['conditions']['Film.id'] = $id;
+                $params['conditions']['AND']=array(
+                    'active'=>1,
+                    'Film.id'=>$id
+                );
+                
+                //['active'] = 1;
+                //$params['conditions']['Film.id'] = $id;
                 $this->Film->contain(array('FilmType',
                     'Genre',
                     'Thread',
