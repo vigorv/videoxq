@@ -68,7 +68,9 @@ class FilmFast extends AppModel {
             else if ($conditions['lic'] == 2)
                 $license = ' and Film.is_license = 0';
             if (isset($conditions['variant']))
-                $var_join .= 'INNER JOIN film_variants  as FilmVariant ON (FilmVariant.film_id = Film.id  and FilmVariant.video_type_id =' . $conditions['variant'] . ') ';
+                $var_join .= 'INNER JOIN film_variants  as FilmVariant ON (FilmVariant.film_id = Film.id  and FilmVariant.video_type_id =' . $conditions['variant'] . ') 
+                             INNER JOIN film_files as FilmFile ON FilmFile.film_variant_id =FilmVariant.id
+                            ';
             if (isset($conditions['genre_id']))
                 $var_join.=' INNER JOIN films_genres as FilmGenre ON (FilmGenre.film_id = Film.id and FilmGenre.genre_id =' . $conditions['genre_id'] . ' )';
             if (isset($conditions['order'])) {
