@@ -170,14 +170,14 @@ class MobileController extends AppController {
                 $this->autoRender = false;
                 $links = $this->FilmFast->getLinks(13);
                 foreach ($links as $link) {
-                    if($link['FilmFile']['file_name']<>'') {
+                    if ($link['FilmFile']['file_name'] <> '') {
                         if (!isset($_GET['hide_links'])) {
                             $lnk = Film::set_input_server($link['Film']['dir']) . '/' . $link['FilmFile']['file_name'];
                             echo $lnk;
-                        } else {
-                            if (isset($_GET['errors']))
-                                echo $link['Film']['id'];
                         }
+                    } else {
+                        if (isset($_GET['errors']))
+                            echo $link['Film']['id'];
                     }
 
                     echo "<br/>";
