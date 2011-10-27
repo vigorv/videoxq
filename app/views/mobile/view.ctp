@@ -115,35 +115,72 @@ if ($lang == _ENG_) {
         <div style="text-align:center;margin:auto">
             <? if (count($bigposters)):
                 $imgUrl = $imgPath . $bigposters[0]['file_name']; ?>
-                <div style="margin:5px;  ">
+                <div id="posters" style="margin:5px; ">
+                    <div id="Can_play" style="position:relative;top:160px;height:0px;display:none;" >
+                        <a  href="#" onClick="
+                                    vp =$('#VideoPlayer');
+                                    vp.show();
+                                    //$('#poster').hide();
+                                    $('#play_button').hide();
+                                    vp[0].play(); 
+                                    vp[0].fullscreen=true;
+                                    return false;" style="margin:auto; display:block;">
+                            <img id="play_button" src="/img/icons/play.png" width="64px" height="64px"/><br/>
+                        </a>
+                    </div>
                     <img id="poster" height="400px" width="300px" src="<?= $imgUrl; ?>" />
-                    <div id="Can_play" style="position:relative;top:-232px;display:none;" >
-                        <a  href="#" onClick="document.getElementById('VideoPlayer').play(); 
-                                document.getElementById('VideoPlayer').fullscreen=true;
-                                return false;" style="margin:auto; display:block;">
-                            <img src="/img/icons/play.png" width="64px" height="64px"/>
+
+                    <div id="Can_play">
+                        <a  href="#" onClick="
+                                    vp =$('#VideoPlayer');
+                                    vp.show();
+                                    //$('#poster').hide();
+                                    $('#play_button').hide();
+                                    vp[0].play(); 
+                                    vp[0].fullscreen=true;
+                                    return false;" style="margin:auto; display:block;">
+                            Посмотреть фильм
                         </a>
                     </div>
                 </div>
             <? else: ?>
-                <div style=" margin:5px;" >
-                    <img id="poster" height="200px" width="150px" src="<?= $imgUrl; ?>" />
-                    <div id="Can_play" style="position:relative;top:-132px;display:none;" >
-                        <a  href="#" onClick="document.getElementById('VideoPlayer').play(); 
-                                document.getElementById('VideoPlayer').fullscreen=true;
-                                return false;" style="margin:auto; display:block;">
-                            <img src="/img/icons/play.png" width="64px" height="64px"/>
+                <div id="posters" style=" margin:5px; " >
+                    <div id="Can_play" style="position:relative;top:60px;height:0px;display:none;" >
+                        <a  href="#" onClick="
+                                    vp =$('#VideoPlayer');
+                                    vp.show();
+                                   // $('#poster').hide();
+                                    $('#play_button').hide();
+                                    vp[0].play(); 
+                                    vp[0].fullscreen=true;
+                                    return false;" style="margin:auto; display:block;">
+                            <img id="play_button" src="/img/icons/play.png" width="64px" height="64px"/><br/>
+                        </a>
+                    </div>
+                    <img id="poster" height="200px" width="150px" src="<?= $imgUrl; ?>" />                  
+                    <div id="Can_play">
+                        <a  href="#" onClick="
+                                    vp =$('#VideoPlayer');
+                                    vp.show();
+                                    //$('#poster').hide();
+                                    $('#play_button').hide();
+                                    vp[0].play(); 
+                                    vp[0].fullscreen=true;
+                                    return false;" style="margin:auto; display:block;">
+                            Посмотреть фильм
                         </a>
                     </div>
                 </div>
 
 
             <? endif; ?>
-        </div>      
-        <video id="VideoPlayer" style="position:absolute;top:-320px;left:-320px;max-width:320px" onloadstart="$('#Can_play').show(); " tabindex="0" height="auto" onclick="this.play();" >
+        
+        <video id="VideoPlayer" style="display:none;" onloadstart="$('#Can_play').show(); " tabindex="0" onclick="this.play();"  controls
+               fullscreen>
             <source  src="<?= $lnk; ?>" />
             <source  type="video/mp4" src="<?= $lnk; ?>" />
         </video>
+            </div>      
     <? else: ?>
         <img height="200px" src="<?= $imgUrl; ?>" /><br/>
         <span style="font-style:italic; color:red; font-size:0.7em;">
@@ -151,89 +188,79 @@ if ($lang == _ENG_) {
                 No video to play<? endif; ?>
         </span>
     <? endif; ?>
-        <h2>«<?= $title; ?>»</h2>
-        <?= $title_orig; ?>
-        <?= $countries; ?>            
-        <?= $Film['year']; ?>
-        <?= $rating; ?>
-        <?php if (isset($directedBy)) { ?>
-            <h4><?= __('Directed by'); ?>:</h4>
-            <p id="directors"><?= $directedBy; ?></p>
-            <?php
-        }
-        if (isset($writtenBy)) {
-            ?>
-            <h4><?php __('Writers'); ?>:</h4>
-            <p id="story"><?= $writtenBy; ?></p>
-            <?
-        }
-        if (isset($Actors)) {
-            ?>
-            <h4><?php __('Actors'); ?>:</h4>
-            <p id="actors"><?= $Actors ?></p>
-            <?php
-        }
-        if (!empty($Genre)) {
-            ?>
-            <h4><?php __('Genre'); ?>:</h4>
-            <p><?= $Genres; ?></p>
-        <?php } ?>
-
-        <p><?= $description; ?></p>
-        <br/>
+    <h2>«<?= $title; ?>»</h2>
+    <?= $title_orig; ?>
+    <?= $countries; ?>            
+    <?= $Film['year']; ?>
+    <?= $rating; ?>
+    <?php if (isset($directedBy)) { ?>
+        <h4><?= __('Directed by'); ?>:</h4>
+        <p id="directors"><?= $directedBy; ?></p>
         <?php
-        if ($isWS)
-            $geoIsGood = true;
+    }
+    if (isset($writtenBy)) {
+        ?>
+        <h4><?php __('Writers'); ?>:</h4>
+        <p id="story"><?= $writtenBy; ?></p>
+        <?
+    }
+    if (isset($Actors)) {
+        ?>
+        <h4><?php __('Actors'); ?>:</h4>
+        <p id="actors"><?= $Actors ?></p>
+        <?php
+    }
+    if (!empty($Genre)) {
+        ?>
+        <h4><?php __('Genre'); ?>:</h4>
+        <p><?= $Genres; ?></p>
+    <?php } ?>
 
-        if (($geoIsGood) && ($Film['is_license']) && ($authUser['userid']))
-            $isWS = true;
+    <p><?= $description; ?></p>
+    <br/>
+    <?php
+    if ($isWS)
+        $geoIsGood = true;
 
-        $panels = array();
+    if (($geoIsGood) && ($Film['is_license']) && ($authUser['userid']))
+        $isWS = true;
 
-        if ($geoIsGood) :
-            $language = ''; //на случай неустановленной информации о трэке
-            $translation = ''; //на случай неустановленной информации о трэке
-            $audio_info = ''; //на случай неустановленной информации о трэке
-            $divxContent = '';
+    $panels = array();
 
-            $FilmVariant[] = array('video_type_id' => 9);
-            $FilmVariant[] = array('video_type_id' => 2);
-            $FilmVariant[] = array('video_type_id' => 11);
-            $FilmVariant[] = array('video_type_id' => 12);
+    if ($geoIsGood) :
+        $language = ''; //на случай неустановленной информации о трэке
+        $translation = ''; //на случай неустановленной информации о трэке
+        $audio_info = ''; //на случай неустановленной информации о трэке
+        $divxContent = '';
 
-            $panelLinksCnt = array();
-            foreach ($FilmVariant as $variant)
-                if (!empty($variant['FilmFile'])) :
-                    $total = Set::extract('/FilmFile/size', $variant);
-                    $total = array_sum($total);
+        $FilmVariant[] = array('video_type_id' => 9);
+        $FilmVariant[] = array('video_type_id' => 2);
+        $FilmVariant[] = array('video_type_id' => 11);
+        $FilmVariant[] = array('video_type_id' => 12);
 
-                    if ($lang != _ENG_)
-                        if (!isset($variant['Track']['Language']['title']))
-                            $variant['Track']['Language']['title'] = $language;
-                    if (!isset($variant['Track']['Translation']['title']))
-                        $variant['Track']['Translation']['title'] = $translation;
-                    if (!isset($variant['Track']['audio_info']))
-                        $variant['Track']['audio_info'] = $audio_info;
-                    ?>
-                    <h4><?php __('Quality'); ?> <?= $variant['VideoType']['title'] ?><br />
+        $panelLinksCnt = array();
+        foreach ($FilmVariant as $variant)
+            if (!empty($variant['FilmFile'])) :
+                $total = Set::extract('/FilmFile/size', $variant);
+                $total = array_sum($total);
+
+                if ($lang != _ENG_)
+                    if (!isset($variant['Track']['Language']['title']))
+                        $variant['Track']['Language']['title'] = $language;
+                if (!isset($variant['Track']['Translation']['title']))
+                    $variant['Track']['Translation']['title'] = $translation;
+                if (!isset($variant['Track']['audio_info']))
+                    $variant['Track']['audio_info'] = $audio_info;
+                ?>
+                <h4><?php __('Quality'); ?> <?= $variant['VideoType']['title'] ?><br />
+                    <?php
+                    if ($lang != _ENG_) :
+                        ?>
+                        Перевод: <?= $variant['Track']['Language']['title'] . ', ' . $variant['Track']['Translation']['title'] ?><br/>
                         <?php
-                        if ($lang != _ENG_) :
-                            ?>
-                            Перевод: <?= $variant['Track']['Language']['title'] . ', ' . $variant['Track']['Translation']['title'] ?><br/>
-                            <?php
-                        endif;
-                endif;
+                    endif;
             endif;
-            ?>
-    
+        endif;
+        ?>
+
 </li>
-<? /*
-  <script language="javascript">
-  //$(document).ready(function() {
-  //        elem =$("#poster");
-  //   setTimeout(function() {
-  //$('body').scrollTop(elem[0].y);
-  window.scrollTo(0, elem[0].y);
-  }, 1000);});
-  </script>
- */ ?>

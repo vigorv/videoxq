@@ -21,7 +21,7 @@ class MobileController extends AppController {
     var $viewPath = 'mobile';
     var $helpers = array('Paginator', 'Form', 'Html');
     var $components = array('Captcha', 'Email', 'Cookie', 'RequestHandler', 'ControllerList');
-    var $uses = array('User', 'Group', 'FilmFast', 'UserFast', 'News', 'Media');
+    var $uses = array('User', 'Group', 'FilmFast', 'UserFast', 'News', 'Media','Film');
     var $langFix = '';
     var $lang;
     var $ImgPath;
@@ -95,8 +95,8 @@ class MobileController extends AppController {
             $this->page_filter = '';
         View::set('page_filter', $this->page_filter);
         View::set('page_link', '/' . $this->params['controller'] . '/' . $this->params['action']);
-        View::set('first_time',$this->first_time);
-        View::set('action',$this->params['action']);
+        View::set('first_time', $this->first_time);
+        View::set('action', $this->params['action']);
         $this->set('ajaxmode', $ajaxmode);
         if ($zone)
             $this->ImgPath = Configure::read('Catalog.imgPath');
@@ -117,7 +117,7 @@ class MobileController extends AppController {
 
     function index() {
         $this->pageTitle = __('Video catalog', true);
-       // View::set('hide_search_bar', true);
+        // View::set('hide_search_bar', true);
         $films = $this->FilmFast->GetFilms(array('lic' => 1, 'variant' => 13, 'order' => 'Year', 'direction' => 'DESC'), 100, $this->page, $this->per_page);
         $count = $this->FilmFast->GetFilmsCount(array('lic' => 1, 'variant' => 13, 'order' => 'Year', 'direction' => 'DESC'));
         //$this->autoRender = false;
@@ -166,13 +166,24 @@ class MobileController extends AppController {
 
     function films($id=null) {
         if (!$id) {
-            $this->pageTitle = __('Video catalog', true);
-            $films = $this->FilmFast->GetFilms(array('lic' => 1, 'variant' => 13, 'order' => 'Year', 'direction' => 'DESC'), 1000, $this->page, $this->per_page);
-            $count = $this->FilmFast->GetFilmsCount(array('lic' => 1, 'variant' => 13, 'order' => 'Year', 'direction' => 'DESC'));
-            //    $films = $this->FilmFast->GetFilms(array('lic' => 1, 'variant' => 13, 'order' => 'RAND()'), 10);
-            $this->set('films', $films);
-            $this->set('count', $count);
-            $this->render('films');
+            if (isset($_GET['links'])) {
+                $this->autoRender=false;
+                $links = $this->FilmFast->getLinks(13);
+                foreach ($links as $link){
+                    $lnk = Film::set_input_server($link['Film']['dir']) . '/' . $link['FilmFile']['file_name']; 
+                    echo $lnk;
+                    echo "<br/>";
+                }
+                
+            } else {
+                $this->pageTitle = __('Video catalog', true);
+                $films = $this->FilmFast->GetFilms(array('lic' => 1, 'variant' => 13, 'order' => 'Year', 'direction' => 'DESC'), 1000, $this->page, $this->per_page);
+                $count = $this->FilmFast->GetFilmsCount(array('lic' => 1, 'variant' => 13, 'order' => 'Year', 'direction' => 'DESC'));
+                //    $films = $this->FilmFast->GetFilms(array('lic' => 1, 'variant' => 13, 'order' => 'RAND()'), 10);
+                $this->set('films', $films);
+                $this->set('count', $count);
+                $this->render('films');
+            }
         } else {
             $id = (int) $id;
             $film = $this->FilmFast->GetFilm($id);
@@ -257,7 +268,7 @@ class MobileController extends AppController {
     }
 
     function ver() {
-        $this->autoRender=false;
+        $this->autoRender = false;
         switch ($_GET['id']) {
             case 1:
                 $this->Cookie->write('version', 'desk');
@@ -268,12 +279,11 @@ class MobileController extends AppController {
                 $this->redirect('/mobile');
                 break;
         }
-        
     }
 
-    function old(){
-      $this->layout='old_mobile';     
+    function old() {
+        $this->layout = 'old_mobile';
     }
-    
+
 }
 

@@ -287,6 +287,7 @@ class FilmFast extends AppModel {
                     'Thread',
                     'FilmPicture' => array('conditions' => array('type <>' => 'smallposter')),
                     'Country',
+      //              'Person' => array('conditions' => array('FilmsPerson.profession_id' => array(1, 3, 4))),
                     'FilmVariant' =>
                     array('conditions' => array('video_type_id' => 13),
                         'FilmLink', 'FilmFile' => array('order' => 'file_name'), 'VideoType', 'Track' => array('Language', 'Translation')),
@@ -317,7 +318,7 @@ class FilmFast extends AppModel {
             $offset = ($page - 1) * $per_page;
         else
             $offset = 0;
-        if (!$films = Cache::read('Catalog.film_search_' . $title.'_'.$page.'_'.$per_page, 'searchres')) {
+        if (!$films = Cache::read('Catalog.film_search_' . $title . '_' . $page . '_' . $per_page, 'searchres')) {
             $this->Film->contain(array(
                 'FilmType', 'Genre',
                 'Thread',
@@ -329,16 +330,16 @@ class FilmFast extends AppModel {
             );
             $this->Film->recursive = 1;
             $pagination['Film']['conditions'] = array('is_license' => '1', 'active' => 1);
-            $pagination['Film']['page']=$page;
+            $pagination['Film']['page'] = $page;
             $pagination['Film']['limit'] = $per_page;
             $pagination['Film']['order'] = 'Film.year';
             $pagination['Film']['sphinx']['matchMode'] = SPH_MATCH_ALL;
             $pagination['Film']['sphinx']['index'] = array('videoxq_films_lic'); //ИЩЕМ ПО ИНДЕКСУ ФИЛЬМОВ
             $pagination['Film']['sphinx']['sortMode'] = array(SPH_SORT_EXTENDED => '@relevance DESC');
             $pagination['Film']['search'] = $title;
-            $films = $this->Film->find('all', $pagination["Film"],null);
+            $films = $this->Film->find('all', $pagination["Film"], null);
 
-            Cache::write('Catalog.film_search_' . $title.'_'.$page.'_'.$per_page,$films, 'searchres');
+            Cache::write('Catalog.film_search_' . $title . '_' . $page . '_' . $per_page, $films, 'searchres');
         }
         return $films;
     }
@@ -356,13 +357,12 @@ class FilmFast extends AppModel {
             $pagination['Film']['sphinx']['index'] = array('videoxq_films_lic'); //ИЩЕМ ПО ИНДЕКСУ ФИЛЬМОВ
             $pagination['Film']['sphinx']['sortMode'] = array(SPH_SORT_EXTENDED => '@relevance DESC');
             $pagination['Film']['search'] = $title;
-            $ctemp=$this->Film->find('all', $pagination["Film"]);
+            $ctemp = $this->Film->find('all', $pagination["Film"]);
             $count = count($ctemp);
-            Cache::write('Catalog.film_search_' . $title,$count, 'searchres');
+            Cache::write('Catalog.film_search_' . $title, $count, 'searchres');
         }
         return $count;
     }
-
 
     function GetFullGenresList($lic=1, $variant=0) {
         $genres = $this->query("SELECT id,title,title_imdb FROM genres");
@@ -388,11 +388,18 @@ class FilmFast extends AppModel {
         return $data;
     }
 
-    function getGenreInfo($id){
-        $genre = $this->query("SELECT id,title,title_imdb FROM genres WHERE id=".$id);
+    function getGenreInfo($id) {
+        $genre = $this->query("SELECT id,title,title_imdb FROM genres WHERE id=" . $id);
         return $genre;
     }
 
+    function getLinks($type_id=0){
+        return $this->query("SELECT FilmFile.file_name,Film.id,Film.dir from film_files as FilmFile 
+            INNER JOIN film_variants as FilmVariant on FilmFile.film_variant_id = FilmVariant.id
+            INNER JOIN films as Film on FilmVariant.film_id = Film.id
+            WHERE FilmVariant.video_type_id =".$type_id);
+    }
+    
     function TestFilmListByGenres($genres) {
         echo 1;
         $this->Film = new Film;
@@ -423,7 +430,7 @@ LIMIT 0 , 30
                 'limit' => 30));
 
 
-        $res= $this->Film->find('all', $pagination['Film']);
+        $res = $this->Film->find('all', $pagination['Film']);
         print_r($res);
         return $res;
     }
@@ -432,14 +439,14 @@ LIMIT 0 , 30
 
 /**
   Film in Multiple Genre
-SELECT FILM.* from (
-          SELECT film_id from films_genres
-             where genre_id in (1,2,3,4,5,6)
-             group by film_id
-            having count(film_id)=6
-             ORDER BY film_id
-              Limit 0,30
-             ) as film_gen
+  SELECT FILM.* from (
+  SELECT film_id from films_genres
+  where genre_id in (1,2,3,4,5,6)
+  group by film_id
+  having count(film_id)=6
+  ORDER BY film_id
+  Limit 0,30
+  ) as film_gen
   LEFT JOIN films as FILM on FILM.id=film_gen.film_id
  *
  *
@@ -448,17 +455,17 @@ SELECT FILM.* from (
  *
  *
  * SELECT FILM . *
-FROM films AS FILM
-RIGHT JOIN (
+  FROM films AS FILM
+  RIGHT JOIN (
 
-SELECT film_id
-FROM films_genres
-WHERE genre_id
-IN ( 1, 2, 3, 4, 5, 6 )
-GROUP BY film_id
-HAVING COUNT( film_id ) =6
-ORDER BY film_id
-LIMIT 0 , 30
-) AS film_gen ON FILM.id = film_gen.film_id
+  SELECT film_id
+  FROM films_genres
+  WHERE genre_id
+  IN ( 1, 2, 3, 4, 5, 6 )
+  GROUP BY film_id
+  HAVING COUNT( film_id ) =6
+  ORDER BY film_id
+  LIMIT 0 , 30
+  ) AS film_gen ON FILM.id = film_gen.film_id
  */
 ?>
