@@ -428,12 +428,18 @@ class FilmFast extends AppModel {
             and FilmVariant.video_type_id =".$type_id);
     }
     
-    function CheckPoster($ptype='bigposter'){
-        return $this->query('SELECT Film.id From films as Film 
-            LEFT JOIN film_pictures as FilmPicture ON (FilmPicture.film_id = Film.id and FilmPicture.type = "'.$ptype.'") 
-            GROUP BY FilmPicture.id
-             HAVING COUNT (FilmPicture.id)<1
-            ');
+    function CheckPoster($ptype='bigposter',$lic=1){
+        $license = '';
+        if ($lic == 1)
+            $license = ' and ((Film.is_license = 1) or (Film.is_public = 1))';
+        else if ($lic == 2)
+            $license = ' and Film.is_license = 0';
+        return $this->query('SELECT Film.id,FilmPicture.type,Film.title From films as Film 
+            left outer JOIN film_pictures as FilmPicture ON (FilmPicture.film_id = Film.id and FilmPicture.type = "'.$ptype.'")
+                WHERE FilmPicture.type is NULL'.$license.'
+                AND Film.active = 1
+                ');
+            //);
     }
     
     function TestFilmListByGenres($genres) {

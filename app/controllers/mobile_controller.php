@@ -219,6 +219,38 @@ class MobileController extends AppController {
         }
     }
 
+    function utils(){
+        $this->autoRender=false;
+        if (isset($_GET['links'])) {               
+                $links = $this->FilmFast->getLinks(13);
+                foreach ($links as $link) {
+                    if ($link['FilmFile']['file_name'] <> '') {
+                        if (!isset($_GET['hide_links'])) {
+                            $lnk = Film::set_input_server($link['Film']['dir']) . '/' . $link['FilmFile']['file_name'];
+                            echo $lnk;
+                            echo "<br/>";
+                        }
+                    } else {
+                        if (isset($_GET['errors']))
+                            echo $link['Film']['id'];
+                            echo "<br/>";
+                            
+                    }                  
+                }
+        }
+       if (isset($_GET['posters'])){
+           $films = $this->FilmFast->CheckPoster();
+           foreach ($films as $film){
+               echo $film['Film']['id'].'|'.$film['Film']['title'].
+                       '|http://videoxq.com/media/view/'.$film['Film']['id'].'
+                       <br/>';
+               
+           }
+       }
+        
+    }
+    
+    
     function profile() {
         if (!$this->authUser['userid']) {
             $this->render('login');
