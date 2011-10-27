@@ -26,7 +26,8 @@ class MainaController extends AppController {
         'UserDownloadHistory',
         'UserWishlist', 'UserFriends',
         'FilmFast', 'UserFast', 'UserMessages',
-        'UserRequest', 'UserOption'
+        'UserRequest', 'UserOption',
+        'Pmsg'
 
     );
     var $page;
@@ -41,6 +42,13 @@ class MainaController extends AppController {
      * @var UserOption
      */
     public $UserOption;
+
+    /**
+     * модель личных сообщений форума
+     *
+     * @var Pmsg
+     */
+    public $Pmsg;
 
     function BeforeFilter() {
         parent::beforeFilter();
@@ -140,6 +148,13 @@ class MainaController extends AppController {
      * Страница стартовая
      */
     function index() {
+    	$outMsgs = $this->Pmsg->getOutMessages($this->authUser['userid']);
+    	foreach ($outMsgs as $m)
+    	{
+    		echo iconv('windows-1251', 'utf-8', $m['Pmsg']['message']) . '<br /><br />';
+    		echo iconv('windows-1252', 'windows-1251', $m['Pmsg']['message']) . '<br /><br />';
+    	}
+exit;
         $this->redirect('/maina/filmlist');
     }
 
