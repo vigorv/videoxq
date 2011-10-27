@@ -242,8 +242,9 @@ class MobileController extends AppController {
            $films = $this->FilmFast->CheckPoster();
            
            foreach ($films as $film){
-               echo $film['Film']['id'].' 
-                       <a href="http://videoxq.com/media/view/'.$film['Film']['id'].'">'.$film['Film']['title'].'</a><br/>';
+               echo '<tr><td>'.$film['Film']['id'].
+                       '</td><td>                   
+                       <a href="http://videoxq.com/media/view/'.$film['Film']['id'].'">'.$film['Film']['title'].'</a></td></tr>';
                
            }
        }
