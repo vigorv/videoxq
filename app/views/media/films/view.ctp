@@ -841,9 +841,18 @@ if (count($variant['FilmFile']) > 0)
 			if(( $letter >= '0' and $letter <= '9')||$letter=='0')
 				$letter='0-999';
 
-			$port = ':82/';
-			if (!$isWS) $port = ':83/';
+			if ($geoIsGood)
+				$port = ':83/';
+			if ($isWS)
+				$port = ':83/';
 			$flowUrl = str_replace('/' . $letter . '/', $port . $letter . '/', $recUrl);
+
+			if ($geoIsGood)
+				$port = ':80/';
+			if ($isWS)
+				$port = ':80/';
+			$recUrl = str_replace('/' . $letter . '/', $port . $letter . '/', $recUrl);
+
 			if ($Film['just_online'])
 			{
 				$matches = array();
