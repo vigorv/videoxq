@@ -21,7 +21,7 @@ class MobileController extends AppController {
     var $viewPath = 'mobile';
     var $helpers = array('Paginator', 'Form', 'Html');
     var $components = array('Captcha', 'Email', 'Cookie', 'RequestHandler', 'ControllerList');
-    var $uses = array('User', 'Group', 'FilmFast', 'UserFast', 'News', 'Media','Film');
+    var $uses = array('User', 'Group', 'FilmFast', 'UserFast', 'News', 'Media', 'Film');
     var $langFix = '';
     var $lang;
     var $ImgPath;
@@ -167,20 +167,21 @@ class MobileController extends AppController {
     function films($id=null) {
         if (!$id) {
             if (isset($_GET['links'])) {
-                $this->autoRender=false;
+                $this->autoRender = false;
                 $links = $this->FilmFast->getLinks(13);
-                foreach ($links as $link){
-                    if(($link['FilmFile']['file_name']<>'')&&(!isset($_GET['hide_links']))){
-                    $lnk = Film::set_input_server($link['Film']['dir']) . '/' . $link['FilmFile']['file_name']; 
-                    echo $lnk;
-                    } else{
-                        if ($_GET['errors']){
-                            echo $link['Film']['id'];
+                foreach ($links as $link) {
+                    if($link['FilmFile']['file_name']<>'') {
+                        if (!isset($_GET['hide_links'])) {
+                            $lnk = Film::set_input_server($link['Film']['dir']) . '/' . $link['FilmFile']['file_name'];
+                            echo $lnk;
+                        } else {
+                            if (isset($_GET['errors']))
+                                echo $link['Film']['id'];
                         }
                     }
-                    
+
                     echo "<br/>";
-                }              
+                }
             } else {
                 $this->pageTitle = __('Video catalog', true);
                 $films = $this->FilmFast->GetFilms(array('lic' => 1, 'variant' => 13, 'order' => 'Year', 'direction' => 'DESC'), 1000, $this->page, $this->per_page);
