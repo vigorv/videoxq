@@ -128,7 +128,7 @@ class MobileController extends AppController {
 
     function search() {
         $words = filter_var($_GET['s'], FILTER_SANITIZE_STRING);
-        $films = $this->FilmFast->SearchByTitle($words, 1, $this->page, $this->per_page);
+        $films = $this->FilmFast->SearchByTitle($words, 1, $this->page, $this->per_page,array('variant'=>13));
         $count = $this->FilmFast->SearchByTitleCount($words, 1);
 
         $this->set('films', $films);

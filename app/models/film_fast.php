@@ -320,7 +320,7 @@ class FilmFast extends AppModel {
      * @param type $per_page
      * @return type
      */
-    function SearchByTitle($title, $lic=1, $page=1, $per_page=20) {
+    function SearchByTitle($title, $lic=1, $page=1, $per_page=20,$conditions=array()) {
         $films = array();
         App::import('Film');
         $this->Film = new Film;
@@ -328,21 +328,34 @@ class FilmFast extends AppModel {
             $offset = ($page - 1) * $per_page;
         else
             $offset = 0;
+              
+           
+       
         if (!$films = Cache::read('Catalog.film_search_' . $title . '_' . $page . '_' . $per_page, 'searchres')) {
+            if (isset($conditions['variant'])) {
             $this->Film->contain(array(
                 'FilmType', 'Genre',
                 'Thread',
                 'FilmPicture' => array('conditions' => array('type =' => 'smallposter')),
-                'Country',
+                'Country',              
+                'joins'=>array('INNER JOIN film_variants  as FilmVariant   ON (FilmVariant.film_id = Film.id and FilmVariant.video_type_id =' . $conditions['variant'] . ')
+                   INNER JOIN film_files as FilmFile ON FilmFile.film_variant_id =FilmVariant.id'),
                 //'FilmVariant' => array('FilmFile' => array('order' => 'file_name'), 'VideoType', 'Track' => array('Language', 'Translation')),
                 'MediaRating',
                     )
+            );}
+            else
+                $this->Film->contain(array(
+                'FilmType', 'Genre', 'Thread',
+                'FilmPicture' => array('conditions' => array('type =' => 'smallposter')),
+                'Country', 'MediaRating',)
             );
             $this->Film->recursive = 1;
             $pagination['Film']['conditions'] = array('is_license' => '1', 'active' => 1);
             $pagination['Film']['page'] = $page;
             $pagination['Film']['limit'] = $per_page;
             $pagination['Film']['order'] = 'Film.year';
+            $pagination['Film']['direction']='DESC';
             $pagination['Film']['sphinx']['matchMode'] = SPH_MATCH_ALL;
             $pagination['Film']['sphinx']['index'] = array('videoxq_films_lic'); //ИЩЕМ ПО ИНДЕКСУ ФИЛЬМОВ
             $pagination['Film']['sphinx']['sortMode'] = array(SPH_SORT_EXTENDED => '@relevance DESC');
