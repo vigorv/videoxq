@@ -30,7 +30,7 @@ else:
                     <div class="poster">
                         <?= $poster; ?>
                     </div>
-                    <p class="text">
+                    <p class="info_text">
                         <?= $Film['year']; ?><br/>
                         <span>«<?= $Film['title' . $langFix] ?>»</span>
                         <br/>
