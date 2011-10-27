@@ -277,8 +277,9 @@ class FilmFast extends AppModel {
                 $this->Film->recursive = 1;
                 $params = array();
                 if ($lic == 1){
-                    $params['conditions']['is_public'] = 1;
-                    $params['conditions']["OR"]['is_license'] = 1;
+                    $params['conditions']=array("Film.is_public"=>1,
+                        "OR"=>array("Film.is_license"=>1)
+                        );
                 }
                 else if ($lic == 2)
                     $params['conditions']['is_license'] = 0;
