@@ -327,31 +327,29 @@ class FilmFast extends AppModel {
         if ($page > 1)
             $offset = ($page - 1) * $per_page;
         else
-            $offset = 0;
-              
-           
-       
-        if (!$films = Cache::read('Catalog.film_fast_search_' . $title . '_' . $page . '_' . $per_page, 'searchres')) {
-            if (isset($conditions['variant'])) {
+            $offset = 0;                 
+       if (!$films = Cache::read('Catalog.film_fast_search_' . $title . '_' . $page . '_' . $per_page, 'searchres')) {
+        
             $this->Film->contain(array(
                 'FilmType', 'Genre',
                 'Thread',
                 'FilmPicture' => array('conditions' => array('type =' => 'smallposter')),
                 'Country',              
-                'joins'=>array('INNER JOIN film_variants  as FilmVariant   ON (FilmVariant.film_id = Film.id and FilmVariant.video_type_id =' . $conditions['variant'] . ')
-                   INNER JOIN film_files as FilmFile ON FilmFile.film_variant_id =FilmVariant.id'),
                 //'FilmVariant' => array('FilmFile' => array('order' => 'file_name'), 'VideoType', 'Track' => array('Language', 'Translation')),
                 'MediaRating',
                     )
-            );}
-            else
-                $this->Film->contain(array(
-                'FilmType', 'Genre', 'Thread',
-                'FilmPicture' => array('conditions' => array('type =' => 'smallposter')),
-                'Country', 'MediaRating',)
             );
+            
             $this->Film->recursive = 1;
-            $pagination['Film']['conditions'] = array('is_license' => '1', 'active' => 1);
+            $pagination['Film']['conditions'] = array('is_license' => '1', 'Film.active' => 1);
+            pr($conditions);
+            if (isset($conditions['variant'])){
+                echo "variant";
+                $pagination['Film']['joins'][]=
+               
+                'INNER JOIN film_variants  as FilmVariant  ON (FilmVariant.film_id = Film.id and FilmVariant.video_type_id = ' . $conditions['variant'] .')';
+                   //INNER JOIN film_files as FilmFile ON (FilmFile.film_variant_id =FilmVariant.id) ');
+            }
             $pagination['Film']['page'] = $page;
             $pagination['Film']['limit'] = $per_page;
             $pagination['Film']['order'] = 'Film.year DESC';
@@ -361,7 +359,7 @@ class FilmFast extends AppModel {
             $pagination['Film']['sphinx']['sortMode'] = array(SPH_SORT_EXTENDED => '@relevance DESC');
             $pagination['Film']['search'] = $title;
             $films = $this->Film->find('all', $pagination["Film"], null);
-
+              pr($films);
             Cache::write('Catalog.film_fast_search_' . $title . '_' . $page . '_' . $per_page, $films, 'searchres');
         }
         return $films;
@@ -428,6 +426,14 @@ class FilmFast extends AppModel {
             WHERE Film.active=1 
             ".$license."
             and FilmVariant.video_type_id =".$type_id);
+    }
+    
+    function CheckPoster($ptype='bigposter'){
+        return $this->query('SELECT Film.id From films as Film 
+            LEFT JOIN film_pictures as FilmPicture ON (FilmPicture.film_id = Film.id and FilmPicture.type = "'.$ptype.'") 
+            GROUP BY FilmPicture.id
+             HAVING COUNT (FilmPicture.id)<1
+            ');
     }
     
     function TestFilmListByGenres($genres) {
