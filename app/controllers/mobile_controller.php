@@ -240,10 +240,10 @@ class MobileController extends AppController {
         }
        if (isset($_GET['posters'])){
            $films = $this->FilmFast->CheckPoster();
+           
            foreach ($films as $film){
-               echo $film['Film']['id'].'|'.$film['Film']['title'].
-                       '|http://videoxq.com/media/view/'.$film['Film']['id'].'
-                       <br/>';
+               echo $film['Film']['id'].' 
+                       <a href="http://videoxq.com/media/view/'.$film['Film']['id'].'"'.$film['Film']['title'].'</a><br/>';
                
            }
        }
