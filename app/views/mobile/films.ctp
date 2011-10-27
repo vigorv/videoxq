@@ -13,9 +13,14 @@ else
     <? endif; ?>
 <? endif; ?>
 <?php
-if (empty($films))
-    echo '<div class="barA">' . __('No results for your search', true) . ' :(</div>';
-else
+if (empty($films)){
+    ?>
+        <div style="padding:5px">
+        В мобильной версии сайта данный фильм не найден, попробуйте поискать на <a href="/mobile/ver?id=1" >полной версии</a> сайта
+        <a href="http://videoxq.com/mobile/ver?id=1" >http://videoxq.com</a>
+    </div>
+<?
+}else
 if (!is_array($films)) {
     echo '<div class="barA">' . __('You do it to fast', true) . '</div>';
 } else

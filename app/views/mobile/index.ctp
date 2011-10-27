@@ -7,11 +7,12 @@ else
 
 <?php
 if (empty($films)) {
-    echo '<li>' . __('No results for your search', true) . ' :(<br/>';
-    echo __('You can try to search on full version of site', true) . '<br/>';
-    echo ' <a href="/mobile/ver?id=1" >';
-    echo __("Click for full version of site", true);
-    echo '</a><br/><br/></li>';
+    ?>
+    <div style="padding:5px">
+        В мобильной версии сайта данный фильм не найден, попробуйте поискать на <a href="/mobile/ver?id=1" >полной версии</a> сайта
+        <a href="http://videoxq.com/mobile/ver?id=1" >http://videoxq.com</a>
+    </div>
+<?
 } else
 if (!is_array($films)) {
     echo '<div class="barA">' . __('You do it to fast', true) . '</div>';
