@@ -194,13 +194,13 @@ li:last-child {
     font-size:1.2em;
 }
 .genre_li a {
-    margin: 10px 2px;
+    padding: 10px 2px;
     
 }
 
 .info_text {
     font-size: 14px;
-    margin: 0.3em;
+    padding: 0.3em;
 
 }
 
