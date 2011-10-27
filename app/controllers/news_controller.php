@@ -249,7 +249,7 @@ class NewsController extends AppController {
 
 	        Cache::write('News.categoriesFullTree', $tree_arr, 'block');
         }
-       
+
 
         $dir_id = 0;
         $info = $this->News->findById($id);
@@ -309,16 +309,24 @@ class NewsController extends AppController {
 
 	    	$isWS = checkAllowedMasks(Configure::read('Catalog.allowedIPs'), $_SERVER["REMOTE_ADDR"], 1);
 	    	if ($isWS == 'OPERA-MINI') $isWS = false;
-	        if ($isWS)
+	        if ($isWS)//ДЛЯ СТК
 	        {
+	        	$downServerAddr = '92.63.196.52';
+	        	$downServerAddrPort = '92.63.196.52:80';
+
 	        	$flowServerAddr = '92.63.196.52';
 	        	$flowServerAddrPort = '92.63.196.52:82';
 	        }
-	        else
+	        else //ДЛЯ РОССИИ
 	        {
-	        	$flowServerAddr = '87.226.225.78:83';
-	        	$flowServerAddrPort = '87.226.225.78:83';
+	        	$downServerAddr = '87.226.225.78';
+	        	$downServerAddrPort = '87.226.225.78:85';
+
+	        	$flowServerAddr = '87.226.225.78';
+	        	$flowServerAddrPort = '87.226.225.78:84';
 	        }
+	        $this->set('downServerAddr', $flowServerAddr);
+	        $this->set('downServerAddrPort', $flowServerAddrPort);
 	        $this->set('flowServerAddr', $flowServerAddr);
 	        $this->set('flowServerAddrPort', $flowServerAddrPort);
 			$ftpInfo = Cache::read('News.ftpInfo.' . $info['News']['id'], 'rocket');
