@@ -148,13 +148,15 @@ class MainaController extends AppController {
      * Страница стартовая
      */
     function index() {
+/*
     	$outMsgs = $this->Pmsg->getOutMessages($this->authUser['userid']);
     	foreach ($outMsgs as $m)
     	{
     		echo iconv('windows-1251', 'utf-8', $m['Pmsg']['message']) . '<br /><br />';
-    		echo iconv('windows-1252', 'windows-1251', $m['Pmsg']['message']) . '<br /><br />';
+    		echo iconv('windows-1252', 'windows-1252', $m['Pmsg']['message']) . '<br /><br />';
     	}
 exit;
+*/
         $this->redirect('/maina/filmlist');
     }
 
@@ -193,47 +195,41 @@ exit;
      * @param type $sub_act
      */
     public function im($sub_act='in') {
-        //-----  Проверка Созданного сообщения ------//
+
         if (isset($_POST['send_msg'])) {
             if (isset($_POST['userid'])) {
-                $user_id = (int) $_POST['userid'];
-                if ($user_id > 0) {
-                    if ($this->UserFast->UserExists($user_id)) {
+                $to_user_id = (int) $_POST['userid'];
+                if ($to_user_id > 0) {
+                    if ($this->UserFast->UserExists($to_user_id)) {
                         $txt = FILTER_VAR($_POST['txt'], FILTER_SANITIZE_STRING);
-                        $this->UserMessages->CreateMessageForUser($this->authUser['userid'], $user_id, $txt);
+                        $from_user_id = $this->authUser['userid'];
+                        $this->Pmsg->SendMessageToUser($from_user_id, $to_user_id, $msg);
+                        $user_name = $this->UserFast->GetUserById($user_id);
+                        $this->Session->setFlash('Сообщение для пользователя '. $user_name .' успешно отправлено', true);
+                        $this->redirect(array('action'=>'index'));
                     }
                 }
             }
         }
-        //----- /Проверка созданного сообщение/-----//
-        //----- Выборка действия ----- //
-        //----- Новое, Входящие, Исходящие -----//
+//------------------------------------------------------------------------------
         switch ($sub_act) {
             case 'new':
-                if (isset($_GET['user'])) {
-                    $user_id = (int) $_GET['user'];
-                    if ($user_id > 0) {
-                        $this->set('user_id', $user_id);
-                        $user = $this->UserFast->GetUserById($user_id);
-                        if (!empty($user)) {
-                            $this->set('user', $user);
-                            $this->render('im_new');
-                            break;
-                        }
-                    }
-                }
+                $this->render('im_new');
+                break;
             default:
             case 'in':
-                $userMessages = $this->UserMessages->getMessagesForUser($this->authUser['userid'], $this->page, $this->per_page);
+                $userMessages = $this->Pmsg->getMessagesForUser($this->authUser['userid'], $this->page, $this->per_page);
                 $this->set('userMessages', $userMessages);
+                $this->render('im_in');
                 break;
             case 'out':
-                $userSent = $this->UserMessages->getMessagesFromUser($this->authUser['userid'], $this->page, $this->per_page);
+                $userSent = $this->Pmsg->getMessagesFromUser($this->authUser['userid'], $this->page, $this->per_page);
                 $this->set('userSent', $userSent);
+                $this->render('im_out');
                 break;
         }
     }
-
+//------------------------------------------------------------------------------
     /**
      * Сохранить изменения в опции пользователя
      *
@@ -534,3 +530,4 @@ exit;
     }
 
 }
+?>
