@@ -341,12 +341,9 @@ class FilmFast extends AppModel {
             );
             
             $this->Film->recursive = 1;
-            $pagination['Film']['conditions'] = array('is_license' => '1', 'Film.active' => 1);
-            pr($conditions);
+            $pagination['Film']['conditions'] = array('is_license' => '1', 'Film.active' => 1);            
             if (isset($conditions['variant'])){
-                echo "variant";
                 $pagination['Film']['joins'][]=
-               
                 'INNER JOIN film_variants  as FilmVariant  ON (FilmVariant.film_id = Film.id and FilmVariant.video_type_id = ' . $conditions['variant'] .')';
                    //INNER JOIN film_files as FilmFile ON (FilmFile.film_variant_id =FilmVariant.id) ');
             }
@@ -359,7 +356,6 @@ class FilmFast extends AppModel {
             $pagination['Film']['sphinx']['sortMode'] = array(SPH_SORT_EXTENDED => '@relevance DESC');
             $pagination['Film']['search'] = $title;
             $films = $this->Film->find('all', $pagination["Film"], null);
-              pr($films);
             Cache::write('Catalog.film_fast_search_' . $title . '_' . $page . '_' . $per_page, $films, 'searchres');
         }
         return $films;
