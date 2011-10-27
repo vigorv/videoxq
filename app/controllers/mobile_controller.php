@@ -243,7 +243,7 @@ class MobileController extends AppController {
            
            foreach ($films as $film){
                echo $film['Film']['id'].' 
-                       <a href="http://videoxq.com/media/view/'.$film['Film']['id'].'"'.$film['Film']['title'].'</a><br/>';
+                       <a href="http://videoxq.com/media/view/'.$film['Film']['id'].'">'.$film['Film']['title'].'</a><br/>';
                
            }
        }
