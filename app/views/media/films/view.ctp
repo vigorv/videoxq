@@ -191,15 +191,16 @@ echo'</pre>';
             </td>
         </tr>
         <tr>
-            <td>
+            <td >
 <?php
 
     //для зарегеных юзеров функционал "избранное"!
-    if (!empty($authUser['userid'])){
+    //добавим времнное условие для скрытия кнопочек на внешнем сайте
+    if (!empty($authUser['userid']) && !stristr(Configure::read('App.siteUrl'),'videoxq.com') ){
         if (!empty($exist_film_in_favorites) && $exist_film_in_favorites){
             //если фильм уже в избранном, то выведем сооствествующий значок
             //с подписью на память :)
-            echo  '<img src="/img/icons/favorites-icon_32x32.png" title="Фильм находится в избранном"/> Фильм находится в избранном';
+            echo  '<img src="/img/icons/favorites-icon_32x32.png" title="Фильм находится в избранном"/> Фильм находится в <a style="" href="/maina/favorites">избранном</a>';
             echo '<br/>';
             //Добаим значок удалить из избранного
             echo  '<a style="" href="/media/removefromfavorites/'.$Film['id'].'"><img src="/img/icons/remove-from-favorites-icon_32x32.png" title="Удалить из избранного"/>Удалить из избранного</a>';
