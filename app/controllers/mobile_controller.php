@@ -239,7 +239,9 @@ class MobileController extends AppController {
                 }
         }
        if (isset($_GET['posters'])){
-           $films = $this->FilmFast->CheckPoster();
+           if (isset($_GET['all_films'])) $lic=0;
+           else $lic=1;
+           $films = $this->FilmFast->CheckPoster($ptype, $lic);
            echo '<table>';
            foreach ($films as $film){
                echo '<tr><td>'.$film['Film']['id'].
