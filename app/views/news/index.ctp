@@ -55,15 +55,12 @@ function equalHeight(group) {
 	$javascript->link('jquery.fancybox-1.3.4/fancybox/jquery.fancybox-1.3.4.pack', false);
     $html->css('fancybox-1.3.4/jquery.fancybox-1.3.4', null, array(), false);
     $javascript->link('jquery.pngFix', false);
-
     $dateArr = array();
-    if (!empty($lst))
+    if (!empty($dates))
     {
-    	//$dirPrefix = $dir_id . '/';
-    	foreach ($lst as $l)
+    	foreach ($dates as $l)
     	{
     		$d = explode(' ', $l['News']['created']);
-    		//$dateArr[] = $dirPrefix . $d[0];
     		$dateArr[] = $d[0];
     	}
     }

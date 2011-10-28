@@ -180,14 +180,11 @@ class NewsController extends AppController {
 
 */
         $lst = $this->paginate('News');
+    	$this->set('lst', $lst);
 //        pr ($data);
 
-
-
-    	//$lst = $this->News->findAll($conditions, null, 'News.created DESC');
-
-
-    	$this->set('lst', $lst);
+    	$dates = $this->News->findAll(array('News.hidden' => 0), array('News.created'), 'News.created ASC', null, null, 0);
+    	$this->set('dates', $dates);
     }
 
     function view($id = null) {
@@ -288,8 +285,8 @@ class NewsController extends AppController {
     		}
     	}
     	$conditions['News.direction_id'] = $ids;
-    	$lst = $this->News->findAll($conditions, null, 'News.created DESC');
-    	$this->set('lst', $lst);
+    	$dates = $this->News->findAll(array('News.hidden' => 0), array('News.created'), 'News.created ASC', null, null, 0);
+    	$this->set('dates', $dates);
 		$this->set('dir_id', $dir_id);
 
 		if (!empty($info))// && !$info['News']['hidden'])
