@@ -153,7 +153,6 @@ function equalHeight(group) {
     echo $this->element('paging');
 ?>
 </div>
-
 					</div>
 				</div>
 				<div class="right-block">
