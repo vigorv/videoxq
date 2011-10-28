@@ -91,7 +91,7 @@
 
             var cl2 = '';
 
-            for (var di = 0; di < 31; di++) {
+            for (var di = 0; di < count_days; di++) {
             if (href[j] != '/news/index/'+index+'/'+days_array[di])
             {
                 cl2 = ' style="cursor:default;"';
