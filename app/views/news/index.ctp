@@ -149,7 +149,7 @@ function equalHeight(group) {
 
 <div class="pagination_nav">
 <?php
-    $paginator->options(array('url'=>array('controller'=>'News', 'action'=>'index/'.$dir_id)));
+    $paginator->options(array('url'=>array('controller'=>'news', 'action'=>'index/'.$dir_id)));
     echo $this->element('paging');
 ?>
 </div>
