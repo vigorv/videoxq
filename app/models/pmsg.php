@@ -17,11 +17,30 @@ class Pmsg extends AppModel {
 
     public $useDbConfig = 'connCP1251';
 
-	public function getOutMessages($userId)
+    /**
+     * получить список исходящих сообщений пользователя
+     *
+     * @param integer $userId - идентификатор пользователя
+     * @return mixed
+     */
+	public function getOutMessages($userId, $page = 0, $perPage = 10)
 	{
 		$sql = '
 			SELECT Pm.pmid, Pmsg.message, Pmsg.title, Pmsg.fromusername FROM pmtext AS Pmsg
 				INNER JOIN pm AS Pm ON (Pm.pmtextid = Pmsg.pmtextid AND Pm.userid = ' . $userId . ')
+				LIMIT ' . $page . ', ' . $perPage . '
+		';
+		$result = $this->query($sql);
+		return $result;
+	}
+
+	public function getInMessages($userId, $page = 0, $perPage = 10)
+	{
+		$sql = '
+			SELECT Pm.pmid, Pmsg.message, Pmsg.title, Pmsg.fromusername FROM pmtext AS Pmsg
+				INNER JOIN pm AS Pm ON (Pm.pmtextid = Pmsg.pmtextid)
+				INNER JOIN pmreceipt as PmR ON (Pm.pmid = PmR.pmid AND PmR.touserid = ' . $userId . ')
+				LIMIT ' . $page . ', ' . $perPage . '
 		';
 		$result = $this->query($sql);
 		return $result;
