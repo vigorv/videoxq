@@ -148,15 +148,19 @@ class MainaController extends AppController {
      * Страница стартовая
      */
     function index() {
-/*
+/**
     	$outMsgs = $this->Pmsg->getOutMessages($this->authUser['userid']);
     	foreach ($outMsgs as $m)
     	{
-    		echo iconv('windows-1251', 'utf-8', $m['Pmsg']['message']) . '<br /><br />';
-    		echo iconv('windows-1252', 'windows-1252', $m['Pmsg']['message']) . '<br /><br />';
+    		echo $m['Pmsg']['message'] . '<br /><br />';
+    	}
+    	$inMsgs = $this->Pmsg->getInMessages($this->authUser['userid']);
+    	foreach ($inMsgs as $m)
+    	{
+    		echo $m['Pmsg']['message'] . '<br /><br />';
     	}
 exit;
-*/
+//*/
         $this->redirect('/maina/filmlist');
     }
 
@@ -530,4 +534,3 @@ exit;
     }
 
 }
-?>
