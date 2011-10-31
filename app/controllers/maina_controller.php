@@ -149,11 +149,15 @@ class MainaController extends AppController {
      */
     function index() {
 /**
+		$msg = 'сообщение для Спарка от ' . date('y.m.d H:i:s');
+		$this->Pmsg->sendMessage('vanoveb', 'spark', $msg, $msg . ' ' . $msg);
+echo '<h3>Исходящие</h3>';
     	$outMsgs = $this->Pmsg->getOutMessages($this->authUser['userid']);
     	foreach ($outMsgs as $m)
     	{
     		echo $m['Pmsg']['message'] . '<br /><br />';
     	}
+echo '<h3>Входящие</h3>';
     	$inMsgs = $this->Pmsg->getInMessages($this->authUser['userid']);
     	foreach ($inMsgs as $m)
     	{
