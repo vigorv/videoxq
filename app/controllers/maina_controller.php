@@ -220,16 +220,16 @@ exit;
             case 'new':
                 $this->render('im_new');
                 break;
-            default:
-            case 'in':
-                $userMessages = $this->Pmsg->getMessagesForUser($this->authUser['userid'], $this->page, $this->per_page);
-                $this->set('userMessages', $userMessages);
-                $this->render('im_in');
-                break;
             case 'out':
                 $userSent = $this->Pmsg->getMessagesFromUser($this->authUser['userid'], $this->page, $this->per_page);
                 $this->set('userSent', $userSent);
                 $this->render('im_out');
+                break;
+            case 'in':
+            default:
+                $userMessages = $this->Pmsg->getMessagesForUser($this->authUser['userid'], $this->page, $this->per_page);
+                $this->set('userMessages', $userMessages);
+                $this->render('im_in');
                 break;
         }
     }
