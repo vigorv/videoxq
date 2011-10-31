@@ -99,16 +99,13 @@
             else
             {
                 cl2 = ' style="font-weight:bold;cursor:pointer; text-decoration:underline;"';
-                di = 32;
+                break;
             }
             }
-            if (di == 31)
-            {
-                href[j] = "javascript:void";
-            }
-
-
-
+			if (di == count_days)
+			{
+				href[j] = "javascript:void";
+			}
 
             line.push('<td' + cl + ''+ cl2 +'><a href="' + href[j] + '" rel="' + rel + '" '+ cl2 +'>' + date + '</a></td>');
             if (dates[j].getDay() == 0) {
