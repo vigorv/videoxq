@@ -90,18 +90,19 @@
             }
 
             var cl2 = '';
-            for (var di = 0; di < days_array.length; di++) {
-	            if (href[j] != '/news/index/'+index+'/'+days_array[di])
-	            {
-	                cl2 = ' style="cursor:default;"';
-	            }
-	            else
-	            {
-	                cl2 = ' style="font-weight:bold;cursor:pointer; text-decoration:underline;"';
-	                break;
-	            }
+
+            for (var di = 0; di < count_days; di++) {
+            if (href[j] != '/news/index/'+index+'/'+days_array[di])
+            {
+                cl2 = ' style="cursor:default;"';
             }
-			if (di == days_array.length)
+            else
+            {
+                cl2 = ' style="font-weight:bold;cursor:pointer; text-decoration:underline;"';
+                break;
+            }
+            }
+			if (di == count_days)
 			{
 				href[j] = "javascript:void";
 			}
