@@ -1,5 +1,6 @@
 <style>
 .pagination_nav {
+    margin-top: 50px;
     padding: 15px 5px 15px 5px;
     text-align: center;
     border-top: 1px solid #aaa;
