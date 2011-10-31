@@ -203,23 +203,42 @@ exit;
      * @param type $sub_act
      */
     public function im($sub_act='in') {
-
-        if (isset($_POST['send_msg'])) {
-            if (isset($_POST['userid'])) {
-                $to_user_id = (int) $_POST['userid'];
-                if ($to_user_id > 0) {
-                    if ($this->UserFast->UserExists($to_user_id)) {
-                        $txt = FILTER_VAR($_POST['txt'], FILTER_SANITIZE_STRING);
-                        $from_user_id = $this->authUser['userid'];
-                        $this->Pmsg->SendMessageToUser($from_user_id, $to_user_id, $msg);
-                        $user_name = $this->UserFast->GetUserById($user_id);
-                        $this->Session->setFlash('Сообщение для пользователя '. $user_name .' успешно отправлено', true);
-                        $this->redirect(array('action'=>'index'));
-                    }
-                }
+        //если что то отсылали, смотрим чего там шлют
+        if (!empty($_POST)){
+            //если все поля заполнены
+            if (isset($_POST['title']) && isset($_POST['msg']) && $_POST['to_user_name'])  {
+                
+                $title = filter_var($_POST['title'], FILTER_SANITIZE_STRING);
+                $msg = filter_var($_POST['msg'], FILTER_SANITIZE_STRING);
+                $to_user_name = filter_var($_POST['to_user_name'], FILTER_SANITIZE_STRING);
+                $from_user_name = $this->authUser[username];
+                if ($this->Pmsg->sendMessage($from_user_name, $to_user_name, $title, $msg))
+                    $result_msg = 'Сообщение для пользователя '. $toUserName .' успешно отправлено';
+                else
+                    $result_msg = 'Ошибка! Пользователя с имененем '. $toUserName .' не существует.';
+                
+                    //установим сообщение и редирект!
+                    $this->Session->setFlash($result_msg, true);
+                    $this->redirect(array('action'=>'index'));
+            }
+            else{
+                //если не все поля заполнены, то сообщим об этом
+                $result_msg = 'Ошибка! Заполнены не все поля';
+                $this->Session->setFlash($result_msg, true);
+                //далее снова придется выводить форму ввода ((((
+                //пожалеем юзера, сохраним его введенные данные в форме ))))
+                //для этого установим снова $sub_act = 'new'
+                $sub_act = 'new';
+                $data = array(
+                    'to_user_name' => $_POST['to_user_name'],
+                    'title' => $_POST['title'],
+                    'msg' => $_POST['msg']
+                    );
+                $this->set('data', $data);
             }
         }
-//------------------------------------------------------------------------------
+        
+
         switch ($sub_act) {
             case 'new':
                 $this->render('im_new');
@@ -229,6 +248,7 @@ exit;
                 $this->set('userSent', $userSent);
                 $this->render('im_out');
                 break;
+            
             case 'in':
             default:
                 $userMessages = $this->Pmsg->getMessagesForUser($this->authUser['userid'], $this->page, $this->per_page);
