@@ -39,21 +39,24 @@
 
         var today = new Date();
         var srcDate = new Date();
-        srcDate.setMonth(date_array[1]-1);
-        if (!isNaN(year)) {
-            srcDate.setDate(1);
+
+        srcDate.setMonth(date_array[1] - 1, date_array[2]);
+
+		if (!isNaN(year)) {
+            //srcDate.setDate(1);
             srcDate.setFullYear(year);
         }
         if (!isNaN(month)) {
-            srcDate.setDate(1);
+            //srcDate.setDate(1);
             srcDate.setMonth(month);
         }
         var curDate = srcDate.getDate();
         var curMonth = srcDate.getMonth();
         var curYear = srcDate.getFullYear();
 
-
-
+//alert(month);
+//alert(date_array[1] - 1);
+//alert(curMonth);
 
         var dates = [];
         var dayCount = new Date(curYear, curMonth + 1, 0).getDate();
@@ -113,15 +116,15 @@
                     var pad = [];
                     if (dates.length != 31)
                     {
-                    	prev = 31;
+                    	prv = 31;
                     }
                     else
                     {
-                    	prev = 30;
+                    	prv = 30;
                     }
 
                     for (var k = 0; k < (7 - ln); k++) {
-                        pad.push('<td style="cursor:default;color:lightgrey;">' + (prev - 7 + ln + k + 1) + '</td>');
+                        pad.push('<td style="cursor:default;color:lightgrey;">' + (prv - 7 + ln + k + 1) + '</td>');
                     }
                     line = pad.concat(line);
                 }

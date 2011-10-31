@@ -183,7 +183,7 @@ class NewsController extends AppController {
     	$this->set('lst', $lst);
 //        pr ($data);
 
-    	$dates = $this->News->findAll(array('News.hidden' => 0), array('News.created'), 'News.created ASC', null, null, 0);
+    	$dates = $this->News->findAll(array('News.hidden' => 0, 'News.direction_id' => $ids), array('News.created'), 'News.created ASC', null, null, 0);
     	$this->set('dates', $dates);
     }
 
@@ -285,7 +285,7 @@ class NewsController extends AppController {
     		}
     	}
     	$conditions['News.direction_id'] = $ids;
-    	$dates = $this->News->findAll(array('News.hidden' => 0), array('News.created'), 'News.created ASC', null, null, 0);
+    	$dates = $this->News->findAll(array('News.hidden' => 0, 'News.direction_id' => $ids), array('News.created'), 'News.created ASC', null, null, 0);
     	$this->set('dates', $dates);
 		$this->set('dir_id', $dir_id);
 
