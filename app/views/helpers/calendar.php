@@ -8,11 +8,11 @@ class CalendarHelper extends AppHelper {
 	}
     public function _jsCode_array($days)
     {
-        $count_days = sizeof($days);
+        $count_days = count($days);
         echo "<script type=\"text/javascript\">var days_array = [];";
         for ($i=0;$i < $count_days;$i++)
         {
-            $days2 = explode("-",$days[$i]);
+            //$days2 = explode("-",$days[$i]);
             echo "days_array[$i]= '$days[$i]';";
         }
         echo "var count_days = $count_days;</script>";
@@ -47,7 +47,7 @@ class CalendarHelper extends AppHelper {
         echo "<script type=\"text/javascript\">var current_date = '$cur_year-$cur_month-$cur_day';</script>";
         }
     }
-    
+
     function LinkFormat()
 	{
 

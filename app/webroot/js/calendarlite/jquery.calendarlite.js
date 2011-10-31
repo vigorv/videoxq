@@ -90,25 +90,21 @@
             }
 
             var cl2 = '';
-
-            for (var di = 0; di < 31; di++) {
-            if (href[j] != '/news/index/'+index+'/'+days_array[di])
-            {
-                cl2 = ' style="cursor:default;"';
+            for (var di = 0; di < days_array.length; di++) {
+	            if (href[j] != '/news/index/'+index+'/'+days_array[di])
+	            {
+	                cl2 = ' style="cursor:default;"';
+	            }
+	            else
+	            {
+	                cl2 = ' style="font-weight:bold;cursor:pointer; text-decoration:underline;"';
+	                break;
+	            }
             }
-            else
-            {
-                cl2 = ' style="font-weight:bold;cursor:pointer; text-decoration:underline;"';
-                di = 32;
-            }
-            }
-            if (di == 31)
-            {
-                href[j] = "javascript:void";
-            }
-
-
-
+			if (di == days_array.length)
+			{
+				href[j] = "javascript:void";
+			}
 
             line.push('<td' + cl + ''+ cl2 +'><a href="' + href[j] + '" rel="' + rel + '" '+ cl2 +'>' + date + '</a></td>');
             if (dates[j].getDay() == 0) {

@@ -489,13 +489,11 @@ echo $hideJS;
 				<div class="right-block">
 <?php
     $dateArr = array();
-    if (!empty($lst))
+    if (!empty($dates))
     {
-    	//$dirPrefix = $dir_id . '/';
-    	foreach ($lst as $l)
+    	foreach ($dates as $l)
     	{
     		$d = explode(' ', $l['News']['created']);
-    		//$dateArr[] = $dirPrefix . $d[0];
     		$dateArr[] = $d[0];
     	}
     }
