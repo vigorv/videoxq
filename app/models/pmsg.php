@@ -58,7 +58,6 @@ class Pmsg extends AppModel {
 	public function sendMessage($fromUserName, $toUserName, $title, $msg)
 	{
 		$result = false;
-		//СОХРАНЯЕМ ТЕКСТ СООБЩЕНИЯ
 		App::import('Model','Pm');
 		$Pm = new Pm();
 		App::import('Model','Pmreceipt');
@@ -71,6 +70,7 @@ class Pmsg extends AppModel {
 
 		if (!empty($fromUser) && (!empty($toUser)))
 		{
+		//СОХРАНЯЕМ ТЕКСТ СООБЩЕНИЯ
 			$this->create();
 			$info = array(
 				'Pmsg' => array(
@@ -117,5 +117,19 @@ class Pmsg extends AppModel {
 			}
 		}
 		return $result;
+	}
+
+	/**
+	 * установить метку о прочтении сообщения
+	 *
+	 * @param int $pmId - идентификатор личного сообщения
+	 */
+	public function setMessageRead($pmId)
+	{
+		App::import('Model','Pm');
+		$Pm = new Pm();
+
+		$info = array('Pm' => array('pmid' => intval($pmId), 'messageread' => 1));
+		$Pm->save($info);
 	}
 }
