@@ -48,7 +48,7 @@
         }
         if (!isNaN(month)) {
             //srcDate.setDate(1);
-            srcDate.setMonth(month);
+            srcDate.setMonth(month, 1);
         }
         var curDate = srcDate.getDate();
         var curMonth = srcDate.getMonth();
