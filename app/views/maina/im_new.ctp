@@ -3,7 +3,7 @@ input, textarea{
     padding: 8px 5px 8px 5px;
     margin: 5px 2px 5px 2px;
     background: #f4f4f4;
-    border: 1px solid #aaa;
+    border: 1px solid #74ADE7;
     text-decoration: none;
     white-space: nowrap;
 }
@@ -11,7 +11,7 @@ input, textarea{
 fieldset{
     padding: 8px;
     margin: 5px 2px 5px 2px;
-    border: 1px solid #aaa;
+    border: 1px solid #74ADE7;
     text-decoration: none;
     font-size: 16px;
 }
