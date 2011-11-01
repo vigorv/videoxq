@@ -1034,6 +1034,8 @@ return;//НЕПРАВИЛЬНО РАБОТАЕТ
             $genres = $this->params['named']['genre'];
             if (strpos($this->params['named']['genre'], ',') !== false)
                 $genres = explode(',', $this->params['named']['genre']);
+            //оставляем только 2 категории для уменьшения нагрузки на сервер
+            if(count($genres)>2){$genres=array($genres[0],$genres[1]);$this->params['named']['genre']=implode(',',$genres);}            
 //
             $condition = 'and';
             //$pagination['Film']['sphinx']['filter'][] = array('genre_id', $genres, false);
@@ -1075,6 +1077,8 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
                     $pagination['Film']['joins'][]=array('table' => 'films_genres', 'alias' => 'fg'.$n, 'type' => 'INNER', 'conditions' => 'fg'.$n.'.film_id = Film.id');
                     $pagination['Film']['joins'][]=array('table' => 'genres', 'alias' => 'g'.$n, 'type' => 'INNER', 'conditions' => '`g'.$n.'`.`id`=`fg'.$n.'`.`genre_id` and `g'.$n.'`.`id` = '.$v);
                     $n++;
+                //оставляем только 2 категории для уменьшения нагрузки на сервер
+                if($n>2)break;
                 }
             }
 <--------------------------------------------------------
