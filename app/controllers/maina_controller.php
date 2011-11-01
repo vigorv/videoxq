@@ -241,6 +241,23 @@ exit;
         //dasdasdas
 
         switch ($sub_act) {
+            case 'fulldel':
+                
+                break;            
+            case 'indel':
+                
+                break;
+            
+            case 'outdel':
+                
+                break;            
+            case 'outclear':
+                
+                break;            
+            
+            case 'outclear':
+                
+                break;
             case 'new':
                 $this->render('im_new');
                 break;
