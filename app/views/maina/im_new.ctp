@@ -46,6 +46,14 @@ form label {
         //echo $form->create(null, array('url' => array('controller' => 'maina', 'action' => '', 'enctype' => 'multipart/form-data')));
         echo '<form action="/maina/im/new" method=post enctype="multipart/form-data">';
 ?>
+<div id="im_in_menu">
+<ul>
+			<li><a href="#" style="border-left: 1px solid #74ADE7;">Входящие</a></li>
+			<li><a href="#">Исходящие</a></li>
+			<li><a href="#" id="current">Написать сообщение</a></li>
+            <li style="float:right;border-left: 1px solid #74ADE7;margin-right: 1px;"><a href="#">Удалить</a></li>
+</ul>
+</div>
     <fieldset>
          <legend>Новое сообщение</legend>
     <?php

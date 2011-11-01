@@ -201,12 +201,12 @@ div.SmartFrame
 
 /*vxodyachue sms*/
 
-#im_in_menu { width: 85.9%; padding: 0; position: relative; height: 38px; margin: 0;}
+#im_in_menu { width: 86%; padding: 0; position: relative; height: 38px; margin: 0;}
 #im_in_menu ul {list-style:none;margin:0;padding:0; height: 31px;}
 #im_in_menu li {float:left; background-color: #fff; border: 1px solid #74ADE7;  border-left: 0; padding: 0;}
 #im_in_menu li a{color:#666666;display:block;font-weight:bold;line-height:23px;padding: 5px 3px 2px 3px;text-align:left;text-decoration:none;}
 #im_in_menu li a:hover{color:#000000;text-decoration:none; background-color: #E4E8FC;}
-#im_in_menu #current{color: #535353;  background-color: #CFD6F5;}
+#im_in_menu #current{color: #535353;  background-color: #C0CFFA;}
 #im_in { width:85.5%; border: 1px solid #74ADE7; height: 435px; vertical-align: top;  margin:0; padding: 0;overflow-x:hidden;overflow: hidden;}
 #im_in_border { float:left; border-bottom: 1px solid #74ADE7;width:99%; height: 60px; vertical-align: top;  padding: 6px; }
 #im_in_border:hover { background: #EAF2FB;}

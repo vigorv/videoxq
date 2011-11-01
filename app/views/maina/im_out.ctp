@@ -1,7 +1,7 @@
 <div id="im_in_menu">
 <ul>
-			<li><a href="#" id="current" style="border-left: 1px solid #74ADE7;">Входящие</a></li>
-			<li><a href="#">Исходящие</a></li>
+			<li><a href="#" style="border-left: 1px solid #74ADE7;">Входящие</a></li>
+			<li><a href="#" id="current">Исходящие</a></li>
 			<li><a href="#">Написать сообщение</a></li>
             <li style="float:right; margin-right: 1px;"><a href="#">Очистить</a></li>
 			<li style="float:right;border-left: 1px solid #74ADE7;"><a href="#">Удалить выбранные</a></li>
