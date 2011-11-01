@@ -13,7 +13,7 @@ fieldset{
     margin: 5px 2px 5px 2px;
     border: 1px solid #74ADE7;
     text-decoration: none;
-    font-size: 16px;
+    font-size: 12px;
 }
 
 input[type="submit"] {
@@ -50,7 +50,7 @@ form label {
          <legend>Новое сообщение</legend>
     <?php
         echo $form->input('to_user_name', array('label' => 'Кому', 'name' => 'to_user_name', 'size' => 75, 'value' => (!empty($data['to_user_name']) ? $data['to_user_name'] : '')));
-        echo $form->input('title', array('label' => 'Заголовок', 'name' => 'title', 'size' => 75,'value' => (!empty($data['title']) ? $data['title'] : '')));
+        echo $form->input('title', array('label' => 'Тема', 'name' => 'title', 'size' => 75,'value' => (!empty($data['title']) ? $data['title'] : '')));
         echo $form->input('msg', array('label' => 'Сообщение', 'name' => 'msg','type' => 'textarea','rows' => '5', 'cols' => '58', 'value' => (!empty($data['msg']) ? $data['msg'] : '')));
     ?>
     </fieldset>

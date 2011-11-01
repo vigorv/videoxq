@@ -3,8 +3,8 @@
 			<li><a href="#" id="current" style="border-left: 1px solid #74ADE7;">Входящие</a></li>
 			<li><a href="#">Исходящие</a></li>
 			<li><a href="#">Написать сообщение</a></li>
-            <li style="float:right; margin-right: 2px;"><a href="#">Очистить</a></li>
-			<li style="float:right;border-left: 1px solid #74ADE7;"><a href="#">Удалить выбранные</a></li>
+            <li style=" margin-right: 2px;"><a href="#">Очистить</a></li>
+			<li style="border-left: 1px solid #74ADE7;"><a href="#">Удалить выбранные</a></li>
 </ul>
 </div>
 <div id="ins_ajax">
