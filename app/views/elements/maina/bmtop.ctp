@@ -44,16 +44,22 @@ $parent_menu;
             //currentTVLink = link;
             $('.currentSubMenu').removeClass('currentSubMenu');
             $(this).addClass('currentSubMenu');
-
+            
+                var x = ($('div.Frame').width())/2;
+                var y =  280;
+                //alert (x);alert (y);
 
             $('.Frame_Content').fadeOut(555, function(){
-                $(this).html('<img id="ajax_loader_icon" src="/img/ajax-loader.gif">');
+                /*
                 var x = ($('.Frame_Content').width())/2;
                 var y =  ($('.Frame_Content').height())/2;
+                */
 
+                $(this).html('<img id="ajax_loader_icon" src="/img/ajax-loader.gif">');
                 x = x + ($('#ajax_loader_icon').width())/2;
                 y = y + ($('#ajax_loader_icon').height())/2;
 
+                
                 $('#ajax_loader_icon').attr("style","display: block; position: absolute; left: "+x+"px; top:"+y+"px");
                 $(this).fadeIn(555);
                 $('.Frame_Content').load(link,'ajax',function(){});
