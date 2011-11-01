@@ -3,7 +3,7 @@
 			<li><a href="/maina/im/in" id="current" style="border-left: 1px solid #74ADE7;">Входящие</a></li>
 			<li><a href="/maina/im/out">Исходящие</a></li>
 			<li><a href="/maina/im/new">Написать сообщение</a></li>
-            <li style="float:right;border-left: 1px solid #74ADE7;margin-right: 12px;"><a href="/maina/im/fulldel">Удалить</a></li>
+            <li style="float:right;border-left: 1px solid #74ADE7;margin-right: 12px;" id="im_del"><a href="/maina/im/fulldel">Удалить</a></li>
 </ul>
 </div>
 <div id="ins_ajax">

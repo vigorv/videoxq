@@ -1,10 +1,10 @@
 <div id="im_in_menu">
 <ul>
 			<li><a href="/maina/im/in" style="border-left: 1px solid #74ADE7;">Входящие</a></li>
-			<li><a href="/maina/im/out" id="current">Исходящие</a></li>
+			<li><a href="#" id="current">Исходящие</a></li>
 			<li><a href="/maina/im/new">Написать сообщение</a></li>
-            <li style="float:right; margin-right: 1px;"><a href="/maina/im/out/outclear">Очистить</a></li>
-			<li style="float:right;border-left: 1px solid #74ADE7;"><a href="/maina/im/out/outdel">Удалить выбранные</a></li>
+            <li style="float:right; margin-right: 1px;"><a href="/maina/im/out/outclear" id="im_clear">Очистить</a></li>
+			<li style="float:right;border-left: 1px solid #74ADE7;"><a href="/maina/im/out/outdel" id="im_del">Удалить выбранные</a></li>
 </ul>
 </div>
 <div id="ins_ajax">

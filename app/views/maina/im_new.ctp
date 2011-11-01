@@ -50,7 +50,7 @@ form label {
 <ul>
 			<li><a href="/maina/im/in" style="border-left: 1px solid #74ADE7;">Входящие</a></li>
 			<li><a href="/maina/im/out">Исходящие</a></li>
-			<li><a href="#/maina/im/new" id="current">Написать сообщение</a></li>
+			<li><a href="#" id="current">Написать сообщение</a></li>
 </ul>
 </div>
     <fieldset>
