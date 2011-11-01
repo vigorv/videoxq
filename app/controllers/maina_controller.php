@@ -225,6 +225,11 @@ exit;
                 $this->render('im_new');
                 break;
             default:
+            case 'in_full':
+                $userMessages = $this->Pmsg->getMessagesForUser($this->authUser['userid'], $this->page, $this->per_page);
+                $this->set('userMessages', $userMessages);
+                $this->render('im_full');
+                break;
             case 'in':
                 $userMessages = $this->Pmsg->getMessagesForUser($this->authUser['userid'], $this->page, $this->per_page);
                 $this->set('userMessages', $userMessages);

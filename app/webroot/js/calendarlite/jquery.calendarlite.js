@@ -39,11 +39,13 @@
 
         var today = new Date();
         var srcDate = new Date();
-        srcDate.setMonth(date_array[1]-1);
+        
+        
         if (!isNaN(year)) {
             srcDate.setDate(1);
             srcDate.setFullYear(year);
         }
+        
         if (!isNaN(month)) {
             srcDate.setDate(1);
             srcDate.setMonth(month);
@@ -91,7 +93,7 @@
 
             var cl2 = '';
 
-            for (var di = 0; di < count_days; di++) {
+            for (var di = 0; di < 31; di++) {
             if (href[j] != '/news/index/'+index+'/'+days_array[di])
             {
                 cl2 = ' style="cursor:default;"';
@@ -99,10 +101,10 @@
             else
             {
                 cl2 = ' style="font-weight:bold;cursor:pointer; text-decoration:underline;"';
-                break;
+                di = 32;
             }
             }
-			if (di == count_days)
+			if (di == 31)
 			{
 				href[j] = "javascript:void";
 			}
@@ -112,34 +114,17 @@
                 if (line.length < 7) {
                     var ln = line.length;
                     var pad = [];
-                    if (dates.length != 31)
-                    {
-                    	prev = 31;
-                    }
-                    else
-                    {
-                    	prev = 30;
-                    }
+                   
 
-                    for (var k = 0; k < (7 - ln); k++) {
-                        pad.push('<td style="cursor:default;color:lightgrey;">' + (prev - 7 + ln + k + 1) + '</td>');
+                     for (var k = 0; k < (7 - ln); k++) {
+                        pad.push('<td>&nbsp;</td>');
                     }
                     line = pad.concat(line);
                 }
                 str += '<tr>' + line.join('') + '</tr>';
                 line = [];
             } else if (j == (dates.length - 1)) {
-
-            	str += '<tr>' + line.join('');
-                if (line.length < 7) {
-                    var ln = line.length;
-                    var pad2 = [];
-                    for (var k = 0; k < (7 - ln); k++) {
-                        str += '<td style="cursor:default;color:lightgrey;">' + (k + 1) + '</td>';
-                    }
-                }
-
-            	str += '</tr>';
+                str += '<tr>' + line.join('') + '</tr>';
             }
         }
         str += '</tbody>';
@@ -159,7 +144,7 @@
         this.next($this.find('.next'), o);
         this.prev($this.find('.prev'), o);
     };
-
+    
     /**
      * Format link
      * @param {String} format
@@ -181,7 +166,7 @@
         var link = format.replace(/{%d(d)?}/, date).replace(/{%m(m)?}/, month).replace(/{%yy(yy)?}/, year);
         return link;
     };
-
+    
     /**
      * Format date for link's 'rel' attribute
      * @param {String} format
@@ -204,14 +189,14 @@
         var link = format.replace(/{%d(d)?}/, date).replace(/{%m(m)?}/, month).replace(/{%yy(yy)?}/, year);
         return link;
     };
-
+    
     /**
      * Show next month
      */
     $.fn.calendarLite.next = function(button, o) {
         this.change(button, 1, o);
     };
-
+    
     /**
      * Show previous month
      * @param {Object} button
@@ -219,7 +204,7 @@
     $.fn.calendarLite.prev = function(button, o) {
         this.change(button, -1, o);
     };
-
+    
     /**
      * Switch to another month
      * @param {Object} button
@@ -238,7 +223,7 @@
             return false;
         });
     };
-
+    
     /**
      * Get current calendar's state (month and year)
      */
@@ -246,7 +231,7 @@
         var st = div.find('.state')[0].innerHTML.split('.');
         return [parseInt(st[0], 10), parseInt(st[1], 10)];
     };
-
+    
     /**
      * Format number (pad with zero)
      * @param {Integer} num
@@ -258,7 +243,7 @@
         }
         return num;
     };
-
+    
     /**
      * Default options
      */
@@ -267,17 +252,17 @@
          * Names of week's days
          */
         days: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'],
-
+        
         /**
          * Month names
          */
         months: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август',
                  'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
-
+        
         /**
          * Link to be assigned for each link in cell:
          *   e.g.: http://snowcore.net/events/{%dd}-{%mm}-{%yyyy}
-         *
+         * 
          * Possible values:
          *   {%dd} - date with leading zero
          *   {%d}  - date without leading zero
@@ -287,26 +272,26 @@
          *   {%yyyy}  - full year (for digits)
          */
         linkFormat: null,
-
+        
         /**
          * Format for date in 'rel' attribute (onSelect callback function retrieves this value)
          * Formatting options are the same as for 'linkFormat' option
          * Default: mm.dd.yyyy ('{%dd}.{%mm}.{%yyyy}')
          */
         dateFormat: '{%dd}.{%mm}.{%yyyy}',
-
+        
         /**
          * Callback function, fires when user click on the cell
          * Function retrives one parameter - date
          * (in format that has been assigned by 'dateFormat' option):
          */
         onSelect: null,
-
+        
         /**
          * When set to true, full year is displaying in the calendar caption
          */
         showYear: false,
-
+        
         /**
          * Prev/Next arrows (you can also use &larr; and &rarr;)
          */
