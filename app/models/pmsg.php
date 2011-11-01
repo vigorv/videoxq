@@ -46,9 +46,18 @@ class Pmsg extends AppModel {
 		return $result;
 	}
 
+	/**
+	 * Отправить личное сообщение
+	 *
+	 * @param string $fromUserName	- логин отправителя
+	 * @param string $toUserName	- логин получателя
+	 * @param string $title			- тема сообщения
+	 * @param strinh $msg			- текст сообщения
+	 * @return boolean 				- результат - отправлено или нет
+	 */
 	public function sendMessage($fromUserName, $toUserName, $title, $msg)
 	{
-		//СОХРАНЯЕМ ТЕКСТ СООБЩЕНИЯ
+		$result = false;
 		App::import('Model','Pm');
 		$Pm = new Pm();
 		App::import('Model','Pmreceipt');
@@ -61,6 +70,7 @@ class Pmsg extends AppModel {
 
 		if (!empty($fromUser) && (!empty($toUser)))
 		{
+		//СОХРАНЯЕМ ТЕКСТ СООБЩЕНИЯ
 			$this->create();
 			$info = array(
 				'Pmsg' => array(
@@ -75,36 +85,51 @@ class Pmsg extends AppModel {
 					'allowsmilie'	=> 1
 				)
 			);
-			$this->save($info);
-			$pmTextId = $this->getLastInsertID();
+			if ($this->save($info))
+			{
+				$pmTextId = $this->getLastInsertID();
 
-			$Pm->create();
-			$logMessage = array(//ИСХОДЯЩЕЕ
-				'Pm' => array(
-					'pmtextid'		=> $pmTextId,
-					'userid'		=> $fromUser['User']['userid'],
-					'folderid'		=> -1,
-					'messageread'	=> 1
-				)
-			);
-			$Pm->save($logMessage);
-			$pmId = $Pm->getLastInsertID();
+				$Pm->create();
+				$logMessage = array(//ИСХОДЯЩЕЕ
+					'Pm' => array(
+						'pmtextid'		=> $pmTextId,
+						'userid'		=> $fromUser['User']['userid'],
+						'folderid'		=> -1,
+						'messageread'	=> 1
+					)
+				);
+				$Pm->save($logMessage);
+				$pmId = $Pm->getLastInsertID();
 
-			$Pm->create();
-			$logMessage = array(//ВХОДЯЩИЕ
-				'Pm' => array(
-					'pmtextid'		=> $pmTextId,
-					'userid'		=> $toUser['User']['userid'],
-					'folderid'		=> 0,
-					'messageread'	=> 0
-				)
-			);
-			$Pm->save($logMessage);
-			$pmId = $Pm->getLastInsertID();
-
-			//в Pmreceipt пока не сохраняем
-
+				$Pm->create();
+				$logMessage = array(//ВХОДЯЩИЕ
+					'Pm' => array(
+						'pmtextid'		=> $pmTextId,
+						'userid'		=> $toUser['User']['userid'],
+						'folderid'		=> 0,
+						'messageread'	=> 0
+					)
+				);
+				$Pm->save($logMessage);
+				$pmId = $Pm->getLastInsertID();
+				//в Pmreceipt пока не сохраняем
+				$result = true;
+			}
 		}
+		return $result;
+	}
 
+	/**
+	 * установить метку о прочтении сообщения
+	 *
+	 * @param int $pmId - идентификатор личного сообщения
+	 */
+	public function setMessageRead($pmId)
+	{
+		App::import('Model','Pm');
+		$Pm = new Pm();
+
+		$info = array('Pm' => array('pmid' => intval($pmId), 'messageread' => 1));
+		$Pm->save($info);
 	}
 }

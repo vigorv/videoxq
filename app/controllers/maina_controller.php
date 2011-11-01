@@ -150,7 +150,8 @@ class MainaController extends AppController {
     function index() {
 /**
 		$msg = 'сообщение для Спарка от ' . date('y.m.d H:i:s');
-		$this->Pmsg->sendMessage('vanoveb', 'spark', $msg, $msg . ' ' . $msg);
+		//$this->Pmsg->sendMessage('vanoveb', 'spark', $msg, $msg . ' ' . $msg);
+		$this->Pmsg->setMessageRead(26);
 echo '<h3>Исходящие</h3>';
     	$outMsgs = $this->Pmsg->getOutMessages($this->authUser['userid']);
     	foreach ($outMsgs as $m)
@@ -202,7 +203,7 @@ exit;
      * Страница Личных сообщений
      * @param type $sub_act
      */
-    public function im($sub_act='in') {
+    public function im($sub_act='new') {
 
         if (isset($_POST['send_msg'])) {
             if (isset($_POST['userid'])) {
