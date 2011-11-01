@@ -249,19 +249,19 @@ exit;
                 $this->set('userSent', $userSent);
                 $this->render('im_out');
                 break;
-            
-            case 'in':
-            default:
-            case 'in_full':
-                $userMessages = $this->Pmsg->getInMessages($this->authUser['userid'], $this->page, $this->per_page);
-                $this->set('userMessages', $userMessages);
-                $this->render('im_full');
-                break;
+
             case 'in':
                 $userMessages = $this->Pmsg->getInMessages($this->authUser['userid'], $this->page, $this->per_page);
                 $this->set('userMessages', $userMessages);
                 $this->render('im_in');
                 break;
+            
+            case 'in_full':
+            default:
+                $userMessages = $this->Pmsg->getInMessages($this->authUser['userid'], $this->page, $this->per_page);
+                $this->set('userMessages', $userMessages);
+                $this->render('im_full');
+                break;            
         }
     }
 //------------------------------------------------------------------------------
