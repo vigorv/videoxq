@@ -200,7 +200,7 @@ div.SmartFrame
 .currentTvIcon { opacity: 1;filter:progid:DXImageTransform.Microsoft.Alpha(opacity=100); }
 
 /*vxodyachue sms*/
-#im_in_menu { width: 300px; padding: 0; position: relative; height: 27px; margin: 0;}
+#im_in_menu { width: 86%; padding: 0; position: relative; height: 27px; margin: 0;}
 #im_in_menu ul {list-style:none;margin:0;padding:0; height: 31px;}
 #im_in_menu li {float:left; background-color: #fff; border: 1px solid #74ADE7;  border-left: 0; padding: 0;}
 #im_in_menu li a{color:#666666;display:block;font-weight:bold;line-height:23px;padding: 5px 3px 2px 3px;text-align:left;text-decoration:none;}
