@@ -25,7 +25,7 @@ input[type="submit"] {
 
 input:hover, textarea:hover{
     background: #ddd;
-    color: #d00;
+    
 }
 
 form div.submit {
@@ -48,10 +48,9 @@ form label {
 ?>
 <div id="im_in_menu">
 <ul>
-			<li><a href="#" style="border-left: 1px solid #74ADE7;">Входящие</a></li>
-			<li><a href="#">Исходящие</a></li>
+			<li><a href="/maina/im/in" style="border-left: 1px solid #74ADE7;">Входящие</a></li>
+			<li><a href="/maina/im/out">Исходящие</a></li>
 			<li><a href="#" id="current">Написать сообщение</a></li>
-            <li style="float:right;border-left: 1px solid #74ADE7;margin-right: 1px;"><a href="#">Удалить</a></li>
 </ul>
 </div>
     <fieldset>
