@@ -203,8 +203,8 @@ exit;
      * Страница Личных сообщений
      * @param type $sub_act
      */
-    public function im($sub_act='new') {
-        $this->perPage = 6;
+    public function im($sub_act='in') {
+        $this->per_page = 6;
         //если что то отсылали, смотрим чего там шлют
         if (!empty($_POST)){
             //если все поля заполнены
@@ -245,7 +245,7 @@ exit;
                 $this->render('im_new');
                 break;
             case 'out':
-                $userSent = $this->Pmsg->getOutMessages($this->authUser['userid'], $this->page, $this->perPage);
+                $userSent = $this->Pmsg->getOutMessages($this->authUser['userid'], $this->page, $this->per_page);
                 $this->set('userSent', $userSent);
                 $this->render('im_out');
                 break;
@@ -253,12 +253,12 @@ exit;
             case 'in':
             default:
             case 'in_full':
-                $userMessages = $this->Pmsg->getMessagesForUser($this->authUser['userid'], $this->page, $this->per_page);
+                $userMessages = $this->Pmsg->getInMessages($this->authUser['userid'], $this->page, $this->per_page);
                 $this->set('userMessages', $userMessages);
                 $this->render('im_full');
                 break;
             case 'in':
-                $userMessages = $this->Pmsg->getMessagesForUser($this->authUser['userid'], $this->page, $this->per_page);
+                $userMessages = $this->Pmsg->getInMessages($this->authUser['userid'], $this->page, $this->per_page);
                 $this->set('userMessages', $userMessages);
                 $this->render('im_in');
                 break;
