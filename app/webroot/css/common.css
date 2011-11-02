@@ -718,3 +718,6 @@ body:first-of-type #levo_input p {padding-top: 7px;}
 #feedback_photo {float:left;width:580px; margin-top: 150px;}
 #photo_red {color:red;}
 #text_photo {margin-left: 50px;margin-right: 30px; font-size: 1.2em; }
+
+#filmviewicons { display: block; }
+#filmviewicons img { margin: 0 5px 0 5px; }

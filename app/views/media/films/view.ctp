@@ -241,12 +241,6 @@ echo'</pre>';
 
         <tr>
             <td align="center">
-<?php
-	if (!$Film['is_license'])
-	{
-    	echo '<font size="1" color="grey">на правах рекламы</font>';
-	}
-?>
             </td>
         </tr>
 -->
@@ -255,12 +249,83 @@ echo'</pre>';
 
 
 </div>
-    <h2>«<a rel="nohref" nohref="nohref"><?php
+    <div id="filmviewicons">
+    <h2>«<?php
     	if ($lang == _ENG_)
     		echo $imdbTitle;
     	else
     		echo $Film['title'];
-    ?></a>»</h2>
+    ?>»
+<?php
+	if ($Film['is_license'])
+	{
+		$downloadHref = 'href="#panels"';
+		$viewHref = 'href="#panels"';
+	}
+	else
+	{
+		if ($isWS)
+		{
+			echo '
+				<script type="text/javascript">
+				<!--
+					function loadmeta(id, tid)
+					{
+						$.get("' . Configure::read('App.webShare') . 'catalog/meta/" + id + "/" + tid + "/1");
+						alert(1);
+						return false;
+					}
+				-->
+				</script>
+			';
+			$downloadHref = 'target="_blank" href="' . Configure::read('App.webShare') . 'catalog/meta/' . $Film['id'] . '/2/1"';//2 - ПОКА ПРИНУДИТЕЛЬНО ИЩЕМ ТОЛЬКО ДВД-качество
+			$viewHref = 'target="_blank" href="' . Configure::read('App.webShare') . 'catalog/play/' . $Film['id'] . '"';
+		}
+		else
+		{
+			$downloadHref = '';
+			$viewHref = '';
+		}
+	}
+
+	if (!empty($downloadHref))
+    	echo  '<a ' . $downloadHref . '><img src="/img/icons/download-icon_32x32.png" title="' . __('Download Movie', true) . '"/></a>';
+	if (!empty($viewHref))
+	    echo  '<a ' . $viewHref . '><img src="/img/icons/play-icon_32x32.png" title="' . __('Click To Play', true) . '"/></a>';
+
+    //для зарегеных юзеров функционал "избранное"!
+    //добавим времнное условие для скрытия кнопочек на внешнем сайте
+    if (!empty($authUser['userid']) && !stristr(Configure::read('App.siteUrl'),'videoxq.com') ){
+        if (!empty($exist_film_in_favorites) && $exist_film_in_favorites){
+            //если фильм уже в избранном, то выведем сооствествующий значок
+            //с подписью на память :)
+            echo  '<img src="/img/icons/favorites-icon_32x32.png" title="Фильм находится в избранном"/>';
+            //Добаим значок удалить из избранного
+            echo  '<a style="" href="/media/removefromfavorites/'.$Film['id'].'"><img src="/img/icons/remove-from-favorites-icon_32x32.png" title="Удалить из избранного"/></a>';
+        }
+        else{
+            //иначе добавляем кнопку в избранное
+            echo  '<a style="" href="/media/addtofavorites/'.$Film['id'].'"><img src="/img/icons/add-to-favorites-icon_32x32.png" title="Добавить в избранное"/></a>';
+        }
+
+/*
+        if ( isset($ajax) ) {
+            echo $ajax->link('Добавить в избранное', '/media/addtofavorites/' . $Film['id'] ,
+                array(
+                    'update'=>'updated',
+                    'loading' =>"Element.show('loading')",
+                    'complete' => "Element.hide('loading')"
+                    ));
+        } else {
+          echo $html->link('Добавить в избранное', '/media/addtofavorites/' . $Film['id']);
+        }
+
+*/
+    }
+?>
+    </h2>
+    </div>
+
     <h3><?php
     	if ($lang != _ENG_) echo $Film['title_en'];
     ?><br>
@@ -1281,7 +1346,7 @@ if (!empty($authUser['userid']) || $isWS)
 	}
 
 //ВЫВОД УПРАВЛЯЮЩИХ ЗАКЛАДОК
-	$linksContent .= '<table width="700" cellspacing="0" cellpadding="3" border="0">';
+	$linksContent .= '<a name="panels"></a><table width="700" cellspacing="0" cellpadding="3" border="0">';
 	$maxLinksPanel = 'webpanel'; $maxLinks = 100;
 
 	if ($Film['is_license'])
