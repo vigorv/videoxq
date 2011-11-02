@@ -47,7 +47,7 @@ form label {
         echo '<form action="/maina/im/new" method=post enctype="multipart/form-data">';
 ?>
 
-<<<<<<< HEAD
+
 <div id="im_in_menu">
 <ul>
 			<li><a href="/maina/im/in" style="border-left: 1px solid #74ADE7;">Входящие</a></li>
@@ -56,8 +56,6 @@ form label {
 </ul>
 </div>
 <div id="ins_ajax">
-=======
->>>>>>> 897678fc1f79d0c44d42b0da24fcd6225ad984d1
 <?//выводим меню для сообщений (водящие / исходящие / новое и т.п.)?>
 <?=(!$isAjax)? ($this->element($blocks_m_im)).'<div id="ins_ajax">':'';?>  
     <fieldset>
@@ -69,11 +67,8 @@ form label {
     ?>
     </fieldset>
 <?php echo $form->end('Отправить');?>
-<<<<<<< HEAD
-
 </div>
 <?=(!$isAjax)? '</div>':'';?>  
 =======
 </div>
 <?=(!$isAjax)? '</div>':'';?>
->>>>>>> 897678fc1f79d0c44d42b0da24fcd6225ad984d1
