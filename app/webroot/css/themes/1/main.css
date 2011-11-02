@@ -189,7 +189,7 @@ div.SmartFrame
     float:left;
 }
 
-.info_image{ width:55px; height:48px;display:block;}
+.info_image{ width:65px; height:48px;display:block;}
 .submenu a{ display:block;}
 /*navigation under TV*/
 #navigation_tv { width:830px; vertical-align: middle; padding-left: 55px;margin:-126px auto 80px; position: relative; z-index: 50;}
