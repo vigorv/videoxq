@@ -53,6 +53,7 @@ form label {
 			<li><a href="#" id="current">Написать сообщение</a></li>
 </ul>
 </div>
+<div id="ins_ajax">
     <fieldset>
          <legend>Новое сообщение</legend>
     <?php
@@ -62,3 +63,4 @@ form label {
     ?>
     </fieldset>
 <?php echo $form->end('Отправить');?>
+</div>

@@ -20,7 +20,7 @@ class MainaController extends AppController {
     var $name = 'Maina';
     var $layout = 'newstyle';
     var $viewPath = 'maina';
-    var $helpers = array('Html', 'javascript', 'tvvision');
+    var $helpers = array('Html', 'javascript', 'tvvision', 'tvIcons');
     //var $components = array();
     var $uses = array('Film', 'Direction', 'News', 'Favorite',
         'UserDownloadHistory',

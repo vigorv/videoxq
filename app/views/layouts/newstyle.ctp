@@ -133,11 +133,11 @@
 
                     </div>
                     <div id="navigation_tv">
-            <a href="#"><img src="/img/main/left_arrow.png" alt="Листать влево" /></a>
-            <a href="#"><img src="/img/main/refresh.png" id="icon_refresh" alt="Обновить" /></a>
-            <a href="#" onclick="switchOn(this); return saveOption('Profile.itemsView', 'list');"><img src="/img/main/list.png" class="icon_list" alt="Вид отображения: Список" /></a>
-            <a href="#" onclick="switchOn(this); return saveOption('Profile.itemsView', 'eskiz');"><img src="/img/main/eskiz.png" class="icon_eskiz" alt="Вид отображения: Эскизом" /></a>
-            <a href="#"><img src="/img/main/right_arrow.png" id="icon_r_arrow" alt="Листать вправо" /></a>
+            <?php $tvIcons->AllIcons();$tvIcons->IconsShow(array("left","refresh","vid_list","vid_eskiz","right")); 
+            //<a href="#"><img src="/img/main/refresh.png" id="icon_refresh" alt="Обновить" /></a>
+            //<a href="#" onclick="switchOn(this); return saveOption('Profile.itemsView', 'list');><img src="/img/main/list.png" class="icon_list" alt="Вид отображения: Список" /></a>
+           // <a href="#" onclick="switchOn(this); return saveOption('Profile.itemsView', 'eskiz');"><img src="/img/main/eskiz.png" class="icon_eskiz" alt="Вид отображения: Эскизом" /></a>
+            //<a href="#"><img src="/img/main/right_arrow.png" id="icon_r_arrow" alt="Листать вправо" /></a>?>
             </div>
                 </div>
             </div>
