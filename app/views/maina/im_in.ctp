@@ -1,13 +1,5 @@
-<div id="im_in_menu">
-<ul>
-			<li><a href="#" id="current" style="border-left: 1px solid #74ADE7;">Входящие</a></li>
-			<li><a href="/maina/im/out">Исходящие</a></li>
-			<li><a href="/maina/im/new">Написать сообщение</a></li>
-            <li style="float:right; margin-right: 1px;"><a href="/maina/im/inclear" id="im_clear">Очистить</a></li>
-			<li style="float:right;border-left: 1px solid #74ADE7;"><a href="/maina/im/in/del" id="im_del">Удалить выбранные</a></li>
-</ul>
-</div>
-<div id="ins_ajax">
+<?//выводим меню для сообщений (водящие / исходящие / новое и т.п.)?>
+<?=(!$isAjax)? ($this->element($blocks_m_im)).'<div id="ins_ajax">':'';?>  
 <div id="im_in">
 <div id="im_in_border">
 <div id="im_in_avatar"><img src="http://videoxq.com/forum/image.php?u=113534&dateline=1317973359&type=thumb" />
@@ -104,4 +96,4 @@
 <div id="im_in_navigation_href"><a href="#"> 1</a><a href="#"> 2</a><a href="#"> 3</a><a href="#"> 4</a><a href="#"> 5</a>
 </div>
 </div>
-</div>
+<?=(!$isAjax)? '</div>':'';?>  

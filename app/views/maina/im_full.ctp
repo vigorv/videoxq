@@ -1,12 +1,5 @@
-<div id="im_in_menu">
-<ul>
-			<li><a href="/maina/im/in" id="current" style="border-left: 1px solid #74ADE7;">Входящие</a></li>
-			<li><a href="/maina/im/out">Исходящие</a></li>
-			<li><a href="/maina/im/new">Написать сообщение</a></li>
-            <li style="float:right;border-left: 1px solid #74ADE7;margin-right: 12px;" id="im_del"><a href="/maina/im/fulldel">Удалить</a></li>
-</ul>
-</div>
-<div id="ins_ajax">
+<?//выводим меню для сообщений (водящие / исходящие / новое и т.п.)?>
+<?=(!$isAjax)? ($this->element($blocks_m_im)).'<div id="ins_ajax">':'';?>  
 <div id="im_in_full">
 <div id="im_in_avatar_full"><img src="http://videoxq.com/forum/image.php?u=113534&dateline=1317973359&type=thumb" />
 </div>
@@ -24,4 +17,4 @@
 <p><input type="submit" name="but" value="Ответить" id="im_in_but" />
 </div>
 </div>
-</div>
+<?=(!$isAjax)? '</div>':'';?>  
