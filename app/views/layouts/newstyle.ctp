@@ -71,7 +71,32 @@
         });
         return false;
     }
+    
+    jQuery(document).ready(function() {    
+       if ($('#flashMessage').length > 0 ){
+           var wp = $('#flashMessage').parent().width();
+           var wm = $('#flashMessage').width();
+           var x = (wp/2 - wm/2) - 25 ;
+           // - 25 - padding correction
+           //alert(wp +' '+ wm +' '+ x);
+           $('#flashMessage').css('left', x+'px').show();
+
+           $('#flashMessage').fadeOut(8000);
+       }
+    });
         </script>
+<style>
+    #flashMessage, #authMessage {
+    background: none repeat scroll 0 0 #fff;
+    border: solid 1px #aaa;
+    color: red;
+    font-size: large;
+    margin: 0 auto;
+    padding: 20px 50px;
+    position: absolute;
+    z-index: 777;
+    }
+</style>
 
   </head>
     <body>

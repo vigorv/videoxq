@@ -20,8 +20,9 @@ class MainaController extends AppController {
     var $name = 'Maina';
     var $layout = 'newstyle';
     var $viewPath = 'maina';
+    var $helpers = array('Html', 'javascript', 'tvvision');
     var $helpers = array('Html', 'javascript', 'tvvision', 'tvIcons');
-    //var $components = array();
+    var $components = array('RequestHandler');
     var $uses = array('Film', 'Direction', 'News', 'Favorite',
         'UserDownloadHistory',
         'UserWishlist', 'UserFriends',
@@ -94,6 +95,8 @@ class MainaController extends AppController {
         View::set('blocks_right', '/maina/bright');
         View::set('blocks_m_top', '/maina/bmtop');
         View::set('theme_id', 1);
+        View::set('blocks_m_im', '/maina/bmim');
+        
     }
 
     function BeforeRender() {
@@ -203,7 +206,7 @@ exit;
      * Страница Личных сообщений
      * @param type $sub_act
      */
-    public function im($sub_act='in') {
+    public function im($sub_act='') {
         $this->per_page = 6;
         //если что то отсылали, смотрим чего там шлют
         if (!empty($_POST)){
@@ -238,30 +241,60 @@ exit;
                 $this->set('data', $data);
             }
         }
-        //dasdasdas
-
+        //если был ajax-запрос, то дадим знать об этом вьюхе
+        $this->set('isAjax', $this->RequestHandler->isAjax());
+        //но у нас может быть ajax-запрос в ajax-запросе - при клике "messages" 
+        //в верхнем меню (он тоже ajax'овый), поэтому что бы отсечь это, считаем 
+        //его как не ajax-запрос, для нашей локальной менюшки, и установим 
+        //подметод по умолчанию -> "in"
+        if(!$sub_act){
+            $this->set('isAjax', false);
+            $sub_act = 'in';
+        }
+        //еще вьюхе надо знать какой у нас подметод, для того даем ей еще 
+        //одну переменную
+        $this->set('sub_act', $sub_act);
+        
+        //выведем нужную вьюху в зависимости от "подметода"
         switch ($sub_act) {
+            case 'fulldel':
+                //удаление текущего сообщения
+                break;            
+            case 'indel':
+                //удаление входящих сообщений
+                break;
+            case 'outdel':
+                //удаление исходящих сообщений
+                break;            
+            case 'inclear':
+                //удаление всех входящих сообщений
+                break;            
+            case 'outclear':
+                //удаление всех исходящих сообщений
+                break;
             case 'new':
+                //форма отправки нового сообщения
                 $this->render('im_new');
                 break;
             case 'out':
+                //вывод исходящих сообщений
                 $userSent = $this->Pmsg->getOutMessages($this->authUser['userid'], $this->page, $this->per_page);
                 $this->set('userSent', $userSent);
                 $this->render('im_out');
                 break;
-
-            case 'in':
-                $userMessages = $this->Pmsg->getInMessages($this->authUser['userid'], $this->page, $this->per_page);
-                $this->set('userMessages', $userMessages);
-                $this->render('im_in');
-                break;
-            
             case 'in_full':
-            default:
+                //
                 $userMessages = $this->Pmsg->getInMessages($this->authUser['userid'], $this->page, $this->per_page);
                 $this->set('userMessages', $userMessages);
                 $this->render('im_full');
                 break;            
+            case 'in':
+                //вывод входящих сообщений (по умолчанию)
+            default:                
+                $userMessages = $this->Pmsg->getInMessages($this->authUser['userid'], $this->page, $this->per_page);
+                $this->set('userMessages', $userMessages);
+                $this->render('im_in');
+                break;                
         }
     }
 //------------------------------------------------------------------------------
