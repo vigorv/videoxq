@@ -1,10 +1,5 @@
-<div id="im_in_menu">
-<ul>
-			<li><a href="#" id="current" style="border-left: 1px solid #74ADE7;">Входящие</a></li>
-			<li><a href="#">Исходящие</a></li>
-			<li><a href="#">Написать сообщение</a></li>
-</ul>
-</div>
+<?//выводим меню для сообщений (водящие / исходящие / новое и т.п.)?>
+<?=(!$isAjax)? ($this->element($blocks_m_im)).'<div id="ins_ajax">':'';?>  
 <div id="im_in_full">
 <div id="im_in_avatar_full"><img src="http://videoxq.com/forum/image.php?u=113534&dateline=1317973359&type=thumb" />
 </div>
@@ -20,6 +15,6 @@
 <textarea cols="83" rows="10" style="border: 1px solid #888;">
 </textarea>
 <p><input type="submit" name="but" value="Ответить" id="im_in_but" />
-<input type="submit" name="but_2" value="Удалить сообщение" style="margin-left: 20px;" id="im_in_but" /></p>
 </div>
 </div>
+<?=(!$isAjax)? '</div>':'';?>  

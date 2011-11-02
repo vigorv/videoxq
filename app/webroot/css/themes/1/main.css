@@ -189,7 +189,7 @@ div.SmartFrame
     float:left;
 }
 
-.info_image{ width:48px; height:48px;display:block;}
+.info_image{ width:55px; height:48px;display:block;}
 .submenu a{ display:block;}
 /*navigation under TV*/
 #navigation_tv { width:830px; vertical-align: middle; padding-left: 55px;margin:-126px auto 80px; position: relative; z-index: 50;}
@@ -200,12 +200,13 @@ div.SmartFrame
 .currentTvIcon { opacity: 1;filter:progid:DXImageTransform.Microsoft.Alpha(opacity=100); }
 
 /*vxodyachue sms*/
-#im_in_menu { width: 300px; padding: 0; position: relative; height: 27px; margin: 0;}
-#im_in_menu ul {list-style:none;margin:0;padding:0; height: 31px;}
-#im_in_menu li {float:left; background-color: #fff; border: 1px solid #74ADE7;  border-left: 0; padding: 0;}
-#im_in_menu li a{color:#666666;display:block;font-weight:bold;line-height:23px;padding: 5px 3px 2px 3px;text-align:left;text-decoration:none;}
-#im_in_menu li a:hover{color:#000000;text-decoration:none; background-color: #E4E8FC;}
-#im_in_menu #current{color: #535353;  background-color: #CFD6F5;}
+
+#im_menu { width: 86%; padding: 0; position: relative; height: 38px; margin: 0;}
+#im_menu ul {list-style:none;margin:0;padding:0; height: 31px;}
+#im_menu li {float:left; background-color: #fff; border: 1px solid #74ADE7;  border-left: 0; padding: 0;}
+#im_menu li a{color:#666666;display:block;font-weight:bold;line-height:23px;padding: 5px 3px 2px 3px;text-align:left;text-decoration:none;}
+#im_menu li a:hover {color:#000000;text-decoration:none; background-color: #E4E8FC;}
+#im_menu .current{color: #535353;  background-color: #C0CFFA;}
 #im_in { width:85.5%; border: 1px solid #74ADE7; height: 435px; vertical-align: top;  margin:0; padding: 0;overflow-x:hidden;overflow: hidden;}
 #im_in_border { float:left; border-bottom: 1px solid #74ADE7;width:99%; height: 60px; vertical-align: top;  padding: 6px; }
 #im_in_border:hover { background: #EAF2FB;}
@@ -232,3 +233,14 @@ div.SmartFrame
 #im_in_short_text_full  {padding:5px; padding-bottom: 50px;}
 /*knopki*/
 #im_in_but {background-color: #D2D3F9; border: 0; cursor: pointer;}
+/*special for firefox*/
+@-moz-document url-prefix() {
+  #im_menu { width: 85.7%;}
+}
+
+#im_menu_nav{
+    float: left;
+}
+#im_menu_act{
+    float: right;
+}
