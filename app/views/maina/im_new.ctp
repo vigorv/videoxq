@@ -46,19 +46,9 @@ form label {
         //echo $form->create(null, array('url' => array('controller' => 'maina', 'action' => '', 'enctype' => 'multipart/form-data')));
         echo '<form action="/maina/im/new" method=post enctype="multipart/form-data">';
 ?>
-<<<<<<< HEAD
-<div id="im_in_menu">
-<ul>
-			<li><a href="/maina/im/in" style="border-left: 1px solid #74ADE7;">Входящие</a></li>
-			<li><a href="/maina/im/out">Исходящие</a></li>
-			<li><a href="#" id="current">Написать сообщение</a></li>
-</ul>
-</div>
-<div id="ins_ajax">
-=======
+
 <?//выводим меню для сообщений (водящие / исходящие / новое и т.п.)?>
 <?=(!$isAjax)? ($this->element($blocks_m_im)).'<div id="ins_ajax">':'';?>  
->>>>>>> 20db63fc8edb47cedcbe6b2aa785bfe7f434e5fa
     <fieldset>
          <legend>Новое сообщение</legend>
     <?php
@@ -68,8 +58,5 @@ form label {
     ?>
     </fieldset>
 <?php echo $form->end('Отправить');?>
-<<<<<<< HEAD
 </div>
-=======
-<?=(!$isAjax)? '</div>':'';?>  
->>>>>>> 20db63fc8edb47cedcbe6b2aa785bfe7f434e5fa
+<?=(!$isAjax)? '</div>':'';?>
