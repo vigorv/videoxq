@@ -17,4 +17,9 @@
 <p><input type="submit" name="but" value="Ответить" id="im_in_but" />
 </div>
 </div>
+<script langauge="javascript">
+jQuery(document).ready(function(){
+    var subact='<?=$sub_act;?>';
+});
+</script>
 <?=(!$isAjax)? '</div>':'';?>  

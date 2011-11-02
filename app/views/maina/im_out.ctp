@@ -96,4 +96,9 @@
 <div id="im_in_navigation_href"><a href="#"> 1</a><a href="#"> 2</a><a href="#"> 3</a><a href="#"> 4</a><a href="#"> 5</a>
 </div>
 </div>
+<script langauge="javascript">
+jQuery(document).ready(function(){
+    var subact='<?=$sub_act;?>';
+});
+</script>
 <?=(!$isAjax)? '</div>':'';?>  

@@ -13,14 +13,14 @@
     <li><a href="/maina/im/new"<?=($sub_act == 'new')? ' class="current"':''?>>Написать сообщение</a></li>
 </ul>
 <ul id="im_menu_act">   
-    <li style="float:right; margin-right: 1px;"><a href="/maina/im/inclear" id="im_clear">Очистить</a></li>
-    <li style="float:right;border-left: 1px solid #74ADE7;"><a href="/maina/im/in/del" id="im_del">Удалить выбранные</a></li>
+    <li style="float:right; margin-right: 1px;"><a href="#" id="clear">Очистить</a></li>
+    <li style="float:right;border-left: 1px solid #74ADE7;"><a href="#" id="del">Удалить выбранные</a></li>
 </ul>
 </div>
 
 <script langauge="javascript">
 jQuery(document).ready(function() {
-    
+    var subact='<?=$sub_act;?>';
     $('#im_menu_nav a').click(
     function(event){
         event.preventDefault();
@@ -52,6 +52,9 @@ jQuery(document).ready(function() {
         
     });
 
-
+    $('#clear').click(
+    function(event){
+        alert(subact);
+    });
 });
 </script>

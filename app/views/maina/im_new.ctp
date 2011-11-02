@@ -59,4 +59,9 @@ form label {
     </fieldset>
 <?php echo $form->end('Отправить');?>
 </div>
+<script langauge="javascript">
+jQuery(document).ready(function(){
+    var subact='<?=$sub_act;?>';
+});
+</script>
 <?=(!$isAjax)? '</div>':'';?>
