@@ -110,6 +110,11 @@
 				<div class="Frame_RightGradient">
 				</div>
 				<div class="Frame_Content">
+                                    <?php
+                                        //вывод служебных сообщений
+                                        if ($session->check('Message.flash'))
+                                            $session->flash();      
+                                    ?>
 					<?= $content_for_layout; ?>
                 </div>
 			</div>
