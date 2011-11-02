@@ -498,11 +498,14 @@ echo $hideJS;
     	}
     }
 //pr($dateArr);
-	$calendar->SetDay($info['News']['created']);
+	$calendar->SetDay(date('Y-m-d', strtotime($info['News']['created'])));
 	$calendar->SetCategory($dir_id);
     $calendar->_jsCode_array($dateArr);
     $calendar->ShowCalendar();
 ?>
                 <div id="calendarlite"></div>
+<?php
+                echo $BlockBanner->getBanner('news_left_1');
+?>
 				</div>
 			</div>
