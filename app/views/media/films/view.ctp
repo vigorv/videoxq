@@ -823,7 +823,7 @@ if (count($variant['FilmFile']) > 0)
 	        $action = 'delete';
 	    }
 	    if ($authUser['userid'] > 0):
-	        $panelContent .= $html->link($img, '/basket/' . $action . '/' . $variant['id'] . '/variant', array('onclick' => 'basket('.$variant['id'].', \'variant\', this);return false;','id' => 'variant_' . $variant['id'], 'alt' => __('Add to download list', true)), false, false);
+//	        $panelContent .= $html->link($img, '/basket/' . $action . '/' . $variant['id'] . '/variant', array('onclick' => 'basket('.$variant['id'].', \'variant\', this);return false;','id' => 'variant_' . $variant['id'], 'alt' => __('Add to download list', true)), false, false);
 	    endif;
 
 	    $panelContent .= '</td>
@@ -856,7 +856,7 @@ if (count($variant['FilmFile']) > 0)
 	        //$href = __('Available only to registered users', true);
 	    	$panelContent .= '
 	    	<tr>
-	        	<td class="action" style="padding-left:30px"></td>
+	        	<td class="action"></td>
 	        	<td class="size"></td>
 		        <td class="title">
 			';
@@ -876,19 +876,19 @@ if (count($variant['FilmFile']) > 0)
 	        $fileCnt++;
 	    	$panelContent .= '
 	    	<tr>
-	        	<td class="action" style="padding-left:30px">
+	        	<td class="action">
 			';
-
+/*
 	        if ($authUser['userid'] > 0):
 				$panelContent .= $html->link($img,
 	                               '/basket/'. $action .'/' . $file['id'] . '/file',
 	                                 array('onclick' => 'basket('.$file['id'].', \'file\', this);return false;',
 	                                       'id' => 'file_' . $variant['id'] . '_' . $file['id']),
 	                                 false, false);
-	        else:
+	        else: ;
 	            $panelContent .= '<img width="20" height="20" title="' . __('Add to download list', true) . ' (' . __('Available only to registered users', true) . ')" alt="' . __('Add to download list', true) . ' (' . __('Available only to registered users', true) . ')" src="/img/vusic/add.gif" />';
 	        endif;
-
+*/
 	        $panelContent .= '
 	        	</td>
 	        	<td class="size">' . $app->sizeFormat($file['size']) . '</td>
