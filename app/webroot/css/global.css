@@ -59,6 +59,7 @@ width: 60%;
 	background: #fff;
     text-align: justify;
     background: #f2f8fc;
+    min-height:380px;
 
 }
 #middle div.right-block {
