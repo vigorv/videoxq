@@ -158,7 +158,7 @@
 
                     </div>
                     <div id="navigation_tv">
-            <?php $tvIcons->AllIcons();$tvIcons->IconsShow(array("left","refresh","vid_list","vid_eskiz","right")); 
+            <?php $tvIcons->AllIcons();$tvIcons->IconsShow(array("left", "refresh", "number_6", "number_9", "number_12", "vid_list","vid_eskiz","right"));
             //<a href="#"><img src="/img/main/refresh.png" id="icon_refresh" alt="Обновить" /></a>
             //<a href="#" onclick="switchOn(this); return saveOption('Profile.itemsView', 'list');><img src="/img/main/list.png" class="icon_list" alt="Вид отображения: Список" /></a>
            // <a href="#" onclick="switchOn(this); return saveOption('Profile.itemsView', 'eskiz');"><img src="/img/main/eskiz.png" class="icon_eskiz" alt="Вид отображения: Эскизом" /></a>

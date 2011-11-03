@@ -13,8 +13,8 @@ $parent_menu;
                 <li><a href="/<?= $controller; ?>/friends"><img class="info_image" src="/img/main/<?=$theme_id;?>/friends_group.png" alt="Friends"/>Друзья</a></li>
                 <li><a href="/<?= $controller; ?>/userhistory"><img class="info_image" src="/img/main/<?=$theme_id;?>/history.png" alt="History"/>История</a></li>
                 <li><a href="/<?= $controller; ?>/favorites"><img class="info_image" src="/img/main/<?= $theme_id; ?>/favorite.png" alt="Favorite"/>Любимые</a></li>
-                <li><a href="/<?= $controller; ?>/userrequest"><img class="info_image" src="/img/main/<?=$theme_id;?>/request.png" alt="request"/>Заявки</a></li>
-                <li><a href="/<?= $controller; ?>/wishlist"><img class="info_image" src="/img/main/<?=$theme_id;?>/wishlist.png" alt="wishlist"/>Желания</a></li>
+                <!--<li><a href="/<?= $controller; ?>/userrequest"><img class="info_image" src="/img/main/<?=$theme_id;?>/request.png" alt="request"/>Заявки</a></li>
+                <li><a href="/<?= $controller; ?>/wishlist"><img class="info_image" src="/img/main/<?=$theme_id;?>/wishlist.png" alt="wishlist"/>Желания</a></li>-->
             </ul>
         </li>
         <li class="menu"><a <?if($parent_menu==1) echo $m_a_s;?> href="#">Фильмы</a>
