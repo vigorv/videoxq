@@ -72,8 +72,8 @@ class Publisher extends MediaModel {
         foreach ($companies as $company)
         {
             extract($company['companies']);
-            $Role = iconv('windows-1251', 'utf-8', $Role);
-            $save = array($this->name => array('title' => $Role, 'id' => $ID));
+            $Name = iconv('windows-1251', 'utf-8', $Name);
+            $save = array($this->name => array('title' => $Name, 'id' => $ID));
             $this->create();
             $this->save($save);
         }
