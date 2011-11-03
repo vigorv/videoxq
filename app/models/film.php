@@ -725,6 +725,218 @@ exit;
         $this->setDataSource($this->useDbConfig);
     }
 
+    function migrateByFilmList($ids)
+    {
+        App::import('Vendor', 'Utils');
+
+        //Utils::getMemoryReport();
+        $this->useDbConfig = 'migration';
+        $this->setDataSource($this->useDbConfig);
+
+        $limit = ' LIMIT %s, %s';
+        $page = 1;
+        $perPage = 100;
+        $idsSQL = ' IN (' . implode(',', $ids) . ')';
+        $sql = 'SELECT * FROM films WHERE ID ' . $idsSQL;
+        $query = $sql . sprintf($limit, $page - 1, $perPage);
+
+        //получаем фильмы пачками по 100 штук, чтобы не было проблем
+        //при большом кол-ве фильмов
+        while ($objects = $this->query($query))
+        {
+            foreach ($objects as $object)
+            {
+                $object = Utils::iconvRecursive($object);
+
+                extract($object['films']);
+                $ImdbRating = (float)$ImdbRating / 10;
+                $film = array('title' => $Name, 'id' => $ID, 'title_en' => $OriginalName,
+                              'description' => $Description, 'year' => $Year, 'active' => (!$Hide),
+                              'imdb_id' => $imdbID, 'imdb_rating' => $ImdbRating, 'created' => $timestamp, 'modified' => $timestamp);
+
+                $this->useDbConfig = 'migration';
+		        $this->setDataSource($this->useDbConfig);
+
+                $country = $this->query('select * from filmcountries where FilmID = ' . $ID);
+                $publisher = $this->query('select * from filmcompanies where FilmID = ' . $ID);
+                $genre = $this->query('select * from filmgenres where FilmID = ' . $ID);
+                $people = $this->query('select * from filmpersones LEFT JOIN roles ON (filmpersones.RoleID=roles.ID) where FilmID = ' . $ID);
+                $filmFiles = $this->query('select * from files where FilmID = ' . $ID);
+
+                //Utils::getMemoryReport();
+
+                $film['dir'] = basename(dirname($filmFiles[0]['files']['Path']));
+
+                $this->useDbConfig = $this->defaultConfig;
+		        $this->setDataSource($this->useDbConfig);
+
+                $country = array('Country' =>
+                           array('Country' => $this->getHabtm($country, 'filmcountries', array('country_id' => 'CountryID'))));
+                $publisher = array('Publisher' =>
+                             array('Publisher' => $this->getHabtm($publisher, 'filmcompanies', array('publisher_id' => 'CompanyID'))));
+                $genre = array('Genre' =>
+                         array('Genre' => $this->getHabtm($genre, 'filmgenres', array('genre_id' => 'GenreID'))));
+                $people = Utils::iconvRecursive($people);
+
+                $people = array('Person' =>
+                         array('Person' => $this->getHabtm($people, array ('filmpersones', 'roles'),
+                                           array('person_id' => 'PersonID', 'role' => 'RoleExt', 'profession_id' => 'RoleID'))));
+
+
+                $filmType = $this->FilmType->findByTitle($TypeOfMovie);
+                $film['film_type_id'] = $filmType['FilmType']['id'];
+
+                $this->FilmsPerson->deleteAll(array('film_id' => $ID));
+                $this->CountriesFilm->deleteAll(array('film_id' => $ID));
+                $this->FilmsPublisher->deleteAll(array('film_id' => $ID));
+                $this->FilmsGenre->deleteAll(array('film_id' => $ID));
+
+                $oldInfo = $this->read(array('Film.is_license'), $ID);
+                if (!empty($oldInfo))
+                {
+                	$film['is_license'] = $oldInfo['Film']['is_license'];//ИНАЧЕ ТЕРЯЕТСЯ ПРИ ОБНОВЛЕНИИ
+                }
+                else
+                {
+                	$film['active'] = 2;//НОВЫЕ СКРЫВАЕМ (ДЛЯ ПОСТЕПЕННОЙ ПУБЛИКАЦИИ В ПОСЛЕДУЮЩЕМ)
+                }
+                $save = am(array($this->name => $film), $country, $publisher, $genre, $people);
+
+                $this->create();
+                $this->save($save);
+//*
+
+//ПР�? МНОЖЕСТВЕННЫХ ОШ�?БКАХ ВО ВРЕМЯ М�?ГРАЦ�?�? БЛОК ЗАКОММЕНТ�?РОВАТЬ
+
+//ОБНОВЛЕН�?Е ДАННЫХ В СВЯЗАННОЙ ВЕТКЕ ФОРУМА
+            	if (!empty($save['Film']['thread_id']))
+            	{
+            		$save['FilmPicture'] = $this->FilmPicture->findAll(array('FilmPicture.film_id' => $save['Film']['id']), null, null, null, null, 0);
+            		$threadTxts = $this->getThreadText($save);
+
+            		$threadInfo = array('Thread' =>
+            			array(
+            				'threadid' => $save['Film']['thread_id'],
+							'title' => $threadTxts['title'],
+						)
+					);
+					$this->Thread->save($threadInfo);
+            		$post = $this->Thread->Vbpost->find(array('Vbpost.parentid' => 0, 'Vbpost.threadid' => $save['Film']['thread_id']), array('postid'), 'Vbpost.postid ASC');
+            		if ($post)
+            		{
+	            		$postInfo = array('Vbpost' =>
+	            			array(
+	            				'postid' => $post['Vbpost']['postid'],
+								'pagetext' => $threadTxts['text'],
+								'title' => $threadTxts['title'],
+							)
+						);
+						$result = $this->Thread->Vbpost->save($postInfo);//ОБНОВ�?Л�? ДАННЫЕ В ВЕТКЕ
+					}
+            	}
+//*/
+            	Cache::delete('Catalog.film_view_' . $ID, 'media');
+
+                $Poster = explode("\n", $Poster);
+                $SmallPoster = explode("\n", $SmallPoster);
+                $BigPosters = explode("\n", $BigPosters);
+                $Frames = explode("\n", $Frames);
+
+
+                $this->FilmPicture->deleteAll(array('film_id' => $ID));
+
+				$variant = $this->FilmVariant->find(array('FilmVariant.film_id' => $ID, array("OR" => array("FilmVariant.flag_catalog" => 0, "FilmVariant.flag_catalog IS NULL"))));
+//ВЫБОРКА ВЕРС�?Й Ф�?ЛЬМОВ, ВВЕДЕННЫХ ЧЕРЕЗ КАТАЛОГ
+				$catalogVariants = $this->FilmVariant->findAll(array('FilmVariant.film_id' => $ID, "FilmVariant.flag_catalog" => 1));
+				$catVarIds = array();
+				if (count($catalogVariants) > 0)
+				{
+//ОПРЕДЕЛ�?М МАСС�?В �?Д "каталожных" вариантов
+					foreach ($catalogVariants as $c)
+						$catVarIds[] = $c["FilmVariant"]["id"];
+				}
+				//УСЛОВ�?Е NOT IN ВЫГЛЯД�?Т ТАК
+				//"NOT" => array("FilmVariant.id" => $catVarIds)
+				$delFilmFileCondition = array('film_variant_id' => $variant['FilmVariant']['id']);
+                $delTrackCondition = array('film_variant_id' => $variant['FilmVariant']['id']);
+                $delFilmVariantCondition = array('film_id' => $ID);
+                if (!empty($catVarIds))
+                {
+					$delFilmFileCondition["NOT"] = array("FilmFile.film_variant_id" => $catVarIds);
+	                $delTrackCondition["NOT"] = array("Track.film_variant_id" => $catVarIds);
+	                $delFilmVariantCondition["NOT"] = array("FilmVariant.id" => $catVarIds);
+                }
+
+                $this->FilmVariant->FilmFile->deleteAll(
+                	$delFilmFileCondition
+                );
+                $this->FilmVariant->Track->deleteAll(
+					$delTrackCondition
+                );
+                $this->FilmVariant->deleteAll(
+                	$delFilmVariantCondition
+                );
+//END OF BLOCK 2
+//*/
+                $Runtime = implode(':', Utils::secs2hms($Runtime));
+                $this->FilmVariant->VideoType->recursive = -1;
+                $videoType = $this->FilmVariant->VideoType->findByTitle($Quality);
+                //pr($videoType);
+                $save = array('FilmVariant' => array('film_id' => $ID, 'video_type_id' => $videoType['VideoType']['id'],
+                                                     'resolution' => $Resolution, 'duration' => $Runtime, 'active' => (!$Hide)));
+                $this->FilmVariant->create();
+                $this->FilmVariant->save($save);
+                $this->FilmVariant->recursive = -1;
+                $filmVariant = $this->FilmVariant->read();
+
+                $translation = $this->FilmVariant->Track->Translation->findByTitle($Translation);
+
+                $this->FilmVariant->Track->Language->recursive = -1;
+                if ($translation['Translation']['title'] != 'На языке оригинала')
+                    $language = $this->FilmVariant->Track->Language->findByTitle($this->FilmVariant->Track->Language->languages[0]);
+                else
+                    $language = $this->FilmVariant->Track->Language->findByTitle($this->FilmVariant->Track->Language->languages[1]);
+
+                $save = array('Track' => array('film_variant_id' => $filmVariant['FilmVariant']['id'],
+                                               'translation_id' => $translation['Translation']['id'],
+                                               'language_id' => $language['Language']['id'],
+                                               'audio_info' => $AudioInfo));
+
+                $this->FilmVariant->Track->create();
+                $this->FilmVariant->Track->save($save);
+
+
+                $filmDir = '';
+                foreach ($filmFiles as $filmFile)
+                {
+                    extract($filmFile['files'], EXTR_PREFIX_ALL, 'file');
+                    $save = array('FilmFile' => array('film_variant_id' => $filmVariant['FilmVariant']['id'],
+                                                      'file_name' => basename($file_Path), 'md5' => $file_MD5,
+                                                      'size' => $file_Size, 'dcpp_link' => $file_dcppLink,
+                                                      'ed2k_link' => $file_ed2kLink, 'server_id' => 0));
+
+                    $this->FilmVariant->FilmFile->create();
+                    $this->FilmVariant->FilmFile->save($save);
+                }
+
+                //Utils::getMemoryReport();
+                $this->useDbConfig = 'migration';
+		        $this->setDataSource($this->useDbConfig);
+            }
+            //Utils::getMemoryReport();
+
+            $page++;
+            $query = $sql . sprintf($limit, ($page - 1) * $perPage, $perPage);
+            //die();
+	        //file_put_contents(APP . 'migration_film_pics.cmd', $picturesCmd);
+			//if ($page > 10) break; //ОСТАЛЬНОЕ ЧЕРЕЗ УСТАНОВКУ НОВОЙ ТОЧКИ (использовать, http://92.63.196.3/_hawk)
+			// И ОБНОВЛЕНИЯ ИНФЫ О ФИЛЬМАХ (использовать, http://92.63.196.3/_hawk/finddiff.php)
+        }
+
+        $this->useDbConfig = $this->defaultConfig;
+        $this->setDataSource($this->useDbConfig);
+    }
+
     public function getMaxFilmId()
     {
     	if (!$max= Cache::read('Catalog.film_max_id', 'searchres'))

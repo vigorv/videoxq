@@ -124,6 +124,28 @@ class UtilsController extends AppController
         $this->Person->migrate($date);
     }
 
+    function additionalByFilmList($ids)
+    {
+        ini_set('memory_limit', '1G');
+        $this->Country->migrateByFilmList($ids);
+        $this->Genre->migrateByFilmList($ids);
+        $this->Profession->migrateByFilmList($ids);
+        $this->Publisher->migrateByFilmList($ids);
+        $this->VideoType->migrateByFilmList($ids);
+    }
+
+    function filmsByFilmList($ids)
+    {
+        ini_set('memory_limit', '1G');
+        $this->Film->migrateByFilmList($ids);
+    }
+
+    function peopleByFilmList($ids)
+    {
+        ini_set('memory_limit', '1G');
+        $this->Person->migrateByFilmList($ids);
+    }
+
     function migrate()
     {
         ini_set('memory_limit', '2300M');
@@ -169,6 +191,63 @@ class UtilsController extends AppController
 		//system('wget -O ' . $_SERVER['DOCUMENT_ROOT'] . '/app/webroot/sitemap.xml http://www.videoxq.com/admin/media/sitemap');
 		//ОБНОВЛЕНИЕ rss.xml
 		system('wget -O ' . $_SERVER['DOCUMENT_ROOT'] . '/app/webroot/rss.xml http://www.videoxq.com/media/rsslist');
+    }
+
+    /**
+     * выполнить миграцию фильмов по списку ссылок
+     *
+     */
+    function migrate_byfilmlist()
+    {
+    	$this->layout = 'admin';
+		Configure::write('debug', 2);
+		if (empty($this->data))
+		{
+			//ВЫВОД ФОРМЫ
+		}
+		else
+		{
+	        ini_set('memory_limit', '2300M');
+	        set_time_limit(50000000000);
+
+			$ids = array(); //МАССИВ ИДЕНТИФИКАТОРОВ ФИЛЬМОВ ИЗ СПИСКА
+			if (!empty($this->data['lst']))
+			{
+		        $this->Film->recursive = 0;
+				$lst = preg_split('/[\r\n]+/', trim(str_replace('http://', "\n", strtolower($this->data['lst']))));
+				$allCnt = count($lst);
+				foreach ($lst as $l)
+				{
+					if (empty($l)) continue;
+					$matches = array();
+					if (preg_match('/\/media\/view\/([0-9]+)/', $l, $matches))
+					{
+						if (isset($matches[1]) && !empty($matches[1]))
+						{
+							if (in_array($matches[1], $ids))
+								continue;
+							$ids[] = $matches[1];
+						}
+					}
+				}
+			}
+
+			$this->set('allCnt', count($ids));//ОБЩЕЕ КОЛВО ССЫЛОК
+
+	        //УДАЛЕНИЕ СООБЩЕНИЯ О ЛИЦЕНЗИИ
+			system('wget http://www.videoxq.com/admin/utils/fix_license');
+
+	        $this->additionalByFilmList($ids);
+	        $this->peopleByFilmList($ids);
+	        $this->filmsByFilmList($ids);
+
+			cache::delete('Catalog.indexFilter', 'default');
+			cache::delete('Catalog.topFilms', 'default');
+			cache::delete('Catalog.filmStats', 'default');
+			cache::delete('Catalog.filmStatsLic', 'default');
+			cache::delete('Catalog.peopleIndex', 'default');
+			cache::clear(false, 'searchres');//СБРАСЫВАЕМ ВЕСЬ КЭШ ТК В НЕИ ХРАНИМ ПОСТРАНИЧНЫЕ И ПОИСКОВЫЕ РЕЗУЛЬТАТЫ
+		}
     }
 
 	function admin_banners()

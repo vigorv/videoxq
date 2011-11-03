@@ -45,6 +45,34 @@ class Genre extends MediaModel {
         }
     }
 
+	/**
+	 * обновить список жанров согласно списку фильмов
+	 *
+	 * @param mixed $ids - список идентификаторов фильмов для обновления
+	 */
+    function migrateByFilmList($ids)
+    {
+        set_time_limit(50000000000);
+        $this->useDbConfig = 'migration';
+
+        $idsSQL = ' IN (' . implode(',', $ids) . ')';
+        $sql = 'SELECT DISTINCT genres.* FROM genres INNER JOIN filmgenres ON (filmgenres.GenreID=genres.ID AND filmgenres.FilmID ' . $idsSQL . ')';
+        $genres = $this->query($sql);
+
+        $this->useDbConfig = $this->defaultConfig;
+
+        $this->cacheQueries = false;
+        foreach ($genres as $genre)
+        {
+            extract($genre['genres']);
+            $Name = iconv('windows-1251', 'utf-8', $Name);
+            $imdbGenre = iconv('windows-1251', 'utf-8', $imdbGenre);
+            $save = array($this->name => array('title' => $Name, 'title_imdb' => $imdbGenre, 'id' => $ID));
+            $this->create();
+            $this->save($save);
+        }
+    }
+
     /**
      * Получает список жанров с кол-вом фильмов
      *
