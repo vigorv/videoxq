@@ -1,5 +1,6 @@
 <?//выводим меню для сообщений (водящие / исходящие / новое и т.п.)?>
 <?=(!$isAjax)? ($this->element($blocks_m_im)).'<div id="ins_ajax">':'';?>  
+<?php if ($session->check('Message.flash'))$session->flash();?>
 <div id="im_in_full">
 <div id="im_in_avatar_full"><img src="http://videoxq.com/forum/image.php?u=113534&dateline=1317973359&type=thumb" />
 </div>
@@ -18,8 +19,15 @@
 </div>
 </div>
 <script langauge="javascript">
-jQuery(document).ready(function(){
-    var subact='<?=$sub_act;?>';
-});
+    subact='<?=$sub_act;?>';
+    $('#im_menu_act').fadeOut();
+
+   if ($('#flashMessage').length > 0 ){
+       var wp = $('#flashMessage').parent().width();
+       var wm = $('#flashMessage').width();
+       var xm = (wp/2 - wm/2) - 25 ;
+       $('#flashMessage').css('left', xm+'px').show();
+       $('#flashMessage').fadeOut(8000);
+   }
 </script>
 <?=(!$isAjax)? '</div>':'';?>  
