@@ -46,14 +46,6 @@ form label {
         //echo $form->create(null, array('url' => array('controller' => 'maina', 'action' => '', 'enctype' => 'multipart/form-data')));
         echo '<form id="im_new" action="/maina/im/new" method="post">';
 ?>
-
-
-<div id="im_in_menu">
-<ul>
-			<li><a href="/maina/im/in" style="border-left: 1px solid #74ADE7;">Входящие</a></li>
-			<li><a href="/maina/im/out">Исходящие</a></li>
-			<li><a href="#" id="current">Написать сообщение</a></li>
-</ul>
 </div>
 <div id="ins_ajax">
 <?//выводим меню для сообщений (водящие / исходящие / новое и т.п.)?>
@@ -69,7 +61,7 @@ form label {
     </fieldset>
 <?php echo $form->end('Отправить');?>
 </div>
-<script langauge="javascript">
+<script language="javascript">
     subact='<?=$sub_act;?>';
     $('#im_menu_act').fadeOut();
    if ($('#flashMessage').length > 0 ){
