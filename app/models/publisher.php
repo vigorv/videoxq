@@ -52,5 +52,31 @@ class Publisher extends MediaModel {
         }
     }
 
+	/**
+	 * обновить список издателей согласно списку фильмов
+	 *
+	 * @param mixed $ids - список идентификаторов фильмов для обновления
+	 */
+    function migrateByFilmList($ids)
+    {
+        set_time_limit(50000000000);
+        $this->useDbConfig = 'migration';
+
+        $idsSQL = ' IN (' . implode(',', $ids) . ')';
+        $sql = 'SELECT DISTINCT companies.* FROM companies INNER JOIN filmcompanies ON (filmcompanies.CompanyID=companies.ID AND filmcompanies.FilmID ' . $idsSQL . ')';
+        $companies = $this->query($sql);
+
+        $this->useDbConfig = $this->defaultConfig;
+
+        $this->cacheQueries = false;
+        foreach ($companies as $company)
+        {
+            extract($company['companies']);
+            $Role = iconv('windows-1251', 'utf-8', $Role);
+            $save = array($this->name => array('title' => $Role, 'id' => $ID));
+            $this->create();
+            $this->save($save);
+        }
+    }
 }
 ?>
