@@ -3,10 +3,10 @@
 <?php if ($session->check('Message.flash'))$session->flash();?>
 <div id="im_in">
 <?php
-for ($i=0;$i < sizeof($userSent);$i++)
+for ($i=0;$i < sizeof($messages);$i++)
 {
-$userSent[$i]["Pmsg"]["title"] = substr($userSent[$i]["Pmsg"]["title"], 0, 50);
-$userSent[$i]["Pmsg"]["message"] = substr($userSent[$i]["Pmsg"]["message"], 0, 80);
+$messages[$i]["Pmsg"]["title"] = substr($messages[$i]["Pmsg"]["title"], 0, 50);
+$messages[$i]["Pmsg"]["message"] = substr($messages[$i]["Pmsg"]["message"], 0, 80);
 printf('
 <div id="im_in_border">
 <div id="im_in_avatar"><img src="http://videoxq.com/forum/image.php?u=113534&dateline=1317973359&type=thumb" />
@@ -22,7 +22,7 @@ printf('
 <input type="checkbox" name="check" value="%s" />
 </div>
 </div>
-</div>', $userSent[$i]["Pmsg"]["fromusername"], $userSent[$i]["Pm"]["pmid"], $userSent[$i]["Pmsg"]["title"],$userSent[$i]["Pmsg"]["message"],$userSent[$i]["Pm"]["pmid"]);
+</div>', $messages[$i]["Pmsg"]["fromusername"], $messages[$i]["Pm"]["pmid"], $messages[$i]["Pmsg"]["title"],$messages[$i]["Pmsg"]["message"],$messages[$i]["Pm"]["pmid"]);
 }
 ?>
 </div>
