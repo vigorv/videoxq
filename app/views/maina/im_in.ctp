@@ -1,103 +1,42 @@
 <?//выводим меню для сообщений (водящие / исходящие / новое и т.п.)?>
 <?=(!$isAjax)? ($this->element($blocks_m_im)).'<div id="ins_ajax">':'';?>  
 <?php if ($session->check('Message.flash'))$session->flash();?>
-<div id="im_in">
-<div id="im_in_border">
-<div id="im_in_avatar"><img src="http://videoxq.com/forum/image.php?u=113534&dateline=1317973359&type=thumb" />
+<div class="im_in">
+<form name="msg_checks" method="POST">
+<?php
+if (sizeof($messages) == 0)
+{
+    echo "<p style='padding-top: 15px; text-align:center;'>У Вас нет входящих сообщений</p>";
+}
+for ($i=0;$i < sizeof($messages);$i++)
+{
+$messages[$i]["Pmsg"]["title"] = substr($messages[$i]["Pmsg"]["title"], 0, 50);
+$messages[$i]["Pmsg"]["message"] = substr($messages[$i]["Pmsg"]["message"], 0, 80);
+printf('
+<div class="im_in_border">
+<div class="im_in_avatar"><img src="http://videoxq.com/forum/image.php?u=113534&dateline=1317973359&type=thumb" />
 </div>
-<div id="im_in_login_time">
-<div id="im_in_login"><a href="#">Семен</a></div>
-<div id="im_in_time">31 октября в 10:20</div>
+<div class="im_in_login_time">
+<div class="im_in_login"><a href="#">%s</a></div>
+<div class="im_in_time">%s</div>
 </div>
-<div id="im_in_theme_text">
-<div id="im_in_theme">Привет</div>
-<div id="im_in_short_text"><a href="#">Знафывфыв фыв фывфы в фыв фывфывфывфыв фыв фыв фывфы ...</a></div>
-<div id="im_in_check_box">
-<input type="checkbox" name="check" value="1" />
-</div>
-</div>
-</div>
-<div id="im_in_border">
-<div id="im_in_avatar"><img src="http://videoxq.com/forum/image.php?u=113534&dateline=1317973359&type=thumb" />
-</div>
-<div id="im_in_login_time">
-<div id="im_in_login"><a href="#">Семен</a></div>
-<div id="im_in_time">31 октября в 10:20</div>
-</div>
-<div id="im_in_theme_text">
-<div id="im_in_theme">Привет</div>
-<div id="im_in_short_text"><a href="#">Знафывфыв фыв фывфы в фыв фывфывфывфыв фыв фыв фывфы ...</a></div>
-<div id="im_in_check_box">
-<input type="checkbox" name="check" value="1" />
+<div class="im_in_theme_text">
+<div class="im_in_theme">%s</div>
+<div class="im_in_short_text"><a href="/in_full/" id="%s">%s</a></div>
+<div class="im_in_check_box">
+<input type="checkbox" name="check" value="%s" />
 </div>
 </div>
+</div>', $messages[$i]["Pmsg"]["fromusername"], $messages[$i]["Pm"]["pmid"], $messages[$i]["Pmsg"]["title"],$messages[$i]["Pm"]["pmid"],$messages[$i]["Pmsg"]["message"],$messages[$i]["Pm"]["pmid"]);
+}
+?>
+</form>
 </div>
-<div id="im_in_border">
-<div id="im_in_avatar"><img src="http://videoxq.com/forum/image.php?u=113534&dateline=1317973359&type=thumb" />
-</div>
-<div id="im_in_login_time">
-<div id="im_in_login"><a href="#">Семен</a></div>
-<div id="im_in_time">31 октября в 10:20</div>
-</div>
-<div id="im_in_theme_text">
-<div id="im_in_theme">Привет</div>
-<div id="im_in_short_text"><a href="#">Знафывфыв фыв фывфы в фыв фывфывфывфыв фыв фыв фывфы ...</a></div>
-<div id="im_in_check_box">
-<input type="checkbox" name="check" value="1" />
+<div class="im_in_navigation">
+<div class="im_in_navigation_href"><a href="#"> 1</a><a href="#"> 2</a><a href="#"> 3</a><a href="#"> 4</a><a href="#"> 5</a>
 </div>
 </div>
-</div>
-<div id="im_in_border">
-<div id="im_in_avatar"><img src="http://videoxq.com/forum/image.php?u=113534&dateline=1317973359&type=thumb" />
-</div>
-<div id="im_in_login_time">
-<div id="im_in_login"><a href="#">Семен</a></div>
-<div id="im_in_time">31 октября в 10:20</div>
-</div>
-<div id="im_in_theme_text">
-<div id="im_in_theme">Привет</div>
-<div id="im_in_short_text"><a href="#">Знафывфыв фыв фывфы в фыв фывфывфывфыв фыв фыв фывфы ...</a></div>
-<div id="im_in_check_box">
-<input type="checkbox" name="check" value="1" />
-</div>
-</div>
-</div>
-<div id="im_in_border">
-<div id="im_in_avatar"><img src="http://videoxq.com/forum/image.php?u=113534&dateline=1317973359&type=thumb" />
-</div>
-<div id="im_in_login_time">
-<div id="im_in_login"><a href="#">Семен</a></div>
-<div id="im_in_time">31 октября в 10:20</div>
-</div>
-<div id="im_in_theme_text">
-<div id="im_in_theme">Привет</div>
-<div id="im_in_short_text"><a href="#">Знафывфыв фыв фывфы в фыв фывфывфывфыв фыв фыв фывфы ...</a></div>
-<div id="im_in_check_box">
-<input type="checkbox" name="check" value="1" />
-</div>
-</div>
-</div>
-<div id="im_in_border">
-<div id="im_in_avatar"><img src="http://videoxq.com/forum/image.php?u=113534&dateline=1317973359&type=thumb" />
-</div>
-<div id="im_in_login_time">
-<div id="im_in_login"><a href="#">Семен</a></div>
-<div id="im_in_time">31 октября в 10:20</div>
-</div>
-<div id="im_in_theme_text">
-<div id="im_in_theme">Привет</div>
-<div id="im_in_short_text"><a href="#">Знафывфыв фыв фывфы в фыв фывфывфывфыв фыв фыв фывфы ...</a></div>
-<div id="im_in_check_box">
-<input type="checkbox" name="check" value="1" />
-</div>
-</div>
-</div>
-</div>
-<div id="im_in_navigation">
-<div id="im_in_navigation_href"><a href="#"> 1</a><a href="#"> 2</a><a href="#"> 3</a><a href="#"> 4</a><a href="#"> 5</a>
-</div>
-</div>
-<script langauge="javascript">
+<script language="javascript">
     subact='<?=$sub_act;?>';
     $('#im_menu_act').fadeIn();
     

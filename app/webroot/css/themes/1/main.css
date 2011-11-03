@@ -213,32 +213,32 @@ div.SmartFrame
 #im_menu li a{color:#666666;display:block;font-weight:bold;line-height:23px;padding: 5px 3px 2px 3px;text-align:left;text-decoration:none;}
 #im_menu li a:hover {color:#000000;text-decoration:none; background-color: #E4E8FC;}
 #im_menu .current{color: #535353;  background-color: #C0CFFA;}
-#im_in { width:85.5%; border: 1px solid #74ADE7; height: 435px; vertical-align: top;  margin:0; padding: 0;overflow-x:hidden;overflow: hidden;}
-#im_in_border { float:left; border-bottom: 1px solid #74ADE7;width:99%; height: 60px; vertical-align: top;  padding: 6px; }
-#im_in_border:hover { background: #EAF2FB;}
-#im_in_avatar {float:left; width:50px; vertical-align: middle;height:50px; padding-left: 5px;}
-#im_in_login_time {float:left;height:50px;padding: 0 10px 0 10px; width:150px;}
-#im_in_login, #im_in_time {float:left;width:100%;text-align: center;}
-#im_in_theme, #im_in_short_text {float:left;width:90%;text-align: left;}
-#im_in_time { font-size: 9px; color: #5F5F5F;}
-#im_in_theme_text {float:left;height:50px;padding: 0 0 0 20px; width: 62%;}
-#im_in_check_box {float:left; width: 9%; vertical-align: middle; padding-left: 5px;}
-#im_in_navigation {width: 550px; margin: 7px auto;   background-image: url('/img/im_in_nav.png'); background-repeat: no-repeat;}
-#im_in_navigation_href {padding-left:195px;}
+.im_in { width:85.5%; border: 1px solid #74ADE7; height: 435px; vertical-align: top;  margin:0; padding: 0;overflow-x:hidden;overflow: hidden;}
+.im_in_border { float:left; border-bottom: 1px solid #74ADE7;width:99%; height: 60px; vertical-align: top;  padding: 6px; }
+.im_in_border:hover { background: #EAF2FB;}
+.im_in_avatar {float:left; width:50px; vertical-align: middle;height:50px; padding-left: 5px;}
+.im_in_login_time {float:left;height:50px;padding: 0 10px 0 10px; width:150px;}
+.im_in_login, .im_in_time {float:left;width:100%;text-align: center;}
+.im_in_theme, .im_in_short_text {float:left;width:90%;text-align: left;}
+.im_in_time { font-size: 9px; color: #5F5F5F;}
+.im_in_theme_text {float:left;height:50px;padding: 0 0 0 20px; width: 62%;}
+.im_in_check_box {float:left; width: 9%; vertical-align: middle; padding-left: 5px;}
+.im_in_navigation {width: 550px; margin: 7px auto;   background-image: url('/img/im_in_nav.png'); background-repeat: no-repeat;}
+.im_in_navigation_href {padding-left:195px;}
 
 /*polnaya novost*/
-#im_in_full {width:82%; border: 1px solid #74ADE7; height: 430px; vertical-align: top;  margin:0; padding: 10px;overflow-x:hidden;overflow: hidden;}
-#im_in_full_forma {float:left; width: 100%;}
-#im_in_login_time_full {float:left;height:50px; width:85%;}
-#im_in_time_full { font-size: 8px; padding-left: 8px;}
-#im_in_login_full, #im_in_time_full {float:left;width:100%;text-align: center; }
-#im_in_login_full {border-bottom: 1px solid #ccc; padding-left: 10px;}
-#im_in_avatar_full {float:left; width:70px; vertical-align: middle;height:70px; padding-left: 5px;}
-#im_in_theme_full {clear:right;}
-#im_in_theme_full, #im_in_short_text_full {float:left;width:98%;text-align: left;}
-#im_in_short_text_full  {padding:5px; padding-bottom: 50px;}
+.im_in_full {width:82%; border: 1px solid #74ADE7; height: 430px; vertical-align: top;  margin:0; padding: 10px;overflow-x:hidden;overflow: hidden;}
+.im_in_full_forma {float:left; width: 100%;}
+.im_in_login_time_full {float:left;height:50px; width:85%;}
+.im_in_time_full { font-size: 8px; padding-left: 8px;}
+.im_in_login_full, .im_in_time_full {float:left;width:100%;text-align: center; }
+.im_in_login_full {border-bottom: 1px solid #ccc; padding-left: 10px;}
+.im_in_avatar_full {float:left; width:70px; vertical-align: middle;height:70px; padding-left: 5px;}
+.im_in_theme_full {clear:right;}
+.im_in_theme_full, .im_in_short_text_full {float:left;width:98%;text-align: left;}
+.im_in_short_text_full  {padding:5px; padding-bottom: 50px;}
 /*knopki*/
-#im_in_but {background-color: #D2D3F9; border: 0; cursor: pointer;}
+.im_in_but {background-color: #D2D3F9; border: 0; cursor: pointer;}
 /*special for firefox*/
 @-moz-document url-prefix() {
   #im_menu { width: 85.7%;}
