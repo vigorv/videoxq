@@ -8647,7 +8647,6 @@ msgstr "Вы можете попробовать найти то, что вы и
 
 msgid "Click for full version of site"
 msgstr "Перейти на полную версию сайта"
-
 msgid "You can also search"
 msgstr "Вы также можете поискать"
 
