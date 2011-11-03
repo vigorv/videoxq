@@ -12,7 +12,8 @@ class TvIconsHelper extends AppHelper {
         "vid_list" => array("name" => "vid_list", "title" => "Вид отображения: Списком", "path" => "/img/main/list.png", "id" => "icon_list", "style" => "", "event" => "onclick='switchOn(this); return saveOption(\"Profile.itemsView\", \"list\");'" ),
         "number_6" => array("name" => "number_6", "title" => "Вид отображения: По шесть", "path" => "/img/main/number_6.png", "id" => "icon_number6", "style" => "", "event" => "onclick='switchOn(this); return saveOption(\"Profile.itemsPerPage\", \"6\");'"),
         "number_9" => array("name" => "number_9", "title" => "Вид отображения: По девять", "path" => "/img/main/number_9.png", "id" => "icon_number9", "style" => "", "event" => "onclick='switchOn(this); return saveOption(\"Profile.itemsPerPage\", \"9\");'"),
-        "number_12" => array("name" => "number_12", "title" => "Вид отображения: По двенадцать", "path" => "/img/main/number_12.png", "id" => "icon_number12", "style" => "", "event" => "onclick='switchOn(this); return saveOption(\"Profile.itemsPerPage\", \"12\");'")
+        "number_12" => array("name" => "number_12", "title" => "Вид отображения: По двенадцать", "path" => "/img/main/number_12.png", "id" => "icon_number12", "style" => "", "event" => "onclick='switchOn(this); return saveOption(\"Profile.itemsPerPage\", \"12\");'"),
+        "number_24" => array("name" => "number_24", "title" => "Вид отображения: По двадцать четыре", "path" => "/img/main/number_24.png", "id" => "icon_number24", "style" => "", "event" => "onclick='switchOn(this); return saveOption(\"Profile.itemsPerPage\", \"24\");'")
         );
     }
     
@@ -55,6 +56,10 @@ class TvIconsHelper extends AppHelper {
         if ($name[$i] == 'number_12')
         {
             echo "<a href='#' ".$this->icons['number_12']['event']."><img src='".$this->icons['number_12']['path']."' alt='".$this->icons['number_12']['title']."' class='".$this->icons['number_12']['id']."'  /></a>";
+        }
+        if ($name[$i] == 'number_24')
+        {
+            echo "<a href='#' ".$this->icons['number_24']['event']."><img src='".$this->icons['number_24']['path']."' alt='".$this->icons['number_24']['title']."' class='".$this->icons['number_24']['id']."'  /></a>";
         }
         }
 }
