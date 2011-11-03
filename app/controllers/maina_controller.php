@@ -261,7 +261,7 @@ exit;
             
             case 'fulldel':
                 //удаление текущего сообщения
-                
+                $this->Pmsg->delInMessages($this->authUser['userid'],$msg_id_arr);
                 //вывод полного выбранного содержимого сообщения
                 $messages = $this->Pmsg->getInMessages($this->authUser['userid'], $this->page, $this->per_page);
                 $this->set('messages', $messages);
@@ -271,31 +271,31 @@ exit;
             
             case 'indel':
                 //удаление входящих сообщений
-
+                $this->Pmsg->delInMessages($this->authUser['userid'],$msg_id_arr);
                 //выводим страницу входящих сообщений
                 $sub_act = 'in';
                 $this->set('sub_act', $sub_act);
-                $userMessages = $this->Pmsg->getInMessages($this->authUser['userid'], $this->page, $this->per_page);
-                $this->set('userMessages', $userMessages);
+                $messages = $this->Pmsg->getInMessages($this->authUser['userid'], $this->page, $this->per_page);
+                $this->set('messages', $messages);
                 $this->Session->setFlash('Указанные входящие сообщения удалены', true);
                 $this->render('im_in');                
                 break;
             
             case 'inclear':
                 //удаление всех входящих сообщений
-                
+                $this->Pmsg->delAllInMessages($this->authUser['userid']);
                 //выводим страницу входящих сообщений
                 $sub_act = 'in';
                 $this->set('sub_act', $sub_act);
-                $userMessages = $this->Pmsg->getInMessages($this->authUser['userid'], $this->page, $this->per_page);
-                $this->set('userMessages', $userMessages);
+                $messages = $this->Pmsg->getInMessages($this->authUser['userid'], $this->page, $this->per_page);
+                $this->set('messages', $messages);
                 $this->Session->setFlash('Все входящие сообщения удалены', true);
                 $this->render('im_in');
                 break;            
             
             case 'outdel':
                 //удаление исходящих сообщений
-                
+                $this->Pmsg->delOutMessages($this->authUser['userid'],$msg_id_arr);
                 //выводим страницу исходящих сообщений
                 $sub_act = 'out';
                 $this->set('sub_act', $sub_act);
@@ -307,7 +307,7 @@ exit;
             
             case 'outclear':
                 //удаление всех исходящих сообщений
-                
+                $this->Pmsg->delAllOutMessages($this->authUser['userid'],$msg_id_arr);
                 //выводим страницу исходящих сообщений
                 $sub_act = 'out';
                 $this->set('sub_act', $sub_act);
