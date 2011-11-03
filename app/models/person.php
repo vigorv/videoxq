@@ -317,8 +317,6 @@ class Person extends MediaModel {
                     if (empty($image))
                         continue;
 
-                    $picturesCmd .= $picturesFrom . $image . '" ' . $picturesTo . $image . "\"\r\n";
-
                     $values[] = '(\'' . $image . '\', \'' . $ID . '\')';
                 }
                 if (!empty($values))
