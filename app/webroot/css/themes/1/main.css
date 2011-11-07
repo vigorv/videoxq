@@ -62,7 +62,7 @@ div.SmartFrame
 		}
 		div.Frame_Content
 		{
-		width:85.9%;
+		width:85.5%;
         height: 500px;
         margin-left: 40px;
         text-align: justify;
@@ -152,7 +152,7 @@ div.SmartFrame
     margin:0;
     top:0;
     position:relative;
-    background-image:url('/img/main/1/block_top.png');
+    background-image:url('/img/main/mainmenu.gif');
     background-repeat:repeat-x;
     height:65px;
     width:100%
@@ -212,7 +212,7 @@ div.SmartFrame
 
 /*vxodyachue sms*/
 
-#im_menu { width: 100%; padding: 0; position: relative; height: 38px; margin: 0;}
+#im_menu { width: 100.3%; padding: 0; position: relative; height: 38px; margin: 0;}
 #im_menu ul {list-style:none;margin:0;padding:0; height: 31px;}
 #im_menu li {float:left; background-color: #fff; border: 1px solid #74ADE7;  border-left: 0; padding: 0;}
 #im_menu li a{color:#666666;display:block;font-weight:bold;line-height:23px;padding: 5px 3px 2px 3px;text-align:left;text-decoration:none;}
@@ -224,10 +224,10 @@ div.SmartFrame
 .im_in_avatar {float:left; width:50px; vertical-align: middle;height:50px; padding-left: 5px;}
 .im_in_login_time {float:left;height:50px;padding: 0 10px 0 10px; width:150px;}
 .im_in_login, .im_in_time {float:left;width:100%;text-align: center;}
-.im_in_theme, .im_in_short_text {float:left;width:90%;text-align: left;}
+.im_in_theme, .im_in_short_text {float:left;width:87%;text-align: left;}
 .im_in_time { font-size: 9px; color: #5F5F5F;}
 .im_in_theme_text {float:left;height:50px;padding: 0 0 0 20px; width: 62%;}
-.im_in_check_box {float:left; width: 9%; vertical-align: middle; padding-left: 5px;}
+.im_in_check_box {float:left; width: 7%; vertical-align: middle; padding-left: 5px;}
 .im_in_navigation {width: 550px; margin: 7px auto;   background-image: url('/img/im_in_nav.png'); background-repeat: no-repeat;}
 .im_in_navigation_href {padding-left:255px;}
 
@@ -244,10 +244,6 @@ div.SmartFrame
 .im_in_short_text_full  {padding:5px; padding-bottom: 50px;}
 /*knopki*/
 .im_in_but {background-color: #D2D3F9; border: 0; cursor: pointer;}
-/*special for firefox*/
-@-moz-document url-prefix() {
-  #im_menu { width: 85.7%;}
-}
 
 #im_menu_nav{
     float: left;
