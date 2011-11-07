@@ -228,9 +228,12 @@ div.SmartFrame
 .im_in_time { font-size: 9px; color: #5F5F5F;}
 .im_in_theme_text {float:left;height:50px;padding: 0 0 0 20px; width: 62%;}
 .im_in_check_box {float:left; width: 7%; vertical-align: middle; padding-left: 5px;}
-.im_in_navigation {width:100%;}
-.im_in_nav_img {width: 400px; margin: 7px auto;   background-image: url('/img/im_in_nav.png'); background-repeat: no-repeat;}
-.im_in_navigation_href {padding-left:180px;}
+
+.im_pagination {width:100%;}
+.im_nav_img {width: 400px; margin: 7px auto;   background-image: url('/img/im_in_nav.png'); background-repeat: no-repeat;}
+.im_pagination_href {padding-left:180px;}
+.im_pagination_href a {padding: 0 3px;}
+.im_pagination_href a.current {background-color: #fff; }
 
 /*polnaya novost*/
 .im_in_full {width:82%; border: 1px solid #74ADE7; height: 430px; vertical-align: top;  margin:0; padding: 10px;overflow-x:hidden;overflow: hidden;}
