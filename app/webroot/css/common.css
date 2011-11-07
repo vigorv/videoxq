@@ -329,7 +329,7 @@ li.search .adv2 { display: none; }
 .movies .moviePreviewWrapper p span { font-size:1.08em; display:block; margin:4px 0 4px 0; padding-left:7px; position:relative; left:-7px }
 .movies .moviePreviewWrapper p span i { margin:0 0 0 -7px; font-style:normal }
 .movies .moviePreviewWrapper p span strong { font-weight:normal; color:#0066ff; text-decoration:underline }
-.movies {width:950px;}
+.movies {width:100%; overflow: auto; height: 460px;}
 /*vid listom v TV*/
 /*left stolb*/
 .movies_l .moviePreviewWrapper_list .poster .knopki { padding-top:5px; float: left; height:20px; width: 80px;}
