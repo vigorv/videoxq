@@ -32,10 +32,21 @@ printf('
 ?>
 </form>
 </div>
-<div class="im_in_navigation">
-<div class="im_in_navigation_href"><a href="#"> 1</a><a href="#"> 2</a><a href="#"> 3</a><a href="#"> 4</a><a href="#"> 5</a>
+<?php
+if (!empty($im_pagination) && $im_pagination['page_count']>1){
+?>
+<div class="im_pagination">
+    <div class="im_pagination_href">
+    <?php
+        for($n=1; $n<=$im_pagination['page_count']; $n++){
+            echo '<a href="/maina/im/'.$sub_act.'/page:'.$n.'">'.$n.'</a>';
+        }
+    ?>
+    </div>
 </div>
-</div>
+<?php
+}
+?>
 <script language="javascript">
     subact='<?=$sub_act;?>';
     $('#im_menu_act').fadeIn();

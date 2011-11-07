@@ -47,6 +47,7 @@ jQuery(document).ready(function() {
     $('#clear').click(
         function(event){
             event.preventDefault();
+            if (!confirm('Вы точно хотите очистить сообщения?')) {return false;}
             var link = $(this).attr("href");
             if (subact=='in' || subact == 'out'){
                 $('#ins_ajax').fadeOut(555, function(){
@@ -62,9 +63,21 @@ jQuery(document).ready(function() {
             }
             return false;
         });
+        
     $('#del').click(
         function(event){
             event.preventDefault();
+            if (!confirm('Вы точно хотите удалить выбранные сообщения?')) {return false;}
+            var array_values = [];
+            $('.im_in_check_box input[type=checkbox]').each( function() {
+                if (this.checked){
+                    //alert ($(this).val());
+                    array_values.push( $(this).val() );
+                }
+            });
+
+            var arrayValues = array_values.join(',');
+           
             var link = $(this).attr("href");
             if (subact=='in' || subact == 'out'){
                 $('#ins_ajax').fadeOut(555, function(){
@@ -73,14 +86,12 @@ jQuery(document).ready(function() {
                     y = y + ($('#ajax_loader_icon').height())/2;
                     $('#ajax_loader_icon').attr("style","display: block; position: absolute; left: "+x+"px; top:"+y+"px");
                     $(this).fadeIn(555);
-                    link = link + '/' + subact +'del';
-                    
-                    $(this).load(link,'ajax',function(){});
+                    link = link + subact +'del';
+                    $(this).load(link, { 'msg_id_list': array_values },function(){});
                 });
             }
             return false;
         });
-
 
 });
 </script>
