@@ -13,7 +13,7 @@
     <li><a href="/maina/im/new"<?=($sub_act == 'new')? ' class="current"':''?>>Написать сообщение</a></li>
 </ul>
 <ul id="im_menu_act">   
-    <li style="float:right; margin-right: 1px;"><a href="/maina/im/" id="clear">Очистить</a></li>
+    <li style="float:right;"><a href="/maina/im/" id="clear">Очистить</a></li>
     <li style="float:right;border-left: 1px solid #74ADE7;"><a href="/maina/im/" id="del">Удалить выбранные</a></li>
 </ul>
 </div>
