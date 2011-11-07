@@ -39,7 +39,18 @@ if (!empty($im_pagination) && $im_pagination['page_count']>1){
     <div class="im_pagination_href">
     <?php
         for($n=1; $n<=$im_pagination['page_count']; $n++){
-            echo '<a href="/maina/im/'.$sub_act.'/page:'.$n.'">'.$n.'</a>';
+            //если текущая страница, то соотвественно выделим ее ссылку в 
+            //пагинации
+            if ($im_pagination['page'] == $n){
+                $href = '#';
+                $class = ' class="current"';
+            }
+            else{
+                $href = '/maina/im/'.$sub_act.'/page:'.$n;
+                $class = '';
+            }
+
+            echo '<a href="'.$href.'"'.$class.'>'.$n.'</a>';
         }
     ?>
     </div>
