@@ -168,16 +168,75 @@ class Pmsg extends AppModel {
 		$Pm->save($info);
 	}
         
-        
+	/**
+	 * получение полных данных сообщения с pmid=$pmId, для пользователя с 
+         * id = $userid 
+	 *
+	 * @param int $pmId - идентификатор личного сообщения
+         * @param int $userid  - идентификатор пользователя
+         * 
+         * return mixed $data
+	 */        
+        public function getMessageFull($userId=0, $pmId=0){
+            $sql = '
+                    SELECT Pm.pmid, Pm.messageread, Pmsg.message, Pmsg.title, Pmsg.fromusername FROM pmtext AS Pmsg
+                            INNER JOIN pm AS Pm ON (Pm.pmtextid = Pmsg.pmtextid AND Pm.userid = ' . $userId . ' AND Pm.pmid = ' . $pmId . ')
+                            LIMIT 1
+            ';
+            $result = $this->query($sql);
+            return $result;            
+        }
+
+	/**
+	 * Удаление списка исходящих сообщений , пользователя с id = $userid 
+	 *
+	 * @param int $msg_id_arr - массив идентификаторо личных сообщений
+         * @param int $userid  - идентификатор пользователя
+         * 
+         * return boolean $result
+	 */         
         public function delOutMessages($userid=0, $msg_id_arr=array()){
             return true;
         }
+	/**
+	 * Удаление сообщения , для пользователя с id = $userid 
+	 *
+	 * @param int $msgid - массив идентификаторо личных сообщений
+         * @param int $userid  - идентификатор пользователя
+         * 
+         * return boolean $result
+	 */                 
+        public function delMessage($userid=0, $msgid=0){
+            return true;
+        }                
+	/**
+	 * Удаление списка входящих сообщений , для пользователя с id = $userid 
+	 *
+	 * @param int $msg_id_arr - массив идентификаторо личных сообщений
+         * @param int $userid  - идентификатор пользователя
+         * 
+         * return boolean $result
+	 */                 
         public function delInMessages($userid=0, $msg_id_arr=array()){
             return true;
         }        
+	/**
+	 * Удаление всех исходящих сообщений , пользователя с id = $userid 
+	 *
+         * @param int $userid  - идентификатор пользователя
+         * 
+         * return boolean $result
+	 */                         
         public function delAllOutMessages($userid=0){
             return true;
         }
+	/**
+	 * Удаление всех входящих сообщений , для пользователя с id = $userid 
+	 *
+         * @param int $userid  - идентификатор пользователя
+         * 
+         * return boolean $result
+	 */                                 
         public function delAllInMessages($userid=0){
             return true;
         }        
