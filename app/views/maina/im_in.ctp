@@ -32,10 +32,7 @@ printf('
 ?>
 </form>
 </div>
-<div class="im_in_navigation">
-<div class="im_in_navigation_href"><a href="#"> 1</a><a href="#"> 2</a><a href="#"> 3</a><a href="#"> 4</a><a href="#"> 5</a>
-</div>
-</div>
+<?php include "navigation_page.ctp"; ?>
 <script language="javascript">
     subact='<?=$sub_act;?>';
     $('#im_menu_act').fadeIn();
