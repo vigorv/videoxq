@@ -69,6 +69,26 @@ if (!empty($im_pagination) && $im_pagination['page_count']>1){
        $('#flashMessage').css('left', xm+'px').show();
        $('#flashMessage').fadeOut(8000);
    }
-    
+
+    $('.im_pagination_href a').click(
+    function(event){
+        event.preventDefault();
+        var link = $(this).attr("href");
+        $(this).parent().parent().find("a").removeClass("current");
+        $(this).addClass("current");
+        
+        if (link!='#') {
+            $('#ins_ajax').fadeOut(555, function(){
+                $(this).html('<img id="ajax_loader_icon" src="/img/ajax-loader.gif">');
+                x = x + ($('#ajax_loader_icon').width())/2;
+                y = y + ($('#ajax_loader_icon').height())/2;
+                $('#ajax_loader_icon').attr("style","display: block; position: absolute; left: "+x+"px; top:"+y+"px");
+                $(this).fadeIn(555);
+                $(this).load(link,'ajax',function(){});
+            });
+        }
+        return false;
+    });
+
 </script>
 <?=(!$isAjax)? '</div>':'';?>
