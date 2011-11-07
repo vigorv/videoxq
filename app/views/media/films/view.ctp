@@ -1,4 +1,36 @@
 <?php
+    extract($film);
+/*
+//РОССИЯ СТК
+$isWS = true;
+$allowDownload = $isWS;
+$geoIsGood = true;
+//*/
+
+/*
+//РОССИЯ ВНЕШНИЕ
+$isWS = false;
+$allowDownload = $isWS;
+$geoIsGood = true;
+//*/
+
+if ($isWS)
+{
+	$geoIsGood = true;
+}
+
+if (($geoIsGood) && ($Film['is_license']) && ($authUser['userid']))
+{
+	$isWS = true;
+}
+/*
+//ЗАРУБЕЖНЫЕ
+$isWS = false;
+$allowDownload = $isWS;
+$geoIsGood = false;
+//*/
+//$isWS = false;
+
 function msgBox($txt)
 {
 	return '
@@ -69,7 +101,6 @@ echo'</pre>';
     $html->css('fancybox-1.3.4/jquery.fancybox-1.3.4', null, array(), false);
 
     $posterTitle = '';
-    extract($film);
     $posters = Set::extract('/FilmPicture[type=poster]/.', $film);
     $bigposters = Set::extract('/FilmPicture[type=bigposter]/.', $film);
 
@@ -257,35 +288,71 @@ echo'</pre>';
     		echo $Film['title'];
     ?>»
 <?php
+//ИКОНКИ НА СКАЧИВАНИЕ И НА ОНЛАЙН-ПРОСМОТР
+
+	$totalFilesCnt = 0;
+	$firstFileId = 0;
+	$firstFileName = '';
+	$totalLinksCnt = 0;
+	$firstLink = '';
+	$neededVideoType = 2; //gjrf пока интересует только DVD-качество
+	foreach ($FilmVariant as $variant)//ПОДСЧЕТ КОЛ-ВА ССЫЛОК НА ФАЙЛЫ
+	{
+		if ($variant['video_type_id'] != $neededVideoType)
+			continue;
+
+		if (!empty($variant['FilmFile']))
+		{
+			foreach ($variant['FilmFile'] as $file)
+			{
+				$firstFileId = $file['id'];
+				$firstFileName = $file['file_name'];
+				$totalFilesCnt++;
+			}
+		}
+
+		if (!empty($variant['FilmLink']))
+		{
+			foreach ($variant['FilmLink'] as $link)
+			{
+				$firstLink = $link['link'];
+				$totalLinksCnt++;
+			}
+		}
+	}
+
+	$downloadHref = 'href="#panels"';
+	$viewHref = 'href="#panels"';
 	if ($Film['is_license'])
 	{
-		$downloadHref = 'href="#panels"';
-		$viewHref = 'href="#panels"';
+		if ($totalFilesCnt == 1)
+		{
+			$downloadHref = 'target="_blank" href="' . Film::set_input_server($Film['dir']).'/' . $firstFileName . '"';
+			$viewHref = 'rel="video" href="#video' . $firstFileId . '"';
+		}
 	}
 	else
 	{
 		if ($isWS)
 		{
-			echo '
-				<script type="text/javascript">
-				<!--
-					function loadmeta(id, tid)
-					{
-						$.get("' . Configure::read('App.webShare') . 'catalog/meta/" + id + "/" + tid + "/1");
-						alert(1);
-						return false;
-					}
-				-->
-				</script>
-			';
-			$downloadHref = 'target="_blank" href="' . Configure::read('App.webShare') . 'catalog/meta/' . $Film['id'] . '/2/1"';//2 - ПОКА ПРИНУДИТЕЛЬНО ИЩЕМ ТОЛЬКО ДВД-качество
-			$viewHref = 'target="_blank" href="' . Configure::read('App.webShare') . 'catalog/play/' . $Film['id'] . '"';
+			if ($totalLinksCnt == 1)
+			{
+				//ДЛЯ ВСЕХ ФАЙЛОВ $downloadHref = 'target="_blank" href="' . Configure::read('App.webShare') . 'catalog/meta/' . $Film['id'] . '/2/1"';//2 - ПОКА ПРИНУДИТЕЛЬНО ИЩЕМ ТОЛЬКО ДВД-качество
+				$downloadHref = 'target="_blank" href="' . $firstLink . '"';
+				$viewHref = 'target="_blank" href="' . Configure::read('App.webShare') . 'catalog/play/' . $Film['id'] . '/' . $neededVideoType . '/1"';
+			}
 		}
 		else
 		{
 			$downloadHref = '';
 			$viewHref = '';
 		}
+	}
+
+	if (!$geoIsGood)
+	{
+		$downloadHref = '';
+		$viewHref = '';
 	}
 
 	if (!empty($downloadHref))
@@ -548,37 +615,6 @@ if (!empty($similars))
 	$faqLink = ' &nbsp;<span style="font-size:25px"><a alt="' . __('How to download?', true) . '" title="' . __('How to download?', true) . '" href="/pages/faq#download">&nbsp;?&nbsp;</a></span>';
 	$yandexLink = '<h3 style="margin-top:12px;"><a target="_blank" href="/media/lite/' . $Film['id'] . '" title="' . __('Download Movie', true) . '">"' . $Film['title' . $langFix] . '" ' . __('download', true) . ' &raquo;</a>' . $faqLink . '</h3>';
 
-/*
-//РОССИЯ СТК
-$isWS = true;
-$allowDownload = $isWS;
-$geoIsGood = true;
-//*/
-
-/*
-//РОССИЯ ВНЕШНИЕ
-$isWS = false;
-$allowDownload = $isWS;
-$geoIsGood = true;
-//*/
-
-if ($isWS)
-{
-	$geoIsGood = true;
-}
-
-if (($geoIsGood) && ($Film['is_license']) && ($authUser['userid']))
-{
-	$isWS = true;
-}
-/*
-//ЗАРУБЕЖНЫЕ
-$isWS = false;
-$allowDownload = $isWS;
-$geoIsGood = false;
-//*/
-
-//$isWS = false;
 if ($isWS)
 	{
 /*
@@ -597,7 +633,7 @@ if ($geoIsGood)
 $language		= ''; //на случай неустановленной информации о трэке
 $translation	= ''; //на случай неустановленной информации о трэке
 $audio_info		= ''; //на случай неустановленной информации о трэке
-$divxContent	= '';
+//$divxContent	= '';
 
 $FilmVariant[] = array('video_type_id' => 9);
 $FilmVariant[] = array('video_type_id' => 2);
@@ -660,7 +696,7 @@ foreach ($FilmVariant as $variant)
 	}
 
 	$mediaInfo .= '</h4>';
-
+/*
 		if (!empty($authUser['userid']))
 		{
 			if ($isVip || $isWS) //ДЛЯ ВИПОВ ВВОДИМ УПРАВЛЕНИЕ ВИДИМОСТЬЮ ПЛЕЕРА
@@ -676,7 +712,9 @@ foreach ($FilmVariant as $variant)
 				}
 			}
 		}
+*/
 
+/*
 		$divxContent = '<a name="divx"></a><div id="divxdiv" style="z-index:1;">';
 		$divxHtml = '';
     	$lnk = Film::set_input_server($Film['dir']).'/' . $FilmVariant[0]['FilmFile'][0]['file_name'];
@@ -724,7 +762,10 @@ height="' . $resolution[1] . '" codebase="http://go.divx.com/plugin/DivXBrowserP
 			</script>
 		';
     $divxContent .= '</div>';
+*/
+
 //КНОПКА ВКЛ/ВЫКЛ ПРОИГРЫВАТЕЛЯ
+/*
     $playSwitchButton = '';
 	if (!empty($authUser['userid']))
 	{
@@ -742,7 +783,7 @@ height="' . $resolution[1] . '" codebase="http://go.divx.com/plugin/DivXBrowserP
 		}
 	}
 	$divxContent .= $playSwitchButton;
-
+*/
 
 $linksContent .= '
 	<script type="text/javascript">
@@ -1118,9 +1159,7 @@ if (!empty($authUser['userid']) || $isWS)
 			}
 		}
 		$maxWebLinksCount++;//КОМПЕНСИРУЕМ, ЕСЛИ ССЫЛКА FL ОКАЖЕТСЯ НА ПОСЛЕДНЕМ МЕСТЕ
-		$recomended = '
-			<div class="recomended">' . __('This link is recommending for your region', true) . '</div>
-		';
+		$recomended = msgBox(__('This link is recommending for your region', true));
 	    foreach ($variant['FilmLink'] as $link)
 	    {
 	    	$isFL = strpos($link['link'], $flStr);//ЭТО ССЫЛКА ИЗ ОБМЕННИКА
@@ -1128,6 +1167,7 @@ if (!empty($authUser['userid']) || $isWS)
 
 			if ($isFL)
 			{
+		    	//if (0)
 		    	//if ($isVip)
 		    	if ($isVip || $isWS)//внутр пользователям и ВИПам ссылки выдаем сразу
 		    	{
@@ -1158,11 +1198,29 @@ if (!empty($authUser['userid']) || $isWS)
 							    $panelContent .= $app->implodeWithParams(', ', $Genre);
 					    	}
 							$panelContent .= '</p>';
-			    			$panelContent .= '<ul><li><a target="_blank" href="' . $link['link'] . '">' . $link['filename'] . '</a></li>';
+							$ahref = '<a target="_blank" href="' . $link['link'] . '">';
+							$aplay = $ahref;
+							$aplay = str_replace('catalog/viewv', 'catalog/play', $aplay);
+			    			$panelContent .= '<ul><li>
+			    				<table><tr valign="middle">
+			    					<td>' . $ahref . '<img width="20" src="/img/icons/download-icon_16x16.png" /></a></td>
+			    				 	<td>' . $ahref  . $link['filename'] . '</a></td>
+			    				 	<td>' . $aplay  . '<img width="20" src="/img/icons/play-icon_16x16.png" /></a></td>
+			    				</tr></table>
+			    				</li>';
 		    			}
 		    			else
 		    			{
-							$panelContent .= '<h3 style="margin-bottom:0px;"><img src="/img/greenstar.png" width="20" /> <a target="_blank" href="' . $link['link'] . '">' . $link['title'] . '</a> ' . $Film["year"] . '</h3>';
+							$ahref = '<a target="_blank" href="' . $link['link'] . '">';
+							$aplay = $ahref;
+							$aplay = str_replace('catalog/viewv', 'catalog/play', $aplay);
+							$panelContent .= '<h3 style="margin-bottom:0px;">
+			    				<table><tr valign="middle">
+			    					<td><img src="/img/greenstar.png" width="20" /></td>
+			    					<td>' . $ahref . '<img width="20" src="/img/icons/download-icon_16x16.png" /></a></td>
+			    				 	<td><h3 style="margin-bottom:0px;">' . $ahref  . $link['title'] . '</a> ' . $Film["year"] . '</h3></td>
+			    				 	<td>' . $aplay  . '<img width="20" src="/img/icons/play-icon_16x16.png" /></a></td>
+			    				</tr></table>';
 							$panelContent .= '<h3 style="margin-bottom:0px;">';
 					    	if ($lang == _ENG_)
 					    	{
@@ -1187,15 +1245,32 @@ if (!empty($authUser['userid']) || $isWS)
 		    		}
 		    		else
 		    		{
-		    			$panelContent .= '<li><a target="_blank" href="' . $link['link'] . '">' . $link['filename'] . '</a></li>';
+						$ahref = '<a target="_blank" href="' . $link['link'] . '">';
+						$aplay = $ahref;
+						$aplay = str_replace('catalog/viewv', 'catalog/play', $aplay);
+		    			$panelContent .= '<li>
+		    				<table><tr valign="middle">
+		    					<td>' . $ahref . '<img width="20" src="/img/icons/download-icon_16x16.png" /></a></td>
+		    				 	<td>' . $ahref  . $link['filename'] . '</a></td>
+		    				 	<td>' . $aplay  . '<img width="20" src="/img/icons/play-icon_16x16.png" /></a></td>
+							</tr></table>';
 		    		}
 		    	}
 //*
 		    	else
 		    	{
 		    		if ($startFL) continue;
-		    		$panelContent .=  $recomended;
-					$panelContent .= '<h3 style="margin-bottom:0px;"><img src="/img/greenstar.png" width="20" /> <a target="_blank" href="' . $link['link'] . '">' . $link['title'] . '</a> ' . $Film["year"] . '</h3>';
+			    		$panelContent .=  $recomended;
+					$ahref = '<a target="_blank" href="' . $link['link'] . '">';
+					$aplay = $ahref;
+					$aplay = str_replace('catalog/viewv', 'catalog/play', $aplay);
+					$panelContent .= '<h3 style="margin-bottom:0px;">
+	    				<table><tr valign="middle">
+	    					<td><img src="/img/greenstar.png" width="20" /></td>
+	    					<td>' . $ahref . '<img width="20" src="/img/icons/download-icon_16x16.png" /></a></td>
+	    				 	<td><h3 style="margin-bottom:0px;">' . $ahref  . $link['title'] . '</a> ' . $Film["year"] . '</h3></td>
+	    				 	<td>' . $aplay  . '<img width="20" src="/img/icons/play-icon_16x16.png" /></a></td>
+	    				</tr></table>';
 					$panelContent .= '<h3 style="margin-bottom:0px;">';
 			    	if ($lang == _ENG_)
 			    	{
@@ -1453,7 +1528,7 @@ else
 	    ';
     }
     */
-	$divxContent = '';
+	//$divxContent = '';
 	//$linksContent = '<a href="http://yandex.ru/yandsearch?text=' . $yandex['title'] . '" title="Скачать бесплатно">Скачать бесплатно "' . $yandex['title'] . '"</a>';
 	$linksContent = $yandexLink;
 }
@@ -1462,6 +1537,8 @@ else
 if (isset($authUser['username']))// && (($authUser['username'] == 'vanoveb') || ($authUser['username'] == 'stell_hawk')))
 {
 */
+
+/*
 	if (isset($_SESSION['lastFilms']))
 		$lastFilms = $_SESSION['lastFilms'];
 	else
@@ -1481,6 +1558,7 @@ if (isset($authUser['username']))// && (($authUser['username'] == 'vanoveb') || 
 	$vipDivx = $divxContent;//СОХРАНИМ, ЕСЛИ ОКАЖЕТСЯ ВИПОМ
 	$divxContent = '';
 	//$linksContent = $yandexLink;
+
 //$geoIsGood = true;
 	if ($allowDownload)
 	{
@@ -1515,6 +1593,7 @@ if (isset($authUser['username']))// && (($authUser['username'] == 'vanoveb') || 
 	$_SESSION['lastFilms']	= $lastFilms;
 	$_SESSION['lastLinks']	= $lastLinks;
 	$_SESSION['lastDivx']	= $lastDivx;
+*/
 
 	//ПРОВЕРКА НА ОПЕРУ-ТУРБО
 	function isOperaTurbo()
@@ -1540,7 +1619,7 @@ if (isset($authUser['username']))// && (($authUser['username'] == 'vanoveb') || 
 
 	if (!$geoIsGood)
 	{
-		$divxContent = '';
+//		$divxContent = '';
 		if (!$isOpera)
 			$linksContent = '';
 		if ($film['Film']['imdb_id'])
@@ -1548,14 +1627,17 @@ if (isset($authUser['username']))// && (($authUser['username'] == 'vanoveb') || 
 			echo '<h3 style="margin-top:12px;"><a target="_blank" href="http://imdb.com/title/' . $film['Film']['imdb_id'] . '">"' . $film['Film']['title' . $langFix] . '" imdb.com &raquo;</a></h3>';
 		}
 		//echo '<h3 style="margin-top:12px;"><a target="_blank" title="скачать на kinopoisk.ru" href="http://www.kinopoisk.ru/index.php?kp_query=' . rawurlencode(iconv('utf-8','windows-1251', $film['Film']['title'])) . '">"' . $film['Film']['title'] . '" cкачать &raquo;</a></h3>';
-		echo '<h3 style="margin-top:12px;"><a target="_blank" href="http://google.com/search?q=' . rawurlencode(iconv('utf-8','windows-1251', $film['Film']['title'])) . '">"' . $film['Film']['title'] . '" ' . __('Free download', true) . ' &raquo;</a></h3>';
+		echo '<h3 style="margin-top:12px;"><a target="_blank" href="http://google.com/search?q=' . rawurlencode(iconv('utf-8','windows-1251', $film['Film']['title'])) . '">"' . $film['Film']['title_en'] . '" ' . __('Free download', true) . ' &raquo;</a></h3>';
 		//echo $yandexLink;
 	}
+
+/*
 	if ($geoIsGood)// && $isVip)
 	{
 		$linksContent	= $vipLinks;
 		$divxContent	= $vipDivx;
 	}
+*/
 
 //echo 'GEO DISABLED'; pr($geoIsGood);
 //echo 'ALLOW DISABLED'; pr($allowDownload);
@@ -1569,7 +1651,7 @@ if (isset($authUser['username']))// && (($authUser['username'] == 'vanoveb') || 
 <?php
 	}
 
-echo $divxContent;
+//echo $divxContent;
 echo $linksContent;
 
 ?>
