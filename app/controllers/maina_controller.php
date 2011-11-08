@@ -360,7 +360,6 @@ exit;
                     $this->Pmsg->setMessageRead($msgid);
                     //и дадим прочитать юзеру
                     $message = $this->Pmsg->getMessageFull($this->authUser['userid'], $msgid);
-                    pr($message);
                     $this->set('message', $message);
                     $this->render('im_full');
                 }

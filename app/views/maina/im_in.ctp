@@ -65,6 +65,7 @@ if (!empty($im_pagination) && $im_pagination['page_count']>1){
 <script language="javascript">
     subact='<?=$sub_act;?>';
     $('#im_menu_act').fadeIn();
+    $('#in_btn').addClass("current");
     
    if ($('#flashMessage').length > 0 ){
        var wp = $('#flashMessage').parent().width();

@@ -179,7 +179,7 @@ class Pmsg extends AppModel {
 	 */        
         public function getMessageFull($userId=0, $pmId=0){
             $sql = '
-                    SELECT Pm.pmid, Pm.messageread, Pmsg.message, Pmsg.title, Pmsg.fromusername FROM pmtext AS Pmsg
+                    SELECT Pm.pmid, Pm.messageread, Pmsg.message, Pmsg.title, Pmsg.fromusername, Pmsg.touserarray, Pmsg.dateline  FROM pmtext AS Pmsg
                             INNER JOIN pm AS Pm ON (Pm.pmtextid = Pmsg.pmtextid AND Pm.userid = ' . $userId . ' AND Pm.pmid = ' . $pmId . ')
                             LIMIT 1
             ';
