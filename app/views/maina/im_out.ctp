@@ -10,6 +10,7 @@ if (sizeof($messages) == 0)
 }
 for ($i=0;$i < sizeof($messages);$i++)
 {
+    echo $messages[$i]["Av"]["ava_date"];
 $messages[$i]["Pmsg"]["title"] = mb_substr($messages[$i]["Pmsg"]["title"], 0, 50);
 $messages[$i]["Pmsg"]["message"] = mb_substr($messages[$i]["Pmsg"]["message"], 0, 70);
 $tousernames = '';

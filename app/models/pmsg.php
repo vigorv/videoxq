@@ -61,9 +61,9 @@ class Pmsg extends AppModel {
 	public function getOutMessages($userId, $page = 1, $perPage = 10)
 	{
 		$sql = '
-			SELECT Pm.pmid, Pm.messageread, Pmsg.message, Pmsg.title, Pmsg.fromusername, Pmsg.touserarray, Pmsg.dateline FROM pmtext AS Pmsg
-				INNER JOIN pm AS Pm ON (Pm.folderid = -1 AND Pm.pmtextid = Pmsg.pmtextid AND Pm.userid = ' . $userId . ')
-				LIMIT ' . ($page-1)*$perPage . ', ' . $perPage . '
+			SELECT Pm.pmid, Pm.messageread, Pmsg.message, Pmsg.title, Pmsg.fromusername, Pmsg.touserarray, Pmsg.dateline, Av.dateline as ava_date FROM pmtext AS Pmsg, customprofilepic as Av
+				INNER JOIN pm AS Pm ON (Pm.folderid = -1 AND Pm.pmtextid = Pmsg.pmtextid AND Pm.userid = ' . $userId . ' )
+				LIMIT ' . ($page-1)*$perPage . ', ' . $perPage . ' WHERE Pm.userid = IF EXISTS (SELECT userid FROM customprofilepic) ELSE (SELECT Pm.userid FROM pm)
 		';
 		$result = $this->query($sql);
 		return $result;
