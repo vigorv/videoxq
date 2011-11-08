@@ -3,7 +3,7 @@
 <?php if ($session->check('Message.flash'))$session->flash();?>
 <?php 
 $tousernames = '';
-foreach(unserialize($message[$i]["Pmsg"]["touserarray"]) as $val){
+foreach(unserialize($message[0]['Pmsg']['touserarray']) as $val){
     $tousernames = (!$tousernames)? '' : $tousernames.', ';
     $tousernames.= join(', ', $val);
 }
@@ -19,7 +19,7 @@ foreach(unserialize($message[$i]["Pmsg"]["touserarray"]) as $val){
     Получатель: <a href="#"><?=$tousernames?></a>
     
 </div>
-<div id="im_in_time_full">Дата: <?=gmdate('d.n.Y h:i', $messages[$i]["Pmsg"]["dateline"]);?></div>
+<div id="im_in_time_full">Дата: <?=gmdate('d.n.Y h:i', $message[0]["Pmsg"]["dateline"]);?></div>
 <div id="im_in_theme_full">Тема: <?=(!empty($message[0]['Pmsg']['title']))? $message[0]['Pmsg']['title'] : ''?></div>
 </div>
 <div id="im_in_short_text_full"><?=(!empty($message[0]['Pmsg']['message']))? $message[0]['Pmsg']['message'] : ''?></div>
