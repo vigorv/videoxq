@@ -1,7 +1,16 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
     <head>
-        <title><?php echo Configure::read('App.siteName') . " " . $title_for_layout; ?></title>
+        <title><?php
+        	if ($here == '/media')
+        	{
+        	?>
+        		Каталог фильмов, сериалы, лицензионные фильмы–комедии, мелодрамы, боевики, мультфильмы, ужасы, фантастика– скачать бесплатно, без смс, без регистрации
+        	<?php
+        	}
+        	else
+        		echo Configure::read('App.siteName') . " " . $title_for_layout;
+        ?></title>
         <?php
 //echo $html->css('style');
 //echo $html->css('vusic');
@@ -47,7 +56,6 @@
         <meta name='yandex-verification' content='41f90ac754cf4471' />
         <meta name="verify-v1" content="Q+iq7OY8RadE9126YoJFPl1cnjLTMbHmU//RrR0TTks=" />
         <link rel="alternate" type="application/rss+xml" title='<?php echo Configure::read('App.siteName'); ?>' href="http://videoxq.com/rss.xml" />
-        <title><?php echo Configure::read('App.siteName') . ' - ' . $title_for_layout; ?></title>
     </head>
     <body>
         <div id="wrap">
@@ -160,7 +168,7 @@ if ($session->check('Message.auth'))
 
 <?php
 if (isset($authUserGroups) && in_array(Configure::read('VIPgroupId'), $authUserGroups)) {
-    
+
 } else {
     echo $BlockBanner->getBanner('bottom');
 }
@@ -222,7 +230,7 @@ if (isset($authUserGroups) && in_array(Configure::read('VIPgroupId'), $authUserG
             </div>
 <?php
 if (isset($authUserGroups) && in_array(Configure::read('VIPgroupId'), $authUserGroups)) {
-    
+
 } else {
     ?>
     <?php

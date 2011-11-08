@@ -3,7 +3,10 @@ $num = 1;
 
 $isVip = (!empty($authUserGroups) && in_array(Configure::read('VIPgroupId'), $authUserGroups));
 
-//$isWS = true;
+/*
+$isWS = false;
+$geoIsGood = false;
+//*/
 
 if ($isWS)
 {
@@ -100,7 +103,7 @@ if (count($shareContent) > 0)
 				$panelContent .= '</ul>';
 			}
 			$startFL = 0;
-			//if (!$isWS)
+			if (!$isWS)//ДЛЯ ВС ССЫЛКИ НА СТОРОННИЕ РЕСУРСЫ НЕ ВЫДАЕМ
 			{
 				$panelContent .= '<h3 style="margin-bottom:0px;"><img src="/img/blackstar.png" width="20" />  <a target="_blank" href="' . $res['url'] . '">' . $res['title'] . '</a></h3>';
 				$panelContent .= '<p>' . $res['content'] . '</p>';
@@ -110,7 +113,7 @@ if (count($shareContent) > 0)
 	echo $panelContent;
 }
 
-if (count($googleContent) > 0)
+if ((count($googleContent) > 0) && (!$isWS))//ДЛЯ ВС ССЫЛКИ НА СТОРОННИЕ РЕСУРСЫ НЕ ВЫДАЕМ
 {
 	$max = Configure::read('App.webLinksCount');
 	foreach($googleContent as $res)
