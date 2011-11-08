@@ -273,7 +273,23 @@ exit;
                 //установим $sub_act для вывода страницы входящих сообщений
                 $sub_act = 'in';
                 break;
-           
+                
+            case 'del':
+                //удаление сообщения
+                if (!empty($this->passedArgs['msgid'])){
+                    $msgid = intval($this->passedArgs['msgid']);
+                }
+                //если id сообщения указан то удаляем его
+                if ($msgid){
+                    $result = $this->Pmsg->delMessage($this->authUser['userid'],$msgid);
+                    if ($result){
+                        $this->Session->setFlash('Сообщение удалено', true);                        
+                    }                    
+                }
+                //установим $sub_act для вывода страницы входящих сообщений
+                $sub_act = 'in';
+                break;                                
+                
             case 'indel':
                 //удаление входящих сообщений
                 if (!empty($_POST['msg_id_list']) && $_POST['msg_id_list']){
@@ -327,11 +343,24 @@ exit;
                 $this->render('im_new');
                 break;
 
-            case 'in_full':
+            case 'full':
                 //вывод полного выбранного содержимого сообщения
-                $messages = $this->Pmsg->getInMessages($this->authUser['userid'], $this->page, $this->per_page);
-                $this->set('messages', $messages);
-                $this->render('im_full');
+                if (!empty($this->passedArgs['msgid'])){
+                    $msgid = intval($this->passedArgs['msgid']);
+                }
+                //если id сообщения указан то попробуем показать его
+                if ($msgid){
+                    //пометим сообщение как прочитанное
+                    $this->Pmsg->setMessageRead($msgid);
+                    //и дадим прочитать юзеру
+                    $message = $this->Pmsg->getMessageFull($this->authUser['userid'], $msgid);
+                    pr($message);
+                    $this->set('message', $message);
+                    $this->render('im_full');
+                }
+                else{
+                    $sub_act = 'in';
+                }
                 break;            
             default:
                 //по умолчанию вывод входящих сообщений

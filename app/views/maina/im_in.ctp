@@ -22,12 +22,12 @@ printf('
 </div>
 <div class="im_in_theme_text">
 <div class="im_in_theme">%s</div>
-<div class="im_in_short_text"><a href="/in_full/" id="%s">%s</a></div>
+<div class="im_in_short_text"><a href="/maina/im/full/msgid:%s" id="%s">%s</a></div>
 <div class="im_in_check_box">
 <input type="checkbox" name="check" value="%s" />
 </div>
 </div>
-</div>', $messages[$i]["Pmsg"]["fromusername"], $messages[$i]["Pm"]["pmid"], $messages[$i]["Pmsg"]["title"],$messages[$i]["Pm"]["pmid"],$messages[$i]["Pmsg"]["message"],$messages[$i]["Pm"]["pmid"]);
+</div>', $messages[$i]["Pmsg"]["fromusername"], $messages[$i]["Pm"]["pmid"], $messages[$i]["Pmsg"]["title"],$messages[$i]["Pm"]["pmid"],$messages[$i]["Pm"]["pmid"],$messages[$i]["Pmsg"]["message"],$messages[$i]["Pm"]["pmid"]);
 }
 ?>
 </form>
@@ -71,7 +71,7 @@ if (!empty($im_pagination) && $im_pagination['page_count']>1){
        $('#flashMessage').fadeOut(8000);
    }
 
-    $('.im_pagination_href a').click(
+    $('.im_pagination_href a, .im_in_short_text a').click(
     function(event){
         event.preventDefault();
         var link = $(this).attr("href");
