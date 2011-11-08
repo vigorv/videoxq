@@ -36,6 +36,7 @@ printf('
 if (!empty($im_pagination) && $im_pagination['page_count']>1){
 ?>
 <div class="im_pagination">
+<div class="im_nav_img">
     <div class="im_pagination_href">
     <?php
         for($n=1; $n<=$im_pagination['page_count']; $n++){
@@ -61,6 +62,7 @@ if (!empty($im_pagination) && $im_pagination['page_count']>1){
 <script language="javascript">
     subact='<?=$sub_act;?>';
     $('#im_menu_act').fadeIn();
+    
    if ($('#flashMessage').length > 0 ){
        var wp = $('#flashMessage').parent().width();
        var wm = $('#flashMessage').width();
@@ -88,6 +90,5 @@ $('.im_pagination_href a, .im_in_short_text a').click(
         }
         return false;
     });
-   
+
 </script>
-<?=(!$isAjax)? '</div>':'';?>  

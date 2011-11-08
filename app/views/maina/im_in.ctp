@@ -36,6 +36,7 @@ printf('
 if (!empty($im_pagination) && $im_pagination['page_count']>1){
 ?>
 <div class="im_pagination">
+<div class="im_nav_img">
     <div class="im_pagination_href">
     <?php
         for($n=1; $n<=$im_pagination['page_count']; $n++){
