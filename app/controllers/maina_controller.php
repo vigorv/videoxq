@@ -66,7 +66,7 @@ class MainaController extends AppController {
         else
             $this->ImgPath = Configure::read('Catalog.imgPathInet');
         $page = 1;
-        $per_page = 0;//ПРОЧИТАЕМ ИЗ НАСТРОЕК
+        $per_page = 0;//ПОЛУЧИМ ИЗ НАСТРОЕК
         $ajaxmode = 0;
         if (isset($_GET['page'])) {
             $page = filter_var($_GET['page'], FILTER_VALIDATE_INT);
@@ -82,10 +82,12 @@ class MainaController extends AppController {
         if (($per_page > 0) && ($per_page < 100))
             $this->per_page = $per_page;
         else
+            $this->per_page = 50;
+
         {
             $this->per_page = 10;
-            if (!empty($this->userOption['Profile.itemsPerPage']))
-            	$this->per_page = $this->userOption['Profile.itemsPerPage'];
+            if (!empty($this->userOptions['Profile.itemsPerPage']))
+            	$this->per_page = $this->userOptions['Profile.itemsPerPage'];
         }
 
         if (isset($_GET['filter']))

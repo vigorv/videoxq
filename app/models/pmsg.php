@@ -62,8 +62,13 @@ class Pmsg extends AppModel {
 	{
 		$sql = '
 			SELECT Pm.pmid, Pm.messageread, Pmsg.message, Pmsg.title, Pmsg.fromusername, Pmsg.touserarray, Pmsg.dateline FROM pmtext AS Pmsg
+<<<<<<< HEAD
 				INNER JOIN pm AS Pm ON (Pm.folderid = -1 AND Pm.pmtextid = Pmsg.pmtextid AND Pm.userid = ' . $userId . ' )
 				LIMIT ' . ($page-1)*$perPage . ', ' . $perPage . ' 
+=======
+				INNER JOIN pm AS Pm ON (Pm.folderid = -1 AND Pm.pmtextid = Pmsg.pmtextid AND Pm.userid = ' . $userId . ')
+				LIMIT ' . ($page-1)*$perPage . ', ' . $perPage . '
+>>>>>>> 8987f4f2441c109bfc3d0c2e8d3ce4b4a11ac139
 		';
 		$result = $this->query($sql);
 		return $result;
