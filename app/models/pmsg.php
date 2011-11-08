@@ -61,7 +61,7 @@ class Pmsg extends AppModel {
 	public function getOutMessages($userId, $page = 1, $perPage = 10)
 	{
 		$sql = '
-			SELECT Pm.pmid, Pm.messageread, Pmsg.message, Pmsg.title, Pmsg.fromusername FROM pmtext AS Pmsg
+			SELECT Pm.pmid, Pm.messageread, Pmsg.message, Pmsg.title, Pmsg.fromusername, Pmsg.touserarray, Pmsg.dateline FROM pmtext AS Pmsg
 				INNER JOIN pm AS Pm ON (Pm.folderid = -1 AND Pm.pmtextid = Pmsg.pmtextid AND Pm.userid = ' . $userId . ')
 				LIMIT ' . ($page-1)*$perPage . ', ' . $perPage . '
 		';
@@ -72,7 +72,7 @@ class Pmsg extends AppModel {
 	public function getInMessages($userId, $page = 1, $perPage = 10)
 	{
 		$sql = '
-			SELECT Pm.pmid, Pm.messageread, Pmsg.message, Pmsg.title, Pmsg.fromusername FROM pmtext AS Pmsg
+			SELECT Pm.pmid, Pm.messageread, Pmsg.message, Pmsg.title, Pmsg.fromusername, Pmsg.dateline FROM pmtext AS Pmsg
 				INNER JOIN pm AS Pm ON (Pm.folderid = 0 AND Pm.pmtextid = Pmsg.pmtextid AND Pm.userid = ' . $userId . ')
 				LIMIT ' . ($page-1)*$perPage . ', ' . $perPage . '
 		';

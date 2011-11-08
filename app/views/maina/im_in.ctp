@@ -12,24 +12,27 @@ for ($i=0;$i < sizeof($messages);$i++)
 {
 $messages[$i]["Pmsg"]["title"] = substr($messages[$i]["Pmsg"]["title"], 0, 50);
 $messages[$i]["Pmsg"]["message"] = substr($messages[$i]["Pmsg"]["message"], 0, 70);
-printf('
+?>
 <div class="im_in_border">
 <div class="im_in_avatar"><img src="http://videoxq.com/forum/image.php?u=113534&dateline=1317973359&type=thumb" />
 </div>
 <div class="im_in_login_time">
-<div class="im_in_login"><a href="#">%s</a></div>
-<div class="im_in_time">%s</div>
+<div class="im_in_login"><a href="#"><?=$messages[$i]["Pmsg"]["fromusername"];?></a></div>
+<div class="im_in_time"><?=gmdate('d.n.Y h:i', $messages[$i]["Pmsg"]["dateline"]);?></div>
 </div>
 <div class="im_in_theme_text">
-<div class="im_in_theme">%s</div>
-<div class="im_in_short_text"><a href="/maina/im/full/msgid:%s" id="%s">%s</a></div>
+<div class="im_in_theme"><?=$messages[$i]["Pmsg"]["title"]?></div>
+<div class="im_in_short_text"><a href="/maina/im/full/msgid:<?=$messages[$i]["Pm"]["pmid"]?>" id="<?=$messages[$i]["Pm"]["pmid"]?>"><?=$messages[$i]["Pmsg"]["message"]?></a></div>
 <div class="im_in_check_box">
-<input type="checkbox" name="check" value="%s" />
+<input type="checkbox" name="check" value="<?=$messages[$i]["Pm"]["pmid"]?>" />
 </div>
 </div>
-</div>', $messages[$i]["Pmsg"]["fromusername"], $messages[$i]["Pm"]["pmid"], $messages[$i]["Pmsg"]["title"],$messages[$i]["Pm"]["pmid"],$messages[$i]["Pm"]["pmid"],$messages[$i]["Pmsg"]["message"],$messages[$i]["Pm"]["pmid"]);
+</div>
+<?php
 }
 ?>
+    
+    
 </form>
 </div>
 <?php

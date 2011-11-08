@@ -206,6 +206,7 @@ exit;
      * @param type $sub_act
      */
     public function im($sub_act='') {
+        
         if (!empty($this->passedArgs['page'])){
             $this->page = $this->passedArgs['page'];
         }
@@ -362,6 +363,9 @@ exit;
                     $sub_act = 'in';
                 }
                 break;            
+            case 'in':
+            case 'out':
+                break;
             default:
                 //по умолчанию вывод входящих сообщений
                 $sub_act = 'in';
@@ -371,6 +375,7 @@ exit;
         //если подметод = "входищие" или "исходящие" (in/out), то подготовим 
         //данные для пагинации и выведем нужную вьюху
         if($sub_act=='in' || $sub_act=='out'){
+
             //установим переменную во вьюхе еще раз, так как могла поменяться, 
             //при удалении сообщений
             $this->set('sub_act', $sub_act);
@@ -391,7 +396,6 @@ exit;
                         'page_count'=>$this->page_count
                     );
                     $this->set('im_pagination', $im_pagination);
-
                     $messages = $this->Pmsg->getOutMessages($this->authUser['userid'], $this->page, $this->per_page);
                     $this->set('messages', $messages);
                     $this->render('im_out');
