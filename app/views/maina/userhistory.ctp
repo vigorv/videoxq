@@ -1,8 +1,8 @@
 <?php
 echo $this->element('maina/paginate');
-$html->addCrumb(__('Films', true), '');
-$html->addCrumb(__('Download History', true), '');
-echo $html->getCrumbs(' > ', 'Home');
+//$html->addCrumb(__('Films', true), '');
+//$html->addCrumb(__('Download History', true), '');
+//echo $html->getCrumbs(' > ', 'Home');
 /*
 $tvVision->eskiz(
 	array(0 => array(
@@ -18,8 +18,8 @@ $tvVision->eskiz(
 	))
 );
 */
+//<h3>История Скаченного</h3>
 ?>
-<h3>История Скаченного</h3>
 <div class="movies">
 <?php
 	$filmInfo = array();
