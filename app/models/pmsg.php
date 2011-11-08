@@ -61,12 +61,13 @@ class Pmsg extends AppModel {
 	public function getOutMessages($userId, $page = 1, $perPage = 10)
 	{
 		$sql = '
-			SELECT Pm.pmid, Pm.messageread, Pmsg.message, Pmsg.title, Pmsg.fromusername, Pmsg.touserarray, Pmsg.dateline, Av.dateline as ava_date FROM pmtext AS Pmsg, customprofilepic as Av
+			SELECT Pm.pmid, Pm.messageread, Pmsg.message, Pmsg.title, Pmsg.fromusername, Pmsg.touserarray, Pmsg.dateline FROM pmtext AS Pmsg
 				INNER JOIN pm AS Pm ON (Pm.folderid = -1 AND Pm.pmtextid = Pmsg.pmtextid AND Pm.userid = ' . $userId . ' )
-				LIMIT ' . ($page-1)*$perPage . ', ' . $perPage . ' WHERE Pm.userid = IF EXISTS (SELECT userid FROM customprofilepic) ELSE (SELECT Pm.userid FROM pm)
+				LIMIT ' . ($page-1)*$perPage . ', ' . $perPage . ' 
 		';
 		$result = $this->query($sql);
 		return $result;
+        //WHERE Pm.userid = IF EXISTS (SELECT userid FROM customprofilepic) ELSE (SELECT Pm.userid FROM pm) , Av.dateline as ava_date , customprofilepic as Av
 	}
 
 	public function getInMessages($userId, $page = 1, $perPage = 10)
@@ -179,7 +180,7 @@ class Pmsg extends AppModel {
 	 */        
         public function getMessageFull($userId=0, $pmId=0){
             $sql = '
-                    SELECT Pm.pmid, Pm.messageread, Pmsg.message, Pmsg.title, Pmsg.fromusername FROM pmtext AS Pmsg
+                    SELECT Pm.pmid, Pm.messageread, Pmsg.message, Pmsg.title, Pmsg.fromusername, Pmsg.touserarray, Pmsg.dateline  FROM pmtext AS Pmsg
                             INNER JOIN pm AS Pm ON (Pm.pmtextid = Pmsg.pmtextid AND Pm.userid = ' . $userId . ' AND Pm.pmid = ' . $pmId . ')
                             LIMIT 1
             ';
