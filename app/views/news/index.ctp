@@ -156,6 +156,10 @@ function equalHeight(group) {
 				<div class="right-block">
                 <p id="calendar_nadpis">Календарь событий</p>
                 <div id="calendarlite"></div>
+<?php
+                echo $BlockBanner->getBanner('news_right_1');
+                echo $BlockBanner->getBanner('news_right_2');
+?>
 				</div>
 
 			</div>
