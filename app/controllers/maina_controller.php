@@ -84,8 +84,8 @@ class MainaController extends AppController {
         else
         {
             $this->per_page = 10;
-            if (!empty($this->userOption['Profile.itemsPerPage']))
-            	$this->per_page = $this->userOption['Profile.itemsPerPage'];
+            if (!empty($this->userOptions['Profile.itemsPerPage']))
+            	$this->per_page = $this->userOptions['Profile.itemsPerPage'];
         }
 
         if (isset($_GET['filter']))
