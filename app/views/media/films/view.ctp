@@ -1,5 +1,14 @@
 <?php
     extract($film);
+if ($isWS)
+{
+	$geoIsGood = true;
+}
+
+if (($geoIsGood) && ($Film['is_license']) && ($authUser['userid']))
+{
+	$isWS = true;
+}
 /*
 //РОССИЯ СТК
 $isWS = true;
@@ -10,19 +19,10 @@ $geoIsGood = true;
 /*
 //РОССИЯ ВНЕШНИЕ
 $isWS = false;
-$allowDownload = $isWS;
+$allowDownload = true;
 $geoIsGood = true;
 //*/
 
-if ($isWS)
-{
-	$geoIsGood = true;
-}
-
-if (($geoIsGood) && ($Film['is_license']) && ($authUser['userid']))
-{
-	$isWS = true;
-}
 /*
 //ЗАРУБЕЖНЫЕ
 $isWS = false;
@@ -349,7 +349,7 @@ echo'</pre>';
 		}
 	}
 
-	if (!$geoIsGood)
+	if (!$geoIsGood || ($allowDownload && !$isWS && empty($authUser['userid'])))
 	{
 		$downloadHref = '';
 		$viewHref = '';
@@ -867,9 +867,11 @@ if (count($variant['FilmFile']) > 0)
 //	        $panelContent .= $html->link($img, '/basket/' . $action . '/' . $variant['id'] . '/variant', array('onclick' => 'basket('.$variant['id'].', \'variant\', this);return false;','id' => 'variant_' . $variant['id'], 'alt' => __('Add to download list', true)), false, false);
 	    endif;
 
+	    $ahref = '<a title="' . __('All Files', true) . '" target="_blank" href="/media/meta/' . $Film['id'] . '/' . $variant['id'] . '/' . $variant['video_type_id'] . '">';
 	    $panelContent .= '</td>
 	        <td class="size">' . $app->sizeFormat($total) . '</td>
-	        <td class="title">' . __('All Files', true) . '</td>
+	        <td class="action">' . $ahref . '<img width="20" src="/img/icons/download-icon_16x16.png" /></td>
+	        <td class="title">' . $ahref . __('All Files', true) . '</td>
 	    	</tr>
 	    ';
 /*
@@ -899,11 +901,13 @@ if (count($variant['FilmFile']) > 0)
 	    	<tr>
 	        	<td class="action"></td>
 	        	<td class="size"></td>
+	        	<td></td>
 		        <td class="title">
 			';
     	}
     	else
     	{
+    		$ahref = '';
 	        if (!in_array($file['id'], $basket))
 	        {
 	            $img = __('AddToBasket', true);
@@ -933,7 +937,6 @@ if (count($variant['FilmFile']) > 0)
 	        $panelContent .= '
 	        	</td>
 	        	<td class="size">' . $app->sizeFormat($file['size']) . '</td>
-		        <td class="title">
 			';
 	        $href = __('Available only to registered users', true);
     	}
@@ -974,7 +977,8 @@ if (count($variant['FilmFile']) > 0)
 			}
 			else
 			{
-        		$href='<a class="nocontext" onclick="return filmClk(' . $Film['id'] . ');" href="' . $recUrl . '">' . basename($file['file_name']) . '</a>&nbsp;';
+				$ahref = '<a class="nocontext" onclick="return filmClk(' . $Film['id'] . ');" href="' . $recUrl . '">';
+        		$href = $ahref . basename($file['file_name']) . '</a>&nbsp;';
 			}
         	//$share = Film::set_input_share($Film['dir']);
 	    	$lnkInfo = pathinfo(strtolower(basename($file['file_name'])));
@@ -983,7 +987,7 @@ if (count($variant['FilmFile']) > 0)
 				switch ($lnkInfo['extension'])
 				{
 					case "mp4":
-						$play = '<a rel="video" href="#video' . $file['id'] . '"><img src="/img/play.gif" width="19" alt="" title="' . __('Watch online', true) . '" id="file' . $file['id'] . '" /></a>';
+						$play = '<a rel="video" href="#video' . $file['id'] . '"><img src="/img/icons/play-icon_16x16.png" width="16" alt="" title="' . __('Watch online', true) . '" id="file' . $file['id'] . '" /></a>';
 						$hideVideo .= '
 							 <div id="video' . $file['id'] . '"><a style="width:640px; height:480px; display:block" id="ipad' . $file['id'] . '" onclick="return addVideo' . $variant['id'] . '(' . $file['id'] . ', \'' . $flowUrl  . '\');"></a></div>
 						';
@@ -992,7 +996,7 @@ if (count($variant['FilmFile']) > 0)
 					case "avi":
 					case "mkv":
 						$key = $file['id'];
-						$play = '<a rel="video" href="#video' . $file['id'] . '"><img src="/img/play.gif" width="19" alt="" title="' . __('Watch online', true) . '" id="file' . $file['id'] . '" /></a>';
+						$play = '<a rel="video" href="#video' . $file['id'] . '"><img src="/img/icons/play-icon_16x16.png" width="16" alt="" title="' . __('Watch online', true) . '" id="file' . $file['id'] . '" /></a>';
 						$hideVideo .= '<div id="video' . $key . '" style="width:640px; height:480px; overflow: hidden; " >
 							<a onclick="return addAviVideo' . $variant['id'] . '(' . $key . ', \'' . $recUrl . '\');"></a>
 							<object id="videoobj' . $key . '" classid="clsid:67DABFBF-D0AB-41fa-9C46-CC0F21721616" width="640" height="480" codebase="http://go.divx.com/plugin/DivXBrowserPlugin.cab">
@@ -1018,6 +1022,10 @@ if (count($variant['FilmFile']) > 0)
 //	        	$href .= ' <a href="/media/playlist/' . $file['id'] . '/' . $player['name'] . '"><img height="16" src="/img/ico/' . $player['name'] . '16.gif" /></a>';
 		}
 
+		$panelContent .= '
+		        <td class="action">' . $ahref . '<img width="20" src="/img/icons/download-icon_16x16.png" /></td>
+		        <td class="title">
+		';
         $playDisplay = '';
 		$panelContent .= $href;
 
@@ -1201,6 +1209,7 @@ if (!empty($authUser['userid']) || $isWS)
 							$ahref = '<a target="_blank" href="' . $link['link'] . '">';
 							$aplay = $ahref;
 							$aplay = str_replace('catalog/viewv', 'catalog/play', $aplay);
+							$aplay = str_replace('catalog/file', 'catalog/play', $aplay);
 			    			$panelContent .= '<ul><li>
 			    				<table><tr valign="middle">
 			    					<td>' . $ahref . '<img width="20" src="/img/icons/download-icon_16x16.png" /></a></td>
@@ -1214,7 +1223,8 @@ if (!empty($authUser['userid']) || $isWS)
 							$ahref = '<a target="_blank" href="' . $link['link'] . '">';
 							$aplay = $ahref;
 							$aplay = str_replace('catalog/viewv', 'catalog/play', $aplay);
-							$panelContent .= '<h3 style="margin-bottom:0px;">
+							$aplay = str_replace('catalog/file', 'catalog/play', $aplay);
+							$panelContent .= '
 			    				<table><tr valign="middle">
 			    					<td><img src="/img/greenstar.png" width="20" /></td>
 			    					<td>' . $ahref . '<img width="20" src="/img/icons/download-icon_16x16.png" /></a></td>
@@ -1248,6 +1258,7 @@ if (!empty($authUser['userid']) || $isWS)
 						$ahref = '<a target="_blank" href="' . $link['link'] . '">';
 						$aplay = $ahref;
 						$aplay = str_replace('catalog/viewv', 'catalog/play', $aplay);
+						$aplay = str_replace('catalog/file', 'catalog/play', $aplay);
 		    			$panelContent .= '<li>
 		    				<table><tr valign="middle">
 		    					<td>' . $ahref . '<img width="20" src="/img/icons/download-icon_16x16.png" /></a></td>
@@ -1264,7 +1275,8 @@ if (!empty($authUser['userid']) || $isWS)
 					$ahref = '<a target="_blank" href="' . $link['link'] . '">';
 					$aplay = $ahref;
 					$aplay = str_replace('catalog/viewv', 'catalog/play', $aplay);
-					$panelContent .= '<h3 style="margin-bottom:0px;">
+					$aplay = str_replace('catalog/file', 'catalog/play', $aplay);
+					$panelContent .= '
 	    				<table><tr valign="middle">
 	    					<td><img src="/img/greenstar.png" width="20" /></td>
 	    					<td>' . $ahref . '<img width="20" src="/img/icons/download-icon_16x16.png" /></a></td>

@@ -1,6 +1,12 @@
 <?php
-$num = 1;
+function msgBox($txt)
+{
+	return '
+		<div class="attention">' . $txt . '</div>
+	';
+}
 
+$num = 1;
 $isVip = (!empty($authUserGroups) && in_array(Configure::read('VIPgroupId'), $authUserGroups));
 
 /*
@@ -57,12 +63,15 @@ if (count($shareContent) > 0)
     	$isFL = strpos($res['url'], $flStr);//ЭТО ССЫЛКА ИЗ ОБМЕННИКА
     	if ($isFL && !$isWS) continue;
 
-		$recomended = '
-			<div class="recomended">' . __('This link is recommending for your region', true) . '</div>
-		';
+		$recomended = msgBox(__('This link is recommending for your region', true));
 
 		if ($isFL)
 		{
+			$ahref = '<a target="_blank" href="' . $res['url'] . '">';
+			$aplay = $ahref;
+			$aplay = str_replace('catalog/viewv', 'catalog/play', $aplay);
+			$aplay = str_replace('catalog/file', 'catalog/play', $aplay);
+
 	    	//if ($isVip)
 	    	if (($isVip) || ($isWS))
 	    	{
@@ -74,24 +83,43 @@ if (count($shareContent) > 0)
 	    			{
 						$panelContent .= '<h3 style="margin-bottom:0px;"><img src="/img/greenstar.png" width="20" /> ' . $res['title'] . ' ' . $film["Film"]["year"] . ' ';
 						$panelContent .= '</h3>';
-		    			$panelContent .= '<ul><li><a target="_blank" href="' . $res['url'] . '">' . $res['filename'] . '</a></li>';
+		    			$panelContent .= '<ul><li>';
+						$panelContent .= '<table><tr valign="middle">
+			    					<td>' . $ahref . '<img width="20" src="/img/icons/download-icon_16x16.png" /></a></td>
+			    				 	<td>' . $ahref . $res['filename'] . '</a></td>
+			    				 	<td>' . $aplay . '<img width="20" src="/img/icons/play-icon_16x16.png" /></a></td>
+			    				</tr></table>
+		    			</li>';
 	    			}
 	    			else
 	    			{
-						$panelContent .= '<h3 style="margin-bottom:0px;"><img src="/img/greenstar.png" width="20" /> <a target="_blank" href="' . $res['url'] . '">' . $res['title'] . '</a> ' . $film["Film"]["year"] . ' ';
-						$panelContent .= '<p></p></h3>';
+						$panelContent .= '<table><tr valign="middle">
+			    					<td><img src="/img/greenstar.png" width="20" /></td>
+			    					<td>' . $ahref . '<img width="20" src="/img/icons/download-icon_16x16.png" /></a></td>
+			    				 	<td><h3 style="margin-bottom:0px;">' . $ahref . $res['title'] . '</a> ' . $film["Film"]["year"] . '</h3></td>
+			    				 	<td>' . $aplay . '<img width="20" src="/img/icons/play-icon_16x16.png" /></a></td>
+			    				</tr></table>';
 	    			}
 	    		}
 	    		else
 	    		{
-	    			$panelContent .= '<li><a target="_blank" href="' . $res['url'] . '">' . $res['filename'] . '</a></li>';
+						$panelContent .= '<li><table><tr valign="middle">
+			    					<td>' . $ahref . '<img width="20" src="/img/icons/download-icon_16x16.png" /></a></td>
+			    				 	<td>' . $ahref . $res['filename'] . '</a></td>
+			    				 	<td>' . $aplay . '<img width="20" src="/img/icons/play-icon_16x16.png" /></a></td>
+			    				</tr></table></li>';
 	    		}
 	    	}
 	    	else
 	    	{
 	    		if ($startFL) continue;
 	    		$panelContent .=  $recomended;
-				$panelContent .= '<h3 style="margin-bottom:0px;"><img src="/img/greenstar.png" width="20" /> <a target="_blank" href="' . $res['url'] . '">' . $res['title'] . '</a> ' . $film["Film"]["year"] . '</h3><p></p>';
+				$panelContent .= '<table><tr valign="middle">
+	    					<td><img src="/img/greenstar.png" width="20" /></td>
+	    					<td>' . $ahref . '<img width="20" src="/img/icons/download-icon_16x16.png" /></a></td>
+	    				 	<td><h3 style="margin-bottom:0px;">' . $ahref . $res['title'] . '</a> ' . $film["Film"]["year"] . '</h3></td>
+	    				 	<td>' . $aplay . '<img width="20" src="/img/icons/play-icon_16x16.png" /></a></td>
+	    				</tr></table>';
 			}
 			$startFL++;
 			$max--;
