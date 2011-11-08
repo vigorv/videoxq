@@ -207,7 +207,7 @@ echo'</pre>';
         }
         else{
             //иначе добавляем кнопку в избранное
-            echo  '<a style="" href="/media/addtofavorites/'.$Film['id'].'"><img src="/img/icons/add-to-favorites-icon_32x32.png" title="Добавить в избранное"/> Добавить в избранное</a>';
+            echo  '<a style="" href="/media/addtofavorites/'.$Film['id'].'"><img src="/img/icons/add-to-favorites-icon_32x32.png" title="Добавить в избранное" id="icon_favorite"/><p style="padding-left:15px;padding-top:10px;">Добавить в избранное</p></a>';
         }
 
 /*

@@ -6,7 +6,7 @@ echo $this->element('maina/paginate');
  */
 ?>
 
-<div class="movies">
+<div class="movies_tv">
     <?
     if (!empty($films))
         foreach ($films as $film):

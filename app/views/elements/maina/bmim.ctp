@@ -13,14 +13,16 @@
     <li><a href="/maina/im/new"<?=($sub_act == 'new')? ' class="current"':''?>>Написать сообщение</a></li>
 </ul>
 <ul id="im_menu_act">   
-    <li style="float:right; margin-right: 1px;"><a href="/maina/im/inclear" id="im_clear">Очистить</a></li>
-    <li style="float:right;border-left: 1px solid #74ADE7;"><a href="/maina/im/in/del" id="im_del">Удалить выбранные</a></li>
+    <li style="float:right;"><a href="/maina/im/" id="clear">Очистить</a></li>
+    <li style="float:right;border-left: 1px solid #74ADE7;"><a href="/maina/im/" id="del">Удалить выбранные</a></li>
 </ul>
 </div>
 
 <script langauge="javascript">
+var subact='#';
+var x = ($('div.Frame').width())/2;
+var y =  280;
 jQuery(document).ready(function() {
-    
     $('#im_menu_nav a').click(
     function(event){
         event.preventDefault();
@@ -29,29 +31,67 @@ jQuery(document).ready(function() {
         $(this).addClass("current");
         
         if (link!='#') {
-                var x = ($('div.Frame').width())/2;
-                var y =  280;
             $('#ins_ajax').fadeOut(555, function(){
-                /*
-                var x = ($('.Frame_Content').width())/2;
-                var y =  ($('.Frame_Content').height())/2;
-                */
-
                 $(this).html('<img id="ajax_loader_icon" src="/img/ajax-loader.gif">');
                 x = x + ($('#ajax_loader_icon').width())/2;
                 y = y + ($('#ajax_loader_icon').height())/2;
-
-                
                 $('#ajax_loader_icon').attr("style","display: block; position: absolute; left: "+x+"px; top:"+y+"px");
                 $(this).fadeIn(555);
-                
                 $(this).load(link,'ajax',function(){});
             });
         }
         return false;
-        
     });
+    
+    
+    $('#clear').click(
+        function(event){
+            event.preventDefault();
+            if (!confirm('Вы точно хотите очистить сообщения?')) {return false;}
+            var link = $(this).attr("href");
+            if (subact=='in' || subact == 'out'){
+                $('#ins_ajax').fadeOut(555, function(){
+                    $(this).html('<img id="ajax_loader_icon" src="/img/ajax-loader.gif">');
+                    x = x + ($('#ajax_loader_icon').width())/2;
+                    y = y + ($('#ajax_loader_icon').height())/2;
+                    $('#ajax_loader_icon').attr("style","display: block; position: absolute; left: "+x+"px; top:"+y+"px");
+                    $(this).fadeIn(555);
+                    link = link + '/' + subact +'clear';
+                    
+                    $(this).load(link,'ajax',function(){});
+                });
+            }
+            return false;
+        });
+        
+    $('#del').click(
+        function(event){
+            event.preventDefault();
+            if (!confirm('Вы точно хотите удалить выбранные сообщения?')) {return false;}
+            var array_values = [];
+            $('.im_in_check_box input[type=checkbox]').each( function() {
+                if (this.checked){
+                    //alert ($(this).val());
+                    array_values.push( $(this).val() );
+                }
+            });
 
+            var arrayValues = array_values.join(',');
+           
+            var link = $(this).attr("href");
+            if (subact=='in' || subact == 'out'){
+                $('#ins_ajax').fadeOut(555, function(){
+                    $(this).html('<img id="ajax_loader_icon" src="/img/ajax-loader.gif">');
+                    x = x + ($('#ajax_loader_icon').width())/2;
+                    y = y + ($('#ajax_loader_icon').height())/2;
+                    $('#ajax_loader_icon').attr("style","display: block; position: absolute; left: "+x+"px; top:"+y+"px");
+                    $(this).fadeIn(555);
+                    link = link + subact +'del';
+                    $(this).load(link, { 'msg_id_list': array_values },function(){});
+                });
+            }
+            return false;
+        });
 
 });
 </script>

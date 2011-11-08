@@ -44,36 +44,71 @@ form label {
 </style>
 <?php 
         //echo $form->create(null, array('url' => array('controller' => 'maina', 'action' => '', 'enctype' => 'multipart/form-data')));
-        echo '<form action="/maina/im/new" method=post enctype="multipart/form-data">';
+        echo '<form id="im_new" action="/maina/im/new" method="post">';
 ?>
-
-<<<<<<< HEAD
-<div id="im_in_menu">
-<ul>
-			<li><a href="/maina/im/in" style="border-left: 1px solid #74ADE7;">Входящие</a></li>
-			<li><a href="/maina/im/out">Исходящие</a></li>
-			<li><a href="#" id="current">Написать сообщение</a></li>
-</ul>
 </div>
 <div id="ins_ajax">
-=======
->>>>>>> 897678fc1f79d0c44d42b0da24fcd6225ad984d1
 <?//выводим меню для сообщений (водящие / исходящие / новое и т.п.)?>
 <?=(!$isAjax)? ($this->element($blocks_m_im)).'<div id="ins_ajax">':'';?>  
+<?php if ($session->check('Message.flash'))$session->flash();?>
     <fieldset>
          <legend>Новое сообщение</legend>
     <?php
-        echo $form->input('to_user_name', array('label' => 'Кому', 'name' => 'to_user_name', 'size' => 75, 'value' => (!empty($data['to_user_name']) ? $data['to_user_name'] : '')));
-        echo $form->input('title', array('label' => 'Тема', 'name' => 'title', 'size' => 75,'value' => (!empty($data['title']) ? $data['title'] : '')));
-        echo $form->input('msg', array('label' => 'Сообщение', 'name' => 'msg','type' => 'textarea','rows' => '5', 'cols' => '58', 'value' => (!empty($data['msg']) ? $data['msg'] : '')));
+        echo $form->input('to_user_name', array('label' => 'Кому', 'name' => 'to_user_name', 'style' => 'width:550px', 'size' => 75, 'value' => (!empty($data['to_user_name']) ? $data['to_user_name'] : '')));
+        echo $form->input('title', array('label' => 'Тема', 'name' => 'title', 'style' => 'width:550px', 'size' => 75,'value' => (!empty($data['title']) ? $data['title'] : '')));
+        echo $form->input('msg', array('label' => 'Сообщение', 'name' => 'msg', 'style' => 'width:550px','type' => 'textarea','rows' => '5', 'cols' => '58', 'value' => (!empty($data['msg']) ? $data['msg'] : '')));
     ?>
     </fieldset>
 <?php echo $form->end('Отправить');?>
-<<<<<<< HEAD
+</div>
+<script language="javascript">
+    subact='<?=$sub_act;?>';
+    $('#im_menu_act').fadeOut();
+   if ($('#flashMessage').length > 0 ){
+       var wp = $('#flashMessage').parent().width();
+       var wm = $('#flashMessage').width();
+       var xm = (wp/2 - wm/2) - 25 ;
+       $('#flashMessage').css('left', xm+'px').show();
+       $('#flashMessage').fadeOut(8000);
+   }   
+   
+   
+   
+   
+$(document).ready(function(){
 
-</div>
-<?=(!$isAjax)? '</div>':'';?>  
-=======
-</div>
+  var options = { 
+    target: "#ins_ajax", 
+    beforeSubmit: showAjaxLoader,
+    success: showResponse, 
+    timeout: 3000000 
+  };
+
+  $('#im_new').submit(function() { 
+    $(this).ajaxSubmit(options); 
+    return false;
+  }); 
+
+});
+
+
+function showAjaxLoader(formData, jqForm, options) { 
+    $('#ins_ajax').fadeOut(555, function(){
+        $(this).html('<img id="ajax_loader_icon" src="/img/ajax-loader.gif">');
+        x = x + ($('#ajax_loader_icon').width())/2;
+        y = y + ($('#ajax_loader_icon').height())/2;
+        $('#ajax_loader_icon').attr("style","display: block; position: absolute; left: "+x+"px; top:"+y+"px");
+        $(this).fadeIn(555);
+    });    
+    return true; 
+} 
+ 
+function showResponse(responseText, statusText)  { 
+    $('#im_menu_nav a').removeClass("current");
+    $(this).addClass("current");
+    
+    $('#im_menu_act').fadeIn();
+    $('#ins_ajax').html(responseText);
+}   
+</script>
 <?=(!$isAjax)? '</div>':'';?>
->>>>>>> 897678fc1f79d0c44d42b0da24fcd6225ad984d1

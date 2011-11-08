@@ -7,6 +7,7 @@
         echo $html->css('themes/' . $theme_id . '/main');
         //echo $javascript->link(array('jquery.fancybox-1.3.4/jquery-1.4.3.min', 'scripts', 'validation'));
         echo $javascript->link(array('jquery-1.6.4.min', 'scripts', 'validation'));
+        echo $javascript->link(array('jquery.form', 'scripts', 'validation'));
         echo $scripts_for_layout;
         ?>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -72,18 +73,7 @@
         return false;
     }
     
-    jQuery(document).ready(function() {    
-       if ($('#flashMessage').length > 0 ){
-           var wp = $('#flashMessage').parent().width();
-           var wm = $('#flashMessage').width();
-           var x = (wp/2 - wm/2) - 25 ;
-           // - 25 - padding correction
-           //alert(wp +' '+ wm +' '+ x);
-           $('#flashMessage').css('left', x+'px').show();
 
-           $('#flashMessage').fadeOut(8000);
-       }
-    });
         </script>
 <style>
     #flashMessage, #authMessage {
@@ -135,11 +125,7 @@
 				<div class="Frame_RightGradient">
 				</div>
 				<div class="Frame_Content">
-                                    <?php
-                                        //вывод служебных сообщений
-                                        if ($session->check('Message.flash'))
-                                            $session->flash();      
-                                    ?>
+                                    
 					<?= $content_for_layout; ?>
                 </div>
 			</div>
@@ -158,7 +144,7 @@
 
                     </div>
                     <div id="navigation_tv">
-            <?php $tvIcons->AllIcons();$tvIcons->IconsShow(array("left","refresh","vid_list","vid_eskiz","right")); 
+            <?php $tvIcons->AllIcons();$tvIcons->IconsShow(array("left", "refresh", "number_6", "number_9", "number_12", "number_24", "vid_list","vid_eskiz","right"));
             //<a href="#"><img src="/img/main/refresh.png" id="icon_refresh" alt="Обновить" /></a>
             //<a href="#" onclick="switchOn(this); return saveOption('Profile.itemsView', 'list');><img src="/img/main/list.png" class="icon_list" alt="Вид отображения: Список" /></a>
            // <a href="#" onclick="switchOn(this); return saveOption('Profile.itemsView', 'eskiz');"><img src="/img/main/eskiz.png" class="icon_eskiz" alt="Вид отображения: Эскизом" /></a>
