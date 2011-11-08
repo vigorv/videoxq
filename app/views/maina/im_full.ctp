@@ -1,12 +1,25 @@
 <?//выводим меню для сообщений (водящие / исходящие / новое и т.п.)?>
 <?=(!$isAjax)? ($this->element($blocks_m_im)).'<div id="ins_ajax">':'';?>  
 <?php if ($session->check('Message.flash'))$session->flash();?>
+<?php 
+$tousernames = '';
+foreach(unserialize($message[$i]["Pmsg"]["touserarray"]) as $val){
+    $tousernames = (!$tousernames)? '' : $tousernames.', ';
+    $tousernames.= join(', ', $val);
+}
+
+?>
 <div id="im_in_full">
 <div id="im_in_avatar_full"><img src="http://videoxq.com/forum/image.php?u=113534&dateline=1317973359&type=thumb" />
 </div>
 <div id="im_in_login_time_full">
-<div id="im_in_login_full"><a href="#"><?=(!empty($message[0]['Pmsg']['fromusername']))? $message[0]['Pmsg']['fromusername'] : ''?></a></div>
-<div id="im_in_time_full"><?=(!empty($message[0]['Pmsg']['date']))? $message[0]['Pmsg']['date'] : 'Дата неизвестна ('?></div>
+<div id="im_in_login_full">
+    Отправитель: <a href="#"><?=(!empty($message[0]['Pmsg']['fromusername']))? $message[0]['Pmsg']['fromusername'] : ''?></a>
+    <br/>
+    Получатель: <a href="#"><?=$tousernames?></a>
+    
+</div>
+<div id="im_in_time_full">Дата: <?=gmdate('d.n.Y h:i', $messages[$i]["Pmsg"]["dateline"]);?></div>
 <div id="im_in_theme_full">Тема: <?=(!empty($message[0]['Pmsg']['title']))? $message[0]['Pmsg']['title'] : ''?></div>
 </div>
 <div id="im_in_short_text_full"><?=(!empty($message[0]['Pmsg']['message']))? $message[0]['Pmsg']['message'] : ''?></div>

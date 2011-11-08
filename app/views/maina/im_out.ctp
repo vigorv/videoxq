@@ -10,8 +10,8 @@ if (sizeof($messages) == 0)
 }
 for ($i=0;$i < sizeof($messages);$i++)
 {
-$messages[$i]["Pmsg"]["title"] = substr($messages[$i]["Pmsg"]["title"], 0, 50);
-$messages[$i]["Pmsg"]["message"] = substr($messages[$i]["Pmsg"]["message"], 0, 70);
+$messages[$i]["Pmsg"]["title"] = mb_substr($messages[$i]["Pmsg"]["title"], 0, 50);
+$messages[$i]["Pmsg"]["message"] = mb_substr($messages[$i]["Pmsg"]["message"], 0, 70);
 $tousernames = '';
 foreach(unserialize($messages[$i]["Pmsg"]["touserarray"]) as $val){
     $tousernames = (!$tousernames)? '' : $tousernames.', ';
@@ -69,6 +69,7 @@ if (!empty($im_pagination) && $im_pagination['page_count']>1){
 <script language="javascript">
     subact='<?=$sub_act;?>';
     $('#im_menu_act').fadeIn();
+    $('#out_btn').addClass("current");
     
    if ($('#flashMessage').length > 0 ){
        var wp = $('#flashMessage').parent().width();
