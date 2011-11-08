@@ -23,43 +23,43 @@ class TvIconsHelper extends AppHelper {
        {
 		if ($name[$i] == 'left')
         {
-            echo "<a href='#'><img src='".$this->icons['left']['path']."' alt='".$this->icons['left']['title']."' id='".$this->icons['left']['id']."'  /></a>";
+            echo "<a href='#' title='".$this->icons['left']['title']."'><img src='".$this->icons['left']['path']."' alt='".$this->icons['left']['title']."' id='".$this->icons['left']['id']."' /></a>";
         }
         if ($name[$i] == 'right')
         {
-            echo "<a href='#'><img src='".$this->icons['right']['path']."' alt='".$this->icons['right']['title']."' id='".$this->icons['right']['id']."'  /></a>";
+            echo "<a href='#' title='".$this->icons['right']['title']."'><img src='".$this->icons['right']['path']."' alt='".$this->icons['right']['title']."' id='".$this->icons['right']['id']."' /></a>";
         }
         if ($name[$i] == 'refresh')
         {
-           echo "<a href='#'><img src='".$this->icons['refresh']['path']."' alt='".$this->icons['refresh']['title']."' id='".$this->icons['refresh']['id']."'  /></a>";
+           echo "<a href='#'  title='".$this->icons['refresh']['title']."'><img src='".$this->icons['refresh']['path']."' alt='".$this->icons['refresh']['title']."' id='".$this->icons['refresh']['id']."' /></a>";
         }
         if ($name[$i] == 'vid_eskiz')
         {
-            echo "<a href='#' ".$this->icons['vid_eskiz']['event']."><img src='".$this->icons['vid_eskiz']['path']."' alt='".$this->icons['vid_eskiz']['title']."' class='".$this->icons['vid_eskiz']['id']."'  /></a>";
+            echo "<a href='#' ".$this->icons['vid_eskiz']['event']." title='".$this->icons['vid_eskiz']['title']."'><img src='".$this->icons['vid_eskiz']['path']."' alt='".$this->icons['vid_eskiz']['title']."' class='".$this->icons['vid_eskiz']['id']."' /></a>";
         }
         if ($name[$i] == 'vid_list')
         {
-            echo "<a href='#' ".$this->icons['vid_list']['event']."><img src='".$this->icons['vid_list']['path']."' alt='".$this->icons['vid_list']['title']."' class='".$this->icons['vid_list']['id']."'  /></a>";
+            echo "<a href='#' ".$this->icons['vid_list']['event']." title='".$this->icons['vid_list']['title']."'><img src='".$this->icons['vid_list']['path']."' alt='".$this->icons['vid_list']['title']."' class='".$this->icons['vid_list']['id']."' /></a>";
         }
         if ($name[$i] == 'number_3')
         {
-            echo "<a href='#' ".$this->icons['number_3']['event']."><img src='".$this->icons['number_3']['path']."' alt='".$this->icons['number_3']['title']."' class='".$this->icons['number_3']['id']."'  /></a>";
+            echo "<a href='#' ".$this->icons['number_3']['event']." title='".$this->icons['number_3']['title']."'><img src='".$this->icons['number_3']['path']."' alt='".$this->icons['number_3']['title']."' class='".$this->icons['number_3']['id']."' /></a>";
         }
         if ($name[$i] == 'number_6')
         {
-            echo "<a href='#' ".$this->icons['number_6']['event']."><img src='".$this->icons['number_6']['path']."' alt='".$this->icons['number_6']['title']."' class='".$this->icons['number_6']['id']."'  /></a>";
+            echo "<a href='#' ".$this->icons['number_6']['event']." title='".$this->icons['number_6']['title']."'><img src='".$this->icons['number_6']['path']."' alt='".$this->icons['number_6']['title']."' class='".$this->icons['number_6']['id']."' /></a>";
         }
         if ($name[$i] == 'number_9')
         {
-            echo "<a href='#' ".$this->icons['number_9']['event']."><img src='".$this->icons['number_9']['path']."' alt='".$this->icons['number_9']['title']."' class='".$this->icons['number_9']['id']."'  /></a>";
+            echo "<a href='#' ".$this->icons['number_9']['event']." title='".$this->icons['number_9']['title']."'><img src='".$this->icons['number_9']['path']."' alt='".$this->icons['number_9']['title']."' class='".$this->icons['number_9']['id']."' /></a>";
         }
         if ($name[$i] == 'number_12')
         {
-            echo "<a href='#' ".$this->icons['number_12']['event']."><img src='".$this->icons['number_12']['path']."' alt='".$this->icons['number_12']['title']."' class='".$this->icons['number_12']['id']."'  /></a>";
+            echo "<a href='#' ".$this->icons['number_12']['event']." title='".$this->icons['number_12']['title']."'><img src='".$this->icons['number_12']['path']."' alt='".$this->icons['number_12']['title']."' class='".$this->icons['number_12']['id']."' /></a>";
         }
         if ($name[$i] == 'number_24')
         {
-            echo "<a href='#' ".$this->icons['number_24']['event']."><img src='".$this->icons['number_24']['path']."' alt='".$this->icons['number_24']['title']."' class='".$this->icons['number_24']['id']."'  /></a>";
+            echo "<a href='#' ".$this->icons['number_24']['event']." title='".$this->icons['number_24']['title']."'><img src='".$this->icons['number_24']['path']."' alt='".$this->icons['number_24']['title']."' class='".$this->icons['number_24']['id']."'  /></a>";
         }
         }
 }
