@@ -283,7 +283,14 @@ width: 13%;
 	font: 14px/130% Trebuchet MS;
 	color: #555;
 	font-style: normal;
-    text-transform: capitalize;
+    text-transform: lowercase;
+}
+#content-main div.news-block_text b {
+    font-weight: normal;
+    }
+#content-main div.news-block_text span {
+    font-weight: normal;
+    font-family: Trebuchet MS;
 }
 #content-main div.news-block img {
 	float: left;
