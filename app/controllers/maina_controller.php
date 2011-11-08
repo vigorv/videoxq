@@ -66,7 +66,7 @@ class MainaController extends AppController {
         else
             $this->ImgPath = Configure::read('Catalog.imgPathInet');
         $page = 1;
-        $per_page = 0;//ПРОЧИТАЕМ ИЗ НАСТРОЕК
+        $per_page = 0;//ПОЛУЧИМ ИЗ НАСТРОЕК
         $ajaxmode = 0;
         if (isset($_GET['page'])) {
             $page = filter_var($_GET['page'], FILTER_VALIDATE_INT);
@@ -360,6 +360,7 @@ exit;
                     $this->Pmsg->setMessageRead($msgid);
                     //и дадим прочитать юзеру
                     $message = $this->Pmsg->getMessageFull($this->authUser['userid'], $msgid);
+                    pr($message);
                     $this->set('message', $message);
                     $this->render('im_full');
                 }
