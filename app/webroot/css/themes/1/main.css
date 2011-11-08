@@ -13,7 +13,7 @@
 }
 
 #main_inner{
-    
+
     background-color: white;
     width:910px;
     height:720px;
@@ -36,7 +36,7 @@ div.SmartFrame
 			background-image: url('/img/main/1/tv/left_top_verx.png');
 			background-position: top top;
 			background-repeat: repeat-x;
-            
+
 			margin-left: 8px;
 			margin-right: 8px;
 		}
@@ -44,19 +44,19 @@ div.SmartFrame
 		{
 			float: left;
 			margin-left: -10px;
-            
+
 			background-image: url('/img/main/1/tv/left_top_tv.png');
 			width: 53px;
 			height: 318px;
-            position: absolute;            
-            
+            position: absolute;
+
 		}
 		div.Frame_RightTop
 		{
 			margin-right: -8px;
 			float: right;
 			background-image: url('/img/main/1/tv/right_top_tv2.png');
-            
+
 			width: 66px;
 			height: 312px;
 		}
@@ -67,10 +67,10 @@ div.SmartFrame
         margin-left: 40px;
         text-align: justify;
         padding-left: 15px;
-        
-        
-        
-        
+
+
+
+
 		}
 		div.Frame_Left
 		{
@@ -79,16 +79,16 @@ div.SmartFrame
             margin-left: -2px;
             margin-top: -15px;
             padding-top: 10px;
-            
-            
-            
+
+
+
 		}
 		div.Frame_LeftGradient
 		{
 			background-image: url('/img/main/1/tv/left_center_tv.png');
 			width:38px;
 			float: left;
-            
+
 		}
 		div.Frame_Right
 		{
@@ -96,14 +96,14 @@ div.SmartFrame
 			background-repeat: repeat-y;
 			background-position: right top;
 			margin-left: 8px;
-            
-            
+
+
 		}
 		div.Frame_RightGradient
 		{
 			background-image: url('/img/main/1/tv/right_center_tv.png');
 			width: 47px;
-			
+
 			float: right;
 		}
 		div.Frame_Bottom
@@ -111,9 +111,9 @@ div.SmartFrame
 			margin-left: 45px;
 			margin-right: 48px;
 			background-image: url('/img/main/1/tv/right_bottom_niz_tv2.png');
-            
+
 			height: 52px;
-            
+
 		}
 		div.Frame_LeftBottom
 		{
@@ -141,7 +141,7 @@ div.SmartFrame
             height: 116px;
             width:769px;
             margin: -52px auto;
-            
+
 		}
 
 #block_right{
@@ -206,7 +206,7 @@ div.SmartFrame
 .icon_eskiz { padding-left: 5px; border-left: 2px solid #000;opacity:0.6;filter:progid:DXImageTransform.Microsoft.Alpha(opacity=60); border: 0;}
 .icon_number6 { padding-bottom: 7px; margin-left: 45%;opacity:0.6;filter:progid:DXImageTransform.Microsoft.Alpha(opacity=60);}
 .icon_number9, .icon_number12, .icon_number24 { padding-bottom: 7px; margin-left: 5px;opacity:0.6;filter:progid:DXImageTransform.Microsoft.Alpha(opacity=60);}
-.currentTvIcon { opacity: 1;filter:progid:DXImageTransform.Microsoft.Alpha(opacity=100); }
+.currentTvIcon, .currentDigitIcon { opacity: 1;filter:progid:DXImageTransform.Microsoft.Alpha(opacity=100); }
 
 /*vxodyachue sms*/
 
