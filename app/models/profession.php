@@ -43,6 +43,32 @@ class Profession extends MediaModel {
         }
     }
 
+	/**
+	 * обновить список ролей согласно списку фильмов
+	 *
+	 * @param mixed $ids - список идентификаторов фильмов для обновления
+	 */
+    function migrateByFilmList($ids)
+    {
+        set_time_limit(50000000000);
+        $this->useDbConfig = 'migration';
+
+        $idsSQL = ' IN (' . implode(',', $ids) . ')';
+        $sql = 'SELECT DISTINCT roles.* FROM roles INNER JOIN filmpersones ON (filmpersones.RoleID=roles.ID AND filmpersones.FilmID ' . $idsSQL . ')';
+        $roles = $this->query($sql);
+
+        $this->useDbConfig = $this->defaultConfig;
+
+        $this->cacheQueries = false;
+        foreach ($roles as $role)
+        {
+            extract($role['roles']);
+            $Role = iconv('windows-1251', 'utf-8', $Role);
+            $save = array($this->name => array('title' => $Role, 'id' => $ID));
+            $this->create();
+            $this->save($save);
+        }
+    }
 
 }
 ?>

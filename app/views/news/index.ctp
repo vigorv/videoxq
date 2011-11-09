@@ -1,6 +1,8 @@
 <style>
 .pagination_nav {
-    margin-top: 80px;
+    float:left;
+    width:100%;
+    margin-top: 20px;
     padding: 15px 5px 15px 5px;
     text-align: center;
     border-top: 1px solid #aaa;
@@ -133,10 +135,11 @@ function equalHeight(group) {
 								$img = '';
 							echo '
 						<div class="news-block">
+							<div class="news-block_date"><p>' . intval(date('d', strtotime($l['News']['created']))) . ' ' . $months[date('m', strtotime($l['News']['created']))] . ' ' . date('Y', strtotime($l['News']['created'])) . ' года</p>
+							<p><a href="/news/view/' . $l['News']['id'] . '">' . $l['News']['title'] . '</a></p></div>
+							<div class="news-block_text">
 							' . $img . '
-							<p>' . intval(date('d', strtotime($l['News']['created']))) . ' ' . $months[date('m', strtotime($l['News']['created']))] . ' ' . date('Y', strtotime($l['News']['created'])) . ' года</p>
-							<p><a href="/news/view/' . $l['News']['id'] . '">' . $l['News']['title'] . '</a></p>
-							<p class="short">' . $l['News']['stxt'] . '</p>
+							' . $l['News']['stxt'] . '</div>
 						</div>
 							';
 						}
