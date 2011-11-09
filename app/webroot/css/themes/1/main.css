@@ -168,8 +168,22 @@ div.SmartFrame
     padding-top:20px;
     padding-left:20px;
     display: block;
+    float:left;
 }
-
+#vixod {
+    float:left;
+    padding-top:23px;
+    padding-left:20px;
+}
+#vixod_b {
+    padding: 5px; 
+    background: #272727; 
+    color: white; 
+    text-decoration: none;
+}
+#vixod_b:hover {
+    background: #666666;
+    }
 .user_actions a{
     text-decoration: none;
     line-height: 16px;
