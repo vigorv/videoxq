@@ -46,6 +46,34 @@ class Country extends MediaModel {
         }
     }
 
+	/**
+	 * обновить список стран согласно списку фильмов
+	 *
+	 * @param mixed $ids - список идентификаторов фильмов для обновления
+	 */
+    function migrateByFilmList($ids)
+    {
+        set_time_limit(50000000000);
+        $this->useDbConfig = 'migration';
+
+        $idsSQL = ' IN (' . implode(',', $ids) . ')';
+        $sql = 'SELECT DISTINCT countries.* FROM countries INNER JOIN filmcountries ON (filmcountries.CountryID=countries.ID AND filmcountries.FilmID ' . $idsSQL . ')';
+
+        $countries = $this->query($sql);
+
+        $this->useDbConfig = $this->defaultConfig;
+
+        $this->cacheQueries = false;
+        foreach ($countries as $country)
+        {
+            extract($country['countries']);
+            $Name = iconv('windows-1251', 'utf-8', $Name);
+            $imdbCountry = iconv('windows-1251', 'utf-8', $imdbCountry);
+            $save = array($this->name => array('title' => $Name, 'title_imdb' => $imdbCountry, 'id' => $ID));
+            $this->create();
+            $this->save($save);
+        }
+    }
 
     /**
      * Получает список стран с кол-вом фильмов для каждой страны
