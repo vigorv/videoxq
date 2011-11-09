@@ -62,44 +62,26 @@ form label {
 <?php echo $form->end('Отправить');?>
 </div>
 <script language="javascript">
-    subact='<?=$sub_act;?>';
-    saveOptionNoAction('Profile.im_subact', subact);
-    $('#im_menu_act').fadeOut();
-   if ($('#flashMessage').length > 0 ){
-       var wp = $('#flashMessage').parent().width();
-       var wm = $('#flashMessage').width();
-       var xm = (wp/2 - wm/2) - 25 ;
-       $('#flashMessage').css('left', xm+'px').show();
-       $('#flashMessage').fadeOut(8000);
-   }   
-   
-   
-   
-   
+subact='<?=$sub_act;?>';
+saveOptionNoAction('Profile.im_subact', subact);
+$('#im_menu_act').fadeOut();
+centerAndFadeFlashMessage();   
 $(document).ready(function(){
-
   var options = { 
     target: "#ins_ajax", 
     beforeSubmit: showAjaxLoader,
     success: showResponse, 
     timeout: 3000000 
   };
-
   $('#im_new').submit(function() { 
     $(this).ajaxSubmit(options); 
     return false;
   }); 
-
 });
-
 
 function showAjaxLoader(formData, jqForm, options) { 
     $('#ins_ajax').fadeOut(555, function(){
-        $(this).html('<img id="ajax_loader_icon" src="/img/ajax-loader.gif">');
-        x = x + ($('#ajax_loader_icon').width())/2;
-        y = y + ($('#ajax_loader_icon').height())/2;
-        $('#ajax_loader_icon').attr("style","display: block; position: absolute; left: "+x+"px; top:"+y+"px");
-        $(this).fadeIn(555);
+        $(this).showAjaxLoader();
     });    
     return true; 
 } 

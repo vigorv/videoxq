@@ -40,30 +40,21 @@ jQuery(document).ready(function() {
         var client_par = $(this);
         var link = $(this).attr("href");
         if (link!='#') {
-            //currentTVLink = link;
             $('.currentSubMenu').removeClass('currentSubMenu');
             $(this).addClass('currentSubMenu');
-            
-                var x = ($('div.Frame').width())/2;
-                var y =  280;
-                //alert (x);alert (y);
-
             $('.Frame_Content').fadeOut(555, function(){
-                /*
-                var x = ($('.Frame_Content').width())/2;
-                var y =  ($('.Frame_Content').height())/2;
-                */
-
-                $(this).html('<img id="ajax_loader_icon" src="/img/ajax-loader.gif">');
-                x = x + ($('#ajax_loader_icon').width())/2;
-                y = y + ($('#ajax_loader_icon').height())/2;
-
-                
-                $('#ajax_loader_icon').attr("style","display: block; position: absolute; left: "+x+"px; top:"+y+"px");
-                $(this).fadeIn(555);
-                $(this).load(link,'ajax',function(){});
+//                $(this).load(link,'',function(){});                
+                container = $(this);
+                container.showAjaxLoader();
+                if(xhr!=null){ xhr.abort();}
+                xhr = $.ajax({
+                    url : link,
+                    type: "POST",
+                    success : function(responseText) {
+                        container.html(responseText);
+                    }
+                });
             });
-
             return false;
         }
         var par = $(this).parent();
