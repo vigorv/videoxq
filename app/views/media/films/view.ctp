@@ -1,4 +1,36 @@
 <?php
+    extract($film);
+if ($isWS)
+{
+	$geoIsGood = true;
+}
+
+if (($geoIsGood) && ($Film['is_license']) && ($authUser['userid']))
+{
+	$isWS = true;
+}
+/*
+//РОССИЯ СТК
+$isWS = true;
+$allowDownload = $isWS;
+$geoIsGood = true;
+//*/
+
+/*
+//РОССИЯ ВНЕШНИЕ
+$isWS = false;
+$allowDownload = true;
+$geoIsGood = true;
+//*/
+
+/*
+//ЗАРУБЕЖНЫЕ
+$isWS = false;
+$allowDownload = $isWS;
+$geoIsGood = false;
+//*/
+//$isWS = false;
+
 function msgBox($txt)
 {
 	return '
@@ -69,7 +101,6 @@ echo'</pre>';
     $html->css('fancybox-1.3.4/jquery.fancybox-1.3.4', null, array(), false);
 
     $posterTitle = '';
-    extract($film);
     $posters = Set::extract('/FilmPicture[type=poster]/.', $film);
     $bigposters = Set::extract('/FilmPicture[type=bigposter]/.', $film);
 
@@ -241,12 +272,6 @@ echo'</pre>';
 
         <tr>
             <td align="center">
-<?php
-	if (!$Film['is_license'])
-	{
-    	echo '<font size="1" color="grey">на правах рекламы</font>';
-	}
-?>
             </td>
         </tr>
 -->
@@ -255,12 +280,129 @@ echo'</pre>';
 
 
 </div>
-    <h2>«<a rel="nohref" nohref="nohref"><?php
+    <div id="filmviewicons">
+    <h2>«<?php
     	if ($lang == _ENG_)
     		echo $imdbTitle;
     	else
     		echo $Film['title'];
-    ?></a>»</h2>
+    ?>»
+<?php
+//ИКОНКИ НА СКАЧИВАНИЕ И НА ОНЛАЙН-ПРОСМОТР
+
+	$totalFilesCnt = 0;
+	$firstFileId = 0;
+	$firstFileName = '';
+	$flLinksCnt = 0;
+	$firstLink = '';
+	$neededVideoType = 2; //gjrf пока интересует только DVD-качество
+	foreach ($FilmVariant as $variant)//ПОДСЧЕТ КОЛ-ВА ССЫЛОК НА ФАЙЛЫ
+	{
+		if ($variant['video_type_id'] != $neededVideoType)
+			continue;
+
+		if (!empty($variant['FilmFile']))
+		{
+			foreach ($variant['FilmFile'] as $file)
+			{
+				$firstFileId = $file['id'];
+				$firstFileName = $file['file_name'];
+				$totalFilesCnt++;
+			}
+		}
+	}
+
+	foreach ($FilmVariant as $variant)//ПОДСЧЕТ КОЛ-ВА ССЫЛОК НА ОБМЕННИК
+	{
+		if (!empty($variant['FilmLink']))
+		{
+			foreach ($variant['FilmLink'] as $link)
+			{
+				if (strpos($link['link'], Configure::read('App.webShare')) !== false)
+				{
+					$firstLink = $link['link'];
+					$flLinksCnt++;
+				}
+			}
+		}
+	}
+
+	$downloadHref = 'href="#panels"';
+	$viewHref = 'href="#panels"';
+	if ($Film['is_license'])
+	{
+		if ($totalFilesCnt == 1)
+		{
+			$downloadHref = 'target="_blank" href="' . Film::set_input_server($Film['dir']).'/' . $firstFileName . '"';
+			$viewHref = 'rel="video" href="#video' . $firstFileId . '"';
+		}
+	}
+	else
+	{
+		if ($isWS)
+		{
+			if ($flLinksCnt == 1)
+			{
+				//ДЛЯ ВСЕХ ФАЙЛОВ $downloadHref = 'target="_blank" href="' . Configure::read('App.webShare') . 'catalog/meta/' . $Film['id'] . '/2/1"';//2 - ПОКА ПРИНУДИТЕЛЬНО ИЩЕМ ТОЛЬКО ДВД-качество
+				$downloadHref = 'target="_blank" href="' . $firstLink . '"';
+				$aplay = $firstLink;
+				$aplay = str_replace('catalog/viewv', 'catalog/file', $aplay);
+				$aplay .= '/1';//AUTOPLAY
+
+				$viewHref = 'target="_blank" href="' . $aplay . '"';
+			}
+		}
+		else
+		{
+			$downloadHref = '';
+			$viewHref = '';
+		}
+	}
+
+	if (!$geoIsGood || ($allowDownload && !$isWS && empty($authUser['userid'])))
+	{
+		$downloadHref = '';
+		$viewHref = '';
+	}
+
+	if (!empty($downloadHref))
+    	echo  '<a ' . $downloadHref . '><img src="/img/icons/download-icon_32x32.png" title="' . __('Download Movie', true) . '"/></a>';
+	if (!empty($viewHref))
+	    echo  '<a ' . $viewHref . '><img src="/img/icons/play-icon_32x32.png" title="' . __('Click To Play', true) . '"/></a>';
+
+    //для зарегеных юзеров функционал "избранное"!
+    //добавим времнное условие для скрытия кнопочек на внешнем сайте
+    if (!empty($authUser['userid']) && !stristr(Configure::read('App.siteUrl'),'videoxq.com') ){
+        if (!empty($exist_film_in_favorites) && $exist_film_in_favorites){
+            //если фильм уже в избранном, то выведем сооствествующий значок
+            //с подписью на память :)
+            echo  '<img src="/img/icons/favorites-icon_32x32.png" title="Фильм находится в избранном"/>';
+            //Добаим значок удалить из избранного
+            echo  '<a style="" href="/media/removefromfavorites/'.$Film['id'].'"><img src="/img/icons/remove-from-favorites-icon_32x32.png" title="Удалить из избранного"/></a>';
+        }
+        else{
+            //иначе добавляем кнопку в избранное
+            echo  '<a style="" href="/media/addtofavorites/'.$Film['id'].'"><img src="/img/icons/add-to-favorites-icon_32x32.png" title="Добавить в избранное"/></a>';
+        }
+
+/*
+        if ( isset($ajax) ) {
+            echo $ajax->link('Добавить в избранное', '/media/addtofavorites/' . $Film['id'] ,
+                array(
+                    'update'=>'updated',
+                    'loading' =>"Element.show('loading')",
+                    'complete' => "Element.hide('loading')"
+                    ));
+        } else {
+          echo $html->link('Добавить в избранное', '/media/addtofavorites/' . $Film['id']);
+        }
+
+*/
+    }
+?>
+    </h2>
+    </div>
+
     <h3><?php
     	if ($lang != _ENG_) echo $Film['title_en'];
     ?><br>
@@ -483,37 +625,6 @@ if (!empty($similars))
 	$faqLink = ' &nbsp;<span style="font-size:25px"><a alt="' . __('How to download?', true) . '" title="' . __('How to download?', true) . '" href="/pages/faq#download">&nbsp;?&nbsp;</a></span>';
 	$yandexLink = '<h3 style="margin-top:12px;"><a target="_blank" href="/media/lite/' . $Film['id'] . '" title="' . __('Download Movie', true) . '">"' . $Film['title' . $langFix] . '" ' . __('download', true) . ' &raquo;</a>' . $faqLink . '</h3>';
 
-/*
-//РОССИЯ СТК
-$isWS = true;
-$allowDownload = $isWS;
-$geoIsGood = true;
-//*/
-
-/*
-//РОССИЯ ВНЕШНИЕ
-$isWS = false;
-$allowDownload = $isWS;
-$geoIsGood = true;
-//*/
-
-if ($isWS)
-{
-	$geoIsGood = true;
-}
-
-if (($geoIsGood) && ($Film['is_license']) && ($authUser['userid']))
-{
-	$isWS = true;
-}
-/*
-//ЗАРУБЕЖНЫЕ
-$isWS = false;
-$allowDownload = $isWS;
-$geoIsGood = false;
-//*/
-
-//$isWS = false;
 if ($isWS)
 	{
 /*
@@ -532,8 +643,7 @@ if ($geoIsGood)
 $language		= ''; //на случай неустановленной информации о трэке
 $translation	= ''; //на случай неустановленной информации о трэке
 $audio_info		= ''; //на случай неустановленной информации о трэке
-$divxContent	= '';
-
+//$divxContent	= '';
 $FilmVariant[] = array('video_type_id' => 9);
 $FilmVariant[] = array('video_type_id' => 2);
 $FilmVariant[] = array('video_type_id' => 13);
@@ -595,7 +705,7 @@ foreach ($FilmVariant as $variant)
 	}
 
 	$mediaInfo .= '</h4>';
-
+/*
 		if (!empty($authUser['userid']))
 		{
 			if ($isVip || $isWS) //ДЛЯ ВИПОВ ВВОДИМ УПРАВЛЕНИЕ ВИДИМОСТЬЮ ПЛЕЕРА
@@ -611,7 +721,9 @@ foreach ($FilmVariant as $variant)
 				}
 			}
 		}
+*/
 
+/*
 		$divxContent = '<a name="divx"></a><div id="divxdiv" style="z-index:1;">';
 		$divxHtml = '';
     	$lnk = Film::set_input_server($Film['dir']).'/' . $FilmVariant[0]['FilmFile'][0]['file_name'];
@@ -659,7 +771,10 @@ height="' . $resolution[1] . '" codebase="http://go.divx.com/plugin/DivXBrowserP
 			</script>
 		';
     $divxContent .= '</div>';
+*/
+
 //КНОПКА ВКЛ/ВЫКЛ ПРОИГРЫВАТЕЛЯ
+/*
     $playSwitchButton = '';
 	if (!empty($authUser['userid']))
 	{
@@ -677,7 +792,7 @@ height="' . $resolution[1] . '" codebase="http://go.divx.com/plugin/DivXBrowserP
 		}
 	}
 	$divxContent .= $playSwitchButton;
-
+*/
 
 $linksContent .= '
 	<script type="text/javascript">
@@ -761,9 +876,11 @@ if (count($variant['FilmFile']) > 0)
 //	        $panelContent .= $html->link($img, '/basket/' . $action . '/' . $variant['id'] . '/variant', array('onclick' => 'basket('.$variant['id'].', \'variant\', this);return false;','id' => 'variant_' . $variant['id'], 'alt' => __('Add to download list', true)), false, false);
 	    endif;
 
+	    $ahref = '<a title="' . __('All Files', true) . '" target="_blank" href="/media/meta/' . $Film['id'] . '/' . $variant['id'] . '/' . $variant['video_type_id'] . '">';
 	    $panelContent .= '</td>
 	        <td class="size">' . $app->sizeFormat($total) . '</td>
-	        <td class="title">' . __('All Files', true) . '</td>
+	        <td class="action">' . $ahref . '<img width="20" src="/img/icons/download-icon_16x16.png" /></td>
+	        <td class="title">' . $ahref . __('All Files', true) . '</td>
 	    	</tr>
 	    ';
 /*
@@ -793,11 +910,13 @@ if (count($variant['FilmFile']) > 0)
 	    	<tr>
 	        	<td class="action"></td>
 	        	<td class="size"></td>
+	        	<td></td>
 		        <td class="title">
 			';
     	}
     	else
     	{
+    		$ahref = '';
 	        if (!in_array($file['id'], $basket))
 	        {
 	            $img = __('AddToBasket', true);
@@ -827,7 +946,6 @@ if (count($variant['FilmFile']) > 0)
 	        $panelContent .= '
 	        	</td>
 	        	<td class="size">' . $app->sizeFormat($file['size']) . '</td>
-		        <td class="title">
 			';
 	        $href = __('Available only to registered users', true);
     	}
@@ -868,7 +986,8 @@ if (count($variant['FilmFile']) > 0)
 			}
 			else
 			{
-        		$href='<a class="nocontext" onclick="return filmClk(' . $Film['id'] . ');" href="' . $recUrl . '">' . basename($file['file_name']) . '</a>&nbsp;';
+				$ahref = '<a class="nocontext" onclick="return filmClk(' . $Film['id'] . ');" href="' . $recUrl . '">';
+        		$href = $ahref . basename($file['file_name']) . '</a>&nbsp;';
 			}
         	//$share = Film::set_input_share($Film['dir']);
 	    	$lnkInfo = pathinfo(strtolower(basename($file['file_name'])));
@@ -877,7 +996,7 @@ if (count($variant['FilmFile']) > 0)
 				switch ($lnkInfo['extension'])
 				{
 					case "mp4":
-						$play = '<a rel="video" href="#video' . $file['id'] . '"><img src="/img/play.gif" width="19" alt="" title="' . __('Watch online', true) . '" id="file' . $file['id'] . '" /></a>';
+						$play = '<a rel="video" href="#video' . $file['id'] . '"><img src="/img/icons/play-icon_16x16.png" width="16" alt="" title="' . __('Watch online', true) . '" id="file' . $file['id'] . '" /></a>';
 						$hideVideo .= '
 							 <div id="video' . $file['id'] . '"><a style="width:640px; height:480px; display:block" id="ipad' . $file['id'] . '" onclick="return addVideo' . $variant['id'] . '(' . $file['id'] . ', \'' . $flowUrl  . '\');"></a></div>
 						';
@@ -886,7 +1005,7 @@ if (count($variant['FilmFile']) > 0)
 					case "avi":
 					case "mkv":
 						$key = $file['id'];
-						$play = '<a rel="video" href="#video' . $file['id'] . '"><img src="/img/play.gif" width="19" alt="" title="' . __('Watch online', true) . '" id="file' . $file['id'] . '" /></a>';
+						$play = '<a rel="video" href="#video' . $file['id'] . '"><img src="/img/icons/play-icon_16x16.png" width="16" alt="" title="' . __('Watch online', true) . '" id="file' . $file['id'] . '" /></a>';
 						$hideVideo .= '<div id="video' . $key . '" style="width:640px; height:480px; overflow: hidden; " >
 							<a onclick="return addAviVideo' . $variant['id'] . '(' . $key . ', \'' . $recUrl . '\');"></a>
 							<object id="videoobj' . $key . '" classid="clsid:67DABFBF-D0AB-41fa-9C46-CC0F21721616" width="640" height="480" codebase="http://go.divx.com/plugin/DivXBrowserPlugin.cab">
@@ -912,6 +1031,10 @@ if (count($variant['FilmFile']) > 0)
 //	        	$href .= ' <a href="/media/playlist/' . $file['id'] . '/' . $player['name'] . '"><img height="16" src="/img/ico/' . $player['name'] . '16.gif" /></a>';
 		}
 
+		$panelContent .= '
+		        <td class="action">' . $ahref . '<img width="20" src="/img/icons/download-icon_16x16.png" /></td>
+		        <td class="title">
+		';
         $playDisplay = '';
 		$panelContent .= $href;
 
@@ -1053,9 +1176,7 @@ if (!empty($authUser['userid']) || $isWS)
 			}
 		}
 		$maxWebLinksCount++;//КОМПЕНСИРУЕМ, ЕСЛИ ССЫЛКА FL ОКАЖЕТСЯ НА ПОСЛЕДНЕМ МЕСТЕ
-		$recomended = '
-			<div class="recomended">' . __('This link is recommending for your region', true) . '</div>
-		';
+		$recomended = msgBox(__('This link is recommending for your region', true));
 	    foreach ($variant['FilmLink'] as $link)
 	    {
 	    	$isFL = strpos($link['link'], $flStr);//ЭТО ССЫЛКА ИЗ ОБМЕННИКА
@@ -1063,6 +1184,7 @@ if (!empty($authUser['userid']) || $isWS)
 
 			if ($isFL)
 			{
+		    	//if (0)
 		    	//if ($isVip)
 		    	if ($isVip || $isWS)//внутр пользователям и ВИПам ссылки выдаем сразу
 		    	{
@@ -1093,11 +1215,36 @@ if (!empty($authUser['userid']) || $isWS)
 							    $panelContent .= $app->implodeWithParams(', ', $Genre);
 					    	}
 							$panelContent .= '</p>';
-			    			$panelContent .= '<ul><li><a target="_blank" href="' . $link['link'] . '">' . $link['filename'] . '</a></li>';
+							$ahref = '<a target="_blank" href="' . $link['link'] . '">';
+							$aplay = '<a target="_blank" href="' . $link['link'] . '/1">';//AUTOPLAY
+							$aplay = str_replace('catalog/viewv', 'catalog/file', $aplay);
+
+							$metaHref = '<a href="' . Configure::read('App.webShare') . 'catalog/meta/' . $Film['id'] . '/0/1">';
+			    			$panelContent .= '
+			    				<table><tr valign="middle">
+			    					<td>' . $metaHref . '<img width="20" src="/img/icons/download-icon_16x16.png" /></a></td>
+			    				 	<td style="width">' . $metaHref  . __('All Files', true) . '</a></td>
+			    				 	<td></td>
+			    				</tr>
+			    				<tr valign="middle">
+			    					<td>' . $ahref . '<img width="20" src="/img/icons/download-icon_16x16.png" /></a></td>
+			    				 	<td style="width">' . $ahref  . $link['filename'] . '</a></td>
+			    				 	<td>' . $aplay  . '<img width="20" src="/img/icons/play-icon_16x16.png" /></a></td>
+			    				</tr>';
 		    			}
 		    			else
 		    			{
-							$panelContent .= '<h3 style="margin-bottom:0px;"><img src="/img/greenstar.png" width="20" /> <a target="_blank" href="' . $link['link'] . '">' . $link['title'] . '</a> ' . $Film["year"] . '</h3>';
+							$ahref = '<a target="_blank" href="' . $link['link'] . '">';
+							$aplay = '<a target="_blank" href="' . $link['link'] . '/1">';//AUTOPLAY
+							$aplay = str_replace('catalog/viewv', 'catalog/file', $aplay);
+
+							$panelContent .= '
+			    				<table><tr valign="middle">
+			    					<td><img src="/img/greenstar.png" width="20" /></td>
+			    					<td>' . $ahref . '<img width="20" src="/img/icons/download-icon_16x16.png" /></a></td>
+			    				 	<td><h3 style="margin-bottom:0px;">' . $ahref  . $link['title'] . '</a> ' . $Film["year"] . '</h3></td>
+			    				 	<td>' . $aplay  . '<img width="20" src="/img/icons/play-icon_16x16.png" /></a></td>
+			    				</tr></table>';
 							$panelContent .= '<h3 style="margin-bottom:0px;">';
 					    	if ($lang == _ENG_)
 					    	{
@@ -1122,15 +1269,33 @@ if (!empty($authUser['userid']) || $isWS)
 		    		}
 		    		else
 		    		{
-		    			$panelContent .= '<li><a target="_blank" href="' . $link['link'] . '">' . $link['filename'] . '</a></li>';
+						$ahref = '<a target="_blank" href="' . $link['link'] . '">';
+						$aplay = '<a target="_blank" href="' . $link['link'] . '/1">';//AUTOPLAY
+						$aplay = str_replace('catalog/viewv', 'catalog/file', $aplay);
+
+		    			$panelContent .= '
+		    					<td>' . $ahref . '<img width="20" src="/img/icons/download-icon_16x16.png" /></a></td>
+		    				 	<td>' . $ahref  . $link['filename'] . '</a></td>
+		    				 	<td>' . $aplay  . '<img width="20" src="/img/icons/play-icon_16x16.png" /></a></td>
+							</tr>';
 		    		}
 		    	}
 //*
 		    	else
 		    	{
 		    		if ($startFL) continue;
-		    		$panelContent .=  $recomended;
-					$panelContent .= '<h3 style="margin-bottom:0px;"><img src="/img/greenstar.png" width="20" /> <a target="_blank" href="' . $link['link'] . '">' . $link['title'] . '</a> ' . $Film["year"] . '</h3>';
+			    		$panelContent .=  $recomended;
+					$ahref = '<a target="_blank" href="' . $link['link'] . '">';
+					$aplay = '<a target="_blank" href="' . $link['link'] . '/1">';//AUTOPLAY
+					$aplay = str_replace('catalog/viewv', 'catalog/file', $aplay);
+
+					$panelContent .= '
+	    				<table><tr valign="middle">
+	    					<td><img src="/img/greenstar.png" width="20" /></td>
+	    					<td>' . $ahref . '<img width="20" src="/img/icons/download-icon_16x16.png" /></a></td>
+	    				 	<td><h3 style="margin-bottom:0px;">' . $ahref  . $link['title'] . '</a> ' . $Film["year"] . '</h3></td>
+	    				 	<td>' . $aplay  . '<img width="20" src="/img/icons/play-icon_16x16.png" /></a></td>
+	    				</tr></table>';
 					$panelContent .= '<h3 style="margin-bottom:0px;">';
 			    	if ($lang == _ENG_)
 			    	{
@@ -1165,7 +1330,7 @@ if (!empty($authUser['userid']) || $isWS)
 			{
 				if (!empty($startFL))
 				{
-					$panelContent .= '</ul>';
+					$panelContent .= '</table>';
 				}
 				$startFL = 0;
 
@@ -1281,7 +1446,7 @@ if (!empty($authUser['userid']) || $isWS)
 	}
 
 //ВЫВОД УПРАВЛЯЮЩИХ ЗАКЛАДОК
-	$linksContent .= '<table width="700" cellspacing="0" cellpadding="3" border="0">';
+	$linksContent .= '<a name="panels"></a><table width="700" cellspacing="0" cellpadding="3" border="0">';
 	$maxLinksPanel = 'webpanel'; $maxLinks = 100;
 
 	if ($Film['is_license'])
@@ -1388,7 +1553,7 @@ else
 	    ';
     }
     */
-	$divxContent = '';
+	//$divxContent = '';
 	//$linksContent = '<a href="http://yandex.ru/yandsearch?text=' . $yandex['title'] . '" title="Скачать бесплатно">Скачать бесплатно "' . $yandex['title'] . '"</a>';
 	$linksContent = $yandexLink;
 }
@@ -1397,6 +1562,8 @@ else
 if (isset($authUser['username']))// && (($authUser['username'] == 'vanoveb') || ($authUser['username'] == 'stell_hawk')))
 {
 */
+
+/*
 	if (isset($_SESSION['lastFilms']))
 		$lastFilms = $_SESSION['lastFilms'];
 	else
@@ -1416,6 +1583,7 @@ if (isset($authUser['username']))// && (($authUser['username'] == 'vanoveb') || 
 	$vipDivx = $divxContent;//СОХРАНИМ, ЕСЛИ ОКАЖЕТСЯ ВИПОМ
 	$divxContent = '';
 	//$linksContent = $yandexLink;
+
 //$geoIsGood = true;
 	if ($allowDownload)
 	{
@@ -1450,6 +1618,7 @@ if (isset($authUser['username']))// && (($authUser['username'] == 'vanoveb') || 
 	$_SESSION['lastFilms']	= $lastFilms;
 	$_SESSION['lastLinks']	= $lastLinks;
 	$_SESSION['lastDivx']	= $lastDivx;
+*/
 
 	//ПРОВЕРКА НА ОПЕРУ-ТУРБО
 	function isOperaTurbo()
@@ -1475,7 +1644,7 @@ if (isset($authUser['username']))// && (($authUser['username'] == 'vanoveb') || 
 
 	if (!$geoIsGood)
 	{
-		$divxContent = '';
+//		$divxContent = '';
 		if (!$isOpera)
 			$linksContent = '';
 		if ($film['Film']['imdb_id'])
@@ -1483,14 +1652,17 @@ if (isset($authUser['username']))// && (($authUser['username'] == 'vanoveb') || 
 			echo '<h3 style="margin-top:12px;"><a target="_blank" href="http://imdb.com/title/' . $film['Film']['imdb_id'] . '">"' . $film['Film']['title' . $langFix] . '" imdb.com &raquo;</a></h3>';
 		}
 		//echo '<h3 style="margin-top:12px;"><a target="_blank" title="скачать на kinopoisk.ru" href="http://www.kinopoisk.ru/index.php?kp_query=' . rawurlencode(iconv('utf-8','windows-1251', $film['Film']['title'])) . '">"' . $film['Film']['title'] . '" cкачать &raquo;</a></h3>';
-		echo '<h3 style="margin-top:12px;"><a target="_blank" href="http://google.com/search?q=' . rawurlencode(iconv('utf-8','windows-1251', $film['Film']['title'])) . '">"' . $film['Film']['title'] . '" ' . __('Free download', true) . ' &raquo;</a></h3>';
+		echo '<h3 style="margin-top:12px;"><a target="_blank" href="http://google.com/search?q=' . rawurlencode(iconv('utf-8','windows-1251', $film['Film']['title'])) . '">"' . $film['Film']['title_en'] . '" ' . __('Free download', true) . ' &raquo;</a></h3>';
 		//echo $yandexLink;
 	}
+
+/*
 	if ($geoIsGood)// && $isVip)
 	{
 		$linksContent	= $vipLinks;
 		$divxContent	= $vipDivx;
 	}
+*/
 
 //echo 'GEO DISABLED'; pr($geoIsGood);
 //echo 'ALLOW DISABLED'; pr($allowDownload);
@@ -1504,7 +1676,7 @@ if (isset($authUser['username']))// && (($authUser['username'] == 'vanoveb') || 
 <?php
 	}
 
-echo $divxContent;
+//echo $divxContent;
 echo $linksContent;
 
 ?>
