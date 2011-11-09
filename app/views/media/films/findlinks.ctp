@@ -68,9 +68,8 @@ if (count($shareContent) > 0)
 		if ($isFL)
 		{
 			$ahref = '<a target="_blank" href="' . $res['url'] . '">';
-			$aplay = $ahref;
-			$aplay = str_replace('catalog/viewv', 'catalog/play', $aplay);
-			$aplay = str_replace('catalog/file', 'catalog/play', $aplay);
+			$aplay = '<a target="_blank" href="' . $res['url'] . '/1">';//AUTOPLAY
+			$aplay = str_replace('catalog/viewv', 'catalog/file', $aplay);
 
 	    	//if ($isVip)
 	    	if (($isVip) || ($isWS))
@@ -83,13 +82,18 @@ if (count($shareContent) > 0)
 	    			{
 						$panelContent .= '<h3 style="margin-bottom:0px;"><img src="/img/greenstar.png" width="20" /> ' . $res['title'] . ' ' . $film["Film"]["year"] . ' ';
 						$panelContent .= '</h3>';
-		    			$panelContent .= '<ul><li>';
-						$panelContent .= '<table><tr valign="middle">
+						$metaHref = '<a href="' . Configure::read('App.webShare') . 'catalog/meta/' . $film['Film']['id'] . '/0/1">';
+		    			$panelContent .= '
+			    				<table><tr valign="middle">
+			    					<td>' . $metaHref . '<img width="20" src="/img/icons/download-icon_16x16.png" /></a></td>
+			    				 	<td style="width">' . $metaHref  . __('All Files', true) . '</a></td>
+			    				 	<td></td>
+			    				</tr>';
+		    			$panelContent .= '<tr valign="middle">
 			    					<td>' . $ahref . '<img width="20" src="/img/icons/download-icon_16x16.png" /></a></td>
 			    				 	<td>' . $ahref . $res['filename'] . '</a></td>
 			    				 	<td>' . $aplay . '<img width="20" src="/img/icons/play-icon_16x16.png" /></a></td>
-			    				</tr></table>
-		    			</li>';
+			    				</tr>';
 	    			}
 	    			else
 	    			{
@@ -103,11 +107,11 @@ if (count($shareContent) > 0)
 	    		}
 	    		else
 	    		{
-						$panelContent .= '<li><table><tr valign="middle">
+						$panelContent .= '<tr valign="middle">
 			    					<td>' . $ahref . '<img width="20" src="/img/icons/download-icon_16x16.png" /></a></td>
 			    				 	<td>' . $ahref . $res['filename'] . '</a></td>
 			    				 	<td>' . $aplay . '<img width="20" src="/img/icons/play-icon_16x16.png" /></a></td>
-			    				</tr></table></li>';
+			    				</tr>';
 	    		}
 	    	}
 	    	else
@@ -128,7 +132,7 @@ if (count($shareContent) > 0)
 		{
 			if (!empty($startFL))
 			{
-				$panelContent .= '</ul>';
+				$panelContent .= '</table>';
 			}
 			$startFL = 0;
 			if (!$isWS)//ДЛЯ ВС ССЫЛКИ НА СТОРОННИЕ РЕСУРСЫ НЕ ВЫДАЕМ

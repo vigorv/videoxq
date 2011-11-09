@@ -293,7 +293,7 @@ echo'</pre>';
 	$totalFilesCnt = 0;
 	$firstFileId = 0;
 	$firstFileName = '';
-	$totalLinksCnt = 0;
+	$flLinksCnt = 0;
 	$firstLink = '';
 	$neededVideoType = 2; //gjrf пока интересует только DVD-качество
 	foreach ($FilmVariant as $variant)//ПОДСЧЕТ КОЛ-ВА ССЫЛОК НА ФАЙЛЫ
@@ -310,13 +310,19 @@ echo'</pre>';
 				$totalFilesCnt++;
 			}
 		}
+	}
 
+	foreach ($FilmVariant as $variant)//ПОДСЧЕТ КОЛ-ВА ССЫЛОК НА ОБМЕННИК
+	{
 		if (!empty($variant['FilmLink']))
 		{
 			foreach ($variant['FilmLink'] as $link)
 			{
-				$firstLink = $link['link'];
-				$totalLinksCnt++;
+				if (strpos($link['link'], Configure::read('App.webShare')) !== false)
+				{
+					$firstLink = $link['link'];
+					$flLinksCnt++;
+				}
 			}
 		}
 	}
@@ -335,11 +341,15 @@ echo'</pre>';
 	{
 		if ($isWS)
 		{
-			if ($totalLinksCnt == 1)
+			if ($flLinksCnt == 1)
 			{
 				//ДЛЯ ВСЕХ ФАЙЛОВ $downloadHref = 'target="_blank" href="' . Configure::read('App.webShare') . 'catalog/meta/' . $Film['id'] . '/2/1"';//2 - ПОКА ПРИНУДИТЕЛЬНО ИЩЕМ ТОЛЬКО ДВД-качество
 				$downloadHref = 'target="_blank" href="' . $firstLink . '"';
-				$viewHref = 'target="_blank" href="' . Configure::read('App.webShare') . 'catalog/play/' . $Film['id'] . '/' . $neededVideoType . '/1"';
+				$aplay = $firstLink;
+				$aplay = str_replace('catalog/viewv', 'catalog/file', $aplay);
+				$aplay .= '/1';//AUTOPLAY
+
+				$viewHref = 'target="_blank" href="' . $aplay . '"';
 			}
 		}
 		else
@@ -634,7 +644,6 @@ $language		= ''; //на случай неустановленной информ
 $translation	= ''; //на случай неустановленной информации о трэке
 $audio_info		= ''; //на случай неустановленной информации о трэке
 //$divxContent	= '';
-
 $FilmVariant[] = array('video_type_id' => 9);
 $FilmVariant[] = array('video_type_id' => 2);
 $FilmVariant[] = array('video_type_id' => 13);
@@ -1207,23 +1216,28 @@ if (!empty($authUser['userid']) || $isWS)
 					    	}
 							$panelContent .= '</p>';
 							$ahref = '<a target="_blank" href="' . $link['link'] . '">';
-							$aplay = $ahref;
-							$aplay = str_replace('catalog/viewv', 'catalog/play', $aplay);
-							$aplay = str_replace('catalog/file', 'catalog/play', $aplay);
-			    			$panelContent .= '<ul><li>
+							$aplay = '<a target="_blank" href="' . $link['link'] . '/1">';//AUTOPLAY
+							$aplay = str_replace('catalog/viewv', 'catalog/file', $aplay);
+
+							$metaHref = '<a href="' . Configure::read('App.webShare') . 'catalog/meta/' . $Film['id'] . '/0/1">';
+			    			$panelContent .= '
 			    				<table><tr valign="middle">
+			    					<td>' . $metaHref . '<img width="20" src="/img/icons/download-icon_16x16.png" /></a></td>
+			    				 	<td style="width">' . $metaHref  . __('All Files', true) . '</a></td>
+			    				 	<td></td>
+			    				</tr>
+			    				<tr valign="middle">
 			    					<td>' . $ahref . '<img width="20" src="/img/icons/download-icon_16x16.png" /></a></td>
-			    				 	<td>' . $ahref  . $link['filename'] . '</a></td>
+			    				 	<td style="width">' . $ahref  . $link['filename'] . '</a></td>
 			    				 	<td>' . $aplay  . '<img width="20" src="/img/icons/play-icon_16x16.png" /></a></td>
-			    				</tr></table>
-			    				</li>';
+			    				</tr>';
 		    			}
 		    			else
 		    			{
 							$ahref = '<a target="_blank" href="' . $link['link'] . '">';
-							$aplay = $ahref;
-							$aplay = str_replace('catalog/viewv', 'catalog/play', $aplay);
-							$aplay = str_replace('catalog/file', 'catalog/play', $aplay);
+							$aplay = '<a target="_blank" href="' . $link['link'] . '/1">';//AUTOPLAY
+							$aplay = str_replace('catalog/viewv', 'catalog/file', $aplay);
+
 							$panelContent .= '
 			    				<table><tr valign="middle">
 			    					<td><img src="/img/greenstar.png" width="20" /></td>
@@ -1256,15 +1270,14 @@ if (!empty($authUser['userid']) || $isWS)
 		    		else
 		    		{
 						$ahref = '<a target="_blank" href="' . $link['link'] . '">';
-						$aplay = $ahref;
-						$aplay = str_replace('catalog/viewv', 'catalog/play', $aplay);
-						$aplay = str_replace('catalog/file', 'catalog/play', $aplay);
-		    			$panelContent .= '<li>
-		    				<table><tr valign="middle">
+						$aplay = '<a target="_blank" href="' . $link['link'] . '/1">';//AUTOPLAY
+						$aplay = str_replace('catalog/viewv', 'catalog/file', $aplay);
+
+		    			$panelContent .= '
 		    					<td>' . $ahref . '<img width="20" src="/img/icons/download-icon_16x16.png" /></a></td>
 		    				 	<td>' . $ahref  . $link['filename'] . '</a></td>
 		    				 	<td>' . $aplay  . '<img width="20" src="/img/icons/play-icon_16x16.png" /></a></td>
-							</tr></table>';
+							</tr>';
 		    		}
 		    	}
 //*
@@ -1273,9 +1286,9 @@ if (!empty($authUser['userid']) || $isWS)
 		    		if ($startFL) continue;
 			    		$panelContent .=  $recomended;
 					$ahref = '<a target="_blank" href="' . $link['link'] . '">';
-					$aplay = $ahref;
-					$aplay = str_replace('catalog/viewv', 'catalog/play', $aplay);
-					$aplay = str_replace('catalog/file', 'catalog/play', $aplay);
+					$aplay = '<a target="_blank" href="' . $link['link'] . '/1">';//AUTOPLAY
+					$aplay = str_replace('catalog/viewv', 'catalog/file', $aplay);
+
 					$panelContent .= '
 	    				<table><tr valign="middle">
 	    					<td><img src="/img/greenstar.png" width="20" /></td>
@@ -1317,7 +1330,7 @@ if (!empty($authUser['userid']) || $isWS)
 			{
 				if (!empty($startFL))
 				{
-					$panelContent .= '</ul>';
+					$panelContent .= '</table>';
 				}
 				$startFL = 0;
 
