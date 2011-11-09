@@ -16,7 +16,8 @@ class TvIconsHelper extends AppHelper {
         "number_24" => array("name" => "number_24", "title" => "Вид отображения: По двадцать четыре", "path" => "/img/main/number_24.png", "class" => "icon_number24", "style" => "", "event" => "onclick='switchDigitOn(this); return saveOption(\"Profile.itemsPerPage\", \"24\");'")
         );
     }
-
+    
+   
     public function IconsShow($name) {
 
         for ($i = 0; $i < sizeof($name);$i++)

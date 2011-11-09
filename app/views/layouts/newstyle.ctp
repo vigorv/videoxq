@@ -34,7 +34,7 @@
         <meta name="description" content="самый большой каталог бесплатных  видео фильмов и сериалов <?php //if (isset($metaDescription)) echo $metaDescription;                    ?>" />
         <link rel="alternate" type="application/rss+xml" title='<?php echo Configure::read('App.siteName'); ?>' href="http://videoxq.com/rss.xml" />
         <title><?php echo Configure::read('App.siteName') . ' - ' . $title_for_layout; ?></title>
-        <script langauge="javascript">
+        <script language="javascript">
             var histAPI=!!(window.history && history.pushState);
         function xLoad(elem){
             var link = $(elem).attr("href");
