@@ -31,7 +31,7 @@ $current_class = ' class="currentSubMenu"';
     </ul>
 </div>
 
-<script langauge="javascript">
+<script language="javascript">
 jQuery(document).ready(function() {
 
     $("#Snow_menu ul li a").click(

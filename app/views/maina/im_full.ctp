@@ -26,7 +26,7 @@ foreach(unserialize($message[0]['Pmsg']['touserarray']) as $val){
 </div>
 
 <a id="msgdel" href="/maina/im/del/msgid:<?=(!empty($message[0]['Pm']['pmid']))? $message[0]['Pm']['pmid'] : '0'?>" style="float:right;border: 1px solid #74ADE7; padding: 10px;">Удалить сообщение</a>
-<script langauge="javascript">
+<script language="javascript">
     subact='<?=$sub_act;?>';
     $('#im_menu_act').fadeOut();
 

@@ -27,7 +27,7 @@
 
 </div>
 
-<script langauge="javascript">
+<script language="javascript">
 
     $("#showdown_menu ul li  a").click(
     function(event){

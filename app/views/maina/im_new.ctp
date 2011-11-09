@@ -63,6 +63,7 @@ form label {
 </div>
 <script language="javascript">
     subact='<?=$sub_act;?>';
+    saveOptionNoAction('Profile.im_subact', subact);
     $('#im_menu_act').fadeOut();
    if ($('#flashMessage').length > 0 ){
        var wp = $('#flashMessage').parent().width();

@@ -17,7 +17,7 @@ if (isset($is_requested) || isset($is_friend)) {
     </div>
 <? } ?>
 
-<script langauge="javascript">
+<script language="javascript">
     $("#f_add_friend").submit(function(event){
         event.preventDefault();
         var $form = $( this ),

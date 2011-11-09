@@ -64,6 +64,7 @@ if (!empty($im_pagination) && $im_pagination['page_count']>1){
 ?>
 <script language="javascript">
     subact='<?=$sub_act;?>';
+    saveOptionNoAction('Profile.im_subact', subact);
     $('#im_menu_act').fadeIn();
     $('#in_btn').addClass("current");
     

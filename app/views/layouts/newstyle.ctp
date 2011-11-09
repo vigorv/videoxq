@@ -34,7 +34,7 @@
         <meta name="description" content="самый большой каталог бесплатных  видео фильмов и сериалов <?php //if (isset($metaDescription)) echo $metaDescription;                    ?>" />
         <link rel="alternate" type="application/rss+xml" title='<?php echo Configure::read('App.siteName'); ?>' href="http://videoxq.com/rss.xml" />
         <title><?php echo Configure::read('App.siteName') . ' - ' . $title_for_layout; ?></title>
-        <script langauge="javascript">
+        <script language="javascript">
             var histAPI=!!(window.history && history.pushState);
         function xLoad(elem){
             var link = $(elem).attr("href");
@@ -71,11 +71,27 @@
 
     function saveOption(name, value)
     {
-        $.post("/maina/saveoption", {optionName: name, optionValue: value}, function(data) {
-            if(data == "ok")
-            {
-            	$('.currentSubMenu').click();
-            }
+        
+        $('.Frame_Content').fadeOut(555, function(){
+            /*
+            var x = ($('.Frame_Content').width())/2;
+            var y =  ($('.Frame_Content').height())/2;
+            */
+
+            $(this).html('<img id="ajax_loader_icon" src="/img/ajax-loader.gif">');
+            x = x + ($('#ajax_loader_icon').width())/2;
+            y = y + ($('#ajax_loader_icon').height())/2;
+
+
+            $('#ajax_loader_icon').attr("style","display: block; position: absolute; left: "+x+"px; top:"+y+"px");
+            $(this).fadeIn(555);        
+            
+            $.post("/maina/saveoption", {optionName: name, optionValue: value}, function(data) {
+                if(data == "ok")
+                {
+                    $('.currentSubMenu').click();
+                }
+            });
         });
         return false;
     }

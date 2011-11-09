@@ -18,8 +18,8 @@
 </ul>
 </div>
 
-<script langauge="javascript">
-var subact='#';
+<script language="javascript">
+//var subact='#';
 var x = ($('div.Frame').width())/2;
 var y =  280;
 jQuery(document).ready(function() {
