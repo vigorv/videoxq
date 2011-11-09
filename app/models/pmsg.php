@@ -62,11 +62,12 @@ class Pmsg extends AppModel {
 	{
 		$sql = '
 			SELECT Pm.pmid, Pm.messageread, Pmsg.message, Pmsg.title, Pmsg.fromusername, Pmsg.touserarray, Pmsg.dateline FROM pmtext AS Pmsg
-				INNER JOIN pm AS Pm ON (Pm.folderid = -1 AND Pm.pmtextid = Pmsg.pmtextid AND Pm.userid = ' . $userId . ')
+				INNER JOIN pm AS Pm ON (Pm.folderid = -1 AND Pm.pmtextid = Pmsg.pmtextid AND Pm.userid = ' . $userId . ' )
 				LIMIT ' . ($page-1)*$perPage . ', ' . $perPage . '
 		';
 		$result = $this->query($sql);
 		return $result;
+        //WHERE Pm.userid = IF EXISTS (SELECT userid FROM customprofilepic) ELSE (SELECT Pm.userid FROM pm) , Av.dateline as ava_date , customprofilepic as Av
 	}
 
 	public function getInMessages($userId, $page = 1, $perPage = 10)

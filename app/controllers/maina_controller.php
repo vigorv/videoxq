@@ -82,6 +82,8 @@ class MainaController extends AppController {
         if (($per_page > 0) && ($per_page < 100))
             $this->per_page = $per_page;
         else
+            $this->per_page = 50;
+
         {
             $this->per_page = 10;
             if (!empty($this->userOptions['Profile.itemsPerPage']))
@@ -360,7 +362,6 @@ exit;
                     $this->Pmsg->setMessageRead($msgid);
                     //и дадим прочитать юзеру
                     $message = $this->Pmsg->getMessageFull($this->authUser['userid'], $msgid);
-                    pr($message);
                     $this->set('message', $message);
                     $this->render('im_full');
                 }
