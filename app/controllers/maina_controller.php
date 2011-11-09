@@ -213,7 +213,7 @@ exit;
      * @param type $sub_act
      */
     public function im($sub_act='') {
-
+        if ($sub_act == '#') {$sub_act='';}
         if (!empty($this->passedArgs['page'])){
             $this->page = $this->passedArgs['page'];
         }
@@ -261,7 +261,13 @@ exit;
         //в верхнем меню (он тоже ajax'овый), поэтому что бы отсечь это, считаем
         //его как не ajax-запрос, для нашей локальной менюшки, и установим
         //подметод по умолчанию -> "in"
-        if(!$sub_act){
+
+        if (!$sub_act && !empty($this->userOptions['Profile.im_subact'])){
+            $this->set('isAjax', false);
+            $sub_act = $this->userOptions['Profile.im_subact'];
+            if ($sub_act == '#') {$sub_act='';}
+        }
+        elseif(!$sub_act){
             $this->set('isAjax', false);
             $sub_act = 'in';
         }
@@ -378,7 +384,7 @@ exit;
                 break;
         }
 
-        //если подметод = "входищие" или "исходящие" (in/out), то подготовим
+        //если подметод = "входящие" или "исходящие" (in/out), то подготовим
         //данные для пагинации и выведем нужную вьюху
         if($sub_act=='in' || $sub_act=='out'){
 

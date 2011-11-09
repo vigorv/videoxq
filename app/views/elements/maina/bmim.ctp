@@ -18,8 +18,8 @@
 </ul>
 </div>
 
-<script langauge="javascript">
-var subact='#';
+<script language="javascript">
+//var subact='#';
 var x = ($('div.Frame').width())/2;
 var y =  280;
 jQuery(document).ready(function() {
@@ -32,12 +32,16 @@ jQuery(document).ready(function() {
         
         if (link!='#') {
             $('#ins_ajax').fadeOut(555, function(){
-                $(this).html('<img id="ajax_loader_icon" src="/img/ajax-loader.gif">');
-                x = x + ($('#ajax_loader_icon').width())/2;
-                y = y + ($('#ajax_loader_icon').height())/2;
-                $('#ajax_loader_icon').attr("style","display: block; position: absolute; left: "+x+"px; top:"+y+"px");
-                $(this).fadeIn(555);
-                $(this).load(link,'ajax',function(){});
+                container = $(this);
+                container.showAjaxLoader();
+                if(xhr!=null){ xhr.abort();}
+                xhr = $.ajax({
+                    url : link,
+                    type: "POST",
+                    success : function(responseText) {
+                        container.html(responseText);
+                    }
+                });
             });
         }
         return false;
@@ -51,14 +55,17 @@ jQuery(document).ready(function() {
             var link = $(this).attr("href");
             if (subact=='in' || subact == 'out'){
                 $('#ins_ajax').fadeOut(555, function(){
-                    $(this).html('<img id="ajax_loader_icon" src="/img/ajax-loader.gif">');
-                    x = x + ($('#ajax_loader_icon').width())/2;
-                    y = y + ($('#ajax_loader_icon').height())/2;
-                    $('#ajax_loader_icon').attr("style","display: block; position: absolute; left: "+x+"px; top:"+y+"px");
-                    $(this).fadeIn(555);
                     link = link + '/' + subact +'clear';
-                    
-                    $(this).load(link,'ajax',function(){});
+                    container = $(this);
+                    container.showAjaxLoader();
+                    if(xhr!=null){ xhr.abort();}
+                    xhr = $.ajax({
+                        url : link,
+                        type: "POST",
+                        success : function(responseText) {
+                            container.html(responseText);
+                        }
+                    });
                 });
             }
             return false;
@@ -81,13 +88,19 @@ jQuery(document).ready(function() {
             var link = $(this).attr("href");
             if (subact=='in' || subact == 'out'){
                 $('#ins_ajax').fadeOut(555, function(){
-                    $(this).html('<img id="ajax_loader_icon" src="/img/ajax-loader.gif">');
-                    x = x + ($('#ajax_loader_icon').width())/2;
-                    y = y + ($('#ajax_loader_icon').height())/2;
-                    $('#ajax_loader_icon').attr("style","display: block; position: absolute; left: "+x+"px; top:"+y+"px");
-                    $(this).fadeIn(555);
                     link = link + subact +'del';
-                    $(this).load(link, { 'msg_id_list': array_values },function(){});
+                    container = $(this);
+                    container.showAjaxLoader();
+                    if(xhr!=null){ xhr.abort();}
+                    xhr = $.ajax({
+                        url : link,
+                        type: "POST",
+                        data: { 'msg_id_list': array_values },
+                        success : function(responseText) {
+                            container.html(responseText);
+                        }
+                    });
+
                 });
             }
             return false;
