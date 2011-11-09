@@ -50,17 +50,17 @@ class MainaController extends AppController {
      */
     public $Pmsg;
 
-    function BeforeFilter() {
-        if (!isset($this->authUser['userid']))
-        {
-            header('Location: /users/login');
-        }
+    function BeforeFilter() {       
         parent::beforeFilter();
         $ajax = 0;
         if (isset($_REQUEST['ajax'])) {
             $this->layout = 'ajax';
             $ajax = 1;
             Configure::write('debug', 0);
+        }
+        if (empty($this->authUser['userid']))
+        {
+            $this->redirect("/users/login");
         }
         $zone = false;
         $zones = Configure::read('Catalog.allowedIPs');
