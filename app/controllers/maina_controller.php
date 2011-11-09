@@ -217,7 +217,7 @@ exit;
         if (!empty($this->passedArgs['page'])){
             $this->page = $this->passedArgs['page'];
         }
-        $this->per_page = 6;
+        //$this->per_page = 6;
         //если что то отсылали с подметодом new, смотрим чего там шлют
         if (!empty($_POST) && $sub_act=='new'){
             //если все поля заполнены
