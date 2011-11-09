@@ -113,7 +113,6 @@
                     success : function(responseText) {
                         if(responseText == "ok")
                         {
-                            $('.currentSubMenu').click();
                         }
                     }
                 });
