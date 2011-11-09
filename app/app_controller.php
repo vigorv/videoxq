@@ -11,7 +11,7 @@ class AppController extends Controller {
 //    var $uses = array('User', 'Bookmark', 'Film');
     var $uses = array(
         'User', 'Zone', 'Server', 'Page', 'UserLoginza',
-        'Bookmark', 'Film', 'Pay', 'Geoip', 'Geocity', 'Georegion', 'Useragreement', 'Userlottery', 'Lottery');
+        'Bookmark', 'Film', 'Pay', 'Geoip', 'Geocity', 'Georegion', 'Useragreement', 'UserOption', 'Userlottery', 'Lottery');
     var $blocksData = array();
     var $blockContent;
     var $authUser;
@@ -153,8 +153,8 @@ class AppController extends Controller {
         if(!$this->first_time){
             $this->Cookie->write('first_time', true);
         }
-        
-        
+
+
         $litter = $this->Cookie->read('news_pop');
         if (!$litter) {
             $this->Cookie->write('news_pop', true);
@@ -232,17 +232,21 @@ class AppController extends Controller {
         }
         $this->geoInfo = $geoInfo;
 
-
 		$this->userOptions = $this->Session->read('Profile.userOptions');
 		if (empty($this->userOptions))
 		{
 //ОБРАБОТКА ОПЦИЙ ПОЛЬЗОВАТЕЛЯ (ДЛЯ САЙТА, ЛИЧНОГО КАБИНЕТА ИТД)
 //ОПЦИИ ХРАНИМ В БД, ИСПОЛЬЗУЕМ ЧЕРЕЗ СЕССИЮ
-			$this->userOptions = array();
-			if (!empty($user['UserOption']))
+			$options = $this->UserOption->read(null, $this->authUser['userid']);
+			if (!empty($options['UserOption']['options']))
 			{
-				$this->userOptions = unserialize($user['UserOption']['options']);
+				$this->userOptions = unserialize($options['UserOption']['options']);
 			}
+			else
+			{
+				$this->userOptions = array('noOptions' => 1);//СОХРАНИМ ЧТО-НИБУДЬ В СЕССИЮ, ЧТОБЫ НЕ ДЕРГАТЬ БАЗУ
+			}
+
 			if (!empty($this->userOptions) && is_array($this->userOptions))
 			{
 				$this->Session->write('Profile.userOptions', $this->userOptions);
@@ -388,8 +392,8 @@ class AppController extends Controller {
             if (($this->params['controller'] <> 'mobile') && ($this->params['action'] <> 'old'))
                 $this->redirect('/mobile/old');
         }
-        
-        
+
+
         $version =$this->Cookie->read('version');
         if ((($this->RequestHandler->isMobile())&& (!($version=='desk'))) ) {
            if (!$version) $this->Cookie->write('version','mob');
