@@ -51,6 +51,10 @@ class MainaController extends AppController {
     public $Pmsg;
 
     function BeforeFilter() {
+        if (!isset($this->authUser['userid']))
+        {
+            header('Location: /users/login');
+        }
         parent::beforeFilter();
         $ajax = 0;
         if (isset($_REQUEST['ajax'])) {
