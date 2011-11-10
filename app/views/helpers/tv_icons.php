@@ -2,6 +2,7 @@
 class TvIconsHelper extends AppHelper {
 
     public $icons;
+    
     public function AllIcons()
     {
         $this->icons =
@@ -17,14 +18,79 @@ class TvIconsHelper extends AppHelper {
         );
     }
     
-   
+    public function JsIconsAtt() {
+            $this->AllIcons();
+            $i = 0;
+            foreach ($this->icons as $icons_name => $key2)
+                {
+                    $icon_name[$i] = $icons_name;
+                    $i++;
+                    }
+            echo "<script language='javascript'>";
+            
+            echo "function Visibility(icons){";
+            /*for (i=0; i<".sizeof($this->icons).";i++){*/
+            
+            echo "$('.iam_icon').hide();";
+            
+            
+                    echo "for (var i=0; i<".sizeof($this->icons).";i++){";
+                        for ($i=0;$i<sizeof($this->icons);$i++)
+                        {
+                        echo "if ('".$icon_name[$i]."'==icons[i])
+                        {
+                            $('.".$this->icons[$icon_name[$i]]['class']."').show();
+                        }";
+                        }
+                    echo "}";
+
+                    
+                    /*for ($i=0; $i < sizeof($this->icons);$i++)
+                    {
+                        if (!isset($js[$i]))
+                    {
+                        $js[$i] = " ";
+                    }
+                   
+                    if ($icons_name == $js[$i])
+                    {
+            echo "$('.".$this->icons[$icons_name]['class']."').css('visibility', 'visibly'));";
+                    break;
+                    }
+                    }
+                    $n++;
+                    }
+            /*for ($i = 0; $i < sizeof($js);$i++) {
+                echo "$('.left').css({visibility:visibly;});";
+                }
+            /*echo "for (i=0; i<icons_js.lenght;i++){";
+            echo "if (".$js[$i]."'){
+                    $('.".$this->icons[$i]]["class"]."').css({visibility:visible;});";
+                    
+                    }
+                echo "}";
+                    
+            }
+             /*echo "var icons_js =[";
+            for ($i = 0; $i < sizeof($js);$i++)
+            {
+                 echo "'".$js[$i]."',";
+            }
+            echo "];";*/
+           
+    	    echo "return false;}
+            </script>";
+            
+        
+        }
+        
     public function IconsShow($name) {
 
         for ($i = 0; $i < sizeof($name);$i++)
        {
 		if ($name[$i] != '')
         {
-            echo "<a href='#' title='".$this->icons[$name[$i]]['title']."' ".$this->icons[$name[$i]]['event']."><img src='".$this->icons[$name[$i]]['path']."' alt='".$this->icons[$name[$i]]['title']."' class='".$this->icons[$name[$i]]['class']."' style='".$this->icons[$name[$i]]['style']."' /></a>";
+            echo "<a href='#' title='".$this->icons[$name[$i]]['title']."' ".$this->icons[$name[$i]]['event']."><img src='".$this->icons[$name[$i]]['path']."' alt='".$this->icons[$name[$i]]['title']."' class='".$this->icons[$name[$i]]['class']." iam_icon' style='".$this->icons[$name[$i]]['style']."' /></a>";
         }
         }
 }

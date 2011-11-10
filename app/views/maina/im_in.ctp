@@ -1,9 +1,10 @@
-<?//выводим меню для сообщений (водящие / исходящие / новое и т.п.)?>
+<?php //выводим меню для сообщений (водящие / исходящие / новое и т.п.)?>
 <?=(!$isAjax)? ($this->element($blocks_m_im)).'<div id="ins_ajax">':'';?>  
 <?php if ($session->check('Message.flash'))$session->flash();?>
 <div class="im_in">
 <form name="msg_checks" method="POST">
 <?php
+$tvIcons->JsIconsAtt();
 if (sizeof($messages) == 0)
 {
     echo "<p style='padding-top: 15px; text-align:center;'>У Вас нет входящих сообщений</p>";
@@ -53,13 +54,24 @@ if (!empty($im_pagination) && $im_pagination['page_count']>1){
                 $href = '/maina/im/'.$sub_act.'/page:'.$n;
                 $class = '';
             }
-
-            echo '<a href="'.$href.'"'.$class.'>'.$n.'</a>';
+            //вывод нужных иконок, включая стрелок влево, вправо.
+            echo '
+            <script>
+$(document).ready(function() {Visibility(["refresh", "number_6", "number_12", "number_24","left", "right"]);});
+</script>
+<a href="'.$href.'"'.$class.'>'.$n.'</a>';
         }
     ?>
     </div>
 </div>
 <?php
+}
+//если нет навигации.
+else
+{
+    echo '<script>
+$(document).ready(function() {Visibility(["refresh", "number_6", "number_12", "number_24"]);});
+</script>';
 }
 ?>
 <script language="javascript">

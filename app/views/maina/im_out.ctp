@@ -57,13 +57,24 @@ if (!empty($im_pagination) && $im_pagination['page_count']>1){
                 $href = '/maina/im/'.$sub_act.'/page:'.$n;
                 $class = '';
             }
-
-            echo '<a href="'.$href.'"'.$class.'>'.$n.'</a>';
+            //вывод нужных иконок, включая стрелок влево, вправо.
+            echo '
+            <script>
+$(document).ready(function() {Visibility(["refresh", "number_6", "number_12", "number_24","left", "right"]);});
+</script>
+<a href="'.$href.'"'.$class.'>'.$n.'</a>';
         }
     ?>
     </div>
 </div>
 <?php
+}
+//если нет навигации.
+else
+{
+    echo '<script>
+$(document).ready(function() {Visibility(["refresh", "number_6", "number_12", "number_24"]);});
+</script>';
 }
 ?>
 <script language="javascript">

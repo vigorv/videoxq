@@ -42,6 +42,9 @@ form label {
     width: 100px;
 }    
 </style>
+<script>
+$(document).ready(function() {Visibility();});
+</script>
 <?php 
         //echo $form->create(null, array('url' => array('controller' => 'maina', 'action' => '', 'enctype' => 'multipart/form-data')));
         echo '<form id="im_new" action="/maina/im/new" method="post">';

@@ -61,6 +61,7 @@
     	$(obj).find('img').addClass('currentTvIcon');
     	return false;
     }
+    
 
     function switchDigitOn(obj)
     {
