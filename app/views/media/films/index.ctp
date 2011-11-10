@@ -74,18 +74,40 @@ if (!empty($films))
     <div class="moviePreviewWrapper">
 <?php
 
-$iType="";
-if (!empty($FilmVariant))
+if (($Film['is_license'] || $isWS) && (!empty($FilmVariant)))
 {
-$FilmVariant=set::extract($FilmVariant,'{n}.VideoType.title');
-foreach ($FilmVariant as $VideoType)
-{
-	if($VideoType<>'DVDrip')
+	$best = array(//ИСКУССТВЕННО ВЫСТАВЛЯЕМ СОРТИРОВКУ КАЧЕСТВА
+'CamRip'	=> 20,
+'DVDrip'	=> 30,
+'DVDScr'	=> 25,
+'SATrip'	=> 10,
+'Telecine'	=> 15,
+'VHSrip'	=> 15,
+'Telesync'	=> 5,
+'DVDrip'	=> 30,
+'TVrip'		=> 10,
+'270p'		=> 5,
+);
+	$isBest = 0;
+	foreach ($FilmVariant as $variant)
 	{
-	@list($name,$title)=@explode('-',$VideoType);
+		if($variant['VideoType']['title'] <> 'web')
+		{
+			if (!empty($best[$variant['VideoType']['title']]) && ($best[$variant['VideoType']['title']] > $isBest))
+			{
+				$isBest = $best[$variant['VideoType']['title']];
+				$title = $variant['VideoType']['title'];
+			}
+		}
+	}
+	if (!empty($isBest))
+	{
 ?>
-		<div class="hd<?=$iType?>"><img src="/img/vusic/<?=$name?>.gif" alt="<?=$title?>" title="<?=$title?>"><b><?=$title?></b></div>
-<?php $iType++;}}}?>
+			<div class="hd"><img src="/img/vusic/<?=$title?>.gif" alt="<?=$title?>" title="<?=$title?>" /></div>
+<?php
+	}
+}
+?>
         <div class="poster">
         <a href="/media/view/<?= $Film['id']?>">
             <?
