@@ -74,5 +74,35 @@ class VideoType extends MediaModel {
         return $res;
 
     }
+
+	/**
+	 * обновить список издателей согласно списку фильмов
+	 *
+	 * @param mixed $ids - список идентификаторов фильмов для обновления
+	 */
+    function migrateByFilmList($ids)
+    {
+        set_time_limit(50000000000);
+        $this->useDbConfig = 'migration';
+
+        $idsSQL = ' IN (' . implode(',', $ids) . ')';
+        $sql = 'SELECT Quality from films WHERE ID ' . $idsSQL . ' GROUP BY Quality';
+        $objects = $this->query($sql);
+
+        $this->cacheQueries = false;
+        $this->useDbConfig = $this->defaultConfig;
+
+        foreach ($objects as $object)
+        {
+            extract($object['films']);
+            $Quality = iconv('windows-1251', 'utf-8', $Quality);
+
+            if ($this->findByTitle($Quality))
+                continue;
+            $save = array($this->name => array('title' => $Quality, 'dir' => $Quality));
+            $this->create();
+            $this->save($save);
+        }
+    }
 }
 ?>

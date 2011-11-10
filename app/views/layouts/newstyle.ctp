@@ -34,8 +34,11 @@
         <meta name="description" content="самый большой каталог бесплатных  видео фильмов и сериалов <?php //if (isset($metaDescription)) echo $metaDescription;                    ?>" />
         <link rel="alternate" type="application/rss+xml" title='<?php echo Configure::read('App.siteName'); ?>' href="http://videoxq.com/rss.xml" />
         <title><?php echo Configure::read('App.siteName') . ' - ' . $title_for_layout; ?></title>
-        <script language="javascript">
-            var histAPI=!!(window.history && history.pushState);
+<script language="javascript">
+    var xhr = null;    
+    
+    var histAPI=!!(window.history && history.pushState);
+/*    
         function xLoad(elem){
             var link = $(elem).attr("href");
             if(!histAPI)
@@ -54,7 +57,7 @@
             return false;
         }
     }
-
+*/
     function switchOn(obj)
     {
     	$('.currentTvIcon').removeClass('currentTvIcon');
@@ -72,27 +75,82 @@
 
     function saveOption(name, value)
     {
-        $.post("/maina/saveoption", {optionName: name, optionValue: value}, function(data) {
-            if(data == "ok")
-            {
-            	$('.currentSubMenu').click();
-            }
+        
+        $('.Frame_Content').fadeOut(555, function(){
+            $(this).showAjaxLoader();
+            if(xhr!=null){ xhr.abort();}
+                xhr = $.ajax({
+                    url : '/maina/saveoption',
+                    type: "POST",
+                    data: {optionName: name, optionValue: value},
+                    success : function(responseText) {
+                        if(responseText == "ok")
+                        {
+                            $('.currentSubMenu').click();
+                        }
+                    }
+                });
+/*
+ * заменил для того чтобы отменялись предыдущие ajax запрсы
+            $.post("/maina/saveoption", {optionName: name, optionValue: value}, function(data) {
+                if(data == "ok")
+                {
+                    $('.currentSubMenu').click();
+                }
+                
+            });
+*/            
         });
         return false;
     }
 
     function saveOptionNoAction(name, value)
     {
+           if(xhr!=null){ xhr.abort();}
+                xhr = $.ajax({
+                    url : '/maina/saveoption',
+                    type: "POST",
+                    data: {optionName: name, optionValue: value},
+                    success : function(responseText) {
+                        if(responseText == "ok")
+                        {
+                        }
+                    }
+                });
+/*
+/*        
         $.post("/maina/saveoption", {optionName: name, optionValue: value}, function(data) {
             if(data == "ok")
             {
             }
         });
+*/        
         return false;
     }
-
-
-        </script>
+    
+    jQuery.fn.showAjaxLoader = function() {
+        var elem = $(this[0]);
+        var x = ($('div.Frame').width())/2;
+        var y =  280;   
+        $(elem).html('<img id="ajax_loader_icon" src="/img/ajax-loader.gif">');
+        x = x + ($('#ajax_loader_icon').width())/2;
+        y = y + ($('#ajax_loader_icon').height())/2;
+        $('#ajax_loader_icon').attr("style","display: block; position: absolute; left: "+x+"px; top:"+y+"px");
+        $(elem).fadeIn(555);
+    };
+    
+    function centerAndFadeFlashMessage(){    
+        var e = $('#flashMessage');
+        if (e.length > 0 ){
+            var wp = e.parent().width();
+            var wm = e.width();
+            var xm = (wp/2 - wm/2) - 25 ;
+            e.css('left', xm+'px').show();
+            e.fadeOut(8000);
+        }
+    }
+    
+</script>
 <style>
     #flashMessage, #authMessage {
     background: none repeat scroll 0 0 #fff;

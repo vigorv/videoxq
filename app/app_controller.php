@@ -153,6 +153,8 @@ class AppController extends Controller {
         if(!$this->first_time){
             $this->Cookie->write('first_time', true);
         }
+        
+        
 
 
         $litter = $this->Cookie->read('news_pop');
@@ -392,6 +394,8 @@ class AppController extends Controller {
             if (($this->params['controller'] <> 'mobile') && ($this->params['action'] <> 'old'))
                 $this->redirect('/mobile/old');
         }
+        
+        
 
 
         $version =$this->Cookie->read('version');
@@ -545,7 +549,8 @@ class AppController extends Controller {
 
         $data = Cache::read('Catalog.filmStats' . $postFix, 'default');
         if (!$data) {
-            if ($this->isWS) {
+//СЧИТАЕМ ДЛЯ ВНЕШНИХ И ДЛЯ ВНУТРЕННИХ ОДИНАКОВО            if ($this->isWS)
+			{
                 $data['count'] = $this->Film->find('count', array('conditions' => 'Film.active=1'));
                 /*
                   //ПОДСЧЕТ РАЗМЕРА ФАЙЛОВ
@@ -560,7 +565,10 @@ FROM `film_variants` AS `FilmVariant`
 LEFT JOIN `films` AS `Film` ON ( `FilmVariant`.`film_id` = `Film`.`id` )
 WHERE Film.active = 1
 LIMIT 1';
-            } else {
+            }
+/*
+            else
+            {
                 $data['count'] = $this->Film->find('count', array('conditions' => 'Film.active=1 AND Film.is_license = 1'));
 
                 $sql = 'SELECT SUM( TIME_TO_SEC( `FilmVariant`.`duration` ) ) AS size
@@ -569,6 +577,7 @@ LEFT JOIN `films` AS `Film` ON ( `FilmVariant`.`film_id` = `Film`.`id` )
 WHERE Film.active = 1 AND Film.is_license = 1
 LIMIT 1';
             }
+*/
 
             $tmp = $this->Film->FilmVariant->query($sql);
             $data['size'] = $tmp[0][0]['size'];
