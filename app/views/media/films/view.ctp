@@ -981,8 +981,8 @@ if (count($variant['FilmFile']) > 0)
 				{
 					$episode = '- ' . __('episode', true) . '&nbsp;' .  intval($matches[1]) . '&nbsp;';
 				}
-
-        		$href=__('Available online only', true) . '&nbsp;' . $episode;
+				$ahref = '';
+        		$href = __('Available online only', true) . '&nbsp;' . $episode;
 			}
 			else
 			{
@@ -1031,8 +1031,16 @@ if (count($variant['FilmFile']) > 0)
 //	        	$href .= ' <a href="/media/playlist/' . $file['id'] . '/' . $player['name'] . '"><img height="16" src="/img/ico/' . $player['name'] . '16.gif" /></a>';
 		}
 
+		if (empty($ahref))
+		{
+			$adown = '';
+		}
+		else
+		{
+			$adown = $ahref . '<img width="20" src="/img/icons/download-icon_16x16.png" />';
+		}
 		$panelContent .= '
-		        <td class="action">' . $ahref . '<img width="20" src="/img/icons/download-icon_16x16.png" /></td>
+		        <td class="action">' . $adown . '</td>
 		        <td class="title">
 		';
         $playDisplay = '';

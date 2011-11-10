@@ -737,3 +737,6 @@ body:first-of-type #levo_input p {padding-top: 7px;}
 
 #filmviewicons { display: block; }
 #filmviewicons img { margin: 0 5px 0 5px; }
+#filmviewicons img { margin: 0 5px 0 5px; }
+#text_photo {margin-left: 50px;margin-right: 30px; font-size: 1.2em; }
+#icon_favorite { padding-left: 60px; padding-top: 20px;}
