@@ -586,7 +586,7 @@ ul.subMenu li.podcastPop { background:url(/img/icons/podcast_pop.gif) 0 0 no-rep
 ul.subMenu li.userBlog { background-position:0 5px; background-repeat:no-repeat }
 
 #hqpanel, #sqpanel, #mobpanel, #webpanel { display: none; }
-#panelcontent	{ text-align:left; border-top: 0px; border-left: 1px solid #C9E1F4; border-right: 1px solid #C9E1F4; border-bottom: 1px solid #C9E1F4; padding-left: 20px; }
+#panelcontent	{ text-align:left; border-top: 0px; border-left: 0px solid #C9E1F4; border-right: 0px solid #C9E1F4; border-bottom: 1px dashed #C9E1F4; padding-left: 20px; }
 .unfocusedpanel	{ width: 120px; background-color: #DCE4F5; border: 1px solid #C9E1F4; font-size:11px; text-align:center; color:#004B91; font-family: Verdana, Arial, Helvetica;
 -webkit-border-top-right-radius:5px;
 -webkit-border-top-left-radius:5px;
