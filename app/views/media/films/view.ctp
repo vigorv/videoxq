@@ -1510,7 +1510,7 @@ if (!empty($authUser['userid']) || $isWS)
 		}
 		$linksContent .= '
    			<td id="lastfolder">&nbsp;</td></tr>
-			<tr><td id="panelcontent" colspan="5"></td></tr>
+			<tr><td id="panelcontent" colspan="7"></td></tr>
 			</table>
 		';
 		$linksContent .= '
