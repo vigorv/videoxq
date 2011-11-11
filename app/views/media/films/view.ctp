@@ -238,7 +238,7 @@ echo'</pre>';
         }
         else{
             //иначе добавляем кнопку в избранное
-            echo  '<a style="" href="/media/addtofavorites/'.$Film['id'].'"><img src="/img/icons/add-to-favorites-icon_32x32.png" title="Добавить в избранное"/> Добавить в избранное</a>';
+            echo  '<a style="" href="/media/addtofavorites/'.$Film['id'].'"><img src="/img/icons/add-to-favorites-icon_32x32.png" title="Добавить в избранное" id="icon_favorite"/><p style="padding-left:15px;padding-top:10px;">Добавить в избранное</p></a>';
         }
 
 /*
@@ -1432,7 +1432,7 @@ if (!empty($authUser['userid']) || $isWS)
 					$panelContent = '
 					<br />
 					<p>' . __('Links not found', true) . '</p>
-					<h3><a href="#" onclick="return findLinks();">' . __('Search in Web', true) . '</a></h3>
+					<h3><a href="#" onclick="return findLinks();">' . __('Find', true) . '</a></h3>
 					<br />
 					';
 				}
@@ -1454,8 +1454,9 @@ if (!empty($authUser['userid']) || $isWS)
 	}
 
 //ВЫВОД УПРАВЛЯЮЩИХ ЗАКЛАДОК
+	$allPanels = array();
 	$linksContent .= '<a name="panels"></a><table width="700" cellspacing="0" cellpadding="3" border="0">';
-	$maxLinksPanel = 'webpanel'; $maxLinks = 100;
+	$maxLinksPanel = ''; $maxLinks = 100;
 
 	if ($Film['is_license'])
 	{
@@ -1465,12 +1466,34 @@ if (!empty($authUser['userid']) || $isWS)
 	else
 	{
 		//$allPanels = array('hqpanel' => __('High definition video', true), 'sqpanel' => __('Standard definition video', true), 'mobpanel' => __('Video Mobile', true), 'webpanel' => __('Search in Web', true));
-		$allPanels = array('webpanel' => __('Search in Web', true));
+		if ($isWS)
+		{
+			$allPanels = array('webpanel' => __('Find', true));
+			$maxLinksPanel = 'webpanel';
+		}
+		else
+		{
+			echo '
+					<script type="text/javascript">
+						function yaSearch()
+						{
+							location.href=\'http://yandex.ru/yandsearch?text=' . rawurlencode(iconv('utf-8', 'windows-1251', $film['Film']['title'])) . '\';
+							return false;
+						}
+					</script>
+					<br /><input type="button" class="greenButton" onclick="return yaSearch()" value="' . __('Find', true) . '" />
+			';
+
+		}
 	}
 
 	if (!empty($ozons))
 	{
 		$allPanels['ozonpanel'] = __('Buy on', true) .  ' ozon.ru';
+		if (empty($maxLinksPanel))
+		{
+			$maxLinksPanel = 'ozonpanel';
+		}
 		$panelLinksCnt['ozonpanel'] = count($ozons);
 		$linksContent .= '<div id="ozonpanel" style="display:none"><br /><h3>' . __('Buy on', true) .  ' ozon.ru</h3>';
 		foreach ($ozons as $o)
@@ -1485,6 +1508,8 @@ if (!empty($authUser['userid']) || $isWS)
 		$linksContent .= '</div>';
 	}
 
+	if (!empty($allPanels))
+	{
 		foreach ($allPanels as $key => $value)
 		{
 			$linksCntStr = '';
@@ -1499,21 +1524,23 @@ if (!empty($authUser['userid']) || $isWS)
 			}
 			if ($linksCntStr)
 			{
-				$a = '<a style="display: block" href="#" onclick="return focusPanel(\'' . $key . '\');">' . $value . $linksCntStr . '</a>';
+				$a = '<a class="panel_link" href="#" onclick="return focusPanel(\'' . $key . '\');">' . $value . $linksCntStr . '</a>';
 			}
 			else
 			{
 				$a = $value . $linksCntStr;
 			}
-			$linksContent .= '<td id="' . $key . 'folder" class="unfocusedpanel">' . $a . '</td>';
+			$linksContent .= '<td class="Tab-spacer"></td><td id="' . $key . 'folder" class="unfocusedpanel">' . $a . '</td>
+            ';
 		}
 		$linksContent .= '
-			<td id="lastfolder">&nbsp;</td></tr>
-			<tr><td id="panelcontent" colspan="5"></td></tr>
+   			<td id="lastfolder">&nbsp;</td></tr>
+			<tr><td id="panelcontent" colspan="7"></td></tr>
 			</table>
 		';
-		$linksContent .= '
-<script type="text/javascript">
+	}
+
+	$linksContent .= '<script type="text/javascript">
 <!--
 	function focusPanel(id)
 	{
@@ -1657,10 +1684,30 @@ if (isset($authUser['username']))// && (($authUser['username'] == 'vanoveb') || 
 			$linksContent = '';
 		if ($film['Film']['imdb_id'])
 		{
-			echo '<h3 style="margin-top:12px;"><a target="_blank" href="http://imdb.com/title/' . $film['Film']['imdb_id'] . '">"' . $film['Film']['title' . $langFix] . '" imdb.com &raquo;</a></h3>';
+//			echo '<h3 style="margin-top:12px;"><a target="_blank" href="http://imdb.com/title/' . $film['Film']['imdb_id'] . '">"' . $film['Film']['title' . $langFix] . '" imdb.com &raquo;</a></h3>';
+			echo '
+				<script type="text/javascript">
+					function imdbSearch()
+					{
+						location.href=\'http://imdb.com/title/' . $film['Film']['imdb_id'] . '\';
+						return false;
+					}
+				</script>
+				<input type="button" class="greenButton" onclick="return imdbSearch()" value="' . __('Search', true) . ' > imdb.com" />
+			';
 		}
 		//echo '<h3 style="margin-top:12px;"><a target="_blank" title="скачать на kinopoisk.ru" href="http://www.kinopoisk.ru/index.php?kp_query=' . rawurlencode(iconv('utf-8','windows-1251', $film['Film']['title'])) . '">"' . $film['Film']['title'] . '" cкачать &raquo;</a></h3>';
-		echo '<h3 style="margin-top:12px;"><a target="_blank" href="http://google.com/search?q=' . rawurlencode(iconv('utf-8','windows-1251', $film['Film']['title'])) . '">"' . $film['Film']['title_en'] . '" ' . __('Free download', true) . ' &raquo;</a></h3>';
+		//echo '<h3 style="margin-top:12px;"><a target="_blank" href="http://google.com/search?q=' . rawurlencode(iconv('utf-8','windows-1251', $film['Film']['title'])) . '">"' . $film['Film']['title_en'] . '" ' . __('Free download', true) . ' &raquo;</a></h3>';
+		echo '
+				<script type="text/javascript">
+					function gooSearch()
+					{
+						location.href=\'http://google.com/search?q=' . rawurlencode($film['Film']['title_en']) . '\';
+						return false;
+					}
+				</script>
+				<br /><input type="button" class="greenButton" onclick="return gooSearch()" value="' . __('Find', true) . '" />
+		';
 		//echo $yandexLink;
 	}
 

@@ -54,7 +54,7 @@ background-color: #F2F2E8;
 #middle div.center-block {
 	float: left;
 	width: 520px;
-width: 56%;
+width: 60%;
 	background: #fff;
     text-align: justify;
     background: #f2f8fc;
@@ -283,7 +283,6 @@ width: 13%;
 	font: 14px/130% Trebuchet MS;
 	color: #555;
 	font-style: normal;
-    text-transform: lowercase;
 }
 #content-main div.news-block_text b {
     font-weight: normal;
@@ -302,6 +301,9 @@ width: 13%;
 #content-news-read {
 	margin: 10px 10px 0 20px;
 }
+#content-news-read img {
+    width:450px;
+    }
 #content-news-read h1 {
 	margin: 0px;
 	font: 24px/100% Arial;

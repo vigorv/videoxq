@@ -135,10 +135,11 @@ function equalHeight(group) {
 								$img = '';
 							echo '
 						<div class="news-block">
-							' . $img . '
 							<div class="news-block_date"><p>' . intval(date('d', strtotime($l['News']['created']))) . ' ' . $months[date('m', strtotime($l['News']['created']))] . ' ' . date('Y', strtotime($l['News']['created'])) . ' года</p>
 							<p><a href="/news/view/' . $l['News']['id'] . '">' . $l['News']['title'] . '</a></p></div>
-							<div class="news-block_text">' . $l['News']['stxt'] . '</div>
+							<div class="news-block_text">
+							' . $img . '
+							' . $l['News']['stxt'] . '</div>
 						</div>
 							';
 						}

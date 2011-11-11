@@ -7,6 +7,7 @@
         echo $html->css('themes/' . $theme_id . '/main');
         //echo $javascript->link(array('jquery.fancybox-1.3.4/jquery-1.4.3.min', 'scripts', 'validation'));
         echo $javascript->link(array('jquery-1.6.4.min', 'scripts', 'validation'));
+        echo $javascript->link(array('jquery.form', 'scripts', 'validation'));
         echo $scripts_for_layout;
         ?>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -33,8 +34,11 @@
         <meta name="description" content="самый большой каталог бесплатных  видео фильмов и сериалов <?php //if (isset($metaDescription)) echo $metaDescription;                    ?>" />
         <link rel="alternate" type="application/rss+xml" title='<?php echo Configure::read('App.siteName'); ?>' href="http://videoxq.com/rss.xml" />
         <title><?php echo Configure::read('App.siteName') . ' - ' . $title_for_layout; ?></title>
-        <script langauge="javascript">
-            var histAPI=!!(window.history && history.pushState);
+<script language="javascript">
+    var xhr = null;    
+    
+    var histAPI=!!(window.history && history.pushState);
+/*    
         function xLoad(elem){
             var link = $(elem).attr("href");
             if(!histAPI)
@@ -53,25 +57,112 @@
             return false;
         }
     }
-
+*/
     function switchOn(obj)
     {
     	$('.currentTvIcon').removeClass('currentTvIcon');
     	$(obj).find('img').addClass('currentTvIcon');
     	return false;
     }
+    
+
+    function switchDigitOn(obj)
+    {
+    	$('.currentDigitIcon').removeClass('currentDigitIcon');
+    	$(obj).find('img').addClass('currentDigitIcon');
+    	return false;
+    }
 
     function saveOption(name, value)
     {
-        $.post("/maina/saveoption", {optionName: name, optionValue: value}, function(data) {
-            if(data == "ok")
-            {
-            	$('.currentSubMenu').click();
-            }
+        
+        $('.Frame_Content').fadeOut(555, function(){
+            $(this).showAjaxLoader();
+            if(xhr!=null){ xhr.abort();}
+                xhr = $.ajax({
+                    url : '/maina/saveoption',
+                    type: "POST",
+                    data: {optionName: name, optionValue: value},
+                    success : function(responseText) {
+                        if(responseText == "ok")
+                        {
+                            $('.currentSubMenu').click();
+                        }
+                    }
+                });
+/*
+ * заменил для того чтобы отменялись предыдущие ajax запрсы
+            $.post("/maina/saveoption", {optionName: name, optionValue: value}, function(data) {
+                if(data == "ok")
+                {
+                    $('.currentSubMenu').click();
+                }
+                
+            });
+*/            
         });
         return false;
     }
-        </script>
+
+    function saveOptionNoAction(name, value)
+    {
+           if(xhr!=null){ xhr.abort();}
+                xhr = $.ajax({
+                    url : '/maina/saveoption',
+                    type: "POST",
+                    data: {optionName: name, optionValue: value},
+                    success : function(responseText) {
+                        if(responseText == "ok")
+                        {
+                        }
+                    }
+                });
+/*
+/*        
+        $.post("/maina/saveoption", {optionName: name, optionValue: value}, function(data) {
+            if(data == "ok")
+            {
+            }
+        });
+*/        
+        return false;
+    }
+    
+    jQuery.fn.showAjaxLoader = function() {
+        var elem = $(this[0]);
+        var x = ($('div.Frame').width())/2;
+        var y =  280;   
+        $(elem).html('<img id="ajax_loader_icon" src="/img/ajax-loader.gif">');
+        x = x + ($('#ajax_loader_icon').width())/2;
+        y = y + ($('#ajax_loader_icon').height())/2;
+        $('#ajax_loader_icon').attr("style","display: block; position: absolute; left: "+x+"px; top:"+y+"px");
+        $(elem).fadeIn(555);
+    };
+    
+    function centerAndFadeFlashMessage(){    
+        var e = $('#flashMessage');
+        if (e.length > 0 ){
+            var wp = e.parent().width();
+            var wm = e.width();
+            var xm = (wp/2 - wm/2) - 25 ;
+            e.css('left', xm+'px').show();
+            e.fadeOut(8000);
+        }
+    }
+    
+</script>
+<style>
+    #flashMessage, #authMessage {
+    background: none repeat scroll 0 0 #fff;
+    border: solid 1px #aaa;
+    color: red;
+    font-size: large;
+    margin: 0 auto;
+    padding: 20px 50px;
+    position: absolute;
+    z-index: 777;
+    }
+</style>
 
   </head>
     <body>
@@ -110,11 +201,7 @@
 				<div class="Frame_RightGradient">
 				</div>
 				<div class="Frame_Content">
-                                    <?php
-                                        //вывод служебных сообщений
-                                        if ($session->check('Message.flash'))
-                                            $session->flash();      
-                                    ?>
+
 					<?= $content_for_layout; ?>
                 </div>
 			</div>
@@ -133,11 +220,32 @@
 
                     </div>
                     <div id="navigation_tv">
-            <a href="#"><img src="/img/main/left_arrow.png" alt="Листать влево" /></a>
-            <a href="#"><img src="/img/main/refresh.png" id="icon_refresh" alt="Обновить" /></a>
-            <a href="#" onclick="switchOn(this); return saveOption('Profile.itemsView', 'list');"><img src="/img/main/list.png" class="icon_list" alt="Вид отображения: Список" /></a>
-            <a href="#" onclick="switchOn(this); return saveOption('Profile.itemsView', 'eskiz');"><img src="/img/main/eskiz.png" class="icon_eskiz" alt="Вид отображения: Эскизом" /></a>
-            <a href="#"><img src="/img/main/right_arrow.png" id="icon_r_arrow" alt="Листать вправо" /></a>
+            <?php
+            $tvIcons->AllIcons();
+//echo 'userOptions=' . serialize($userOptions);
+            if (!empty($userOptions['Profile.itemsView']))
+            {
+            	switch ($userOptions['Profile.itemsView'])
+            	{
+            		case "eskiz":
+            			$tvIcons->icons['vid_eskiz']['class'] .= ' currentTvIcon';
+            		break;
+            		case "list":
+            			$tvIcons->icons['vid_list']['class'] .= ' currentTvIcon';
+            		break;
+            	}
+            }
+
+            if (!empty($userOptions['Profile.itemsPerPage']))
+            {
+       			$tvIcons->icons['number_' . $userOptions['Profile.itemsPerPage']]['class'] .= ' currentDigitIcon';
+            }
+
+            $tvIcons->IconsShow(array("left", "refresh", "number_6", "number_9", "number_12", "number_24", "vid_list","vid_eskiz","right"));
+            //<a href="#"><img src="/img/main/refresh.png" id="icon_refresh" alt="Обновить" /></a>
+            //<a href="#" onclick="switchOn(this); return saveOption('Profile.itemsView', 'list');><img src="/img/main/list.png" class="icon_list" alt="Вид отображения: Список" /></a>
+           // <a href="#" onclick="switchOn(this); return saveOption('Profile.itemsView', 'eskiz');"><img src="/img/main/eskiz.png" class="icon_eskiz" alt="Вид отображения: Эскизом" /></a>
+            //<a href="#"><img src="/img/main/right_arrow.png" id="icon_r_arrow" alt="Листать вправо" /></a>?>
             </div>
                 </div>
             </div>
