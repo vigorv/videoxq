@@ -6,7 +6,7 @@ define('DEFAULT_LANGUAGE', _RUS_);
 
 class AppController extends Controller {
 
-    var $components = array('Auth2', 'Acl', 'Cookie', 'Vb', 'BlockBanner', 'Session', 'RequestHandler');
+    var $components = array('Auth2', 'Acl', 'Cookie', 'Vb', 'BlockBanner', 'Session', 'RequestHandler', 'Metatags');
     var $helpers = array('Javascript', 'Html', 'Form'/* , 'Validation' */, 'App', 'Ajax', 'PageNavigator');
 //    var $uses = array('User', 'Bookmark', 'Film');
     var $uses = array(
@@ -153,8 +153,8 @@ class AppController extends Controller {
         if(!$this->first_time){
             $this->Cookie->write('first_time', true);
         }
-        
-        
+
+
 
 
         $litter = $this->Cookie->read('news_pop');
@@ -394,8 +394,8 @@ class AppController extends Controller {
             if (($this->params['controller'] <> 'mobile') && ($this->params['action'] <> 'old'))
                 $this->redirect('/mobile/old');
         }
-        
-        
+
+
 
 
         $version =$this->Cookie->read('version');
