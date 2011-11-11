@@ -1524,17 +1524,18 @@ if (!empty($authUser['userid']) || $isWS)
 			}
 			if ($linksCntStr)
 			{
-				$a = '<a style="display: block" href="#" onclick="return focusPanel(\'' . $key . '\');">' . $value . $linksCntStr . '</a>';
+				$a = '<a class="panel_link" href="#" onclick="return focusPanel(\'' . $key . '\');">' . $value . $linksCntStr . '</a>';
 			}
 			else
 			{
 				$a = $value . $linksCntStr;
 			}
-			$linksContent .= '<td id="' . $key . 'folder" class="unfocusedpanel">' . $a . '</td>';
+			$linksContent .= '<td class="Tab-spacer"></td><td id="' . $key . 'folder" class="unfocusedpanel">' . $a . '</td>
+            ';
 		}
 		$linksContent .= '
-			<td id="lastfolder">&nbsp;</td></tr>
-			<tr><td id="panelcontent" colspan="5"></td></tr>
+   			<td id="lastfolder">&nbsp;</td></tr>
+			<tr><td id="panelcontent" colspan="7"></td></tr>
 			</table>
 		';
 	}
