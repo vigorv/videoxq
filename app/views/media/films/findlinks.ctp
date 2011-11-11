@@ -90,32 +90,32 @@ if (count($shareContent) > 0)
 						$metaHref = '<a href="' . Configure::read('App.webShare') . 'catalog/meta/' . $film['Film']['id'] . '/0/1">';
 		    			$panelContent .= '
 			    				<table><tr valign="middle">
-			    					<td>' . $metaHref . '<img width="20" src="/img/icons/download-icon_16x16.png" /></a></td>
+			    					<td>' . $metaHref . '<img width="16" src="/img/icons/download-icon_16x16.png" /></a></td>
 			    				 	<td style="width">' . $metaHref  . __('All Files', true) . '</a></td>
 			    				 	<td></td>
 			    				</tr>';
 		    			$panelContent .= '<tr valign="middle">
-			    					<td>' . $ahref . '<img width="20" src="/img/icons/download-icon_16x16.png" /></a></td>
+			    					<td>' . $ahref . '<img width="16" src="/img/icons/download-icon_16x16.png" /></a></td>
 			    				 	<td>' . $ahref . $res['filename'] . '</a></td>
-			    				 	<td>' . $aplay . '<img width="20" src="/img/icons/play-icon_16x16.png" /></a></td>
+			    				 	<td>' . $aplay . '<img width="16" src="/img/icons/play-icon_16x16.png" /></a></td>
 			    				</tr>';
 	    			}
 	    			else
 	    			{
 						$panelContent .= '<table><tr valign="middle">
 			    					<td><img src="/img/greenstar.png" width="20" /></td>
-			    					<td>' . $ahref . '<img width="20" src="/img/icons/download-icon_16x16.png" /></a></td>
+			    					<td>' . $ahref . '<img width="16" src="/img/icons/download-icon_16x16.png" /></a></td>
 			    				 	<td><h3 style="margin-bottom:0px;">' . $ahref . $res['title'] . '</a> ' . $film["Film"]["year"] . '</h3></td>
-			    				 	<td>' . $aplay . '<img width="20" src="/img/icons/play-icon_16x16.png" /></a></td>
+			    				 	<td>' . $aplay . '<img width="16" src="/img/icons/play-icon_16x16.png" /></a></td>
 			    				</tr></table>';
 	    			}
 	    		}
 	    		else
 	    		{
 						$panelContent .= '<tr valign="middle">
-			    					<td>' . $ahref . '<img width="20" src="/img/icons/download-icon_16x16.png" /></a></td>
+			    					<td>' . $ahref . '<img width="16" src="/img/icons/download-icon_16x16.png" /></a></td>
 			    				 	<td>' . $ahref . $res['filename'] . '</a></td>
-			    				 	<td>' . $aplay . '<img width="20" src="/img/icons/play-icon_16x16.png" /></a></td>
+			    				 	<td>' . $aplay . '<img width="16" src="/img/icons/play-icon_16x16.png" /></a></td>
 			    				</tr>';
 	    		}
 	    	}
@@ -125,9 +125,9 @@ if (count($shareContent) > 0)
 	    		$panelContent .=  $recomended;
 				$panelContent .= '<table><tr valign="middle">
 	    					<td><img src="/img/greenstar.png" width="20" /></td>
-	    					<td>' . $ahref . '<img width="20" src="/img/icons/download-icon_16x16.png" /></a></td>
+	    					<td>' . $ahref . '<img width="16" src="/img/icons/download-icon_16x16.png" /></a></td>
 	    				 	<td><h3 style="margin-bottom:0px;">' . $ahref . $res['title'] . '</a> ' . $film["Film"]["year"] . '</h3></td>
-	    				 	<td>' . $aplay . '<img width="20" src="/img/icons/play-icon_16x16.png" /></a></td>
+	    				 	<td>' . $aplay . '<img width="16" src="/img/icons/play-icon_16x16.png" /></a></td>
 	    				</tr></table>';
 			}
 			$startFL++;
