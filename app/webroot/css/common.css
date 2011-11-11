@@ -297,8 +297,9 @@ li.search .adv2 { display: none; }
 
 .movie .download { float:right; width:130px; text-align:right }
 .movie .download a.dl { font-size:1.5em; line-height:1.25em }
-.movie .fileList .action { width:30px }
+.movie .fileList .action { width:30px; padding-right:10px; }
 .movie .fileList .magnet { padding-left:10px }
+.movie .fileList .title { padding-right:5px }
 .movie .fileList .size { padding-right:10px; white-space:nowrap; width:50px }
 .movie .fileList { margin:5px 0 20px -30px; padding:0; border:none; border-collapse:collapse }
 .movie .fileList td { padding:0 0 5px 0; margin:0; vertical-align:top }
@@ -663,6 +664,7 @@ div.attention {
 	color: grey;
 	font-size: 11px;
 	font-weight: bold;
+	width: 480px;
 }
 
 div.bordered {

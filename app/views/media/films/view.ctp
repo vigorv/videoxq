@@ -366,9 +366,9 @@ echo'</pre>';
 	}
 
 	if (!empty($downloadHref))
-    	echo  '<a ' . $downloadHref . '><img src="/img/icons/download-icon_32x32.png" title="' . __('Download Movie', true) . '"/></a>';
+    	echo  '<a ' . $downloadHref . '><img width="32" src="/img/icons/download-icon_32x32.png" title="' . __('Download Movie', true) . '"/></a>';
 	if (!empty($viewHref))
-	    echo  '<a ' . $viewHref . '><img src="/img/icons/play-icon_32x32.png" title="' . __('Click To Play', true) . '"/></a>';
+	    echo  '<a ' . $viewHref . '><img width="32" src="/img/icons/play-icon_32x32.png" title="' . __('Click To Play', true) . '"/></a>';
 
     //для зарегеных юзеров функционал "избранное"!
     //добавим времнное условие для скрытия кнопочек на внешнем сайте
@@ -877,8 +877,9 @@ if (count($variant['FilmFile']) > 0)
 	    $ahref = '<a title="' . __('All Files', true) . '" target="_blank" href="/media/meta/' . $Film['id'] . '/' . $variant['id'] . '/' . $variant['video_type_id'] . '">';
 	    $panelContent .= '</td>
 	        <td class="size">' . $app->sizeFormat($total) . '</td>
-	        <td class="action">' . $ahref . '<img width="20" src="/img/icons/download-icon_16x16.png" /></td>
+	        <td class="action">' . $ahref . '<img width="16" src="/img/icons/download-icon_16x16.png" /></td>
 	        <td class="title">' . $ahref . __('All Files', true) . '</td>
+       		<td width="100%"></td>
 	    	</tr>
 	    ';
 /*
@@ -896,7 +897,7 @@ if (count($variant['FilmFile']) > 0)
 	if ((count($variant['FilmFile']) >= 3) && !($Film['just_online']))
 	{
 		$msg = msgBox('Внимание! Вы можете скачивать не более 3(трех) файлов одновременно. Если вы пользуетесь менеджером закачек, пожалуйста, поставьте ограничение на скачивание не более, чем в 3(три) потока.');
-    	$msg = '<tr><td colspan="4" style="padding-left:30px">' . $msg . '</td></tr>';
+    	$msg = '<tr><td colspan="2"></td><td colspan="3">' . $msg . '</td></tr>';
 	}
 	$fileCnt = 0;
     foreach ($variant['FilmFile'] as $file)
@@ -1035,7 +1036,7 @@ if (count($variant['FilmFile']) > 0)
 		}
 		else
 		{
-			$adown = $ahref . '<img width="20" src="/img/icons/download-icon_16x16.png" />';
+			$adown = $ahref . '<img width="16" src="/img/icons/download-icon_16x16.png" />';
 		}
 		$panelContent .= '
 		        <td class="action">' . $adown . '</td>
@@ -1048,9 +1049,10 @@ if (count($variant['FilmFile']) > 0)
         <a href="<?= $file['dcpp_link']?>">DC++</a> } */
 		$panelContent .= '
         		</td>
-        		<td>
+        		<td class="action">
         		' . $play . '
         		</td>
+        		<td></td>
     		</tr>
     	';
         if ($fileCnt % 3 == 0)
@@ -1061,8 +1063,9 @@ if (count($variant['FilmFile']) > 0)
 		$linksCnt++;
     }
 	$panelContent .= '
+			<tr><td colspan="2"></td><td colspan="3">' . $msgLic . '</td>
 		</table>
-' . $msgLic . '
+
 <script type="text/javascript" src="/js/flowplayer/flowplayer-3.2.4.min.js"></script>
 <script type="text/javascript" src="/js/flowplayer/flowplayer.ipad-3.2.1.js"></script>
 <script type="text/javascript">
@@ -1230,14 +1233,14 @@ if (!empty($authUser['userid']) || $isWS)
 							$metaHref = '<a href="' . Configure::read('App.webShare') . 'catalog/meta/' . $Film['id'] . '/0/1">';
 			    			$panelContent .= '
 			    				<table><tr valign="middle">
-			    					<td>' . $metaHref . '<img width="20" src="/img/icons/download-icon_16x16.png" /></a></td>
+			    					<td>' . $metaHref . '<img width="16" src="/img/icons/download-icon_16x16.png" /></a></td>
 			    				 	<td style="width">' . $metaHref  . __('All Files', true) . '</a></td>
 			    				 	<td></td>
 			    				</tr>
 			    				<tr valign="middle">
-			    					<td>' . $ahref . '<img width="20" src="/img/icons/download-icon_16x16.png" /></a></td>
+			    					<td>' . $ahref . '<img width="16" src="/img/icons/download-icon_16x16.png" /></a></td>
 			    				 	<td style="width">' . $ahref  . $link['filename'] . '</a></td>
-			    				 	<td>' . $aplay  . '<img width="20" src="/img/icons/play-icon_16x16.png" /></a></td>
+			    				 	<td>' . $aplay  . '<img width="16" src="/img/icons/play-icon_16x16.png" /></a></td>
 			    				</tr>';
 		    			}
 		    			else
@@ -1249,9 +1252,9 @@ if (!empty($authUser['userid']) || $isWS)
 							$panelContent .= '
 			    				<table><tr valign="middle">
 			    					<td><img src="/img/greenstar.png" width="20" /></td>
-			    					<td>' . $ahref . '<img width="20" src="/img/icons/download-icon_16x16.png" /></a></td>
+			    					<td>' . $ahref . '<img width="16" src="/img/icons/download-icon_16x16.png" /></a></td>
 			    				 	<td><h3 style="margin-bottom:0px;">' . $ahref  . $link['title'] . '</a> ' . $Film["year"] . '</h3></td>
-			    				 	<td>' . $aplay  . '<img width="20" src="/img/icons/play-icon_16x16.png" /></a></td>
+			    				 	<td>' . $aplay  . '<img width="16" src="/img/icons/play-icon_16x16.png" /></a></td>
 			    				</tr></table>';
 							$panelContent .= '<h3 style="margin-bottom:0px;">';
 					    	if ($lang == _ENG_)
@@ -1282,9 +1285,9 @@ if (!empty($authUser['userid']) || $isWS)
 						$aplay = str_replace('catalog/viewv', 'catalog/file', $aplay);
 
 		    			$panelContent .= '
-		    					<td>' . $ahref . '<img width="20" src="/img/icons/download-icon_16x16.png" /></a></td>
+		    					<td>' . $ahref . '<img width="16" src="/img/icons/download-icon_16x16.png" /></a></td>
 		    				 	<td>' . $ahref  . $link['filename'] . '</a></td>
-		    				 	<td>' . $aplay  . '<img width="20" src="/img/icons/play-icon_16x16.png" /></a></td>
+		    				 	<td>' . $aplay  . '<img width="16" src="/img/icons/play-icon_16x16.png" /></a></td>
 							</tr>';
 		    		}
 		    	}
@@ -1300,9 +1303,9 @@ if (!empty($authUser['userid']) || $isWS)
 					$panelContent .= '
 	    				<table><tr valign="middle">
 	    					<td><img src="/img/greenstar.png" width="20" /></td>
-	    					<td>' . $ahref . '<img width="20" src="/img/icons/download-icon_16x16.png" /></a></td>
+	    					<td>' . $ahref . '<img width="16" src="/img/icons/download-icon_16x16.png" /></a></td>
 	    				 	<td><h3 style="margin-bottom:0px;">' . $ahref  . $link['title'] . '</a> ' . $Film["year"] . '</h3></td>
-	    				 	<td>' . $aplay  . '<img width="20" src="/img/icons/play-icon_16x16.png" /></a></td>
+	    				 	<td>' . $aplay  . '<img width="16" src="/img/icons/play-icon_16x16.png" /></a></td>
 	    				</tr></table>';
 					$panelContent .= '<h3 style="margin-bottom:0px;">';
 			    	if ($lang == _ENG_)
