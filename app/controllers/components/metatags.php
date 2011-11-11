@@ -6,6 +6,34 @@
 class MetatagsComponent extends Object
 {
 	/**
+	 * модель для работы с таблицей тэгов
+	 *
+	 * @var AppModel
+	 */
+	public $db;
+
+	/**
+	 * значение тэга заголовка
+	 *
+	 * @var string
+	 */
+	public $titleTag;
+
+	/**
+	 * значение тэга описания
+	 *
+	 * @var string
+	 */
+	public $descriptionTag;
+
+	/**
+	 * значение тэга ключевых слов
+	 *
+	 * @var string
+	 */
+	public $keywordsTag;
+
+	/**
 	 * подготовка URL к "правильному" виду. Упорядочивание параметров и их значений. Удаление лишнего
 	 *
 	 * @param string $url
@@ -64,5 +92,16 @@ class MetatagsComponent extends Object
 			$url .= '#' . $urlInfo['fragment'];
 		}
 		return $url;
+	}
+
+	/**
+	 * инициализация компонента
+	 *
+	 * @param mixed $controller - вызывающий контроллер
+	 */
+	public function initialize(&$controller)
+	{
+		App::import('Model', 'MetaTag');
+		$this->db = new MetaTag();
 	}
 }
