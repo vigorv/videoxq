@@ -1,29 +1,39 @@
 <?
 $html->addCrumb(__('Profile', true), '');
-echo $html->getCrumbs(' > ', 'Home');
 ?>
+<script>
+$(document).ready(function() {Visibility();});
+</script>
 <?php if (!empty($authUser) && (!empty($authUser['username']))) : ?>
-    <h1>Welcome <?php echo $authUser['username']; ?></h1>
+    <h1 style="padding-left:17px;">
+<?php if (isset($authUser['username'])) 
+{
+print $authUser['username'].'</span> 
+<span id="vixod">
+<a href="/users/logout" id="vixod_b">Выйти</a>
+</span>';
+} else {echo "Гость";};
+?>
+    </h1>
     <form id="editable_f"action="" method="POST">
         <ul class="editable_l">
             <li>
-                <span><?= __('Your Login', true) ?> :</span>
+                <span><?= __('Ваш логин', true) ?> :</span>
                 <input  name="username" type="text"  onBlur="SaveField(this);" value="<?= htmlentities($authUser['username']); ?>" />
                 <span class="e_val"><?= htmlentities($authUser['username']); ?></span>
-                <a class="h_edit" href="#" onclick="EditField(this);return false;">edit</a>
-                <a class="h_save" href="#" onclick="return false;">save</a>
             </li>
             <li>
-                <span><?= __('Your E-mail', true); ?> : </span>
+                <span><?= __('Ваш email', true); ?> : </span>
                 <span class="e_val"><?= htmlentities($authUser['email']); ?></span>
             </li>
             <li>
-                <a class="h_edit" href="#" onClick="ShowDiv(this)"><?= __('ChangePassword', true); ?></a>
+            <br />            
+                <a class="h_edit" href="#" onClick="ShowDiv(this)"><?= __('Изменить пароль', true); ?></a>
                 <div class="adition_ch">
                     <input type="password" name="pass_previos" value=""/><br/>
                     <input type="password" name="pass_new" value=""/><br/>
                     <input type="password" name="pass_check"/><br/>
-                    <input type="button" onClick="SaveDiv(this)" value="<?= __('Change Password', true); ?>"/>
+                    <input type="button" onClick="SaveDiv(this)" value="<?= __('Изменить пароль', true); ?>"/>
                 </div>
             </li>
         </ul>

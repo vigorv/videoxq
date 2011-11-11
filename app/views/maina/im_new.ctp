@@ -23,11 +23,6 @@ input[type="submit"] {
     cursor: pointer;
 }
 
-input:hover, textarea:hover{
-    background: #ddd;
-    
-}
-
 form div.submit {
     border: 0 none;
     clear: both;
@@ -59,7 +54,7 @@ $(document).ready(function() {Visibility();});
     <?php
         echo $form->input('to_user_name', array('label' => 'Кому', 'name' => 'to_user_name', 'style' => 'width:550px', 'size' => 75, 'value' => (!empty($data['to_user_name']) ? $data['to_user_name'] : '')));
         echo $form->input('title', array('label' => 'Тема', 'name' => 'title', 'style' => 'width:550px', 'size' => 75,'value' => (!empty($data['title']) ? $data['title'] : '')));
-        echo $form->input('msg', array('label' => 'Сообщение', 'name' => 'msg', 'style' => 'width:550px','type' => 'textarea','rows' => '5', 'cols' => '58', 'value' => (!empty($data['msg']) ? $data['msg'] : '')));
+        echo $form->input('msg', array('label' => 'Сообщение', 'name' => 'msg', 'style' => 'width:550px;word-wrap:break-word;white-space:pre-wrap;','type' => 'textarea','rows' => '5', 'cols' => '58', 'value' => (!empty($data['msg']) ? $data['msg'] : '')));
     ?>
     </fieldset>
 <?php echo $form->end('Отправить');?>
