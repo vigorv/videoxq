@@ -585,10 +585,27 @@ ul.subMenu li.podcastPop { background:url(/img/icons/podcast_pop.gif) 0 0 no-rep
 ul.subMenu li.userBlog { background-position:0 5px; background-repeat:no-repeat }
 
 #hqpanel, #sqpanel, #mobpanel, #webpanel { display: none; }
-#panelcontent	{ text-align:left; border-top: 0px; border-left: 1px grey dotted; border-right: 1px grey dotted; border-bottom: 1px grey dotted; padding-left: 20px; }
-.unfocusedpanel	{ width: 120px; background-color: lightgrey; border: 1px grey dotted; font-size:11px; text-align:center; }
-.focusedpanel	{ width: 120px; background-color: white; border-top: 1px grey dotted; font-size:11px; text-align:center; border-left: 1px grey dotted; border-right: 1px grey dotted; border-bottom: 0px; }
-#lastfolder		{ border-top: 0px; border-left: 0px; border-right: 0px; border-bottom: 1px black dotted; }
+#panelcontent	{ text-align:left; border-top: 0px; border-left: 1px solid #C9E1F4; border-right: 1px solid #C9E1F4; border-bottom: 1px solid #C9E1F4; padding-left: 20px; }
+.unfocusedpanel	{ width: 120px; background-color: #DCE4F5; border: 1px solid #C9E1F4; font-size:11px; text-align:center; color:#004B91; 
+-webkit-border-top-right-radius:5px;
+-webkit-border-top-left-radius:5px;
+-moz-border-radius: 5px 5px 0 0;  
+-khtml-border-radius: 5px;    
+border-radius:5px 5px 0 0; }
+.focusedpanel	{ width: 120px; background-color: white; border-top: 1px solid #C9E1F4; font-size:11px; text-align:center; border-left: 1px solid #C9E1F4; border-right: 1px solid #C9E1F4; border-bottom: 0px;cursor:pointer; 
+-webkit-border-top-right-radius:5px;
+-webkit-border-top-left-radius:5px;
+-moz-border-radius: 5px 5px 0 0;  
+-khtml-border-radius: 5px;    
+border-radius:5px 5px 0 0; }
+.unfocusedpanel	a {color:#004B91;}
+.focusedpanel	a {color:#E47911;}
+#lastfolder		{ border-top: 0px; border-left: 0px; border-right: 0px; border-bottom: 1px solid #C9E1F4; }
+.panel_link { display: block; text-decoration: none;}
+.panel_link:hover { color:#E47911;text-decoration: none;}
+/*otstyp m/y yacheikami*/
+.Tab-spacer {width: 10px;height: 24px;border-bottom: 1px solid #C9E1F4;}
+
 
 div.ozonlist { float: left; width:49%; height: 130px}
 td.ozonleft { text-align: left; }
