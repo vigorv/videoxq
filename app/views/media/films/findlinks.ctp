@@ -26,11 +26,16 @@ if (($geoIsGood) && ($film["Film"]['is_license']) && ($authUser['userid']))
 
 echo '
 	<br />
-	<h3>' . __('Links List', true) . '</h3>
 ';
+$notFound = true;
+$notFoundMsg = __('Links not found', true);
 
 if (count($shareContent) > 0)
 {
+	$notFound = false;
+	echo '
+		<h3>' . __('Links List', true) . '</h3>
+	';
 	$max = Configure::read('App.webLinksCount');
 	$startFL = 0; $flCount = 0; $flStr = 'catalog/file/'; $flVipStr = 'catalog/viewv/';
 	foreach($shareContent as $res)
@@ -147,6 +152,7 @@ if (count($shareContent) > 0)
 
 if ((count($googleContent) > 0) && (!$isWS))//ДЛЯ ВС ССЫЛКИ НА СТОРОННИЕ РЕСУРСЫ НЕ ВЫДАЕМ
 {
+	$notFound = false;
 	$max = Configure::read('App.webLinksCount');
 	foreach($googleContent as $res)
 	{
@@ -157,7 +163,8 @@ if ((count($googleContent) > 0) && (!$isWS))//ДЛЯ ВС ССЫЛКИ НА СТ
 	}
 }
 
-if ($num < 1)
+if ($notFound)
 {
-	echo'<h3>' . __('No results for your search', true) . '</h3>';
+	//echo'<h3>' . __('No results for your search', true) . '</h3>';
+	echo'<h3>' . $notFoundMsg . '</h3>';
 }

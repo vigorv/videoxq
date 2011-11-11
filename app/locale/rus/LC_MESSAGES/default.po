@@ -7808,7 +7808,7 @@ msgstr "до"
 msgid "Sort by"
 msgstr "Сортировать по"
 
-msgid "Search"
+msgid "Find"
 msgstr "Найти"
 
 msgid "Advanced Search"
