@@ -833,14 +833,14 @@ if ((!empty($variant['FilmFile'])) && (($isVip) || ($isWS)))
 
 if (count($variant['FilmFile']) > 0)
 {
-	$msg = '';
+	$msgLic = '';
 	if ($Film['is_license'] && !($Film['just_online']))
 	{
-		$msg = msgBox('Данный фильм (рип) был сделан с лицензионного DVD диска по соглашению с правообладателем.');
+		$msgLic = msgBox('Данный фильм (рип) был сделан с лицензионного DVD диска по соглашению с правообладателем.');
 	}
 	if ($Film['is_public'] && !($Film['just_online']))
 	{
-		$msg = msgBox('Данный фильм находится в общественном достоянии. Скачивание и хранение фильма не преследуется по закону.');
+		$msgLic = msgBox('Данный фильм находится в общественном достоянии. Скачивание и хранение фильма не преследуется по закону.');
 	}
 
 	$panelContent = $mediaInfo;
@@ -849,7 +849,6 @@ if (count($variant['FilmFile']) > 0)
 	{
 		$panelContent .= '
 			<br /><h3>' . __('Files List', true) . '</h3>
-			' . $msg . '
 			<table class="fileList">
 		';
 	}
@@ -857,7 +856,6 @@ if (count($variant['FilmFile']) > 0)
 	{
 		$panelContent .= '
 			<br /><h3>' . __('Files List', true) . '</h3>
-			' . $msg . '
 			<table class="fileList">
 	    	<tr>
 	        	<td class="action" style="padding-left:20px">
@@ -1062,7 +1060,9 @@ if (count($variant['FilmFile']) > 0)
         }
 		$linksCnt++;
     }
-	$panelContent .= '</table>
+	$panelContent .= '
+		</table>
+' . $msgLic . '
 <script type="text/javascript" src="/js/flowplayer/flowplayer-3.2.4.min.js"></script>
 <script type="text/javascript" src="/js/flowplayer/flowplayer.ipad-3.2.1.js"></script>
 <script type="text/javascript">

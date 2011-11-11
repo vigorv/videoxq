@@ -586,17 +586,17 @@ ul.subMenu li.userBlog { background-position:0 5px; background-repeat:no-repeat 
 
 #hqpanel, #sqpanel, #mobpanel, #webpanel { display: none; }
 #panelcontent	{ text-align:left; border-top: 0px; border-left: 1px solid #C9E1F4; border-right: 1px solid #C9E1F4; border-bottom: 1px solid #C9E1F4; padding-left: 20px; }
-.unfocusedpanel	{ width: 120px; background-color: #DCE4F5; border: 1px solid #C9E1F4; font-size:11px; text-align:center; color:#004B91; 
+.unfocusedpanel	{ width: 120px; background-color: #DCE4F5; border: 1px solid #C9E1F4; font-size:11px; text-align:center; color:#004B91;
 -webkit-border-top-right-radius:5px;
 -webkit-border-top-left-radius:5px;
--moz-border-radius: 5px 5px 0 0;  
--khtml-border-radius: 5px;    
+-moz-border-radius: 5px 5px 0 0;
+-khtml-border-radius: 5px;
 border-radius:5px 5px 0 0; }
-.focusedpanel	{ width: 120px; background-color: white; border-top: 1px solid #C9E1F4; font-size:11px; text-align:center; border-left: 1px solid #C9E1F4; border-right: 1px solid #C9E1F4; border-bottom: 0px;cursor:pointer; 
+.focusedpanel	{ width: 120px; background-color: white; border-top: 1px solid #C9E1F4; font-size:11px; text-align:center; border-left: 1px solid #C9E1F4; border-right: 1px solid #C9E1F4; border-bottom: 0px;cursor:pointer;
 -webkit-border-top-right-radius:5px;
 -webkit-border-top-left-radius:5px;
--moz-border-radius: 5px 5px 0 0;  
--khtml-border-radius: 5px;    
+-moz-border-radius: 5px 5px 0 0;
+-khtml-border-radius: 5px;
 border-radius:5px 5px 0 0; }
 .unfocusedpanel	a {color:#004B91;}
 .focusedpanel	a {color:#E47911;}
@@ -645,6 +645,7 @@ div.module div div div div {
 	background: none;
 }
 
+/*
 div.attention {
 	background: url(/img/attention.gif) no-repeat;
 	background-color: Lightcyan;
@@ -652,6 +653,16 @@ div.attention {
 	margin: 0;
 	padding: 3px 5px 3px 30px;
 	width: 450px;
+
+}
+*/
+
+div.attention {
+	margin: 0;
+	padding: 3px 5px 3px 0px;
+	color: grey;
+	font-size: 11px;
+	font-weight: bold;
 }
 
 div.bordered {
