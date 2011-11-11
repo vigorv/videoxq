@@ -297,8 +297,9 @@ li.search .adv2 { display: none; }
 
 .movie .download { float:right; width:130px; text-align:right }
 .movie .download a.dl { font-size:1.5em; line-height:1.25em }
-.movie .fileList .action { width:30px }
+.movie .fileList .action { width:30px; padding-right:10px; }
 .movie .fileList .magnet { padding-left:10px }
+.movie .fileList .title { padding-right:5px }
 .movie .fileList .size { padding-right:10px; white-space:nowrap; width:50px }
 .movie .fileList { margin:5px 0 20px -30px; padding:0; border:none; border-collapse:collapse }
 .movie .fileList td { padding:0 0 5px 0; margin:0; vertical-align:top }
@@ -320,16 +321,32 @@ li.search .adv2 { display: none; }
 .movies .hd4 { position:absolute; top:20px; left:25px; width:30px; height:21px; overflow:hidden; zoom:1 }
 .movies .moviePreviewWrapper .poster .imdb { color:#656565; font-size:0.92em }
 .movies .moviePreviewWrapper .poster { width:79px; padding:0 12px 0 0; overflow:hidden; float:left;height:180px; }
-/*yacheika filma v TV*/
+
 .movies .moviePreviewWrapper .poster .knopki { padding-top:5px; float: left; height:20px; width: 80px;}
 .movies .moviePreviewWrapper .poster img { margin:0 6px 3px 0; }
-.movies .moviePreviewWrapper { float:left; width:210px; display:inline; margin:0 30px 0 0; height:195px; position:relative; zoom:1 }
+.movies .moviePreviewWrapper { float:left; width:210px; display:inline; margin:0 25px 0 0; height:195px; position:relative; zoom:1 }
 .movies .moviePreviewWrapper p { float:left; width:118px; font-size:0.92em; line-height:1.32em; margin:0 }
 .movies .moviePreviewWrapper p em { font-style:normal; color:#656565; display:block; margin:4px 0 0 0 }
 .movies .moviePreviewWrapper p span { font-size:1.08em; display:block; margin:4px 0 4px 0; padding-left:7px; position:relative; left:-7px }
 .movies .moviePreviewWrapper p span i { margin:0 0 0 -7px; font-style:normal }
 .movies .moviePreviewWrapper p span strong { font-weight:normal; color:#0066ff; text-decoration:underline }
-.movies {width:950px;}
+/*yacheika filma v TV*/
+.movies_tv .moviePreviewWrapper .poster .knopki { padding-top:5px; float: left; height:20px; width: 80px;}
+.movies_tv .moviePreviewWrapper .poster img { margin:0 6px 3px 0; }
+.movies_tv .moviePreviewWrapper { float:left; width:210px; display:inline; margin:0 25px 0 0; height:195px; position:relative; zoom:1 }
+.movies_tv .moviePreviewWrapper p { float:left; width:118px; font-size:0.92em; line-height:1.32em; margin:0 }
+.movies_tv .moviePreviewWrapper p em { font-style:normal; color:#656565; display:block; margin:4px 0 0 0 }
+.movies_tv .moviePreviewWrapper p span { font-size:1.08em; display:block; margin:4px 0 4px 0; padding-left:7px; position:relative; left:-7px }
+.movies_tv .moviePreviewWrapper p span i { margin:0 0 0 -7px; font-style:normal }
+.movies_tv .moviePreviewWrapper p span strong { font-weight:normal; color:#0066ff; text-decoration:underline }
+.movies_tv {width:100%; overflow: auto; height: 440px; padding-left: 2px; margin-top: 5px;}
+.movies_tv .hd { position:absolute; top:-4px; left:-5px; width:30px; height:21px; overflow:hidden; zoom:1 }
+.movies_tv .hd b { background:#393939; color:#FFFFFF; padding:0 2px }
+.movies_tv .hd2 { position:absolute; top:-4px; left:25px; width:30px; height:21px; overflow:hidden; zoom:1 }
+.movies_tv .hd3 { position:absolute; top:20px; left:-5px; width:30px; height:21px; overflow:hidden; zoom:1 }
+.movies_tv .hd4 { position:absolute; top:20px; left:25px; width:30px; height:21px; overflow:hidden; zoom:1 }
+.movies_tv .moviePreviewWrapper .poster .imdb { color:#656565; font-size:0.92em }
+.movies_tv .moviePreviewWrapper .poster { width:79px; padding:0 12px 0 0; overflow:hidden; float:left;height:180px; }
 /*vid listom v TV*/
 /*left stolb*/
 .movies_l .moviePreviewWrapper_list .poster .knopki { padding-top:5px; float: left; height:20px; width: 80px;}
@@ -569,10 +586,27 @@ ul.subMenu li.podcastPop { background:url(/img/icons/podcast_pop.gif) 0 0 no-rep
 ul.subMenu li.userBlog { background-position:0 5px; background-repeat:no-repeat }
 
 #hqpanel, #sqpanel, #mobpanel, #webpanel { display: none; }
-#panelcontent	{ text-align:left; border-top: 0px; border-left: 1px grey dotted; border-right: 1px grey dotted; border-bottom: 1px grey dotted; padding-left: 20px; }
-.unfocusedpanel	{ width: 120px; background-color: lightgrey; border: 1px grey dotted; font-size:11px; text-align:center; }
-.focusedpanel	{ width: 120px; background-color: white; border-top: 1px grey dotted; font-size:11px; text-align:center; border-left: 1px grey dotted; border-right: 1px grey dotted; border-bottom: 0px; }
-#lastfolder		{ border-top: 0px; border-left: 0px; border-right: 0px; border-bottom: 1px black dotted; }
+#panelcontent	{ text-align:left; border-top: 0px; border-left: 1px solid #C9E1F4; border-right: 1px solid #C9E1F4; border-bottom: 1px solid #C9E1F4; padding-left: 20px; }
+.unfocusedpanel	{ width: 120px; background-color: #DCE4F5; border: 1px solid #C9E1F4; font-size:11px; text-align:center; color:#004B91;
+-webkit-border-top-right-radius:5px;
+-webkit-border-top-left-radius:5px;
+-moz-border-radius: 5px 5px 0 0;
+-khtml-border-radius: 5px;
+border-radius:5px 5px 0 0; }
+.focusedpanel	{ width: 120px; background-color: white; border-top: 1px solid #C9E1F4; font-size:11px; text-align:center; border-left: 1px solid #C9E1F4; border-right: 1px solid #C9E1F4; border-bottom: 0px;cursor:pointer;
+-webkit-border-top-right-radius:5px;
+-webkit-border-top-left-radius:5px;
+-moz-border-radius: 5px 5px 0 0;
+-khtml-border-radius: 5px;
+border-radius:5px 5px 0 0; }
+.unfocusedpanel	a {color:#004B91;}
+.focusedpanel	a {color:#E47911;}
+#lastfolder		{ border-top: 0px; border-left: 0px; border-right: 0px; border-bottom: 1px solid #C9E1F4; }
+.panel_link { display: block; text-decoration: none;}
+.panel_link:hover { color:#E47911;text-decoration: none;}
+/*otstyp m/y yacheikami*/
+.Tab-spacer {width: 10px;height: 24px;border-bottom: 1px solid #C9E1F4;}
+
 
 div.ozonlist { float: left; width:49%; height: 130px}
 td.ozonleft { text-align: left; }
@@ -612,6 +646,7 @@ div.module div div div div {
 	background: none;
 }
 
+/*
 div.attention {
 	background: url(/img/attention.gif) no-repeat;
 	background-color: Lightcyan;
@@ -619,6 +654,17 @@ div.attention {
 	margin: 0;
 	padding: 3px 5px 3px 30px;
 	width: 450px;
+
+}
+*/
+
+div.attention {
+	margin: 0;
+	padding: 3px 5px 3px 0px;
+	color: grey;
+	font-size: 11px;
+	font-weight: bold;
+	width: 480px;
 }
 
 div.bordered {
@@ -718,3 +764,33 @@ body:first-of-type #levo_input p {padding-top: 7px;}
 #feedback_photo {float:left;width:580px; margin-top: 150px;}
 #photo_red {color:red;}
 #text_photo {margin-left: 50px;margin-right: 30px; font-size: 1.2em; }
+#text_photo {margin-left: 50px;margin-right: 30px; font-size: 1.2em; }
+#icon_favorite { padding-left: 60px; padding-top: 20px;}
+
+#filmviewicons { display: block; }
+#filmviewicons img { margin: 0 5px 0 5px; }
+#filmviewicons img { margin: 0 5px 0 5px; }
+#text_photo {margin-left: 50px;margin-right: 30px; font-size: 1.2em; }
+#icon_favorite { padding-left: 60px; padding-top: 20px;}
+
+.greenButton {
+color: white;
+background-color: #689B15;
+font-weight: bold;
+text-transform: uppercase;
+border-radius: 8px;
+-moz-border-radius: 8px;
+-webkit-border-radius: 8px;
+-khtml-border-radius: 8px;
+border-radius: 8px;
+border: 0px solid #5C8F00;
+padding: 5px 20px;
+text-align: center;
+cursor: pointer;
+cursor: hand;
+background: url(/img/ie/ie_gbtt.png) no-repeat transparent 9;
+paddig: 0 9;
+text-align: center 9;
+width: 152px 9;
+margin-bottom:30px;
+}

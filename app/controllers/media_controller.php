@@ -846,8 +846,16 @@ return;//НЕПРАВИЛЬНО РАБОТАЕТ
 		return array();
 	}
 
+	/**
+	 * получить metalink-файл (структура со списком ссылок на скачивание)
+	 *
+	 * @param integer $id		- идентификатор фильма
+	 * @param integer $vId		- идентификатор варианта фильма
+	 * @param integer $tId		- идентификатор видеотипа файлов
+	 */
 	function meta($id = 0, $vId = 0, $tId = 0)
 	{
+		Configure::write('debug', 0);
 		if (empty($id))
 		{
 			$this->redirect('/media');
@@ -892,6 +900,7 @@ return;//НЕПРАВИЛЬНО РАБОТАЕТ
 			if (($variant['id'] == $vId) && ($variant['video_type_id'] == $tId) && (count($variant['FilmFile'] > 0)))
 			{
 				$fLst = $variant['FilmFile'];
+				break;
 			}
 		}
 
@@ -901,6 +910,7 @@ return;//НЕПРАВИЛЬНО РАБОТАЕТ
 		}
 		$this->layout = 'playlist';
 		$this->set('id', $id);
+		$this->set('film', $film);
 		$this->set('vId', $vId);
 		$this->set('tId', $tId);
 		$this->set('fLst', $fLst);
@@ -1035,7 +1045,7 @@ return;//НЕПРАВИЛЬНО РАБОТАЕТ
             if (strpos($this->params['named']['genre'], ',') !== false)
                 $genres = explode(',', $this->params['named']['genre']);
             //оставляем только 2 категории для уменьшения нагрузки на сервер
-            if(count($genres)>2){$genres=array($genres[0],$genres[1]);$this->params['named']['genre']=implode(',',$genres);}            
+            if(count($genres)>2){$genres=array($genres[0],$genres[1]);$this->params['named']['genre']=implode(',',$genres);}
 //
             $condition = 'and';
             //$pagination['Film']['sphinx']['filter'][] = array('genre_id', $genres, false);

@@ -20,8 +20,8 @@ class MainaController extends AppController {
     var $name = 'Maina';
     var $layout = 'newstyle';
     var $viewPath = 'maina';
-    var $helpers = array('Html', 'javascript', 'tvvision');
-    //var $components = array();
+    var $helpers = array('Html', 'javascript', 'tvvision', 'tvIcons');
+    var $components = array('RequestHandler');
     var $uses = array('Film', 'Direction', 'News', 'Favorite',
         'UserDownloadHistory',
         'UserWishlist', 'UserFriends',
@@ -50,13 +50,17 @@ class MainaController extends AppController {
      */
     public $Pmsg;
 
-    function BeforeFilter() {
+    function BeforeFilter() {       
         parent::beforeFilter();
         $ajax = 0;
         if (isset($_REQUEST['ajax'])) {
             $this->layout = 'ajax';
             $ajax = 1;
             Configure::write('debug', 0);
+        }
+        if (empty($this->authUser['userid']))
+        {
+            $this->redirect("/users/login");
         }
         $zone = false;
         $zones = Configure::read('Catalog.allowedIPs');
@@ -66,7 +70,7 @@ class MainaController extends AppController {
         else
             $this->ImgPath = Configure::read('Catalog.imgPathInet');
         $page = 1;
-        $per_page = 50;
+        $per_page = 0;//ПОЛУЧИМ ИЗ НАСТРОЕК
         $ajaxmode = 0;
         if (isset($_GET['page'])) {
             $page = filter_var($_GET['page'], FILTER_VALIDATE_INT);
@@ -83,6 +87,13 @@ class MainaController extends AppController {
             $this->per_page = $per_page;
         else
             $this->per_page = 50;
+
+        {
+            $this->per_page = 10;
+            if (!empty($this->userOptions['Profile.itemsPerPage']))
+            	$this->per_page = $this->userOptions['Profile.itemsPerPage'];
+        }
+
         if (isset($_GET['filter']))
             $this->page_filter = filter_var($_GET['filter'], FILTER_SANITIZE_STRING);
         else
@@ -94,6 +105,8 @@ class MainaController extends AppController {
         View::set('blocks_right', '/maina/bright');
         View::set('blocks_m_top', '/maina/bmtop');
         View::set('theme_id', 1);
+        View::set('blocks_m_im', '/maina/bmim');
+
     }
 
     function BeforeRender() {
@@ -203,14 +216,18 @@ exit;
      * Страница Личных сообщений
      * @param type $sub_act
      */
-    public function im($sub_act='in') {
-        $this->per_page = 6;
-        //если что то отсылали, смотрим чего там шлют
-        if (!empty($_POST)){
+    public function im($sub_act='') {
+        if ($sub_act == '#') {$sub_act='';}
+        if (!empty($this->passedArgs['page'])){
+            $this->page = $this->passedArgs['page'];
+        }
+        //$this->per_page = 6;
+        //если что то отсылали с подметодом new, смотрим чего там шлют
+        if (!empty($_POST) && $sub_act=='new'){
             //если все поля заполнены
             if (isset($_POST['title']) && isset($_POST['msg']) && $_POST['to_user_name']&&
                       $_POST['title'] && $_POST['msg'] && $_POST['to_user_name']){
-                
+
                 $title = filter_var($_POST['title'], FILTER_SANITIZE_STRING);
                 $msg = filter_var($_POST['msg'], FILTER_SANITIZE_STRING);
                 $to_user_name = filter_var($_POST['to_user_name'], FILTER_SANITIZE_STRING);
@@ -219,10 +236,12 @@ exit;
                     $result_msg = 'Сообщение для пользователя '. $to_user_name .' успешно отправлено';
                 else
                     $result_msg = 'Ошибка! Пользователя с имененем '. $to_user_name .' не существует.';
-                
+
                     //установим сообщение и редирект!
                     $this->Session->setFlash($result_msg, true);
-                    $this->redirect(array('action'=>'im'));
+                    //$this->redirect(array('action'=>'im'));
+                    $sub_act='in';
+
             }
             else{
                 //если не все поля заполнены, то сообщим об этом
@@ -238,31 +257,192 @@ exit;
                 $this->set('data', $data);
             }
         }
-        //dasdasdas
+        //сообщение послано (если не было ошибок ввода)!!!
 
+        //если был ajax-запрос, то дадим знать об этом вьюхе
+        $this->set('isAjax', $this->RequestHandler->isAjax());
+        //но у нас может быть ajax-запрос в ajax-запросе - при клике "messages"
+        //в верхнем меню (он тоже ajax'овый), поэтому что бы отсечь это, считаем
+        //его как не ajax-запрос, для нашей локальной менюшки, и установим
+        //подметод по умолчанию -> "in"
+
+        if (!$sub_act && !empty($this->userOptions['Profile.im_subact'])){
+            $this->set('isAjax', false);
+            $sub_act = $this->userOptions['Profile.im_subact'];
+            if ($sub_act == '#') {$sub_act='';}
+        }
+        elseif(!$sub_act){
+            $this->set('isAjax', false);
+            $sub_act = 'in';
+        }
+        //еще вьюхе надо знать какой у нас подметод, для того даем ей еще
+        //одну переменную
+        $this->set('sub_act', $sub_act);
+
+        //выведем нужную вьюху в зависимости от "подметода"
+        //подметоды in и out пока не рассматриваем
         switch ($sub_act) {
+            case 'fulldel':
+                //удаление текущего сообщения
+                $result = $this->Pmsg->delInMessages($this->authUser['userid'],$msg_id_arr);
+                if ($result){
+                    $this->Session->setFlash('Сообщение удалено', true);
+                }
+                //установим $sub_act для вывода страницы входящих сообщений
+                $sub_act = 'in';
+                break;
+
+            case 'del':
+                //удаление сообщения
+                if (!empty($this->passedArgs['msgid'])){
+                    $msgid = intval($this->passedArgs['msgid']);
+                }
+                //если id сообщения указан то удаляем его
+                if ($msgid){
+                    $result = $this->Pmsg->delMessage($this->authUser['userid'],$msgid);
+                    if ($result){
+                        $this->Session->setFlash('Сообщение удалено', true);
+                    }
+                }
+                //установим $sub_act для вывода страницы входящих сообщений
+                $sub_act = 'in';
+                break;
+
+            case 'indel':
+                //удаление входящих сообщений
+                if (!empty($_POST['msg_id_list']) && $_POST['msg_id_list']){
+                    //список id сообщений для удаления
+                    $msg_id_list = $_POST['msg_id_list'];
+                    $result = $this->Pmsg->delInMessages($this->authUser['userid'],$msg_id_list);
+                    if ($result){
+                        $this->Session->setFlash('Указанные входящие сообщения удалены', true);
+                    }
+                }
+                //установим $sub_act для вывода страницы входящих сообщений
+                $sub_act = 'in';
+                break;
+
+            case 'inclear':
+                //удаление всех входящих сообщений
+                $result = $this->Pmsg->delAllInMessages($this->authUser['userid']);
+                if($result){
+                    $this->Session->setFlash('Все входящие сообщения удалены', true);
+                }
+                //установим $sub_act для вывода страницы входящих сообщений
+                $sub_act = 'in';
+                break;
+
+            case 'outdel':
+                //удаление исходящих сообщений
+                if (!empty($_POST['msg_id_list']) && $_POST['msg_id_list']){
+                    //список id сообщений для удаления
+                    $msg_id_list = $_POST['msg_id_list'];
+                    $result = $this->Pmsg->delOutMessages($this->authUser['userid'],$msg_id_arr);
+                    if ($result){
+                        $this->Session->setFlash('Указанные исходящие сообщения удалены', true);
+                    }
+                }
+                //установим $sub_act для вывода страницы исходящих сообщений
+                $sub_act = 'out';
+                break;
+
+            case 'outclear':
+                //удаление всех исходящих сообщений
+                $result = $this->Pmsg->delAllOutMessages($this->authUser['userid']);
+                if ($result){
+                    $this->Session->setFlash('Все исходящие сообщения удалены', true);
+                }
+                //установим $sub_act для вывода страницы исходящих сообщений
+                $sub_act = 'out';
+                break;
+
             case 'new':
+                //форма отправки нового сообщения
                 $this->render('im_new');
                 break;
-            case 'out':
-                $userSent = $this->Pmsg->getOutMessages($this->authUser['userid'], $this->page, $this->per_page);
-                $this->set('userSent', $userSent);
-                $this->render('im_out');
-                break;
 
-            case 'in':
-                $userMessages = $this->Pmsg->getInMessages($this->authUser['userid'], $this->page, $this->per_page);
-                $this->set('userMessages', $userMessages);
-                $this->render('im_in');
+            case 'full':
+                //вывод полного выбранного содержимого сообщения
+                if (!empty($this->passedArgs['msgid'])){
+                    $msgid = intval($this->passedArgs['msgid']);
+                }
+                //если id сообщения указан то попробуем показать его
+                if ($msgid){
+                    //пометим сообщение как прочитанное
+                    $this->Pmsg->setMessageRead($msgid);
+                    //и дадим прочитать юзеру
+                    $message = $this->Pmsg->getMessageFull($this->authUser['userid'], $msgid);
+                    $this->set('message', $message);
+                    $this->render('im_full');
+                }
+                else{
+                    $sub_act = 'in';
+                }
                 break;
-            
-            case 'in_full':
+            case 'in':
+            case 'out':
+                break;
             default:
-                $userMessages = $this->Pmsg->getInMessages($this->authUser['userid'], $this->page, $this->per_page);
-                $this->set('userMessages', $userMessages);
-                $this->render('im_full');
-                break;            
+                //по умолчанию вывод входящих сообщений
+                $sub_act = 'in';
+                break;
         }
+
+        //если подметод = "входящие" или "исходящие" (in/out), то подготовим
+        //данные для пагинации и выведем нужную вьюху
+        if($sub_act=='in' || $sub_act=='out'){
+
+            //установим переменную во вьюхе еще раз, так как могла поменяться,
+            //при удалении сообщений
+            $this->set('sub_act', $sub_act);
+            switch ($sub_act) {
+                case 'out':
+                    //вывод исходящих сообщений
+                    $count_messages = $this->Pmsg->getCountOutMessages($this->authUser['userid']);
+                    $this->set('count_messages', $count_messages);
+                    //если задали недопустимо высокое значение page, сделаем его
+                    //максимально допустимым
+                    if ($this->page > (floor( $count_messages / $this->per_page)+1)){
+                        $this->page = floor( $count_messages / $this->per_page)+1;
+                    }
+                    $this->page_count = ceil($count_messages / $this->per_page);
+                    $im_pagination = array(
+                        'page'=>$this->page,
+                        'per_page'=>$this->per_page,
+                        'page_count'=>$this->page_count
+                    );
+                    $this->set('im_pagination', $im_pagination);
+                    $messages = $this->Pmsg->getOutMessages($this->authUser['userid'], $this->page, $this->per_page);
+                    $this->set('messages', $messages);
+                    $this->render('im_out');
+                    break;
+
+                case 'in':
+                    //вывод входящих сообщений (по умолчанию)
+                    $count_messages = $this->Pmsg->getCountInMessages($this->authUser['userid']);
+                    $this->set('count_messages', $count_messages);
+                    //если задали недопустимо высокое значение page, сделаем его
+                    //максимально допустимым
+                    if ($this->page > (floor( $count_messages / $this->per_page)+1)){
+                        $this->page = floor( $count_messages / $this->per_page)+1;
+                    }
+                    $this->page_count = ceil($count_messages / $this->per_page);
+                    $im_pagination = array(
+                        'page'=>$this->page,
+                        'per_page'=>$this->per_page,
+                        'page_count'=>$this->page_count
+                    );
+                    $this->set('im_pagination', $im_pagination);
+                    $messages = $this->Pmsg->getInMessages($this->authUser['userid'], $this->page, $this->per_page);
+                    $this->set('messages', $messages);
+                    $this->render('im_in');
+                    break;
+                default:
+                    break;
+            }
+        }
+
+
     }
 //------------------------------------------------------------------------------
     /**

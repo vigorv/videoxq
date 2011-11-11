@@ -172,8 +172,6 @@ class Person extends MediaModel {
         return $people;
     }
 
-
-
     function migrate($date)
     {
         ini_set('memory_limit', '1G');
@@ -256,6 +254,82 @@ class Person extends MediaModel {
 
         file_put_contents(APP . 'migration_people_pics.cmd', $picturesCmd);
         unset($picturesCmd);
+    }
+
+	/**
+	 * обновить список ролей согласно списку фильмов
+	 *
+	 * @param mixed $ids - список идентификаторов фильмов для обновления
+	 */
+    function migrateByFilmList($ids)
+    {
+        ini_set('memory_limit', '1G');
+        set_time_limit(50000000000);
+        $this->useDbConfig = 'migration';
+
+        $limit = ' LIMIT %s, %s';
+        $page = 1;
+        $perPage = 100;
+
+        $idsSQL = ' IN (' . implode(',', $ids) . ')';
+        $sql = 'SELECT DISTINCT persones.* FROM persones INNER JOIN filmpersones ON (filmpersones.PersonID=persones.ID AND filmpersones.FilmID ' . $idsSQL . ')';
+        $query = $sql . sprintf($limit, $page - 1, $perPage);
+
+        while ($people = $this->query($query))
+        {
+            $this->useDbConfig = $this->defaultConfig;
+	        $this->cacheQueries = false;
+            foreach ($people as $person)
+            {
+                App::import('Vendor', 'Utils');
+                $person = Utils::iconvRecursive($person);
+                extract($person['persones']);
+
+                $this->useDbConfig = 'migration';
+                $professions = $this->query('select filmpersones.RoleID, filmpersones.PersonID from filmpersones LEFT JOIN roles ON (filmpersones.RoleID=roles.ID) where PersonID = ' . $ID . ' GROUP BY RoleID');
+                $professions = array('Profession' =>
+                               array('Profession' => $this->getHabtm($professions, array('filmpersones'),
+                                               array('person_id' => 'PersonID', 'profession_id' => 'RoleID'))));
+
+                $this->useDbConfig = $this->defaultConfig;
+                $save = array('Person' => array('name' => $RusName, 'name_en' => $OriginalName,
+                                                'url' => $OzonUrl, 'description' => $Description,
+                                                'id' => $ID)
+                              );
+                $save = am($save, $professions);
+
+                $this->create();
+                $this->save($save);
+
+            	Cache::delete('Catalog.person_'.$ID.'_film', 'people');
+            	Cache::delete('Catalog.person_'.$ID, 'people');
+
+                $this->bindModel(array('hasMany' => array('PersonPicture')), false);
+
+                $this->PersonPicture->deleteAll(array('person_id' => $ID));
+                $Images = explode("\n", $Images);
+
+                $imgSql = 'INSERT INTO person_pictures (file_name, person_id) VALUES ';
+                $values = array();
+                foreach ($Images as $image)
+                {
+                    $image = trim($image);
+                    if (empty($image))
+                        continue;
+
+                    $values[] = '(\'' . $image . '\', \'' . $ID . '\')';
+                }
+                if (!empty($values))
+                {
+                    $imgSql .= implode(', ', $values);
+                    $this->query($imgSql);
+                }
+            }
+
+            $this->useDbConfig = 'migration';
+            $page++;
+            $query = $sql . sprintf($limit, ($page - 1) * $perPage, $perPage);
+        }
     }
 }
 ?>
