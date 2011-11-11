@@ -6,7 +6,7 @@ define('DEFAULT_LANGUAGE', _RUS_);
 
 class AppController extends Controller {
 
-    var $components = array('Auth2', 'Acl', 'Cookie', 'Vb', 'BlockBanner', 'Session', 'RequestHandler');
+    var $components = array('Auth2', 'Acl', 'Cookie', 'Vb', 'BlockBanner', 'Session', 'RequestHandler', 'Metatags');
     var $helpers = array('Javascript', 'Html', 'Form'/* , 'Validation' */, 'App', 'Ajax', 'PageNavigator');
 //    var $uses = array('User', 'Bookmark', 'Film');
     var $uses = array(
@@ -80,7 +80,12 @@ class AppController extends Controller {
      * @return void
      */
     function beforeFilter() {
-
+/*
+//$url = 'http://videoxq.com/media/index/genre:73,6,10/country:7,3/type:23,14/imdb_start:6/imdb_end:7/year_start:2000/sort:Film.imdb_rating,year/direction:desc/ex:yes';
+echo '<p>'. $url;
+echo '<p>'.$this->Metatags->fixUrl($url);
+exit;
+*/
         $geoInfo = array();
         $geoInfo = $this->Session->read('geoInfo');
         $ip = sprintf('%u', ip2long($_SERVER['REMOTE_ADDR']));
@@ -153,8 +158,8 @@ class AppController extends Controller {
         if(!$this->first_time){
             $this->Cookie->write('first_time', true);
         }
-        
-        
+
+
 
 
         $litter = $this->Cookie->read('news_pop');
@@ -394,8 +399,8 @@ class AppController extends Controller {
             if (($this->params['controller'] <> 'mobile') && ($this->params['action'] <> 'old'))
                 $this->redirect('/mobile/old');
         }
-        
-        
+
+
 
 
         $version =$this->Cookie->read('version');

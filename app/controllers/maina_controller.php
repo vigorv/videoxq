@@ -179,7 +179,7 @@ echo '<h3>Входящие</h3>';
     	}
 exit;
 //*/
-        $this->redirect('/maina/filmlist');
+        $this->redirect('/maina/profile');
     }
 
     /**
