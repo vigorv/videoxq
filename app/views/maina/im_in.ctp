@@ -4,15 +4,20 @@
 <div class="im_in">
 <form name="msg_checks" method="POST">
 <?php
-$tvIcons->JsIconsAtt();
 if (sizeof($messages) == 0)
 {
     echo "<p style='padding-top: 15px; text-align:center;'>У Вас нет входящих сообщений</p>";
 }
 for ($i=0;$i < sizeof($messages);$i++)
 {
-$messages[$i]["Pmsg"]["title"] = mb_substr($messages[$i]["Pmsg"]["title"], 0, 50);
-$messages[$i]["Pmsg"]["message"] = mb_substr($messages[$i]["Pmsg"]["message"], 0, 70);
+    if (mb_strlen($messages[$i]["Pmsg"]["title"]) > 20)
+    {
+$messages[$i]["Pmsg"]["title"] = mb_substr($messages[$i]["Pmsg"]["title"], 0, 20)." ...";
+    }
+if (mb_strlen($messages[$i]["Pmsg"]["title"]) > 30)
+    {
+$messages[$i]["Pmsg"]["message"] = mb_substr($messages[$i]["Pmsg"]["message"], 0, 30)." ...";
+    }
 ?>
 <div class="im_in_border">
 <div class="im_in_avatar"><img src="http://videoxq.com/forum/image.php?u=113534&dateline=1317973359&type=thumb" />
@@ -64,13 +69,14 @@ $(document).ready(function() {Visibility(["refresh", "number_6", "number_12", "n
     ?>
     </div>
 </div>
+</div>
 <?php
 }
 //если нет навигации.
 else
 {
     echo '<script>
-$(document).ready(function() {Visibility(["refresh", "number_6", "number_12", "number_24"]);});
+$(document).ready(function() {Visibility(["refresh", "number_6", "number_9", "number_12", "number_24"]);});
 </script>';
 }
 ?>
@@ -109,4 +115,5 @@ function(event){
 });
 
 </script>
+</div>
 <?=(!$isAjax)? '</div>':'';?>

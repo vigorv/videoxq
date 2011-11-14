@@ -10,8 +10,14 @@ if (sizeof($messages) == 0)
 }
 for ($i=0;$i < sizeof($messages);$i++)
 {
-$messages[$i]["Pmsg"]["title"] = mb_substr($messages[$i]["Pmsg"]["title"], 0, 50);
-$messages[$i]["Pmsg"]["message"] = mb_substr($messages[$i]["Pmsg"]["message"], 0, 70);
+if (mb_strlen($messages[$i]["Pmsg"]["title"]) > 20)
+    {
+$messages[$i]["Pmsg"]["title"] = (mb_substr($messages[$i]["Pmsg"]["title"], 0, 20))." ...";
+    }
+if (mb_strlen($messages[$i]["Pmsg"]["title"]) > 30)
+    {
+$messages[$i]["Pmsg"]["message"] = (mb_substr($messages[$i]["Pmsg"]["message"], 0, 30))." ...";
+    }
 $tousernames = '';
 foreach(unserialize($messages[$i]["Pmsg"]["touserarray"]) as $val){
     $tousernames = (!$tousernames)? '' : $tousernames.', ';
@@ -60,12 +66,13 @@ if (!empty($im_pagination) && $im_pagination['page_count']>1){
             //вывод нужных иконок, включая стрелок влево, вправо.
             echo '
             <script>
-$(document).ready(function() {Visibility(["refresh", "number_6", "number_12", "number_24","left", "right"]);});
+$(document).ready(function() {Visibility(["refresh", "number_6", "number_9", "number_12", "number_24","left", "right"]);});
 </script>
 <a href="'.$href.'"'.$class.'>'.$n.'</a>';
         }
     ?>
     </div>
+</div>
 </div>
 <?php
 }
@@ -113,3 +120,5 @@ $('.im_pagination_href a, .im_in_short_text a').click(
 });
 
 </script>
+</div>
+<?=(!$isAjax)? '</div>':'';?>

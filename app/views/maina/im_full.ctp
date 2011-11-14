@@ -1,5 +1,6 @@
 <?//выводим меню для сообщений (водящие / исходящие / новое и т.п.)?>
 <?=(!$isAjax)? ($this->element($blocks_m_im)).'<div id="ins_ajax">':'';?>  
+<a id="msgdel" href="/maina/im/del/msgid:<?=(!empty($message[0]['Pm']['pmid']))? $message[0]['Pm']['pmid'] : '0'?>">Удалить сообщение</a>
 <?php if ($session->check('Message.flash'))$session->flash();?>
 <?php 
 $tousernames = '';
@@ -9,23 +10,24 @@ foreach(unserialize($message[0]['Pmsg']['touserarray']) as $val){
 }
 
 ?>
-<div id="im_in_full">
-<div id="im_in_avatar_full"><img src="http://videoxq.com/forum/image.php?u=113534&dateline=1317973359&type=thumb" />
+<div class="im_in_full">
+<div class="im_in_login_full">
+    <a href="#" style="text-decoration: none;"><?=(!empty($message[0]['Pmsg']['fromusername']))? $message[0]['Pmsg']['fromusername'] : ''?></a>
 </div>
-<div id="im_in_login_time_full">
-<div id="im_in_login_full">
-    Отправитель: <a href="#"><?=(!empty($message[0]['Pmsg']['fromusername']))? $message[0]['Pmsg']['fromusername'] : ''?></a>
-    <br/>
-    Получатель: <a href="#"><?=$tousernames?></a>
-    
+<div class="im_in_time_avatar_full">
+<div class="im_in_avatar_full"><img src="http://videoxq.com/forum/image.php?u=113534&dateline=1317973359&type=thumb" />
+<div class="im_in_time_full"> <?=gmdate('d.n.Y h:i', $message[0]["Pmsg"]["dateline"]);?></div>
 </div>
-<div id="im_in_time_full">Дата: <?=gmdate('d.n.Y h:i', $message[0]["Pmsg"]["dateline"]);?></div>
-<div id="im_in_theme_full">Тема: <?=(!empty($message[0]['Pmsg']['title']))? $message[0]['Pmsg']['title'] : ''?></div>
 </div>
-<div id="im_in_short_text_full"><?=(!empty($message[0]['Pmsg']['message']))? $message[0]['Pmsg']['message'] : ''?></div>
+<div class="im_in_short_text_full"><?=(!empty($message[0]['Pmsg']['message']))? $message[0]['Pmsg']['message'] : ''?></div>
+<div class="im_in_full_forma">
+<textarea cols="83" rows="10" wrap="virtual" style="border: 1px solid #888;position: relative;" name='<?php (!empty($message[0]['Pmsg']['fromusername']))? $message[0]['Pmsg']['fromusername'] : ''?>'>
+</textarea>
+<p><input type="submit" name="but" value="Отправить" class="im_in_but" /></p>
 </div>
-
-<a id="msgdel" href="/maina/im/del/msgid:<?=(!empty($message[0]['Pm']['pmid']))? $message[0]['Pm']['pmid'] : '0'?>" style="float:right;border: 1px solid #74ADE7; padding: 10px;">Удалить сообщение</a>
+<script>
+$(document).ready(function() {Visibility();});
+</script>
 <script language="javascript">
     subact='<?=$sub_act;?>';
     $('#im_menu_act').fadeOut();
