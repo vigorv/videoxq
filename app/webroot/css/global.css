@@ -301,11 +301,13 @@ width: 13%;
 #content-news-read {
 	margin: 10px 10px 0 20px;
 }
-/*
+
 #content-news-read img {
+/*
     width:450px;
-    }
 */
+	padding-right:15px;
+}
 #content-news-read h1 {
 	margin: 0px;
 	font: 24px/100% Arial;

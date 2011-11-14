@@ -681,7 +681,7 @@ div.stslogo { margin-top: 7px; }
 
 .news_content         {  margin:3px 5px 3px 15px;}
 .news_content_full      {  margin:3px 20px 3px 20px;}
-.news_content_full_img { float:left; display: block; border:1px solid gray; margin:5px 5px 5px 0;  }
+.news_content_full_img { float:left; display: block; border:1px solid gray; margin:5px 15px 5px 0;  }
 .news_content_img {  float:left; border:1px solid gray; margin:5px 15px 5px 0; }
 .news_content img {  float:left; border:1px solid gray; margin:5px 15px 5px 0; }
 .news_content:after,.news_content_full:after   {  clear: both;  content: ".";  display: block;  height: 0;  visibility: hidden;}
