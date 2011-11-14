@@ -1458,7 +1458,7 @@ if (!empty($authUser['userid']) || $isWS)
 
 //ВЫВОД УПРАВЛЯЮЩИХ ЗАКЛАДОК
 	$allPanels = array();
-	$linksContent .= '<a name="panels"></a><table width="700" cellspacing="0" cellpadding="3" border="0">';
+	$linksContent .= '<a name="panels"></a><table width="800" cellspacing="0" cellpadding="3" border="0">';
 	$maxLinksPanel = ''; $maxLinks = 100;
 
 	if ($Film['is_license'])
