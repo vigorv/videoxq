@@ -13,21 +13,21 @@ class MetatagsComponent extends Object
 	public $db;
 
 	/**
-	 * значение тэга заголовка
+	 * значение тэга заголовка для запрошенного URL
 	 *
 	 * @var string
 	 */
 	public $titleTag;
 
 	/**
-	 * значение тэга описания
+	 * значение тэга описания для запрошенного URL
 	 *
 	 * @var string
 	 */
 	public $descriptionTag;
 
 	/**
-	 * значение тэга ключевых слов
+	 * значение тэга ключевых слов для запрошенного URL
 	 *
 	 * @var string
 	 */
@@ -72,6 +72,7 @@ class MetatagsComponent extends Object
 		sort($args);
 
 //СОБИРАЕМ URL
+		$original = $url;
 		$url = '';
 		if (!empty($newPath))
 		{
@@ -91,7 +92,100 @@ class MetatagsComponent extends Object
 		{
 			$url .= '#' . $urlInfo['fragment'];
 		}
+		if (empty($url))
+		{
+			return $original;
+		}
 		return $url;
+	}
+
+	public function get($url, $lang = '')
+	{
+		$base = $this->db->findTags('', $lang);//! БАЗОВЫЕ ТЭГИ (ПРИСУТСТВУЮЩИЕ НА ВСЕХ СТРАНИЦАХ САЙТА)
+		$tags = $this->db->findTags($this->fixUrl($url), $lang);
+		if (!empty($tags))
+		{
+			if (!empty($lang))
+			{
+				$langFix = '_' . $lang;
+			}
+			foreach ($tags as $t)
+			{
+				if ($t['MetaTag']['isbase'])
+				{
+//ЗАМЕЩАЮТСЯ ТОЛЬКО НЕПУСТЫЕ ТЭГИ
+					if (!empty($t['MetaTag']['title' . $langFix]))
+					{
+						$this->titleTag = $t['MetaTag']['title' . $langFix];
+					}
+
+					if (!empty($t['MetaTag']['keywords' . $langFix]))
+					{
+						$this->keywordsTag = $t['MetaTag']['keywords' . $langFix];
+					}
+
+					if (!empty($t['MetaTag']['description' . $langFix]))
+					{
+						$this->descriptionTag = $t['MetaTag']['description' . $langFix];
+					}
+				}
+				else
+				{
+					$this->titleTag .= $t['MetaTag']['title' . $langFix];
+					$this->keywordsTag .= $t['MetaTag']['keywords' . $langFix];
+					$this->descriptionTag .= $t['MetaTag']['description' . $langFix];
+				}
+
+				if (!empty($t['MetaTag']['title' . $langFix]))
+				{
+					$this->titleTag .= ' ';
+				}
+
+				if (!empty($t['MetaTag']['keywords' . $langFix]))
+				{
+					$this->keywordsTag .= ', ';
+				}
+
+				if (!empty($t['MetaTag']['description' . $langFix]))
+				{
+					$this->descriptionTag .= ' ';
+				}
+			}
+
+			if (!empty($base))
+			{
+//ДОБАВЛЯЕМ БАЗОВЫЕ ТЭГИ ДЛЯ ВСЕХ СТРАНИЦ
+				$this->titleTag .= $base[0]['MetaTag']['title' . $langFix];
+				$this->keywordsTag = implode(', ', array($base[0]['MetaTag']['keywords' . $langFix], $this->keywordsTag));
+				$this->descriptionTag .= $base[0]['MetaTag']['description' . $langFix];
+			}
+			$this->keywordsTag = $this->keywordsDups();
+			$this->descriptionTag = $this->descriptionDups();
+		}
+	}
+
+	/**
+	 * удалить дубли из ключевых слов (слова разбиваются по запятой ",")
+	 *
+	 * @return string $keywords
+	 */
+	public function keywordsDups()
+	{
+		$lst = preg_split("/,[\s]?/", $this->keywordsTag);
+		$lst = array_unique($lst);
+		return implode(', ', $lst);
+	}
+
+	/**
+	 * удалить дубли из описания (предложения разделяются по точке ".")
+	 *
+	 * @return  string $description
+	 */
+	public function descriptionDups()
+	{
+		$lst = preg_split("/.[\s]?/", $this->descriptionTag);
+		$lst = array_unique($lst);
+		return implode('. ', $lst);
 	}
 
 	/**
@@ -101,7 +195,13 @@ class MetatagsComponent extends Object
 	 */
 	public function initialize(&$controller)
 	{
-		App::import('Model', 'MetaTag');
+        $this->controller =& $controller;
+
+        App::import('Model', 'MetaTag');//ИМПОРТИРУЕМ, ТК В ВЫЗЫВАЕМОМ КОНТРОЛЛЕРЕ МОДЕЛЬ МОЖЕТ БЫТЬ НЕ ПОДКЛЮЧЕНА
 		$this->db = new MetaTag();
+
+		$this->titleTag = '';
+		$this->descriptionTag = '';
+		$this->keywordsTag = '';
 	}
 }
