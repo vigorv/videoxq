@@ -78,6 +78,7 @@ class metaTagsController extends AppController {
             //а не вредители :) да и пустым может быть любое поле!
             $url = filter_var($this->data['MetaTag']['url'], FILTER_SANITIZE_STRING);
             $url = $this->Metatags->fixUrl($url);
+            $url_original = filter_var($this->data['MetaTag']['url_original'], FILTER_SANITIZE_STRING);
             $title = filter_var($this->data['MetaTag']['title'], FILTER_SANITIZE_STRING);
             $description = filter_var($this->data['MetaTag']['description'], FILTER_SANITIZE_STRING);
             $keywords = filter_var($this->data['MetaTag']['keywords'], FILTER_SANITIZE_STRING);
@@ -92,6 +93,7 @@ class metaTagsController extends AppController {
                 //по post
                 $new_data = array('MetaTag' => array(
                     'url' => $url,
+                    'url_original' => $url_original,
                     'title' => $title,
                     'description' => $description,
                     'keywords' => $keywords,
@@ -142,6 +144,7 @@ class metaTagsController extends AppController {
             if (!$id) {$validate = false;} 
             $url = filter_var($this->data['MetaTag']['url'], FILTER_SANITIZE_STRING);
             $url = $this->Metatags->fixUrl($url);
+            $url_original = filter_var($this->data['MetaTag']['url_original'], FILTER_SANITIZE_STRING);
             $title = filter_var($this->data['MetaTag']['title'], FILTER_SANITIZE_STRING);
             $description = filter_var($this->data['MetaTag']['description'], FILTER_SANITIZE_STRING);
             $keywords = filter_var($this->data['MetaTag']['keywords'], FILTER_SANITIZE_STRING);
@@ -156,6 +159,7 @@ class metaTagsController extends AppController {
                 $data = array('MetaTag' => array(
                     'id' => $id,
                     'url' => $url,
+                    'url_original' => $url_original,
                     'title' => $title,
                     'description' => $description,
                     'keywords' => $keywords,
@@ -201,26 +205,5 @@ class metaTagsController extends AppController {
         $this->redirect(array('action'=>'index'));
     }
             
-//------------------------------------------------------------------------------
-    /*очистка url от начальных символов "/", "http://", "www" 
-     * и пробелов по краям
-     * 
-     * @param string $url - строка url для чистки
-     * @return string $url
-     */
-    function _url_clear($url=''){        
-/*        
-        $url = str_replace('http://www.', '', trim($url));
-        $url = str_replace('http://', '', $url);
-        $url = str_replace($_SERVER['SERVER_NAME'], '', $url);
-        //если есть начальный символ "/", удалим его
-        if (strpos($url, '/')==0){
-            $url = substr($url, 1, strlen($url)-1);
-        }
-        return $url;
- */
-        return $this->Metatags->fixUrl($url);
-    }
-
 }
 ?>

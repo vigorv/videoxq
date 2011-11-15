@@ -15,7 +15,8 @@ jQuery(document).ready(function() {
     <fieldset>
          <legend>Добавление записи о мета-тегах</legend>
 <?php
-        echo $form->input('url', array('label' => 'url', 'value' => (!empty($data['url']) ? $data['url'] : '')));
+        echo $form->input('url', array('label' => 'url (если url пуст то мета-теги являются общими для всех страниц)', 'value' => (!empty($data['url']) ? $data['url'] : '')));
+        echo $form->input('url_original', array('label' => 'url_original', 'value' => (!empty($data['url_original']) ? $data['url_original'] : '')));
         echo $form->input('title', array('label' => 'title', 'value' => (!empty($data['title']) ? $data['title'] : '')));
         echo $form->input('description', array('label' => 'description', 'value' => (!empty($data['description']) ? $data['description'] : '')));
         echo $form->input('keywords', array('label' => 'keywords', 'value' => (!empty($data['keywords']) ? $data['keywords'] : '')));

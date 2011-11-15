@@ -16,6 +16,7 @@ echo '<table class="list_rows" cellpadding="0" cellspacing="0">';
     echo '<tr>';
     echo '<th>№</td>';
     echo '<th>URL</th>';
+    echo '<th>URL Original</th>';
     echo '<th>Title</th>';
     echo '<th>Description</th>';
     echo '<th>Keywords</th>';
@@ -31,6 +32,7 @@ foreach($metatags['data'] as $row){
     echo '<tr>';
     echo '<td>'.((($paginator->current()-1)*$rows_per_page)+($n)).'</td>';
     echo '<td>'.$row['MetaTag']['url'].'</td>';
+    echo '<td>'.$row['MetaTag']['url_original'].'</td>';
     echo '<td>'.$row['MetaTag']['title'].'</td>';
     echo '<td>'.$row['MetaTag']['description'].'</td>';
     echo '<td>'.$row['MetaTag']['keywords'].'</td>';
@@ -74,3 +76,4 @@ echo '</table>';
 <!--
 <div>Всего записей: <?=$metatags['count']?></div>
 -->
+<p>Примечание: если url пуст то мета-теги являются общими для всех страниц.</p>
