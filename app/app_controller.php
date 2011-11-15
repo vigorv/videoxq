@@ -89,6 +89,11 @@ $this->Metatags->get($this->here);
 echo '<p>'.$this->Metatags->titleTag;
 exit;
 //*/
+		$this->Metatags->get($this->here);
+		$this->set('titleTag', $this->Metatags->titleTag);
+		$this->set('keywordsTag', $this->Metatags->keywordsTag);
+		$this->set('descriptionTag', $this->Metatags->descriptionTag);
+
         $geoInfo = array();
         $geoInfo = $this->Session->read('geoInfo');
         $ip = sprintf('%u', ip2long($_SERVER['REMOTE_ADDR']));
