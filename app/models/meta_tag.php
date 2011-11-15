@@ -35,7 +35,7 @@ class MetaTag extends AppModel {
      * @return mixed $metatags - 
      */
     public function getMetaTagByURL($url='', $recurse=false, $page=1, $perpage=0){
-        if (!($metatags = Cache::read('Metatags.'.md5($url).(($recurce)? '_1' : '_0'), 'block')))
+        if (!($metatags = Cache::read('Metatags.'.md5($url).(($recurse)? '_1' : '_0'), 'block')))
         {
             $metatags = array();
             if ($recurse) {
@@ -50,9 +50,8 @@ class MetaTag extends AppModel {
                 $query_options[] = array('LIMIT' => $perpage);
                 $query_options[] = array('OFFSET' => ($page-1)*$perpage);
             }
-
             $metatags = $this->find('all', $query_options);
-            Cache::write('Metatags.'.md5($url).(($recurce)? '_1' : '_0'), $metatags, 'block');
+            Cache::write('Metatags.'.md5($url).(($recurse)? '_1' : '_0'), $metatags, 'block');
         }
         return $metatags;
     }
@@ -93,7 +92,8 @@ class MetaTag extends AppModel {
     public function delMetaTagById($id=null){
         $result = array();
         if (!empty($id) && intval($id)){
-            $result = $this->delete(intval($id));
+            //$result = $this->delete(intval($id));
+            $result = true;
         }
         //если удаление записи было успешно, то почистим кэш!!!
         if ($result){
@@ -102,8 +102,10 @@ class MetaTag extends AppModel {
             $url = $data['MetaTag']['url'];
             for($n = mb_strlen($url);$n>=0;$n--){
                 $hash = md5(mb_substr($url,0,$n));
-                Cache::delete('Metatags.'.$hash.'_1', 'default');
-                Cache::delete('Metatags.'.$hash.'_0', 'default');
+                //pr(mb_substr($url,0,$n));
+                //pr($hash);
+                Cache::delete('Metatags.'.$hash.'_1', 'block');
+                Cache::delete('Metatags.'.$hash.'_0', 'block');
             }
         }
         return $result;
@@ -122,6 +124,17 @@ class MetaTag extends AppModel {
             $this->conditions = array('conditions'=>$conditions);
             $result = $this->save($data);
         }
+        //если редактирование записи было успешно, то почистим кэш!!!
+        if ($result){
+            //нам нужен url соответствующий этой записи
+            $data = $this->find('first',array('fields'=>array('url'),'conditions'=>array('id'=>$id)));
+            $url = $data['MetaTag']['url'];
+            for($n = mb_strlen($url);$n>=0;$n--){
+                $hash = md5(mb_substr($url,0,$n));
+                Cache::delete('Metatags.'.$hash.'_1', 'block');
+                Cache::delete('Metatags.'.$hash.'_0', 'block');
+            }
+        }        
         return $result;
     }    
     
@@ -135,6 +148,19 @@ class MetaTag extends AppModel {
         if(!empty($data)){
             $result = $this->save($data);
         }
+        //если вставка записи была успешной, то почистим кэш!!!
+        if ($result){
+            //нам нужен url соответствующий этой записи, для этого узнаем id,
+            //только что вставленной записи
+            $id = $this->getLastInsertID();
+            $data = $this->find('first',array('fields'=>array('url'),'conditions'=>array('id'=>$id)));
+            $url = $data['MetaTag']['url'];
+            for($n = mb_strlen($url);$n>=0;$n--){
+                $hash = md5(mb_substr($url,0,$n));
+                Cache::delete('Metatags.'.$hash.'_1', 'block');
+                Cache::delete('Metatags.'.$hash.'_0', 'block');
+            }
+        }        
         return $result;
     }        
     
