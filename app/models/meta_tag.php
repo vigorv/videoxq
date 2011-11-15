@@ -35,21 +35,25 @@ class MetaTag extends AppModel {
      * @return mixed $metatags - 
      */
     public function getMetaTagByURL($url='', $recurse=false, $page=1, $perpage=0){
-        $metatags = array();
-        if ($recurse) {
-            $conditions = array('url LIKE'=>$url.'%');
+        if (!($metatags = Cache::read('Metatags.'.md5($url).(($recurce)? '_1' : '_0'), 'block')))
+        {
+            $metatags = array();
+            if ($recurse) {
+                $conditions = array('url LIKE'=>$url.'%');
+            }
+            else {
+                $conditions = array('url'=>$url);
+            }
+            $query_options = array('conditions'=>$conditions);
+            $limit='';
+            if ($perpage){
+                $query_options[] = array('LIMIT' => $perpage);
+                $query_options[] = array('OFFSET' => ($page-1)*$perpage);
+            }
+
+            $metatags = $this->find('all', $query_options);
+            Cache::write('Metatags.'.md5($url).(($recurce)? '_1' : '_0'), $metatags, 'block');
         }
-        else {
-            $conditions = array('url'=>$url);
-        }
-        $query_options = array('conditions'=>$conditions);
-        $limit='';
-        if ($perpage){
-            $query_options[] = array('LIMIT' => $perpage);
-            $query_options[] = array('OFFSET' => ($page-1)*$perpage);
-        }
-        
-        $metatags = $this->find('all', $query_options);
         return $metatags;
     }
     
@@ -63,8 +67,6 @@ class MetaTag extends AppModel {
      */
     public function delMetaTagByURL($url='', $recurse=false){
         $result = false;
-        
-        
         return $result;
     }    
     
@@ -89,11 +91,22 @@ class MetaTag extends AppModel {
      * @return boolean $result
      */
     public function delMetaTagById($id=null){
-        $metatags = array();
+        $result = array();
         if (!empty($id) && intval($id)){
-            $metatags = $this->delete(intval($id));
+            $result = $this->delete(intval($id));
         }
-        return $metatags;
+        //если удаление записи было успешно, то почистим кэш!!!
+        if ($result){
+            //нам нужен url соответствующий этой записи
+            $data = $this->find('first',array('fields'=>array('url'),'conditions'=>array('id'=>$id)));
+            $url = $data['MetaTag']['url'];
+            for($n = mb_strlen($url);$n>=0;$n--){
+                $hash = md5(mb_substr($url,0,$n));
+                Cache::delete('Metatags.'.$hash.'_1', 'default');
+                Cache::delete('Metatags.'.$hash.'_0', 'default');
+            }
+        }
+        return $result;
     }
     
     /* изменение данных для записи метатегов с id = $id
