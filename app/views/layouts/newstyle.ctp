@@ -214,10 +214,8 @@
 			<div class="ClearClass">
 			</div>
 		</div>
-        <div class="tv_label"></div>
-	</div>
-                        </div>
-<div id="navigation_tv">
+        <div class="tv_label">
+        <div id="navigation_tv">
             <?php
             $tvIcons->JsIconsAtt();
             $tvIcons->AllIcons();
@@ -245,7 +243,9 @@
             //<a href="#" onclick="switchOn(this); return saveOption('Profile.itemsView', 'list');><img src="/img/main/list.png" class="icon_list" alt="Вид отображения: Список" /></a>
            // <a href="#" onclick="switchOn(this); return saveOption('Profile.itemsView', 'eskiz');"><img src="/img/main/eskiz.png" class="icon_eskiz" alt="Вид отображения: Эскизом" /></a>
             //<a href="#"><img src="/img/main/right_arrow.png" id="icon_r_arrow" alt="Листать вправо" /></a>?>
-            </div>
+            </div></div>
+	</div>
+                        </div>
                     </div>
                 </div>
             </div>

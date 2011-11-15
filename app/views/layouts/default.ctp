@@ -53,9 +53,11 @@
         }
         ?>
         <meta name="Robots" content="<?php echo $metaRobots; ?>" />
+        <meta name='yandex-verification' content='4a78e048df7530aa' />
         <meta name='yandex-verification' content='41f90ac754cf4471' />
         <meta name="verify-v1" content="Q+iq7OY8RadE9126YoJFPl1cnjLTMbHmU//RrR0TTks=" />
         <link rel="alternate" type="application/rss+xml" title='<?php echo Configure::read('App.siteName'); ?>' href="http://videoxq.com/rss.xml" />
+        
     </head>
     <body>
         <div id="wrap">
@@ -128,8 +130,8 @@ if ($session->check('Message.auth'))
             <div class="footer">
                 <div class="copy" width="100%" align="center">
                     <br />
-                    <span><a href="/mobile/ver?id=2">Переключиться на мобильную версию</span><br />
-                    <span><a href="/mobile">Мобильная версия</span><br />
+                    <span><a href="/mobile/ver?id=2">Переключиться на мобильную версию</a></span><br />
+                    <span><a href="/mobile">Мобильная версия</a></span><br />
                     <span>© «<a href="http://www.videoxq.com">videoxq.com</a>», 2007-<?php echo date('Y'); ?></span><br />
                     <span><a href="mailto:support@videoxq.com">email: support@videoxq.com</a></span><br />
                     <span><a href="/pages/reklama<?php echo $langFix; ?>"><?php __("Advertisement"); ?></a> | <a href="/pages/kontaktyi<?php echo $langFix; ?>"><?php __("Contacts"); ?></a> | <a href="/pages/nashi-partneryi<?php echo $langFix; ?>"><?php __("Partners"); ?></a> | <a href="/pages/agreement"><?php __('user agreement'); ?></a></a></span>
