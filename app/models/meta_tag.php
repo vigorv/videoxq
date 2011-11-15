@@ -92,8 +92,8 @@ class MetaTag extends AppModel {
     public function delMetaTagById($id=null){
         $result = array();
         if (!empty($id) && intval($id)){
-            //$result = $this->delete(intval($id));
-            $result = true;
+            $result = $this->delete(intval($id));
+//--            $result = true;
         }
         //если удаление записи было успешно, то почистим кэш!!!
         if ($result){
@@ -102,8 +102,8 @@ class MetaTag extends AppModel {
             $url = $data['MetaTag']['url'];
             for($n = mb_strlen($url);$n>=0;$n--){
                 $hash = md5(mb_substr($url,0,$n));
-                //pr(mb_substr($url,0,$n));
-                //pr($hash);
+//--                pr(mb_substr($url,0,$n));
+//--                pr($hash);
                 Cache::delete('Metatags.'.$hash.'_1', 'block');
                 Cache::delete('Metatags.'.$hash.'_0', 'block');
             }
