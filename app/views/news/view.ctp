@@ -193,17 +193,85 @@ function equalHeight(group) {
 
 	$javascript->link('jquery.fancybox-1.3.4/fancybox/jquery.fancybox-1.3.4.pack', false);
     $html->css('fancybox-1.3.4/jquery.fancybox-1.3.4', null, array(), false);
-
+   
+    
     $javascript->link('calendarlite/jquery.calendarlite', false);
-    $javascript->link('calendarlite/jquery.calendarlite', false);
+    $javascript->link('jquery.ad-gallery', false);
     $javascript->link(array('slimbox2/slimbox2.js'), false);
     $html->css('global', '', '', false);
     $html->css('calendarlite', '', '', false);
+    $html->css('jquery.ad-gallery', '', '', false);
 
     $javascript->link('jquery.pngFix', false);
     $matchesInfo = explode('|', $info['News']['matchesinfo']);
 ?>
 <table cellspacing="20" cellpadding="5">
+<script type="text/javascript">
+  $(function() {
+    $('img.image1').data('ad-desc', 'Whoa! This description is set through elm.data("ad-desc") instead of using the longdesc attribute.<br>And it contains <strong>H</strong>ow <strong>T</strong>o <strong>M</strong>eet <strong>L</strong>adies... <em>What?</em> That aint what HTML stands for? Man...');
+    $('img.image1').data('ad-title', 'Title through $.data');
+    $('img.image4').data('ad-desc', 'This image is wider than the wrapper, so it has been scaled down');
+    $('img.image5').data('ad-desc', 'This image is higher than the wrapper, so it has been scaled down');
+    var galleries = $('.ad-gallery').adGallery();
+    $('#switch-effect').change(
+      function() {
+        galleries[0].settings.effect = $(this).val();
+        return false;
+      }
+    );
+    $('#toggle-slideshow').click(
+      function() {
+        galleries[0].slideshow.toggle();
+        return false;
+      }
+    );
+    $('#toggle-description').click(
+      function() {
+        if(!galleries[0].settings.description_wrapper) {
+          galleries[0].settings.description_wrapper = $('#descriptions');
+        } else {
+          galleries[0].settings.description_wrapper = false;
+        }
+        
+        return false;
+      }
+    );
+  });
+  </script>
+  <style type="text/css">
+  
+  ul.ad-thumb-list {
+    list-style-image:url(list-style.gif);
+  }
+   .ad-gallery {
+    padding: 30px;
+    background: #e1eef5;
+  }
+    #spisok_show{
+        visibility: hidden;
+         position: absolute;
+    width:660px;
+    left: 20%;
+    margin-top: -70%;
+    border:solid #ccc 2px;
+      z-index: 10;
+    overflow: hidden;
+    background-color:#ccc;
+    opacity:0.95;
+    color:#fff;
+    text-align:center;
+    padding:10px;
+    }
+ 
+  </style>
+  <script>function spisok()
+{
+ var obj=document.getElementById('spisok_show');
+ if(obj.style.visibility=='visible')
+  obj.style.visibility='hidden';
+ else
+  obj.style.visibility='visible';
+}</script>
 <?php
 //ДЛЯ ОТОБРАЖЕНИЯ ФОТО ИЗ ТЕЛА НОВОСТИ
 		$hideJS = '
@@ -246,24 +314,91 @@ for ($match = 1; $match < 20; $match++)
 						"showCloseButton": true
 					});
 			';
-			$count=count($ftpInfo[$dir][$match]['foto']);
-			echo '<h2><a rel="foto' . $match . '" href="http://' . $downServerAddrPort . '/' . $ftpInfo[$dir][$match]['foto'][0] . '">Фото('.$count.')</a></h2>';
+			
 			//echo '<h2><a rel="fotodiv' . $match . '" href="#fotodiv' . $match . '">Фото(' . $count . ')</a></h2>';
-			$hideContent = '<h3>Фотографии</h3>';
+			
+            $hideContent_down = '';
+            $hideContent = '';
+                 
+            
+            //норм вывод
+             $i=1;
 			foreach ($ftpInfo[$dir][$match]['foto'] as $key => $val)
 			{
-				if (!$key) continue; //ПЕРВУЮ УЖЕ ВЫВЕЛИ
+				 //ПЕРВУЮ УЖЕ ВЫВЕЛИ
 				/*
 				$hideContent .= '
 					<a rel="foto' . $match . '" href="http://' . $downServerAddrPort . '/' . $val . '"></a>
 				';
 				//*/
+                
+                $mass = explode('/',$val);
+               
+                if ((basename($val) == 'original') or (basename($val) == 'thumbs'))
+                {
+                    unset($ftpInfo[$dir][$match]['foto'][$key]);
+                    continue;
+                }
+                
 				$hideContent .= '
-					<a rel="foto' . $match . '" href="http://' . $downServerAddrPort . '/' . $val . '">' . basename($val) . '</a>
-				';
+                    
+					<li><a href="http://' . $downServerAddrPort . '/' . $val . '"><img src="http://' . $downServerAddrPort . '/'.$mass[0].'/'.$mass[1].'/'.$mass[2].'/thumbs/'.$mass[3].'" />Фото '.$i.'</a></li>
+                    ';
+			    $i++;
+            }
+            $count=count($ftpInfo[$dir][$match]['foto']);
+			echo '<h2><a  href="javascript:void(0)" onclick="spisok();return false;">Фото ('. $count .')</a></h2>';
+            //вывод оригальных изображений
+            
+            foreach ($ftpInfo[$dir][$match]['original'] as $key2 => $val_o)
+			{
+				if (!$key2) continue; //ПЕРВУЮ УЖЕ ВЫВЕЛИ
+                $mass = explode('/',$val_o);
+				$hideContent_down .= '
+				<li><a href="http://' . $downServerAddrPort . '/'.$val_o.'">Скачать</a></li>';
+               
 			}
 			//echo'<div style="display:none">' . $hideContent . '</div>';
-			echo'<div style="display:none"><div id="fotodiv' . $match . '">' . $hideContent . '</div></div>';
+            echo "<script>function go_to_img(a) { $(document).ready(function() { 
+            var srcs = $('.ad-image img').attr('src');
+            var newsrc = srcs.replace('/foto/', '/foto/original/');
+            a.href = newsrc;return true;});}</script>";
+            if (!empty($ftpInfo[$dir][$match]['original']))
+            {
+			echo'<div id="spisok_show">
+            <p><a href="javascript:void(0)" onclick="spisok();return false;">Закрыть</a></p>
+            <p><span></span><span><a href="#" id="link_org" onclick="return go_to_img(this);">Cкачать оригинальное изображение</a></span></p>
+            <div id="gallery" class="ad-gallery">
+            <div class="ad-image-wrapper">
+            </div>
+            <div class="ad-controls">
+            </div>
+            <div class="ad-nav">
+            <div class="ad-thumbs">
+            <ul class="ad-thumb-list">' .$hideContent.'</ul>
+            
+            </div>
+            </div>
+            </div>
+            </div>';
+            }
+            else
+            {
+                echo'<div id="spisok_show">
+            <p><a href="javascript:void(0)" onclick="spisok();return false;">Закрыть</a></p>
+            <div id="gallery" class="ad-gallery">
+            <div class="ad-image-wrapper">
+            </div>
+            <div class="ad-controls">
+            </div>
+            <div class="ad-nav">
+            <div class="ad-thumbs">
+            <ul class="ad-thumb-list">' . $hideContent . '</ul>
+            </div>
+            </div>
+            </div>
+            </div>';
+            }
 			$hideJS .= '
 					$("a[rel=fotodiv' . $match . ']").fancybox({
 						"zoomSpeedIn":  0,
