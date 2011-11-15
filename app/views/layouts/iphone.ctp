@@ -6,6 +6,7 @@
         <meta id="viewport" name="viewport" content="width=320; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>
         <?= $html->css('iphone/mobile'); ?>
         <?= $html->css('iphone/iblack'); ?>
+
         <?= $html->css('iphone/skins/tango/skin.css'); ?>
         <?= $javascript->link(array('mobile/webkit', 'mobile/jquery')); ?>
         <?
@@ -109,7 +110,6 @@
                     <a style="font-size:26px" href="/mobile/ver?id=1" ><?= __("Click for full version of site", true); ?></a><br/>
                     <br/>
                     <span><a href="mailto:support@videoxq.com">email: support@videoxq.com</a></span><br />           
-                    <!--LiveInternet counter-->
                     <script type="text/javascript"><!--
                         document.write("<a href='http://www.liveinternet.ru/click' "+
                             "target=_blank><img vspace='5' hspace='8' src='//counter.yadro.ru/hit?t14.5;r"+
@@ -122,7 +122,9 @@
                             "border='0' width='88' height='31'><\/a>")
                         //-->
                     </script>
-                    <!--/LiveInternet-->
+                    <div>
+                        <a href="http://www.branica.com/"><img id="counter" src="http://counters.branica.com/?i=0&u=true&ox=10&oy=17&c=000000&b=transparent.png&f=Terminator.ttf&fn=true&w=110&h=35&s=10" alt="Branica" width="110" height="35" style="border:none"/></a>
+                    </div>
                 </div>
             </div>
         </div>   
