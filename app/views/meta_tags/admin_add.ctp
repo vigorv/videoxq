@@ -10,7 +10,7 @@ jQuery(document).ready(function() {
 <div class="form">
 <?php
 
-	echo $form->create('MetaTags', array('action' => 'add', 'enctype' => 'multipart/form-data'));
+	echo $form->create('MetaTag', array('action' => 'add', 'enctype' => 'multipart/form-data'));
 ?>
     <fieldset>
          <legend>Добавление записи о мета-тегах</legend>

@@ -8,11 +8,12 @@ jQuery(document).ready(function() {
 </script>
 <div class="form">
 <?php
-	echo $form->create('Direction', array('action' => 'edit', 'enctype' => 'multipart/form-data'));
+	echo $form->create('MetaTag', array('action' => 'edit', 'enctype' => 'multipart/form-data'));
 ?>
     <fieldset>
-         <legend>Добавление записи о мета-тегах</legend>
+         <legend>Редактирование записи о мета-тегах</legend>
 <?php
+        echo $form->input('id', array('type' => 'hidden', 'value' => (!empty($data['id']) ? $data['id'] : 0)));
         echo $form->input('url', array('label' => 'url', 'value' => (!empty($data['url']) ? $data['url'] : '')));
         echo $form->input('title', array('label' => 'title', 'value' => (!empty($data['title']) ? $data['title'] : '')));
         echo $form->input('description', array('label' => 'description', 'value' => (!empty($data['description']) ? $data['description'] : '')));
