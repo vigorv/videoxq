@@ -101,8 +101,8 @@ class MetatagsComponent extends Object
 
 	public function get($url, $lang = '')
 	{
-		$base = $this->db->findTags('', $lang);//! БАЗОВЫЕ ТЭГИ (ПРИСУТСТВУЮЩИЕ НА ВСЕХ СТРАНИЦАХ САЙТА)
-		$tags = $this->db->findTags($this->fixUrl($url), $lang);
+		$base = $this->db->getMetaTagByURL('');//! БАЗОВЫЕ ТЭГИ (ПРИСУТСТВУЮЩИЕ НА ВСЕХ СТРАНИЦАХ САЙТА)
+		$tags = $this->db->getMetaTagByURL($this->fixUrl($url));
 		if (!empty($tags))
 		{
 			if (!empty($lang))
