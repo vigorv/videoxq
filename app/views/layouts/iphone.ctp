@@ -5,7 +5,8 @@
         <title><?php echo Configure::read('App.siteName') . ' - ' . $title_for_layout; ?></title>
         <meta id="viewport" name="viewport" content="width=320; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>
         <?= $html->css('iphone/mobile'); ?>
-        <?= $html->css('iphone/iblack'); ?>
+        <?=$html->css('iphone/iblack'); ?>
+
         <?= $html->css('iphone/skins/tango/skin.css'); ?>
         <?= $javascript->link(array('mobile/webkit', 'mobile/jquery')); ?>
         <?
