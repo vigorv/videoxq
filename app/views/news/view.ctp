@@ -348,16 +348,7 @@ for ($match = 1; $match < 20; $match++)
             }
             $count=count($ftpInfo[$dir][$match]['foto']);
 			echo '<h2><a  href="javascript:void(0)" onclick="spisok();return false;">Фото ('. $count .')</a></h2>';
-            //вывод оригальных изображений
-            
-            foreach ($ftpInfo[$dir][$match]['original'] as $key2 => $val_o)
-			{
-				if (!$key2) continue; //ПЕРВУЮ УЖЕ ВЫВЕЛИ
-                $mass = explode('/',$val_o);
-				$hideContent_down .= '
-				<li><a href="http://' . $downServerAddrPort . '/'.$val_o.'">Скачать</a></li>';
-               
-			}
+                        
 			//echo'<div style="display:none">' . $hideContent . '</div>';
             echo "<script>function go_to_img(a) { $(document).ready(function() { 
             var srcs = $('.ad-image img').attr('src');
@@ -367,7 +358,7 @@ for ($match = 1; $match < 20; $match++)
             {
 			echo'<div id="spisok_show">
             <p><a href="javascript:void(0)" onclick="spisok();return false;">Закрыть</a></p>
-            <p><span></span><span><a href="#" id="link_org" onclick="return go_to_img(this);">Cкачать оригинальное изображение</a></span></p>
+            <p><span><a href="#" target="_blank" onclick="return go_to_img(this);">Cкачать оригинальное изображение</a></span></p>
             <div id="gallery" class="ad-gallery">
             <div class="ad-image-wrapper">
             </div>
