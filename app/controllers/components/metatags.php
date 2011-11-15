@@ -105,6 +105,7 @@ class MetatagsComponent extends Object
 		$tags = $this->db->getMetaTagByURL($this->fixUrl($url));
 		if (!empty($tags))
 		{
+			$langFix = '';
 			if (!empty($lang))
 			{
 				$langFix = '_' . $lang;
