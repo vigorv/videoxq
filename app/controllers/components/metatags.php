@@ -36,7 +36,7 @@ class MetatagsComponent extends Object
 	/**
 	 * подготовка URL к "правильному" виду. Упорядочивание параметров и их значений. Удаление лишнего
 	 *
-	 * @param string $url
+	 * @param string $url - относительный! url
 	 * @return string
 	 */
 	public function fixUrl($url)
@@ -44,7 +44,7 @@ class MetatagsComponent extends Object
 		$argsMap = array(//КАРТА ИСПОЛЬЗУЕМЫХ АРГУМЕНТОВ (ОСТАЛЬНЫЕ БУДЕМ ИГНОРИРОВАТЬ)
 			'genre', 'country', 'type', 'year', 'sort'
 		);
-		$urlInfo = parse_url($url);
+		$urlInfo = parse_url(Configure::read('App.siteUrl') . $url);
 		$path = explode('/', $urlInfo['path']);
 //ОПРЕДЕЛЯЕМ АРГУМЕНТЫ ДЛЯ СОРТИРОВКИ
 		$args = array(); //СЮДА ОТБЕРЕМ АРГУМЕНТЫ

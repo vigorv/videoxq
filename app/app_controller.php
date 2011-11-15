@@ -89,7 +89,7 @@ $this->Metatags->get($this->here);
 echo '<p>'.$this->Metatags->titleTag;
 exit;
 //*/
-		$this->Metatags->get(Configure::read('App.siteUrl') . $this->here);
+		$this->Metatags->get($this->here);
 		$this->set('titleTag', $this->Metatags->titleTag);
 		$this->set('keywordsTag', $this->Metatags->keywordsTag);
 		$this->set('descriptionTag', $this->Metatags->descriptionTag);
