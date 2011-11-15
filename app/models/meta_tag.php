@@ -16,10 +16,10 @@ class MetaTag extends AppModel {
         
         $metatags_count = 0;
         if ($recurse) {
-            $conditions = array('urlmask LIKE'=>$url.'%');
+            $conditions = array('url LIKE'=>$url.'%');
         }
         else {
-            $conditions = array('urlmask'=>$url);
+            $conditions = array('url'=>$url);
         }
         $query_options = array('conditions'=>$conditions);
         $metatags_count = $this->find('count', $query_options);
@@ -37,10 +37,10 @@ class MetaTag extends AppModel {
     public function getMetaTagByURL($url='', $recurse=false, $page=1, $perpage=0){
         $metatags = array();
         if ($recurse) {
-            $conditions = array('urlmask LIKE'=>$url.'%');
+            $conditions = array('url LIKE'=>$url.'%');
         }
         else {
-            $conditions = array('urlmask'=>$url);
+            $conditions = array('url'=>$url);
         }
         $query_options = array('conditions'=>$conditions);
         $limit='';
@@ -52,6 +52,7 @@ class MetaTag extends AppModel {
         $metatags = $this->find('all', $query_options);
         return $metatags;
     }
+    
     
     /* удаление записи метатегов по совпадению с $url
      * 
@@ -67,15 +68,32 @@ class MetaTag extends AppModel {
         return $result;
     }    
     
+    /* получение данных записи метатегов с id = $id
+     * 
+     * @param integer $id - id метатега
+     * @return mixed $metatags
+     */
+    public function getMetaTagById($id=null){
+        $metatags = array();
+        if (!empty($id) && intval($id)){
+            $conditions = array('id'=>intval($id));
+            $query_options = array('conditions'=>$conditions);
+            $metatags = $this->find('first', $query_options);
+        }
+        return $metatags;
+    }    
+    
     /* удаление записи метатегов с id = $id
      * 
      * @param integer $id - id метатега
      * @return boolean $result
      */
     public function delMetaTagById($id=null){
-        $result = false;
-        
-        return $result;
+        $metatags = array();
+        if (!empty($id) && intval($id)){
+            $metatags = $this->delete(intval($id));
+        }
+        return $metatags;
     }
     
     /* изменение данных для записи метатегов с id = $id
@@ -84,10 +102,12 @@ class MetaTag extends AppModel {
      * @param mixed $data - массив с данными для внесения изменений
      * @return boolean $result
      */
-    public function editMetaTagById($id='', $data=null){
+    public function editMetaTagById($id=null, $data=null){
         $result = false;
-        if(!empty($data)){
-            
+        if(!empty($id) && intval($id) && !empty($data)){
+            $conditions = array('id'=>intval($id));
+            $this->conditions = array('conditions'=>$conditions);
+            $result = $this->save($data);
         }
         return $result;
     }    
@@ -100,7 +120,7 @@ class MetaTag extends AppModel {
     public function newMetaTag($data=null){
         $result = false;
         if(!empty($data)){
-            
+            $result = $this->save($data);
         }
         return $result;
     }        
