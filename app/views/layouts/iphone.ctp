@@ -21,7 +21,7 @@
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <script type="text/javascript">
 <? if (!$android_webkit): ?>
-    //document.addEventListener('touchmove', function(e){ e.preventDefault(); });
+        //document.addEventListener('touchmove', function(e){ e.preventDefault(); });
 <? endif; ?>
     var myPager = new snowPager();
     myPager.link = window.location;
@@ -42,15 +42,15 @@
     });
         </script>
         <? if (Configure::read('debug')): ?>
-        <style type="text/css">
-            body { background-color:white;}
-        </style>
+            <style type="text/css">
+                body { background-color:white;}
+            </style>
         <? endif; ?>
 
     </head>
-    <body onload="<? if ($action!='films'): ?>
+    <body onload="<? if ($action != 'films'): ?>
             setTimeout(function() { window.scrollTo(0, 1); }, 100); 
-         <? endif; ?>">
+          <? endif; ?>">
         <div id="sizer" style="position:absolute;height:100%;width:100%;z-index:0"></div>
         <div id="header">
             <a id="logo-title" href="/mobile" <?php /*
@@ -75,29 +75,29 @@
         <div id="iscroll" >
             <div  id="Scroller">                                
                 <div id="top_bars" >
-                      <?php if (!isset($hide_search_bar)): ?>
-                      <div class="bar" style="text-align: center; vertical-align: bottom;">
-                      <form action="/mobile/search" id="searchform" method="get">
-                      <input  type="search" style="clear:left;" placeholder="<?= __('Search film by title', true); ?>…" tabindex="1" id="search-input"  name="s"/><br/>
-                      <input type="submit" tabindex="2"  style="font-size:1.5em; margin:4px auto;" id="search-submit-hidden" name="submit" value="<?= __('Search', true); ?>"/>
-                      </form>
-                      </div>
-                      <?php endif; ?>
+                    <?php if (!isset($hide_search_bar)): ?>
+                        <div class="bar" style="text-align: center; vertical-align: bottom;">
+                            <form action="/mobile/search" id="searchform" method="get">
+                                <input  type="search" style="clear:left;" placeholder="<?= __('Search film by title', true); ?>…" tabindex="1" id="search-input"  name="s"/><br/>
+                                <input type="submit" tabindex="2"  style="font-size:1.5em; margin:4px auto;" id="search-submit-hidden" name="submit" value="<?= __('Search', true); ?>"/>
+                            </form>
+                        </div>
+                    <?php endif; ?>
 
                     <div class="bar">
                         <a href="/mobile/genres" class="button"><?= __('Genres', true); ?></a>
                         <?
                         /* <a href="/mobile/profile" class="button"><?= __('Profile', true); ?></a>                         
-                        <div style="float:right">
-                            <a style="text-decoration:none" href="/ru.php">&nbsp;<img src="/img/rus.gif" alt="ru"/>&nbsp;</a>&nbsp;
-                            <a style="text-decoration:none" href="/en.php">&nbsp;<img src="/img/eng.jpg" alt="ru"/>&nbsp;</a>&nbsp;
-                        </div>*/
-                            ?>
+                          <div style="float:right">
+                          <a style="text-decoration:none" href="/ru.php">&nbsp;<img src="/img/rus.gif" alt="ru"/>&nbsp;</a>&nbsp;
+                          <a style="text-decoration:none" href="/en.php">&nbsp;<img src="/img/eng.jpg" alt="ru"/>&nbsp;</a>&nbsp;
+                          </div> */
+                        ?>
                     </div>
                 </div>
                 <ul id="home" title="VideoXQ" selected="true">
                     <? if ($session->check('Message.auth')): ?>
-                    <li style="color:red"><?php $session->flash('auth'); ?></li>
+                        <li style="color:red"><?php $session->flash('auth'); ?></li>
                     <? endif; ?>                            
                     <?= $content_for_layout; ?>
                 </ul>
@@ -106,9 +106,23 @@
                 </ul>
                 <div id="footer">
                     <br/>
-                    <a style="font-size:26px" href="/mobile/ver?id=1" ><?=__("Click for full version of site",true);?></a><br/>
+                    <a style="font-size:26px" href="/mobile/ver?id=1" ><?= __("Click for full version of site", true); ?></a><br/>
                     <br/>
                     <span><a href="mailto:support@videoxq.com">email: support@videoxq.com</a></span><br />           
+                    <!--LiveInternet counter-->
+                    <script type="text/javascript"><!--
+                        document.write("<a href='http://www.liveinternet.ru/click' "+
+                            "target=_blank><img vspace='5' hspace='8' src='//counter.yadro.ru/hit?t14.5;r"+
+                            escape(document.referrer)+((typeof(screen)=="undefined")?"":
+                            ";s"+screen.width+"*"+screen.height+"*"+(screen.colorDepth?
+                            screen.colorDepth:screen.pixelDepth))+";u"+escape(document.URL)+
+                            ";"+Math.random()+
+                            "' alt='' title='LiveInternet: показано число просмотров за 24"+
+                            " часа, посетителей за 24 часа и за сегодня' "+
+                            "border='0' width='88' height='31'><\/a>")
+                        //-->
+                    </script>
+                    <!--/LiveInternet-->
                 </div>
             </div>
         </div>   
