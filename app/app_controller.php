@@ -6,7 +6,7 @@ define('DEFAULT_LANGUAGE', _RUS_);
 
 class AppController extends Controller {
 
-    var $components = array('Auth2', 'Acl', 'Cookie', 'Vb', 'BlockBanner', 'Session', 'RequestHandler');
+    var $components = array('Auth2', 'Acl', 'Cookie', 'Vb', 'BlockBanner', 'Session', 'RequestHandler', 'Metatags');
     var $helpers = array('Javascript', 'Html', 'Form'/* , 'Validation' */, 'App', 'Ajax', 'PageNavigator');
 //    var $uses = array('User', 'Bookmark', 'Film');
     var $uses = array(
@@ -80,6 +80,19 @@ class AppController extends Controller {
      * @return void
      */
     function beforeFilter() {
+/*
+//$url = 'http://videoxq.com/media/index/genre:73,6,10/country:7,3/type:23,14/imdb_start:6/imdb_end:7/year_start:2000/sort:Film.imdb_rating,year/direction:desc/ex:yes';
+//echo '<p>'. $url;
+//$url = 'фильм, фильмы, кино, сериалы, бесплатные фильмы, бесплатные фильмы, лицензионные фильмы, фильмы бесплатно, скачать фильмы бесплатно без регистрации, отечественные фильмы, старые фильмы, скачать сериалы';
+//echo '<p>'.$this->Metatags->stripDups($url);
+$this->Metatags->get($this->here);
+echo '<p>'.$this->Metatags->titleTag;
+exit;
+//*/
+		$this->Metatags->get($this->here);
+		$this->set('titleTag', $this->Metatags->titleTag);
+		$this->set('keywordsTag', $this->Metatags->keywordsTag);
+		$this->set('descriptionTag', $this->Metatags->descriptionTag);
 
         $geoInfo = array();
         $geoInfo = $this->Session->read('geoInfo');
@@ -153,8 +166,8 @@ class AppController extends Controller {
         if(!$this->first_time){
             $this->Cookie->write('first_time', true);
         }
-        
-        
+
+
 
 
         $litter = $this->Cookie->read('news_pop');
@@ -394,8 +407,8 @@ class AppController extends Controller {
             if (($this->params['controller'] <> 'mobile') && ($this->params['action'] <> 'old'))
                 $this->redirect('/mobile/old');
         }
-        
-        
+
+
 
 
         $version =$this->Cookie->read('version');

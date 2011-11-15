@@ -35,4 +35,28 @@ if (!isset($user['email'])) $user['email'] = '';
 <?php
 echo $form->end(__('I want this movie!', true));
 ?>
+
+    <div>
+        <br/>
+<?php 
+//if (!$isWS){
+?>
+
+    <?=__('You can also search', true).' <b>"' .$search_str. '"</b> '.__('in other search engines', true).': ';?> 
+    <?php
+        $search_str = urlencode($search_str);
+    ?>        
+    <a href="http://www.google.ru/search?q=<?=$search_str?>" target="_blank">Google</a>
+    <a href="http://yandex.ru/yandsearch?text=<?=$search_str?>" target="_blank">Yandex</a>
+    <a href="http://go.mail.ru/search?q=<?=$search_str?>" target="_blank">Mail.ru</a>
+    <a href="http://http://nova.Rambler.ru/search?query=<?=$search_str?>" target="_blank">Rambler</a>
+    <a href="http://bing.com/search?q=<?=$search_str?>" target="_blank">Bing</a>
+    <a href="http://search.yahoo.com/search?q=<?=$search_str?>" target="_blank">Yahoo!</a>
+
+    </div>    
+<?php
+//}
+?>
 </div>
+
+    

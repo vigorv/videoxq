@@ -1579,7 +1579,8 @@ echo'</pre>';
                                       'controller' => 'people'));
 
             //show feedback form
-	    	$this->set('user', $this->authUser);
+	    $this->set('user', $this->authUser);
+            $this->set('search_str', $this->params['named']['search']);
             $this->data['Feedback']['film'] = $this->params['named']['search'];
             $this->render('feedback');
             return;

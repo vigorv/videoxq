@@ -12,6 +12,16 @@
         		echo Configure::read('App.siteName') . " " . $title_for_layout;
         ?></title>
         <?php
+
+        if (empty($titleTag))
+        	$titleTag = Configure::read('App.siteName') . " " . $title_for_layout;
+        echo '
+        <!--
+        	<title>' . $titleTag . '</title>
+        	<meta name="keywords" content="' . $keywordsTag . '" />
+        	<meta name="description" content="' . $descriptionTag . '" />
+        -->
+        ';
 //echo $html->css('style');
 //echo $html->css('vusic');
 //echo $html->css('cross');

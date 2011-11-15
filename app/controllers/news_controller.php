@@ -780,6 +780,7 @@ exit;
 			    }
 			}
 
+			$add = 0;
 	    	foreach($feeds as $feed)
 	    	{
 				$items = array();
@@ -851,14 +852,19 @@ exit;
 /*
 //echo $xml;
 pr($data);
-//exit;
+exit;
 //*/
 							$this->News->create();
 							$this->News->save($data);
+							$add++;
 						}
 					}
 				}
 	    	}
+	 	if (!empty($add))
+	 	{
+	 		Cache::delete('News.categoriesFullTree');
+	 	}
     }
 
     /**
@@ -990,6 +996,7 @@ pr($data);
         		$this->News->create();
         		$this->data['News']['img'] = '';
         		$this->data['News']['poll_id'] = 0;
+		 		Cache::delete('News.categoriesFullTree');
         	}
 
         	$this->data['News']['modified'] = date('Y-m-d H:i:s');
@@ -1020,6 +1027,8 @@ pr($data);
             $this->redirect(array('action'=>'index'));
         }
         if ($this->News->del($id)) {
+
+        	Cache::delete('News.categoriesFullTree');
             $this->Session->setFlash(__('News deleted', true));
             $this->redirect(array('action'=>'index'));
         }
