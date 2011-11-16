@@ -90,9 +90,6 @@ echo '<p>'.$this->Metatags->titleTag;
 exit;
 //*/
 		$this->Metatags->get($this->here);
-		$this->set('titleTag', $this->Metatags->titleTag);
-		$this->set('keywordsTag', $this->Metatags->keywordsTag);
-		$this->set('descriptionTag', $this->Metatags->descriptionTag);
 
         $geoInfo = array();
         $geoInfo = $this->Session->read('geoInfo');
@@ -442,7 +439,14 @@ exit;
      *
      */
     function beforeRender() {
-        $lang = Configure::read('Config.language');
+
+    	$this->Metatags->keywordsDups();
+    	$this->Metatags->descriptionDups();
+    	$this->set('titleTag', $this->Metatags->titleTag);
+		$this->set('keywordsTag', $this->Metatags->keywordsTag);
+		$this->set('descriptionTag', $this->Metatags->descriptionTag);
+
+		$lang = Configure::read('Config.language');
         $langFix = '';
         if ($lang == _ENG_)
             $langFix = '_' . _ENG_;
