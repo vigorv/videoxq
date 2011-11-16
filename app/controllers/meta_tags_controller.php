@@ -217,27 +217,37 @@ class metaTagsController extends AppController {
             //проверим входные данные для записи
             //особо проверять не будем - админы ведь рулят изнутри,
             //а не вредители :) да и пустым может быть любое поле!
+            
             $url = filter_var($this->data['MetaTag']['url'], FILTER_SANITIZE_STRING);
+            $data['url'] = $url;
             $url = $this->_to_relative_url($url);
             $url = $this->Metatags->fixUrl($url);
             
             if ($validate){
                 
 
+           
+                $this->Metatags->titleTag = '';
+		$this->Metatags->keywordsTag = '';
+		$this->Metatags->descriptionTag = '';
+                $this->Metatags->get($url);
+                $data['metatags_ru'] = array(
+                    'title'=>$this->Metatags->titleTag,
+                    'keywords'=>$this->Metatags->keywordsTag,
+                    'description'=>$this->Metatags->descriptionTag);
+                $this->Metatags->titleTag = '';
+		$this->Metatags->keywordsTag = '';
+		$this->Metatags->descriptionTag = '';
+                $this->Metatags->get($url, 'en');
                 
-                pr ($base_data);
-                pr ($url_data);
-                pr ($urlmask_data);
-                pr ($data);
+                $data['metatags_en'] = array(
+                    'title'=>$this->Metatags->titleTag,
+                    'keywords'=>$this->Metatags->keywordsTag,
+                    'description'=>$this->Metatags->descriptionTag);
                 
-                
-                $title = '';
-                $description = '';
-                $keywords = '';
                 
                 $this->set('data',$data);
                 
-
             }
             else{
                 $this->Session->setFlash('Ошибка. Заполните поля правильно', true);

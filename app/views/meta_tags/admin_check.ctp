@@ -19,6 +19,27 @@ jQuery(document).ready(function() {
     </fieldset>
     <?php echo $form->end();?>
 </div>
+<div style="text-align: left">
+<?php
+if (!empty($data)){
+?>
+    <h3><span style="font-size: 15px">Сгенерированные мета-теги для url:</span><?=$data['url']?></h3>
+    <h3>Rus</h3>
+    <div><b>title</b>: <?=$data['metatags_ru']['title']?></div>
+    <div><b>description</b>: <?=$data['metatags_ru']['description']?></div>
+    <div><b>keywords</b>: <?=$data['metatags_ru']['keywords']?></div>
+    <h3>Eng</h3>
+    <div><b>title</b>: <?=$data['metatags_en']['title']?></div>
+    <div><b>description</b>: <?=$data['metatags_en']['description']?></div>
+    <div><b>keywords</b>: <?=$data['metatags_en']['keywords']?></div>                
+    <h3></h3>
+<?php    
+}
+?>
+</div>
+
+
+
 <?php echo $html->link('Вернуться к списку мета-тегов', array('action'=>'index'),array('class'=>'a_btn','style'=>'display: block; clear: both'));?>
 <script type="text/javascript">
 
