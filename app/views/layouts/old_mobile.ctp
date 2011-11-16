@@ -34,6 +34,9 @@
             <br/>
             <b>Мобильная версия</b>
             <div dir="ltr">&copy;IT-DELUXE.LTD</div>
+            <div>
+                <a href="http://www.branica.com/"><img id="counter" src="http://counters.branica.com/?i=0&u=true&ox=10&oy=17&c=000000&b=transparent.png&f=Terminator.ttf&fn=true&w=110&h=35&s=10" alt="Branica" width="110" height="35" style="border:none"/></a>
+            </div>
         </div>
     </body>
 </html>

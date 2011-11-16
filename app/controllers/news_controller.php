@@ -105,24 +105,6 @@ class NewsController extends AppController {
 
 	        Cache::write('News.categoriesFullTree', $tree_arr, 'block');
         }
-        //если не задали текущий раздел, то выцепим id корневого элемента
-        if (!$dir_id && $tree_arr) {
-            reset($tree_arr);
-            $dir_id = key($tree_arr);
-            }
-
-        //формируем массив данных для хелпера вывода html дерева
-        $directions_data = array(
-            'list' => $tree_arr,
-            'current_id' => $dir_id,
-            'level_char' => $level_char,
-            'html_container_id' => 'left-menu'
-        );
-        $this->set('directions_data', $directions_data);
-        //----------------------------------------------------------------------
-
-
-
 
     	$conditions = array('News.hidden' => 0);
     	if (!empty($dir_id))
@@ -183,8 +165,29 @@ class NewsController extends AppController {
     	$this->set('lst', $lst);
 //        pr ($data);
 
-    	$dates = $this->News->findAll(array('News.hidden' => 0, 'News.direction_id' => $ids), array('News.created'), 'News.created ASC', null, null, 0);
+		$conditions = array('News.hidden' => 0);
+		if (!empty($ids))
+		{
+			$conditions['News.direction_id'] = $ids;
+		}
+    	$dates = $this->News->findAll($conditions, array('News.created'), 'News.created ASC', null, null, 0);
     	$this->set('dates', $dates);
+
+        //если не задали текущий раздел, то выцепим id корневого элемента
+        if (!$dir_id && $tree_arr) {
+            reset($tree_arr);
+            $dir_id = key($tree_arr);
+            }
+
+        //формируем массив данных для хелпера вывода html дерева
+        $directions_data = array(
+            'list' => $tree_arr,
+            'current_id' => $dir_id,
+            'level_char' => $level_char,
+            'html_container_id' => 'left-menu'
+        );
+        $this->set('directions_data', $directions_data);
+        //----------------------------------------------------------------------
     }
 
     function view($id = null) {
@@ -364,8 +367,8 @@ class NewsController extends AppController {
 				        	$video = ftp_nlist($ftp_id, $dir . '/other/video');
 				        	$foto = ftp_nlist($ftp_id, $dir . '/other/foto');
 				        	$ftpInfo[$dir]['video'] = $video;//ПРОЧЕЕ ВИДЕО
-				        	$ftpInfo[$dir]['foto'] = $foto;//ПОРЧЕЕ ФОТО
-		        			$infoTxt = @file_get_contents('http://' . $flowServerAddr . '/' . $dir . '/other/info.txt');
+				        	$ftpInfo[$dir]['foto'] = $foto;
+  		        			$infoTxt = @file_get_contents('http://' . $flowServerAddr . '/' . $dir . '/other/info.txt');
 				        	$ftpInfo[$dir]['info'] = $infoTxt;
 				        	Cache::write('News.ftpInfo.' . $info['News']['id'], $ftpInfo, 'rocket');
 				        }
