@@ -103,7 +103,7 @@ class MetatagsComponent extends Object
 	{
 		$base = $this->db->getMetaTagByURL('');//! ОСНОВНЫЕ ТЭГИ (ПРИСУТСТВУЮЩИЕ НА ВСЕХ СТРАНИЦАХ САЙТА)
 		//$tags = $this->db->getMetaTagByUrl($this->fixUrl($url));
-		$tags = $this->db->getMetaTagByMask($this->fixUrl($url));
+		$tags = $this->db->getMetaTagsByURLMask($this->fixUrl($url));
 		$langFix = '';
 		if (!empty($lang))
 		{
