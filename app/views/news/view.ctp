@@ -249,7 +249,6 @@ function equalHeight(group) {
   }
     #spisok_show{
         visibility: hidden;
-         position: absolute;
     width:660px;
     border:solid #ccc 2px;
       z-index: 10;
