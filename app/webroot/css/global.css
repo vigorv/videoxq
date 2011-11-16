@@ -303,9 +303,9 @@ width: 13%;
 }
 
 #content-news-read img {
-/*
-    width:450px;
-*/
+
+    max-width:650px;
+
 	padding-right:15px;
 }
 #content-news-read h1 {
