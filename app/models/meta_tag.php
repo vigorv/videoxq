@@ -34,16 +34,11 @@ class MetaTag extends AppModel {
      *                          URL)
      * @return mixed $metatags - 
      */
-    public function getMetaTagByURL($url='', $recurse=false, $page=1, $perpage=0){
-        if (!($metatags = Cache::read('Metatags.'.md5($url).(($recurse)? '_1' : '_0'), 'block')))
+    public function getMetaTagByURL($url='', $page=1, $perpage=0){
+        if (!($metatags = Cache::read('Metatags.'.md5($url), 'block')))
         {
             $metatags = array();
-            if ($recurse) {
-                $conditions = array('url LIKE'=>$url.'%');
-            }
-            else {
-                $conditions = array('url'=>$url);
-            }
+            $conditions = array('url'=>$url);
             $query_options = array('conditions'=>$conditions);
             $limit='';
             if ($perpage){
@@ -51,7 +46,7 @@ class MetaTag extends AppModel {
                 $query_options[] = array('OFFSET' => ($page-1)*$perpage);
             }
             $metatags = $this->find('all', $query_options);
-            Cache::write('Metatags.'.md5($url).(($recurse)? '_1' : '_0'), $metatags, 'block');
+            Cache::write('Metatags.'.md5($url), $metatags, 'block');
         }
         return $metatags;
     }
@@ -99,14 +94,8 @@ class MetaTag extends AppModel {
         if ($result){
             //нам нужен url соответствующий этой записи
             $data = $this->find('first',array('fields'=>array('url'),'conditions'=>array('id'=>$id)));
-            $url = $data['MetaTag']['url'];
-            for($n = mb_strlen($url);$n>=0;$n--){
-                $hash = md5(mb_substr($url,0,$n));
-//--                pr(mb_substr($url,0,$n));
-//--                pr($hash);
-                Cache::delete('Metatags.'.$hash.'_1', 'block');
-                Cache::delete('Metatags.'.$hash.'_0', 'block');
-            }
+            $hash = md5($data['MetaTag']['url']);
+            Cache::delete('Metatags.'.$hash, 'block');
         }
         return $result;
     }
@@ -128,13 +117,9 @@ class MetaTag extends AppModel {
         if ($result){
             //нам нужен url соответствующий этой записи
             $data = $this->find('first',array('fields'=>array('url'),'conditions'=>array('id'=>$id)));
-            $url = $data['MetaTag']['url'];
-            for($n = mb_strlen($url);$n>=0;$n--){
-                $hash = md5(mb_substr($url,0,$n));
-                Cache::delete('Metatags.'.$hash.'_1', 'block');
-                Cache::delete('Metatags.'.$hash.'_0', 'block');
-            }
-        }        
+            $hash = md5($data['MetaTag']['url']);
+            Cache::delete('Metatags.'.$hash, 'block');
+        }
         return $result;
     }    
     
@@ -154,15 +139,37 @@ class MetaTag extends AppModel {
             //только что вставленной записи
             $id = $this->getLastInsertID();
             $data = $this->find('first',array('fields'=>array('url'),'conditions'=>array('id'=>$id)));
-            $url = $data['MetaTag']['url'];
-            for($n = mb_strlen($url);$n>=0;$n--){
-                $hash = md5(mb_substr($url,0,$n));
-                Cache::delete('Metatags.'.$hash.'_1', 'block');
-                Cache::delete('Metatags.'.$hash.'_0', 'block');
-            }
+            $hash = md5($data['MetaTag']['url']);
+            Cache::delete('Metatags.'.$hash, 'block');
         }        
         return $result;
     }        
+    
+    /* возвращает записи метатегов для указанного URL, если $recurse=true, то смотрит 
+     * вхождение данного URL в более длинные URL )))
+     * 
+     * @param string $url - строка адреса без http://videoxq.com/
+     * @param boolean $recurse - рекурсия,(искать ли вхождение в более длинных 
+     *                          URL)
+     * @return mixed $metatags - 
+     */
+    public function getMetaTagsByURLMask($url='', $page=1, $perpage=0){
+        if (!($metatags = Cache::read('Metatags.'.md5($url) , 'block')))
+        {
+            $metatags = array();
+            $conditions = array($url.' LIKE' => 'url');
+
+            $query_options = array('conditions'=>$conditions);
+            $limit='';
+            if ($perpage){
+                $query_options[] = array('LIMIT' => $perpage);
+                $query_options[] = array('OFFSET' => ($page-1)*$perpage);
+            }
+            $metatags = $this->find('all', $query_options);
+            Cache::write('Metatags.'.md5($url), $metatags, 'block');
+        }
+        return $metatags;
+    }    
     
     
 }
