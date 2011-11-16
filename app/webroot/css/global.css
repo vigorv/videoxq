@@ -299,14 +299,15 @@ width: 13%;
 
 /*���� �������� ��� */
 #content-news-read {
-	margin: 10px 10px 0 20px;
+	margin:0;
+    text-align:justify;
 }
 
 #content-news-read img {
-
-    max-width:650px;
-
-	padding-right:15px;
+    
+    max-width:570px;
+	padding-right:5px;
+    
 }
 #content-news-read h1 {
 	margin: 0px;

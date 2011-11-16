@@ -160,6 +160,8 @@
             .ad-gallery .ad-thumbs li a img {
               border: 3px solid #CCC;
               display: block;
+              height:48px;
+              width:72px;
             }
             .ad-gallery .ad-thumbs li a.ad-active img {
               border: 3px solid #616161;
