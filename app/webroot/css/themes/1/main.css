@@ -232,6 +232,8 @@ div.Frame
 .im_in { width:100%; border: 1px solid #74ADE7; height: 435px; vertical-align: top;  margin:0; padding: 0;overflow-x:hidden;overflow: auto;}
 .im_in_border { float:left; border-bottom: 1px solid #74ADE7;width:98.3%; height: 60px; vertical-align: top;  padding: 6px; }
 .im_in_border:hover { background: #EAF2FB;}
+/*neprochutannoe sms*/
+.new_msg {background: #EAF2FB;}
 .im_in_avatar {float:left; width:50px; vertical-align: middle;height:50px; padding-left: 5px;}
 .im_in_login_time {float:left;height:50px;padding: 0 10px 0 10px; width:150px;font-family: tahoma,arial, verdana;}
 .im_in_login, .im_in_time {float:left;width:100%;text-align: center;}

@@ -247,7 +247,7 @@ function equalHeight(group) {
     padding: 30px;
     background: #e1eef5;
   }
-    #spisok_show{
+    #spisok_show_1, #spisok_show_2, #spisok_show_3, #spisok_show_4  {
         visibility: hidden;
     width:660px;
     border:solid #ccc 2px;
@@ -264,14 +264,15 @@ function equalHeight(group) {
     }
  
   </style>
-  <script>function spisok()
+  <script>function spisok(a)
 {
- var obj=document.getElementById('spisok_show');
+ var obj=document.getElementById('spisok_show_'+a);
  if(obj.style.visibility=='visible')
   obj.style.visibility='hidden';
  else
   obj.style.visibility='visible';
-}</script>
+}
+</script>
 <?php
 //ДЛЯ ОТОБРАЖЕНИЯ ФОТО ИЗ ТЕЛА НОВОСТИ
 		$hideJS = '
@@ -357,7 +358,7 @@ for ($match = 1; $match < 20; $match++)
                 $i++;
             }
             $count=count($ftpInfo[$dir][$match]['foto']);
-			echo '<h2><a  href="javascript:void(0)" onclick="spisok();return false;">Фото ('. $count .')</a></h2>';
+			echo '<h2><a  href="javascript:void(0)" onclick="spisok('.$match.');return false;">Фото ('. $count .')</a></h2>';
                         
 			//echo'<div style="display:none">' . $hideContent . '</div>';
             //если разрешение экрана больше то
@@ -369,10 +370,9 @@ for ($match = 1; $match < 20; $match++)
             //проверка на существование оригинал пикс
             if (!empty($ftpInfo[$dir][$match]['original']))
             {
-			echo'<div id="spisok_show">
-            <p><a href="javascript:void(0)" onclick="spisok();return false;">Закрыть</a></p>
-            
-            <div id="gallery" class="ad-gallery">
+			echo'<div id="spisok_show_'.$match.'">
+            <p><a href="javascript:void(0)" onclick="spisok('.$match.');return false;">Закрыть</a></p>
+            <div id="gallery'.$match.'" class="ad-gallery">
             <div class="ad-image-wrapper">
             </div>
             <div class="ad-controls">
@@ -387,9 +387,9 @@ for ($match = 1; $match < 20; $match++)
             }
             else
             {
-                echo'<div id="spisok_show">
-            <p><a href="javascript:void(0)" onclick="spisok();return false;">Закрыть</a></p>
-            <div id="gallery" class="ad-gallery">
+                echo'<div id="spisok_show_'.$match.'">
+            <p><a href="javascript:void(0)" onclick="spisok('.$match.');return false;">Закрыть</a></p>
+            <div id="gallery_'.$match.'" class="ad-gallery">
             <div class="ad-image-wrapper">
             </div>
             <div class="ad-controls">
