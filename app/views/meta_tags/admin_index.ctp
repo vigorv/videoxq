@@ -41,9 +41,9 @@ foreach($metatags['data'] as $row){
     echo '<td>'.$row['MetaTag']['keywords_en'].'</td>';
     echo '<td>'.$row['MetaTag']['order'].'</td>';
     echo '<td>'.($row['MetaTag']['isbase']? 'Основной' : 'Дополнительный').'</td>';
-    echo '<td width="150">';
+    echo '<td width="150" nowrap>';
     echo '<div class="hidden_actions">'.
-         '<a href="/admin/meta_tags/add/" title="Добавить" ><img src="/img/copyrightholders/adm/Alarm-Plus-icon_32x32.png" class="icon" /></a>'.
+//         '<a href="/admin/meta_tags/add/" title="Добавить" ><img src="/img/copyrightholders/adm/Alarm-Plus-icon_32x32.png" class="icon" /></a>'.
          '<a href="/admin/meta_tags/edit/'.$row['MetaTag']['id'].'" title="Редактировать" ><img src="/img/copyrightholders/adm/edit-icon2_32x32.png" class="icon" /></a>'.
          '<a href="/admin/meta_tags/delete/'.$row['MetaTag']['id'].'" class="delete" title="Удалить?"><img src="/img/copyrightholders/adm/delete-icon_32x32.png" class="icon"/></a>'.
          '</div>';
@@ -54,8 +54,10 @@ foreach($metatags['data'] as $row){
 echo '</table>';
 ?>
 
-
-
+<div class="ch_btm_menu" style="position: relative; overflow: hidden">
+<div style="width: 330px; float:right;">
+<?php echo '<a href="/admin/meta_tags/add/" title="Добавить" >Добавить новую запись <img src="/img/copyrightholders/adm/Alarm-Plus-icon_32x32.png" class="icon" /></a>'; ?>
+</div>
     <div style="width: 330px; float:left;">
 <?php
     echo $form->create('MetaTag', array('id' => 'MetaTag_rows_per_page', 'enctype' => 'multipart/form-data', 'action' => '/', 'style'=>'padding:0; margin:0'));
@@ -69,11 +71,24 @@ echo '</table>';
 
 
 </div>
-
 <div class="pages">
 <?php echo $this->element('paging'); ?>
 </div>
-<!--
-<div>Всего записей: <?=$metatags['count']?></div>
--->
-<p>Примечание: если url пуст то мета-теги являются общими для всех страниц.</p>
+<div style="margin: 5px; overflow: hidden">
+<?php 
+    echo $html->link('Проверить результат выборки метатегов для URL', array('action'=>'check'),array('class'=>'a_btn','style'=>'display: block; clear: both'));
+?>
+</div>
+<pre>
+Примечание: 
+- метатэги можно назначать по точному совпадению адреса (поле url) или по маске адреса (группа адресов)
+- чтобы задать маску адреса. нужно использовать в поле url символ "%" (обозначает любое кол-во символов)
+- если поле url оставить пустым, то тэги будут присутствовать на всех страницах сайта
+- признак "Основной" (isbase=1) означает, что тэги будут присутсвовать на всех страницах, соответсвующих данному url.
+- признак "Дополнительный" (isbase=0) означает, что тэги будут добавляться к основным тэгам
+- примечания и рекомендации
+	для маски адреса (группы страниц) рекомендуется указывать признак isbase=0
+	для точного адреса рекомендуется указывать признак isbase=1
+	ключевые (keywords) слова разделяются символами запятой с пробелом ", "
+	описание (description) заканчивается символом точки "."
+</pre>
