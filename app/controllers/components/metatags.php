@@ -36,7 +36,7 @@ class MetatagsComponent extends Object
 	/**
 	 * подготовка URL к "правильному" виду. Упорядочивание параметров и их значений. Удаление лишнего
 	 *
-	 * @param string $url
+	 * @param string $url - относительный! url
 	 * @return string
 	 */
 	public function fixUrl($url)
@@ -44,7 +44,7 @@ class MetatagsComponent extends Object
 		$argsMap = array(//КАРТА ИСПОЛЬЗУЕМЫХ АРГУМЕНТОВ (ОСТАЛЬНЫЕ БУДЕМ ИГНОРИРОВАТЬ)
 			'genre', 'country', 'type', 'year', 'sort'
 		);
-		$urlInfo = parse_url($url);
+		$urlInfo = parse_url(Configure::read('App.siteUrl') . $url);
 		$path = explode('/', $urlInfo['path']);
 //ОПРЕДЕЛЯЕМ АРГУМЕНТЫ ДЛЯ СОРТИРОВКИ
 		$args = array(); //СЮДА ОТБЕРЕМ АРГУМЕНТЫ
@@ -101,15 +101,16 @@ class MetatagsComponent extends Object
 
 	public function get($url, $lang = '')
 	{
-		$base = $this->db->getMetaTagByURL('');//! БАЗОВЫЕ ТЭГИ (ПРИСУТСТВУЮЩИЕ НА ВСЕХ СТРАНИЦАХ САЙТА)
-		$tags = $this->db->getMetaTagByURL($this->fixUrl($url));
+		$base = $this->db->getMetaTagByURL('');//! ОСНОВНЫЕ ТЭГИ (ПРИСУТСТВУЮЩИЕ НА ВСЕХ СТРАНИЦАХ САЙТА)
+		//$tags = $this->db->getMetaTagByUrl($this->fixUrl($url));
+		$tags = $this->db->getMetaTagByMask($this->fixUrl($url));
+		$langFix = '';
+		if (!empty($lang))
+		{
+			$langFix = '_' . $lang;
+		}
 		if (!empty($tags))
 		{
-			$langFix = '';
-			if (!empty($lang))
-			{
-				$langFix = '_' . $lang;
-			}
 			foreach ($tags as $t)
 			{
 				if ($t['MetaTag']['isbase'])
@@ -152,40 +153,47 @@ class MetatagsComponent extends Object
 					$this->descriptionTag .= ' ';
 				}
 			}
-
-			if (!empty($base))
-			{
-//ДОБАВЛЯЕМ БАЗОВЫЕ ТЭГИ ДЛЯ ВСЕХ СТРАНИЦ
-				$this->titleTag .= $base[0]['MetaTag']['title' . $langFix];
-				$this->keywordsTag = implode(', ', array($base[0]['MetaTag']['keywords' . $langFix], $this->keywordsTag));
-				$this->descriptionTag .= $base[0]['MetaTag']['description' . $langFix];
-			}
-			$this->keywordsTag = $this->keywordsDups();
-			$this->descriptionTag = $this->descriptionDups();
 		}
+
+		if (!empty($base))
+		{
+//ДОБАВЛЯЕМ БАЗОВЫЕ ТЭГИ ДЛЯ ВСЕХ СТРАНИЦ
+			$this->titleTag .= $base[0]['MetaTag']['title' . $langFix];
+			$this->keywordsTag = implode(', ', array($base[0]['MetaTag']['keywords' . $langFix], $this->keywordsTag));
+			$this->descriptionTag .= $base[0]['MetaTag']['description' . $langFix];
+		}
+		$this->keywordsTag = $this->keywordsDups();
+		$this->descriptionTag = $this->descriptionDups();
 	}
 
 	/**
-	 * удалить дубли из ключевых слов (слова разбиваются по запятой ",")
+	 * удалить дубли из ключевых слов (слова разбиваются по запятой с пробелом", ")
 	 *
 	 * @return string $keywords
 	 */
 	public function keywordsDups()
 	{
-		$lst = preg_split("/,[\s]?/", $this->keywordsTag);
+		$lst = preg_split("/,[\s]+/", $this->keywordsTag);
 		$lst = array_unique($lst);
+		function trimVal($val)
+		{
+			$val = trim($val);
+			return !empty($val);
+		}
+		$lst = array_filter($lst, "trimVal");//УБИРАЕМ ПУСТЫЕ ЗНАЧЕНИЯ ИЗ МАССИВА
 		return implode(', ', $lst);
 	}
 
 	/**
-	 * удалить дубли из описания (предложения разделяются по точке ".")
+	 * удалить дубли из описания (предложения разделяются по точке с пробелом". ")
 	 *
 	 * @return  string $description
 	 */
 	public function descriptionDups()
 	{
-		$lst = preg_split("/.[\s]?/", $this->descriptionTag);
+		$lst = preg_split("/\.[\s]+/", $this->descriptionTag);
 		$lst = array_unique($lst);
+		$lst = array_filter($lst, "trimVal");//УБИРАЕМ ПУСТЫЕ ЗНАЧЕНИЯ ИЗ МАССИВА
 		return implode('. ', $lst);
 	}
 

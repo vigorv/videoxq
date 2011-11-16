@@ -34,22 +34,20 @@ class MetaTag extends AppModel {
      *                          URL)
      * @return mixed $metatags - 
      */
-    public function getMetaTagByURL($url='', $recurse=false, $page=1, $perpage=0){
-        $metatags = array();
-        if ($recurse) {
-            $conditions = array('url LIKE'=>$url.'%');
-        }
-        else {
+    public function getMetaTagByURL($url='', $page=1, $perpage=0){
+        if (!($metatags = Cache::read('Metatags.'.md5($url), 'block')))
+        {
+            $metatags = array();
             $conditions = array('url'=>$url);
+            $query_options = array('conditions'=>$conditions);
+            $limit='';
+            if ($perpage){
+                $query_options[] = array('LIMIT' => $perpage);
+                $query_options[] = array('OFFSET' => ($page-1)*$perpage);
+            }
+            $metatags = $this->find('all', $query_options);
+            Cache::write('Metatags.'.md5($url), $metatags, 'block');
         }
-        $query_options = array('conditions'=>$conditions);
-        $limit='';
-        if ($perpage){
-            $query_options[] = array('LIMIT' => $perpage);
-            $query_options[] = array('OFFSET' => ($page-1)*$perpage);
-        }
-        
-        $metatags = $this->find('all', $query_options);
         return $metatags;
     }
     
@@ -63,8 +61,6 @@ class MetaTag extends AppModel {
      */
     public function delMetaTagByURL($url='', $recurse=false){
         $result = false;
-        
-        
         return $result;
     }    
     
@@ -89,11 +85,19 @@ class MetaTag extends AppModel {
      * @return boolean $result
      */
     public function delMetaTagById($id=null){
-        $metatags = array();
+        $result = array();
         if (!empty($id) && intval($id)){
-            $metatags = $this->delete(intval($id));
+            $result = $this->delete(intval($id));
+//--            $result = true;
         }
-        return $metatags;
+        //если удаление записи было успешно, то почистим кэш!!!
+        if ($result){
+            //нам нужен url соответствующий этой записи
+            $data = $this->find('first',array('fields'=>array('url'),'conditions'=>array('id'=>$id)));
+            $hash = md5($data['MetaTag']['url']);
+            Cache::delete('Metatags.'.$hash, 'block');
+        }
+        return $result;
     }
     
     /* изменение данных для записи метатегов с id = $id
@@ -109,6 +113,13 @@ class MetaTag extends AppModel {
             $this->conditions = array('conditions'=>$conditions);
             $result = $this->save($data);
         }
+        //если редактирование записи было успешно, то почистим кэш!!!
+        if ($result){
+            //нам нужен url соответствующий этой записи
+            $data = $this->find('first',array('fields'=>array('url'),'conditions'=>array('id'=>$id)));
+            $hash = md5($data['MetaTag']['url']);
+            Cache::delete('Metatags.'.$hash, 'block');
+        }
         return $result;
     }    
     
@@ -122,8 +133,43 @@ class MetaTag extends AppModel {
         if(!empty($data)){
             $result = $this->save($data);
         }
+        //если вставка записи была успешной, то почистим кэш!!!
+        if ($result){
+            //нам нужен url соответствующий этой записи, для этого узнаем id,
+            //только что вставленной записи
+            $id = $this->getLastInsertID();
+            $data = $this->find('first',array('fields'=>array('url'),'conditions'=>array('id'=>$id)));
+            $hash = md5($data['MetaTag']['url']);
+            Cache::delete('Metatags.'.$hash, 'block');
+        }        
         return $result;
     }        
+    
+    /* возвращает записи метатегов для указанного URL, если $recurse=true, то смотрит 
+     * вхождение данного URL в более длинные URL )))
+     * 
+     * @param string $url - строка адреса без http://videoxq.com/
+     * @param boolean $recurse - рекурсия,(искать ли вхождение в более длинных 
+     *                          URL)
+     * @return mixed $metatags - 
+     */
+    public function getMetaTagsByURLMask($url='', $page=1, $perpage=0){
+        if (!($metatags = Cache::read('Metatags.'.md5($url) , 'block')))
+        {
+            $metatags = array();
+            $conditions = array($url.' LIKE' => 'url');
+
+            $query_options = array('conditions'=>$conditions);
+            $limit='';
+            if ($perpage){
+                $query_options[] = array('LIMIT' => $perpage);
+                $query_options[] = array('OFFSET' => ($page-1)*$perpage);
+            }
+            $metatags = $this->find('all', $query_options);
+            Cache::write('Metatags.'.md5($url), $metatags, 'block');
+        }
+        return $metatags;
+    }    
     
     
 }
