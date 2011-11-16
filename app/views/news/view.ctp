@@ -362,10 +362,10 @@ for ($match = 1; $match < 20; $match++)
 			//echo'<div style="display:none">' . $hideContent . '</div>';
             //если разрешение экрана больше то
             echo "<script>
-            function go_to_img(a) { $(document).ready(function() { 
+            function go_to_img(a) {  
             var srcs = $('.ad-image img').attr('src');
             var newsrc = srcs.replace('/foto/', '/foto/original/');
-            a.href = newsrc;return true;});}</script>";
+            a.href = newsrc;return true;}</script>";
             //проверка на существование оригинал пикс
             if (!empty($ftpInfo[$dir][$match]['original']))
             {
