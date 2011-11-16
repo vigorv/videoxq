@@ -8408,6 +8408,9 @@ msgstr "совпадений"
 msgid "Find in catalogs"
 msgstr "Найдено в каталогах"
 
+msgid "Find"
+msgstr "Найдено"
+
 msgid "first"
 msgstr "первая"
 

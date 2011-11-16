@@ -3,6 +3,12 @@
  * работа с метатэгами сайта по адресам страниц
  *
  */
+function trimVal($val)
+{
+	$val = trim($val);
+	return !empty($val);
+}
+
 class MetatagsComponent extends Object
 {
 	/**
@@ -56,7 +62,7 @@ class MetatagsComponent extends Object
 				if (strpos($pth, ':'))
 				{
 					$p = explode(':', $pth);
-					if (in_array($p[0], $argsMap))
+					if (in_array(str_replace('%', '', $p[0]), $argsMap))
 					{
 						$vls = explode(',', $p[1]);
 						sort($vls);
@@ -99,6 +105,82 @@ class MetatagsComponent extends Object
 		return $url;
 	}
 
+	/**
+	 * заместить метатэги новыми непустыми значениями.
+	 *
+	 * @param string $title
+	 * @param string $keywords
+	 * @param string $description
+	 */
+	public function set($title, $keywords, $description)
+	{
+//ЗАМЕЩАЮТСЯ ТОЛЬКО НЕПУСТЫЕ ТЭГИ
+		if (!empty($title))
+		{
+			$this->titleTag = $title;
+		}
+
+		if (!empty($keywords))
+		{
+			$this->keywordsTag = $keywords;
+		}
+
+		if (!empty($description))
+		{
+			$this->descriptionTag = $description;
+		}
+	}
+
+	/**
+	 * добавить метатэги (вставляются в начало).
+	 *
+	 * @param string $title
+	 * @param string $keywords
+	 * @param string $description
+	 */
+	public function insert($title, $keywords, $description)
+	{
+		if (!empty($title))
+		{
+			$this->titleTag = $title . ' - ' . $this->titleTag;
+		}
+
+		if (!empty($keywords))
+		{
+			$this->keywordsTag = $keywords . ', ' . $this->keywordsTag;
+		}
+
+		if (!empty($description))
+		{
+			$this->descriptionTag = $description . ' ' . $this->descriptionTag;
+		}
+	}
+
+	/**
+	 * вставить тэги в конец (используется для общих тэгов)
+	 *
+	 * @param string $title
+	 * @param string $keywords
+	 * @param string $description
+	 */
+	public function append($title, $keywords, $description)
+	{
+		if (!empty($title))
+		{
+			$this->titleTag .= ' - ' . $title;
+		}
+
+		if (!empty($keywords))
+		{
+			$this->keywordsTag .= ', ' . $keywords;
+		}
+
+		if (!empty($description))
+		{
+			$this->descriptionTag .= ' ' . $description;
+		}
+	}
+
 	public function get($url, $lang = '')
 	{
 		$base = $this->db->getMetaTagByURL('');//! ОСНОВНЫЕ ТЭГИ (ПРИСУТСТВУЮЩИЕ НА ВСЕХ СТРАНИЦАХ САЙТА)
@@ -115,42 +197,11 @@ class MetatagsComponent extends Object
 			{
 				if ($t['MetaTag']['isbase'])
 				{
-//ЗАМЕЩАЮТСЯ ТОЛЬКО НЕПУСТЫЕ ТЭГИ
-					if (!empty($t['MetaTag']['title' . $langFix]))
-					{
-						$this->titleTag = $t['MetaTag']['title' . $langFix];
-					}
-
-					if (!empty($t['MetaTag']['keywords' . $langFix]))
-					{
-						$this->keywordsTag = $t['MetaTag']['keywords' . $langFix];
-					}
-
-					if (!empty($t['MetaTag']['description' . $langFix]))
-					{
-						$this->descriptionTag = $t['MetaTag']['description' . $langFix];
-					}
+					$this->set($t['MetaTag']['title' . $langFix], $t['MetaTag']['keywords' . $langFix], $t['MetaTag']['description' . $langFix]);
 				}
 				else
 				{
-					$this->titleTag .= $t['MetaTag']['title' . $langFix];
-					$this->keywordsTag .= $t['MetaTag']['keywords' . $langFix];
-					$this->descriptionTag .= $t['MetaTag']['description' . $langFix];
-				}
-
-				if (!empty($t['MetaTag']['title' . $langFix]))
-				{
-					$this->titleTag .= ' ';
-				}
-
-				if (!empty($t['MetaTag']['keywords' . $langFix]))
-				{
-					$this->keywordsTag .= ', ';
-				}
-
-				if (!empty($t['MetaTag']['description' . $langFix]))
-				{
-					$this->descriptionTag .= ' ';
+					$this->insert($t['MetaTag']['title' . $langFix], $t['MetaTag']['keywords' . $langFix], $t['MetaTag']['description' . $langFix]);
 				}
 			}
 		}
@@ -158,43 +209,30 @@ class MetatagsComponent extends Object
 		if (!empty($base))
 		{
 //ДОБАВЛЯЕМ БАЗОВЫЕ ТЭГИ ДЛЯ ВСЕХ СТРАНИЦ
-			$this->titleTag .= $base[0]['MetaTag']['title' . $langFix];
-			$this->keywordsTag = implode(', ', array($base[0]['MetaTag']['keywords' . $langFix], $this->keywordsTag));
-			$this->descriptionTag .= $base[0]['MetaTag']['description' . $langFix];
+			$this->append($base[0]['MetaTag']['title' . $langFix], $base[0]['MetaTag']['keywords' . $langFix], $base[0]['MetaTag']['description' . $langFix]);
 		}
-		$this->keywordsTag = $this->keywordsDups();
-		$this->descriptionTag = $this->descriptionDups();
 	}
 
 	/**
 	 * удалить дубли из ключевых слов (слова разбиваются по запятой с пробелом", ")
-	 *
-	 * @return string $keywords
 	 */
 	public function keywordsDups()
 	{
 		$lst = preg_split("/,[\s]+/", $this->keywordsTag);
 		$lst = array_unique($lst);
-		function trimVal($val)
-		{
-			$val = trim($val);
-			return !empty($val);
-		}
 		$lst = array_filter($lst, "trimVal");//УБИРАЕМ ПУСТЫЕ ЗНАЧЕНИЯ ИЗ МАССИВА
-		return implode(', ', $lst);
+		$this->keywordsTag = implode(', ', $lst);
 	}
 
 	/**
 	 * удалить дубли из описания (предложения разделяются по точке с пробелом". ")
-	 *
-	 * @return  string $description
 	 */
 	public function descriptionDups()
 	{
 		$lst = preg_split("/\.[\s]+/", $this->descriptionTag);
 		$lst = array_unique($lst);
 		$lst = array_filter($lst, "trimVal");//УБИРАЕМ ПУСТЫЕ ЗНАЧЕНИЯ ИЗ МАССИВА
-		return implode('. ', $lst);
+		$this->descriptionTag =  implode('. ', $lst);
 	}
 
 	/**
