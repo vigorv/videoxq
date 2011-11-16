@@ -251,8 +251,6 @@ function equalHeight(group) {
         visibility: hidden;
          position: absolute;
     width:660px;
-    left: 20%;
-    margin-top: -70%;
     border:solid #ccc 2px;
       z-index: 10;
     overflow: hidden;
@@ -261,6 +259,11 @@ function equalHeight(group) {
     color:#fff;
     text-align:center;
     padding:10px;
+    position:fixed;
+    top:2%;
+    left:50%;
+    
+    margin-left:-300px;
     }
  
   </style>
@@ -339,26 +342,39 @@ for ($match = 1; $match < 20; $match++)
                     unset($ftpInfo[$dir][$match]['foto'][$key]);
                     continue;
                 }
-                
+                //проверка на существование превью.
+                if (!empty($ftpInfo[$dir][$match]['thumbs']))
+                {
 				$hideContent .= '
                     
 					<li><a href="http://' . $downServerAddrPort . '/' . $val . '"><img src="http://' . $downServerAddrPort . '/'.$mass[0].'/'.$mass[1].'/'.$mass[2].'/thumbs/'.$mass[3].'" />Фото '.$i.'</a></li>
                     ';
-			    $i++;
+                }
+                else
+                {
+				$hideContent .= '
+                    
+					<li><a href="http://' . $downServerAddrPort . '/' . $val . '"><img src="/img/preview.png" />Фото '.$i.'</a></li>
+                    ';
+                }
+                $i++;
             }
             $count=count($ftpInfo[$dir][$match]['foto']);
 			echo '<h2><a  href="javascript:void(0)" onclick="spisok();return false;">Фото ('. $count .')</a></h2>';
                         
 			//echo'<div style="display:none">' . $hideContent . '</div>';
-            echo "<script>function go_to_img(a) { $(document).ready(function() { 
+            //если разрешение экрана больше то
+            echo "<script>
+            function go_to_img(a) { $(document).ready(function() { 
             var srcs = $('.ad-image img').attr('src');
             var newsrc = srcs.replace('/foto/', '/foto/original/');
             a.href = newsrc;return true;});}</script>";
+            //проверка на существование оригинал пикс
             if (!empty($ftpInfo[$dir][$match]['original']))
             {
 			echo'<div id="spisok_show">
             <p><a href="javascript:void(0)" onclick="spisok();return false;">Закрыть</a></p>
-            <p><span><a href="#" target="_blank" onclick="return go_to_img(this);">Cкачать оригинальное изображение</a></span></p>
+            
             <div id="gallery" class="ad-gallery">
             <div class="ad-image-wrapper">
             </div>
@@ -367,7 +383,6 @@ for ($match = 1; $match < 20; $match++)
             <div class="ad-nav">
             <div class="ad-thumbs">
             <ul class="ad-thumb-list">' .$hideContent.'</ul>
-            
             </div>
             </div>
             </div>
