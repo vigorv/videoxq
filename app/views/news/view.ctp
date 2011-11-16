@@ -255,14 +255,12 @@ function equalHeight(group) {
       z-index: 10;
     overflow: hidden;
     background-color:#ccc;
-    opacity:0.95;
     color:#fff;
     text-align:center;
     padding:10px;
     position:fixed;
     top:2%;
     left:50%;
-    
     margin-left:-300px;
     }
  
