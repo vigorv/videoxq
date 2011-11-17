@@ -49,7 +49,8 @@ class PeopleController extends AppController {
 		$lang = Configure::read('Config.language');
 		$langFix = '';
 		if ($lang == _ENG_) $langFix = '_' . _ENG_;
-        $this->pageTitle = __('Video catalog', true) . ' - ' . __('People', true) . ' - ' . $person['Person']['name' . $langFix];
+        //$this->pageTitle = __('Video catalog', true) . ' - ' . __('People', true) . ' - ' . $person['Person']['name' . $langFix];
+        $this->Metatags->insert(__('People', true) . ' - ' . $person['Person']['name' . $langFix], '', '');
 
         $this->set('person', $person);
         $this->set('films', $films);
@@ -112,7 +113,8 @@ class PeopleController extends AppController {
             return;
         }
 
-        $this->pageTitle = __('Video catalog', true) . ' - ' . __('People', true);
+        //$this->pageTitle = __('Video catalog', true) . ' - ' . __('People', true);
+        $this->Metatags->insert(__('People', true), '', '');
 
         if (!($people = Cache::read('Catalog.peopleIndex', 'people')))
         {
@@ -134,7 +136,8 @@ class PeopleController extends AppController {
         $this->set('lang', $lang);
 		$this->set('langFix', $langFix);
 
-		$this->pageTitle = __('Video catalog', true) . ' - ' . __('People', true) . ' - ' . $letter;
+//		$this->pageTitle = __('Video catalog', true) . ' - ' . __('People', true) . ' - ' . $letter;
+        $this->Metatags->insert(__('People', true) . ' - ' . $letter, '', '');
 
         $this->set('alphabet', $this->Person->getAlphabet());
         $this->Person->contain();

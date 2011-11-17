@@ -8408,6 +8408,9 @@ msgstr "совпадений"
 msgid "Find in catalogs"
 msgstr "Найдено в каталогах"
 
+msgid "Find"
+msgstr "Найдено"
+
 msgid "first"
 msgstr "первая"
 
@@ -8647,3 +8650,9 @@ msgstr "Вы можете попробовать найти то, что вы и
 
 msgid "Click for full version of site"
 msgstr "Перейти на полную версию сайта"
+msgstr "Перейти на полную версию сайта"
+msgid "You can also search"
+msgstr "Вы также можете поискать"
+
+msgid "in other search engines"
+msgstr "в других поисковых системах"

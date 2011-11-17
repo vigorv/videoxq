@@ -40,6 +40,8 @@ echo '<br>';
 echo $html->link('FAQ', array('action'=>'index', 'controller' => 'faq_categories', Configure::read('Routing.admin') => true)) . '<br>';
 echo '<br>';
 echo $html->link('Redirects', array('action'=>'index', 'controller' => 'redirects', Configure::read('Routing.admin') => true)) . '<br>';
+echo '<br>';
+echo $html->link('Мета-теги', array('action'=>'index', 'controller' => 'meta_tags', Configure::read('Routing.admin') => true)) . '<br>';
 
 echo '<h3>Host</h3>';
 echo '<p>' . $_SERVER["HTTP_HOST"] . '</p>';

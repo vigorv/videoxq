@@ -1,6 +1,10 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
     <head>
+        <?php
+/*
+        <meta name="keywords" content="фильм, фильмы, кино, сериалы, бесплатные фильмы, лицензионные фильмы, фильмы бесплатно, скачать фильмы бесплатно без регистрации, отечественные фильмы, старые фильмы, скачать сериалы <?php //if (isset($metaKeywords)) echo $metaKeywords;  ?>" />
+        <meta name="description" content="Сайт для скачивания фильмов и сериалов. Классика и новинки кино на VIDEOXQ.com Только лицензионное качество фильмов – бесплатно, без регистрации и СМС<?php //if (isset($metaDescription)) echo $metaDescription;  ?>" />
         <title><?php
         	if (($here == '/media') || ($here == '/'))
         	{
@@ -11,7 +15,14 @@
         	else
         		echo Configure::read('App.siteName') . " " . $title_for_layout;
         ?></title>
-        <?php
+*/
+        if (empty($titleTag))
+        	$titleTag = Configure::read('App.siteName') . " " . $title_for_layout;
+        echo '
+        	<title>' . $titleTag . '</title>
+        	<meta name="keywords" content="' . $keywordsTag . '" />
+        	<meta name="description" content="' . $descriptionTag . '" />
+        ';
 //echo $html->css('style');
 //echo $html->css('vusic');
 //echo $html->css('cross');
@@ -32,8 +43,6 @@
         <script type="text/javascript" src="/css/nifty/niftycube.js"></script>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta http-equiv="Content-Language" content="ru">
-        <meta name="keywords" content="фильм, фильмы, кино, сериалы, бесплатные фильмы, лицензионные фильмы, фильмы бесплатно, скачать фильмы бесплатно без регистрации, отечественные фильмы, старые фильмы, скачать сериалы <?php //if (isset($metaKeywords)) echo $metaKeywords;  ?>" />
-        <meta name="description" content="Сайт для скачивания фильмов и сериалов. Классика и новинки кино на VIDEOXQ.com Только лицензионное качество фильмов – бесплатно, без регистрации и СМС<?php //if (isset($metaDescription)) echo $metaDescription;  ?>" />
         <link rel="alternate" type="application/rss+xml" title='<?php echo Configure::read('App.siteName'); ?>' href="http://videoxq.com/rss.xml" />
         <?php
         if (empty($metaExpires)) {
@@ -57,7 +66,7 @@
         <meta name='yandex-verification' content='41f90ac754cf4471' />
         <meta name="verify-v1" content="Q+iq7OY8RadE9126YoJFPl1cnjLTMbHmU//RrR0TTks=" />
         <link rel="alternate" type="application/rss+xml" title='<?php echo Configure::read('App.siteName'); ?>' href="http://videoxq.com/rss.xml" />
-        
+
     </head>
     <body>
         <div id="wrap">
