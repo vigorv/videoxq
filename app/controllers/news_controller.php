@@ -360,6 +360,8 @@ class NewsController extends AppController {
 				        			$ftpInfo[$dir][$match] = array(
 				        				'video' => ftp_nlist($ftp_id, $dir . '/' . $match . '/video'),
 				        				'foto'	=> ftp_nlist($ftp_id, $dir . '/' . $match . '/foto'),
+                                        'original'	=> ftp_nlist($ftp_id, $dir . '/' . $match . '/foto/original'),
+                                        'thumbs'	=> ftp_nlist($ftp_id, $dir . '/' . $match . '/foto/thumbs'),
 				        				'info'	=> $infoTxt,
 				        			);
 				        		}
