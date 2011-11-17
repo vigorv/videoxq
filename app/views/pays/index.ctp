@@ -1,5 +1,5 @@
-<div style="margin-left: 20px">
-<h2>V.I.P. <?php __('access'); ?></h2>
+<div id="page_pay">
+<img src="/img/vip_dostyp.png" />
 <?php
 if ($authUser['userid'] > 0)
 {
@@ -46,14 +46,20 @@ else
 if ($summ == 0)
 {
 ?>
-<p>
+<div style="border: 1px solid #FF8000;padding:10px;">
 <?php __('Here you can pay for VIP access'); ?> <?php echo $payDesc[$perWeek];?> <?php __('or'); ?> <?php echo $payDesc[$perMonth];?>.
 <?php __('You can pay via an electronic cash service ROBOxchange in any convenient electronic payment system, via SMS or e-card'); ?><br />
 <?php __('Please note that the payment systems charge a fee for the transfer of funds'); ?>.
-</p><p>
+</div>
+<p>
 <table cellspacing="0" cellpadding="0" border="0">
-<tr><td>
+<tr>
+<td>
+<p>Выберите способ оплаты </p>
 <ul><b><?php __('Pay/extend access via SMS'); ?>:</b>
+<form name="oplata" method="POST" action="#">
+
+</form>
 	<li><a href="/pays/sms/<?php echo $smsPerWeek;?>"><?php echo $smsPayDesc[$smsPerWeek];?></a> (<?php echo $smsPerWeek;?> у.е.)</li>
 	<li><a href="/pays/sms/<?php echo $smsPerMonth;?>"><?php echo $smsPayDesc[$smsPerMonth];?></a> (<?php echo $smsPerMonth;?> у.е.)</li>
 </ul>
