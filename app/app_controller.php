@@ -80,16 +80,6 @@ class AppController extends Controller {
      * @return void
      */
     function beforeFilter() {
-/*
-//$url = 'http://videoxq.com/media/index/genre:73,6,10/country:7,3/type:23,14/imdb_start:6/imdb_end:7/year_start:2000/sort:Film.imdb_rating,year/direction:desc/ex:yes';
-//echo '<p>'. $url;
-//$url = 'фильм, фильмы, кино, сериалы, бесплатные фильмы, бесплатные фильмы, лицензионные фильмы, фильмы бесплатно, скачать фильмы бесплатно без регистрации, отечественные фильмы, старые фильмы, скачать сериалы';
-//echo '<p>'.$this->Metatags->stripDups($url);
-$this->Metatags->get($this->here);
-echo '<p>'.$this->Metatags->titleTag;
-exit;
-//*/
-		$this->Metatags->get($this->here);
 
         $geoInfo = array();
         $geoInfo = $this->Session->read('geoInfo');
@@ -303,6 +293,13 @@ exit;
             $lang = $regionLang;
             $this->Session->write("language", $lang);
         }
+
+        $langFix = '';
+        if ($lang != _RUS_)
+        {
+        	$langFix = $lang;
+        }
+		$this->Metatags->get($this->here, $langFix);
 
         Configure::write('Config.language', $lang);
         uses('L10n');
