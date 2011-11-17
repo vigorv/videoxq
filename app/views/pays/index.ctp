@@ -1,5 +1,11 @@
 <div id="page_pay">
-<img src="/img/vip_dostyp.png" />
+<img src="/img/vip_dostyp2.png" style="height: 150px;" />
+<div id="pay_right_menu">
+<ul>
+<li><a href="#bottom">Преимущества</a></li>
+<li><a href="#stat">Стать VIP</a></li>
+<li style="border: 0;"><a href="#bottom">Поддержка</a></li>
+</ul></div>
 <?php
 if ($authUser['userid'] > 0)
 {
@@ -78,7 +84,7 @@ echo '<script>
 </script>';
 ?>
 <p>Выберите способ оплаты </p>
-<select name="vubor_oplatu" style="width: 300px;" onchange="javascript:show(this.value);return false;">
+<select name="vubor_oplatu" style="width: 250px;" onchange="javascript:show(this.value);return false;">
   <option value="default">&nbsp;</option>
   <option value="sms">SMS Coin</option>
   <option value="robox">Robox</option>
@@ -132,7 +138,7 @@ echo '<script>
 
   return null;
 }</script>
-<div class="pay_text_border" style="margin-top: 300px;">
+<div class="pay_text_border" style="margin-top: 250px;">
 <?php __("assist description1"); ?>
 
 <?php __("assist description2"); ?>
@@ -193,7 +199,7 @@ else
 
 //<h3 style="color: red;">Внимание, сервис на стадии запуска. Будет доступен в ближайшее время.</h3>
 ?>
-<p><h3><?php __('Benefits V.I.P.');?>:</h3></p>
+<a name="bottom">&bnsp;</a><p><h3><?php __('Benefits V.I.P.');?>:</h3></p>
 <div class="pay_text_border">
 <p>
 1) <?php __('No ads');?>
@@ -203,22 +209,23 @@ else
 ?>
 </p>
 </div>
-<p><h3><?php __('How to become a V.I.P.');?>:</h3></p>
+<a name="stat">&bnsp;</a><p><h3><?php __('How to become a V.I.P.');?>:</h3></p>
 <div class="pay_text_border">
 <p>1) <a href="/users/register"><?php __('Register');?></a> <?php __('on our website');?>.</p>
 <p>2) <a href="/users/login"><?php __('Sign In'); ?></a>, <?php __('using your login and password');?>.</p>
 <p>3) <?php __('Go to the'); ?> <a href="/pays"><?php __('payment page'); ?></a> V.I.P. <?php __('accessa');?> (<?php __('see link at the top right corner of the site');?>)</p>
-<p>4) <?php __('Choose the amount of payment to any available for the payment of the payment system'); ?></p>
+<p>4) <?php __('Choose the amount of payment to any available for the payment of the payment system'); ?>
  <?php
 //	Configure::read('costPerDay') . ' WMR(' . Configure::read('descPerDay') . '), ' .
-	echo $payDesc[$perWeek] . ' ' . __('or', true) . ' ' . $payDesc[$perMonth] . '.';
+	echo $payDesc[$perWeek] . ' ' . __('or', true) . ' ' . $payDesc[$perMonth] . '.</p>';
 ?>
-<br />5) <?php __('You can pay:');?>
-<br />&nbsp; &nbsp; - <?php __('via service');?> SMScoin по <b>SMS</b>. <span style="color: red">***</span>
+<p>5) <?php __('You can pay:');?>
+&nbsp; &nbsp; - <?php __('via service');?> SMScoin по <b>SMS</b>. <span style="color: red">***</span>
 <br />&nbsp; &nbsp; - <?php __('via e-cash service ROBOxchange'); ?> (<b>WebMoney</b>, <b>Яндекс-деньги</b> <?php __('etc.');?>) <span style="color: red">***</span>
 <br />&nbsp; &nbsp; - <?php __('via service');?> PayPal.
 <br />&nbsp; &nbsp; - <?php __('via service');?> Assist. <span style="color: red">***</span>
-<br />6) <?php __('Follow instructions of the payment system');?>
+<br /></p>
+<p>6) <?php __('Follow instructions of the payment system');?></p>
 </p>
 </div>
 <p><h3><?php __('Support');?>:</h3></p>
@@ -230,7 +237,7 @@ else
 </p>
 </div>
 <div style="margin: 0 auto; width: 550px;">
-<img alt="MasterCard SecureCode" src="/img/MasterCard_SecureCode.JPG" />
+<img alt="MasterCard SecureCode" src="/img/mscard.jpg" />
 <img alt="Verfied by VISA" src="/img/Verfied_by_VISA.JPG" style="padding-left: 250px;" />
 </div>
 </div>
