@@ -784,13 +784,39 @@ border-radius: 8px;
 -khtml-border-radius: 8px;
 border-radius: 8px;
 border: 0px solid #5C8F00;
-padding: 5px 20px;
+padding-top: 2px;
 text-align: center;
 cursor: pointer;
 cursor: hand;
-background: url(/img/ie/ie_gbtt.png) no-repeat transparent 9;
-paddig: 0 9;
-text-align: center 9;
-width: 152px 9;
+text-align: center;
+width: 120px;
 margin-bottom:30px;
 }
+/*страница ви-доступа*/
+#page_pay {width:1024px; margin:20px auto;}
+.img_logo {float:right;margin-top: -100px;}
+.pay_border {border: 1px solid #FF8000;padding:10px 10px 0px 10px; width: 500px;}
+.pay_border input {margin-right: 10px;vertical-align: text-bottom;}
+.pay_text_border {border: 1px solid #FF8000;padding:10px 10px 0px 10px;text-align: justify;}
+.pay_button {
+margin-top: 50px;
+color: white;
+background-color: #FF9B37;
+font-weight: bold;
+text-transform: uppercase;
+border-radius: 8px;
+-moz-border-radius: 8px;
+-webkit-border-radius: 8px;
+-khtml-border-radius: 8px;
+border-radius: 8px;
+border: 0px solid #5C8F00;
+text-align: center;
+cursor: pointer;
+cursor: hand;
+text-align: center;
+width: 120px;
+margin-bottom:30px;
+height:30px;
+padding-top: 10px;
+}
+#card_logos {margin: 50px auto 50px; width:270px;}
