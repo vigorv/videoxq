@@ -231,6 +231,9 @@ class metaTagsController extends AppController {
 		$this->Metatags->keywordsTag = '';
 		$this->Metatags->descriptionTag = '';
                 $this->Metatags->get($url);
+                $this->Metatags->keywordsDups();
+                $this->Metatags->descriptionDups();
+
                 $data['metatags_ru'] = array(
                     'title'=>$this->Metatags->titleTag,
                     'keywords'=>$this->Metatags->keywordsTag,
@@ -239,7 +242,8 @@ class metaTagsController extends AppController {
 		$this->Metatags->keywordsTag = '';
 		$this->Metatags->descriptionTag = '';
                 $this->Metatags->get($url, 'en');
-                
+                $this->Metatags->keywordsDups();
+                $this->Metatags->descriptionDups();                
                 $data['metatags_en'] = array(
                     'title'=>$this->Metatags->titleTag,
                     'keywords'=>$this->Metatags->keywordsTag,
