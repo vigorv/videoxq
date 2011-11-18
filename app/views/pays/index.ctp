@@ -1,5 +1,11 @@
-<div style="margin-left: 20px">
-<h2>V.I.P. <?php __('access'); ?></h2>
+<div id="page_pay">
+<img src="/img/vip_dostyp2.png" style="height: 150px;" />
+<div id="pay_right_menu">
+<ul>
+<li><a href="#bottom">Преимущества</a></li>
+<li><a href="#stat">Стать VIP</a></li>
+<li style="border: 0;"><a href="#bottom">Поддержка</a></li>
+</ul></div>
 <?php
 if ($authUser['userid'] > 0)
 {
@@ -46,60 +52,92 @@ else
 if ($summ == 0)
 {
 ?>
-<p>
+<div class="pay_text_border">
 <?php __('Here you can pay for VIP access'); ?> <?php echo $payDesc[$perWeek];?> <?php __('or'); ?> <?php echo $payDesc[$perMonth];?>.
-<?php __('You can pay via an electronic cash service ROBOxchange in any convenient electronic payment system, via SMS or e-card'); ?><br />
-<?php __('Please note that the payment systems charge a fee for the transfer of funds'); ?>.
-</p><p>
-<table cellspacing="0" cellpadding="0" border="0">
-<tr><td>
-<ul><b><?php __('Pay/extend access via SMS'); ?>:</b>
-	<li><a href="/pays/sms/<?php echo $smsPerWeek;?>"><?php echo $smsPayDesc[$smsPerWeek];?></a> (<?php echo $smsPerWeek;?> у.е.)</li>
-	<li><a href="/pays/sms/<?php echo $smsPerMonth;?>"><?php echo $smsPayDesc[$smsPerMonth];?></a> (<?php echo $smsPerMonth;?> у.е.)</li>
-</ul>
-<td>
-<div>
-	<img src="/img/smscoin.gif" hspace="10" width="90" alt="SMScoin" title="SMScoin" />
+<?php __('You can pay via an electronic cash service ROBOxchange in any convenient electronic payment system, via SMS or e-card'); ?>.
+<p><?php __('Please note that the payment systems charge a fee for the transfer of funds'); ?>.</p>
 </div>
-</td></tr>
-<tr><td>
-<ul><b><?php __('Pay/extend access by electronic money or e-cards'); ?>:</b>
-	<li><a href="/pays/erbx/<?php echo $erbxPerWeek;?>"><?php echo $payDesc[$erbxPerWeek];?></a> (<?php echo $erbxPerWeek;?> RUR)</li>
-	<li><a href="/pays/erbx/<?php echo $erbxPerMonth;?>"><?php echo $payDesc[$erbxPerMonth];?></a> (<?php echo $erbxPerMonth;?> RUR)</li>
-</ul>
-</td>
-<td>
-<div>
-	<img src="/img/robox.gif" hspace="10" width="40" alt="Robox" title="Robox" />
-</div>
-</td></tr>
-<tr><td>
-<ul><b><?php __('Pay/extend access through the service');?> PayPal:</b>
-	<li><a href="/pays/paypal/<?php echo $paypalPerWeek;?>"><?php echo $paypalPayDesc[$paypalPerWeek];?></a> (<?php echo $paypalPerWeek;?> <?php echo Configure::read('paypal.currency');?>)</li>
-	<li><a href="/pays/paypal/<?php echo $paypalPerMonth;?>"><?php echo $paypalPayDesc[$paypalPerMonth];?></a> (<?php echo $paypalPerMonth;?> <?php echo Configure::read('paypal.currency');?>)</li>
-</ul>
-<td>
-<div>
-	<img src="/img/paypal_logo.gif" hspace="10" vspace="2" height="50" alt="Assist" title="PayPal" />
-</div>
-</td></tr>
-<tr><td>
-<ul><b><?php __('Pay/extend access through the service');?> Assist:</b>
-	<li><a href="/pays/assist/<?php echo $assistPerWeek;?>"><?php echo $assistPayDesc[$assistPerWeek];?></a> (<?php echo $assistPerWeek;?> RUR)</li>
-	<li><a href="/pays/assist/<?php echo $assistPerMonth;?>"><?php echo $assistPayDesc[$assistPerMonth];?></a> (<?php echo $assistPerMonth;?> RUR)</li>
-</ul>
-<td>
-<div>
-	<img src="/img/assist_logo.gif" hspace="10" vspace="2" width="156" alt="Assist" title="Assist" />
-	<table width="100%"><tr valign="middle">
-	<td><img src="/img/beeline.jpg" hspace="10" vspace="2" width="50" alt="Beeline" title="Beeline" /></td>
-	<td><img src="/img/paycash.jpg" hspace="10" width="50" alt="PayCash" title="PayCash" /></td>
-	<td><img src="/img/webmoney.jpg" hspace="10" vspace="2" height="50" alt="Webmoney" title="Webmoney" /></td>
-	</tr></table>
-</div>
-</td></tr>
-<tr><td colspan="2">
 <p>
+<style>#block_sms, #block_robox, #block_paypal, #block_assist {visibility: hidden;position:absolute; width:800px; padding-top:50px;}</style>
+<script>function show(a)
+{
+ var obj=document.getElementById('block_'+a);
+ var obj2=document.getElementById('block_sms'); 
+ var obj3=document.getElementById('block_robox');
+ var obj4=document.getElementById('block_paypal'); 
+ var obj5=document.getElementById('block_assist');
+     
+ if (a != 'default')
+ {
+  obj2.style.visibility='hidden';
+  obj3.style.visibility='hidden';
+  obj4.style.visibility='hidden';
+  obj5.style.visibility='hidden';
+  obj.style.visibility='visible';
+  }
+}
+</script>
+<p>Выберите способ оплаты </p>
+<select name="vubor_oplatu" onchange="javascript:show(this.value);return false;">
+<option value="default">&nbsp;</option>
+<?php 
+
+foreach ($pay_spisok as $key => $val)
+{
+$key_slice = explode('_', $key);
+echo "<option value='".$key_slice[0]."'>".$val."</option>";
+}
+
+ ?>
+</select>
+<div id="block_sms">
+<img src="/img/smscoin.png" class="img_logo" />
+<div class="pay_border">
+<form name="sms">
+<p><input type="radio" name="choice" value="/pays/sms/<?php echo $smsPerWeek;?>" /><?php echo $smsPayDesc[$smsPerWeek];?> (<?php echo $smsPerWeek;?> у.е.)</p>
+<p><input type="radio" name="choice" value="/pays/sms/<?php echo $smsPerMonth;?>" /><?php echo $smsPayDesc[$smsPerMonth];?> (<?php echo $smsPerMonth;?> у.е.)</p>
+</div>
+<div class="pay_button" onclick="go(document.sms.choice)"><p>Оплатить</p></div>
+</form>
+</div>
+<div id="block_robox">
+<img src="/img/robox.gif" class="img_logo" />
+<div class="pay_border">
+<form name="erbx">
+<p><input type="radio" name="choice" value="/pays/erbx/<?php echo $erbxPerWeek;?>" /><?php echo $payDesc[$erbxPerWeek];?> (<?php echo $erbxPerWeek;?> RUR)</p>
+<p><input type="radio" name="choice" value="/pays/erbx/<?php echo $erbxPerMonth;?>" /><?php echo $payDesc[$erbxPerMonth];?> (<?php echo $erbxPerMonth;?> RUR)</p>
+</div>
+<div class="pay_button" onclick="go(document.erbx.choice)"><p>Оплатить</p></div>
+</form>
+</div>
+<div id="block_paypal">
+<img src="/img/paypal.png" class="img_logo" />
+<div class="pay_border">
+<form name="paypal">
+<p><input type="radio" name="choice" value="/pays/paypal/<?php echo $paypalPerWeek;?>" /><?php echo $paypalPayDesc[$paypalPerWeek];?> (<?php echo $paypalPerWeek;?> <?php echo Configure::read('paypal.currency');?>)</p>
+<p><input type="radio" name="choice" value="/pays/paypal/<?php echo $paypalPerMonth;?>" /><?php echo $paypalPayDesc[$paypalPerMonth];?> (<?php echo $paypalPerMonth;?> <?php echo Configure::read('paypal.currency');?>)</p>
+</div>
+<div class="pay_button" onclick="go(document.paypal.choice)"><p>Оплатить</p></div>
+</form>
+</div>
+<div id="block_assist">
+<img src="/img/assist.png" class="img_logo" />
+<div class="pay_border">
+<form name="assist">
+<p><input type="radio" name="choice" value="/pays/assist/<?php echo $assistPerWeek;?>" /><?php echo $assistPayDesc[$assistPerWeek];?> (<?php echo $assistPerWeek;?> RUR)</p>
+<p><input type="radio" name="choice" value="/pays/assist/<?php echo $assistPerMonth;?>" /><?php echo $assistPayDesc[$assistPerMonth];?> (<?php echo $assistPerMonth;?> RUR)</p>
+</div>
+<div class="pay_button" onclick="go(document.assist.choice)"><p>Оплатить</p></div>
+</form>
+</div>
+<script>function go(a)
+{
+  for (var i=0; i < a.length; i++)
+    if (a[i].checked) return window.location.href = a[i].value;
+
+  return null;
+}</script>
+<div class="pay_text_border" style="margin-top: 250px;">
 <?php __("assist description1"); ?>
 
 <?php __("assist description2"); ?>
@@ -107,20 +145,15 @@ if ($summ == 0)
 <?php __("assist description3"); ?>
 
 <?php __("You may"); ?> <a title="<?php __('check the authenticity of the certificate');?>" target="_blank" href="https://sealinfo.thawte.com/thawtesplash?form_file=fdf/thawtesplash.fdf&dn=WWW.ASSIST.RU&lang=en"><?php __('check the authenticity of the certificate');?></a> <?php __("of Thawte server"); ?>.
-	</p>
-	<p>
+</p>
+<p>
 <?php __('When paying by credit card order a refund is made on the card with which payment was made.'); ?>
-	</p>
-	<table width="100%" border="0">
-	<tr align="center">
-		<td><img width="265" alt="<?php __('logos payment systems');?>" title="<?php __('logos payment systems');?>" src="/img/mps_logos.png" /></td>
-	</tr>
-	</table>
-</td></tr>
-
-</table>
-
-<p><?php __('On V.I.P. access, write to the'); ?> <a href="mailto:vip@videoxq.com">vip@videoxq.com</a></p>
+</p>
+</div>
+<div id="card_logos">
+<img alt="<?php __('logos payment systems');?>" title="<?php __('logos payment systems');?>" src="/img/mps_logos.png" /></td>
+</div>
+<p style="float: right;"><?php __('On V.I.P. access, write to the'); ?> <a href="mailto:vip@videoxq.com">vip@videoxq.com</a></p>
 
 <?php
 	if (!empty($lst))
@@ -165,7 +198,8 @@ else
 
 //<h3 style="color: red;">Внимание, сервис на стадии запуска. Будет доступен в ближайшее время.</h3>
 ?>
-<h3><?php __('Benefits V.I.P.');?>:</h3>
+<a name="bottom"></a><p><h3><?php __('Benefits V.I.P.');?>:</h3></p>
+<div class="pay_text_border">
 <p>
 1) <?php __('No ads');?>
 <?php
@@ -173,33 +207,36 @@ else
 //<br />3) Для пользователей сети HOSTEL дает возможность качать без взымания денег за траффик.
 ?>
 </p>
-<h3><?php __('How to become a V.I.P.');?>:</h3>
-<p>1) <a href="/users/register"><?php __('Register');?></a> <?php __('on our website');?>.
-<br />2) <a href="/users/login"><?php __('Sign In'); ?></a>, <?php __('using your login and password');?>.
-<br />3) <?php __('Go to the'); ?> <a href="/pays"><?php __('payment page'); ?></a> V.I.P. <?php __('accessa');?> (<?php __('see link at the top right corner of the site');?>)
-<br />4) <?php __('Choose the amount of payment to any available for the payment of the payment system'); ?>
+</div>
+<a name="stat"></a><p><h3><?php __('How to become a V.I.P.');?>:</h3></p>
+<div class="pay_text_border">
+<p>1) <a href="/users/register"><?php __('Register');?></a> <?php __('on our website');?>.</p>
+<p>2) <a href="/users/login"><?php __('Sign In'); ?></a>, <?php __('using your login and password');?>.</p>
+<p>3) <?php __('Go to the'); ?> <a href="/pays"><?php __('payment page'); ?></a> V.I.P. <?php __('accessa');?> (<?php __('see link at the top right corner of the site');?>)</p>
+<p>4) <?php __('Choose the amount of payment to any available for the payment of the payment system'); ?>
  <?php
 //	Configure::read('costPerDay') . ' WMR(' . Configure::read('descPerDay') . '), ' .
-	echo $payDesc[$perWeek] . ' ' . __('or', true) . ' ' . $payDesc[$perMonth] . '.';
+	echo $payDesc[$perWeek] . ' ' . __('or', true) . ' ' . $payDesc[$perMonth] . '.</p>';
 ?>
-<br />5) <?php __('You can pay:');?>
-<br />&nbsp; &nbsp; - <?php __('via service');?> SMScoin по <b>SMS</b>. <span style="color: red">***</span>
+<p>5) <?php __('You can pay:');?>
+&nbsp; &nbsp; - <?php __('via service');?> SMScoin по <b>SMS</b>. <span style="color: red">***</span>
 <br />&nbsp; &nbsp; - <?php __('via e-cash service ROBOxchange'); ?> (<b>WebMoney</b>, <b>Яндекс-деньги</b> <?php __('etc.');?>) <span style="color: red">***</span>
 <br />&nbsp; &nbsp; - <?php __('via service');?> PayPal.
 <br />&nbsp; &nbsp; - <?php __('via service');?> Assist. <span style="color: red">***</span>
-<br />6) <?php __('Follow instructions of the payment system');?>
+<br /></p>
+<p>6) <?php __('Follow instructions of the payment system');?></p>
 </p>
-<h3><?php __('Support');?>:</h3>
-<p><?php __('On V.I.P. access, write to the'); ?> <a href="mailto:vip@videoxq.com">vip@videoxq.com</a></p>
+</div>
+<p><h3><?php __('Support');?>:</h3></p>
+<div class="pay_text_border"><p><?php __('On V.I.P. access, write to the'); ?> <a href="mailto:vip@videoxq.com">vip@videoxq.com</a></p>
 
 <p><span style="color: red">***</span> <?php __('Price for V.I.P. access is fixed and displayed for payment.');?>
-<br /><?php __('The tenure of V.I.P. depends on the size of the payment.');?>
-<br /><?php __('To extend V.I.P. - The payment procedure must be repeated.');?>
+&nbsp;<?php __('The tenure of V.I.P. depends on the size of the payment.');?>
+&nbsp;<?php __('To extend V.I.P. - The payment procedure must be repeated.');?>
 </p>
-	<table width="100%" cellpadding="20" border="0">
-	<tr align="center">
-		<td width="50%"><img width="120" alt="MasterCard SecureCode" src="/img/MasterCard_SecureCode.JPG" /></td>
-		<td><img width="116" alt="Verfied by VISA" src="/img/Verfied_by_VISA.JPG" /></td>
-	</tr>
-	</table>
+</div>
+<div style="margin: 0 auto; width: 550px;">
+<img alt="MasterCard SecureCode" src="/img/mscard.jpg" />
+<img alt="Verfied by VISA" src="/img/Verfied_by_VISA.JPG" style="padding-left: 250px;" />
+</div>
 </div>

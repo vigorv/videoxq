@@ -145,12 +145,14 @@
     }
       .ad-gallery .ad-thumbs .ad-thumb-list {
         float: left;
-        width: 9000px;
+        width: 100%;
         list-style: none;
       }
         .ad-gallery .ad-thumbs li {
           float: left;
-          padding-right: 5px;
+          padding-right: 10px;
+          width:72px;
+          height:72px;
         }
           .ad-gallery .ad-thumbs li a {
             display: block;
@@ -158,6 +160,8 @@
             .ad-gallery .ad-thumbs li a img {
               border: 3px solid #CCC;
               display: block;
+              height:48px;
+              width:72px;
             }
             .ad-gallery .ad-thumbs li a.ad-active img {
               border: 3px solid #616161;

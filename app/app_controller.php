@@ -6,7 +6,7 @@ define('DEFAULT_LANGUAGE', _RUS_);
 
 class AppController extends Controller {
 
-    var $components = array('Auth2', 'Acl', 'Cookie', 'Vb', 'BlockBanner', 'Session', 'RequestHandler');
+    var $components = array('Auth2', 'Acl', 'Cookie', 'Vb', 'BlockBanner', 'Session', 'RequestHandler', 'Metatags');
     var $helpers = array('Javascript', 'Html', 'Form'/* , 'Validation' */, 'App', 'Ajax', 'PageNavigator');
 //    var $uses = array('User', 'Bookmark', 'Film');
     var $uses = array(
@@ -153,8 +153,8 @@ class AppController extends Controller {
         if(!$this->first_time){
             $this->Cookie->write('first_time', true);
         }
-        
-        
+
+
 
 
         $litter = $this->Cookie->read('news_pop');
@@ -294,6 +294,13 @@ class AppController extends Controller {
             $this->Session->write("language", $lang);
         }
 
+        $langFix = '';
+        if ($lang != _RUS_)
+        {
+        	$langFix = $lang;
+        }
+		$this->Metatags->get($this->here, $langFix);
+
         Configure::write('Config.language', $lang);
         uses('L10n');
         $this->L10n = new L10n();
@@ -394,8 +401,8 @@ class AppController extends Controller {
             if (($this->params['controller'] <> 'mobile') && ($this->params['action'] <> 'old'))
                 $this->redirect('/mobile/old');
         }
-        
-        
+
+
 
 
         $version =$this->Cookie->read('version');
@@ -429,7 +436,14 @@ class AppController extends Controller {
      *
      */
     function beforeRender() {
-        $lang = Configure::read('Config.language');
+
+    	$this->Metatags->keywordsDups();
+    	$this->Metatags->descriptionDups();
+    	$this->set('titleTag', $this->Metatags->titleTag);
+		$this->set('keywordsTag', $this->Metatags->keywordsTag);
+		$this->set('descriptionTag', $this->Metatags->descriptionTag);
+
+		$lang = Configure::read('Config.language');
         $langFix = '';
         if ($lang == _ENG_)
             $langFix = '_' . _ENG_;

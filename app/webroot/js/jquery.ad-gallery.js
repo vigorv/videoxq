@@ -14,7 +14,7 @@
                      description_wrapper: false,
                      thumb_opacity: 0.7,
                      animate_first_image: false,
-                     animation_speed: 400,
+                     animation_speed: 100,
                      width: false,
                      height: false,
                      display_next_and_prev: true,
@@ -23,7 +23,7 @@
                      slideshow: {
                        enable: true,
                        autostart: false,
-                       speed: 5000,
+                       speed: 2000,
                        start_label: 'Start',
                        stop_label: 'Stop',
                        stop_on_scroll: true,
