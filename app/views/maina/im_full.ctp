@@ -26,7 +26,7 @@ foreach(unserialize($message[0]['Pmsg']['touserarray']) as $val){
 <p><input type="submit" name="but" value="Отправить" class="im_in_but" /></p>
 </div>
 <script>
-$(document).ready(function() {Visibility();});
+$(document).ready(function() {Visibility("null");});
 </script>
 <script language="javascript">
     subact='<?=$sub_act;?>';

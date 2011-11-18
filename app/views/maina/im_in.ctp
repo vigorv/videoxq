@@ -18,8 +18,8 @@ if (mb_strlen($messages[$i]["Pmsg"]["title"]) > 30)
     {
 $messages[$i]["Pmsg"]["message"] = mb_substr($messages[$i]["Pmsg"]["message"], 0, 30)." ...";
     }
+echo '<div class="im_in_border" id="'.$messages[$i]["Pm"]["pmid"].'">';
 ?>
-<div class="im_in_border">
 <div class="im_in_avatar"><img src="http://videoxq.com/forum/image.php?u=113534&dateline=1317973359&type=thumb" />
 </div>
 <div class="im_in_login_time">
@@ -37,10 +37,32 @@ $messages[$i]["Pmsg"]["message"] = mb_substr($messages[$i]["Pmsg"]["message"], 0
 <?php
 }
 ?>
-    
-    
+
+<input name="js" type="hidden" value="no" id="js" />
+<input name="button" type="submit" value="Отправить" id="send" /> <span id="resp"></span>  
 </form>
 </div>
+ <?php
+ //изменение цвета граунда при новом сообщении
+echo "<script>var newmsg = [];
+$(document).ready(function(){
+ $('.im_in_border').ready(function() 
+    { 
+"; 
+for ($i=0;$i < sizeof($messages);$i++)
+ {
+    if(!empty($new_msg_id[$i]["pm"]["pmid"]))
+    {
+    
+    echo "$('#".$new_msg_id[$i]["pm"]["pmid"]."').css('background', '#E1E8F2');";
+    
+}
+}
+echo "
+});
+    
+ });</script>";
+?>
 <?php
 if (!empty($im_pagination) && $im_pagination['page_count']>1){
 ?>
@@ -62,7 +84,7 @@ if (!empty($im_pagination) && $im_pagination['page_count']>1){
             //вывод нужных иконок, включая стрелок влево, вправо.
             echo '
             <script>
-$(document).ready(function() {Visibility(["refresh", "number_6", "number_12", "number_24","left", "right"]);});
+$(document).ready(function() {Visibility(["refresh", "number_6", "number_9", "number_12", "number_24","left", "right"]);});
 </script>
 <a href="'.$href.'"'.$class.'>'.$n.'</a>';
         }
@@ -79,15 +101,31 @@ else
 $(document).ready(function() {Visibility(["refresh", "number_6", "number_9", "number_12", "number_24"]);});
 </script>';
 }
-?>
+?>   	
 <script language="javascript">
+/*$(function(){
+   $("#send").load(function(){
+      $.ajax({
+         type: "POST",
+         url: "/im/im_in.ctp",
+         cache: false,
+         success: function(response){
+             var messageResp = new Array('Ваше сообщение отправлено','Сообщение не отправлено Ошибка базы данных','Нельзя отправлять пустые сообщения');
+             var resultStat = messageResp[Number(response)];
+             $("#resp").text(resultStat).show().delay(1500).fadeOut(800);   
+             }
+          });
+          return false;
+                                                               
+    });
+});*/
 subact='<?=$sub_act;?>';
 saveOptionNoAction('Profile.im_subact', subact);
 $('#im_menu_act').fadeIn();
 $('#in_btn').addClass("current");
     
 centerAndFadeFlashMessage();
-   
+
 $('.im_pagination_href a, .im_in_short_text a').click(
 function(event){
     event.preventDefault();

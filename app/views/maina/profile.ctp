@@ -2,7 +2,7 @@
 $html->addCrumb(__('Profile', true), '');
 ?>
 <script>
-$(document).ready(function() {Visibility();});
+$(document).ready(function() {Visibility("null");});
 </script>
 <?php if (!empty($authUser) && (!empty($authUser['username']))) : ?>
     <h1 style="padding-left:17px;">
