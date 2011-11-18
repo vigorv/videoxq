@@ -77,19 +77,18 @@ if ($summ == 0)
   }
 }
 </script>
-<?php 
-echo '<script>
-
-
-</script>';
-?>
 <p>Выберите способ оплаты </p>
-<select name="vubor_oplatu" style="width: 250px;" onchange="javascript:show(this.value);return false;">
-  <option value="default">&nbsp;</option>
-  <option value="sms">SMS Coin</option>
-  <option value="robox">Robox</option>
-  <option value="paypal">PayPal</option>
-  <option value="assist">Assist</option>
+<select name="vubor_oplatu" onchange="javascript:show(this.value);return false;">
+<option value="default">&nbsp;</option>
+<?php 
+
+foreach ($pay_spisok as $key => $val)
+{
+$key_slice = explode('_', $key);
+echo "<option value='".$key_slice[0]."'>".$val."</option>";
+}
+
+ ?>
 </select>
 <div id="block_sms">
 <img src="/img/smscoin.png" class="img_logo" />
@@ -199,7 +198,7 @@ else
 
 //<h3 style="color: red;">Внимание, сервис на стадии запуска. Будет доступен в ближайшее время.</h3>
 ?>
-<a name="bottom">&bnsp;</a><p><h3><?php __('Benefits V.I.P.');?>:</h3></p>
+<a name="bottom"></a><p><h3><?php __('Benefits V.I.P.');?>:</h3></p>
 <div class="pay_text_border">
 <p>
 1) <?php __('No ads');?>
@@ -209,7 +208,7 @@ else
 ?>
 </p>
 </div>
-<a name="stat">&bnsp;</a><p><h3><?php __('How to become a V.I.P.');?>:</h3></p>
+<a name="stat"></a><p><h3><?php __('How to become a V.I.P.');?>:</h3></p>
 <div class="pay_text_border">
 <p>1) <a href="/users/register"><?php __('Register');?></a> <?php __('on our website');?>.</p>
 <p>2) <a href="/users/login"><?php __('Sign In'); ?></a>, <?php __('using your login and password');?>.</p>
