@@ -204,6 +204,79 @@ class metaTagsController extends AppController {
         $this->Session->setFlash($msg, true);
         $this->redirect(array('action'=>'index'));
     }
+    /*
+     * Проверка результата выборки метатегов для URL
+     * 
+     */    
+    function admin_check(){
+        //инициализируем массив данных для вьюхи
+        $data = array();
+        if (!empty($this->data))
+        {
+            $validate = true;
+            //проверим входные данные для записи
+            //особо проверять не будем - админы ведь рулят изнутри,
+            //а не вредители :) да и пустым может быть любое поле!
             
+            $url = filter_var($this->data['MetaTag']['url'], FILTER_SANITIZE_STRING);
+            $data['url'] = $url;
+            $url = $this->_to_relative_url($url);
+            $url = $this->Metatags->fixUrl($url);
+            
+            if ($validate){
+                
+
+           
+                $this->Metatags->titleTag = '';
+		$this->Metatags->keywordsTag = '';
+		$this->Metatags->descriptionTag = '';
+                $this->Metatags->get($url);
+                $data['metatags_ru'] = array(
+                    'title'=>$this->Metatags->titleTag,
+                    'keywords'=>$this->Metatags->keywordsTag,
+                    'description'=>$this->Metatags->descriptionTag);
+                $this->Metatags->titleTag = '';
+		$this->Metatags->keywordsTag = '';
+		$this->Metatags->descriptionTag = '';
+                $this->Metatags->get($url, 'en');
+                
+                $data['metatags_en'] = array(
+                    'title'=>$this->Metatags->titleTag,
+                    'keywords'=>$this->Metatags->keywordsTag,
+                    'description'=>$this->Metatags->descriptionTag);
+                
+                
+                $this->set('data',$data);
+                
+            }
+            else{
+                $this->Session->setFlash('Ошибка. Заполните поля правильно', true);
+                //вернем юзеру его набранные строчки, 
+                //пусть делает работу над ошибками )))))
+                $data = $this->data;
+                $this->set('data',$data);
+            }
+        }
+    }
+
+//------------------------------------------------------------------------------
+    /*очистка url от начальных символов "/", "http://", "www" 
+     * и пробелов по краям
+     * 
+     * @param string $url - строка url для чистки
+     * @return string $url
+     */
+    function _to_relative_url($url=''){        
+        $url = str_replace('http://www.', '', trim($url));
+        $url = str_replace('http://', '', $url);
+        $url = str_replace($_SERVER['SERVER_NAME'], '', $url);
+        //$url = str_replace(Config::read('App.siteUrl'), '', $url);    
+        //если есть начальный символ "/", удалим его
+        if (strpos($url, '/')==0){
+            $url = substr($url, 1, strlen($url)-1);
+        }
+        return $url;
+    }
+
 }
 ?>
