@@ -418,6 +418,9 @@ exit;
                     break;
 
                 case 'in':
+                    //проверка на сущствование новых каждые 30 секунд
+                    $new_msg_id = $this->Pmsg->checkNewMessages($this->authUser['userid']);
+                    $this->set('new_msg_id', $new_msg_id);
                     //вывод входящих сообщений (по умолчанию)
                     $count_messages = $this->Pmsg->getCountInMessages($this->authUser['userid']);
                     $this->set('count_messages', $count_messages);

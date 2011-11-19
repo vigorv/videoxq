@@ -62,7 +62,10 @@ class SphinxBehavior extends ModelBehavior
         {
             $model->recursive = -1;
             $query['limit'] = 1;
+        }elseif(empty($query['limit'])){
+            $query['limit'] = 1000;
         }
+            
 
         foreach ($query['sphinx'] as $key => $setting)
         {
