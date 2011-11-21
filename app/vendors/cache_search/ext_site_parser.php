@@ -58,6 +58,16 @@ class extSiteParser
 				$data = $this->parseAnimebarRow($row);
 			break;
 		}
+		if (!empty($data))
+		{
+			$data['title'] = mb_substr($data['title'], 0, 254, 'utf-8');
+			$data['title_original'] = mb_substr($data['title_original'], 0, 254, 'utf-8');
+			$data['country'] = mb_substr($data['country'], 0, 29, 'utf-8');
+			$data['actors'] = mb_substr($data['actors'], 0, 254, 'utf-8');
+			$data['directors'] = mb_substr($data['directors'], 0, 254, 'utf-8');
+			$data['poster'] = mb_substr($data['poster'], 0, 254, 'utf-8');
+			$data['url'] = mb_substr($data['poster'], 0, 254, 'utf-8');
+		}
 		return $data;
 	}
 
@@ -78,12 +88,12 @@ class extSiteParser
 		if (!empty($matches[0]))
 		{
         	$matches[0] = substr($matches[0],5);
+			$data['poster'] = iconv('windows-1251', 'utf-8//IGNORE', $matches[0]);
 		}
-		$data['poster'] = $matches[0];
         //iconv сделать
 		$data['id_original'] = $row['id'];
-		$data['title'] = iconv('windows-1251', 'utf-8', $row['title']);
-		$data['title_original'] = iconv('windows-1251', 'utf-8', $row['title2']);
+		$data['title'] = iconv('windows-1251', 'utf-8//IGNORE', $row['title']);
+		$data['title_original'] = iconv('windows-1251', 'utf-8//IGNORE', $row['title2']);
 		$data['created_original'] = $row['date'];
 		$data['modified_original'] = $row['date'];
 		$data['hidden'] = $row['approve'];
@@ -106,13 +116,13 @@ class extSiteParser
 				case "m_country":
 				case "games_country":
 				case "soft_country":
-					$data['country'] = iconv('windows-1251', 'utf-8', substr($xf[1], 0, 30));
+					$data['country'] = iconv('windows-1251', 'utf-8//IGNORE', $xf[1]);
 				break;
 				case "m_director":
-					$data['directors'] = iconv('windows-1251', 'utf-8', $xf[1]);
+					$data['directors'] = iconv('windows-1251', 'utf-8//IGNORE', $xf[1]);
 				break;
 				case "m_actors":
-					$data['actors'] = iconv('windows-1251', 'utf-8', $xf[1]);
+					$data['actors'] = iconv('windows-1251', 'utf-8//IGNORE', $xf[1]);
 				break;
 			}
 		}
@@ -133,7 +143,7 @@ class extSiteParser
 		preg_match('/<img(.*?)src="([^"]{1,})"/', $row['short_story'], $matches);
 		$data['poster'] = '';
 		if (!empty($matches[2]))
-			$data['poster'] = $matches[2];
+			$data['poster'] = iconv('windows-1251', 'utf-8//IGNORE', $matches[2]);
 
 		$data['year']			= 0;
 		$data['country']		= '';
@@ -150,19 +160,19 @@ class extSiteParser
 					$data['year'] = intval($xf[1]);
 				break;
 				case "a_country":
-					$data['country'] = iconv('windows-1251', 'utf-8', substr($xf[1], 0, 30));
+					$data['country'] = iconv('windows-1251', 'utf-8//IGNORE', $xf[1]);
 				break;
 				case "a_director":
-					$data['directors'] = iconv('windows-1251', 'utf-8', $xf[1]);
+					$data['directors'] = iconv('windows-1251', 'utf-8//IGNORE', $xf[1]);
 				break;
 				case "a_actors":
-					$data['actors'] = iconv('windows-1251', 'utf-8', $xf[1]);
+					$data['actors'] = iconv('windows-1251', 'utf-8//IGNORE', $xf[1]);
 				break;
 			}
 		}
 
 		$data['id_original'] = $row['id'];
-		$data['title'] = iconv('windows-1251', 'utf-8', $row['title']);
+		$data['title'] = iconv('windows-1251', 'utf-8//IGNORE', $row['title']);
 		$data['created_original'] = $row['date'];
 		$data['modified_original'] = $row['date'];
 		$data['hidden'] = $row['approve'];
