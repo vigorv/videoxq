@@ -74,7 +74,12 @@ class extSiteParser
 
 		$matches = array();
 		preg_match('/src="([^"]{1,})"/', $row['short_story'], $matches);
-        $matches[0] = substr($matches[0],5);
+		$data['poster'] = '';
+		if (!empty($matches[0]))
+		{
+        	$matches[0] = substr($matches[0],5);
+		}
+		$data['poster'] = $matches[0];
         //iconv сделать
 		$data['id_original'] = $row['id'];
 		$data['title'] = iconv('windows-1251', 'utf-8', $row['title']);
@@ -82,7 +87,6 @@ class extSiteParser
 		$data['created_original'] = $row['date'];
 		$data['modified_original'] = $row['date'];
 		$data['hidden'] = $row['approve'];
-		$data['poster'] = $matches[0];
 		$data['url'] = 'http://rumedia.ws/' . $row['alt_name'] . '.html';
         $data['year']			= 0;
 		$data['country']		= '';
@@ -95,9 +99,13 @@ class extSiteParser
 			switch ($xf[0])
 			{
 				case "m_year":
+				case "games_year":
+				case "soft_year":
 					$data['year'] = intval($xf[1]);
 				break;
 				case "m_country":
+				case "games_country":
+				case "soft_country":
 					$data['country'] = iconv('windows-1251', 'utf-8', substr($xf[1], 0, 30));
 				break;
 				case "m_director":
