@@ -8,7 +8,7 @@ class TvIconsHelper extends AppHelper {
         $this->icons =
         array ("left" => array("name" => "left", "title" => "Влево", "path" => "/img/main/left_arrow.png", "class" => "icon_l_arrow", "style" => "", "event" => "" ),
         "right" => array("name" => "right", "title" => "Вправо", "path" => "/img/main/right_arrow.png", "class" => "icon_r_arrow", "style" => "", "event" => "" ),
-        "refresh" => array("name" => "refresh", "title" => "Обновить", "path" => "/img/main/refresh.png", "class" => "icon_refresh", "style" => "", "event" => "" ),
+        "refresh" => array("name" => "refresh", "title" => "Обновить", "path" => "/img/main/refresh.png", "class" => "icon_refresh", "style" => "", "event" => "onclick='switchOn(this); return saveOption(\"Profile.itemsView\", \"refresh\");'" ),
         "vid_eskiz" => array("name" => "vid_eskiz", "title" => "Вид отображения: Эскизом", "path" => "/img/main/eskiz.png", "class" => "icon_eskiz", "style" => "", "event" => "onclick='switchOn(this); return saveOption(\"Profile.itemsView\", \"eskiz\");'" ),
         "vid_list" => array("name" => "vid_list", "title" => "Вид отображения: Списком", "path" => "/img/main/list.png", "class" => "icon_list", "style" => "", "event" => "onclick='switchOn(this); return saveOption(\"Profile.itemsView\", \"list\");'" ),
         "number_6" => array("name" => "number_6", "title" => "Вид отображения: По шесть", "path" => "/img/main/number_6.png", "class" => "icon_number6", "style" => "", "event" => "onclick='switchDigitOn(this); return saveOption(\"Profile.itemsPerPage\", \"6\");'"),
@@ -90,7 +90,7 @@ class TvIconsHelper extends AppHelper {
        {
 		if ($name[$i] != '')
         {
-            echo "<a href='#' title='".$this->icons[$name[$i]]['title']."' ".$this->icons[$name[$i]]['event']."><img src='".$this->icons[$name[$i]]['path']."' alt='".$this->icons[$name[$i]]['title']."' class='".$this->icons[$name[$i]]['class']." iam_icon' style='".$this->icons[$name[$i]]['style']."' /></a>";
+            echo "<a href='javascript:void(0)' title='".$this->icons[$name[$i]]['title']."' ".$this->icons[$name[$i]]['event']."><img src='".$this->icons[$name[$i]]['path']."' alt='".$this->icons[$name[$i]]['title']."' class='".$this->icons[$name[$i]]['class']." iam_icon' style='".$this->icons[$name[$i]]['style']."' /></a>";
         }
         }
 }
