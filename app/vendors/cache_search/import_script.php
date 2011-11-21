@@ -13,7 +13,7 @@ $parser = new extSiteParser();
 
 if (empty($dbConfig->cachedSites))
 {
-	die('ERROR. Not configured. Setup info about cached sites');
+	die('ERROR. Not configured. Set up info about cached sites');
 }
 
 function generateInsertSql($tableName, $info)

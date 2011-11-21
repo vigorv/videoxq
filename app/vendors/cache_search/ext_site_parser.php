@@ -69,7 +69,14 @@ class extSiteParser
 	 */
 	public function parseRumediaRow($row)
 	{
+$row['short_story'] = '<!--TBegin--><a href="http://wsmedia.su/uploads/posts/2009-11/1257220486_comedy-club.jpg" onclick="return hs.expand(this)" ><img align="left" src="http://wsmedia.su/uploads/posts/2009-11/thumbs/1257220486_comedy-club.jpg" style="border: none;" width="150" height="214" alt=\'Comedy Club (2005-2010) SATRip\' title=\'Comedy Club (2005-2010) SATRip\'  /></a><!--TEnd-->Коллекция выпусков знаменитого юмористического шоу. Реклама, футбол, секс, офисные интриги, начальники и подчиненные, новости, светская жизнь, отношения – все это просто предмет для шуток для ребят из Comedy Club. Осторожно, они опасны! Дерзкие молодые талантливые комики новой волны не признают никаких авторитетов, приличий и правил. Они запросто могут обсмеять любую звездную персону – даже если она сидит в зале. Несмотря на этот факт, на представлениях Comedy Club всегда много знаменитостей. Ведь здесь не только артисты, но и зрители в зале – находчивы и остроумны. И часто в процессе шоу рождаются новые шутки, которые потом подхватят офисы и улицы.
+<div align="center"><span style="color:#009900"><span style="font-family:Georgia"><b>Trance: Добавил выпуск #213</b></span></span></div>';
+
 		$data = array();
+
+		$matches = array();
+		preg_match('/<img /', $row['short_story'], $matches);
+
 		$data['id_original'] = $row['id'];
 		$data['title'] = $row['title'];
 		$data['title_original'] = $row['title2'];
