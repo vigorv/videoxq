@@ -14,7 +14,7 @@ for ($i=0;$i < sizeof($messages);$i++)
     {
 $messages[$i]["Pmsg"]["title"] = mb_substr($messages[$i]["Pmsg"]["title"], 0, 20)." ...";
     }
-if (mb_strlen($messages[$i]["Pmsg"]["title"]) > 30)
+if (mb_strlen($messages[$i]["Pmsg"]["message"]) > 30)
     {
 $messages[$i]["Pmsg"]["message"] = mb_substr($messages[$i]["Pmsg"]["message"], 0, 30)." ...";
     }
