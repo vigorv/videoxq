@@ -74,9 +74,11 @@ foreach ($dbConfig->cachedSites as $site)
 	$parser->setCurrentSite($site['sitename']);
 
 	mysql_select_db($dbConfig->{$site['dbconfig']}['database'], $ext);
-	if (!empty($dbConfig->$site['dbconfig']['encoding']))
+	if (!empty($dbConfig->{$site['dbconfig']}['encoding']))
 	{
-		mysql_query('set NAMES "' . $dbConfig->{$site['dbconfig']}['encoding'] . '"', $ext);
+		$sql = 'set NAMES "' . strtoupper($dbConfig->{$site['dbconfig']}['encoding']) . '"';
+		mysql_query($sql, $ext);
+//echo $sql;
 	}
 
 	$sql = 'SELECT * FROM ' . $site['tablename'] . ';';
@@ -96,30 +98,37 @@ foreach ($dbConfig->cachedSites as $site)
 		if (empty($locR))
 		{
 			//ДОБАВЛЕНИЕ
-			$add++;
 			$data['modified'] = date('Y-m-d H:i:s');
 			$data['site_id'] = $site['id'];
 			$sql = generateInsertSql('cache_search', $data, $loc);
-			mysql_query($sql, $loc);
+			if (!mysql_query($sql, $loc))
+			{
+				echo 'ERROR. SQL Error - ' . mysql_error($loc);
+			}
+			else
+				$add++;
 		}
 		else
 		{
 			if ($locR['modified_original'] < $extR['date'])
 			{
 				//ОБНОВЛЕНИЕ
-				$update++;
 				$data['modified'] = date('Y-m-d H:i:s');
 				$sql = generateUpdateSql($locR['id_original'], 'cache_search', $data, $loc);
-				mysql_query($sql, $loc);
+				if (!mysql_query($sql, $loc))
+				{
+					echo 'ERROR. SQL Error - ' . mysql_error($loc);
+				}
+				else
+					$update++;
 			}
 		}
 //*
 //echo "\r\n" . $sql . "\r\n";
-if ($add + $update > 50)
+//if ($add + $update > 50)
 break;
 //*/
 	}
-	//
 
 	mysql_close($ext);
 }

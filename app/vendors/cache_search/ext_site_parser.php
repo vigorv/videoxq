@@ -101,6 +101,45 @@ $row['short_story'] = '<!--TBegin--><a href="http://wsmedia.su/uploads/posts/200
 	public function parseAnimebarRow($row)
 	{
 		$data = array();
+
+		$matches = array();
+		preg_match('/<img(.*?)src="([^"]{1,})"/', $row['short_story'], $matches);
+		$data['poster'] = '';
+		if (!empty($matches[2]))
+			$data['poster'] = $matches[2];
+
+		$data['year']			= 0;
+		$data['country']		= '';
+		$data['directors']		= '';
+		$data['actors']			= '';
+		$data['title_original']	= '';
+		$xfields = explode('||', $row['xfields']);
+		foreach ($xfields as $xfield)
+		{
+			$xf = explode('|', $xfield);
+			switch ($xf[0])
+			{
+				case "a_year":
+					$data['year'] = intval($xf[1]);
+				break;
+				case "a_country":
+					$data['country'] = iconv('windows-1251', 'utf-8', $xf[1]);
+				break;
+				case "a_director":
+					$data['directors'] = iconv('windows-1251', 'utf-8', $xf[1]);
+				break;
+				case "a_actors":
+					$data['actors'] = iconv('windows-1251', 'utf-8', $xf[1]);
+				break;
+			}
+		}
+
+		$data['id_original'] = $row['id'];
+		$data['title'] = iconv('windows-1251', 'utf-8', $row['title']);
+		$data['created_original'] = $row['date'];
+		$data['modified_original'] = $row['date'];
+		$data['hidden'] = $row['approve'];
+		$data['url'] = 'http://animebar.ru/' . $row['alt_name'] . '.html';
 		return $data;
 	}
 }
