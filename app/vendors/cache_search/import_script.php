@@ -103,7 +103,7 @@ foreach ($dbConfig->cachedSites as $site)
 			$sql = generateInsertSql('cache_search', $data, $loc);
 			if (!mysql_query($sql, $loc))
 			{
-				echo 'ERROR. SQL Error - ' . mysql_error($loc);
+				echo 'ERROR. SQL Error - ' . mysql_error($loc) . "\r\n";
 			}
 			else
 				$add++;
@@ -117,7 +117,7 @@ foreach ($dbConfig->cachedSites as $site)
 				$sql = generateUpdateSql($locR['id_original'], 'cache_search', $data, $loc);
 				if (!mysql_query($sql, $loc))
 				{
-					echo 'ERROR. SQL Error - ' . mysql_error($loc);
+					echo 'ERROR. SQL Error - ' . mysql_error($loc) . "\r\n";
 				}
 				else
 					$update++;
@@ -126,7 +126,7 @@ foreach ($dbConfig->cachedSites as $site)
 //*
 //echo "\r\n" . $sql . "\r\n";
 //if ($add + $update > 50)
-break;
+//break;
 //*/
 	}
 
