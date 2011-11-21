@@ -73,7 +73,7 @@ class extSiteParser
 		$data = array();
 
 		$matches = array();
-		preg_match('/src="http.*.jpg/', $row['short_story'], $matches);
+		preg_match('/src="([^"]{1,})"/', $row['short_story'], $matches);
         $matches[0] = substr($matches[0],5);
         //iconv сделать
 		$data['id_original'] = $row['id'];
