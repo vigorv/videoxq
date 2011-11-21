@@ -92,7 +92,7 @@ foreach ($dbConfig->cachedSites as $site)
 			echo "ERROR. While processing {$site['sitename']} DB. Unexpected parser response\r\n";
 			break;
 		}
-		$sql = 'SELECT * FROM cache_search WHERE id_original = ' . $data['id_original'];
+		$sql = 'SELECT * FROM cache_search WHERE site_id = ' . $site['id'] . ' AND id_original = ' . $data['id_original'];
 		$locQ = mysql_query($sql, $loc);
 		$locR = mysql_fetch_assoc($locQ);
 		if (empty($locR))
