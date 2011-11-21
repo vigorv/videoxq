@@ -69,7 +69,7 @@ class extSiteParser
 	 */
 	public function parseRumediaRow($row)
 	{
-	   
+
 		$data = array();
 
 		$matches = array();
@@ -98,7 +98,7 @@ class extSiteParser
 					$data['year'] = intval($xf[1]);
 				break;
 				case "m_country":
-					$data['country'] = iconv('windows-1251', 'utf-8', $xf[1]);
+					$data['country'] = iconv('windows-1251', 'utf-8', substr($xf[1], 0, 30));
 				break;
 				case "m_director":
 					$data['directors'] = iconv('windows-1251', 'utf-8', $xf[1]);
@@ -142,7 +142,7 @@ class extSiteParser
 					$data['year'] = intval($xf[1]);
 				break;
 				case "a_country":
-					$data['country'] = iconv('windows-1251', 'utf-8', $xf[1]);
+					$data['country'] = iconv('windows-1251', 'utf-8', substr($xf[1], 0, 30));
 				break;
 				case "a_director":
 					$data['directors'] = iconv('windows-1251', 'utf-8', $xf[1]);
