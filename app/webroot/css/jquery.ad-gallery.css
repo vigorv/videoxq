@@ -145,7 +145,7 @@
     }
       .ad-gallery .ad-thumbs .ad-thumb-list {
         float: left;
-        width: 100%;
+        width: 20000px;
         list-style: none;
       }
         .ad-gallery .ad-thumbs li {
