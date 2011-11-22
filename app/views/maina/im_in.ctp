@@ -37,9 +37,6 @@ echo '<div class="im_in_border" id="'.$messages[$i]["Pm"]["pmid"].'">';
 <?php
 }
 ?>
-
-<input name="js" type="hidden" value="no" id="js" />
-<input name="button" type="submit" value="Отправить" id="send" /> 
 </form>
 </div>
  <?php
