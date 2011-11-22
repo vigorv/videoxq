@@ -7,6 +7,7 @@
 }    
 </style>
 <div id="im_menu">
+<div id="answers"><a href="/maina/im/in/"><img src="/img/new_messages.gif" class="new_message" alt="Новое сообщение" title="Новое сообщение" /></a><span id="resp"></span></div>
 <ul id="im_menu_nav">
     <li><a id="in_btn" href="/maina/im/in" style="border-left: 1px solid #74ADE7;"<?=($sub_act == 'in')? ' class="current"':''?>>Входящие</a></li>
     <li><a id="out_btn" href="/maina/im/out"<?=($sub_act == 'out')? ' class="current"':''?>>Исходящие</a></li>

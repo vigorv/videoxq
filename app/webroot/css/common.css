@@ -192,7 +192,8 @@ li.search .adv2 { display: none; }
 .createPhotoAlbum .textInput { width:50% }
 .createPhotoAlbum textarea { height:60px }
 
-.downloadingList .hd { position:absolute; top:-4px; left:-5px; width:30px; height:21px; overflow:hidden; zoom:1 }
+.downloadingList .hd { position:absolute; top:-4px; left:-5px; width:30px; height:21px; overflow:hidden; zoom:1; }
+.downloadingList .logo {position:absolute; top:-4px; left:25px; width:28px; height:28px; overflow:hidden; z-index:10; }
 .downloadingList .hd b { background:#393939; color:#FFFFFF; padding:0 2px }
 .downloadingList .moviePreviewWrapper { margin:0 30px 0 0; position:relative; zoom:1; cursor:move; }
 .downloadingList .nu { font-size:1.5em; position:absolute; top:0; left:0; width:55px; text-align:right }
@@ -314,7 +315,8 @@ li.search .adv2 { display: none; }
 .movie h4 { font-size:1.17em; font-weight:bold; margin:0 0 3px 0; line-height:1.25em }
 .movie h4 em { font-style:normal; font-size:0.92em }
 
-.movies .hd { position:absolute; top:-4px; left:-5px; width:30px; height:21px; overflow:hidden; zoom:1 }
+.movies .hd { position:absolute; top:-4px; left:-5px; width:30px; height:21px; overflow:hidden; zoom:1;z-index:5; }
+.movies .logo {position:absolute; top:-7px; left:60px; width:28px; height:28px; overflow:hidden; zoom:1;z-index:10;}
 .movies .hd b { background:#393939; color:#FFFFFF; padding:0 2px }
 .movies .hd2 { position:absolute; top:-4px; left:25px; width:30px; height:21px; overflow:hidden; zoom:1 }
 .movies .hd3 { position:absolute; top:20px; left:-5px; width:30px; height:21px; overflow:hidden; zoom:1 }

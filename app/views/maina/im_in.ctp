@@ -39,7 +39,7 @@ echo '<div class="im_in_border" id="'.$messages[$i]["Pm"]["pmid"].'">';
 ?>
 
 <input name="js" type="hidden" value="no" id="js" />
-<input name="button" type="submit" value="Отправить" id="send" /> <span id="resp"></span>  
+<input name="button" type="submit" value="Отправить" id="send" /> 
 </form>
 </div>
  <?php
@@ -55,7 +55,6 @@ for ($i=0;$i < sizeof($messages);$i++)
     {
     
     echo "$('#".$new_msg_id[$i]["pm"]["pmid"]."').css('background', '#E1E8F2');";
-    
 }
 }
 echo "
@@ -101,24 +100,42 @@ else
 $(document).ready(function() {Visibility(["refresh", "number_6", "number_9", "number_12", "number_24"]);});
 </script>';
 }
-?>   	
+?>
 <script language="javascript">
-/*$(function(){
-   $("#send").load(function(){
+
+$("#send").ready(function (){
       $.ajax({
          type: "POST",
-         url: "/im/im_in.ctp",
+         url: "/maina/im/check/",
          cache: false,
          success: function(response){
-             var messageResp = new Array('Ваше сообщение отправлено','Сообщение не отправлено Ошибка базы данных','Нельзя отправлять пустые сообщения');
-             var resultStat = messageResp[Number(response)];
-             $("#resp").text(resultStat).show().delay(1500).fadeOut(800);   
+             if(response != 0){
+             $("#resp").text(response).show().fadeIn(1500);
+             $(".new_message").show().fadeIn(1500);
+             }
              }
           });
-          return false;
-                                                               
-    });
-});*/
+          return false;                                                        
+    }
+);
+//проверка сообщений каждые 45 секунд
+setInterval(Check_time, 45000);
+function Check_time(){
+      $.ajax({
+         type: "POST",
+         url: "/maina/im/check/",
+         cache: false,
+         success: function(response){
+             if(response != 0){
+             $("#resp").text(response).show().fadeIn(1500);
+             $(".new_message").show().fadeIn(1500);
+             }
+             }
+          });
+          return false;                                                        
+    }
+//по умолчанию конверт скрыт
+$(".new_message").hide();
 subact='<?=$sub_act;?>';
 saveOptionNoAction('Profile.im_subact', subact);
 $('#im_menu_act').fadeIn();
