@@ -340,6 +340,7 @@ for ($match = 1; $match < 20; $match++)
                     unset($ftpInfo[$dir][$match]['foto'][$key]);
                     continue;
                 }
+                
                 //проверка на существование превью.
                 if (!empty($ftpInfo[$dir][$match]['thumbs']))
                 {
