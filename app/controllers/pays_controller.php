@@ -42,9 +42,11 @@ class PaysController extends AppController
 			fclose($f);
 		}
     }
-
+    
     /**
      * failURL
+     *
+     * 
      *
      */
     public function failpay()
@@ -1528,6 +1530,33 @@ $paySum = 10;//ДЛЯ ТЕСТИРОВАНИЯ
      */
 	public function index($summ = 0)
 	{
+	   //список способов оплаты на страничке Pay
+	   $pay_spisok = 
+        array(
+        "robox_wmr" => "WebMoney WMR (RoboКасса)", 
+        "assist_wmr" => "WebMoney WMR (Assist)", 
+        "robox_wmz" => "WebMoney WMZ", 
+        "robox_wmz" => "WebMoney WMU", 
+        "robox_wmz" => "WebMoney WME",
+        "robox_yandex" => "Яндекс.Деньги (RoboКасса)",
+        "robox_assist" => "Яндекс.Деньги (Assist)",
+        "robox_card" => "Банковская карта (RoboКасса)",
+        "paypal_card" => "Банковская карта (PayPal)",
+        "robox_phone" => "Со счета мобильного телефона (RoboКасса)",
+        "sms_phone" => "Со счета мобильного телефона (SMSCoin)",
+        "robox_elmoney" => "«Электронные деньги»",
+        "robox_qiwi" => "QIWI Кошелек (RoboКасса)",
+        "assist_qiwi" => "QIWI Кошелек (Assist)",
+        "robox_evro" => "Евросеть",
+        "robox_alfa" => "Альфа-Клик",
+        "robox_cash" => "Наличные в терминалах оплаты",
+        "robox_handy" => "HandyBank",
+        "robox_iphone" => "Через Iphone",
+        "robox_contact" => "Перевод в системе CONTACT",
+        "robox_bank" => "Банкомат",
+        "robox_plat" => "Банковская карта через Platezh.ru");
+        $this->set('pay_spisok', $pay_spisok);
+        
 		$summ = intval($summ);
 //if (empty($this->authUser['userid']))
 //$summ = -1;//СЕРВИС ПРИОСТАНОВДЕН

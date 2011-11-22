@@ -379,6 +379,15 @@ exit;
                     $sub_act = 'in';
                 }
                 break;
+            case 'check':
+                //проверка на новые сообщения
+                $new_msg_id = $this->Pmsg->checkNewMessages($this->authUser['userid']);
+                $this->set('new_msg_id', $new_msg_id);
+                //вывод входящих сообщений (по умолчанию)
+                $messages = $this->Pmsg->getInMessages($this->authUser['userid'], $this->page, $this->per_page);
+                $this->set('messages', $messages);
+                $this->render('im_check');
+                break;
             case 'in':
             case 'out':
                 break;
@@ -418,6 +427,9 @@ exit;
                     break;
 
                 case 'in':
+                    //проверка на сущствование новых каждые 30 секунд
+                    $new_msg_id = $this->Pmsg->checkNewMessages($this->authUser['userid']);
+                    $this->set('new_msg_id', $new_msg_id);
                     //вывод входящих сообщений (по умолчанию)
                     $count_messages = $this->Pmsg->getCountInMessages($this->authUser['userid']);
                     $this->set('count_messages', $count_messages);
@@ -743,5 +755,8 @@ exit;
 
         $this->set('favorites_data',$favorites_data);
     }
-
+    
+    public function Check_message() {
+        
+    }
 }

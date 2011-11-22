@@ -192,7 +192,8 @@ li.search .adv2 { display: none; }
 .createPhotoAlbum .textInput { width:50% }
 .createPhotoAlbum textarea { height:60px }
 
-.downloadingList .hd { position:absolute; top:-4px; left:-5px; width:30px; height:21px; overflow:hidden; zoom:1 }
+.downloadingList .hd { position:absolute; top:-4px; left:-5px; width:30px; height:21px; overflow:hidden; zoom:1; }
+.downloadingList .logo {position:absolute; top:-4px; left:25px; width:28px; height:28px; overflow:hidden; z-index:10; }
 .downloadingList .hd b { background:#393939; color:#FFFFFF; padding:0 2px }
 .downloadingList .moviePreviewWrapper { margin:0 30px 0 0; position:relative; zoom:1; cursor:move; }
 .downloadingList .nu { font-size:1.5em; position:absolute; top:0; left:0; width:55px; text-align:right }
@@ -314,7 +315,8 @@ li.search .adv2 { display: none; }
 .movie h4 { font-size:1.17em; font-weight:bold; margin:0 0 3px 0; line-height:1.25em }
 .movie h4 em { font-style:normal; font-size:0.92em }
 
-.movies .hd { position:absolute; top:-4px; left:-5px; width:30px; height:21px; overflow:hidden; zoom:1 }
+.movies .hd { position:absolute; top:-4px; left:-5px; width:30px; height:21px; overflow:hidden; zoom:1;z-index:5; }
+.movies .logo {position:absolute; top:-7px; left:60px; width:28px; height:28px; overflow:hidden; zoom:1;z-index:10;}
 .movies .hd b { background:#393939; color:#FFFFFF; padding:0 2px }
 .movies .hd2 { position:absolute; top:-4px; left:25px; width:30px; height:21px; overflow:hidden; zoom:1 }
 .movies .hd3 { position:absolute; top:20px; left:-5px; width:30px; height:21px; overflow:hidden; zoom:1 }
@@ -784,13 +786,45 @@ border-radius: 8px;
 -khtml-border-radius: 8px;
 border-radius: 8px;
 border: 0px solid #5C8F00;
-padding: 5px 20px;
+padding-top: 2px;
 text-align: center;
 cursor: pointer;
 cursor: hand;
-background: url(/img/ie/ie_gbtt.png) no-repeat transparent 9;
-paddig: 0 9;
-text-align: center 9;
-width: 152px 9;
+text-align: center;
+width: 120px;
 margin-bottom:30px;
 }
+/*страница ви-доступа*/
+#page_pay {width:1024px; margin:20px auto;}
+#page_pay h3 {font-weight: bold;}
+#pay_right_menu {float:right;border: 1px solid #FF8000; margin:0;width: 200px;}
+#pay_right_menu ul {display: block; margin: 0; padding: 0; list-style: none;}
+#pay_right_menu li {text-align: center;cursor:pointer;background-color: white;width: 200px; border-bottom: 1px solid #ccc; height: 20px;padding:10px 0 5px 0;margin:0;} 
+#pay_right_menu li a {text-decoration: none; color: #252525; padding: 15px;}
+#pay_right_menu li:hover {background-color: #FFD9B3;}
+.img_logo {float:right;margin-top: -100px;}
+.pay_border {border: 1px solid #FF8000;padding:10px 10px 0px 10px; width: 500px;}
+.pay_border input {margin-right: 10px;vertical-align: text-bottom;}
+.pay_text_border {border: 1px solid #FF8000;padding:10px 10px 0px 10px;text-align: justify;}
+.pay_button {
+margin-top: 50px;
+color: white;
+background-color: #FF9B37;
+font-weight: bold;
+text-transform: uppercase;
+border-radius: 8px;
+-moz-border-radius: 8px;
+-webkit-border-radius: 8px;
+-khtml-border-radius: 8px;
+border-radius: 8px;
+border: 0px solid #5C8F00;
+text-align: center;
+cursor: pointer;
+cursor: hand;
+text-align: center;
+width: 120px;
+margin-bottom:30px;
+height:30px;
+padding-top: 10px;
+}
+#card_logos {margin: 50px auto 50px; width:270px;}

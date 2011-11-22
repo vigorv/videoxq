@@ -36,7 +36,14 @@ class Pmsg extends AppModel {
                 $result = $result[0][0]['msg_count'];
 		return $result;
 	}        
-        
+    public function checkNewMessages($userId)
+    {
+        $sql = '
+                    SELECT pmid FROM pm WHERE messageread = "0" and userid = ' . $userId . '
+                    ';
+		$result = $this->query($sql);
+		return $result;
+    } 
 	/**
 	 * подсчет количества исходящих сообщений
 	 *
@@ -62,7 +69,7 @@ class Pmsg extends AppModel {
 	{
 		$sql = '
 			SELECT Pm.pmid, Pm.messageread, Pmsg.message, Pmsg.title, Pmsg.fromusername, Pmsg.touserarray, Pmsg.dateline FROM pmtext AS Pmsg
-				INNER JOIN pm AS Pm ON (Pm.folderid = -1 AND Pm.pmtextid = Pmsg.pmtextid AND Pm.userid = ' . $userId . ' )
+				INNER JOIN pm AS Pm ON (Pm.folderid = -1 AND Pm.pmtextid = Pmsg.pmtextid AND Pm.userid = ' . $userId . ' ) ORDER BY Pm.pmid DESC
 				LIMIT ' . ($page-1)*$perPage . ', ' . $perPage . '
 		';
 		$result = $this->query($sql);
@@ -74,7 +81,7 @@ class Pmsg extends AppModel {
 	{
 		$sql = '
 			SELECT Pm.pmid, Pm.messageread, Pmsg.message, Pmsg.title, Pmsg.fromusername, Pmsg.dateline FROM pmtext AS Pmsg
-				INNER JOIN pm AS Pm ON (Pm.folderid = 0 AND Pm.pmtextid = Pmsg.pmtextid AND Pm.userid = ' . $userId . ')
+				INNER JOIN pm AS Pm ON (Pm.folderid = 0 AND Pm.pmtextid = Pmsg.pmtextid AND Pm.userid = ' . $userId . ') ORDER BY Pm.pmid DESC
 				LIMIT ' . ($page-1)*$perPage . ', ' . $perPage . '
 		';
 //				INNER JOIN pmreceipt as PmR ON (Pm.pmid = PmR.pmid AND PmR.touserid = ' . $userId . ')

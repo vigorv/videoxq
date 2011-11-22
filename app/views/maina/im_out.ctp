@@ -80,7 +80,7 @@ $(document).ready(function() {Visibility(["refresh", "number_6", "number_9", "nu
 else
 {
     echo '<script>
-$(document).ready(function() {Visibility(["refresh", "number_6", "number_12", "number_24"]);});
+$(document).ready(function() {Visibility(["refresh", "number_6", "number_9", "number_12", "number_24"]);});
 </script>';
 }
 ?>
