@@ -361,7 +361,7 @@ echo'</pre>';
 
 	if (!$geoIsGood || !$allowDownload || ($allowDownload && !$isWS && empty($authUser['userid'])))
 	{
-		//echo 'isWS=' . $isWS . 'allowD=' . $allowDownload;
+		echo 'isWS=' . $isWS . 'allowD=' . $allowDownload;
 		$downloadHref = '';
 		$viewHref = '';
 	}
