@@ -1,4 +1,4 @@
-<script type="text/javascript">
+
 <!--
 $(document).ready(function() {
     equalHeight($('.left-block, .center-block, .right-block'));
@@ -14,7 +14,7 @@ function equalHeight(group) {
   group.height(tallest);
 }
 -->
-</script>
+
 <?php
 //НАЧАЛО ОБРАБОТКИ ВЫВОДА ГОЛОСОВАЛКИ
 	if (!empty($block_poll))

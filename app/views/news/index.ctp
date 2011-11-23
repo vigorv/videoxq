@@ -1,9 +1,9 @@
 <style>
 .pagination_nav {
     float:left;
-    width:100%;
+    width:98%;
     margin-top: 20px;
-    padding: 15px 5px 15px 5px;
+    padding: 15px 0 15px 0;
     text-align: center;
     border-top: 1px solid #aaa;
 }
@@ -31,7 +31,7 @@
     border-radius: 5px;
 }
 </style>
-<script type="text/javascript">
+
 <!--
 $(document).ready(function() {
     equalHeight($('.left-block, .center-block, .right-block'));
@@ -47,7 +47,7 @@ function equalHeight(group) {
   group.height(tallest);
 }
 -->
-</script>
+
 <?php
     $javascript->link('calendarlite/jquery.calendarlite', false);
     $javascript->link('calendarlite/jquery.calendarlite', false);
