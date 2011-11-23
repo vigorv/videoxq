@@ -641,7 +641,7 @@ echo $hideJS;
 	$calendar->SetCategory($dir_id);
     $calendar->_jsCode_array($dateArr);
     $calendar->ShowCalendar();
-?>
+?>              <p id="calendar_nadpis">Календарь событий</p>
                 <div id="calendarlite"></div>
 <?php
                 echo $BlockBanner->getBanner('news_right_1');
