@@ -46,7 +46,7 @@ background-color: #F2F2E8;
 
 }
 
-#middle .left-block,#middle .center-block,#middle .right-block{
+#middle .left-block,#middle .right-block{
   padding-bottom:20000px;
   margin-bottom:-20000px;
 }
