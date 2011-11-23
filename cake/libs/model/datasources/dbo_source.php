@@ -648,9 +648,146 @@ class DboSource extends DataSource {
 		}
 
 		$query = $this->generateAssociationQuery($model, $null, null, null, null, $queryData, false, $null);
+                //если в параметрах модели присутствует union, преобразуем 
+                //запрос, добавив "вставку" с union
+                if (!empty($model->union)){
+             
+                  //вставим дополнительное поле в конец запроса "0 AS site_id"
+                  $query = str_replace('FROM ',', 0 AS `site_id` FROM ',$query);
+                  //возьмем отдельно 2 части до from и после, чтобы 
+                  //безболезненно поменять псевдонимы полей
+                  $n = mb_strpos ($query, 'FROM ');
+                  $select_str = mb_substr($query, 0, $n);
+                  $from_str = mb_substr($query, $n);
+                  
+                  //сделаем подстановку "AS ..." для исключения дулирующихся 
+                  //полей во второстепенных таблицах
+                  $select_str = str_replace('`FilmType`.`id`','`FilmType`.`id` AS `FilmType_id`',$select_str);
+                  $select_str = str_replace('`FilmType`.`title`','`FilmType`.`title` AS `FilmType_title`',$select_str);
+                  $select_str = str_replace('`FilmType`.`title_en`','`FilmType`.`title_en` AS `FilmType_title_en`',$select_str);
+                  $select_str = str_replace('`MediaRating`.`id`','`MediaRating`.`id` AS `MediaRating_id`',$select_str);
+                  $select_str = str_replace('`MediaRating`.`num_votes`','`MediaRating`.`num_votes` AS `MediaRating_num_votes`',$select_str);
+                  $select_str = str_replace('`MediaRating`.`rating`','`MediaRating`.`rating` AS `MediaRating_rating`',$select_str);                  
+                  $select_str = str_replace('`MediaRating`.`object_id`','`MediaRating`.`object_id` AS `MediaRating_object_id`',$select_str);
+                  $select_str = str_replace('`MediaRating`.`type`','`MediaRating`.`type` AS `MediaRating_type`',$select_str);                  
+                  
+                  //склеим обратно
+                  $query = $select_str.$from_str;
+                  
+                  /*     
+                   * оригинальные поля талицы films             
+                SELECT 
+                  `Film`.`id`, 
+                  `Film`.`film_type_id`, 
+                  `Film`.`title`, 
+                  `Film`.`title_en`, 
+                  `Film`.`description`, 
+                  `Film`.`active`, 
+                  `Film`.`year`, 
+                  `Film`.`dir`, 
+                  `Film`.`created`, 
+                  `Film`.`modified`, 
+                  `Film`.`hits`, 
+                  `Film`.`imdb_rating`, 
+                  `Film`.`imdb_id`, 
+                  `Film`.`imdb_votes`, 
+                  `Film`.`imdb_date`, 
+                  `Film`.`oscar`, 
+                  `Film`.`thread_id`, 
+                  `Film`.`is_license`, 
+                  `Film`.`is_public`, 
+                  `Film`.`just_online`, 
+                  `FilmType`.`id`, 
+                  `FilmType`.`title`, 
+                  `FilmType`.`title_en`, 
+                  `MediaRating`.`id`, 
+                  `MediaRating`.`num_votes`, 
+                  `MediaRating`.`rating`, 
+                  `MediaRating`.`object_id`, 
+                  `MediaRating`.`type` , 
+                  0 AS `site_id`                  
+                FROM 
+                   `films` AS `Film` 
+                LEFT JOIN 
+                   `film_types` AS `FilmType` ON (`Film`.`film_type_id` = `FilmType`.`id`) 
+                LEFT JOIN 
+                   `media_ratings` AS `MediaRating` ON (`MediaRating`.`type` = "film" AND `MediaRating`.`object_id` = `Film`.`id`)  
+                WHERE 
+                   `Film`.`active` = 1 AND 
+                   `Film`.`id` IN (27196, 2437, 5917, 18786, 1361, 10096, 26589, 12580, 5682, 6546, 26276, 11103, 8301, 3816, 25189, 13161, 20288, 25659, 12980, 8238, 22374, 18596, 28950, 24743, 28141, 1906, 17343, 4694, 17056, 1482, 9033, 17187, 6878, 4148, 17740, 18572, 18810, 10894, 19766, 25261)  
+                GROUP BY 
+                   `Film`.`id`
+                   
+
+
+*/
+                  
+                  
+                  
+                  
+                  
+                  //запомним часть строки начиная с "ORDER BY" - это 
+                  //будет общим условием для union
+                  $n = mb_strpos ($query, 'ORDER BY');
+                  $order_str = mb_substr($query, $n);
+                  $order_str = str_replace('`Film`.','',$order_str);
+                  //запопмним 1ю часть запроса
+                  $q1 = '(' . mb_substr($query, 0, $n) . ')';
+                  
+                  //формируем запрос с объединением
+                  $query = $q1 . ' UNION  ' . $model->union . $order_str;
+                  //pr ($query);
+
+                }
+                
 
 		$resultSet = $this->fetchAll($query, $model->cacheQueries, $model->alias);
-
+                if (!empty($model->union)){
+                     $new_resultSet = array();
+                     foreach($resultSet as $row){
+                         
+                        $new_resultSet[] = array(
+                            'Film' => array(
+                                'id' => $row[0]['id'], 
+                                'film_type_id' => $row[0]['film_type_id'],
+                                'title' => $row[0]['title'],
+                                'title_en' => $row[0]['title_en'],
+                                'description' => $row[0]['description'],
+                                'active' => $row[0]['active'],
+                                'year' => $row[0]['year'],
+                                'dir' => $row[0]['dir'],
+                                'created' => $row[0]['created'],
+                                'modified' => $row[0]['modified'],
+                                'hits' => $row[0]['hits'],
+                                'imdb_rating' => $row[0]['imdb_rating'],
+                                'imdb_id' => $row[0]['imdb_id'],
+                                'imdb_votes' => $row[0]['imdb_votes'],
+                                'imdb_date' => $row[0]['imdb_date'],
+                                'oscar' => $row[0]['oscar'],
+                                'thread_id' => $row[0]['thread_id'],
+                                'is_license' => $row[0]['is_license'],
+                                'is_public' => $row[0]['is_public'],
+                                'just_online' => $row[0]['just_online']
+                                ),
+                            'FilmType' => array(
+                                'id' => $row[0]['FilmType_id'],
+                                'title' => $row[0]['FilmType_title'],
+                                'title_en' => $row[0]['FilmType_title_en']
+                                ),
+                            'MediaRating' => array(
+                                'id' => $row[0]['MediaRating_id'],
+                                'num_votes' => $row[0]['MediaRating_num_votes'],
+                                'rating' => $row[0]['MediaRating_rating'],
+                                'object_id' => $row[0]['MediaRating_object_id'],
+                                'type' => $row[0]['MediaRating_type']
+                                )
+                            );
+                      
+                     }
+                     $resultSet = $new_resultSet;
+                     //pr ($resultSet);
+                }
+                
 		if ($resultSet === false) {
 			$model->onError();
 			return false;
@@ -1179,6 +1316,23 @@ class DboSource extends DataSource {
 					))
 				);
 			break;
+			case 'union':
+                            /*
+				$assocData['fields'] = $this->fields($linkModel, $alias, $assocData['fields']);
+				if (!empty($assocData['foreignKey'])) {
+					$assocData['fields'] = array_merge($assocData['fields'], $this->fields($linkModel, $alias, array("{$alias}.{$assocData['foreignKey']}")));
+				}
+				$query = array(
+					'conditions' => $this->__mergeConditions($this->getConstraint('hasMany', $model, $linkModel, $alias, $assocData), $assocData['conditions']),
+					'fields' => array_unique($assocData['fields']),
+					'table' => $this->fullTableName($linkModel),
+					'alias' => $alias,
+					'order' => $assocData['order'],
+					'limit' => $assocData['limit'],
+					'group' => null
+				);
+                                */
+			break;                        
 		}
 		if (isset($query)) {
 			return $this->buildStatement($query, $model);
@@ -1646,7 +1800,7 @@ class DboSource extends DataSource {
  * @return array
  */
 	function __scrubQueryData($data) {
-		foreach (array('conditions', 'fields', 'joins', 'order', 'limit', 'offset', 'group') as $key) {
+		foreach (array('conditions', 'fields', 'joins', 'order', 'limit', 'offset', 'group', 'union') as $key) {
 			if (!isset($data[$key]) || empty($data[$key])) {
 				$data[$key] = array();
 			}
