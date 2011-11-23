@@ -3,6 +3,7 @@
 if ($isWS)
 {
 	$geoIsGood = true;
+	$allowDownload = true;
 }
 
 if (($geoIsGood) && ($Film['is_license']) && (!empty($authUser['userid'])))
@@ -361,7 +362,7 @@ echo'</pre>';
 
 	if (!$geoIsGood || !$allowDownload || ($allowDownload && !$isWS && empty($authUser['userid'])))
 	{
-		//echo 'isWS=' . $isWS . 'allowD=' . $allowDownload;
+//		echo 'isWS=' . $isWS . 'allowD=' . $allowDownload;
 		$downloadHref = '';
 		$viewHref = '';
 	}

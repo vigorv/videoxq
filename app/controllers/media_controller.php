@@ -1348,6 +1348,7 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
         // которое учтется в при разборе "полёта" в классе dboSource
         // (dbo_source.php ВНИМАНИЕ!!! незабыть, что его редактировали) из
         // библиотеки кейка
+/*
             $this->Film->union = '  (SELECT
                                          `cacheSearch`.`id`,
                                          0 AS `film_type_id`,
