@@ -2,7 +2,7 @@
     extract($film);
 if ($isWS)
 {
-	$geoIsGood = true;
+	$geoIsGood = true;//$geoIsGood - ОЗНАЧАЕТ ДОСТУПЕН ЛИ ДЛЯ СКАЧИВАНИЯ ДАННЫЙ ФИЛЬМ В РЕГИОНЕ ПОЛЬЗОВАТЕЛЯ
 	$allowDownload = true;
 }
 
@@ -1488,7 +1488,6 @@ if (!empty($authUser['userid']) || $isWS)
 					</script>
 					<br /><input type="button" class="greenButton" onclick="return yaSearch()" value="' . __('Find', true) . '" />
 			';
-
 		}
 	}
 
@@ -1703,7 +1702,9 @@ if (isset($authUser['username']))// && (($authUser['username'] == 'vanoveb') || 
 		}
 		//echo '<h3 style="margin-top:12px;"><a target="_blank" title="скачать на kinopoisk.ru" href="http://www.kinopoisk.ru/index.php?kp_query=' . rawurlencode(iconv('utf-8','windows-1251', $film['Film']['title'])) . '">"' . $film['Film']['title'] . '" cкачать &raquo;</a></h3>';
 		//echo '<h3 style="margin-top:12px;"><a target="_blank" href="http://google.com/search?q=' . rawurlencode(iconv('utf-8','windows-1251', $film['Film']['title'])) . '">"' . $film['Film']['title_en'] . '" ' . __('Free download', true) . ' &raquo;</a></h3>';
-		echo '
+		if (empty($geoInfo['city']))
+		{
+			echo '
 				<script type="text/javascript">
 					function gooSearch()
 					{
@@ -1712,7 +1713,21 @@ if (isset($authUser['username']))// && (($authUser['username'] == 'vanoveb') || 
 					}
 				</script>
 				<br /><input type="button" class="greenButton" onclick="return gooSearch()" value="' . __('Find', true) . '" />
-		';
+			';
+		}
+		else
+		{
+			echo '
+				<script type="text/javascript">
+					function yaSearch()
+					{
+						location.href=\'http://yandex.ru/yandsearch?text=' . rawurlencode(iconv('utf-8', 'windows-1251', $film['Film']['title'])) . '\';
+						return false;
+					}
+				</script>
+				<br /><input type="button" class="greenButton" onclick="return yaSearch()" value="' . __('Find', true) . '" />
+			';
+		}
 		//echo $yandexLink;
 	}
 
