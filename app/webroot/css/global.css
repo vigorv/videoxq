@@ -47,8 +47,8 @@ background-color: #F2F2E8;
 }
 
 #middle .left-block,#middle .center-block,#middle .right-block{
-  padding-bottom:10000px;
-  margin-bottom:-10000px;
+  padding-bottom:20000px;
+  margin-bottom:-20000px;
 }
 #middle div.left-block {
 	float: left;
