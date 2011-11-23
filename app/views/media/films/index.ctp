@@ -104,8 +104,15 @@ if (($Film['is_license'] || $isWS) && (!empty($FilmVariant)))
 	{
 ?>
 			<div class="hd"><img src="/img/vusic/<?=$title?>.gif" alt="<?=$title?>" title="<?=$title?>" /></div>
+            
 <?php
 	}
+    if (!empty($Film['site_id'])) // вывод логотипа сайта с которого пришел фильм (анимебар или румедиа)
+    {
+        
+    echo '<div class="logo"><img src="/img/vusic/'.$side_id.'.png" alt="'.$side_id.'" title="'.$side_id.'" /></div>';
+   
+    }
 }
 ?>
         <div class="poster">

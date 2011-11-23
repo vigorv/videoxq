@@ -829,8 +829,13 @@ exit;
 						{
 							if (empty($item['txt']) && empty($item['stxt']))
 							{
-								$item['txt'] = '';
+								$item['txt'] = $item['title'];
 								$item['stxt'] = $item['title'];
+							}
+
+							if (empty($item['txt']))
+							{
+								$item['txt'] = $item['stxt'];
 							}
 
 							$item['title'] = Utils::substrWord(strip_tags($item['title']), 60);
@@ -841,7 +846,7 @@ exit;
 							}
 							if (!empty($item['stxt']))
 							{
-								$item['stxt'] .= $a;
+								//УБИРАЕМ ССЫЛКУ НА ОРИГИНАЛ ИЗ КРАТКОЙ НОВОСТИ $item['stxt'] .= $a;
 							}
 							$item['img'] = '';
 							$item['hidden'] = 0;

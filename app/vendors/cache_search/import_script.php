@@ -16,7 +16,7 @@ if (empty($dbConfig->cachedSites))
 	die('ERROR. Not configured. Set up info about cached sites');
 }
 
-function generateInsertSql($tableName, $info)
+function generateInsertSql($tableName, $info, $db)
 {
  	$fields = '`' . implode('`,`', array_keys($info)) . '`';
  	$values = '';
@@ -25,12 +25,29 @@ function generateInsertSql($tableName, $info)
  	{
  		$values .= $z;
  		if (!is_integer($i))
- 			$values .= '"' . $i . '"';
+ 			$values .= '"' . mysql_real_escape_string($i, $db) . '"';
  		else
  			$values .= intval($i);
  		$z = ',';
  	}
 	$sql = 'insert into ' . $tableName . ' (' . $fields . ') values (' . $values . ')';
+	return $sql;
+}
+
+function generateUpdateSql($id_original, $tableName, $info, $db)
+{
+	$sql = 'UPDATE ' . $tableName . ' SET ';
+ 	$z = '';
+ 	foreach ($info as $field => $value)
+ 	{
+ 		$sql .= $z . '`' . $field . '` = ';
+ 		if (!is_integer($value))
+ 			$sql .= '"' . mysql_real_escape_string($value, $db) . '"';
+ 		else
+ 			$sql .= intval($value);
+ 		$z = ',';
+ 	}
+ 	$sql .= ' WHERE id_original = ' . $id_original;
 	return $sql;
 }
 
@@ -57,9 +74,11 @@ foreach ($dbConfig->cachedSites as $site)
 	$parser->setCurrentSite($site['sitename']);
 
 	mysql_select_db($dbConfig->{$site['dbconfig']}['database'], $ext);
-	if (!empty($dbConfig->$site['dbconfig']['encoding']))
+	if (!empty($dbConfig->{$site['dbconfig']}['encoding']))
 	{
-		mysql_query('set NAMES "' . $dbConfig->{$site['dbconfig']}['encoding'] . '"', $ext);
+		$sql = 'set NAMES "' . strtoupper($dbConfig->{$site['dbconfig']}['encoding']) . '"';
+		mysql_query($sql, $ext);
+//echo $sql;
 	}
 
 	$sql = 'SELECT * FROM ' . $site['tablename'] . ';';
@@ -73,30 +92,41 @@ foreach ($dbConfig->cachedSites as $site)
 			echo "ERROR. While processing {$site['sitename']} DB. Unexpected parser response\r\n";
 			break;
 		}
-		$sql = 'SELECT * FROM cache_search WHERE id_original = ' . $data['id_original'];
+		$sql = 'SELECT * FROM cache_search WHERE site_id = ' . $site['id'] . ' AND id_original = ' . $data['id_original'];
 		$locQ = mysql_query($sql, $loc);
 		$locR = mysql_fetch_assoc($locQ);
-
 		if (empty($locR))
 		{
 			//ДОБАВЛЕНИЕ
-			$add++;
 			$data['modified'] = date('Y-m-d H:i:s');
 			$data['site_id'] = $site['id'];
-			$sql = generateInsertSql('cache_search', $data);
-			mysql_query($sql, $loc);
+			$sql = generateInsertSql('cache_search', $data, $loc);
+			if (!mysql_query($sql, $loc))
+			{
+				echo 'ERROR. SQL Error - ' . mysql_error($loc) . "\r\n";
+			}
+			else
+				$add++;
 		}
 		else
 		{
 			if ($locR['modified_original'] < $extR['date'])
 			{
 				//ОБНОВЛЕНИЕ
-				$update++;
+				$data['modified'] = date('Y-m-d H:i:s');
+				$sql = generateUpdateSql($locR['id_original'], 'cache_search', $data, $loc);
+				if (!mysql_query($sql, $loc))
+				{
+					echo 'ERROR. SQL Error - ' . mysql_error($loc) . "\r\n";
+				}
+				else
+					$update++;
 			}
 		}
 //*
-echo "\r\n" . $sql . "\r\n";
-break;
+//echo "\r\n" . $sql . "\r\n";
+//if ($add + $update > 50)
+//break;
 //*/
 	}
 

@@ -289,3 +289,5 @@ margin-right: -6px;
 #im_menu_act{
     float: right;
 }
+#answers {position:absolute;margin-left: 300px;margin-top: 7px;border:0;}
+.new_message { margin-right: 20px; }

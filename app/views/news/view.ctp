@@ -1,4 +1,4 @@
-<script type="text/javascript">
+
 <!--
 $(document).ready(function() {
     equalHeight($('.left-block, .center-block, .right-block'));
@@ -14,7 +14,7 @@ function equalHeight(group) {
   group.height(tallest);
 }
 -->
-</script>
+
 <?php
 //НАЧАЛО ОБРАБОТКИ ВЫВОДА ГОЛОСОВАЛКИ
 	if (!empty($block_poll))
@@ -340,6 +340,7 @@ for ($match = 1; $match < 20; $match++)
                     unset($ftpInfo[$dir][$match]['foto'][$key]);
                     continue;
                 }
+                
                 //проверка на существование превью.
                 if (!empty($ftpInfo[$dir][$match]['thumbs']))
                 {
@@ -640,7 +641,7 @@ echo $hideJS;
 	$calendar->SetCategory($dir_id);
     $calendar->_jsCode_array($dateArr);
     $calendar->ShowCalendar();
-?>
+?>              <p id="calendar_nadpis">Календарь событий</p>
                 <div id="calendarlite"></div>
 <?php
                 echo $BlockBanner->getBanner('news_right_1');

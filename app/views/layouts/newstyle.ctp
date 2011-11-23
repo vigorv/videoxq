@@ -35,10 +35,10 @@
         <link rel="alternate" type="application/rss+xml" title='<?php echo Configure::read('App.siteName'); ?>' href="http://videoxq.com/rss.xml" />
         <title><?php echo Configure::read('App.siteName') . ' - ' . $title_for_layout; ?></title>
 <script language="javascript">
-    var xhr = null;    
-    
+    var xhr = null;
+
     var histAPI=!!(window.history && history.pushState);
-/*    
+/*
         function xLoad(elem){
             var link = $(elem).attr("href");
             if(!histAPI)
@@ -64,7 +64,7 @@
     	$(obj).find('img').addClass('currentTvIcon');
     	return false;
     }
-    
+
 
     function switchDigitOn(obj)
     {
@@ -75,7 +75,7 @@
 
     function saveOption(name, value)
     {
-        
+
         $('.Frame_Content').fadeOut(555, function(){
             $(this).showAjaxLoader();
             if(xhr!=null){ xhr.abort();}
@@ -97,9 +97,9 @@
                 {
                     $('.currentSubMenu').click();
                 }
-                
+
             });
-*/            
+*/
         });
         return false;
     }
@@ -118,28 +118,28 @@
                     }
                 });
 /*
-/*        
+/*
         $.post("/maina/saveoption", {optionName: name, optionValue: value}, function(data) {
             if(data == "ok")
             {
             }
         });
-*/        
+*/
         return false;
     }
-    
+
     jQuery.fn.showAjaxLoader = function() {
         var elem = $(this[0]);
         var x = ($('div.Frame').width())/2;
-        var y =  280;   
+        var y =  280;
         $(elem).html('<img id="ajax_loader_icon" src="/img/ajax-loader.gif">');
         x = x + ($('#ajax_loader_icon').width())/2;
         y = y + ($('#ajax_loader_icon').height())/2;
         $('#ajax_loader_icon').attr("style","display: block; position: absolute; left: "+x+"px; top:"+y+"px");
         $(elem).fadeIn(555);
     };
-    
-    function centerAndFadeFlashMessage(){    
+
+    function centerAndFadeFlashMessage(){
         var e = $('#flashMessage');
         if (e.length > 0 ){
             var wp = e.parent().width();
@@ -149,7 +149,7 @@
             e.fadeOut(8000);
         }
     }
-    
+
 </script>
 <style>
     #flashMessage, #authMessage {
