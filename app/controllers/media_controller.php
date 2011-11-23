@@ -1341,52 +1341,52 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
     //            $this->pageTitle .= $part . ' ';
 	            $this->Metatags->insert($part, '', '');
             }
-            
-    
+
+
         /******************************************************/
-        // был поиск !!! теперь нам надо сформировать условие для 'union', 
-        // которое учтется в при разборе "полёта" в классе dboSource 
-        // (dbo_source.php ВНИМАНИЕ!!! незабыть, что его редактировали) из 
+        // был поиск !!! теперь нам надо сформировать условие для 'union',
+        // которое учтется в при разборе "полёта" в классе dboSource
+        // (dbo_source.php ВНИМАНИЕ!!! незабыть, что его редактировали) из
         // библиотеки кейка
-            $this->Film->union = '  (SELECT 
-                                         `cacheSearch`.`id`, 
-                                         0 AS `film_type_id`, 
-                                        `cacheSearch`.`title`, 
-                                        `cacheSearch`.`title_original` AS `title_en`, 
-                                         0 AS `description`, 
-                                         0 AS `active`, 
-                                         `cacheSearch`.`year`, 
-                                         0 AS `cacheSearch_dir`, 
-                                         `cacheSearch`.`created_original` AS `created`, 
-                                         `cacheSearch`.`modified_original` AS `modified`, 
-                                         0 AS `hits`, 
-                                         0 AS `imdb_rating`, 
-                                         0 AS `imdb_id`, 
-                                         0 AS `imdb_votes`, 
-                                         0 AS `imdb_date`, 
-                                         0 AS `oscar`, 
-                                         0 AS `thread_id`, 
-                                         0 AS `is_license`, 
-                                         0 AS `is_public`, 
-                                         0 AS `just_online`, 
-                                         0 AS `FilmType_id`, 
-                                         0 AS `FilmType_title`, 
-                                         0 AS `FilmType_title_en`, 
-                                         0 AS `MediaRating_id`, 
-                                         0 AS `MediaRating_num_votes`, 
-                                         0 AS `MediaRating_rating`, 
-                                         0 AS `MediaRating_object_id`, 
+            $this->Film->union = '  (SELECT
+                                         `cacheSearch`.`id`,
+                                         0 AS `film_type_id`,
+                                        `cacheSearch`.`title`,
+                                        `cacheSearch`.`title_original` AS `title_en`,
+                                         0 AS `description`,
+                                         0 AS `active`,
+                                         `cacheSearch`.`year`,
+                                         0 AS `cacheSearch_dir`,
+                                         `cacheSearch`.`created_original` AS `created`,
+                                         `cacheSearch`.`modified_original` AS `modified`,
+                                         0 AS `hits`,
+                                         0 AS `imdb_rating`,
+                                         0 AS `imdb_id`,
+                                         0 AS `imdb_votes`,
+                                         0 AS `imdb_date`,
+                                         0 AS `oscar`,
+                                         0 AS `thread_id`,
+                                         0 AS `is_license`,
+                                         0 AS `is_public`,
+                                         0 AS `just_online`,
+                                         0 AS `FilmType_id`,
+                                         0 AS `FilmType_title`,
+                                         0 AS `FilmType_title_en`,
+                                         0 AS `MediaRating_id`,
+                                         0 AS `MediaRating_num_votes`,
+                                         0 AS `MediaRating_rating`,
+                                         0 AS `MediaRating_object_id`,
                                          0 AS `MediaRating_type`,
                                          `cacheSearch`.`site_id`
-                                    FROM 
+                                    FROM
                                         `cache_search` AS `cacheSearch`
-                                    GROUP BY 
-                                        `cacheSearch`.`id`  ) ';                          
+                                    GROUP BY
+                                        `cacheSearch`.`id`  ) ';
         /******************************************************/
         }
 
 
-        
+
         if (!empty($this->passedArgs['page']))
         {
 //            $this->pageTitle .= ' ' . __('page', true) . ' ' . $this->passedArgs['page'];
@@ -1421,8 +1421,8 @@ echo'</pre>';
 
 		$films = false;
 		$posts = array();
-                
-                
+
+
 		if (!$isFirstPage)
 			$films = Cache::read('Catalog.' . $postFix . 'list_'.$out, 'searchres');
 		if (empty($search))
@@ -1438,7 +1438,7 @@ echo'</pre>';
             //$pagination['Film']['search'] = $starSearch;
 
     		$films = $this->Film->find('all', $pagination["Film"]);
-                
+
 
 //##                //pr ($pagination["Film"]);
 //##                //exit;
@@ -1488,13 +1488,13 @@ echo'</pre>';
 			}
     		//*/
                 /******************************************************/
-                // если был установлен 'union', очистим его - после выборки при  
+                // если был установлен 'union', очистим его - после выборки при
                 // "поиске фильмов" он не нужен
                         if (!empty($this->Film->union)){
                             unset ($this->Film->union);
-                            
+
                         }
-                /******************************************************/                
+                /******************************************************/
 		//КЭШИРУЕМ ДАЖЕ ЕСЛИ НИЧЕГО НЕ НАЙДЕНО
     		//if (((isset($this->passedArgs['page'])) && $films) || isset($this->passedArgs['search']))
 
@@ -3605,7 +3605,7 @@ if (--$limit == 0) {
 //------------------------------------------------------------------------------
     function admin_testunion(){
         App::import('Model', 'CacheSearch');
-        $result = $this->CacheSearch->find('all'); 
+        $result = $this->CacheSearch->find('all');
         pr($result);
     }
 
