@@ -7808,9 +7808,6 @@ msgstr "до"
 msgid "Sort by"
 msgstr "Сортировать по"
 
-msgid "Search"
-msgstr "Найти"
-
 msgid "Advanced Search"
 msgstr "Расширенный поиск"
 
@@ -8409,6 +8406,9 @@ msgid "Find in catalogs"
 msgstr "Найдено в каталогах"
 
 msgid "Find"
+msgstr "Найти"
+
+msgid "Finded"
 msgstr "Найдено"
 
 msgid "first"
