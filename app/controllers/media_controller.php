@@ -995,11 +995,15 @@ return;//НЕПРАВИЛЬНО РАБОТАЕТ
 		$conditions['Film.active'] = 1;
 		$postFix = '';
 		//if (!$this->isWS && empty($this->params['named']['search']))//ВНЕШНИМ ПОКАЗЫВАЕМ ЛИЦЕНЗИЮ, ПРИ ПОИСКЕ ВЫВОДИМ ВСЕ
+
+		/*
+		ОДИНАКОВАЯ ВЫБОРКА И ДЛЯ ВНЕШНИХ И ДЛЯ ВНУТР
 		if (!$this->isWS)//ВНЕШНИМ ПОКАЗЫВАЕМ ТОЛЬКО ЛИЦЕНЗИЮ
 		{
 			$conditions['Film.is_license'] = 1;
 			$postFix = 'Licensed';
 		}
+		*/
         $pagination = array('Film' => array('contain' =>
                                        array('FilmType',
                                              'Genre',

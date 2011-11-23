@@ -58,7 +58,7 @@ class BlockMediaComponent extends BlocksParentComponent
 		        $filter['sort']['Rating.rating'] = 'по рейтингу';
 		        $filter['sort']['Film.imdb_rating'] = 'по рейтингу imdb.com';
 			}
-
+/*
 			if ($this->controller->isWS)
 			{
 	        	$filter['genres'] = $this->controller->Film->Genre->getGenresWithFilmCount($lang);
@@ -67,6 +67,10 @@ class BlockMediaComponent extends BlocksParentComponent
 	        {
 	        	$filter['genres'] = $this->controller->Film->Genre->getGenresWithLicFilmCount($lang);
 	    	}
+//*/
+//*
+        	$filter['genres'] = $this->controller->Film->Genre->getGenresWithFilmCount($lang);
+//*/
 	        $filter['countries'] = $this->controller->Film->Country->getCountriesWithFilmCount();
 	        $filter['types'] = $this->controller->Film->FilmType->getFilmTypesWithFilmCount();
 	        $filter['imdb'] = range(0, 10);

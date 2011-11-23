@@ -5,7 +5,7 @@ if ($isWS)
 	$geoIsGood = true;
 }
 
-if (($geoIsGood) && ($Film['is_license']) && ($authUser['userid']))
+if (($geoIsGood) && ($Film['is_license']) && (!empty($authUser['userid'])))
 {
 	$isWS = true;
 }
@@ -359,16 +359,17 @@ echo'</pre>';
 		}
 	}
 
-	if (!$geoIsGood || ($allowDownload && !$isWS && empty($authUser['userid'])))
+	if (!$geoIsGood || !$allowDownload || ($allowDownload && !$isWS && empty($authUser['userid'])))
 	{
+		//echo 'isWS=' . $isWS . 'allowD=' . $allowDownload;
 		$downloadHref = '';
 		$viewHref = '';
 	}
 
 	if (!empty($downloadHref))
-    	echo  '<a ' . $downloadHref . '><img width="32" src="/img/icons/download-icon_32x32.png" title="' . __('Download Movie', true) . '"/></a>';
+    	echo '<a ' . $downloadHref . '><img width="32" src="/img/icons/download-icon_32x32.png" title="' . __('Download Movie', true) . '"/></a>';
 	if (!empty($viewHref))
-	    echo  '<a ' . $viewHref . '><img width="32" src="/img/icons/play-icon_32x32.png" title="' . __('Click To Play', true) . '"/></a>';
+	    echo '<a ' . $viewHref . '><img width="32" src="/img/icons/play-icon_32x32.png" title="' . __('Click To Play', true) . '"/></a>';
 
     //для зарегеных юзеров функционал "избранное"!
     //добавим времнное условие для скрытия кнопочек на внешнем сайте
@@ -1471,7 +1472,7 @@ if (!empty($authUser['userid']) || $isWS)
 		//$allPanels = array('hqpanel' => __('High definition video', true), 'sqpanel' => __('Standard definition video', true), 'mobpanel' => __('Video Mobile', true), 'webpanel' => __('Search in Web', true));
 		if ($isWS)
 		{
-			$allPanels = array('webpanel' => __('Find', true));
+			$allPanels = array('webpanel' => __('Finded', true));
 			$maxLinksPanel = 'webpanel';
 		}
 		else
@@ -1696,7 +1697,7 @@ if (isset($authUser['username']))// && (($authUser['username'] == 'vanoveb') || 
 						return false;
 					}
 				</script>
-				<input type="button" class="greenButton" onclick="return imdbSearch()" value="' . __('Search', true) . ' > imdb.com" />
+				<input type="button" class="greenButton" onclick="return imdbSearch()" value="imdb.com" />
 			';
 		}
 		//echo '<h3 style="margin-top:12px;"><a target="_blank" title="скачать на kinopoisk.ru" href="http://www.kinopoisk.ru/index.php?kp_query=' . rawurlencode(iconv('utf-8','windows-1251', $film['Film']['title'])) . '">"' . $film['Film']['title'] . '" cкачать &raquo;</a></h3>';
