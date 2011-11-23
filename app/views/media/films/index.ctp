@@ -107,12 +107,11 @@ if (($Film['is_license'] || $isWS) && (!empty($FilmVariant)))
             
 <?php
 	}
-    $Film['site_id'] = 1;
     if (!empty($Film['site_id'])) // вывод логотипа сайта с которого пришел фильм (анимебар или румедиа)
     {
-        ?>
-    <div class="logo"><img src="/img/vusic/<?=$side_id?>.png" alt="<?=$side_id?>" title="<?=$side_id?>" /></div>
-<?php    
+        
+    echo '<div class="logo"><img src="/img/vusic/'.$side_id.'.png" alt="'.$side_id.'" title="'.$side_id.'" /></div>';
+   
     }
 }
 ?>
