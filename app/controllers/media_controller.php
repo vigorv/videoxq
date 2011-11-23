@@ -1,4 +1,5 @@
 <?php
+App::import('Lib', 'DboSource');
 class MediaController extends AppController {
 
     var $name = 'Media';
@@ -1340,8 +1341,52 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
     //            $this->pageTitle .= $part . ' ';
 	            $this->Metatags->insert($part, '', '');
             }
+            
+    
+        /******************************************************/
+        // был поиск !!! теперь нам надо сформировать условие для 'union', 
+        // которое учтется в при разборе "полёта" в классе dboSource 
+        // (dbo_source.php ВНИМАНИЕ!!! незабыть, что его редактировали) из 
+        // библиотеки кейка
+            $this->Film->union = '  (SELECT 
+                                         `cacheSearch`.`id`, 
+                                         0 AS `film_type_id`, 
+                                        `cacheSearch`.`title`, 
+                                        `cacheSearch`.`title_original` AS `title_en`, 
+                                         0 AS `description`, 
+                                         0 AS `active`, 
+                                         `cacheSearch`.`year`, 
+                                         0 AS `cacheSearch_dir`, 
+                                         `cacheSearch`.`created_original` AS `created`, 
+                                         `cacheSearch`.`modified_original` AS `modified`, 
+                                         0 AS `hits`, 
+                                         0 AS `imdb_rating`, 
+                                         0 AS `imdb_id`, 
+                                         0 AS `imdb_votes`, 
+                                         0 AS `imdb_date`, 
+                                         0 AS `oscar`, 
+                                         0 AS `thread_id`, 
+                                         0 AS `is_license`, 
+                                         0 AS `is_public`, 
+                                         0 AS `just_online`, 
+                                         0 AS `FilmType_id`, 
+                                         0 AS `FilmType_title`, 
+                                         0 AS `FilmType_title_en`, 
+                                         0 AS `MediaRating_id`, 
+                                         0 AS `MediaRating_num_votes`, 
+                                         0 AS `MediaRating_rating`, 
+                                         0 AS `MediaRating_object_id`, 
+                                         0 AS `MediaRating_type`,
+                                         `cacheSearch`.`site_id`
+                                    FROM 
+                                        `cache_search` AS `cacheSearch`
+                                    GROUP BY 
+                                        `cacheSearch`.`id`  ) ';                          
+        /******************************************************/
         }
 
+
+        
         if (!empty($this->passedArgs['page']))
         {
 //            $this->pageTitle .= ' ' . __('page', true) . ' ' . $this->passedArgs['page'];
@@ -1376,11 +1421,13 @@ echo'</pre>';
 
 		$films = false;
 		$posts = array();
+                
+                
 		if (!$isFirstPage)
 			$films = Cache::read('Catalog.' . $postFix . 'list_'.$out, 'searchres');
 		if (empty($search))
 		{
-			unset($pagination['Film']['sphinx']);//СФИНКС ВСЕ РАВНО НЕ БУДЕТ ИСКАТЬ ПО ПУСТОЙ СТРОКЕ
+//			unset($pagination['Film']['sphinx']);//СФИНКС ВСЕ РАВНО НЕ БУДЕТ ИСКАТЬ ПО ПУСТОЙ СТРОКЕ
 
 		}
 
@@ -1389,8 +1436,9 @@ echo'</pre>';
 
 			//$starSearch = transStarChars($search);
             //$pagination['Film']['search'] = $starSearch;
-    		$films = $this->Film->find('all', $pagination["Film"]);
 
+    		$films = $this->Film->find('all', $pagination["Film"]);
+                
 
 //##                //pr ($pagination["Film"]);
 //##                //exit;
@@ -1439,8 +1487,15 @@ echo'</pre>';
 	    			$this->_logSearchRequest($search);//В ЛОГ ПОИСКОВЫХ ЗАПРОСОВ ПИШЕМ ТОЛЬКО ПРИ НАЛИЧИИ РЕЗУЛЬТАТОВ ПОИСКА
 			}
     		//*/
-
-			//КЭШИРУЕМ ДАЖЕ ЕСЛИ НИЧЕГО НЕ НАЙДЕНО
+                /******************************************************/
+                // если был установлен 'union', очистим его - после выборки при  
+                // "поиске фильмов" он не нужен
+                        if (!empty($this->Film->union)){
+                            unset ($this->Film->union);
+                            
+                        }
+                /******************************************************/                
+		//КЭШИРУЕМ ДАЖЕ ЕСЛИ НИЧЕГО НЕ НАЙДЕНО
     		//if (((isset($this->passedArgs['page'])) && $films) || isset($this->passedArgs['search']))
 
     		if (!$isFirstPage)
@@ -1574,8 +1629,8 @@ echo'</pre>';
         {
             $this->Film->Person->contain();
             $search = '%' . $this->params['named']['search'] . '%';
-			$pagination = array();
-			$pagination['Person']['limit'] = 30;
+            $pagination = array();
+            $pagination['Person']['limit'] = 30;
             $pagination['Person']['sphinx']['matchMode'] = SPH_MATCH_ALL;
             $pagination['Person']['sphinx']['index'] = array('videoxq_persons');//ИЩЕМ ПО ИНДЕКСУ ПЕРСОН
             $pagination['Person']['sphinx']['sortMode'] = array(SPH_SORT_EXTENDED => '@relevance DESC');
@@ -3548,5 +3603,10 @@ if (--$limit == 0) {
         $this->redirect('/media');
     }
 //------------------------------------------------------------------------------
+    function admin_testunion(){
+        App::import('Model', 'CacheSearch');
+        $result = $this->CacheSearch->find('all'); 
+        pr($result);
+    }
 
 }
