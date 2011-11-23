@@ -219,6 +219,7 @@ div.Frame
 .icon_number9 { position:absolute;padding-bottom: 7px; margin-left: 62%;opacity:0.6;filter:progid:DXImageTransform.Microsoft.Alpha(opacity=60);}
 .icon_number12 { position:absolute;padding-bottom: 7px; margin-left: 65%;opacity:0.6;filter:progid:DXImageTransform.Microsoft.Alpha(opacity=60);}
 .icon_number24 { position:absolute;padding-bottom: 7px; margin-left: 68%;opacity:0.6;filter:progid:DXImageTransform.Microsoft.Alpha(opacity=60);}
+.icon_number6:hover, .icon_number9:hover, .icon_number12:hover, .icon_number24:hover {opacity:0.9;filter:progid:DXImageTransform.Microsoft.Alpha(opacity=90);}
 .currentTvIcon, .currentDigitIcon { opacity: 1;filter:progid:DXImageTransform.Microsoft.Alpha(opacity=100); }
 
 /*vxodyachue sms*/
@@ -227,11 +228,13 @@ div.Frame
 #im_menu ul {list-style:none;margin:0;padding:0; height: 31px;}
 #im_menu li {float:left; background-color: #fff; border: 1px solid #74ADE7;  border-left: 0; padding: 0;}
 #im_menu li a{color:#666666;display:block;font-weight:bold;line-height:23px;padding: 5px 3px 2px 3px;text-align:left;text-decoration:none;}
-#im_menu li a:hover, #msgdel {color:#000000;text-decoration:none; background-color: #E4E8FC;}
+#im_menu li a:hover, #msgdel:hover {color:#000000;text-decoration:none; background-color: #E4E8FC;}
 #im_menu .current{color: #535353;  background-color: #C0CFFA;}
 .im_in { width:100%; border: 1px solid #74ADE7; height: 435px; vertical-align: top;  margin:0; padding: 0;overflow-x:hidden;overflow: auto;}
 .im_in_border { float:left; border-bottom: 1px solid #74ADE7;width:98.3%; height: 60px; vertical-align: top;  padding: 6px; }
 .im_in_border:hover { background: #EAF2FB;}
+/*neprochutannoe sms*/
+.new_msg {background: #EAF2FB;}
 .im_in_avatar {float:left; width:50px; vertical-align: middle;height:50px; padding-left: 5px;}
 .im_in_login_time {float:left;height:50px;padding: 0 10px 0 10px; width:150px;font-family: tahoma,arial, verdana;}
 .im_in_login, .im_in_time {float:left;width:100%;text-align: center;}
@@ -249,37 +252,42 @@ div.Frame
 .im_pagination_href a.current {background-color: #fff; }
 
 /*polnaya novost*/
-.im_in_full {width:97%; border: 1px solid #74ADE7; height: 430px; vertical-align: top;  margin:0; padding: 10px;overflow-x:hidden;overflow: hidden;}
+.im_in_full {width:97.5%; border: 1px solid #74ADE7; height: 430px; vertical-align: top;  margin:0; padding: 10px;overflow-x:hidden;overflow: hidden;}
 .im_in_full_forma {float:left; width: 100%;}
 .im_in_login_time_full {float:left;height:50px; width:85%;font-family: tahoma,arial, verdana;}
 .im_in_time_full { font-size: 8px;text-align: left;}
 .im_in_login_full {float:left;width:85%;text-align: left;font-family: tahoma,arial, verdana;}
 .im_in_time_full {float:left;width:100%;text-align: left;}
 .im_in_login_full {padding-left: 5px;text-align: left;padding-bottom: 10px;width: 100%;}
-.im_in_time_avatar_full { float: left; width: 70px; height: 70px;}
+.im_in_time_avatar_full { float: left; width: 70px; height: 90px;}
 .im_in_avatar_full {float:left; width:70px; vertical-align: middle;height:70px; padding-left: 5px;}
 .im_in_theme_full {clear:right;}
 .im_in_theme_full, .im_in_short_text_full {float:left;width:98%;text-align: left;}
-.im_in_short_text_full  {float:left;width:85%;padding:5px;font-family: tahoma,arial, verdana; position: relative; text-align: justify;}
+.im_in_short_text_full  {float:left;width:85%;padding:5px;font-family: tahoma,arial, verdana; position: relative; text-align: justify;margin-bottom:20px;}
 #ins_ajax {height:435px;}
 #icons_inviz { visibility: hidden;}
 #msgdel {
+text-decoration: none;
 position:relative;
 cursor: pointer;
 float:right;
 border: 1px solid #74ADE7; 
 padding: 5px 3px 2px 3px; 
-margin-top: -35px;
+margin-top: -38px;
 line-height: 23px;
 color: #666;
 background-color: white;
-font-weight: bold;}
+font-weight: bold;
+margin-right: -6px;
+}
 /*knopki*/
 .im_in_but {background-color: #D2D3F9; border: 0; cursor: pointer; padding: 5px;}
-
+.im_in_but:hover {background-color: #E1E8F2;}
 #im_menu_nav{
     float: left;
 }
 #im_menu_act{
     float: right;
 }
+#answers {position:absolute;margin-left: 300px;margin-top: 7px;border:0;}
+.new_message { margin-right: 20px; }

@@ -918,7 +918,7 @@ return;//НЕПРАВИЛЬНО РАБОТАЕТ
 
     function index()
     {
-        $this->pageTitle = __('Video catalog', true);
+        //$this->pageTitle = __('Video catalog', true);
         $this->Film->recursive = 1;
 
         if (empty($this->passedArgs['direction']))
@@ -1323,7 +1323,8 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
             $parts = explode(' ', $search);
             $condition = array('or' => array());
 
-            $this->pageTitle .= ' - ' . __('Search', true) . ': ';
+            //$this->pageTitle .= ' - ' . __('Search', true) . ': ';
+            $this->Metatags->insert(__('Search', true), '', '');
 
             $this->_setContextUrl($search);
 
@@ -1332,12 +1333,16 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
                 if (!is_numeric($part) && mb_strlen($part) < 3)
                     continue;
 
-                $this->pageTitle .= $part . ' ';
+    //            $this->pageTitle .= $part . ' ';
+	            $this->Metatags->insert($part, '', '');
             }
         }
 
         if (!empty($this->passedArgs['page']))
-            $this->pageTitle .= ' ' . __('page', true) . ' ' . $this->passedArgs['page'];
+        {
+//            $this->pageTitle .= ' ' . __('page', true) . ' ' . $this->passedArgs['page'];
+            $this->Metatags->insert(__('page', true) . ' ' . $this->passedArgs['page'], '', '');
+        }
 /*
 echo'<pre>';
 var_dump($pagination);
@@ -1579,7 +1584,8 @@ echo'</pre>';
                                       'controller' => 'people'));
 
             //show feedback form
-	    	$this->set('user', $this->authUser);
+	    $this->set('user', $this->authUser);
+            $this->set('search_str', $this->params['named']['search']);
             $this->data['Feedback']['film'] = $this->params['named']['search'];
             $this->render('feedback');
             return;
@@ -1987,7 +1993,8 @@ echo'</pre>';
 		$lang = Configure::read('Config.language');
 		$langFix = '';
 		if ($lang == _ENG_) $langFix = '_' . _ENG_;
-        $this->pageTitle = __('Video catalog', true) . ' - ' . $film['Film']['title' . $langFix] . ' - ' . __('Buy on', true) . ' ozon.ru';
+        //$this->pageTitle = __('Video catalog', true) . ' - ' . $film['Film']['title' . $langFix] . ' - ' . __('Buy on', true) . ' ozon.ru';
+        $this->Metatags->insert($film['Film']['title' . $langFix] . ' - ' . __('Buy on', true) . ' ozon.ru', '', '');
         $this->set('lang', $lang);
 		$this->set('langFix', $langFix);
     }
@@ -2374,7 +2381,8 @@ $this->set("catalogVariants", $catalogVariants);
 		$langFix = '';
 		if ($lang == _ENG_) $langFix = '_' . _ENG_;
         //$this->pageTitle = __('Video catalog', true) . ' - ' . $film['Film']['title' . $langFix];
-        $this->pageTitle = '-' . $film['Film']['title' . $langFix]."-".__('wordsSEO',true);
+//        $this->pageTitle = '-' . $film['Film']['title' . $langFix]."-".__('wordsSEO',true);
+        $this->Metatags->insert($film['Film']['title' . $langFix], '', '');
         $this->set('film', $film);
         $this->set('lang', $lang);
 		$this->set('langFix', $langFix);
