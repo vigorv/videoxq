@@ -8,7 +8,7 @@ $tvvision->eskiz(array(0 => array(
   'film_name_rus'   => 'Название',
   'film_name_org' => 'Оригинальное Название',
   'director'  => 'Режиссер',
-  'poster'  => 'http://media1.anka.ws/smallposters/the_public_enemy.jpeg',
+  'poster'  => 'http://media1.anka.ws/smallposters/trauma2.jpg',
   'actors'  => array(
         'Актер 1',
         'Актер 2',
@@ -20,7 +20,7 @@ $tvvision->eskiz(array(0 => array(
   'film_name_rus'   => 'Название2',
   'film_name_org' => 'Оригинальное Название2',
   'director'  => 'Режиссер2',
-  'poster'  => 'http://media1.anka.ws/smallposters/the_public_enemy.jpeg',
+  'poster'  => 'http://media1.anka.ws/smallposters/trauma2.jpg',
   'actors'  => array(
         'Бабаюнов',
         'Актер 2',
@@ -32,7 +32,7 @@ $tvvision->eskiz(array(0 => array(
   'film_name_rus'   => 'Название2',
   'film_name_org' => 'Оригинальное Название2',
   'director'  => 'Режиссер2',
-  'poster'  => 'http://media1.anka.ws/smallposters/the_public_enemy.jpeg',
+  'poster'  => 'http://media1.anka.ws/smallposters/trauma2.jpg',
   'actors'  => array(
         'Бабаюнов',
         'Актер 2',
@@ -44,7 +44,7 @@ $tvvision->eskiz(array(0 => array(
   'film_name_rus'   => 'Название2',
   'film_name_org' => 'Оригинальное Название2',
   'director'  => 'Режиссер2',
-  'poster'  => 'http://media1.anka.ws/smallposters/the_public_enemy.jpeg',
+  'poster'  => 'http://media1.anka.ws/smallposters/trauma2.jpg',
   'actors'  => array(
         'Бабаюнов',
         'Актер 2',
@@ -56,7 +56,7 @@ $tvvision->eskiz(array(0 => array(
   'film_name_rus'   => 'Название2',
   'film_name_org' => 'Оригинальное Название2',
   'director'  => 'Режиссер2',
-  'poster'  => 'http://media1.anka.ws/smallposters/the_public_enemy.jpeg',
+  'poster'  => 'http://media1.anka.ws/smallposters/trauma2.jpg',
   'actors'  => array(
         'Бабаюнов',
         'Актер 2',
@@ -68,7 +68,7 @@ $tvvision->eskiz(array(0 => array(
   'film_name_rus'   => 'Название2',
   'film_name_org' => 'Оригинальное Название2',
   'director'  => 'Режиссер2',
-  'poster'  => 'http://media1.anka.ws/smallposters/the_public_enemy.jpeg',
+  'poster'  => 'http://media1.anka.ws/smallposters/trauma2.jpg',
   'actors'  => array(
         'Бабаюнов',
         'Актер 2',
@@ -80,7 +80,7 @@ $tvvision->eskiz(array(0 => array(
   'film_name_rus'   => 'Название2',
   'film_name_org' => 'Оригинальное Название2',
   'director'  => 'Режиссер2',
-  'poster'  => 'http://media1.anka.ws/smallposters/the_public_enemy.jpeg',
+  'poster'  => 'http://media1.anka.ws/smallposters/trauma2.jpg',
   'actors'  => array(
         'Бабаюнов',
         'Актер 2',
@@ -92,7 +92,7 @@ $tvvision->eskiz(array(0 => array(
   'film_name_rus'   => 'Название2',
   'film_name_org' => 'Оригинальное Название2',
   'director'  => 'Режиссер2',
-  'poster'  => 'http://media1.anka.ws/smallposters/the_public_enemy.jpeg',
+  'poster'  => 'http://media1.anka.ws/smallposters/trauma2.jpg',
   'actors'  => array(
         'Бабаюнов',
         'Актер 2',
@@ -104,7 +104,7 @@ $tvvision->eskiz(array(0 => array(
   'film_name_rus'   => 'Название2',
   'film_name_org' => 'Оригинальное Название2',
   'director'  => 'Режиссер2',
-  'poster'  => 'http://media1.anka.ws/smallposters/the_public_enemy.jpeg',
+  'poster'  => 'http://media1.anka.ws/smallposters/trauma2.jpg',
   'actors'  => array(
         'Бабаюнов',
         'Актер 2',
@@ -116,7 +116,7 @@ $tvvision->eskiz(array(0 => array(
   'film_name_rus'   => 'Название2',
   'film_name_org' => 'Оригинальное Название2',
   'director'  => 'Режиссер2',
-  'poster'  => 'http://media1.anka.ws/smallposters/the_public_enemy.jpeg',
+  'poster'  => 'http://media1.anka.ws/smallposters/trauma2.jpg',
   'actors'  => array(
         'Бабаюнов',
         'Актер 2',
@@ -128,7 +128,7 @@ $tvvision->eskiz(array(0 => array(
   'film_name_rus'   => 'Название2',
   'film_name_org' => 'Оригинальное Название2',
   'director'  => 'Режиссер2',
-  'poster'  => 'http://media1.anka.ws/smallposters/the_public_enemy.jpeg',
+  'poster'  => 'http://media1.anka.ws/smallposters/trauma2.jpg',
   'actors'  => array(
         'Бабаюнов',
         'Актер 2',
@@ -140,7 +140,7 @@ $tvvision->eskiz(array(0 => array(
   'film_name_rus'   => 'Название2',
   'film_name_org' => 'Оригинальное Название2',
   'director'  => 'Режиссер2',
-  'poster'  => 'http://media1.anka.ws/smallposters/the_public_enemy.jpeg',
+  'poster'  => 'http://media1.anka.ws/smallposters/trauma2.jpg',
   'actors'  => array(
         'Бабаюнов',
         'Актер 2',
@@ -152,7 +152,7 @@ $tvvision->eskiz(array(0 => array(
   'film_name_rus'   => 'Название2',
   'film_name_org' => 'Оригинальное Название2',
   'director'  => 'Режиссер2',
-  'poster'  => 'http://media1.anka.ws/smallposters/the_public_enemy.jpeg',
+  'poster'  => 'http://media1.anka.ws/smallposters/trauma2.jpg',
   'actors'  => array(
         'Бабаюнов',
         'Актер 2',
@@ -164,7 +164,7 @@ $tvvision->eskiz(array(0 => array(
   'film_name_rus'   => 'Название2',
   'film_name_org' => 'Оригинальное Название2',
   'director'  => 'Режиссер2',
-  'poster'  => 'http://media1.anka.ws/smallposters/the_public_enemy.jpeg',
+  'poster'  => 'http://media1.anka.ws/smallposters/trauma2.jpg',
   'actors'  => array(
         'Бабаюнов',
         'Актер 2',
@@ -176,7 +176,7 @@ $tvvision->eskiz(array(0 => array(
   'film_name_rus'   => 'Название2',
   'film_name_org' => 'Оригинальное Название2',
   'director'  => 'Режиссер2',
-  'poster'  => 'http://media1.anka.ws/smallposters/the_public_enemy.jpeg',
+  'poster'  => 'http://media1.anka.ws/smallposters/trauma2.jpg',
   'actors'  => array(
         'Бабаюнов',
         'Актер 2',
@@ -188,7 +188,7 @@ $tvvision->eskiz(array(0 => array(
   'film_name_rus'   => '121243124Название2',
   'film_name_org' => 'Оригинальное Название2',
   'director'  => 'Режиссер2',
-  'poster'  => 'http://media1.anka.ws/smallposters/the_public_enemy.jpeg',
+  'poster'  => 'http://media1.anka.ws/smallposters/trauma2.jpg',
   'actors'  => array(
         'Бабаюнов',
         'Актер 2',
@@ -200,7 +200,7 @@ $tvvision->eskiz(array(0 => array(
   'film_name_rus'   => 'Название2',
   'film_name_org' => 'Оригинальное Название2',
   'director'  => 'Режиссер2',
-  'poster'  => 'http://media1.anka.ws/smallposters/the_public_enemy.jpeg',
+  'poster'  => 'http://media1.anka.ws/smallposters/trauma2.jpg',
   'actors'  => array(
         'Бабаюнов',
         'Актер 2',
@@ -212,7 +212,7 @@ $tvvision->eskiz(array(0 => array(
   'film_name_rus'   => 'Название2',
   'film_name_org' => 'Оригинальное Название2',
   'director'  => 'Режиссер2',
-  'poster'  => 'http://media1.anka.ws/smallposters/the_public_enemy.jpeg',
+  'poster'  => 'http://media1.anka.ws/smallposters/trauma2.jpg',
   'actors'  => array(
         'Бабаюнов',
         'Актер 2',
@@ -224,7 +224,7 @@ $tvvision->eskiz(array(0 => array(
   'film_name_rus'   => 'Название2',
   'film_name_org' => 'Оригинальное Название2',
   'director'  => 'Режиссер2',
-  'poster'  => 'http://media1.anka.ws/smallposters/the_public_enemy.jpeg',
+  'poster'  => 'http://media1.anka.ws/smallposters/trauma2.jpg',
   'actors'  => array(
         'Бабаюнов',
         'Актер 2',
@@ -236,7 +236,7 @@ $tvvision->eskiz(array(0 => array(
   'film_name_rus'   => 'Название2',
   'film_name_org' => 'Оригинальное Название2',
   'director'  => 'Режиссер2',
-  'poster'  => 'http://media1.anka.ws/smallposters/the_public_enemy.jpeg',
+  'poster'  => 'http://media1.anka.ws/smallposters/trauma2.jpg',
   'actors'  => array(
         'Бабаюнов',
         'Актер 2',
@@ -248,7 +248,7 @@ $tvvision->eskiz(array(0 => array(
   'film_name_rus'   => 'Название2',
   'film_name_org' => 'Оригинальное Название2',
   'director'  => 'Режиссер2',
-  'poster'  => 'http://media1.anka.ws/smallposters/the_public_enemy.jpeg',
+  'poster'  => 'http://media1.anka.ws/smallposters/trauma2.jpg',
   'actors'  => array(
         'Бабаюнов',
         'Актер 2',
@@ -260,7 +260,7 @@ $tvvision->eskiz(array(0 => array(
   'film_name_rus'   => 'Название2',
   'film_name_org' => 'Оригинальное Название2',
   'director'  => 'Режиссер2',
-  'poster'  => 'http://media1.anka.ws/smallposters/the_public_enemy.jpeg',
+  'poster'  => 'http://media1.anka.ws/smallposters/trauma2.jpg',
   'actors'  => array(
         'Бабаюнов',
         'Актер 2',
@@ -272,7 +272,7 @@ $tvvision->eskiz(array(0 => array(
   'film_name_rus'   => 'Название2',
   'film_name_org' => 'Оригинальное Название2',
   'director'  => 'Режиссер2',
-  'poster'  => 'http://media1.anka.ws/smallposters/the_public_enemy.jpeg',
+  'poster'  => 'http://media1.anka.ws/smallposters/trauma2.jpg',
   'actors'  => array(
         'Бабаюнов',
         'Актер 2',
@@ -284,7 +284,7 @@ $tvvision->eskiz(array(0 => array(
   'film_name_rus'   => 'Название2',
   'film_name_org' => 'Оригинальное Название2',
   'director'  => 'Режиссер2',
-  'poster'  => 'http://media1.anka.ws/smallposters/the_public_enemy.jpeg',
+  'poster'  => 'http://media1.anka.ws/smallposters/trauma2.jpg',
   'actors'  => array(
         'Бабаюнов',
         'Актер 2',
@@ -296,7 +296,7 @@ $tvvision->eskiz(array(0 => array(
   'film_name_rus'   => 'Название2',
   'film_name_org' => 'Оригинальное Название2',
   'director'  => 'Режиссер2',
-  'poster'  => 'http://media1.anka.ws/smallposters/the_public_enemy.jpeg',
+  'poster'  => 'http://media1.anka.ws/smallposters/trauma2.jpg',
   'actors'  => array(
         'Бабаюнов',
         'Актер 2',
@@ -308,7 +308,7 @@ $tvvision->eskiz(array(0 => array(
   'film_name_rus'   => 'Название2',
   'film_name_org' => 'Оригинальное Название2',
   'director'  => 'Режиссер2',
-  'poster'  => 'http://media1.anka.ws/smallposters/the_public_enemy.jpeg',
+  'poster'  => 'http://media1.anka.ws/smallposters/trauma2.jpg',
   'actors'  => array(
         'Бабаюнов',
         'Актер 2',
@@ -320,7 +320,7 @@ $tvvision->eskiz(array(0 => array(
   'film_name_rus'   => 'Название2',
   'film_name_org' => 'Оригинальное Название2',
   'director'  => 'Режиссер2',
-  'poster'  => 'http://media1.anka.ws/smallposters/the_public_enemy.jpeg',
+  'poster'  => 'http://media1.anka.ws/smallposters/trauma2.jpg',
   'actors'  => array(
         'Бабаюнов',
         'Актер 2',
@@ -332,7 +332,7 @@ $tvvision->eskiz(array(0 => array(
   'film_name_rus'   => 'На124124звание2',
   'film_name_org' => 'Оригинальное Название2',
   'director'  => 'Режиссер2',
-  'poster'  => 'http://media1.anka.ws/smallposters/the_public_enemy.jpeg',
+  'poster'  => 'http://media1.anka.ws/smallposters/trauma2.jpg',
   'actors'  => array(
         'Бабаюнов',
         'Актер 2',
@@ -344,7 +344,7 @@ $tvvision->eskiz(array(0 => array(
   'film_name_rus'   => 'Н124азвание2',
   'film_name_org' => 'Оригинальное Название2',
   'director'  => 'Режиссер2',
-  'poster'  => 'http://media1.anka.ws/smallposters/the_public_enemy.jpeg',
+  'poster'  => 'http://media1.anka.ws/smallposters/trauma2.jpg',
   'actors'  => array(
         'Бабаюнов',
         'Актер 2',
@@ -354,8 +354,8 @@ $tvvision->eskiz(array(0 => array(
 ));
 ?>
 
-<div class="movies">
-    <?
+<!--<div class="movies">
+    ?
     if (!empty($films))
         foreach ($films as $film):
             extract($film);
@@ -370,12 +370,12 @@ $tvvision->eskiz(array(0 => array(
             ?>
             <div class="moviePreviewWrapper">
                 <div class="poster">
-                    <a href="#"><?= $poster; ?></a>
-                    <div class="ratings rated_<?= round($MediaRating['rating']) ?>"><div></div></div>
-                    <?= $imdb_rate; ?>
+                    <a href="#"> ?= $poster; ?></a>
+                    <div class="ratings rated_ ?= round($MediaRating['rating']) ?>"><div></div></div>
+                    ?= $imdb_rate; ?>
                 </div>
                 <p class="text">
-                    <?php
+                    ?php
                     $directors = array();
                     $actors = array();
                     if (isset($Person))
@@ -398,18 +398,18 @@ $tvvision->eskiz(array(0 => array(
                               }
                               else
                               $actors[] = $data['name' . $langFix] ? $data['name' . $langFix] : $data['name_en'];
-                              } */
+                              } 
                         }
                     if (!empty($directors))
                         echo implode(', ', $directors) . '.';
-                    ?> <?= $Film['year'] ?>
-                    <span>«<a href="/media/view/<?= $Film['id'] ?>"><?= $Film['title' . $langFix] ?></a>»</span>
-                    <?php
+                    ?>  ?= $Film['year'] ?>
+                    <span>«<a href="/media/view/ ?= $Film['id'] ?>"> ?= $Film['title' . $langFix] ?></a>»</span>
+                    ?php
                     shuffle($actors);
                     $actors = array_slice($actors, 0, 3);
                     echo implode(', ', $actors);
                     ?>
-                    <em><?php
+                    <em>?php
             if (!empty($Genre)) {
                 foreach ($Genre as $key => $genre)
                     if ($lang == _ENG_) {
@@ -426,5 +426,5 @@ $tvvision->eskiz(array(0 => array(
                     ?></em>
                 </p>
             </div>
-        <? endforeach; ?>
-</div>
+        ? endforeach; ?>
+</div>-->

@@ -1,8 +1,8 @@
 <?php
 echo $this->element('maina/paginate');
-$html->addCrumb(__('Films', true), '');
-$html->addCrumb(__('Download History', true), '');
-echo $html->getCrumbs(' > ', 'Home');
+//$html->addCrumb(__('Films', true), '');
+//$html->addCrumb(__('Download History', true), '');
+//echo $html->getCrumbs(' > ', 'Home');
 /*
 $tvVision->eskiz(
 	array(0 => array(
@@ -18,8 +18,11 @@ $tvVision->eskiz(
 	))
 );
 */
+//<h3>История Скаченного</h3>
 ?>
-<h3>История Скаченного</h3>
+<script>
+$(document).ready(function() {Visibility(["number_6", "number_9", "number_12", "number_24", "left", "right", "vid_eskiz", "vid_list"]);});
+</script>
 <div class="movies">
 <?php
 	$filmInfo = array();

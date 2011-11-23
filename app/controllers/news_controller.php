@@ -367,8 +367,8 @@ class NewsController extends AppController {
 				        	$video = ftp_nlist($ftp_id, $dir . '/other/video');
 				        	$foto = ftp_nlist($ftp_id, $dir . '/other/foto');
 				        	$ftpInfo[$dir]['video'] = $video;//ПРОЧЕЕ ВИДЕО
-				        	$ftpInfo[$dir]['foto'] = $foto;//ПОРЧЕЕ ФОТО
-		        			$infoTxt = @file_get_contents('http://' . $flowServerAddr . '/' . $dir . '/other/info.txt');
+				        	$ftpInfo[$dir]['foto'] = $foto;
+  		        			$infoTxt = @file_get_contents('http://' . $flowServerAddr . '/' . $dir . '/other/info.txt');
 				        	$ftpInfo[$dir]['info'] = $infoTxt;
 				        	Cache::write('News.ftpInfo.' . $info['News']['id'], $ftpInfo, 'rocket');
 				        }

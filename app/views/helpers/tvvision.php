@@ -7,7 +7,7 @@ class TvvisionHelper extends AppHelper {
 	   if (is_array($film_info) and !empty($film_info))
        {
 	   //ya4eika filma v televisore
-       echo '<div class="movies">';
+       echo '<div class="movies_tv">';
        for ($i = 0; $i < sizeof($film_info);$i++)
        {
 		echo '

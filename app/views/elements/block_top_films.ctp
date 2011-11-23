@@ -31,7 +31,7 @@ foreach ($block_top_films as $post)
 	</div>
 </div>
 <?php
-if ($isWS)
+//СТАТИСТИКУ ПОКАЗЫВАЕМ ПО ВСЕМ ФИЛЬМАМ if ($isWS)
 {
 	$divStyle = ''; $imgSrc = 'desc';
 	if (empty($blockStatuses['sliderstat']))

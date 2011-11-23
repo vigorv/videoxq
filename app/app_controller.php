@@ -11,7 +11,7 @@ class AppController extends Controller {
 //    var $uses = array('User', 'Bookmark', 'Film');
     var $uses = array(
         'User', 'Zone', 'Server', 'Page', 'UserLoginza',
-        'Bookmark', 'Film', 'Pay', 'Geoip', 'Geocity', 'Georegion', 'Useragreement', 'Userlottery', 'Lottery');
+        'Bookmark', 'Film', 'Pay', 'Geoip', 'Geocity', 'Georegion', 'Useragreement', 'UserOption', 'Userlottery', 'Lottery');
     var $blocksData = array();
     var $blockContent;
     var $authUser;
@@ -155,6 +155,8 @@ class AppController extends Controller {
         }
         
         
+
+
         $litter = $this->Cookie->read('news_pop');
         if (!$litter) {
             $this->Cookie->write('news_pop', true);
@@ -232,17 +234,21 @@ class AppController extends Controller {
         }
         $this->geoInfo = $geoInfo;
 
-
 		$this->userOptions = $this->Session->read('Profile.userOptions');
 		if (empty($this->userOptions))
 		{
 //ОБРАБОТКА ОПЦИЙ ПОЛЬЗОВАТЕЛЯ (ДЛЯ САЙТА, ЛИЧНОГО КАБИНЕТА ИТД)
 //ОПЦИИ ХРАНИМ В БД, ИСПОЛЬЗУЕМ ЧЕРЕЗ СЕССИЮ
-			$this->userOptions = array();
-			if (!empty($user['UserOption']))
+			$options = $this->UserOption->read(null, $this->authUser['userid']);
+			if (!empty($options['UserOption']['options']))
 			{
-				$this->userOptions = unserialize($user['UserOption']['options']);
+				$this->userOptions = unserialize($options['UserOption']['options']);
 			}
+			else
+			{
+				$this->userOptions = array('noOptions' => 1);//СОХРАНИМ ЧТО-НИБУДЬ В СЕССИЮ, ЧТОБЫ НЕ ДЕРГАТЬ БАЗУ
+			}
+
 			if (!empty($this->userOptions) && is_array($this->userOptions))
 			{
 				$this->Session->write('Profile.userOptions', $this->userOptions);
@@ -390,6 +396,8 @@ class AppController extends Controller {
         }
         
         
+
+
         $version =$this->Cookie->read('version');
         if ((($this->RequestHandler->isMobile())&& (!($version=='desk'))) ) {
            if (!$version) $this->Cookie->write('version','mob');
@@ -541,7 +549,8 @@ class AppController extends Controller {
 
         $data = Cache::read('Catalog.filmStats' . $postFix, 'default');
         if (!$data) {
-            if ($this->isWS) {
+//СЧИТАЕМ ДЛЯ ВНЕШНИХ И ДЛЯ ВНУТРЕННИХ ОДИНАКОВО            if ($this->isWS)
+			{
                 $data['count'] = $this->Film->find('count', array('conditions' => 'Film.active=1'));
                 /*
                   //ПОДСЧЕТ РАЗМЕРА ФАЙЛОВ
@@ -556,7 +565,10 @@ FROM `film_variants` AS `FilmVariant`
 LEFT JOIN `films` AS `Film` ON ( `FilmVariant`.`film_id` = `Film`.`id` )
 WHERE Film.active = 1
 LIMIT 1';
-            } else {
+            }
+/*
+            else
+            {
                 $data['count'] = $this->Film->find('count', array('conditions' => 'Film.active=1 AND Film.is_license = 1'));
 
                 $sql = 'SELECT SUM( TIME_TO_SEC( `FilmVariant`.`duration` ) ) AS size
@@ -565,6 +577,7 @@ LEFT JOIN `films` AS `Film` ON ( `FilmVariant`.`film_id` = `Film`.`id` )
 WHERE Film.active = 1 AND Film.is_license = 1
 LIMIT 1';
             }
+*/
 
             $tmp = $this->Film->FilmVariant->query($sql);
             $data['size'] = $tmp[0][0]['size'];

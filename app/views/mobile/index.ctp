@@ -65,7 +65,7 @@ if (!is_array($films)) {
 $max = $page * 10;
 if ($max >= $count) :
     ?>
-    <script langauge="javascript">
+    <script language="javascript">
         $('#TenMore').hide();
     </script>
 <? endif; ?>
