@@ -63,7 +63,7 @@ width: 60%;
     text-align: justify;
     background: #f2f8fc;
     min-height:380px;
-
+    overflow-x: auto;
 }
 #middle div.right-block {
 	float: left;
