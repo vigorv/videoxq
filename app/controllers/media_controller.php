@@ -958,7 +958,7 @@ return;//НЕПРАВИЛЬНО РАБОТАЕТ
         }
         else
         {
-        	$order=array('Film.year' => 'desc');
+        	$order=array('Film.is_license' => 'desc', 'Film.year' => 'desc');
         }
 
         if (isset($this->passedArgs["sort"]))
@@ -977,7 +977,7 @@ return;//НЕПРАВИЛЬНО РАБОТАЕТ
         }
         else
         {
-        	$order=array('Film.modified' => 'desc');
+        	//$order=array('Film.modified' => 'desc');
 	        if ((empty($this->passedArgs['page']) || $this->passedArgs['page'] == 1) && empty($this->passedArgs["search"]) && empty($this->passedArgs["ex"]) && empty($this->passedArgs["type"]) && empty($this->passedArgs["is_license"]))
 	        {
 	        	$isFirstPage = true;
@@ -1209,6 +1209,10 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
 
         if (!empty($this->params['named']['search']))
         {
+            
+
+                
+            
             //$pagination['Film']['group'] = 'Film.id';
             $search = (!empty($this->params['named']['search'])) ? trim($this->params['named']['search']) : '';
 
@@ -1342,53 +1346,29 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
     //            $this->pageTitle .= $part . ' ';
 	            $this->Metatags->insert($part, '', '');
             }
-
-
-        /******************************************************/
-        // был поиск !!! теперь нам надо сформировать условие для 'union',
-        // которое учтется в при разборе "полёта" в классе dboSource
-        // (dbo_source.php ВНИМАНИЕ!!! незабыть, что его редактировали) из
-        // библиотеки кейка
+            //---------------------------------------------------------
+            $wsmediaResult = 0;
+            $animebarResult = 0;
+            if ($this->isWS) //ЗАПРОС СЧЕТЧИКА К ДРУГИМ КАТАЛОГАМ
+            {
+                    $wsmediaResult = $this->searchWsmedia();
+                    $animebarResult = $this->searchAnimeBar();
+                    $this->set('wsmediaPostCount', count($wsmediaResult));
+                    $this->set('animebarPostCount', count($animebarResult));
+            }
+            //---------------------------------------------------------
+            /******************************************************/
+            // был поиск !!! теперь нам надо сформировать условие для 'union',
+            // которое учтется в при разборе "полёта" в классе dboSource
+            // (dbo_source.php ВНИМАНИЕ!!! незабыть, что его редактировали) из
+            // библиотеки кейка
 //*
-			$crossSearch = true; //ФЛАГ ДЛЯ ПРОВЕРКИ В ОТОБРАЖЕНИИ
-            $this->Film->union = '  (SELECT
-                                         `cacheSearch`.`id_original` AS `id`,
-                                         0 AS `film_type_id`,
-                                        `cacheSearch`.`title`,
-                                        `cacheSearch`.`title_original` AS `title_en`,
-                                         0 AS `description`,
-                                         0 AS `active`,
-                                         `cacheSearch`.`year`,
-                                         0 AS `cacheSearch_dir`,
-                                         `cacheSearch`.`created_original` AS `created`,
-                                         `cacheSearch`.`modified_original` AS `modified`,
-                                         0 AS `hits`,
-                                         0 AS `imdb_rating`,
-                                         0 AS `imdb_id`,
-                                         0 AS `imdb_votes`,
-                                         0 AS `imdb_date`,
-                                         0 AS `oscar`,
-                                         0 AS `thread_id`,
-                                         0 AS `is_license`,
-                                         0 AS `is_public`,
-                                         0 AS `just_online`,
-                                         0 AS `FilmType_id`,
-                                         0 AS `FilmType_title`,
-                                         0 AS `FilmType_title_en`,
-                                         0 AS `MediaRating_id`,
-                                         0 AS `MediaRating_num_votes`,
-                                         0 AS `MediaRating_rating`,
-                                         0 AS `MediaRating_object_id`,
-                                         0 AS `MediaRating_type`,
-                                         `cacheSearch`.`site_id`
-                                    FROM
-                                        `cache_search` AS `cacheSearch`
-                                    GROUP BY
-                                        `cacheSearch`.`id`  ) ';
+            $crossSearch = true; //ФЛАГ ДЛЯ ПРОВЕРКИ В ОТОБРАЖЕНИИ
+            $this->Film->union = array_merge($wsmediaResult, $animebarResult);
         /******************************************************/
         }
 
-
+        $this->Film->union = array(22,414,636,23);
 
         if (!empty($this->passedArgs['page']))
         {
@@ -1509,15 +1489,7 @@ echo'</pre>';
     		}
 		}
 
-		$wsmediaResult = 0;
-		$animebarResult = 0;
-		if (isset($this->params['named']['search']) && $this->isWS) //ЗАПРОС СЧЕТЧИКА К ДРУГИМ КАТАЛОГАМ
-		{
-			$wsmediaResult = $this->searchWsmedia();
-			$animebarResult = $this->searchAnimeBar();
-			$this->set('wsmediaPostCount', count($wsmediaResult));
-			$this->set('animebarPostCount', count($animebarResult));
-		}
+
 
 		$countation = $pagination;
     	unset($countation["Film"]['limit']);
