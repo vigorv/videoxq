@@ -651,31 +651,9 @@ class DboSource extends DataSource {
                 //если в параметрах модели присутствует union, преобразуем 
                 //запрос, добавив "вставку" с union
                 if (!empty($model->union)){
-             
-                  //вставим дополнительное поле в конец запроса "0 AS site_id"
-                  $query = str_replace('FROM ',', 0 AS `site_id` FROM ',$query);
-                  //возьмем отдельно 2 части до from и после, чтобы 
-                  //безболезненно поменять псевдонимы полей
-                  $n = mb_strpos ($query, 'FROM ');
-                  $select_str = mb_substr($query, 0, $n);
-                  $from_str = mb_substr($query, $n);
-                  
-                  //сделаем подстановку "AS ..." для исключения дулирующихся 
-                  //полей во второстепенных таблицах
-                  $select_str = str_replace('`FilmType`.`id`','`FilmType`.`id` AS `FilmType_id`',$select_str);
-                  $select_str = str_replace('`FilmType`.`title`','`FilmType`.`title` AS `FilmType_title`',$select_str);
-                  $select_str = str_replace('`FilmType`.`title_en`','`FilmType`.`title_en` AS `FilmType_title_en`',$select_str);
-                  $select_str = str_replace('`MediaRating`.`id`','`MediaRating`.`id` AS `MediaRating_id`',$select_str);
-                  $select_str = str_replace('`MediaRating`.`num_votes`','`MediaRating`.`num_votes` AS `MediaRating_num_votes`',$select_str);
-                  $select_str = str_replace('`MediaRating`.`rating`','`MediaRating`.`rating` AS `MediaRating_rating`',$select_str);                  
-                  $select_str = str_replace('`MediaRating`.`object_id`','`MediaRating`.`object_id` AS `MediaRating_object_id`',$select_str);
-                  $select_str = str_replace('`MediaRating`.`type`','`MediaRating`.`type` AS `MediaRating_type`',$select_str);                  
-                  
-                  //склеим обратно
-                  $query = $select_str.$from_str;
-                  
-                  /*     
-                   * оригинальные поля талицы films             
+                    
+                /*     
+                 * оригинальные поля талицы films             
                 SELECT 
                   `Film`.`id`, 
                   `Film`.`film_type_id`, 
@@ -720,22 +698,99 @@ class DboSource extends DataSource {
                    
 
 
-*/
+*/                    
+             
+                  //вставим дополнительные поля в конец 1го подзапроса (к 
+                  //таблице films)
+                  $addn_fields=',
+                    0 AS `id_original`,  
+                    0 AS `site_id`,
+                    0 AS `country`,
+                    0 AS `actors`,
+                    0 AS `directors`,
+                    0 AS `poster`,
+                    0 AS `url` ';
                   
+                  $query = str_replace('FROM ', $addn_fields . ' FROM ',$query);
+                  //возьмем отдельно 2 части до from и после, чтобы 
+                  //безболезненно поменять псевдонимы полей
+                  $n = mb_strpos ($query, 'FROM ');
+                  $select_str = mb_substr($query, 0, $n);
+                  $from_str = mb_substr($query, $n);
                   
+                  //сделаем подстановку "AS ..." для исключения дулирующихся 
+                  //полей во второстепенных таблицах
+                  $select_str = str_replace('`FilmType`.`id`','`FilmType`.`id` AS `FilmType_id`',$select_str);
+                  $select_str = str_replace('`FilmType`.`title`','`FilmType`.`title` AS `FilmType_title`',$select_str);
+                  $select_str = str_replace('`FilmType`.`title_en`','`FilmType`.`title_en` AS `FilmType_title_en`',$select_str);
+                  $select_str = str_replace('`MediaRating`.`id`','`MediaRating`.`id` AS `MediaRating_id`',$select_str);
+                  $select_str = str_replace('`MediaRating`.`num_votes`','`MediaRating`.`num_votes` AS `MediaRating_num_votes`',$select_str);
+                  $select_str = str_replace('`MediaRating`.`rating`','`MediaRating`.`rating` AS `MediaRating_rating`',$select_str);                  
+                  $select_str = str_replace('`MediaRating`.`object_id`','`MediaRating`.`object_id` AS `MediaRating_object_id`',$select_str);
+                  $select_str = str_replace('`MediaRating`.`type`','`MediaRating`.`type` AS `MediaRating_type`',$select_str);                  
                   
+                  //склеим обратно
+                  $query = $select_str.$from_str;
                   
+  
                   
                   //запомним часть строки начиная с "ORDER BY" - это 
                   //будет общим условием для union
                   $n = mb_strpos ($query, 'ORDER BY');
                   $order_str = mb_substr($query, $n);
                   $order_str = str_replace('`Film`.','',$order_str);
-                  //запопмним 1ю часть запроса
-                  $q1 = '(' . mb_substr($query, 0, $n) . ')';
+                  //запопмним 1й родзапрос
+                  $q1 = mb_substr($query, 0, $n);
+                 
+                  //формируем 2й подзапрос для union из таблицы cache_search
+                  //формируем список id для 2го подзапроса
+                  $where2 = implode(',', $model->union);
+                  $q2 = 'SELECT
+                         `cacheSearch`.`id`,
+                         0 AS `film_type_id`,
+                        `cacheSearch`.`title`,
+                        `cacheSearch`.`title_original` AS `title_en`,
+                         0 AS `description`,
+                         1 AS `active`,
+                         `cacheSearch`.`year`,
+                         0 AS `cacheSearch_dir`,
+                         `cacheSearch`.`created_original` AS `created`,
+                         `cacheSearch`.`modified_original` AS `modified`,
+                         0 AS `hits`,
+                         0 AS `imdb_rating`,
+                         0 AS `imdb_id`,
+                         0 AS `imdb_votes`,
+                         0 AS `imdb_date`,
+                         0 AS `oscar`,
+                         0 AS `thread_id`,
+                         0 AS `is_license`,
+                         0 AS `is_public`,
+                         0 AS `just_online`,
+                         0 AS `FilmType_id`,
+                         0 AS `FilmType_title`,
+                         0 AS `FilmType_title_en`,
+                         0 AS `MediaRating_id`,
+                         0 AS `MediaRating_num_votes`,
+                         0 AS `MediaRating_rating`,
+                         0 AS `MediaRating_object_id`,
+                         0 AS `MediaRating_type`,
+                         `cacheSearch`.`id_original`,
+                         `cacheSearch`.`site_id`,
+                         `cacheSearch`.`country`,
+                         `cacheSearch`.`actors`,
+                         `cacheSearch`.`directors`,
+                         `cacheSearch`.`poster`,
+                         `cacheSearch`.`url`
+
+                    FROM
+                        `cache_search` AS `cacheSearch`
+                    WHERE
+                        `cacheSearch`.`id_original` IN (' . $where2 . ')';
+
+                  
                   
                   //формируем запрос с объединением
-                  $query = $q1 . ' UNION  ' . $model->union . $order_str;
+                  $query = '(' . $q1 .  ') UNION  (' . $q2 . ') ' . $order_str;
                   //pr ($query);
 
                 }
