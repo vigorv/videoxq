@@ -1352,7 +1352,7 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
 //*
 			$crossSearch = true; //ФЛАГ ДЛЯ ПРОВЕРКИ В ОТОБРАЖЕНИИ
             $this->Film->union = '  (SELECT
-                                         `cacheSearch`.`id`,
+                                         `cacheSearch`.`id_original` AS `id`,
                                          0 AS `film_type_id`,
                                         `cacheSearch`.`title`,
                                         `cacheSearch`.`title_original` AS `title_en`,
