@@ -958,7 +958,7 @@ return;//НЕПРАВИЛЬНО РАБОТАЕТ
         }
         else
         {
-        	$order=array('Film.year' => 'desc');
+        	$order=array('Film.is_license' => 'desc', 'Film.year' => 'desc');
         }
 
         if (isset($this->passedArgs["sort"]))
@@ -977,7 +977,7 @@ return;//НЕПРАВИЛЬНО РАБОТАЕТ
         }
         else
         {
-        	$order=array('Film.modified' => 'desc');
+        	//$order=array('Film.modified' => 'desc');
 	        if ((empty($this->passedArgs['page']) || $this->passedArgs['page'] == 1) && empty($this->passedArgs["search"]) && empty($this->passedArgs["ex"]) && empty($this->passedArgs["type"]) && empty($this->passedArgs["is_license"]))
 	        {
 	        	$isFirstPage = true;

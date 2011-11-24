@@ -38,7 +38,7 @@ $zones[_STK0_] = array(
 	'178.184.0.0/14','2.60.0.0/14','194.150.128.0/19','195.162.32.0/19',
 	'195.46.96.0/19','195.112.224.0/19','212.20.0.0/18','212.94.96.0/19',
 	'212.164.0.0/16','213.210.64.0/18','213.228.64.0/18','217.18.128.0/19',
-	'217.70.96.0/19','217.116.128.0/19'
+	'217.70.96.0/19','217.116.128.0/19','176.48.0.0/14'
 	);
 	//hawk-home 178.49.115.71
 
@@ -58,6 +58,7 @@ $user_ip=$_SERVER['REMOTE_ADDR'];// Запоминаем IP
 $event= (empty($_SERVER['HTTP_REFERER'])) ? '' : $_SERVER['HTTP_REFERER'];//ссылка на новость
 
 $param= (empty($_GET['param'])) ? 0 : intval($_GET['param']);//доп параметр
+$id= (empty($_GET['id'])) ? 0 : intval($_GET['id']);//доп параметрid film
 
 function to_base($user_ip,$event,$info,$param)
 {
@@ -103,8 +104,8 @@ function to_base($user_ip,$event,$info,$param)
 
     if ($comeback)
     {
-//		header('location: http://rumedia.ws/?_openstat=dmtrO3Zra2s7Mjsz');
-//		exit;
+		header('location: http://rumedia.ws/?_openstat=dmtrO3Zra2s7Mjsz');
+		exit;
     }
 }
 
@@ -113,14 +114,10 @@ if($user_ip=='91.122.50.7'){header('location: http://ivi.ru/');exit(0);}
 
 to_base($user_ip,$event,$b_info, $param);
 
-	switch ($param)
-	{
-		case 20:
-		    $uri = '/media/?_openstat=0Y_QvdC00LXQutGBINC00LjRgNC10LrRgiA70LrQvtC80L_QsNC90LjRjyDQv9C-INCh0KTQniA70L_RgNC-INGE0LjQu9GM0LzRiyA70LrQvtC90YLQtdC60YHRgiDQvdCwINGP0L3QtNC10LrRgdC1IA';
-		break;
-		default:
-		$uri = '/media';
-	}
+	$uri = '/media';
+	if($id>0)$uri.='/view/'.$id;
+	if($param==20)$uri.='/?_openstat=0Y_QvdC00LXQutGBINC00LjRgNC10LrRgiA70LrQvtC80L_QsNC90LjRjyDQv9C-INCh0KTQniA70L_RgNC-INGE0LjQu9GM0LzRiyA70LrQvtC90YLQtdC60YHRgiDQvdCwINGP0L3QtNC10LrRgdC1IA';
+	//echo $uri;
 	header('location: ' . $uri);
 }
 else
