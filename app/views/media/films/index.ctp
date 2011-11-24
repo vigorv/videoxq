@@ -66,7 +66,12 @@ if ((count($films) == 0) || (!empty($wsmediaPostCount)) || (!empty($animebarPost
 		echo "<h2>" . __('Find in catalogs', true) . " (" . implode(', ', $cLinks) . ")</h2>";
 	}
 }
-
+//*
+if ($crossSearch)
+{
+	pr($films);
+}
+//*/
 if (!empty($films))
 	foreach ($films as $row) {
     	extract($row);
@@ -104,14 +109,14 @@ if (($Film['is_license'] || $isWS) && (!empty($FilmVariant)))
 	{
 ?>
 			<div class="hd"><img src="/img/vusic/<?=$title?>.gif" alt="<?=$title?>" title="<?=$title?>" /></div>
-            
+
 <?php
 	}
     if (!empty($Film['site_id'])) // вывод логотипа сайта с которого пришел фильм (анимебар или румедиа)
     {
-        
+
     echo '<div class="logo"><img src="/img/vusic/'.$side_id.'.png" alt="'.$side_id.'" title="'.$side_id.'" /></div>';
-   
+
     }
 }
 ?>

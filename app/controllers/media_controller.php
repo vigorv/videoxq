@@ -1205,6 +1205,7 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
                                         )), false);
         }
 
+		$crossSearch = false; //ФЛАГ ДЛЯ ПРОВЕРКИ В ОТОБРАЖЕНИИ
 
         if (!empty($this->params['named']['search']))
         {
@@ -1349,6 +1350,7 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
         // (dbo_source.php ВНИМАНИЕ!!! незабыть, что его редактировали) из
         // библиотеки кейка
 //*
+			$crossSearch = true; //ФЛАГ ДЛЯ ПРОВЕРКИ В ОТОБРАЖЕНИИ
             $this->Film->union = '  (SELECT
                                          `cacheSearch`.`id`,
                                          0 AS `film_type_id`,
@@ -1622,6 +1624,7 @@ echo'</pre>';
     	$pageCount = intval($filmCount / $pagination['Film']['limit'] + 1);
     	$this->set('filmCount', $filmCount);
     	$this->set('pageCount', $pageCount);
+    	$this->set('crossSearch', $crossSearch);
 
 //*/
 	//}
