@@ -650,7 +650,11 @@ class DboSource extends DataSource {
 		$query = $this->generateAssociationQuery($model, $null, null, null, null, $queryData, false, $null);
                 //если в параметрах модели присутствует union, преобразуем 
                 //запрос, добавив "вставку" с union
-                if (!empty($model->union)){
+                //дбавим костылик, так как кто-то помденяет нормальный длинный 
+                //запрос на короткий без join'ов, а без них то нам нечего делать 
+                //)))))
+                
+                if ((!empty($model->union)) && (mb_strpos($query, 'JOIN '))>0){
                     
                 /*     
                  * оригинальные поля талицы films             
@@ -699,8 +703,8 @@ class DboSource extends DataSource {
 
 
 */                    
-                   pr('Начальный сформированый запрос:');
-                   pr($query);
+//                   pr('Начальный сформированый запрос:');
+//                   pr($query);
                   //вставим дополнительные поля в конец 1го подзапроса (к 
                   //таблице films)
                   $addn_fields=',
@@ -733,8 +737,8 @@ class DboSource extends DataSource {
                   
                   //склеим обратно
                   $query = $select_str.$from_str;
-                  pr('Измененный запрос:');
-                  pr($query);
+//                  pr('Измененный запрос:');
+//                  pr($query);
   
                   
                   //запомним часть строки начиная с "ORDER BY" - это 
@@ -794,8 +798,8 @@ class DboSource extends DataSource {
                   
                   //формируем запрос с объединением
                   $query = '(' . $q1 .  ') UNION  (' . $q2 . ') ' . $order_str;
-                  pr('Конечный запрос:');
-                  pr ($query);
+//                  pr('Конечный запрос:');
+//                  pr ($query);
 
                 }
                 
