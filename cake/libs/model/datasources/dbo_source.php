@@ -791,7 +791,7 @@ class DboSource extends DataSource {
                   
                   //формируем запрос с объединением
                   $query = '(' . $q1 .  ') UNION  (' . $q2 . ') ' . $order_str;
-                  //pr ($query);
+                  pr ($query);
 
                 }
                 
@@ -822,7 +822,14 @@ class DboSource extends DataSource {
                                 'thread_id' => $row[0]['thread_id'],
                                 'is_license' => $row[0]['is_license'],
                                 'is_public' => $row[0]['is_public'],
-                                'just_online' => $row[0]['just_online']
+                                'just_online' => $row[0]['just_online'],
+                                'id_original'=> $row[0]['id_original'],
+                                'site_id' => $row[0]['site_id'],
+                                'country' => $row[0]['country'],
+                                'actors' => $row[0]['actors'],
+                                'directors' => $row[0]['directors'],
+                                'poster' => $row[0]['poster'],
+                                'url' => $row[0]['url']
                                 ),
                             'FilmType' => array(
                                 'id' => $row[0]['FilmType_id'],
