@@ -1368,7 +1368,7 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
         /******************************************************/
         }
 
-        $this->Film->union = array(22,414,636,23);
+        
 
         if (!empty($this->passedArgs['page']))
         {
