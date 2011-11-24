@@ -1204,11 +1204,135 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
                                           )
                                         )), false);
         }
+        
+        $out='';
+        $outCount='';
+        $name=$this->passedArgs;
+        //$name=array();
+        ksort($name);
+        foreach ($name as $k =>$v)
+        {
+            //if ($k == 'search') continue; //РЕЗУЛЬТАТЫ ПОИСКА НЕКЭШИРУЕМ
 
-		$crossSearch = false; //ФЛАГ ДЛЯ ПРОВЕРКИ В ОТОБРАЖЕНИИ
+            $out.=$k."_".$v."_";
+            if ($k <> 'page')
+                    $outCount.=$k."_".$v."_";
+        }
+
+	$countation = $pagination;
+    	unset($countation["Film"]['limit']);
+    	unset($countation["Film"]['page']);
+    	unset($countation["Film"]['contain']);
+    	unset($countation["Film"]['order']);
+    	unset($countation["Film"]['group']);
+    	unset($countation["Film"]['fields']);
+
+    	if ($isFirstPage)
+    	{
+	    	unset($countation["Film"]['conditions']);
+	    	$countation["Film"]['conditions'][] = array('Film.active' => 1);
+    	}
+
+        if (!empty($this->params['named']['country']))
+        {
+            $countation['Film']['contain'][] = 'CountriesFilm';
+            $countation['Film']['contain'][] = 'Country';
+        }
+
+        if (!empty($this->params['named']['type']))
+        {
+            $countation['Film']['contain'][] = 'FilmType';
+        }
+
+        if (!empty($this->params['named']['genre']))
+        {
+            $countation['Film']['contain'][] = 'FilmsGenre';
+            $countation['Film']['contain'][] = 'Genre';
+        }
+
+       	$filmCount = Cache::read('Catalog.' . $postFix . 'count_'.$outCount, 'searchres');
+//pr($countation);
+//$countation2 = $pagination;
+//unset ($countation2['Film']['limit']);
+
+
+		if (empty($filmCount))
+		{
+                    if ((empty($this->passedArgs['type'])) && (empty($this->passedArgs['genre'])) && (empty($this->passedArgs['country'])))
+			$this->Film->contain(array());//НА ГЛАВНОЙ КОЛИЧЕСТВО ФИЛЬМОВ БЕЗ ПОДЗАПРОСОВ МОЖНО ПОДСЧИТАТЬ
+/*[A2]*********************************************************
+ * 15-09-2011
+ * модификация массива предыдущего запроса из $pagination['Film'], для
+ * вычисления общего количества строк в нем, оставляем параметры поиска.
+ * Удаляем limit, page, contain, order - для уменьшения нагрузки
+ * добавляем 'count(`Film`.`id`) as countrec' - но оно счиает, почему-то
+ * количество genres указаных в параметре поиска через join, поэтому получаем
+ * общее количество строк в массив и подсчитываем его, освобождая затем
+ * занятые всем этим делом переменные
+ **********************************************************/
+
+                    $countation = $pagination;
+                    //pr($countation);
+                    unset($countation["Film"]['limit']);
+                    unset($countation["Film"]['page']);
+                    unset($countation["Film"]['contain']);
+                    unset($countation["Film"]['order']);
+
+                    if ($isFirstPage)
+                    {
+                        unset($countation["Film"]['conditions']);
+                        $countation["Film"]['conditions'][] = array('Film.active' => 1);
+                    }
+                    if (!empty($this->params['named']['country']))
+                    {
+                        $countation['Film']['contain'][] = 'CountriesFilm';
+                        $countation['Film']['contain'][] = 'Country';
+                    }
+                    if (!empty($this->params['named']['type']))
+                    {
+                        $countation['Film']['contain'][] = 'FilmType';
+                    }
+                    if (!empty($this->params['named']['genre']))
+                    {
+                        //$countation['Film']['contain'][] = 'FilmsGenre';
+                        //$countation['Film']['contain'][] = 'Genre';
+                    }
+                    $countation['Film']['fields'] = array();
+                    $countation['Film']['fields'][] = 'count(`Film`.`id`) as countrec' ;
+                    //pr($countation);
+                    $filmCount_arr = $this->Film->find('all', $countation["Film"]);
+
+                    //pr($filmCount_arr[0]['countrec']);
+
+                    $filmCount = count($filmCount_arr);
+                    unset ($countation);
+                    unset ($filmCount_arr);
+                    //pr($filmCount);
+                    //exit;
+/*[/A2]***********************************************************/
+
+// старый вариант - глючный--------------------------
+//                    $filmCount = $this->Film->find('count', $countation2['Film']);
+//                    pr($countation["Film"]);
+//---------------------------------------------------
+    		if ((isset($this->passedArgs['page'])) && $filmCount)
+    		{
+		    	Cache::write('Catalog.' . $postFix . 'count_'.$outCount, $filmCount, 'searchres');
+    		}
+		}
+
+    	$pageCount = intval($filmCount / $pagination['Film']['limit'] + 1);
+    	$this->set('filmCount', $filmCount);
+    	$this->set('pageCount', $pageCount);
+        
+	$crossSearch = false; //ФЛАГ ДЛЯ ПРОВЕРКИ В ОТОБРАЖЕНИИ
 
         if (!empty($this->params['named']['search']))
         {
+            
+
+                
+            
             //$pagination['Film']['group'] = 'Film.id';
             $search = (!empty($this->params['named']['search'])) ? trim($this->params['named']['search']) : '';
 
@@ -1342,53 +1466,29 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
     //            $this->pageTitle .= $part . ' ';
 	            $this->Metatags->insert($part, '', '');
             }
-
-
-        /******************************************************/
-        // был поиск !!! теперь нам надо сформировать условие для 'union',
-        // которое учтется в при разборе "полёта" в классе dboSource
-        // (dbo_source.php ВНИМАНИЕ!!! незабыть, что его редактировали) из
-        // библиотеки кейка
+            //---------------------------------------------------------
+            $wsmediaResult = 0;
+            $animebarResult = 0;
+            if ($this->isWS) //ЗАПРОС СЧЕТЧИКА К ДРУГИМ КАТАЛОГАМ
+            {
+                    $wsmediaResult = $this->searchWsmedia();
+                    $animebarResult = $this->searchAnimeBar();
+                    $this->set('wsmediaPostCount', count($wsmediaResult));
+                    $this->set('animebarPostCount', count($animebarResult));
+            }
+            //---------------------------------------------------------
+            /******************************************************/
+            // был поиск !!! теперь нам надо сформировать условие для 'union',
+            // которое учтется в при разборе "полёта" в классе dboSource
+            // (dbo_source.php ВНИМАНИЕ!!! незабыть, что его редактировали) из
+            // библиотеки кейка
 //*
-			$crossSearch = true; //ФЛАГ ДЛЯ ПРОВЕРКИ В ОТОБРАЖЕНИИ
-            $this->Film->union = '  (SELECT
-                                         `cacheSearch`.`id`,
-                                         0 AS `film_type_id`,
-                                        `cacheSearch`.`title`,
-                                        `cacheSearch`.`title_original` AS `title_en`,
-                                         0 AS `description`,
-                                         0 AS `active`,
-                                         `cacheSearch`.`year`,
-                                         0 AS `cacheSearch_dir`,
-                                         `cacheSearch`.`created_original` AS `created`,
-                                         `cacheSearch`.`modified_original` AS `modified`,
-                                         0 AS `hits`,
-                                         0 AS `imdb_rating`,
-                                         0 AS `imdb_id`,
-                                         0 AS `imdb_votes`,
-                                         0 AS `imdb_date`,
-                                         0 AS `oscar`,
-                                         0 AS `thread_id`,
-                                         0 AS `is_license`,
-                                         0 AS `is_public`,
-                                         0 AS `just_online`,
-                                         0 AS `FilmType_id`,
-                                         0 AS `FilmType_title`,
-                                         0 AS `FilmType_title_en`,
-                                         0 AS `MediaRating_id`,
-                                         0 AS `MediaRating_num_votes`,
-                                         0 AS `MediaRating_rating`,
-                                         0 AS `MediaRating_object_id`,
-                                         0 AS `MediaRating_type`,
-                                         `cacheSearch`.`site_id`
-                                    FROM
-                                        `cache_search` AS `cacheSearch`
-                                    GROUP BY
-                                        `cacheSearch`.`id`  ) ';
+            $crossSearch = true; //ФЛАГ ДЛЯ ПРОВЕРКИ В ОТОБРАЖЕНИИ
+            $this->Film->union = array_merge($wsmediaResult, $animebarResult);
         /******************************************************/
         }
 
-
+        
 
         if (!empty($this->passedArgs['page']))
         {
@@ -1400,19 +1500,7 @@ echo'<pre>';
 var_dump($pagination);
 echo'</pre>';
 */
-    $out='';
-    $outCount='';
-    $name=$this->passedArgs;
-    //$name=array();
-    ksort($name);
-    foreach ($name as $k =>$v)
-    {
-    	//if ($k == 'search') continue; //РЕЗУЛЬТАТЫ ПОИСКА НЕКЭШИРУЕМ
 
-        $out.=$k."_".$v."_";
-        if ($k <> 'page')
-        	$outCount.=$k."_".$v."_";
-    }
     //pr($name);
 //*
 
@@ -1509,121 +1597,9 @@ echo'</pre>';
     		}
 		}
 
-		$wsmediaResult = 0;
-		$animebarResult = 0;
-		if (isset($this->params['named']['search']) && $this->isWS) //ЗАПРОС СЧЕТЧИКА К ДРУГИМ КАТАЛОГАМ
-		{
-			$wsmediaResult = $this->searchWsmedia();
-			$animebarResult = $this->searchAnimeBar();
-			$this->set('wsmediaPostCount', count($wsmediaResult));
-			$this->set('animebarPostCount', count($animebarResult));
-		}
-
-		$countation = $pagination;
-    	unset($countation["Film"]['limit']);
-    	unset($countation["Film"]['page']);
-    	unset($countation["Film"]['contain']);
-    	unset($countation["Film"]['order']);
-    	unset($countation["Film"]['group']);
-    	unset($countation["Film"]['fields']);
-
-    	if ($isFirstPage)
-    	{
-	    	unset($countation["Film"]['conditions']);
-	    	$countation["Film"]['conditions'][] = array('Film.active' => 1);
-    	}
-
-        if (!empty($this->params['named']['country']))
-        {
-            $countation['Film']['contain'][] = 'CountriesFilm';
-            $countation['Film']['contain'][] = 'Country';
-        }
-
-        if (!empty($this->params['named']['type']))
-        {
-            $countation['Film']['contain'][] = 'FilmType';
-        }
-
-        if (!empty($this->params['named']['genre']))
-        {
-            $countation['Film']['contain'][] = 'FilmsGenre';
-            $countation['Film']['contain'][] = 'Genre';
-        }
-
-       	$filmCount = Cache::read('Catalog.' . $postFix . 'count_'.$outCount, 'searchres');
-//pr($countation);
-//$countation2 = $pagination;
-//unset ($countation2['Film']['limit']);
 
 
-		if (empty($filmCount))
-		{
-                    if ((empty($this->passedArgs['type'])) && (empty($this->passedArgs['genre'])) && (empty($this->passedArgs['country'])))
-			$this->Film->contain(array());//НА ГЛАВНОЙ КОЛИЧЕСТВО ФИЛЬМОВ БЕЗ ПОДЗАПРОСОВ МОЖНО ПОДСЧИТАТЬ
-/*[A2]*********************************************************
- * 15-09-2011
- * модификация массива предыдущего запроса из $pagination['Film'], для
- * вычисления общего количества строк в нем, оставляем параметры поиска.
- * Удаляем limit, page, contain, order - для уменьшения нагрузки
- * добавляем 'count(`Film`.`id`) as countrec' - но оно счиает, почему-то
- * количество genres указаных в параметре поиска через join, поэтому получаем
- * общее количество строк в массив и подсчитываем его, освобождая затем
- * занятые всем этим делом переменные
- **********************************************************/
 
-                    $countation = $pagination;
-                    //pr($countation);
-                    unset($countation["Film"]['limit']);
-                    unset($countation["Film"]['page']);
-                    unset($countation["Film"]['contain']);
-                    unset($countation["Film"]['order']);
-
-                    if ($isFirstPage)
-                    {
-                        unset($countation["Film"]['conditions']);
-                        $countation["Film"]['conditions'][] = array('Film.active' => 1);
-                    }
-                    if (!empty($this->params['named']['country']))
-                    {
-                        $countation['Film']['contain'][] = 'CountriesFilm';
-                        $countation['Film']['contain'][] = 'Country';
-                    }
-                    if (!empty($this->params['named']['type']))
-                    {
-                        $countation['Film']['contain'][] = 'FilmType';
-                    }
-                    if (!empty($this->params['named']['genre']))
-                    {
-                        //$countation['Film']['contain'][] = 'FilmsGenre';
-                        //$countation['Film']['contain'][] = 'Genre';
-                    }
-                    $countation['Film']['fields'] = array();
-                    $countation['Film']['fields'][] = 'count(`Film`.`id`) as countrec' ;
-                    //pr($countation);
-                    $filmCount_arr = $this->Film->find('all', $countation["Film"]);
-
-                    //pr($filmCount_arr[0]['countrec']);
-
-                    $filmCount = count($filmCount_arr);
-                    unset ($countation);
-                    unset ($filmCount_arr);
-                    //pr($filmCount);
-                    //exit;
-/*[/A2]***********************************************************/
-
-// старый вариант - глючный--------------------------
-//                    $filmCount = $this->Film->find('count', $countation2['Film']);
-//                    pr($countation["Film"]);
-//---------------------------------------------------
-    		if ((isset($this->passedArgs['page'])) && $filmCount)
-    		{
-		    	Cache::write('Catalog.' . $postFix . 'count_'.$outCount, $filmCount, 'searchres');
-    		}
-		}
-
-    	$pageCount = intval($filmCount / $pagination['Film']['limit'] + 1);
-    	$this->set('filmCount', $filmCount);
-    	$this->set('pageCount', $pageCount);
     	$this->set('crossSearch', $crossSearch);
 
 //*/
@@ -1877,6 +1853,7 @@ echo'</pre>';
      */
     function looksLike($title)
     {
+return array();
     	$films = array(); $searchFor = '';
     	$pos = mb_strpos(mb_strtolower($title), __('season', true));
 /*

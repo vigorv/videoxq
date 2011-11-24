@@ -112,15 +112,18 @@ if (($Film['is_license'] || $isWS) && (!empty($FilmVariant)))
 
 <?php
 	}
+}
     if (!empty($Film['site_id'])) // вывод логотипа сайта с которого пришел фильм (анимебар или румедиа)
     {
-
-    echo '<div class="logo"><img src="/img/vusic/'.$side_id.'.png" alt="'.$side_id.'" title="'.$side_id.'" /></div>';
-
+    	echo '<div class="logo"><img src="/img/vusic/' . $Film['site_id'] . '.png" alt="' . $Film['site_id'] . '" title="' . $Film['site_id'] . '" /></div>';
     }
-}
+
 ?>
         <div class="poster">
+<?php
+	if (empty($Film['site_id']))
+	{
+?>
         <a href="/media/view/<?= $Film['id']?>">
             <?
             if (!empty($FilmPicture[0]['file_name']))
@@ -129,13 +132,30 @@ if (($Film['is_license'] || $isWS) && (!empty($FilmVariant)))
                 echo $html->image('/img/vusic/noposter.jpg', array('width' => 80)); ?>
          </a>
             <div class="ratings rated_<?= round($MediaRating['rating']) ?>"><div></div></div>
-            <?php
+<?php
             if ($Film['imdb_rating'] != 0)
                 echo '<span class="imdb">IMDb: ' . $Film['imdb_rating'] . '</span>';
-            ?>
+	}
+	else
+	{	//ВЫВОД ПОСТЕРА ВНЕШНЕГО САЙТА
+		if (empty($Film["poster"]))
+		{
+			$posterSrc = '/img/vusic/noposter.jpg';
+		}
+		else
+		{
+			$posterSrc = $Film["poster"];
+		}
+
+		echo '<a href="' . $Film['id'] . '"><img src="' . $posterSrc . '" width="80" /></a>';
+	}
+?>
         </div>
         <p class="text">
             <?php
+	if (empty($Film['site_id']))
+	{
+
 $directors = array();
 $actors = array();
 foreach ($Person as $data)
@@ -179,6 +199,16 @@ echo implode(', ', $actors);
             	else
             		echo $app->implodeWithParams(' / ', $Genre, 'title', ' ', 2);
             ?></em>
+<?php
+	}
+	else
+	{
+		echo $Film['directors'];
+		echo $Film['year'];
+		echo '<span>«<a href="' . $Film['url'] . '">' . $Film['title' . $langFix] . '</a>»</span>';
+		echo $Film['actors'];
+	}
+?>
         </p>
     </div>
 <?php
