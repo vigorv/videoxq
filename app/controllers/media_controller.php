@@ -1204,8 +1204,128 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
                                           )
                                         )), false);
         }
+        
+        $out='';
+        $outCount='';
+        $name=$this->passedArgs;
+        //$name=array();
+        ksort($name);
+        foreach ($name as $k =>$v)
+        {
+            //if ($k == 'search') continue; //РЕЗУЛЬТАТЫ ПОИСКА НЕКЭШИРУЕМ
 
-		$crossSearch = false; //ФЛАГ ДЛЯ ПРОВЕРКИ В ОТОБРАЖЕНИИ
+            $out.=$k."_".$v."_";
+            if ($k <> 'page')
+                    $outCount.=$k."_".$v."_";
+        }
+
+	$countation = $pagination;
+    	unset($countation["Film"]['limit']);
+    	unset($countation["Film"]['page']);
+    	unset($countation["Film"]['contain']);
+    	unset($countation["Film"]['order']);
+    	unset($countation["Film"]['group']);
+    	unset($countation["Film"]['fields']);
+
+    	if ($isFirstPage)
+    	{
+	    	unset($countation["Film"]['conditions']);
+	    	$countation["Film"]['conditions'][] = array('Film.active' => 1);
+    	}
+
+        if (!empty($this->params['named']['country']))
+        {
+            $countation['Film']['contain'][] = 'CountriesFilm';
+            $countation['Film']['contain'][] = 'Country';
+        }
+
+        if (!empty($this->params['named']['type']))
+        {
+            $countation['Film']['contain'][] = 'FilmType';
+        }
+
+        if (!empty($this->params['named']['genre']))
+        {
+            $countation['Film']['contain'][] = 'FilmsGenre';
+            $countation['Film']['contain'][] = 'Genre';
+        }
+
+       	$filmCount = Cache::read('Catalog.' . $postFix . 'count_'.$outCount, 'searchres');
+//pr($countation);
+//$countation2 = $pagination;
+//unset ($countation2['Film']['limit']);
+
+
+		if (empty($filmCount))
+		{
+                    if ((empty($this->passedArgs['type'])) && (empty($this->passedArgs['genre'])) && (empty($this->passedArgs['country'])))
+			$this->Film->contain(array());//НА ГЛАВНОЙ КОЛИЧЕСТВО ФИЛЬМОВ БЕЗ ПОДЗАПРОСОВ МОЖНО ПОДСЧИТАТЬ
+/*[A2]*********************************************************
+ * 15-09-2011
+ * модификация массива предыдущего запроса из $pagination['Film'], для
+ * вычисления общего количества строк в нем, оставляем параметры поиска.
+ * Удаляем limit, page, contain, order - для уменьшения нагрузки
+ * добавляем 'count(`Film`.`id`) as countrec' - но оно счиает, почему-то
+ * количество genres указаных в параметре поиска через join, поэтому получаем
+ * общее количество строк в массив и подсчитываем его, освобождая затем
+ * занятые всем этим делом переменные
+ **********************************************************/
+
+                    $countation = $pagination;
+                    //pr($countation);
+                    unset($countation["Film"]['limit']);
+                    unset($countation["Film"]['page']);
+                    unset($countation["Film"]['contain']);
+                    unset($countation["Film"]['order']);
+
+                    if ($isFirstPage)
+                    {
+                        unset($countation["Film"]['conditions']);
+                        $countation["Film"]['conditions'][] = array('Film.active' => 1);
+                    }
+                    if (!empty($this->params['named']['country']))
+                    {
+                        $countation['Film']['contain'][] = 'CountriesFilm';
+                        $countation['Film']['contain'][] = 'Country';
+                    }
+                    if (!empty($this->params['named']['type']))
+                    {
+                        $countation['Film']['contain'][] = 'FilmType';
+                    }
+                    if (!empty($this->params['named']['genre']))
+                    {
+                        //$countation['Film']['contain'][] = 'FilmsGenre';
+                        //$countation['Film']['contain'][] = 'Genre';
+                    }
+                    $countation['Film']['fields'] = array();
+                    $countation['Film']['fields'][] = 'count(`Film`.`id`) as countrec' ;
+                    //pr($countation);
+                    $filmCount_arr = $this->Film->find('all', $countation["Film"]);
+
+                    //pr($filmCount_arr[0]['countrec']);
+
+                    $filmCount = count($filmCount_arr);
+                    unset ($countation);
+                    unset ($filmCount_arr);
+                    //pr($filmCount);
+                    //exit;
+/*[/A2]***********************************************************/
+
+// старый вариант - глючный--------------------------
+//                    $filmCount = $this->Film->find('count', $countation2['Film']);
+//                    pr($countation["Film"]);
+//---------------------------------------------------
+    		if ((isset($this->passedArgs['page'])) && $filmCount)
+    		{
+		    	Cache::write('Catalog.' . $postFix . 'count_'.$outCount, $filmCount, 'searchres');
+    		}
+		}
+
+    	$pageCount = intval($filmCount / $pagination['Film']['limit'] + 1);
+    	$this->set('filmCount', $filmCount);
+    	$this->set('pageCount', $pageCount);
+        
+	$crossSearch = false; //ФЛАГ ДЛЯ ПРОВЕРКИ В ОТОБРАЖЕНИИ
 
         if (!empty($this->params['named']['search']))
         {
@@ -1380,19 +1500,7 @@ echo'<pre>';
 var_dump($pagination);
 echo'</pre>';
 */
-    $out='';
-    $outCount='';
-    $name=$this->passedArgs;
-    //$name=array();
-    ksort($name);
-    foreach ($name as $k =>$v)
-    {
-    	//if ($k == 'search') continue; //РЕЗУЛЬТАТЫ ПОИСКА НЕКЭШИРУЕМ
 
-        $out.=$k."_".$v."_";
-        if ($k <> 'page')
-        	$outCount.=$k."_".$v."_";
-    }
     //pr($name);
 //*
 
@@ -1491,111 +1599,7 @@ echo'</pre>';
 
 
 
-		$countation = $pagination;
-    	unset($countation["Film"]['limit']);
-    	unset($countation["Film"]['page']);
-    	unset($countation["Film"]['contain']);
-    	unset($countation["Film"]['order']);
-    	unset($countation["Film"]['group']);
-    	unset($countation["Film"]['fields']);
 
-    	if ($isFirstPage)
-    	{
-	    	unset($countation["Film"]['conditions']);
-	    	$countation["Film"]['conditions'][] = array('Film.active' => 1);
-    	}
-
-        if (!empty($this->params['named']['country']))
-        {
-            $countation['Film']['contain'][] = 'CountriesFilm';
-            $countation['Film']['contain'][] = 'Country';
-        }
-
-        if (!empty($this->params['named']['type']))
-        {
-            $countation['Film']['contain'][] = 'FilmType';
-        }
-
-        if (!empty($this->params['named']['genre']))
-        {
-            $countation['Film']['contain'][] = 'FilmsGenre';
-            $countation['Film']['contain'][] = 'Genre';
-        }
-
-       	$filmCount = Cache::read('Catalog.' . $postFix . 'count_'.$outCount, 'searchres');
-//pr($countation);
-//$countation2 = $pagination;
-//unset ($countation2['Film']['limit']);
-
-
-		if (empty($filmCount))
-		{
-                    if ((empty($this->passedArgs['type'])) && (empty($this->passedArgs['genre'])) && (empty($this->passedArgs['country'])))
-			$this->Film->contain(array());//НА ГЛАВНОЙ КОЛИЧЕСТВО ФИЛЬМОВ БЕЗ ПОДЗАПРОСОВ МОЖНО ПОДСЧИТАТЬ
-/*[A2]*********************************************************
- * 15-09-2011
- * модификация массива предыдущего запроса из $pagination['Film'], для
- * вычисления общего количества строк в нем, оставляем параметры поиска.
- * Удаляем limit, page, contain, order - для уменьшения нагрузки
- * добавляем 'count(`Film`.`id`) as countrec' - но оно счиает, почему-то
- * количество genres указаных в параметре поиска через join, поэтому получаем
- * общее количество строк в массив и подсчитываем его, освобождая затем
- * занятые всем этим делом переменные
- **********************************************************/
-
-                    $countation = $pagination;
-                    //pr($countation);
-                    unset($countation["Film"]['limit']);
-                    unset($countation["Film"]['page']);
-                    unset($countation["Film"]['contain']);
-                    unset($countation["Film"]['order']);
-
-                    if ($isFirstPage)
-                    {
-                        unset($countation["Film"]['conditions']);
-                        $countation["Film"]['conditions'][] = array('Film.active' => 1);
-                    }
-                    if (!empty($this->params['named']['country']))
-                    {
-                        $countation['Film']['contain'][] = 'CountriesFilm';
-                        $countation['Film']['contain'][] = 'Country';
-                    }
-                    if (!empty($this->params['named']['type']))
-                    {
-                        $countation['Film']['contain'][] = 'FilmType';
-                    }
-                    if (!empty($this->params['named']['genre']))
-                    {
-                        //$countation['Film']['contain'][] = 'FilmsGenre';
-                        //$countation['Film']['contain'][] = 'Genre';
-                    }
-                    $countation['Film']['fields'] = array();
-                    $countation['Film']['fields'][] = 'count(`Film`.`id`) as countrec' ;
-                    //pr($countation);
-                    $filmCount_arr = $this->Film->find('all', $countation["Film"]);
-
-                    //pr($filmCount_arr[0]['countrec']);
-
-                    $filmCount = count($filmCount_arr);
-                    unset ($countation);
-                    unset ($filmCount_arr);
-                    //pr($filmCount);
-                    //exit;
-/*[/A2]***********************************************************/
-
-// старый вариант - глючный--------------------------
-//                    $filmCount = $this->Film->find('count', $countation2['Film']);
-//                    pr($countation["Film"]);
-//---------------------------------------------------
-    		if ((isset($this->passedArgs['page'])) && $filmCount)
-    		{
-		    	Cache::write('Catalog.' . $postFix . 'count_'.$outCount, $filmCount, 'searchres');
-    		}
-		}
-
-    	$pageCount = intval($filmCount / $pagination['Film']['limit'] + 1);
-    	$this->set('filmCount', $filmCount);
-    	$this->set('pageCount', $pageCount);
     	$this->set('crossSearch', $crossSearch);
 
 //*/
