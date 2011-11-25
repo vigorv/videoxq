@@ -603,7 +603,7 @@ class DboSource extends DataSource {
  */
 	function read(&$model, $queryData = array(), $recursive = null) {
 		$queryData = $this->__scrubQueryData($queryData);
-                if ((!empty($model->union)){
+                if (!empty($model->union)){
                     pr('queryData:');
                     pr($queryData);                    
                 }
@@ -650,7 +650,7 @@ class DboSource extends DataSource {
 			}
 		}
                 
-                if ((!empty($model->union)){
+                if (!empty($model->union)){
                     pr('queryData:');
                     pr($queryData);                    
                 }
