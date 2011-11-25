@@ -1046,8 +1046,9 @@ class Film extends MediaModel {
 
         foreach ($pics as $image) {
             $image = trim($image);
-            if (empty($image) or (strlen($image) < 2))
+            if (empty($image) or (strlen($image) < 4))
                 continue;
+            echo $image;
             $values[] = '(\'' . $image . '\', \'' . $film['id'] . '\', \'' . $type . '\')';
             if ($type != 'frame')
                 $picturesCmd .= $picturesFrom . $image . '" ' . $picturesTo . $image . "\"\r\n";
