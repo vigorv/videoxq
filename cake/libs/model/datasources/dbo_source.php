@@ -603,8 +603,10 @@ class DboSource extends DataSource {
  */
 	function read(&$model, $queryData = array(), $recursive = null) {
 		$queryData = $this->__scrubQueryData($queryData);
-                pr('queryData:');
-                pr($queryData);
+                if ((!empty($model->union)){
+                    pr('queryData:');
+                    pr($queryData);                    
+                }
 		$null = null;
 		$array = array();
 		$linkedModels = array();
@@ -648,8 +650,10 @@ class DboSource extends DataSource {
 			}
 		}
                 
-                pr('queryData:');
-                pr($queryData);
+                if ((!empty($model->union)){
+                    pr('queryData:');
+                    pr($queryData);                    
+                }
                 
 		$query = $this->generateAssociationQuery($model, $null, null, null, null, $queryData, false, $null);
                 //если в параметрах модели присутствует union, преобразуем 
