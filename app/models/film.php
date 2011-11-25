@@ -688,7 +688,7 @@ class Film extends MediaModel {
         $this->setDataSource($this->useDbConfig);
         $limit = ' LIMIT %s, %s';
         $page = 1;
-        $perPage = 50;
+        $perPage = 100;
         $sql = 'SELECT * FROM films ' . $date;
         $query = $sql . sprintf($limit, $page - 1, $perPage);
 
@@ -721,7 +721,7 @@ class Film extends MediaModel {
                 $BigPosters = explode("\n", $BigPosters);
                 $Frames = explode("\n", $Frames);
 
-                echo $BigPosters;
+                pr($BigPosters);
                 
 //                $this->FilmPicture->deleteAll(array('film_id' => $ID));
           //      $filmFiles = $this->query('select * from files where FilmID = ' . $ID);
