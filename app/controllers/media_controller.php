@@ -1204,7 +1204,7 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
                                           )
                                         )), false);
         }
-        
+
         $out='';
         $outCount='';
         $name=$this->passedArgs;
@@ -1324,15 +1324,15 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
     	$pageCount = intval($filmCount / $pagination['Film']['limit'] + 1);
     	$this->set('filmCount', $filmCount);
     	$this->set('pageCount', $pageCount);
-        
+
 	$crossSearch = false; //ФЛАГ ДЛЯ ПРОВЕРКИ В ОТОБРАЖЕНИИ
 
         if (!empty($this->params['named']['search']))
         {
-            
 
-                
-            
+
+
+
             //$pagination['Film']['group'] = 'Film.id';
             $search = (!empty($this->params['named']['search'])) ? trim($this->params['named']['search']) : '';
 
@@ -1482,13 +1482,13 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
             // которое учтется в при разборе "полёта" в классе dboSource
             // (dbo_source.php ВНИМАНИЕ!!! незабыть, что его редактировали) из
             // библиотеки кейка
-//*
+/*
             $crossSearch = true; //ФЛАГ ДЛЯ ПРОВЕРКИ В ОТОБРАЖЕНИИ
             $this->Film->union = array_merge($wsmediaResult, $animebarResult);
         /******************************************************/
         }
 
-        
+
 
         if (!empty($this->passedArgs['page']))
         {

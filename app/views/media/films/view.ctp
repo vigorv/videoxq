@@ -1764,7 +1764,8 @@ echo $linksContent;
         if ($type != 'frame')
            continue;
         $img = $html->image($imgPath . preg_replace('#/f(\d)#i', '/s$1', $file_name), array('style' => 'margin: 2px 5px 2px 0'));
-        echo $html->link($img, $imgPath . $file_name, array('rel' => 'fancybox', 'onclick' => 'return stopdivx();'), false, false);
+//        echo $html->link($img, $imgPath . $file_name, array('rel' => 'fancybox'), false, false);
+		echo $img;
     }
     ?>
 </p>
@@ -1888,14 +1889,6 @@ if (!empty($threadInfo))
     }
 	?>
 </div>
-<script type="text/javascript">
-	function stopdivx()
-	{
-		s = document.getElementById("divxdiv");
-		if (s != null) s.innerHTML = "";
-		return false;
-	}
-</script>
 <?php
 }
 	$script = "
