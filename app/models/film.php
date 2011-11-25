@@ -704,6 +704,7 @@ class Film extends MediaModel {
         $picturesCmd .= 'md ' . $picturesTo . "smallposters\"\r\n";
         $picturesCmd .= 'md ' . $picturesTo . "frames\"\r\n";
 
+        if (file_exists(APP . 'migration_film_pics.cmd'))
         unlink(APP . 'migration_film_pics.cmd');
 
         //получаем фильмы пачками по 100 штук, чтобы не было проблем
