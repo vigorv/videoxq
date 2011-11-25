@@ -51,8 +51,8 @@ class SphinxBehavior extends ModelBehavior
     function beforeFind(&$model, $query)
     {
 /////////////
-        pr('######################### - Shinx.beforefind.is.calling!!!');
-        pr($query);
+//        pr('######################### - Shinx.beforefind.is.calling!!!');
+//        pr($query);
 ////////////                
     	if (Configure::read('noSphinx'))
     	{
