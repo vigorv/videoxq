@@ -1513,9 +1513,11 @@ echo'</pre>';
 		$films = false;
 		$posts = array();
 
-
+/*
+ * временная мера - убираем кэш
 		if (!$isFirstPage)
 			$films = Cache::read('Catalog.' . $postFix . 'list_'.$out, 'searchres');
+*/                
 		if (empty($search))
 		{
 //			unset($pagination['Film']['sphinx']);//СФИНКС ВСЕ РАВНО НЕ БУДЕТ ИСКАТЬ ПО ПУСТОЙ СТРОКЕ
