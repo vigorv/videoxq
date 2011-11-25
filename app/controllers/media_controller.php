@@ -1304,6 +1304,7 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
 			            $countation['Film']['sphinx']['matchMode'] = SPH_MATCH_ALL;
 			            $countation['Film']['sphinx']['index'] = array('videoxq_films');//ИЩЕМ ПО ИНДЕКСУ ФИЛЬМОВ
 					}
+pr($countation);
                     $filmCount_arr = $this->Film->find('all', $countation["Film"]);
 
                     //pr($filmCount_arr[0]['countrec']);
@@ -1319,7 +1320,8 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
 //                    $filmCount = $this->Film->find('count', $countation2['Film']);
 //                    pr($countation["Film"]);
 //---------------------------------------------------
-    		if ((isset($this->passedArgs['page'])) && $filmCount)
+    		//if ((isset($this->passedArgs['page'])) && $filmCount)
+    		if ($filmCount)
     		{
 		    	Cache::write('Catalog.' . $postFix . 'count_'.$outCount, $filmCount, 'searchres');
     		}
