@@ -205,7 +205,7 @@ class UtilsController extends AppController
 
         $endDate = $this->Migration->lastCheckDate();
         $date = ($endDate ? ' WHERE timestamp <= "' . $endDate . '"' : ' ');
-        $this->filmsPosters($date);
+        $this->filmPosters($date);
     }
 
     /**
