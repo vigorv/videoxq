@@ -708,12 +708,12 @@ class Film extends MediaModel {
             unlink(APP . 'migration_film_pics.cmd');
 
 
-
+        echo "T1<br/>";
         //получаем фильмы пачками по 100 штук, чтобы не было проблем
         //при большом кол-ве фильмов
         while ($objects = $this->query($query)) {
-
             foreach ($objects as $object) {
+                echo "T2<br/>";
                 $object = Utils::iconvRecursive($object);
                 extract($object['films']);
                 $ImdbRating = (float) $ImdbRating / 10;
