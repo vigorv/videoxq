@@ -1933,10 +1933,14 @@ class Model extends Overloadable {
  * @link http://book.cakephp.org/view/449/find
  */
 	function find($conditions = null, $fields = array(), $order = null, $recursive = null) {
-                pr ('find()->$conditions');
-                pr ($conditions);
-                pr ('find()->$fields');
-                pr ($fields);
+//////////////            
+                if (!empty($this->union)){
+                    pr ('find()->$conditions');
+                    pr ($conditions);
+                    pr ('find()->$fields');
+                    pr ($fields);                    
+                }
+//////////////
                 
 		if (!is_string($conditions) || (is_string($conditions) && !array_key_exists($conditions, $this->_findMethods))) {
 			$type = 'first';
@@ -1991,12 +1995,19 @@ class Model extends Overloadable {
 				return null;
 			}
 		}
-                pr ('find()->$query');
-                pr ($query);
-
+//////////////
+                if (!empty($this->union)){
+                    pr ('find()->$query');
+                    pr ($query);
+                }
+////////////////
 		$results = $db->read($this, $query);
-                pr ('find()->$results');
-                pr ($results);
+////////////////                
+                if (!empty($this->union)){
+                    pr ('find()->$results');
+                    pr ($results);
+                }
+////////////////                
 		$this->resetAssociations();
 		$this->findQueryType = null;
 
