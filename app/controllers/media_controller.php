@@ -1530,7 +1530,7 @@ echo'</pre>';
 			//$starSearch = transStarChars($search);
             //$pagination['Film']['search'] = $starSearch;
 
-    		$films = $this->Film->find('all', $pagination["Film"]);
+    		$films = $this->Film->find('all', $pagination["Film"],null,0);
 
 
 //##                //pr ($pagination["Film"]);
