@@ -707,6 +707,9 @@ class Film extends MediaModel {
         if (file_exists(APP . 'migration_film_pics.cmd'))
         unlink(APP . 'migration_film_pics.cmd');
 
+        $this->useDbConfig = $this->defaultConfig;
+        $this->setDataSource($this->useDbConfig);
+        
         //получаем фильмы пачками по 100 штук, чтобы не было проблем
         //при большом кол-ве фильмов
         while ($objects = $this->query($query)) {
@@ -719,16 +722,11 @@ class Film extends MediaModel {
                 $film = array('title' => $Name, 'id' => $ID, 'title_en' => $OriginalName,
                     'description' => $Description, 'year' => $Year, 'active' => (!$Hide),
                     'imdb_id' => $imdbID, 'imdb_rating' => $ImdbRating, 'created' => $timestamp, 'modified' => $timestamp);
-
-                $this->useDbConfig = 'migration';
-                $this->setDataSource($this->useDbConfig);
-                $film['dir'] = basename(dirname($filmFiles[0]['files']['Path']));
-                $this->id=$ID;
+                $this->id=$ID;                
                 $Poster = explode("\n", $Poster);
                 $SmallPoster = explode("\n", $SmallPoster);
                 $BigPosters = explode("\n", $BigPosters);
                 $Frames = explode("\n", $Frames);
-
                 
                 $this->FilmPicture->deleteAll(array('film_id' => $ID));
 
