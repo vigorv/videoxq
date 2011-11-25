@@ -1301,10 +1301,12 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
                     $countation['Film']['fields'][] = 'count(`Film`.`id`) as countrec' ;
 					if (!empty($this->params['named']['search']))
 					{
+			            $search = (!empty($this->params['named']['search'])) ? trim($this->params['named']['search']) : '';
 			            $countation['Film']['sphinx']['matchMode'] = SPH_MATCH_ALL;
 			            $countation['Film']['sphinx']['index'] = array('videoxq_films');//ИЩЕМ ПО ИНДЕКСУ ФИЛЬМОВ
+			            $countation['Film']['search'] = $search;
 					}
-pr($countation);
+//pr($countation);
                     $filmCount_arr = $this->Film->find('all', $countation["Film"]);
 
                     //pr($filmCount_arr[0]['countrec']);
