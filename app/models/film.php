@@ -716,12 +716,14 @@ class Film extends MediaModel {
             foreach ($objects as $object) {
                 $object = Utils::iconvRecursive($object);
 
+                $this->useDbConfig = 'migration';
+                $this->setDataSource($this->useDbConfig);
                 extract($object['films']);
                 $ImdbRating = (float) $ImdbRating / 10;
                 $film = array('title' => $Name, 'id' => $ID, 'title_en' => $OriginalName,
                     'description' => $Description, 'year' => $Year, 'active' => (!$Hide),
                     'imdb_id' => $imdbID, 'imdb_rating' => $ImdbRating, 'created' => $timestamp, 'modified' => $timestamp);
-                
+
                 $Poster = explode("\n", $Poster);
                 $SmallPoster = explode("\n", $SmallPoster);
                 $BigPosters = explode("\n", $BigPosters);
@@ -737,7 +739,7 @@ class Film extends MediaModel {
                 $this->useDbConfig = $this->defaultConfig;
                 $this->setDataSource($this->useDbConfig);
 
-$this->id = $ID;
+                $this->id = $ID;
                 $picturesCmd .= $this->savePics($Poster, $film, 'poster');
                 $picturesCmd .= $this->savePics($SmallPoster, $film, 'smallposter');
                 $picturesCmd .= $this->savePics($BigPosters, $film, 'bigposter');
