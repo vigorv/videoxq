@@ -203,8 +203,9 @@ class UtilsController extends AppController
         ini_set('memory_limit', '2300M');
         set_time_limit(50000000000);
 
-        $endDate = $this->Migration->lastCheckDate();
-        $date = ($endDate ? ' WHERE timestamp <= "' . $endDate . '"' : ' ');
+        //$endDate = $this->Migration->lastCheckDate();
+        //$date = ($endDate ? ' WHERE timestamp <= "' . $endDate . '"' : ' ');
+        $date=' ';
         $this->filmPosters($date);
         $this->autoRender=false;
     }
