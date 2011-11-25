@@ -662,7 +662,8 @@ class DboSource extends DataSource {
                 //запрос на короткий без join'ов, а без них то нам нечего делать 
                 //))))) ниже находится такой же! не забыть при демонтаже!!!
                 
-                if ((!empty($model->union)) && (mb_strpos($query, 'JOIN '))>0){
+//                if ((!empty($model->union)) && (mb_strpos($query, 'JOIN '))>0){
+                if (!empty($model->union)){
                     
                 /*     
                  * оригинальные поля талицы films             
@@ -816,7 +817,8 @@ class DboSource extends DataSource {
                 //дбавим костылик, так как кто-то помденяет нормальный длинный 
                 //запрос на короткий без join'ов, а без них то нам нечего делать 
                 //))))) выше находится такой же! не забыть при демонтаже!!!
-                if (!empty($model->union) && (mb_strpos($query, 'JOIN '))>0){
+//                if (!empty($model->union) && (mb_strpos($query, 'JOIN '))>0){
+                if (!empty($model->union)){
                      $new_resultSet = array();
                      foreach($resultSet as $row){
                          
