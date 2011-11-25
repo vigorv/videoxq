@@ -96,6 +96,7 @@ class BlockMediaComponent extends BlocksParentComponent
         $films = $this->controller->Film->find('all', array('order' => 'hits DESC',
                                                             'limit' => 10, 'fields' => array('Film.id, Film.title, Film.title_en'),
                                                             'contain' => array(),
+                                                            'callbacks' => false,
                                                             'group' => 'id'));
 
         Cache::write('Catalog.topFilms', $films, array('config' => 'default', 'duration' => '+1 hour'));
