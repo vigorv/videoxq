@@ -728,9 +728,15 @@ class Film extends MediaModel {
                 $Frames = explode("\n", $Frames);
 
                 $this->FilmPicture->deleteAll(array('film_id' => $ID));
+                $filmFiles = $this->query('select * from files where FilmID = ' . $ID);
+
+                //Utils::getMemoryReport();
+
+                $film['dir'] = basename(dirname($filmFiles[0]['files']['Path']));
 
                 $this->useDbConfig = $this->defaultConfig;
                 $this->setDataSource($this->useDbConfig);
+
 $this->id = $ID;
                 $picturesCmd .= $this->savePics($Poster, $film, 'poster');
                 $picturesCmd .= $this->savePics($SmallPoster, $film, 'smallposter');
