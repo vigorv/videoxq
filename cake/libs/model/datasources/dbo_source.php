@@ -650,10 +650,10 @@ class DboSource extends DataSource {
 			}
 		}
                 
-                if (!empty($model->union)){
-                    pr('queryData:');
-                    pr($queryData);                    
-                }
+                //if (!empty($model->union)){
+                //    pr('queryData:');
+                //   pr($queryData);                    
+                //}
                 
 		$query = $this->generateAssociationQuery($model, $null, null, null, null, $queryData, false, $null);
                 //если в параметрах модели присутствует union, преобразуем 
@@ -805,7 +805,7 @@ class DboSource extends DataSource {
                   
                   
                   //формируем запрос с объединением
-                  $query = '(' . $q1 .  ') UNION  (' . $q2 . ') ' . $order_str;
+//                  $query = '(' . $q1 .  ') UNION  (' . $q2 . ') ' . $order_str;
 //                  pr('Конечный запрос:');
 //                  pr ($query);
 
