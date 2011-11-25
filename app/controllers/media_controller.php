@@ -1529,7 +1529,7 @@ echo'</pre>';
 
 			//$starSearch = transStarChars($search);
             //$pagination['Film']['search'] = $starSearch;
-
+                $this->Film->cacheQueries = false;
     		$films = $this->Film->find('all', $pagination["Film"],null,0);
 
 
@@ -1583,10 +1583,12 @@ echo'</pre>';
                 /******************************************************/
                 // если был установлен 'union', очистим его - после выборки при
                 // "поиске фильмов" он не нужен
+/*
                         if (!empty($this->Film->union)){
                             unset ($this->Film->union);
 
                         }
+ */
                 /******************************************************/
 		//КЭШИРУЕМ ДАЖЕ ЕСЛИ НИЧЕГО НЕ НАЙДЕНО
     		//if (((isset($this->passedArgs['page'])) && $films) || isset($this->passedArgs['search']))
