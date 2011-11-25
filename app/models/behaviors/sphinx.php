@@ -53,7 +53,7 @@ class SphinxBehavior extends ModelBehavior
 /////////////
 //        pr('######################### - Shinx.beforefind.is.calling!!!');
 //        pr($query);
-////////////                
+////////////
     	if (Configure::read('noSphinx'))
     	{
     		return true;
@@ -69,7 +69,7 @@ class SphinxBehavior extends ModelBehavior
         }elseif(empty($query['limit']) || !$query['limit']){
             $query['limit'] = 1000;
         }
-            
+
 
         foreach ($query['sphinx'] as $key => $setting)
         {
@@ -123,8 +123,8 @@ class SphinxBehavior extends ModelBehavior
         }
 
 //        unset($query['conditions']);
-        unset($query['order']);
-        unset($query['offset']);
+//        unset($query['order']);
+//        unset($query['offset']);
 
         $query['page'] = 1;
 
