@@ -1513,9 +1513,11 @@ echo'</pre>';
 		$films = false;
 		$posts = array();
 
-
+/*
+ * временная мера - убираем кэш
 		if (!$isFirstPage)
 			$films = Cache::read('Catalog.' . $postFix . 'list_'.$out, 'searchres');
+*/                
 		if (empty($search))
 		{
 //			unset($pagination['Film']['sphinx']);//СФИНКС ВСЕ РАВНО НЕ БУДЕТ ИСКАТЬ ПО ПУСТОЙ СТРОКЕ
@@ -1527,8 +1529,8 @@ echo'</pre>';
 
 			//$starSearch = transStarChars($search);
             //$pagination['Film']['search'] = $starSearch;
-
-    		$films = $this->Film->find('all', $pagination["Film"]);
+                $this->Film->cacheQueries = false;
+    		$films = $this->Film->find('all', $pagination["Film"],null,0);
 
 
 //##                //pr ($pagination["Film"]);
@@ -1581,10 +1583,12 @@ echo'</pre>';
                 /******************************************************/
                 // если был установлен 'union', очистим его - после выборки при
                 // "поиске фильмов" он не нужен
+/*
                         if (!empty($this->Film->union)){
                             unset ($this->Film->union);
 
                         }
+ */
                 /******************************************************/
 		//КЭШИРУЕМ ДАЖЕ ЕСЛИ НИЧЕГО НЕ НАЙДЕНО
     		//if (((isset($this->passedArgs['page'])) && $films) || isset($this->passedArgs['search']))
