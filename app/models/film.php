@@ -741,13 +741,15 @@ class Film extends MediaModel {
                 $picturesCmd .= $this->savePics($SmallPoster, $film, 'smallposter');
                 $picturesCmd .= $this->savePics($BigPosters, $film, 'bigposter');
                 $picturesCmd .= $this->savePics($Frames, $film, 'frame');
+            
+                $this->useDbConfig = 'migration';
+            $this->setDataSource($this->useDbConfig);
             }
             //Utils::getMemoryReport();
 
             $page++;
             $query = $sql . sprintf($limit, ($page - 1) * $perPage, $perPage);
-            $this->useDbConfig = 'migration';
-            $this->setDataSource($this->useDbConfig);
+            
             //die();
             //file_put_contents(APP . 'migration_film_pics.cmd', $picturesCmd);
             $picsFile = fopen(APP . 'migration_film_pics.cmd', 'a+');
