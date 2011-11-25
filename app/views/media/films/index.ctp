@@ -115,7 +115,7 @@ if (($Film['is_license'] || $isWS) && (!empty($FilmVariant)))
 }
     if (!empty($Film['site_id'])) // вывод логотипа сайта с которого пришел фильм (анимебар или румедиа)
     {
-    	$sites = DATABASE_CONFIG::cachedSites;
+    	$sites = array(1 => array('sitename' => 'rumedia'), 2 => array('sitename' => 'animebar'));
     	$siteName = $sites[$Film['site_id']]['sitename'];
     	echo '<div class="logo"><img src="/img/vusic/' . $siteName . '.png" alt="' . $siteName . '" title="' . $siteName . '" /></div>';
     }
