@@ -663,7 +663,7 @@ class DboSource extends DataSource {
                 //))))) ниже находится такой же! не забыть при демонтаже!!!
                 
 //                if ((!empty($model->union)) && (mb_strpos($query, 'JOIN '))>0){
-                if (!empty($model->union)){
+                if (false){
                     
                 /*     
                  * оригинальные поля талицы films             
@@ -806,7 +806,7 @@ class DboSource extends DataSource {
                   
                   
                   //формируем запрос с объединением
-//                  $query = '(' . $q1 .  ') UNION  (' . $q2 . ') ' . $order_str;
+                  $query = '(' . $q1 .  ') UNION  (' . $q2 . ') ' . $order_str;
 //                  pr('Конечный запрос:');
 //                  pr ($query);
 
@@ -818,7 +818,7 @@ class DboSource extends DataSource {
                 //запрос на короткий без join'ов, а без них то нам нечего делать 
                 //))))) выше находится такой же! не забыть при демонтаже!!!
 //                if (!empty($model->union) && (mb_strpos($query, 'JOIN '))>0){
-                if (!empty($model->union)){
+                if (false){
                      $new_resultSet = array();
                      foreach($resultSet as $row){
                          
