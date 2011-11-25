@@ -683,11 +683,9 @@ class Film extends MediaModel {
 
     function migratePoster($date) {
         App::import('Vendor', 'Utils');
-
-        //Utils::getMemoryReport();
+        Utils::getMemoryReport();
         $this->useDbConfig = 'migration';
         $this->setDataSource($this->useDbConfig);
-
         $limit = ' LIMIT %s, %s';
         $page = 1;
         $perPage = 50;
@@ -706,14 +704,11 @@ class Film extends MediaModel {
 
         if (file_exists(APP . 'migration_film_pics.cmd'))
             unlink(APP . 'migration_film_pics.cmd');
-
-
-        echo "T1<br/>";
+      
         //получаем фильмы пачками по 100 штук, чтобы не было проблем
         //при большом кол-ве фильмов
         while ($objects = $this->query($query)) {
             foreach ($objects as $object) {
-                echo "T2<br/>";
                 $object = Utils::iconvRecursive($object);
                 extract($object['films']);
                 $ImdbRating = (float) $ImdbRating / 10;
@@ -726,24 +721,26 @@ class Film extends MediaModel {
                 $BigPosters = explode("\n", $BigPosters);
                 $Frames = explode("\n", $Frames);
 
-                $this->FilmPicture->deleteAll(array('film_id' => $ID));
-                $filmFiles = $this->query('select * from files where FilmID = ' . $ID);
+                echo $BigPosters;
+                
+//                $this->FilmPicture->deleteAll(array('film_id' => $ID));
+          //      $filmFiles = $this->query('select * from files where FilmID = ' . $ID);
 
                 //Utils::getMemoryReport();
 
-                $film['dir'] = basename(dirname($filmFiles[0]['files']['Path']));
+     //           $film['dir'] = basename(dirname($filmFiles[0]['files']['Path']));
 
-                $this->useDbConfig = $this->defaultConfig;
-                $this->setDataSource($this->useDbConfig);
+  //              $this->useDbConfig = $this->defaultConfig;
+//                $this->setDataSource($this->useDbConfig);
 
-                $this->id = $ID;
-                $picturesCmd .= $this->savePics($Poster, $film, 'poster');
-                $picturesCmd .= $this->savePics($SmallPoster, $film, 'smallposter');
-                $picturesCmd .= $this->savePics($BigPosters, $film, 'bigposter');
-                $picturesCmd .= $this->savePics($Frames, $film, 'frame');
+    //           $this->id = $ID;
+    //      $picturesCmd .= $this->savePics($Poster, $film, 'poster');
+    //           $picturesCmd .= $this->savePics($SmallPoster, $film, 'smallposter');
+    //      $picturesCmd .= $this->savePics($BigPosters, $film, 'bigposter');
+    //                $picturesCmd .= $this->savePics($Frames, $film, 'frame');
             
-                $this->useDbConfig = 'migration';
-            $this->setDataSource($this->useDbConfig);
+     //           $this->useDbConfig = 'migration';
+//            $this->setDataSource($this->useDbConfig);
             }
             //Utils::getMemoryReport();
 
