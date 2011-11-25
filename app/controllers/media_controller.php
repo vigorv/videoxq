@@ -1853,7 +1853,6 @@ echo'</pre>';
      */
     function looksLike($title)
     {
-return array();
     	$films = array(); $searchFor = '';
     	$pos = mb_strpos(mb_strtolower($title), __('season', true));
 /*

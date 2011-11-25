@@ -69,7 +69,7 @@ if ((count($films) == 0) || (!empty($wsmediaPostCount)) || (!empty($animebarPost
 //*
 if ($crossSearch)
 {
-	pr($films);
+	//pr($films);
 }
 //*/
 if (!empty($films))
