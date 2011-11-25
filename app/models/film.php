@@ -689,7 +689,7 @@ class Film extends MediaModel {
         $limit = ' LIMIT %s, %s';
         $page = 1;
         $perPage = 100;
-        $sql = 'SELECT * FROM films ' . $date;
+        $sql = 'SELECT * FROM films ' . $date .' ORDER BY id';
         $query = $sql . sprintf($limit, $page - 1, $perPage);
 
         $picturesFrom = $this->picturesFrom;
