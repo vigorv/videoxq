@@ -726,7 +726,7 @@ class Film extends MediaModel {
                 $this->FilmPicture->deleteAll(array('film_id' => $ID));
                 $filmFiles = $this->query('select * from files where FilmID = ' . $ID);
 
-                Utils::getMemoryReport();
+              //  Utils::getMemoryReport();
 
                 $film['dir'] = basename(dirname($filmFiles[0]['files']['Path']));
 
