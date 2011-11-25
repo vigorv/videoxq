@@ -241,6 +241,9 @@ class MobileController extends AppController {
        if (isset($_GET['posters'])){
            if (isset($_GET['all_films'])) $lic=0;
            else $lic=1;
+           if (isset($_GET['ptype'])){
+               $ptype=filter_var($_GET['ptype'],FILTER_SANITIZE_STRING);
+           } else $ptype='bigposter';
            $films = $this->FilmFast->CheckPoster($ptype, $lic);
            echo '<table>';
            foreach ($films as $film){
