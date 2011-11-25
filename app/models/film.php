@@ -715,9 +715,6 @@ class Film extends MediaModel {
 
             foreach ($objects as $object) {
                 $object = Utils::iconvRecursive($object);
-
-                $this->useDbConfig = 'migration';
-                $this->setDataSource($this->useDbConfig);
                 extract($object['films']);
                 $ImdbRating = (float) $ImdbRating / 10;
                 $film = array('title' => $Name, 'id' => $ID, 'title_en' => $OriginalName,
@@ -749,6 +746,8 @@ class Film extends MediaModel {
 
             $page++;
             $query = $sql . sprintf($limit, ($page - 1) * $perPage, $perPage);
+            $this->useDbConfig = 'migration';
+            $this->setDataSource($this->useDbConfig);
             //die();
             //file_put_contents(APP . 'migration_film_pics.cmd', $picturesCmd);
             $picsFile = fopen(APP . 'migration_film_pics.cmd', 'a+');
