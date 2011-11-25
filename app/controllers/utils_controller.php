@@ -118,6 +118,12 @@ class UtilsController extends AppController
         $this->Film->migrate($date);
     }
 
+    function filmPosters($date = null)
+    {
+        ini_set('memory_limit', '1G');
+        $this->Film->migratePoster($date);
+    }
+    
     function people($date = null)
     {
         ini_set('memory_limit', '1G');
@@ -191,6 +197,15 @@ class UtilsController extends AppController
 		//system('wget -O ' . $_SERVER['DOCUMENT_ROOT'] . '/app/webroot/sitemap.xml http://www.videoxq.com/admin/media/sitemap');
 		//ОБНОВЛЕНИЕ rss.xml
 		system('wget -O ' . $_SERVER['DOCUMENT_ROOT'] . '/app/webroot/rss.xml http://www.videoxq.com/media/rsslist');
+    }
+    
+    function migrate_upd_posters(){
+        ini_set('memory_limit', '2300M');
+        set_time_limit(50000000000);
+
+        $endDate = $this->Migration->lastCheckDate();
+        $date = ($endDate ? ' WHERE timestamp <= "' . $endDate . '"' : ' ');
+        $this->filmsPosters($date);
     }
 
     /**
