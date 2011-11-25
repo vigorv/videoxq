@@ -1299,7 +1299,7 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
                     }
                     $countation['Film']['fields'] = array();
                     $countation['Film']['fields'][] = 'count(`Film`.`id`) as countrec' ;
-                    //pr($countation);
+pr($countation);
                     $filmCount_arr = $this->Film->find('all', $countation["Film"]);
 
                     //pr($filmCount_arr[0]['countrec']);
@@ -1517,7 +1517,7 @@ echo'</pre>';
  * временная мера - убираем кэш
 		if (!$isFirstPage)
 			$films = Cache::read('Catalog.' . $postFix . 'list_'.$out, 'searchres');
-*/                
+*/
 		if (empty($search))
 		{
 //			unset($pagination['Film']['sphinx']);//СФИНКС ВСЕ РАВНО НЕ БУДЕТ ИСКАТЬ ПО ПУСТОЙ СТРОКЕ
