@@ -105,7 +105,7 @@ if (($Film['is_license'] || $isWS) && (!empty($FilmVariant)))
 			}
 		}
 	}
-	if (!empty($isBest))
+	if (!empty($isBest) && empty($Film['site_id']))
 	{
 ?>
 			<div class="hd"><img src="/img/vusic/<?=$title?>.gif" alt="<?=$title?>" title="<?=$title?>" /></div>
@@ -115,7 +115,9 @@ if (($Film['is_license'] || $isWS) && (!empty($FilmVariant)))
 }
     if (!empty($Film['site_id'])) // вывод логотипа сайта с которого пришел фильм (анимебар или румедиа)
     {
-    	echo '<div class="logo"><img src="/img/vusic/' . $Film['site_id'] . '.png" alt="' . $Film['site_id'] . '" title="' . $Film['site_id'] . '" /></div>';
+    	$sites = DATABASE_CONFIG::cachedSites;
+    	$siteName = $sites[$Film['site_id']]['sitename'];
+    	echo '<div class="logo"><img src="/img/vusic/' . $siteName . '.png" alt="' . $siteName . '" title="' . $siteName . '" /></div>';
     }
 
 ?>
@@ -203,8 +205,8 @@ echo implode(', ', $actors);
 	}
 	else
 	{
-		echo $Film['directors'];
-		echo $Film['year'];
+		if (!empty($Film['directors'])) echo $Film['directors'] . ' ';
+		if (!empty($Film['year'])) echo $Film['year'];
 		echo '<span>«<a href="' . $Film['url'] . '">' . $Film['title' . $langFix] . '</a>»</span>';
 		echo $Film['actors'];
 	}
