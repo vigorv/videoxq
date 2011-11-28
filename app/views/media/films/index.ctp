@@ -17,6 +17,12 @@ $pass['action'] = str_replace(Configure::read('Routing.admin') . '_', '', $this-
 echo '<h2>omon<br />' .  md5(md5('msNSekAs') . '%`X') . '<br />dc3e83c840730bd9793aecd850b50832</h2>';
 echo '<h2>polar<br />' . md5(md5('Zz9BXzGz') . '%`X') . '<br />0675758d44bd74001cff4e069dfa8d97</h2>';
 */
+$prim = '';
+if ($crossSearch)
+{
+	$prim = '* - ' . __('Search also uses data from all the local resources of your ISP', true);
+}
+
 if (!empty($search_words))
 {
    foreach ($search_words as $searchWord)
@@ -27,6 +33,7 @@ if (!empty($search_words))
    }
 }
 
+/*
 if ((count($films) == 0) || (!empty($wsmediaPostCount)) || (!empty($animebarPostCount)))
 {
 	if ((count($films) == 0) && (!isset($pass["page"])) && (!empty($wsmediaPostCount) || !empty($animebarPostCount)))
@@ -66,12 +73,8 @@ if ((count($films) == 0) || (!empty($wsmediaPostCount)) || (!empty($animebarPost
 		echo "<h2>" . __('Find in catalogs', true) . " (" . implode(', ', $cLinks) . ")</h2>";
 	}
 }
-//*
-if ($crossSearch)
-{
-	//pr($films);
-}
 //*/
+
 if (!empty($films))
 	foreach ($films as $row) {
     	extract($row);
@@ -139,7 +142,8 @@ if (($Film['is_license'] || $isWS) && (!empty($FilmVariant)))
                 echo '<span class="imdb">IMDb: ' . $Film['imdb_rating'] . '</span>';
 	}
 	else
-	{	//ВЫВОД ПОСТЕРА ВНЕШНЕГО САЙТА
+	{
+		//ВЫВОД ПОСТЕРА ВНЕШНЕГО САЙТА
 		if (empty($Film["poster"]))
 		{
 			$posterSrc = '/img/vusic/noposter.jpg';
@@ -218,12 +222,14 @@ echo implode(', ', $actors);
 ?>
 </div>
 <div class="pages">
-<?php
-
-//var_export($paginator);
-//echo $this->element('paging'); ?>
 </div>
 <?php
+if (!empty($prim))
+{
+	echo $prim;
+}
+//var_export($paginator);
+//echo $this->element('paging');
 //*
 $pageNavigator->setMaxPage($pageCount);
 $pageNavigator->setInterval(9);
