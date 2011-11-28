@@ -218,6 +218,7 @@ echo implode(', ', $actors);
 ?>
 </div>
 <div class="pages">
+</div>
 <?php
 if (!empty($prim))
 {
@@ -236,5 +237,4 @@ if (isset($pass["page"]))
 echo '<h3>'.$pageNavigator->get($page) . '</h3>';
 //*/
 ?>
-	</div>
 </div>
