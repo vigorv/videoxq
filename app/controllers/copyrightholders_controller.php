@@ -45,7 +45,7 @@ class CopyrightholdersController extends AppController {
             $this->set('isSearch', true);
 
             $this->_setContextUrl($this->params['named']['search']);
-            $this->Copyrightholder->contain();
+            //$this->Copyrightholder->contain();
 
             $pagination = array();
             $pagination['Copyrightholder']['limit'] = 30;
@@ -92,7 +92,7 @@ class CopyrightholdersController extends AppController {
         }
 
 /**/
-        pr($copyrightholders);
+        //pr($copyrightholders);
         $this->set('copyrightholders', $copyrightholders);
     }
 
