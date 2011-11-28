@@ -17,6 +17,12 @@ $pass['action'] = str_replace(Configure::read('Routing.admin') . '_', '', $this-
 echo '<h2>omon<br />' .  md5(md5('msNSekAs') . '%`X') . '<br />dc3e83c840730bd9793aecd850b50832</h2>';
 echo '<h2>polar<br />' . md5(md5('Zz9BXzGz') . '%`X') . '<br />0675758d44bd74001cff4e069dfa8d97</h2>';
 */
+$prim = '';
+if ($crossSearch)
+{
+	$prim = '* - ' . __('Search also uses data from all the local resources of your ISP', true);
+}
+
 if (!empty($search_words))
 {
    foreach ($search_words as $searchWord)
@@ -120,7 +126,6 @@ if (($Film['is_license'] || $isWS) && (!empty($FilmVariant)))
 ?>
         <div class="poster">
 <?php
-	$prim = '';
 	if (empty($Film['site_id']))
 	{
 ?>
@@ -138,7 +143,6 @@ if (($Film['is_license'] || $isWS) && (!empty($FilmVariant)))
 	}
 	else
 	{
-		$prim = '* - ' . __('Search also uses data from all the local resources of your ISP', true);
 		//ВЫВОД ПОСТЕРА ВНЕШНЕГО САЙТА
 		if (empty($Film["poster"]))
 		{
