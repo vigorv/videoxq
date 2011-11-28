@@ -1329,6 +1329,10 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
     		}
 		}
 
+    	$pageCount = intval($filmCount / $pagination['Film']['limit'] + 1);
+    	$this->set('filmCount', $filmCount);
+    	$this->set('pageCount', $pageCount);
+
 	$crossSearch = false; //ФЛАГ ДЛЯ ПРОВЕРКИ В ОТОБРАЖЕНИИ
 
         if (!empty($this->params['named']['search']))
@@ -1435,7 +1439,9 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
             if ($translit == $search)
             	$translit = '';
 
-            $sort = ', hits DESC';
+            
+            //$sort = ', hits DESC';
+            $sort = ', site_id ASC';
 
             if (!empty($this->params['named']['sort']))
             {
@@ -1477,15 +1483,8 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
             {
                     $wsmediaResult = $this->searchWsmedia();
                     $animebarResult = $this->searchAnimeBar();
-
-                    $wsmCnt = count($wsmediaResult);
-                    $abCnt = count($animebarResult);
-
-                    $filmCount += $wsmCnt;
-                    $filmCount += $abCnt;
-
-                    $this->set('wsmediaPostCount', $wsmCnt);
-                    $this->set('animebarPostCount', $abCnt);
+                    $this->set('wsmediaPostCount', count($wsmediaResult));
+                    $this->set('animebarPostCount', count($animebarResult));
             }
             //---------------------------------------------------------
             /******************************************************/
@@ -1493,15 +1492,13 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
             // которое учтется в при разборе "полёта" в классе dboSource
             // (dbo_source.php ВНИМАНИЕ!!! незабыть, что его редактировали) из
             // библиотеки кейка
-
+//*
             $crossSearch = true; //ФЛАГ ДЛЯ ПРОВЕРКИ В ОТОБРАЖЕНИИ
             $this->Film->union = array_merge($wsmediaResult, $animebarResult);
         /******************************************************/
         }
 
-    	$pageCount = intval($filmCount / $pagination['Film']['limit'] + 1);
-    	$this->set('filmCount', $filmCount);
-    	$this->set('pageCount', $pageCount);
+
 
         if (!empty($this->passedArgs['page']))
         {
