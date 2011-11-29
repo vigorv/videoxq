@@ -126,7 +126,7 @@ class SphinxBehavior extends ModelBehavior
 //        unset($query['order']);
 //        unset($query['offset']);
 
-        $query['page'] = 1;
+//        $query['page'] = 1;
 
         if ($model->findQueryType == 'count')
         {
