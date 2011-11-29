@@ -1522,22 +1522,20 @@ echo'</pre>';
 		$films = false;
 		$posts = array();
 
-/*
- * временная мера - убираем кэш
 		if (!$isFirstPage)
 			$films = Cache::read('Catalog.' . $postFix . 'list_'.$out, 'searchres');
-*/
+
 		if (empty($search))
 		{
-//			unset($pagination['Film']['sphinx']);//СФИНКС ВСЕ РАВНО НЕ БУДЕТ ИСКАТЬ ПО ПУСТОЙ СТРОКЕ
+			unset($pagination['Film']['sphinx']);//СФИНКС ВСЕ РАВНО НЕ БУДЕТ ИСКАТЬ ПО ПУСТОЙ СТРОКЕ
 
 		}
 
 		if ($films === false)//ЕСЛИ ЕЩЕ НЕ КЭШИРОВАЛИ
 		{
 
-			//$starSearch = transStarChars($search);
-            //$pagination['Film']['search'] = $starSearch;
+		//$starSearch = transStarChars($search);
+                //$pagination['Film']['search'] = $starSearch;
                 $this->Film->cacheQueries = false;
     		$films = $this->Film->find('all', $pagination["Film"],null,0);
 
@@ -1602,12 +1600,10 @@ echo'</pre>';
 		//КЭШИРУЕМ ДАЖЕ ЕСЛИ НИЧЕГО НЕ НАЙДЕНО
     		//if (((isset($this->passedArgs['page'])) && $films) || isset($this->passedArgs['search']))
 
-    		if (!$isFirstPage)
-    		{
-//echo 'RESULT CACHED';
-//exit;
-	    		Cache::write('Catalog.' . $postFix . 'list_'.$out, $films, 'searchres');
-    		}
+                    if (!$isFirstPage)
+                    {
+                            Cache::write('Catalog.' . $postFix . 'list_'.$out, $films, 'searchres');
+                    }
 		}
 
 
