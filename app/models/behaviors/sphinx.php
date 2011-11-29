@@ -124,7 +124,7 @@ class SphinxBehavior extends ModelBehavior
 
 //        unset($query['conditions']);
 //        unset($query['order']);
-//        unset($query['offset']);
+        unset($query['offset']);
 
         $query['page'] = 1;
 
