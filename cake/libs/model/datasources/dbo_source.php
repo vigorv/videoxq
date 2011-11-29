@@ -713,10 +713,10 @@ class DboSource extends DataSource {
 
 
 */                    
-                   ///*
+                   /*
                    pr('Начальный сформированый запрос:');
                    pr($query);
-                   //*/
+                   */
                   //вставим дополнительные поля в конец 1го подзапроса (к 
                   //таблице films)
                   $addn_fields=',
@@ -828,10 +828,10 @@ class DboSource extends DataSource {
                   
                   //формируем запрос с объединением
                   $query = '(' . $q1 .  ') UNION  (' . $q2 . ') ' . $order_str;
-                //*                  
+                /*                  
                   pr('Конечный запрос:');
                   pr ($query);
-                //*/
+                */
 
                 }
                 
