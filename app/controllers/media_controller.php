@@ -1005,6 +1005,7 @@ return;//НЕПРАВИЛЬНО РАБОТАЕТ
 			$postFix = 'Licensed';
 		}
 		*/
+/*
         if (!empty($this->passedArgs['page']))
         {
         	$page = intval($this->passedArgs['page']);
@@ -1013,7 +1014,7 @@ return;//НЕПРАВИЛЬНО РАБОТАЕТ
         {
         	$page = 1;
         }
-
+*/
         $pagination = array('Film' => array('contain' =>
                                        array('FilmType',
                                              'Genre',
@@ -1034,7 +1035,6 @@ return;//НЕПРАВИЛЬНО РАБОТАЕТ
                                                         ),
 */
                                         'order' => $order,
-                                        'page' => $page,
                                         'conditions' => $conditions,
                                         'group' => 'Film.id',
                                         'limit' => 30));
