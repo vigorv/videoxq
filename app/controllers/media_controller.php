@@ -1461,7 +1461,7 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
             if (!empty($this->passedArgs['page']))
             {
             	$pagination['Film']['page'] = $this->passedArgs['page'];
-            	$pagination['Film']['limit'] = $pagination['Film']['limit'];
+            	//$pagination['Film']['limit'] = $pagination['Film']['limit'];
             	$pagination['Film']['offset'] = ($pagination['Film']['page'] - 1) * $pagination['Film']['limit'];
             }
             $pagination['Film']['sphinx']['matchMode'] = SPH_MATCH_ALL;
