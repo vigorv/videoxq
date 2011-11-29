@@ -33,7 +33,7 @@ if (!empty($search_words))
    }
 }
 
-/*
+//*
 if ((count($films) == 0) || (!empty($wsmediaPostCount)) || (!empty($animebarPostCount)))
 {
 	if ((count($films) == 0) && (!isset($pass["page"])) && (!empty($wsmediaPostCount) || !empty($animebarPostCount)))
