@@ -1502,8 +1502,8 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
             // (dbo_source.php ВНИМАНИЕ!!! незабыть, что его редактировали) из
             // библиотеки кейка
 //*
-            $crossSearch = true; //ФЛАГ ДЛЯ ПРОВЕРКИ В ОТОБРАЖЕНИИ
-            $this->Film->union = array_merge($wsmediaResult, $animebarResult);
+            //$crossSearch = true; //ФЛАГ ДЛЯ ПРОВЕРКИ В ОТОБРАЖЕНИИ
+            //$this->Film->union = array_merge($wsmediaResult, $animebarResult);
         /******************************************************/
         }
 
