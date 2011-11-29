@@ -765,12 +765,18 @@ class DboSource extends DataSource {
                     $order_str = str_replace('`Film`.','',$order_str);
                     $order_str = str_replace('ORDER BY','ORDER BY ' . $new_order_param . ', ',$order_str);
                   }else{
-                    $order_str = 'ORDER BY ' . $new_order_param;
-                  }
-
-                  
-                  //иначе создадим новое
-                  //запопмним 1й родзапрос
+                    //иначе создадим новое
+                    //если есть в запросе 'LIMIT', то ставим перед ним
+                    $n = mb_strpos ($query, 'LIMIT');
+                    if ($n>0){
+                        $order_str = mb_substr($query, $n);
+                        $order_str = str_replace('LIMIT', 'ORDER BY ' . $new_order_param . ' LIMIT', $order_str);
+                    }
+                    else{
+                        $order_str = 'ORDER BY ' . $new_order_param;
+                    }
+                 }
+                  //запопмним 1й подзапрос
                   $q1 = mb_substr($query, 0, $n);
                  
                   //формируем 2й подзапрос для union из таблицы cache_search
