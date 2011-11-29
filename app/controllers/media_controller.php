@@ -1440,8 +1440,8 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
             	$translit = '';
 
             
-            $sort = ', hits DESC';
-            //$sort = ', site_id ASC';
+            //$sort = ', hits DESC';
+            $sort = ', site_id ASC';
 
             if (!empty($this->params['named']['sort']))
             {
