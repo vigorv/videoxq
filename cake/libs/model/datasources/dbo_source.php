@@ -757,8 +757,19 @@ class DboSource extends DataSource {
                   //запомним часть строки начиная с "ORDER BY" - это 
                   //будет общим условием для union
                   $n = mb_strpos ($query, 'ORDER BY');
-                  $order_str = mb_substr($query, $n);
-                  $order_str = str_replace('`Film`.','',$order_str);
+                  $new_order_param = 'site_id ASC';
+                  //если было условие сортировки, то модифицируем его, наверняка 
+                  //оно будет >0 запрос не может начинаться с 'ORDER BY' )))
+                  if ($n>0){
+                    $order_str = mb_substr($query, $n);
+                    $order_str = str_replace('`Film`.','',$order_str);
+                    $order_str = str_replace('ORDER BY','ORDER BY ' . $new_order_param . ', ',$order_str);
+                  }else{
+                    $order_str = 'ORDER BY ' . $new_order_param;
+                  }
+
+                  
+                  //иначе создадим новое
                   //запопмним 1й родзапрос
                   $q1 = mb_substr($query, 0, $n);
                  
