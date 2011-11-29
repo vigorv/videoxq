@@ -102,7 +102,7 @@ class Genre extends MediaModel {
 	        {
 	            $res[$record['g']['id']] = $record['g']['title' . $langFix] . ' (' . $record['0']['count'] . ')';
 	        }
-			Cache::write('Genre.withCount' . $langFix, $res, array('config' => 'media'));
+			Cache::write('Genre.withCount' . $langFix, $res, 'media');
     	}
 
         return $res;
@@ -137,7 +137,7 @@ class Genre extends MediaModel {
 	        {
 	            $res[$record['g']['id']] = $record['g']['title' . $langFix] . ' (' . $record['0']['count'] . ')';
 	        }
-			Cache::write('Genre.withLicCount' . $langFix, $res, array('config' => 'media'));
+			Cache::write('Genre.withLicCount' . $langFix, $res, 'media');
     	}
 
         return $res;

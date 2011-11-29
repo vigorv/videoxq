@@ -663,10 +663,10 @@ class DboSource extends DataSource {
                 //дбавим костылик, так как кто-то помденяет нормальный длинный 
                 //запрос на короткий без join'ов, а без них то нам нечего делать 
                 //))))) ниже находится такой же! не забыть при демонтаже!!!
-                
+/* Временно отказываемся от union как тупткового варианта в данном случае                
                 if ((!empty($model->union)) && (mb_strpos($query, 'JOIN '))>0){
                 //if (false){
-                /*     
+                / *     
                  * оригинальные поля талицы films             
                 SELECT 
                   `Film`.`id`, 
@@ -712,11 +712,11 @@ class DboSource extends DataSource {
                    
 
 
-*/                    
-                   /*
-                   pr('Начальный сформированый запрос:');
-                   pr($query);
-                   */
+* /                    
+                   
+                   //pr('Начальный сформированый запрос:');
+                   //pr($query);
+                   
                   //вставим дополнительные поля в конец 1го подзапроса (к 
                   //таблице films)
                   $addn_fields=',
@@ -749,10 +749,10 @@ class DboSource extends DataSource {
                   
                   //склеим обратно
                   $query = $select_str.$from_str;
-                /*
-                  pr('Измененный запрос:');
-                  pr($query);
-                */
+                
+                  //pr('Измененный запрос:');
+                  //pr($query);
+                
                   
                   //запомним часть строки начиная с "ORDER BY" - это 
                   //будет общим условием для union
@@ -828,18 +828,19 @@ class DboSource extends DataSource {
                   
                   //формируем запрос с объединением
                   $query = '(' . $q1 .  ') UNION  (' . $q2 . ') ' . $order_str;
-                /*                  
-                  pr('Конечный запрос:');
-                  pr ($query);
-                */
+                                  
+                  //pr('Конечный запрос:');
+                  //pr ($query);
+                
 
                 }
                 
-
+*/
 		$resultSet = $this->fetchAll($query, $model->cacheQueries, $model->alias);
                 //дбавим костылик, так как кто-то помденяет нормальный длинный 
                 //запрос на короткий без join'ов, а без них то нам нечего делать 
                 //))))) выше находится такой же! не забыть при демонтаже!!!
+/*                
                 if (!empty($model->union) && (mb_strpos($query, 'JOIN '))>0){
 //                if (false){
                      $new_resultSet = array();
@@ -894,6 +895,7 @@ class DboSource extends DataSource {
                      unset($model->union);
                      //pr ($resultSet);
                 }
+*/
                 
 		if ($resultSet === false) {
 			$model->onError();

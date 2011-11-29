@@ -1005,6 +1005,16 @@ return;//НЕПРАВИЛЬНО РАБОТАЕТ
 			$postFix = 'Licensed';
 		}
 		*/
+/*
+        if (!empty($this->passedArgs['page']))
+        {
+        	$page = intval($this->passedArgs['page']);
+        }
+        if (empty($page))
+        {
+        	$page = 1;
+        }
+*/
         $pagination = array('Film' => array('contain' =>
                                        array('FilmType',
                                              'Genre',
@@ -1439,7 +1449,7 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
             if ($translit == $search)
             	$translit = '';
 
-            
+
             $sort = ', hits DESC';
 
             if (!empty($this->params['named']['sort']))
@@ -1451,7 +1461,7 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
             if (!empty($this->passedArgs['page']))
             {
             	$pagination['Film']['page'] = $this->passedArgs['page'];
-            	$pagination['Film']['limit'] = $pagination['Film']['limit'];
+            	//$pagination['Film']['limit'] = $pagination['Film']['limit'];
             	$pagination['Film']['offset'] = ($pagination['Film']['page'] - 1) * $pagination['Film']['limit'];
             }
             $pagination['Film']['sphinx']['matchMode'] = SPH_MATCH_ALL;
@@ -1492,8 +1502,8 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
             // (dbo_source.php ВНИМАНИЕ!!! незабыть, что его редактировали) из
             // библиотеки кейка
 //*
-            $crossSearch = true; //ФЛАГ ДЛЯ ПРОВЕРКИ В ОТОБРАЖЕНИИ
-            $this->Film->union = array_merge($wsmediaResult, $animebarResult);
+            //$crossSearch = true; //ФЛАГ ДЛЯ ПРОВЕРКИ В ОТОБРАЖЕНИИ
+            //$this->Film->union = array_merge($wsmediaResult, $animebarResult);
         /******************************************************/
         }
 
@@ -2690,7 +2700,7 @@ echo'</pre>';
 
 	        		$this->Session->setFlash(__('Comment added', true));
 
-	        		Cache::delete('Catalog.lastComments', 'default');//СБРАСЫВАЕМ КЭШ БЛОКА ПОСЛЕДНИХ КОМЕНТОВ
+	        		Cache::delete('Catalog.lastComments', 'block');//СБРАСЫВАЕМ КЭШ БЛОКА ПОСЛЕДНИХ КОМЕНТОВ
 	        		Cache::delete('Forum.lastFilmComments', 'media');//СБРАСЫВАЕМ КЭШ ВЫБОРКИ ПОСЛЕДНИХ КОМЕНТОВ
 				}
 	        }

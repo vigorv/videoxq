@@ -185,11 +185,11 @@ class UtilsController extends AppController
         $this->films($date);
 
 		$this->Migration->checkPoint();
-		cache::delete('Catalog.indexFilter', 'default');
-		cache::delete('Catalog.topFilms', 'default');
-		cache::delete('Catalog.filmStats', 'default');
-		cache::delete('Catalog.filmStatsLic', 'default');
-		cache::delete('Catalog.peopleIndex', 'default');
+		cache::delete('Catalog.indexFilter', 'block');
+		cache::delete('Catalog.topFilms', 'block');
+		cache::delete('Catalog.filmStats', 'block');
+		cache::delete('Catalog.filmStatsLic', 'block');
+		cache::delete('Catalog.peopleIndex', 'people');
 		cache::clear(false, 'searchres');//СБРАСЫВАЕМ ВЕСЬ КЭШ ТК В НЕИ ХРАНИМ ПОСТРАНИЧНЫЕ И ПОИСКОВЫЕ РЕЗУЛЬТАТЫ
 		//echo `indexer --rotate --all`;
 
@@ -258,11 +258,11 @@ class UtilsController extends AppController
 	        $this->peopleByFilmList($ids);
 	        $this->filmsByFilmList($ids);
 
-			cache::delete('Catalog.indexFilter', 'default');
-			cache::delete('Catalog.topFilms', 'default');
-			cache::delete('Catalog.filmStats', 'default');
-			cache::delete('Catalog.filmStatsLic', 'default');
-			cache::delete('Catalog.peopleIndex', 'default');
+			cache::delete('Catalog.indexFilter', 'block');
+			cache::delete('Catalog.topFilms', 'block');
+			cache::delete('Catalog.filmStats', 'block');
+			cache::delete('Catalog.filmStatsLic', 'block');
+			cache::delete('Catalog.peopleIndex', 'people');
 			cache::clear(false, 'searchres');//СБРАСЫВАЕМ ВЕСЬ КЭШ ТК В НЕИ ХРАНИМ ПОСТРАНИЧНЫЕ И ПОИСКОВЫЕ РЕЗУЛЬТАТЫ
 		}
     }

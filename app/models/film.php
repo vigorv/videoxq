@@ -312,22 +312,28 @@ class Film extends MediaModel {
                             if ($value['Film']['thread_id'] == $p['Comment']['threadid']) {
                                 //echo '<p>' . date('Y-m-d H:i:s', $p['Comment']['created']);
 
-                                $result[$key][0]['created'] = date('Y-m-d H:i:s', $p['Comment']['created']);
-                                $result[$key][0]['createdstamp'] = $p['Comment']['created'];
-                            }
-                        }
-                    }
+	        					$result[$key][0]['created'] = date('Y-m-d H:i:s', $p['Comment']['created']);
+	        					$result[$key][0]['createdstamp'] = $p['Comment']['created'];
+	        				}
+	        			}
+	        		}
+	        		function byCreated($a, $b)
+	        		{
+	        			if ($a[0]['createdstamp'] < $b[0]['createdstamp'])
+	        				return 1; else return 0;
+	        		}
+	        		usort($result, "byCreated");
+	        	}
 
-                    function byCreated($a, $b) {
-                        if ($a[0]['createdstamp'] < $b[0]['createdstamp'])
-                            return 1; else
-                            return 0;
-                    }
-
-                    usort($result, "byCreated");
+                function byCreated($a, $b) {
+                    if ($a[0]['createdstamp'] < $b[0]['createdstamp'])
+                        return 1; else
+                        return 0;
                 }
+
+                usort($result, "byCreated");
             }
-            Cache::write('Forum.lastFilmComments', $result, array('config' => 'media'));
+            Cache::write('Forum.lastFilmComments', $result, 'media');
 
             //return $this->query($sql);
         }
@@ -1173,10 +1179,10 @@ class Film extends MediaModel {
 	         join genres as g on (fg.genre_id = g.id)
 	         where Film.active = 1 order by g.id, Film.title';
 
-            $this->contain(array());
-            $records = $this->query($sql);
-            Cache::write('Catalog.filmsWithGenres' . $langFix, $records, array('config' => 'media'));
-        }
+	        $this->contain(array());
+	        $records = $this->query($sql);
+			Cache::write('Catalog.filmsWithGenres' . $langFix, $records, 'media');
+    	}
         return $records;
     }
 
@@ -1196,10 +1202,10 @@ class Film extends MediaModel {
 	         join film_pictures as p on (p.film_id = Film.id and p.type="poster")
 	         where Film.active = 1 group by Film.id';
 
-            $this->contain(array());
-            $records = $this->query($sql);
-            Cache::write('Catalog.filmsWithPictures' . $langFix, $records, array('config' => 'media'));
-        }
+	        $this->contain(array());
+	        $records = $this->query($sql);
+			Cache::write('Catalog.filmsWithPictures' . $langFix, $records, 'media');
+		}
         return $records;
     }
 

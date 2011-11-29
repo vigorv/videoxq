@@ -89,7 +89,7 @@ class BlockMediaComponent extends BlocksParentComponent
      */
     function topList()
     {
-        if ($filter = Cache::read('Catalog.topFilms', 'default'))
+        if ($filter = Cache::read('Catalog.topFilms', 'block'))
         {
             return $filter;
         }
@@ -99,7 +99,7 @@ class BlockMediaComponent extends BlocksParentComponent
                                                             'callbacks' => false,
                                                             'group' => 'id'));
 
-        Cache::write('Catalog.topFilms', $films, array('config' => 'default', 'duration' => '+1 hour'));
+        Cache::write('Catalog.topFilms', $films, array('config' => 'block', 'duration' => '+1 hour'));
 
         return $films;
     }
@@ -112,14 +112,14 @@ class BlockMediaComponent extends BlocksParentComponent
     function lastComments()
     {
         $this->controller->set('activity_view_link', '/media/view/');
-        if ($comments = Cache::read('Catalog.lastComments', 'default'))
+        if ($comments = Cache::read('Catalog.lastComments', 'block'))
         {
             return $comments;
         }
 
         $comments = $this->controller->Film->getActivity();
 
-        Cache::write('Catalog.lastComments', $comments, array('config' => 'default', 'duration' => '+10 minutes'));
+        Cache::write('Catalog.lastComments', $comments, 'block');
 
         return $comments;
     }
