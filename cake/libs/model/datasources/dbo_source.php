@@ -603,6 +603,11 @@ class DboSource extends DataSource {
  */
 	function read(&$model, $queryData = array(), $recursive = null) {
 		$queryData = $this->__scrubQueryData($queryData);
+                /*
+                if (!empty($model->union)){
+                    pr('queryData:');
+                    pr($queryData);                    
+                }*/
 
 		$null = null;
 		$array = array();
@@ -646,12 +651,21 @@ class DboSource extends DataSource {
 				}
 			}
 		}
-
+                
+                //if (!empty($model->union)){
+                //    pr('queryData:');
+                //   pr($queryData);                    
+                //}
+                
 		$query = $this->generateAssociationQuery($model, $null, null, null, null, $queryData, false, $null);
                 //если в параметрах модели присутствует union, преобразуем 
                 //запрос, добавив "вставку" с union
-                if (!empty($model->union)){
-                    
+                //дбавим костылик, так как кто-то помденяет нормальный длинный 
+                //запрос на короткий без join'ов, а без них то нам нечего делать 
+                //))))) ниже находится такой же! не забыть при демонтаже!!!
+                
+                if ((!empty($model->union)) && (mb_strpos($query, 'JOIN '))>0){
+                //if (false){
                 /*     
                  * оригинальные поля талицы films             
                 SELECT 
@@ -699,8 +713,10 @@ class DboSource extends DataSource {
 
 
 */                    
+                   /*
                    pr('Начальный сформированый запрос:');
                    pr($query);
+                   */
                   //вставим дополнительные поля в конец 1го подзапроса (к 
                   //таблице films)
                   $addn_fields=',
@@ -733,16 +749,34 @@ class DboSource extends DataSource {
                   
                   //склеим обратно
                   $query = $select_str.$from_str;
+                /*
                   pr('Измененный запрос:');
                   pr($query);
-  
+                */
                   
                   //запомним часть строки начиная с "ORDER BY" - это 
                   //будет общим условием для union
                   $n = mb_strpos ($query, 'ORDER BY');
-                  $order_str = mb_substr($query, $n);
-                  $order_str = str_replace('`Film`.','',$order_str);
-                  //запопмним 1й родзапрос
+                  $new_order_param = 'site_id ASC';
+                  //если было условие сортировки, то модифицируем его, наверняка 
+                  //оно будет >0 запрос не может начинаться с 'ORDER BY' )))
+                  if ($n>0){
+                    $order_str = mb_substr($query, $n);
+                    $order_str = str_replace('`Film`.','',$order_str);
+                    $order_str = str_replace('ORDER BY','ORDER BY ' . $new_order_param . ', ',$order_str);
+                  }else{
+                    //иначе создадим новое
+                    //если есть в запросе 'LIMIT', то ставим перед ним
+                    $n = mb_strpos ($query, 'LIMIT');
+                    if ($n>0){
+                        $order_str = mb_substr($query, $n);
+                        $order_str = str_replace('LIMIT', 'ORDER BY ' . $new_order_param . ' LIMIT', $order_str);
+                    }
+                    else{
+                        $order_str = 'ORDER BY ' . $new_order_param;
+                    }
+                 }
+                  //запопмним 1й подзапрос
                   $q1 = mb_substr($query, 0, $n);
                  
                   //формируем 2й подзапрос для union из таблицы cache_search
@@ -794,14 +828,20 @@ class DboSource extends DataSource {
                   
                   //формируем запрос с объединением
                   $query = '(' . $q1 .  ') UNION  (' . $q2 . ') ' . $order_str;
+                /*                  
                   pr('Конечный запрос:');
                   pr ($query);
+                */
 
                 }
                 
 
 		$resultSet = $this->fetchAll($query, $model->cacheQueries, $model->alias);
-                if (!empty($model->union)){
+                //дбавим костылик, так как кто-то помденяет нормальный длинный 
+                //запрос на короткий без join'ов, а без них то нам нечего делать 
+                //))))) выше находится такой же! не забыть при демонтаже!!!
+                if (!empty($model->union) && (mb_strpos($query, 'JOIN '))>0){
+//                if (false){
                      $new_resultSet = array();
                      foreach($resultSet as $row){
                          
@@ -851,6 +891,7 @@ class DboSource extends DataSource {
                       
                      }
                      $resultSet = $new_resultSet;
+                     unset($model->union);
                      //pr ($resultSet);
                 }
                 

@@ -45,13 +45,15 @@ class CopyrightholdersController extends AppController {
             $this->set('isSearch', true);
 
             $this->_setContextUrl($this->params['named']['search']);
-            $this->Copyrightholder->contain();
+            //$this->Copyrightholder->contain();
 
             $pagination = array();
             $pagination['Copyrightholder']['limit'] = 30;
-            $pagination['Copyrightholder']['sphinx']['matchMode'] = SPH_MATCH_ALL;
-            $pagination['Copyrightholder']['sphinx']['index'] = array('videoxq_copyrightholders');//ИЩЕМ ПО ИНДЕКСУ
-            $pagination['Copyrightholder']['sphinx']['sortMode'] = array(SPH_SORT_EXTENDED => '@relevance DESC');
+            if (!Configure::read('noSphinx')){
+                $pagination['Copyrightholder']['sphinx']['matchMode'] = SPH_MATCH_ALL;
+                $pagination['Copyrightholder']['sphinx']['index'] = array('videoxq_copyrightholders');//ИЩЕМ ПО ИНДЕКСУ
+                $pagination['Copyrightholder']['sphinx']['sortMode'] = array(SPH_SORT_EXTENDED => '@relevance DESC');
+            }
             $pagination['Copyrightholder']['search'] = $this->params['named']['search'];
             $pagination['Copyrightholder']['conditions'] =  array('Copyrightholder.hidden' => 0);
             $result = $this->Copyrightholder->find('all', $pagination["Copyrightholder"]);
@@ -65,12 +67,13 @@ class CopyrightholdersController extends AppController {
             			continue;
                 	$letter = $copyrightholders_items['Copyrightholder']['name' . $langFix];
             	}
-                else
+                else{
                     $letter = $copyrightholders_items['Copyrightholder']['name'] ? $copyrightholders_items['Copyrightholder']['name'] : $copyrightholders_items['Copyrightholder']['name_en'];
+                }
                 $letter = mb_substr($letter, 0, 1, 'utf-8');
                 $copyrightholders[$letter][] = $copyrightholders_items;
             }
-//            pr($people);
+
             $this->set('copyrightholders', $copyrightholders);
             return;
         }
@@ -79,17 +82,17 @@ class CopyrightholdersController extends AppController {
 
         $this->pageTitle = __('Video catalog', true) . ' - ' . __('copyrightholders', true);
 
-/* пока отключим кэш*/
+/* пока отключим кэш*
         if (!($copyrightholders = Cache::read('Catalog.copyrightholdersIndex', 'copyrightholders')))
         {
  /**/
             $copyrightholders = $this->Copyrightholder->getCopyrightholdersIndex();
-/* пока отключим кэш*/
+/* пока отключим кэш*
             Cache::write('Catalog.copyrightholdersIndex', $copyrightholders, 'copyrightholders');
         }
 
 /**/
-
+        //pr($copyrightholders);
         $this->set('copyrightholders', $copyrightholders);
     }
 
@@ -1181,5 +1184,3 @@ class CopyrightholdersController extends AppController {
 
 }
 ?>
-
-

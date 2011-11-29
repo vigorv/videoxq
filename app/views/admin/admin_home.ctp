@@ -1,6 +1,8 @@
 <?php
 echo $html->link('Статистика поиска', array('action'=>'search_logs', 'controller' => 'utils', Configure::read('Routing.admin') => true)) . '<br>';
 echo '<br>';
+echo $html->link('Правообладатели', array('action'=>'index', 'controller' => 'copyrightholders', Configure::read('Routing.admin') => true)) . '<br>';
+echo '<br>';
 echo $html->link('Оплата VIP', array('action'=>'index', 'controller' => 'pays', Configure::read('Routing.admin') => true)) . '<br>';
 echo '<br>';
 echo $html->link('Баннеры', array('action'=>'banners', 'controller' => 'utils', Configure::read('Routing.admin') => true)) . '<br>';

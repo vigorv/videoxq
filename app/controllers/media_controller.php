@@ -1299,7 +1299,14 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
                     }
                     $countation['Film']['fields'] = array();
                     $countation['Film']['fields'][] = 'count(`Film`.`id`) as countrec' ;
-                    //pr($countation);
+					if (!empty($this->params['named']['search']))
+					{
+			            $search = (!empty($this->params['named']['search'])) ? trim($this->params['named']['search']) : '';
+			            $countation['Film']['sphinx']['matchMode'] = SPH_MATCH_ALL;
+			            $countation['Film']['sphinx']['index'] = array('videoxq_films');//ИЩЕМ ПО ИНДЕКСУ ФИЛЬМОВ
+			            $countation['Film']['search'] = $search;
+					}
+//pr($countation);
                     $filmCount_arr = $this->Film->find('all', $countation["Film"]);
 
                     //pr($filmCount_arr[0]['countrec']);
@@ -1315,7 +1322,8 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
 //                    $filmCount = $this->Film->find('count', $countation2['Film']);
 //                    pr($countation["Film"]);
 //---------------------------------------------------
-    		if ((isset($this->passedArgs['page'])) && $filmCount)
+    		//if ((isset($this->passedArgs['page'])) && $filmCount)
+    		if ($filmCount)
     		{
 		    	Cache::write('Catalog.' . $postFix . 'count_'.$outCount, $filmCount, 'searchres');
     		}
@@ -1431,6 +1439,7 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
             if ($translit == $search)
             	$translit = '';
 
+            
             $sort = ', hits DESC';
 
             if (!empty($this->params['named']['sort']))
@@ -1482,7 +1491,7 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
             // которое учтется в при разборе "полёта" в классе dboSource
             // (dbo_source.php ВНИМАНИЕ!!! незабыть, что его редактировали) из
             // библиотеки кейка
-/*
+//*
             $crossSearch = true; //ФЛАГ ДЛЯ ПРОВЕРКИ В ОТОБРАЖЕНИИ
             $this->Film->union = array_merge($wsmediaResult, $animebarResult);
         /******************************************************/
@@ -1513,22 +1522,22 @@ echo'</pre>';
 		$films = false;
 		$posts = array();
 
-
 		if (!$isFirstPage)
 			$films = Cache::read('Catalog.' . $postFix . 'list_'.$out, 'searchres');
+
 		if (empty($search))
 		{
-//			unset($pagination['Film']['sphinx']);//СФИНКС ВСЕ РАВНО НЕ БУДЕТ ИСКАТЬ ПО ПУСТОЙ СТРОКЕ
+			unset($pagination['Film']['sphinx']);//СФИНКС ВСЕ РАВНО НЕ БУДЕТ ИСКАТЬ ПО ПУСТОЙ СТРОКЕ
 
 		}
 
 		if ($films === false)//ЕСЛИ ЕЩЕ НЕ КЭШИРОВАЛИ
 		{
 
-			//$starSearch = transStarChars($search);
-            //$pagination['Film']['search'] = $starSearch;
-
-    		$films = $this->Film->find('all', $pagination["Film"]);
+		//$starSearch = transStarChars($search);
+                //$pagination['Film']['search'] = $starSearch;
+                $this->Film->cacheQueries = false;
+    		$films = $this->Film->find('all', $pagination["Film"],null,0);
 
 
 //##                //pr ($pagination["Film"]);
@@ -1581,20 +1590,20 @@ echo'</pre>';
                 /******************************************************/
                 // если был установлен 'union', очистим его - после выборки при
                 // "поиске фильмов" он не нужен
+/*
                         if (!empty($this->Film->union)){
                             unset ($this->Film->union);
 
                         }
+ */
                 /******************************************************/
 		//КЭШИРУЕМ ДАЖЕ ЕСЛИ НИЧЕГО НЕ НАЙДЕНО
     		//if (((isset($this->passedArgs['page'])) && $films) || isset($this->passedArgs['search']))
 
-    		if (!$isFirstPage)
-    		{
-//echo 'RESULT CACHED';
-//exit;
-	    		Cache::write('Catalog.' . $postFix . 'list_'.$out, $films, 'searchres');
-    		}
+                    if (!$isFirstPage)
+                    {
+                            Cache::write('Catalog.' . $postFix . 'list_'.$out, $films, 'searchres');
+                    }
 		}
 
 
@@ -1853,7 +1862,6 @@ echo'</pre>';
      */
     function looksLike($title)
     {
-return array();
     	$films = array(); $searchFor = '';
     	$pos = mb_strpos(mb_strtolower($title), __('season', true));
 /*

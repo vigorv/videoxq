@@ -1933,6 +1933,7 @@ class Model extends Overloadable {
  * @link http://book.cakephp.org/view/449/find
  */
 	function find($conditions = null, $fields = array(), $order = null, $recursive = null) {
+                
 		if (!is_string($conditions) || (is_string($conditions) && !array_key_exists($conditions, $this->_findMethods))) {
 			$type = 'first';
 			$query = array_merge(compact('conditions', 'fields', 'order', 'recursive'), array('limit' => 1));
@@ -1988,6 +1989,7 @@ class Model extends Overloadable {
 		}
 
 		$results = $db->read($this, $query);
+
 		$this->resetAssociations();
 		$this->findQueryType = null;
 
