@@ -1439,7 +1439,7 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
             if ($translit == $search)
             	$translit = '';
 
-            
+
             $sort = ', hits DESC';
 
             if (!empty($this->params['named']['sort']))
@@ -2690,7 +2690,7 @@ echo'</pre>';
 
 	        		$this->Session->setFlash(__('Comment added', true));
 
-	        		Cache::delete('Catalog.lastComments', 'default');//СБРАСЫВАЕМ КЭШ БЛОКА ПОСЛЕДНИХ КОМЕНТОВ
+	        		Cache::delete('Catalog.lastComments', 'block');//СБРАСЫВАЕМ КЭШ БЛОКА ПОСЛЕДНИХ КОМЕНТОВ
 	        		Cache::delete('Forum.lastFilmComments', 'media');//СБРАСЫВАЕМ КЭШ ВЫБОРКИ ПОСЛЕДНИХ КОМЕНТОВ
 				}
 	        }

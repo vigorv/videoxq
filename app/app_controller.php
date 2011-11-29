@@ -561,7 +561,7 @@ class AppController extends Controller {
             $postFix = 'Lic';
         }
 
-        $data = Cache::read('Catalog.filmStats' . $postFix, 'default');
+        $data = Cache::read('Catalog.filmStats' . $postFix, 'block');
         if (!$data) {
 //СЧИТАЕМ ДЛЯ ВНЕШНИХ И ДЛЯ ВНУТРЕННИХ ОДИНАКОВО            if ($this->isWS)
 			{
@@ -597,7 +597,7 @@ LIMIT 1';
             $data['size'] = $tmp[0][0]['size'];
 //*/
 
-            Cache::write('Catalog.filmStats' . $postFix, $data, 'default');
+            Cache::write('Catalog.filmStats' . $postFix, $data, 'block');
         }
         $this->set('filmStats', $data);
     }

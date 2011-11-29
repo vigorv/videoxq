@@ -346,7 +346,7 @@ exit;
 	        		usort($result, "byCreated");
 	        	}
 	        }
-			Cache::write('Forum.lastFilmComments', $result, array('config' => 'media'));
+			Cache::write('Forum.lastFilmComments', $result, 'media');
 
 	        //return $this->query($sql);
 		}
@@ -1168,7 +1168,7 @@ exit;
 
 	        $this->contain(array());
 	        $records = $this->query($sql);
-			Cache::write('Catalog.filmsWithGenres' . $langFix, $records, array('config' => 'media'));
+			Cache::write('Catalog.filmsWithGenres' . $langFix, $records, 'media');
     	}
         return $records;
     }
@@ -1192,7 +1192,7 @@ exit;
 
 	        $this->contain(array());
 	        $records = $this->query($sql);
-			Cache::write('Catalog.filmsWithPictures' . $langFix, $records, array('config' => 'media'));
+			Cache::write('Catalog.filmsWithPictures' . $langFix, $records, 'media');
 		}
         return $records;
     }

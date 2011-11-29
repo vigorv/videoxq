@@ -102,7 +102,7 @@ class Country extends MediaModel {
 	        {
 	            $res[$record['c']['id']] = $record['c']['title' . $langFix] . ' (' . $record['0']['count'] . ')';
 	        }
-			Cache::write('Countries.filmCount' . $langFix, $res, array('config' => 'media'));
+			Cache::write('Countries.filmCount' . $langFix, $res, 'media');
 		}
 
         return $res;
