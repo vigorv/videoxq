@@ -1005,7 +1005,7 @@ return;//НЕПРАВИЛЬНО РАБОТАЕТ
 			$postFix = 'Licensed';
 		}
 		*/
-        if (empty($this->passedArgs['page']))
+        if (!empty($this->passedArgs['page']))
         {
         	$page = intval($this->passedArgs['page']);
         }
