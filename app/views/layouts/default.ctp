@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
     <head>
-        <?php
+<?php
 /*
         <meta name="keywords" content="фильм, фильмы, кино, сериалы, бесплатные фильмы, лицензионные фильмы, фильмы бесплатно, скачать фильмы бесплатно без регистрации, отечественные фильмы, старые фильмы, скачать сериалы <?php //if (isset($metaKeywords)) echo $metaKeywords;  ?>" />
         <meta name="description" content="Сайт для скачивания фильмов и сериалов. Классика и новинки кино на VIDEOXQ.com Только лицензионное качество фильмов – бесплатно, без регистрации и СМС<?php //if (isset($metaDescription)) echo $metaDescription;  ?>" />
