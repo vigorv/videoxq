@@ -688,7 +688,7 @@ foreach ($FilmVariant as $variant)
 
 	if (!empty($authUser['userid']) || $isWS)
 	{
-		$mediaInfo .= __('Video', true) . ': ' . $variant['resolution'] . '<br />';
+		$mediaInfo .= __('Resolution', true) . ': ' . $variant['resolution'] . '<br />';
 		$variant['Track']['audio_info'] = str_replace('stereo', '2ch stereo', $variant['Track']['audio_info']);
 		$variant['Track']['audio_info'] = str_replace('стерео', '2ch stereo', $variant['Track']['audio_info']);
 		$mediaInfo .= __('Audio', true) . ': ' . $variant['Track']['audio_info'] . '<br />';
@@ -1145,7 +1145,7 @@ if (!empty($variant['FilmLink']))
 if (!empty($authUser['userid']) || $isWS)
 {
 ?>
-<?php __('Video'); ?>: <?= $FilmVariant[0]['resolution'] ?><br>
+<?php __('Resolution'); ?>: <?= $FilmVariant[0]['resolution'] ?><br>
 <?php
 	$FilmVariant[0]['Track']['audio_info'] = str_replace('stereo', '2ch stereo', $FilmVariant[0]['Track']['audio_info']);
 	$FilmVariant[0]['Track']['audio_info'] = str_replace('стерео', '2ch stereo', $FilmVariant[0]['Track']['audio_info']);
