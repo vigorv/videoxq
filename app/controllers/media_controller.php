@@ -1016,7 +1016,7 @@ return;//НЕПРАВИЛЬНО РАБОТАЕТ
         }
 */
         $pagination = array('Film' => array(
-/*
+//*
         							'contain' =>
                                        array('FilmType',
                                              'Genre',
@@ -1027,7 +1027,7 @@ return;//НЕПРАВИЛЬНО РАБОТАЕТ
                                              'MediaRating'),
 //*/
 
-//*
+/*
         								'fields' => array('Film.id', 'Film.title', 'Film.title_en', 'Film.year', 'Film.imdb_rating', 'Film.is_license'),
         								'contain' =>
                                        array('FilmType' => array('fields' => 'FilmType.id'),

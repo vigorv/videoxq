@@ -8219,6 +8219,9 @@ msgstr "В ролях"
 msgid "Quality"
 msgstr "Качество"
 
+msgid "Resolution"
+msgstr "Разрешение"
+
 msgid "Audio"
 msgstr "Аудио"
 
