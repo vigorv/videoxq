@@ -85,7 +85,7 @@ class Genre extends MediaModel {
 		$langFix = '';
 		if ($lang == _ENG_) $langFix = '_imdb';
 
-    	$res = Cache::read('Genre.withCount' . $langFix, 'media');
+    	$res = Cache::read('Genre.withCount' . $langFix, 'genres');
     	if (empty($res))
     	{
 	        $sql =
@@ -93,7 +93,7 @@ class Genre extends MediaModel {
 	         from genres as g
 	         join films_genres as fg on (fg.genre_id=g.id)
 	         join films as f on (fg.film_id = f.id AND f.active = 1)
-	         where g.is_delete = 0
+	         where g.is_delete = 0 and 2=2 
 	         group by g.title' . $langFix . ' order by g.title' . $langFix . ' ASC';
 
 	        $records = $this->query($sql);
@@ -102,7 +102,7 @@ class Genre extends MediaModel {
 	        {
 	            $res[$record['g']['id']] = $record['g']['title' . $langFix] . ' (' . $record['0']['count'] . ')';
 	        }
-			Cache::write('Genre.withCount' . $langFix, $res, 'media');
+			Cache::write('Genre.withCount' . $langFix, $res, 'genres');
     	}
 
         return $res;
@@ -120,7 +120,7 @@ class Genre extends MediaModel {
 		$langFix = '';
 		if ($lang == _ENG_) $langFix = '_imdb';
 
-    	$res = Cache::read('Genre.withLicCount' . $langFix, 'media');
+    	$res = Cache::read('Genre.withLicCount' . $langFix, 'genres');
     	if (empty($res))
     	{
 	        $sql =
@@ -128,7 +128,7 @@ class Genre extends MediaModel {
 	         from genres as g
 	         join films_genres as fg on (fg.genre_id=g.id)
 	         join films as f on (fg.film_id = f.id AND f.active = 1 AND f.is_license = 1)
-	         where g.is_delete = 0
+	         where g.is_delete = 0 and 1=1
 	         group by g.title' . $langFix . ' order by g.title' . $langFix . ' ASC';
 
 	        $records = $this->query($sql);
@@ -137,7 +137,7 @@ class Genre extends MediaModel {
 	        {
 	            $res[$record['g']['id']] = $record['g']['title' . $langFix] . ' (' . $record['0']['count'] . ')';
 	        }
-			Cache::write('Genre.withLicCount' . $langFix, $res, 'media');
+			Cache::write('Genre.withLicCount' . $langFix, $res, 'genres');
     	}
 
         return $res;

@@ -35,7 +35,9 @@ class MetaTag extends AppModel {
      * @return mixed $metatags -
      */
     public function getMetaTagByURL($url='', $page=1, $perpage=0){
-        if (!($metatags = Cache::read('Metatags.'.md5($url), 'block')))
+	$cacheprofile='meta';
+	if($page==1)$cacheprofile='metafp';
+        if (!($metatags = Cache::read('Metatags.'.md5($url), $cacheprofile)))
         {
             $metatags = array();
             $conditions = array('url'=>$url);
@@ -46,7 +48,7 @@ class MetaTag extends AppModel {
                 $query_options[] = array('OFFSET' => ($page-1)*$perpage);
             }
             $metatags = $this->find('all', $query_options);
-            Cache::write('Metatags.'.md5($url), $metatags, 'block');
+            Cache::write('Metatags.'.md5($url), $metatags, $cacheprofile);
         }
         return $metatags;
     }
@@ -95,7 +97,8 @@ class MetaTag extends AppModel {
             //нам нужен url соответствующий этой записи
             $data = $this->find('first',array('fields'=>array('url'),'conditions'=>array('id'=>$id)));
             $hash = md5($data['MetaTag']['url']);
-            Cache::delete('Metatags.'.$hash, 'block');
+            Cache::delete('Metatags.'.$hash, 'meta');
+            Cache::delete('Metatags.'.$hash, 'metafp');
         }
         return $result;
     }

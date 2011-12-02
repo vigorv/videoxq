@@ -1172,7 +1172,7 @@ class Film extends MediaModel {
         if ($lang == _ENG_)
             $langFix = '_en';
 
-        $records = Cache::read('Catalog.filmsWithGenres' . $langFix, 'media');
+        $records = Cache::read('Catalog.filmsWithGenres' . $langFix, 'genres');
         if (!$records) {
             $sql = 'select Film.id, Film.title' . $langFix . ', g.id from films as Film
 	         join films_genres as fg on (fg.film_id=Film.id)
@@ -1181,7 +1181,7 @@ class Film extends MediaModel {
 
 	        $this->contain(array());
 	        $records = $this->query($sql);
-			Cache::write('Catalog.filmsWithGenres' . $langFix, $records, 'media');
+			Cache::write('Catalog.filmsWithGenres' . $langFix, $records, 'genres');
     	}
         return $records;
     }

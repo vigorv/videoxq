@@ -919,6 +919,18 @@ return;//НЕПРАВИЛЬНО РАБОТАЕТ
 
     function index()
     {
+	$cacheprofile='searchres';
+	if (empty($this->passedArgs['page']))
+	{
+	 $this->passedArgs['page']=1;
+	}
+	if (empty($this->passedArgs['action']))	{$this->passedArgs['action']='index';}
+	
+	
+	if ($this->passedArgs['page'] == 1&& empty($this->passedArgs["search"]))
+	{
+	 $cacheprofile='firstpage';
+	}
         //$this->pageTitle = __('Video catalog', true);
         $this->Film->recursive = 1;
 
@@ -1260,7 +1272,7 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
             $countation['Film']['contain'][] = 'Genre';
         }
 
-       	$filmCount = Cache::read('Catalog.' . $postFix . 'count_'.$outCount, 'searchres');
+       	$filmCount = Cache::read('Catalog.' . $postFix . 'count_'.$outCount, $cacheprofile);
 //pr($countation);
 //$countation2 = $pagination;
 //unset ($countation2['Film']['limit']);
@@ -1335,7 +1347,7 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
     		//if ((isset($this->passedArgs['page'])) && $filmCount)
     		if ($filmCount)
     		{
-		    	Cache::write('Catalog.' . $postFix . 'count_'.$outCount, $filmCount, 'searchres');
+		    	Cache::write('Catalog.' . $postFix . 'count_'.$outCount, $filmCount, $cacheprofile);
     		}
 		}
 
@@ -1533,7 +1545,7 @@ echo'</pre>';
 		$posts = array();
 
 		if (!$isFirstPage)
-			$films = Cache::read('Catalog.' . $postFix . 'list_'.$out, 'searchres');
+			$films = Cache::read('Catalog.' . $postFix . 'list_'.$out, $cacheprofile);
 
 		if (empty($search))
 		{
@@ -1612,7 +1624,7 @@ echo'</pre>';
 
                     if (!$isFirstPage)
                     {
-                            Cache::write('Catalog.' . $postFix . 'list_'.$out, $films, 'searchres');
+                            Cache::write('Catalog.' . $postFix . 'list_'.$out, $films, $cacheprofile);
                     }
 		}
 
