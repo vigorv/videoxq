@@ -1245,15 +1245,21 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
 			$name .= '/ex:' . $this->passedArgs['ex'];
 		if (!empty($this->passedArgs['search']))
 			$name .= '/search:' . $this->passedArgs['search'];
-		$outCount = md5($name);//НАЗВАНИЕ КЭША ДЛЯ СЧЕТЧИКА ГОТОВО
+
+		$outCount = preg_replace('/[^a-zA-Z0-9а-яА-Я]/', '_', $name);
+		$outCount = preg_replace('/[_]{2,}/', '_', $outCount);
+//print_r($outCount);
+//echo'<br />';
+		//$outCount = md5($name);//НАЗВАНИЕ КЭША ДЛЯ СЧЕТЧИКА ГОТОВО
 
 		if (!empty($this->passedArgs['page']))
 			$name .= '/page:' . $this->passedArgs['page'];
-		$out = md5($name); //ДЛЯ НАЗВАНИЯ КЭША ВЫБОРКИ ФИЛЬМОВ ЕЩЕ УЧИТЫВАЕМ И СТРАНИЦУ
 
-//print_r($outCount);
-//echo'<br />';
+		$out = preg_replace('/[^a-zA-Z0-9а-яА-Я]/', '_', $name);
+		$out = preg_replace('/[_]{2,}/', '_', $out);
 //print_r($out);
+		//$out = md5($name); //ДЛЯ НАЗВАНИЯ КЭША ВЫБОРКИ ФИЛЬМОВ ЕЩЕ УЧИТЫВАЕМ И СТРАНИЦУ
+
 //*/
 
 	$countation = $pagination;
