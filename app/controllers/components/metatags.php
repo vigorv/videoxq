@@ -48,7 +48,7 @@ class MetatagsComponent extends Object
 	public function fixUrl($url)
 	{
 		$argsMap = array(//КАРТА ИСПОЛЬЗУЕМЫХ АРГУМЕНТОВ (ОСТАЛЬНЫЕ БУДЕМ ИГНОРИРОВАТЬ)
-			'genre', 'country', 'type', 'year', 'sort'
+			'genre', 'country', 'type', 'year_start', 'year_end', 'imdb_start', 'imdb_end', 'sort'
 		);
 		$urlInfo = parse_url(Configure::read('App.siteUrl') . $url);
 		$path = explode('/', $urlInfo['path']);

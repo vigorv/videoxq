@@ -1015,14 +1015,17 @@ return;//НЕПРАВИЛЬНО РАБОТАЕТ
         	$page = 1;
         }
 */
-        $pagination = array('Film' => array('contain' =>
-                                       array('FilmType',
-                                             'Genre',
-                                             'FilmVariant' => array('VideoType'),
-                                             'FilmPicture' => array('conditions' => array('type' => 'smallposter')),
-                                             'Country',
-                                             'Person' => array('conditions' => array('FilmsPerson.profession_id' => array(1, 3, 4))),
-                                             'MediaRating'),
+        $pagination = array('Film' => array(
+        								'fields' => array('Film.id', 'Film.title', 'Film.title_en', 'Film.year', 'Film.imdb_rating', 'Film.is_license'),
+        								'contain' =>
+                                       array('FilmType' => array('fields' => 'FilmType.id'),
+                                             'Genre' => array('fields' => array('Genre.id', 'Genre.title', 'Genre.title_imdb')),
+                                             'FilmVariant' => array('fields' => array(`FilmVariant`.`id`), 'VideoType'),
+                                             'FilmPicture' => array('fields' => array('FilmPicture.file_name'), 'conditions' => array('type' => 'smallposter')),
+                                             'Country' => array('fields' => array('Country.title', 'Country.title_imdb')),
+                                             'Person' => array('fields' => array('Person.id', 'Person.name', 'Person.name_en', ), 'conditions' => array('FilmsPerson.profession_id' => array(1, 3, 4))),
+                                             'MediaRating' => array('fields' => 'MediaRating.rating')
+                                        ),
 /*
                                         'joins' => array(
                                                         array('table' => 'films_genres', 'alias' => 'fg1', 'type' => 'INNER', 'conditions' => 'fg1.film_id = Film.id'),
@@ -1217,6 +1220,9 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
 
         $out='';
         $outCount='';
+
+/*
+//ФОРМИРОВАНИЕ НАЗВАНИЯ КЭША НА ОСНОВЕ МАССИВА ПАРАМЕТРОВ
         $name=$this->passedArgs;
         //$name=array();
         ksort($name);
@@ -1228,6 +1234,33 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
             if ($k <> 'page')
                     $outCount.=$k."_".$v."_";
         }
+//*/
+
+//*
+//ФОРМИРОВАНИЕ НАЗВАНИЯ КЭША НА ОСНОВЕ АДРЕСА СТРАНИЦЫ
+		$name = $this->Metatags->fixUrl($this->here);
+		if (!empty($this->passedArgs['direction']))
+			$name .= '/direction:' . $this->passedArgs['direction'];
+		if (!empty($this->passedArgs['ex']))
+			$name .= '/ex:' . $this->passedArgs['ex'];
+		if (!empty($this->passedArgs['search']))
+			$name .= '/search:' . $this->passedArgs['search'];
+
+		$outCount = preg_replace('/[^a-zA-Z0-9а-яА-Я]/', '_', $name);
+		$outCount = preg_replace('/[_]{2,}/', '_', $outCount);
+//print_r($outCount);
+//echo'<br />';
+		//$outCount = md5($name);//НАЗВАНИЕ КЭША ДЛЯ СЧЕТЧИКА ГОТОВО
+
+		if (!empty($this->passedArgs['page']))
+			$name .= '/page:' . $this->passedArgs['page'];
+
+		$out = preg_replace('/[^a-zA-Z0-9а-яА-Я]/', '_', $name);
+		$out = preg_replace('/[_]{2,}/', '_', $out);
+//print_r($out);
+		//$out = md5($name); //ДЛЯ НАЗВАНИЯ КЭША ВЫБОРКИ ФИЛЬМОВ ЕЩЕ УЧИТЫВАЕМ И СТРАНИЦУ
+
+//*/
 
 	$countation = $pagination;
     	unset($countation["Film"]['limit']);
@@ -1304,8 +1337,8 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
                     }
                     if (!empty($this->params['named']['genre']))
                     {
-                        //$countation['Film']['contain'][] = 'FilmsGenre';
-                        //$countation['Film']['contain'][] = 'Genre';
+                        $countation['Film']['contain'][] = 'FilmsGenre';
+                        $countation['Film']['contain'][] = 'Genre';
                     }
                     $countation['Film']['fields'] = array();
                     $countation['Film']['fields'][] = 'count(`Film`.`id`) as countrec' ;

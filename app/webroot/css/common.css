@@ -45,6 +45,10 @@
 
 #genres { margin: 0 }
 #genres li { padding: 0; background:none 0 no-repeat; }
+#genres li a.vk, #genres li a.vk:hover, #genres li a.vk:active {
+	background: none;
+	padding:0;
+}
 #genres li a:hover{
 	background: url(/img/chk.gif) 0 no-repeat;
 	padding:1px 0 0 20px;
@@ -769,7 +773,7 @@ body:first-of-type #levo_input p {padding-top: 7px;}
 #text_photo {margin-left: 50px;margin-right: 30px; font-size: 1.2em; }
 #icon_favorite { padding-left: 60px; padding-top: 20px;}
 
-#filmviewicons { display: block; }
+#filmviewicons { width:50%; display: block; }
 #filmviewicons img { margin: 0 5px 0 5px; }
 #filmviewicons img { margin: 0 5px 0 5px; }
 #text_photo {margin-left: 50px;margin-right: 30px; font-size: 1.2em; }
@@ -794,12 +798,12 @@ text-align: center;
 width: 120px;
 margin-bottom:30px;
 }
-/*страница ви-доступа*/
+/*пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ-пїЅпїЅпїЅпїЅпїЅпїЅпїЅ*/
 #page_pay {width:1024px; margin:20px auto;}
 #page_pay h3 {font-weight: bold;}
 #pay_right_menu {float:right;border: 1px solid #FF8000; margin:0;width: 200px;}
 #pay_right_menu ul {display: block; margin: 0; padding: 0; list-style: none;}
-#pay_right_menu li {text-align: center;cursor:pointer;background-color: white;width: 200px; border-bottom: 1px solid #ccc; height: 20px;padding:10px 0 5px 0;margin:0;} 
+#pay_right_menu li {text-align: center;cursor:pointer;background-color: white;width: 200px; border-bottom: 1px solid #ccc; height: 20px;padding:10px 0 5px 0;margin:0;}
 #pay_right_menu li a {text-decoration: none; color: #252525; padding: 15px;}
 #pay_right_menu li:hover {background-color: #FFD9B3;}
 .img_logo {float:right;margin-top: -100px;}
