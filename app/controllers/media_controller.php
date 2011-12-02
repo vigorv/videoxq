@@ -1027,7 +1027,9 @@ return;//НЕПРАВИЛЬНО РАБОТАЕТ
         	$page = 1;
         }
 */
-        $pagination = array('Film' => array('contain' =>
+        $pagination = array('Film' => array(
+//*
+        							'contain' =>
                                        array('FilmType',
                                              'Genre',
                                              'FilmVariant' => array('VideoType'),
@@ -1035,6 +1037,21 @@ return;//НЕПРАВИЛЬНО РАБОТАЕТ
                                              'Country',
                                              'Person' => array('conditions' => array('FilmsPerson.profession_id' => array(1, 3, 4))),
                                              'MediaRating'),
+//*/
+
+/*
+        								'fields' => array('Film.id', 'Film.title', 'Film.title_en', 'Film.year', 'Film.imdb_rating', 'Film.is_license'),
+        								'contain' =>
+                                       array('FilmType' => array('fields' => 'FilmType.id'),
+                                             'Genre' => array('fields' => array('Genre.id', 'Genre.title', 'Genre.title_imdb')),
+                                             'FilmVariant' => array('fields' => array(`FilmVariant`.`id`), 'VideoType'),
+                                             'FilmPicture' => array('fields' => array('FilmPicture.file_name'), 'conditions' => array('type' => 'smallposter')),
+                                             'Country' => array('fields' => array('Country.title', 'Country.title_imdb')),
+                                             'Person' => array('fields' => array('Person.id', 'Person.name', 'Person.name_en', ), 'conditions' => array('FilmsPerson.profession_id' => array(1, 3, 4))),
+                                             'MediaRating' => array('fields' => 'MediaRating.rating')
+                                        ),
+//*/
+
 /*
                                         'joins' => array(
                                                         array('table' => 'films_genres', 'alias' => 'fg1', 'type' => 'INNER', 'conditions' => 'fg1.film_id = Film.id'),
@@ -1229,6 +1246,9 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
 
         $out='';
         $outCount='';
+
+/*
+//ФОРМИРОВАНИЕ НАЗВАНИЯ КЭША НА ОСНОВЕ МАССИВА ПАРАМЕТРОВ
         $name=$this->passedArgs;
         //$name=array();
         ksort($name);
@@ -1240,6 +1260,123 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
             if ($k <> 'page')
                     $outCount.=$k."_".$v."_";
         }
+//*/
+			function transCyrChars($txt, $reverse = false)
+			{
+				$result = '';
+				$t = array(//ТРАНСЛИТ
+					'а'=>'a','б'=>'b','в'=>'v','г'=>'g','д'=>'d','е'=>'e','ё'=>'jo','ж'=>'zh',
+					'з'=>'z','и'=>'i','й'=>'j','к'=>'k','л'=>'l','м'=>'m','н'=>'n','о'=>'o',
+					'п'=>'p','р'=>'r','с'=>'s','т'=>'t','у'=>'u','ф'=>'f','х'=>'h','ц'=>'z',
+					'ч'=>'ch','ш'=>'sh','щ'=>'shj','ъ'=>'','ы'=>'i','ь'=>'j','э'=>'e','ю'=>'ju',
+					'я'=>'ja'
+				 );
+				$t = array(//РАСКЛАДКА
+					'а'=>'f','б'=>',','в'=>'d','г'=>'u','д'=>'l','е'=>'t','ё'=>'`','ж'=>';',
+					'з'=>'p','и'=>'b','й'=>'q','к'=>'r','л'=>'k','м'=>'v','н'=>'y','о'=>'j',
+					'п'=>'g','р'=>'h','с'=>'c','т'=>'n','у'=>'e','ф'=>'a','х'=>'[','ц'=>'w',
+					'ч'=>'x','ш'=>'i','щ'=>'o','ъ'=>']','ы'=>'s','ь'=>'m','э'=>"'",'ю'=>'.',
+					'я'=>'z'
+				 );
+				$t = array_flip($t);//ДЛЯ МАССИВА ПО РАСКЛАДКЕ
+
+				if ($reverse)
+				{
+					$t = array_flip($t);//ОБРАТНЫЙ ПЕРЕВОД
+				}
+
+				$t1 = array();//массив в верхнем регистре
+				foreach ($t as $key => $value)
+					$t1[mb_strtoupper($key)] = mb_strtoupper($value);
+
+				$searchCnt = mb_strlen($txt);
+				for($i = 0; $i < $searchCnt; $i++)
+				{
+					$c = mb_substr($txt, $i, 1);
+					if (isset($t[$c]))
+					{
+						$result .= $t[$c];
+						continue;
+					}
+					elseif (isset($t1[$c]))
+					{
+						$result .= $t1[$c];
+						continue;
+					}
+					else
+					{
+						$result .= $c;
+					}
+				}
+				return $result;
+			}
+
+			function transCyrChars2($txt, $reverse = false)
+			{
+				$result = '';
+				$t = array(//ТРАНСЛИТ
+					'а'=>'a','б'=>'b','в'=>'v','г'=>'g','д'=>'d','е'=>'e','ё'=>'jo','ж'=>'zh',
+					'з'=>'z','и'=>'i','й'=>'j','к'=>'k','л'=>'l','м'=>'m','н'=>'n','о'=>'o',
+					'п'=>'p','р'=>'r','с'=>'s','т'=>'t','у'=>'u','ф'=>'f','х'=>'h','ц'=>'z',
+					'ч'=>'ch','ш'=>'sh','щ'=>'shj','ъ'=>'','ы'=>'i','ь'=>'j','э'=>'e','ю'=>'ju',
+					'я'=>'ja'
+				 );
+				if ($reverse)
+				{
+					$t = array_flip($t);//ОБРАТНЫЙ ПЕРЕВОД
+				}
+
+				$t1 = array();//массив в верхнем регистре
+				foreach ($t as $key => $value)
+					$t1[mb_strtoupper($key)] = mb_strtoupper($value);
+
+				$searchCnt = mb_strlen($txt);
+				for($i = 0; $i < $searchCnt; $i++)
+				{
+					$c = mb_substr($txt, $i, 1);
+					if (isset($t[$c]))
+					{
+						$result .= $t[$c];
+						continue;
+					}
+					elseif (isset($t1[$c]))
+					{
+						$result .= $t1[$c];
+						continue;
+					}
+					else
+					{
+						$result .= $c;
+					}
+				}
+				return $result;
+			}
+
+//*
+//ФОРМИРОВАНИЕ НАЗВАНИЯ КЭША НА ОСНОВЕ АДРЕСА СТРАНИЦЫ
+		$name = $this->Metatags->fixUrl($this->here);
+		if (!empty($this->passedArgs['direction']))
+			$name .= '/direction:' . $this->passedArgs['direction'];
+		if (!empty($this->passedArgs['ex']))
+			$name .= '/ex:' . $this->passedArgs['ex'];
+		if (!empty($this->passedArgs['search']))
+			$name .= '/search:' . $this->passedArgs['search'];
+
+		$outCount = preg_replace('/[^a-zA-Z0-9]/', '_', transCyrChars2($name));
+		$outCount = preg_replace('/[_]{2,}/', '_', $outCount);
+//print_r($outCount);
+//echo'<br />';
+		//$outCount = md5($name);//НАЗВАНИЕ КЭША ДЛЯ СЧЕТЧИКА ГОТОВО
+
+		if (!empty($this->passedArgs['page']))
+			$name .= '/page:' . $this->passedArgs['page'];
+
+		$out = preg_replace('/[^a-zA-Z0-9]/', '_', transCyrChars2($name));
+		$out = preg_replace('/[_]{2,}/', '_', $out);
+//print_r($out);
+		//$out = md5($name); //ДЛЯ НАЗВАНИЯ КЭША ВЫБОРКИ ФИЛЬМОВ ЕЩЕ УЧИТЫВАЕМ И СТРАНИЦУ
+
+//*/
 
 	$countation = $pagination;
     	unset($countation["Film"]['limit']);
@@ -1396,56 +1533,6 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
 				}
 				return $result;
             }
-
-			function transCyrChars($txt, $reverse = false)
-			{
-				$result = '';
-				$t = array(//ТРАНСЛИТ
-					'а'=>'a','б'=>'b','в'=>'v','г'=>'g','д'=>'d','е'=>'e','ё'=>'jo','ж'=>'zh',
-					'з'=>'z','и'=>'i','й'=>'j','к'=>'k','л'=>'l','м'=>'m','н'=>'n','о'=>'o',
-					'п'=>'p','р'=>'r','с'=>'s','т'=>'t','у'=>'u','ф'=>'f','х'=>'h','ц'=>'z',
-					'ч'=>'ch','ш'=>'sh','щ'=>'shj','ъ'=>'','ы'=>'i','ь'=>'j','э'=>'e','ю'=>'ju',
-					'я'=>'ja'
-				 );
-				$t = array(//РАСКЛАДКА
-					'а'=>'f','б'=>',','в'=>'d','г'=>'u','д'=>'l','е'=>'t','ё'=>'`','ж'=>';',
-					'з'=>'p','и'=>'b','й'=>'q','к'=>'r','л'=>'k','м'=>'v','н'=>'y','о'=>'j',
-					'п'=>'g','р'=>'h','с'=>'c','т'=>'n','у'=>'e','ф'=>'a','х'=>'[','ц'=>'w',
-					'ч'=>'x','ш'=>'i','щ'=>'o','ъ'=>']','ы'=>'s','ь'=>'m','э'=>"'",'ю'=>'.',
-					'я'=>'z'
-				 );
-				$t = array_flip($t);//ДЛЯ МАССИВА ПО РАСКЛАДКЕ
-
-				if ($reverse)
-				{
-					$t = array_flip($t);//ОБРАТНЫЙ ПЕРЕВОД
-				}
-
-				$t1 = array();//массив в верхнем регистре
-				foreach ($t as $key => $value)
-					$t1[mb_strtoupper($key)] = mb_strtoupper($value);
-
-				$searchCnt = mb_strlen($txt);
-				for($i = 0; $i < $searchCnt; $i++)
-				{
-					$c = mb_substr($txt, $i, 1);
-					if (isset($t[$c]))
-					{
-						$result .= $t[$c];
-						continue;
-					}
-					elseif (isset($t1[$c]))
-					{
-						$result .= $t1[$c];
-						continue;
-					}
-					else
-					{
-						$result .= $c;
-					}
-				}
-				return $result;
-			}
 
 			if (empty($this->params['named']['istranslit']))
 			{

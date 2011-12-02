@@ -25,7 +25,8 @@
 -->
 </script>
 <?php echo $form->create(null, array('url' => array('controller' => 'media', 'action' => 'index'), 'onsubmit' => 'return checkSearchSubmit()')); ?>
-<ul id="genres" style="margin-bottom:-10px">
+<ul id="genres" style="margin-bottom:-10px; margin-top:-60px;">
+    <li class="search"><a class="vk" href="http://vk.com/vidxq" target="_blank" title="<?php __('VKontakte');?>" alt="<?php __('VKontakte');?>"><img alt="<?php __('VKontakte');?>" src="/img/videoxq-vk3.png" width="200" ></a></li>
     <li class="search">
 <div class="module">
 	<div>

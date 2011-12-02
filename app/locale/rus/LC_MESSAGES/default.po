@@ -7652,6 +7652,9 @@ msgstr "Реклама"
 msgid "Contacts"
 msgstr "Контакты"
 
+msgid "VKontakte"
+msgstr "В контакте"
+
 msgid "Partners"
 msgstr "Партнеры"
 
@@ -8215,6 +8218,9 @@ msgstr "В ролях"
 
 msgid "Quality"
 msgstr "Качество"
+
+msgid "Resolution"
+msgstr "Разрешение"
 
 msgid "Audio"
 msgstr "Аудио"
