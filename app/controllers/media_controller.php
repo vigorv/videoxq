@@ -1233,7 +1233,7 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
         $out='';
         $outCount='';
 
-//*
+/*
 //ФОРМИРОВАНИЕ НАЗВАНИЯ КЭША НА ОСНОВЕ МАССИВА ПАРАМЕТРОВ
         $name=$this->passedArgs;
         //$name=array();
@@ -1338,7 +1338,7 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
 				return $result;
 			}
 
-/*
+//*
 //ФОРМИРОВАНИЕ НАЗВАНИЯ КЭША НА ОСНОВЕ АДРЕСА СТРАНИЦЫ
 		$name = $this->Metatags->fixUrl($this->here);
 		if (!empty($this->passedArgs['direction']))
