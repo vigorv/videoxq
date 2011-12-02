@@ -1016,16 +1016,18 @@ return;//НЕПРАВИЛЬНО РАБОТАЕТ
         }
 */
         $pagination = array('Film' => array(
-        								'contain' =>
+/*
+        							'contain' =>
                                        array('FilmType',
                                              'Genre',
                                              'FilmVariant' => array('VideoType'),
                                              'FilmPicture' => array('conditions' => array('type' => 'smallposter')),
                                              'Country',
                                              'Person' => array('conditions' => array('FilmsPerson.profession_id' => array(1, 3, 4))),
-                                             'MediaRating'
-                                        ),
-/*
+                                             'MediaRating'),
+//*/
+
+//*
         								'fields' => array('Film.id', 'Film.title', 'Film.title_en', 'Film.year', 'Film.imdb_rating', 'Film.is_license'),
         								'contain' =>
                                        array('FilmType' => array('fields' => 'FilmType.id'),
@@ -1439,8 +1441,8 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
                     }
                     if (!empty($this->params['named']['genre']))
                     {
-                        $countation['Film']['contain'][] = 'FilmsGenre';
-                        $countation['Film']['contain'][] = 'Genre';
+                        //$countation['Film']['contain'][] = 'FilmsGenre';
+                        //$countation['Film']['contain'][] = 'Genre';
                     }
                     $countation['Film']['fields'] = array();
                     $countation['Film']['fields'][] = 'count(`Film`.`id`) as countrec' ;
