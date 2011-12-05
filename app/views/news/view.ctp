@@ -160,24 +160,30 @@
 				preg_match_all('/\[youtube=[^\]]{1,}\]/sim', $txt, $matches);
 				if ($matches)
 				{
-//pr($matches);
+pr($matches);
 					$videoContent = '
 <script type="text/javascript" src="/js/jquery.mb.mediaEmbedder.1.0/inc/jquery.mb.mediaEmbedder.js"></script>
-<script type="text/javascript">
-	$(document).ready(function() {
-		$.mb_videoEmbedder.defaults.width=500;
-		$(".video_tag").mb_embedMovies();
-	});
-</script>
 					';
+					$videoCnt = 0;
 					foreach ($matches as $line)
 					{
 						if (empty($line)) continue;
 						foreach ($line as $m)
 						{
-							$txt = str_replace($m, '<div class="video_tag">' . $m . '</div>', $txt);
+							$txt = str_replace($m, '<div id="video_tag' . $videoCnt . '">' . $m . '</div>', $txt);
+							$videoCnt++;
 						}
 					}
+$videoContent .= '
+<script type="text/javascript">
+	videocnt = ' . $videoCnt . '
+	$(document).ready(function() {
+		$.mb_videoEmbedder.defaults.width=500;
+		for(i = 0; i < videocnt; i++) $("#video_tag" + i).mb_embedMovies();
+	});
+</script>
+';
+
 					$txt = $videoContent . $txt;
 				}
 
