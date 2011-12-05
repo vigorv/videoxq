@@ -157,7 +157,7 @@
 					$txt = $info['News']['stxt'];
 
 				$matches = array();
-				preg_match('/\[youtube=[^\]]{1,}\]/i', $txt, $matches);
+				preg_match('/\[youtube=[^\]]{1,}\]/sim', $txt, $matches);
 				if ($matches)
 				{
 					$videoContent = '
