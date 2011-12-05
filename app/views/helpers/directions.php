@@ -232,7 +232,12 @@ jQuery(document).ready(function() {
     }
 
     function showFlatList($tree_list_data = array(), $current_id = 0, $level_char = '', $html_container_id = 'left-menu'){
-        $html = '';
+        $html = ''; $first = '';
+        if (empty($current_id))
+        {
+        	$first = 'class="active"';
+        }
+		$html .= '<li ' . $first . '><a ' . $first . ' href="/news">Все новости</a></li>';
         foreach($tree_list_data as $direction_id => $direction_data){
             $direction_caption = $direction_data['caption'];
             $direction_title = $direction_data['title'];

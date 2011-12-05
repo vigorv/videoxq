@@ -1,20 +1,3 @@
-
-<!--
-$(document).ready(function() {
-    equalHeight($('.left-block, .center-block, .right-block'));
-});
-function equalHeight(group) {
-  tallest = 0;
-  group.each(function() {
-    thisHeight = $(this).height();
-    if(thisHeight > tallest) {
-      tallest = thisHeight;
-    }
-  });
-  group.height(tallest);
-}
--->
-
 <?php
 //НАЧАЛО ОБРАБОТКИ ВЫВОДА ГОЛОСОВАЛКИ
 	if (!empty($block_poll))
@@ -173,6 +156,26 @@ function equalHeight(group) {
 				else
 					$txt = $info['News']['stxt'];
 
+				$matches = array();
+				preg_match('/\[youtube=[^\]]{1,}\]/i', $txt, $matches);
+				if ($matches)
+				{
+					$videoContent = '
+<script type="text/javascript" src="/js/jquery.mb.mediaEmbedder.1.0/inc/jquery.mb.mediaEmbedder.js"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$.mb_videoEmbedder.defaults.width=500;
+		$(".video_tag").mb_embedMovies();
+	});
+</script>
+					';
+					foreach ($matches as $m)
+					{
+						$txt = str_replace($m, '<div class="video_tag">' . $m . '</div>', $txt);
+					}
+					$txt = $videoContent . $txt;
+				}
+
 				if (!empty($pollContent))
 				{
 					if (strpos($txt, '{POLL_CONTENT}') === false)
@@ -193,8 +196,7 @@ function equalHeight(group) {
 
 	$javascript->link('jquery.fancybox-1.3.4/fancybox/jquery.fancybox-1.3.4.pack', false);
     $html->css('fancybox-1.3.4/jquery.fancybox-1.3.4', null, array(), false);
-   
-    
+
     $javascript->link('calendarlite/jquery.calendarlite', false);
     $javascript->link('jquery.ad-gallery', false);
     $javascript->link(array('slimbox2/slimbox2.js'), false);
@@ -232,14 +234,14 @@ function equalHeight(group) {
         } else {
           galleries[0].settings.description_wrapper = false;
         }
-        
+
         return false;
       }
     );
   });
   </script>
   <style type="text/css">
-  
+
   ul.ad-thumb-list {
     list-style-image:url(list-style.gif);
   }
@@ -262,7 +264,7 @@ function equalHeight(group) {
     left:50%;
     margin-left:-300px;
     }
- 
+
   </style>
   <script>function spisok(a)
 {
@@ -315,13 +317,13 @@ for ($match = 1; $match < 20; $match++)
 						"showCloseButton": true
 					});
 			';
-			
+
 			//echo '<h2><a rel="fotodiv' . $match . '" href="#fotodiv' . $match . '">Фото(' . $count . ')</a></h2>';
-			
+
             $hideContent_down = '';
             $hideContent = '';
-                 
-            
+
+
             //норм вывод
              $i=1;
 			foreach ($ftpInfo[$dir][$match]['foto'] as $key => $val)
@@ -332,27 +334,27 @@ for ($match = 1; $match < 20; $match++)
 					<a rel="foto' . $match . '" href="http://' . $downServerAddrPort . '/' . $val . '"></a>
 				';
 				//*/
-                
+
                 $mass = explode('/',$val);
-               
+
                 if ((basename($val) == 'original') or (basename($val) == 'thumbs'))
                 {
                     unset($ftpInfo[$dir][$match]['foto'][$key]);
                     continue;
                 }
-                
+
                 //проверка на существование превью.
                 if (!empty($ftpInfo[$dir][$match]['thumbs']))
                 {
 				$hideContent .= '
-                    
+
 					<li><a href="http://' . $downServerAddrPort . '/' . $val . '"><img src="http://' . $downServerAddrPort . '/'.$mass[0].'/'.$mass[1].'/'.$mass[2].'/thumbs/'.$mass[3].'" />Фото '.$i.'</a></li>
                     ';
                 }
                 else
                 {
 				$hideContent .= '
-                    
+
 					<li><a href="http://' . $downServerAddrPort . '/' . $val . '"><img src="/img/preview.png" />Фото '.$i.'</a></li>
                     ';
                 }
@@ -360,11 +362,11 @@ for ($match = 1; $match < 20; $match++)
             }
             $count=count($ftpInfo[$dir][$match]['foto']);
 			echo '<h2><a  href="javascript:void(0)" onclick="spisok('.$match.');return false;">Фото ('. $count .')</a></h2>';
-                        
+
 			//echo'<div style="display:none">' . $hideContent . '</div>';
             //если разрешение экрана больше то
             echo "<script>
-            function go_to_img(a) {  
+            function go_to_img(a) {
             var srcs = $('.ad-image img').attr('src');
             var newsrc = srcs.replace('/foto/', '/foto/original/');
             a.href = newsrc;return true;}</script>";
