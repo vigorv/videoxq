@@ -160,7 +160,7 @@
 				preg_match_all('/\[youtube=[^\]]{1,}\]/sim', $txt, $matches);
 				if ($matches)
 				{
-pr($matches);
+//pr($matches);
 					$videoContent = '
 <script type="text/javascript" src="/js/jquery.mb.mediaEmbedder.1.0/inc/jquery.mb.mediaEmbedder.js"></script>
 					';
