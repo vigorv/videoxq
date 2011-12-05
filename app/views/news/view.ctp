@@ -157,9 +157,10 @@
 					$txt = $info['News']['stxt'];
 
 				$matches = array();
-				preg_match('/\[youtube=[^\]]{1,}\]/i', $txt, $matches);
+				preg_match_all('/\[youtube=[^\]]{1,}\]/sim', $txt, $matches);
 				if ($matches)
 				{
+//pr($matches);
 					$videoContent = '
 <script type="text/javascript" src="/js/jquery.mb.mediaEmbedder.1.0/inc/jquery.mb.mediaEmbedder.js"></script>
 <script type="text/javascript">
@@ -169,9 +170,13 @@
 	});
 </script>
 					';
-					foreach ($matches as $m)
+					foreach ($matches as $line)
 					{
-						$txt = str_replace($m, '<div class="video_tag">' . $m . '</div>', $txt);
+						if (empty($line)) continue;
+						foreach ($line as $m)
+						{
+							$txt = str_replace($m, '<div class="video_tag">' . $m . '</div>', $txt);
+						}
 					}
 					$txt = $videoContent . $txt;
 				}
