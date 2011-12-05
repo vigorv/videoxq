@@ -176,7 +176,7 @@ class NewsController extends AppController {
         //если не задали текущий раздел, то выцепим id корневого элемента
         if (!$dir_id && $tree_arr) {
             reset($tree_arr);
-            $dir_id = key($tree_arr);
+//            $dir_id = key($tree_arr);
             }
 
         //формируем массив данных для хелпера вывода html дерева
