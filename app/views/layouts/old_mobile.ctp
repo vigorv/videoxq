@@ -31,9 +31,10 @@
             <? endif; ?>
         </div>
         <div style="border-top:1px solid #999;font-size:80%;background:#EEE;text-align:center">
+            <br/>
             <b>Мобильная версия</b>
             <br/>
-            <a style="font-size:26px" href="/mobile/ver?id=1" ><?= __("Click for full version of site", true); ?></a><br/>
+            <a style="font-size:16px" href="/mobile/ver?id=1" ><?= __("Click for full version of site", true); ?></a><br/>
             <br/>
             <div dir="ltr">&copy;IT-DELUXE.LTD</div>
             <div>
