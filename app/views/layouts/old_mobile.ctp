@@ -31,8 +31,10 @@
             <? endif; ?>
         </div>
         <div style="border-top:1px solid #999;font-size:80%;background:#EEE;text-align:center">
-            <br/>
             <b>Мобильная версия</b>
+            <br/>
+            <a style="font-size:26px" href="/mobile/ver?id=1" ><?= __("Click for full version of site", true); ?></a><br/>
+            <br/>
             <div dir="ltr">&copy;IT-DELUXE.LTD</div>
             <div>
                 <a href="http://www.branica.com/"><img id="counter" src="http://counters.branica.com/?i=0&u=true&ox=10&oy=17&c=000000&b=transparent.png&f=Terminator.ttf&fn=true&w=110&h=35&s=10" alt="Branica" width="110" height="35" style="border:none"/></a>
