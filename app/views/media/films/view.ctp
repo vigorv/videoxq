@@ -1,5 +1,6 @@
 <?php
     extract($film);
+
 if ($isWS)
 {
 	$geoIsGood = true;//$geoIsGood - ОЗНАЧАЕТ ДОСТУПЕН ЛИ ДЛЯ СКАЧИВАНИЯ ДАННЫЙ ФИЛЬМ В РЕГИОНЕ ПОЛЬЗОВАТЕЛЯ
@@ -83,21 +84,7 @@ $.get("http://flux.itd/media/getbanner/header", function(html){ document.write(h
         if($zone)$imgPath = Configure::read('Catalog.imgPath');
         else $imgPath = Configure::read('Catalog.imgPathInet');
 
-/*
-//TEST
-echo'<pre>';
-echo $_SERVER['QUERY_STRING'];
-echo'</pre>';
-/*
-echo'<pre>';
-var_dump($catalogVariants[0]["Track"]);
-echo'</pre>';
-echo'<pre>';
-var_dump($catalogVariants[0]["FilmFile"]);
-echo'</pre>';
-//END OF TEST
-//*/
-	$javascript->link('jquery.fancybox-1.3.4/fancybox/jquery.fancybox-1.3.4.pack', false);
+   $javascript->link('jquery.fancybox-1.3.4/fancybox/jquery.fancybox-1.3.4.pack', false);
     $javascript->link('jquery.pngFix', false);
     $html->css('fancybox-1.3.4/jquery.fancybox-1.3.4', null, array(), false);
 
@@ -1462,11 +1449,12 @@ if (!empty($authUser['userid']) || $isWS)
 	$allPanels = array();
 	$linksContent .= '<a name="panels"></a><table width="800" cellspacing="0" cellpadding="3" border="0">';
 	$maxLinksPanel = ''; $maxLinks = 100;
-
 	if ($Film['is_license'])
 	{
 		$allPanels = array('sqpanel' => __('Standard definition video', true), 'mobpanel' => __('Video Mobile', true));
+
 		$maxLinksPanel = 'sqpanel';
+
 	}
 	else
 	{
@@ -1488,9 +1476,23 @@ if (!empty($authUser['userid']) || $isWS)
 					</script>
 					<br /><input type="button" class="greenButton" onclick="return yaSearch()" value="' . __('Find', true) . '" />
 			';
+		$allPanels['ozonpanel'] = __('Buy on', true) .  ' ozon.ru';
+		$maxLinksPanel = 'ozonpanel';
+			
 		}
 	}
+	if(!empty($FilmPartnerobj))
+	{
+		$allPanels['partnerpanel'] = __('play', true);
+		//if(isset($allPanels['webpanel']))
+		$maxLinksPanel = 'webpanel';
+		$panelLinksCnt['partnerpanel'] = count($FilmPartnerobj);
+		$linksContent .= '<div id="partnerpanel" style="display:none"><br />';
+		$linksContent .= '<div class="parterlist">'.$FilmPartnerobj[0]['text'];
+		$linksContent .= '</div>';
 
+
+	}
 	if (!empty($ozons))
 	{
 		$allPanels['ozonpanel'] = __('Buy on', true) .  ' ozon.ru';
@@ -1520,7 +1522,7 @@ if (!empty($authUser['userid']) || $isWS)
 			if (!empty($panelLinksCnt[$key]))
 			{
 				$linksCntStr = ' (' . $panelLinksCnt[$key] . ')';
-				if (($panelLinksCnt[$key] > 0) && ($panelLinksCnt[$key] < $maxLinks) && ($key <> 'ozonpanel'))
+				if (($panelLinksCnt[$key] > 0) && ($panelLinksCnt[$key] < $maxLinks) && ($key <> 'ozonpanel')&& ($key <> 'partnerpanel'))
 				{
 					$maxLinks = $panelLinksCnt[$key];
 					$maxLinksPanel = $key;
@@ -1594,8 +1596,118 @@ else
     */
 	//$divxContent = '';
 	//$linksContent = '<a href="http://yandex.ru/yandsearch?text=' . $yandex['title'] . '" title="Скачать бесплатно">Скачать бесплатно "' . $yandex['title'] . '"</a>';
-	$linksContent = $yandexLink;
+	$linksContent .= '<a name="panels"></a><table width="800" cellspacing="0" cellpadding="3" border="0">';
+	if (!empty($ozons))
+	{
+		$allPanels['ozonpanel'] = __('Buy on', true) .  ' ozon.ru';
+		if (empty($maxLinksPanel))
+		{
+			$maxLinksPanel = 'ozonpanel';
+		}
+		$panelLinksCnt['ozonpanel'] = count($ozons);
+		$linksContent .= '<div id="ozonpanel" style="display:none"><br /><h3>' . __('Buy on', true) .  ' ozon.ru</h3>';
+		foreach ($ozons as $o)
+		{
+			$pr = (!empty($o["OzonProduct"]['price'])) ? (sprintf("%01.2f", $o["OzonProduct"]['price'])) : "";
+			$cur = (!empty($o["OzonProduct"]['currency'])) ? (' (' . $o["OzonProduct"]['currency'] . ') ') : "";
+			$year = (!empty($o["OzonProduct"]['year'])) ? (', ' . $o["OzonProduct"]['year']) : "";
+			$media = (!empty($o["OzonProduct"]['media'])) ? (', ' . $o["OzonProduct"]['media']) : "";
+			$url = $o["OzonProduct"]['url'];
+			$linksContent .= '<div class="ozonlist"><a target="_blank" href="' . $url . '"><img align="left" hspace="3" width="80" src="' . $o["OzonProduct"]['picture'] . '" />' . $o["OzonProduct"]['title'] . $year . $media . '<br /><b>' . $pr . $cur . '</b></a></div>';
+		}
+		$linksContent .= '</div>';
+	}
+
+	if(!empty($FilmPartnerobj))
+	{
+		$allPanels['partnerpanel'] = __('play', true);
+		if(empty($maxLinksPanel))
+		{
+			$maxLinksPanel = 'partnerpanel';
+		}
+		
+		$panelLinksCnt['partnerpanel'] = count($FilmPartnerobj);
+		$linksContent .= '<div id="partnerpanel" style="display:none"><br />';
+		$linksContent .= '<div class="parterlist">'.$FilmPartnerobj[0]['text'];
+		$linksContent .= '</div>';
+	}
+
+	if (!empty($allPanels))
+	{
+		foreach ($allPanels as $key => $value)
+		{
+			$linksCntStr = '';
+			if (!empty($panelLinksCnt[$key]))
+			{
+				$linksCntStr = ' (' . $panelLinksCnt[$key] . ')';
+				if (($panelLinksCnt[$key] > 0) && ($panelLinksCnt[$key] < $maxLinks) && ($key <> 'ozonpanel'))
+				{
+					$maxLinks = $panelLinksCnt[$key];
+					$maxLinksPanel = $key;
+				}
+			}
+			if ($linksCntStr)
+			{
+				$a = '<a class="panel_link" href="#" onclick="return focusPanel(\'' . $key . '\');">' . $value . $linksCntStr . '</a>';
+			}
+			else
+			{
+				$a = $value . $linksCntStr;
+			}
+			$linksContent .= '<td class="Tab-spacer"></td><td id="' . $key . 'folder" class="unfocusedpanel">' . $a . '</td>
+            ';
+		}
+		$linksContent .= '
+   			<td id="lastfolder">&nbsp;</td></tr>
+			<tr><td id="panelcontent" colspan="7"></td></tr>
+			</table>
+		';
+	}
+
+	$linksContent .= '<script type="text/javascript">
+<!--
+	function focusPanel(id)
+	{
+		if (curPanel != id)
+		{
+			if (curPanel == \'\')
+			{
+				curPanel = id;
+				$("#" + curPanel + "folder").removeClass("unfocusedpanel");
+			}
+			else
+			{
+				$("#" + curPanel + "folder").removeClass("focusedpanel");
+				$("#" + curPanel + "folder").addClass("unfocusedpanel");
+			}
+		}
+		curPanel = id;
+		$("#" + curPanel + "folder").addClass("focusedpanel");
+		$("#panelcontent").html($("#" + curPanel).html());
+
+		$("a[rel=video]").fancybox({
+	        "zoomSpeedIn":  0,
+	        "zoomSpeedOut": 0,
+	        "overlayShow":  true,
+	        "overlayOpacity": 0.8,
+	        "showNavArrows": false,
+			"onComplete": function() { $(this.href + " a").trigger("click"); return false; }
+		});
+
+		return false;
+	}
+	curPanel = \'\';
+	focusPanel(\'' . $maxLinksPanel . '\');
+-->
+</script>
+	';
+//	$linksContent = $yandexLink;
+	$yandexLink = $linksContent;
+echo $linksContent;
+
 }
+
+
 
 /*
 if (isset($authUser['username']))// && (($authUser['username'] == 'vanoveb') || ($authUser['username'] == 'stell_hawk')))
@@ -1741,15 +1853,6 @@ if (isset($authUser['username']))// && (($authUser['username'] == 'vanoveb') || 
 
 //echo 'GEO DISABLED'; pr($geoIsGood);
 //echo 'ALLOW DISABLED'; pr($allowDownload);
-
-	if (!empty($ozons))
-	{
-?>
-<!--
-<h3><a href="/media/ozon/<?php echo $Film['id']; ?>" title="<?php __('Buy on'); echo ' ozon.ru'; ?>" alt="<?php __('Buy on'); echo ' ozon.ru'; ?>"><?php __('Buy on'); echo ' ozon.ru'; ?></a></h3>
--->
-<?php
-	}
 
 //echo $divxContent;
 echo $linksContent;
