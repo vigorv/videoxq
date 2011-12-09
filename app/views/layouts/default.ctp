@@ -65,6 +65,7 @@
         <meta name='yandex-verification' content='4a78e048df7530aa' />
         <meta name='yandex-verification' content='41f90ac754cf4471' />
         <meta name="verify-v1" content="Q+iq7OY8RadE9126YoJFPl1cnjLTMbHmU//RrR0TTks=" />
+        <meta name="google-site-verification" content="ULAZwgTLNGFG6TV632Zq4v586WwVRQqalSeYUR105aQ" />
         <link rel="alternate" type="application/rss+xml" title='<?php echo Configure::read('App.siteName'); ?>' href="http://videoxq.com/rss.xml" />
 
     </head>
