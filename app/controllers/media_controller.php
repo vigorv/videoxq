@@ -927,7 +927,7 @@ return;//НЕПРАВИЛЬНО РАБОТАЕТ
 	if (empty($this->passedArgs['action']))	{$this->passedArgs['action']='index';}
 	
 	
-	if ($this->passedArgs['page'] == 1&& empty($this->passedArgs["search"]))
+	if ($this->passedArgs['page'] < 4 && empty($this->passedArgs["search"])&&empty($this->passedArgs["genre"]))
 	{
 	 $cacheprofile='firstpage';
 	}
@@ -1089,7 +1089,7 @@ return;//НЕПРАВИЛЬНО РАБОТАЕТ
             if (strpos($this->params['named']['genre'], ',') !== false)
                 $genres = explode(',', $this->params['named']['genre']);
             //оставляем только 2 категории для уменьшения нагрузки на сервер
-            if(count($genres)>2){$genres=array($genres[0],$genres[1]);$this->params['named']['genre']=implode(',',$genres);}
+            if(count($genres)>2){$genres=array($genres[0],$genres[1]);$this->params['named']['genre']=implode(',',$genres);$this->passedArgs['genre']=$this->params['named']['genre'];}
 //
             $condition = 'and';
             //$pagination['Film']['sphinx']['filter'][] = array('genre_id', $genres, false);
@@ -2320,10 +2320,15 @@ echo'</pre>';
             $this->Session->setFlash(__('Invalid Film', true));
             $this->redirect(array('action'=>'index'));
         }
-
-		if (!$film = Cache::read('Catalog.film_view_' . $id,'media'))
+	if (!$film = Cache::read('Catalog.film_view_' . $id,'media'))
 	    {
 	        $this->Film->recursive = 0;
+            $this->Film->bindModel(array('hasMany' => array(
+                                          'FilmPartnerobj' => array(
+                                           'foreignKey' => 'film_id'
+                                          )
+                                        )), false);
+
 	        $this->Film->contain(array('FilmType',
 	                                     'Genre',
 	                                     'Thread',
@@ -2331,12 +2336,13 @@ echo'</pre>';
 	                                     'Country',
 	                                     'FilmVariant' => array('FilmLink', 'FilmFile' => array('order' => 'file_name'), 'VideoType', 'Track' => array('Language', 'Translation')),
 	                                     'MediaRating',
+	                                     'FilmPartnerobj',
 	                                     //'FilmComment' => array('order' => 'FilmComment.created ASC',
 	                                                            //'conditions' => array('FilmComment.hidden' => 0))
 	                                  )
 	                             );
 	        $film = $this->Film->read(null, $id);
-		    Cache::write('Catalog.film_view_' . $id, $film,'media');
+	        Cache::write('Catalog.film_view_' . $id, $film,'media');
 	    }
 	    if (!$film['Film']['active']) {
 	        $this->Session->setFlash(__('Invalid Film', true));
