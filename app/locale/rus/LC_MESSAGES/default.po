@@ -8361,7 +8361,7 @@ msgid "of the movie"
 msgstr "фильма"
 
 msgid "page"
-msgstr "страницу"
+msgstr "страница"
 
 msgid "Session is reset. Try to get links through this"
 msgstr "Данные сессии сброшены. Попробуйте получить ссылки через эту"
@@ -8665,3 +8665,6 @@ msgstr "в других поисковых системах"
 
 msgid "Search also uses data from all the local resources of your ISP"
 msgstr "Поиск также использует данные со всех локальных ресурсов вашего провайдера"
+
+msgid "play"
+msgstr "Смотреть"
