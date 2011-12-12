@@ -925,8 +925,8 @@ return;//НЕПРАВИЛЬНО РАБОТАЕТ
 	 $this->passedArgs['page']=1;
 	}
 	if (empty($this->passedArgs['action']))	{$this->passedArgs['action']='index';}
-	
-	
+
+
 	if ($this->passedArgs['page'] < 4 && empty($this->passedArgs["search"])&&empty($this->passedArgs["genre"]))
 	{
 	 $cacheprofile='firstpage';
@@ -2323,12 +2323,13 @@ echo'</pre>';
 	if (!$film = Cache::read('Catalog.film_view_' . $id,'media'))
 	    {
 	        $this->Film->recursive = 0;
+/*
             $this->Film->bindModel(array('hasMany' => array(
                                           'FilmPartnerobj' => array(
                                            'foreignKey' => 'film_id'
                                           )
                                         )), false);
-
+*/
 	        $this->Film->contain(array('FilmType',
 	                                     'Genre',
 	                                     'Thread',
@@ -2336,7 +2337,7 @@ echo'</pre>';
 	                                     'Country',
 	                                     'FilmVariant' => array('FilmLink', 'FilmFile' => array('order' => 'file_name'), 'VideoType', 'Track' => array('Language', 'Translation')),
 	                                     'MediaRating',
-	                                     'FilmPartnerobj',
+	                                     //'FilmPartnerobj',
 	                                     //'FilmComment' => array('order' => 'FilmComment.created ASC',
 	                                                            //'conditions' => array('FilmComment.hidden' => 0))
 	                                  )
