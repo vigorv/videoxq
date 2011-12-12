@@ -1569,19 +1569,19 @@ if (!empty($authUser['userid']) || $isWS)
 		$("#" + curPanel + "folder").addClass("focusedpanel");
 		$("#panelcontent").html($("#" + curPanel).html());
 
-		$("a[rel=video]").fancybox({
-	        "zoomSpeedIn":  0,
-	        "zoomSpeedOut": 0,
-	        "overlayShow":  true,
-	        "overlayOpacity": 0.8,
-	        "showNavArrows": false //,
-			//"onComplete": function() { $(this.href + " a").trigger("click"); return false; }
-		});
-
 		return false;
 	}
 	curPanel = \'\';
 	focusPanel(\'' . $maxLinksPanel . '\');
+
+	$("a[rel=video]").fancybox({
+        "zoomSpeedIn":  0,
+        "zoomSpeedOut": 0,
+        "overlayShow":  true,
+        "overlayOpacity": 0.8,
+        "showNavArrows": false,
+		"onComplete": function() { $(this.href + " a").trigger("click"); return false; }
+	});
 -->
 </script>
 	';
