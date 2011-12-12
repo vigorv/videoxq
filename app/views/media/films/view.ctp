@@ -1478,7 +1478,7 @@ if (!empty($authUser['userid']) || $isWS)
 			';
 		$allPanels['ozonpanel'] = __('Buy on', true) .  ' ozon.ru';
 		$maxLinksPanel = 'ozonpanel';
-			
+
 		}
 	}
 	if(!empty($FilmPartnerobj))
@@ -1563,6 +1563,8 @@ if (!empty($authUser['userid']) || $isWS)
 				$("#" + curPanel + "folder").addClass("unfocusedpanel");
 			}
 		}
+		else
+			return false;
 		curPanel = id;
 		$("#" + curPanel + "folder").addClass("focusedpanel");
 		$("#panelcontent").html($("#" + curPanel).html());
@@ -1625,7 +1627,7 @@ else
 		{
 			$maxLinksPanel = 'partnerpanel';
 		}
-		
+
 		$panelLinksCnt['partnerpanel'] = count($FilmPartnerobj);
 		$linksContent .= '<div id="partnerpanel" style="display:none"><br />';
 		$linksContent .= '<div class="parterlist">'.$FilmPartnerobj[0]['text'];
