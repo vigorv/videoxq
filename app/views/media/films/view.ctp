@@ -1574,8 +1574,8 @@ if (!empty($authUser['userid']) || $isWS)
 	        "zoomSpeedOut": 0,
 	        "overlayShow":  true,
 	        "overlayOpacity": 0.8,
-	        "showNavArrows": false,
-			"onComplete": function() { $(this.href + " a").trigger("click"); return false; }
+	        "showNavArrows": false //,
+			//"onComplete": function() { $(this.href + " a").trigger("click"); return false; }
 		});
 
 		return false;
