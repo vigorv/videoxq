@@ -1572,7 +1572,7 @@ if (!empty($authUser['userid']) || $isWS)
 		return false;
 	}
 	curPanel = \'\';
-	focusPanel(\'' . $maxLinksPanel . '\');
+	//focusPanel(\'' . $maxLinksPanel . '\');
 
 	$("a[rel=video]").fancybox({
         "zoomSpeedIn":  0,
