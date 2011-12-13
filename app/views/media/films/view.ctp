@@ -803,7 +803,7 @@ $linksContent .= '
 ';
 	}
 
-$linksContent .= '
+$findLinksFuncCode = '
 	<script type="text/javascript">
 	<!--
 			function findLinks()
@@ -1445,6 +1445,8 @@ if (!empty($authUser['userid']) || $isWS)
 
 	}
 
+	$linksContent .= $findLinksFuncCode; //ДОБАВИЛИ ОПРЕДЕЛЕНИЕ функции подгрузки ссылок
+
 //ВЫВОД УПРАВЛЯЮЩИХ ЗАКЛАДОК
 	$allPanels = array();
 	$linksContent .= '<a name="panels"></a><table width="800" cellspacing="0" cellpadding="3" border="0">';
@@ -1572,7 +1574,7 @@ if (!empty($authUser['userid']) || $isWS)
 		return false;
 	}
 	curPanel = \'\';
-	//focusPanel(\'' . $maxLinksPanel . '\');
+	focusPanel(\'' . $maxLinksPanel . '\');
 
 	$("a[rel=video]").fancybox({
         "zoomSpeedIn":  0,
