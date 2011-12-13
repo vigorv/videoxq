@@ -610,7 +610,19 @@ if (!empty($similars))
 	echo $BlockBanner->getBanner('view');
 
 	$yandex = $Film; // ДЛЯ ВЫВОДА ПОИСКА ПО ЯНДЕКСУ
-	$linksContent = '';
+	$linksContent = '
+		<script type="text/javascript">
+		<!--
+				function findLinks()
+			{
+				$("#panelcontent").html("<br /><p>' . __("Downloading...", true) . '</p>");
+				$("#panelcontent").load("/media/findlinks/' . $Film['id'] . '");
+				return false;
+			}
+		-->
+		</script>
+	';
+
 	$faqLink = ' &nbsp;<span style="font-size:25px"><a alt="' . __('How to download?', true) . '" title="' . __('How to download?', true) . '" href="/pages/faq#download">&nbsp;?&nbsp;</a></span>';
 	$yandexLink = '<h3 style="margin-top:12px;"><a target="_blank" href="/media/lite/' . $Film['id'] . '" title="' . __('Download Movie', true) . '">"' . $Film['title' . $langFix] . '" ' . __('download', true) . ' &raquo;</a>' . $faqLink . '</h3>';
 
@@ -802,19 +814,6 @@ $linksContent .= '
 	</script>
 ';
 	}
-
-$findLinksFuncCode = '
-	<script type="text/javascript">
-	<!--
-			function findLinks()
-		{
-			$("#panelcontent").html("<br /><p>' . __("Downloading...", true) . '</p>");
-			$("#panelcontent").load("/media/findlinks/' . $Film['id'] . '");
-			return false;
-		}
-	-->
-	</script>
-';
 
 $panelContent = ''; $linksCnt = 0;
 if ((!empty($variant['FilmFile'])) && (($isVip) || ($isWS)))
@@ -1445,11 +1444,9 @@ if (!empty($authUser['userid']) || $isWS)
 
 	}
 
-	$linksContent .= $findLinksFuncCode; //ДОБАВИЛИ ОПРЕДЕЛЕНИЕ функции подгрузки ссылок
-
 //ВЫВОД УПРАВЛЯЮЩИХ ЗАКЛАДОК
 	$allPanels = array();
-	$linksContent .= '<a name="panels"></a><table width="800" cellspacing="0" cellpadding="3" border="0">';
+//	$linksContent .= '<a name="panels"></a><table width="800" cellspacing="0" cellpadding="3" border="0">';
 	$maxLinksPanel = ''; $maxLinks = 100;
 	if ($Film['is_license'])
 	{
@@ -1516,6 +1513,7 @@ if (!empty($authUser['userid']) || $isWS)
 		$linksContent .= '</div>';
 	}
 
+	$linksContent .= '<a name="panels"></a><table width="800" cellspacing="0" cellpadding="3" border="0">';
 	if (!empty($allPanels))
 	{
 		foreach ($allPanels as $key => $value)
@@ -1530,7 +1528,7 @@ if (!empty($authUser['userid']) || $isWS)
 					$maxLinksPanel = $key;
 				}
 			}
-			if ($linksCntStr)
+			if (($linksCntStr) || ($key == 'webpanel'))
 			{
 				$a = '<a class="panel_link" href="#" onclick="return focusPanel(\'' . $key . '\');">' . $value . $linksCntStr . '</a>';
 			}
@@ -1600,7 +1598,6 @@ else
     */
 	//$divxContent = '';
 	//$linksContent = '<a href="http://yandex.ru/yandsearch?text=' . $yandex['title'] . '" title="Скачать бесплатно">Скачать бесплатно "' . $yandex['title'] . '"</a>';
-	$linksContent .= '<a name="panels"></a><table width="800" cellspacing="0" cellpadding="3" border="0">';
 	if (!empty($ozons))
 	{
 		$allPanels['ozonpanel'] = __('Buy on', true) .  ' ozon.ru';
