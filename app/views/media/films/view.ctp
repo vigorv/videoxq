@@ -1273,6 +1273,7 @@ if (!empty($authUser['userid']) || $isWS)
 						$aplay = str_replace('catalog/viewv', 'catalog/file', $aplay);
 
 		    			$panelContent .= '
+		    				<tr>
 		    					<td>' . $ahref . '<img width="16" src="/img/icons/download-icon_16x16.png" /></a></td>
 		    				 	<td>' . $ahref  . $link['filename'] . '</a></td>
 		    				 	<td>' . $aplay  . '<img width="16" src="/img/icons/play-icon_16x16.png" /></a></td>
@@ -1347,6 +1348,11 @@ if (!empty($authUser['userid']) || $isWS)
 			}
 			if ($maxWebLinksCount < 0) break;
 	    }
+
+		if (!empty($startFL))
+		{
+			$panelContent .= '</table>';
+		}
 	}
 }
 
