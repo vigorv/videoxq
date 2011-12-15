@@ -178,5 +178,10 @@ class MetaTag extends AppModel {
         }
         return $metatags;
     }
+    public function getMetaTagsByURLMask2($url='', $page=1, $perpage=0){
+	$metatags = array();
+
+        return $metatags;
+    }    
 }
 ?>
