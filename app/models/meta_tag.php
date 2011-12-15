@@ -178,7 +178,5 @@ class MetaTag extends AppModel {
         }
         return $metatags;
     }
-
-
 }
 ?>
