@@ -293,13 +293,16 @@ class AppController extends Controller {
             $lang = $regionLang;
             $this->Session->write("language", $lang);
         }
-
+        
         $langFix = '';
         if ($lang != _RUS_)
         {
         	$langFix = $lang;
         }
-		$this->Metatags->get($this->here, $langFix);
+        if (!$this->RequestHandler->isAjax()){
+            $this->Metatags->get($this->here, $langFix);
+        }
+		
 
         Configure::write('Config.language', $lang);
         uses('L10n');

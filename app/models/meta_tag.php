@@ -37,7 +37,10 @@ class MetaTag extends AppModel {
     public function getMetaTagByURL($url='', $page=1, $perpage=0){
 	$cacheprofile='meta';
 	if($page==1)$cacheprofile='metafp';
-        if (!($metatags = Cache::read('Metatags.'.md5($url), $cacheprofile)))
+        $md5_url = md5($url);
+        /*pr('getMetaTagByURL_md5("'.$url.'"): '.$md5_url);*/
+        $cacheprofile = 'meta';
+        if (!($metatags = Cache::read('Metatags.'.$md5_url, $cacheprofile)))
         {
             $metatags = array();
             $conditions = array('url'=>$url);
@@ -48,7 +51,15 @@ class MetaTag extends AppModel {
                 $query_options[] = array('OFFSET' => ($page-1)*$perpage);
             }
             $metatags = $this->find('all', $query_options);
-            Cache::write('Metatags.'.md5($url), $metatags, $cacheprofile);
+            //Cache::write('Metatags.'.md5($url), $metatags, $cacheprofile);
+            Cache::write('Metatags.'.$md5_url, $metatags, $cacheprofile);
+            /*
+            echo 'cache writed!';
+            $fh = fopen('/log.txt', 'a');
+            $data =  date("m.d.y H:i:s")." - by URL\r\n".'url: '.$url ."\r\n".'md5: '.$md5_url."\r\n";
+            fwrite($fh, $data);
+            fclose($fh);
+            */
         }
         return $metatags;
     }
@@ -161,9 +172,12 @@ class MetaTag extends AppModel {
     public function getMetaTagsByURLMask($url='', $page=1, $perpage=0){
 	$cacheprofile='meta';
 	if($page==1)$cacheprofile='metafp';
-
-        if (!($metatags = Cache::read('Metatags.'.md5($url) , $cacheprofile)))
+        $md5_url = md5($url);
+        /*pr('getMetaTagsByURLMask_md5("'.$url.'"): '.$md5_url);*/
+        $cacheprofile = 'meta';
+        if (!($metatags = Cache::read('Metatags.'.$md5_url , $cacheprofile)))
         {
+            
             $metatags = array();
             $conditions = '"' . $url . '" LIKE `MetaTag`.`url`';
 
@@ -174,14 +188,18 @@ class MetaTag extends AppModel {
                 $query_options[] = array('OFFSET' => ($page-1)*$perpage);
             }
             $metatags = $this->find('all', $query_options);
-            Cache::write('Metatags.'.md5($url), $metatags, $cacheprofile);
+            //Cache::write('Metatags.'.md5($url), $metatags, $cacheprofile);
+            Cache::write('Metatags.'.$md5_url, $metatags, $cacheprofile);
+            /*
+            echo 'cache writed!';
+            $fh = fopen('/log.txt', 'a');
+            $data =  date("m.d.y H:i:s")." - by URL Mask\r\n".'url: '.$url ."\r\n".'md5: '.$md5_url."\r\n";
+            fwrite($fh, $data);
+            fclose($fh); 
+            */
         }
         return $metatags;
     }
-    public function getMetaTagsByURLMask2($url='', $page=1, $perpage=0){
-
-        return false;
-    }    
 
 }
 ?>

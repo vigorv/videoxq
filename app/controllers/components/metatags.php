@@ -183,9 +183,12 @@ class MetatagsComponent extends Object
 
 	public function get($url, $lang = '')
 	{
+                /*pr('fixUrl("'.$url.'"): '.$this->fixUrl($url));*/
 		$base = $this->db->getMetaTagByURL('');//! ОСНОВНЫЕ ТЭГИ (ПРИСУТСТВУЮЩИЕ НА ВСЕХ СТРАНИЦАХ САЙТА)
 		//$tags = $this->db->getMetaTagByUrl($this->fixUrl($url));
+                //echo "<br>get tags<br>\n";
 		$tags = $this->db->getMetaTagsByURLMask($this->fixUrl($url));
+                
 		$langFix = '';
 		if (!empty($lang))
 		{
