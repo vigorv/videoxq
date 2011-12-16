@@ -45,11 +45,13 @@ class MetatagsComponent extends Object
 	 * @param string $url - относительный! url
 	 * @return string
 	 */
-	public function fixUrl($url)
+	public function fixUrl($url, $argsMap = array())
 	{
-		$argsMap = array(//КАРТА ИСПОЛЬЗУЕМЫХ АРГУМЕНТОВ (ОСТАЛЬНЫЕ БУДЕМ ИГНОРИРОВАТЬ)
-			'genre', 'country', 'type', 'year_start', 'year_end', 'imdb_start', 'imdb_end', 'sort'
-		);
+                if (!$argsMap){
+                    //по умолчанию список следующий
+                    $argsMap = array(//КАРТА ИСПОЛЬЗУЕМЫХ АРГУМЕНТОВ (ОСТАЛЬНЫЕ БУДЕМ ИГНОРИРОВАТЬ)
+			'genre', 'country', 'type', 'year_start', 'year_end', 'imdb_start', 'imdb_end', 'sort');
+                }
 		$urlInfo = parse_url(Configure::read('App.siteUrl') . $url);
 		$path = explode('/', $urlInfo['path']);
 //ОПРЕДЕЛЯЕМ АРГУМЕНТЫ ДЛЯ СОРТИРОВКИ
@@ -187,7 +189,10 @@ class MetatagsComponent extends Object
 		$base = $this->db->getMetaTagByURL('');//! ОСНОВНЫЕ ТЭГИ (ПРИСУТСТВУЮЩИЕ НА ВСЕХ СТРАНИЦАХ САЙТА)
 		//$tags = $this->db->getMetaTagByUrl($this->fixUrl($url));
                 //echo "<br>get tags<br>\n";
-		$tags = $this->db->getMetaTagsByURLMask($this->fixUrl($url));
+                //
+                //КАРТА ИСПОЛЬЗУЕМЫХ АРГУМЕНТОВ
+                $argsMap = array('genre', 'country', 'type'); 
+		$tags = $this->db->getMetaTagsByURLMask($this->fixUrl($url, $argsMap));
                 
 		$langFix = '';
 		if (!empty($lang))
