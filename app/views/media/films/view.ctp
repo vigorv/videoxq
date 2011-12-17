@@ -424,7 +424,7 @@ $.get("http://flux.itd/media/getbanner/header", function(html){ document.write(h
 	?>
 	</h3>
             <?php
-            //pr($persons);
+            pr($persons);
             $directors = array();
             $story     = array();
             $actors    = array();
@@ -457,11 +457,12 @@ $.get("http://flux.itd/media/getbanner/header", function(html){ document.write(h
             }
             else
 */
+/*            
             {
                 $actors = array_slice($actors, 0, 10);
                 $actors[] = '<a href="#">' . __('more', true) . '...</a>';
             }
-
+*/
             ?>
     <?php if (!empty($directors)): ?>
     <h4><?php __('Directed by'); ?>:</h4>
@@ -507,7 +508,38 @@ $.get("http://flux.itd/media/getbanner/header", function(html){ document.write(h
     		else
     		{
     ?>
-    <p id="actors"><?php echo implode(', ', $actors);?></p>
+    <p id="actors">
+<?php
+    $max_count = 5;
+    if (count($actors) > $max_count){
+        $actors_slice = array_slice($actors, 0, $max_count);
+        $actors_more = array_slice($actors, $max_count, count($actors)-$max_count);
+//        pr ($actors);
+//        pr ($actors_slice);
+//        pr ($actors_more);
+        unset($actors);
+        $actors_slice[] = '<a href="#" class="more">' . __('more', true) . '...</a>';
+        echo implode(', ', $actors_slice);
+        echo '<span class="more" style="display:none">'.implode(', ', $actors_more).'</span>';
+    }
+    else{
+        echo implode(', ', $actors);
+    }
+?>
+    </p>
+
+<script type="text/javascript">
+jQuery(document).ready(function() {
+    $('p#actors a.more').click(function(){
+        $(this).next('span.more').slideDown(1000);
+        $(this).remove();
+        return false;
+    });
+});
+
+</script>
+                
+
     <?php
     		}
     	}
