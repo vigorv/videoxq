@@ -424,7 +424,7 @@ $.get("http://flux.itd/media/getbanner/header", function(html){ document.write(h
 	?>
 	</h3>
             <?php
-            pr($persons);
+            //pr($persons);
             $directors = array();
             $story     = array();
             $actors    = array();
