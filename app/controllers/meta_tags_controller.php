@@ -25,6 +25,7 @@ class metaTagsController extends AppController {
      * 
      */
     function admin_index(){
+        //pr($this->Metatags->findCacheFilesByUrl('ddd'));
         $default_rows_per_page = 30;
         if (!empty($this->data['MetaTag']['rows_per_page'])){
             $this->Session->write("MetaTagRowsPerPage", $this->data['MetaTag']['rows_per_page']);
@@ -79,6 +80,8 @@ class metaTagsController extends AppController {
             $url = filter_var($this->data['MetaTag']['url'], FILTER_SANITIZE_STRING);
             $url = $this->Metatags->fixUrl($url);
             $url_original = filter_var($this->data['MetaTag']['url_original'], FILTER_SANITIZE_STRING);
+            if (!$url_original){$url_original = $url;}
+            $url = $this->Metatags->fixUrl($url);
             $title = filter_var($this->data['MetaTag']['title'], FILTER_SANITIZE_STRING);
             $description = filter_var($this->data['MetaTag']['description'], FILTER_SANITIZE_STRING);
             $keywords = filter_var($this->data['MetaTag']['keywords'], FILTER_SANITIZE_STRING);
@@ -89,6 +92,8 @@ class metaTagsController extends AppController {
             $isbase = intval($this->data['MetaTag']['isbase']);
 
             if ($validate){
+                //преобразуем url в относительный если нужно
+                $url = $this->MetaTag->toRelativeUrl($url);
                 //создадим новый массив, а то мало ли что нам там прилетело 
                 //по post
                 $new_data = array('MetaTag' => array(
@@ -143,8 +148,9 @@ class metaTagsController extends AppController {
             //записи относятся, запись в БД отменяется :(
             if (!$id) {$validate = false;} 
             $url = filter_var($this->data['MetaTag']['url'], FILTER_SANITIZE_STRING);
-            $url = $this->Metatags->fixUrl($url);
             $url_original = filter_var($this->data['MetaTag']['url_original'], FILTER_SANITIZE_STRING);
+            if (!$url_original){$url_original = $url;}
+            $url = $this->Metatags->fixUrl($url);
             $title = filter_var($this->data['MetaTag']['title'], FILTER_SANITIZE_STRING);
             $description = filter_var($this->data['MetaTag']['description'], FILTER_SANITIZE_STRING);
             $keywords = filter_var($this->data['MetaTag']['keywords'], FILTER_SANITIZE_STRING);
@@ -155,6 +161,8 @@ class metaTagsController extends AppController {
             $isbase = intval($this->data['MetaTag']['isbase']);
 
             if ($validate){
+                //преобразуем url в относительный если нужно
+                $url = $this->MetaTag->toRelativeUrl($url);
                 //создадим новый массив, а то мало ли что нам там прилетело по post
                 $data = array('MetaTag' => array(
                     'id' => $id,
@@ -220,7 +228,7 @@ class metaTagsController extends AppController {
             
             $url = filter_var($this->data['MetaTag']['url'], FILTER_SANITIZE_STRING);
             $data['url'] = $url;
-            $url = $this->_to_relative_url($url);
+            $url = $this->Metatags->toRelativeUrl($url);
             $url = $this->Metatags->fixUrl($url);
             
             if ($validate){
@@ -260,23 +268,7 @@ class metaTagsController extends AppController {
     }
 
 //------------------------------------------------------------------------------
-    /*очистка url от начальных символов "/", "http://", "www" 
-     * и пробелов по краям
-     * 
-     * @param string $url - строка url для чистки
-     * @return string $url
-     */
-    function _to_relative_url($url=''){        
-        $url = str_replace('http://www.', '', trim($url));
-        $url = str_replace('http://', '', $url);
-        $url = str_replace($_SERVER['SERVER_NAME'], '', $url);
-        //$url = str_replace(Config::read('App.siteUrl'), '', $url);    
-        //если есть начальный символ "/", удалим его
-        if (strpos($url, '/')==0){
-            $url = substr($url, 1, strlen($url)-1);
-        }
-        return $url;
-    }
+    
 
 }
 ?>

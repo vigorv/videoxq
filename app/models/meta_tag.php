@@ -37,10 +37,10 @@ class MetaTag extends AppModel {
     public function getMetaTagByURL($url='', $page=1, $perpage=0){
 	$cacheprofile='meta';
 	if($page==1)$cacheprofile='metafp';
-        $md5_url = md5($url);
-        /*pr('getMetaTagByURL_md5("'.$url.'"): '.$md5_url);*/
+        //$hash_url = md5($url);
+        $hash_url = $this->cacheFileNameGenerate($url);
         $cacheprofile = 'meta';
-        if (!($metatags = Cache::read('Metatags.'.$md5_url, $cacheprofile)))
+        if (!($metatags = Cache::read('Metatags.'.$hash_url, $cacheprofile)))
         {
             $metatags = array();
             $conditions = array('url'=>$url);
@@ -51,8 +51,7 @@ class MetaTag extends AppModel {
                 $query_options[] = array('OFFSET' => ($page-1)*$perpage);
             }
             $metatags = $this->find('all', $query_options);
-            //Cache::write('Metatags.'.md5($url), $metatags, $cacheprofile);
-            Cache::write('Metatags.'.$md5_url, $metatags, $cacheprofile);
+            Cache::write('Metatags.'.$hash_url, $metatags, $cacheprofile);
             /*
             echo 'cache writed!';
             $fh = fopen('/log.txt', 'a');
@@ -107,9 +106,13 @@ class MetaTag extends AppModel {
         if ($result){
             //нам нужен url соответствующий этой записи
             $data = $this->find('first',array('fields'=>array('url'),'conditions'=>array('id'=>$id)));
+            /*
             $hash = md5($data['MetaTag']['url']);
             Cache::delete('Metatags.'.$hash, 'meta');
             Cache::delete('Metatags.'.$hash, 'metafp');
+            */
+            $hash_url = $this->cacheFileNameGenerate($data['MetaTag']['url']);
+            Cache::delete('Metatags.'.$hash_url, 'meta');
         }
         return $result;
     }
@@ -131,9 +134,12 @@ class MetaTag extends AppModel {
         if ($result){
             //нам нужен url соответствующий этой записи
             $data = $this->find('first',array('fields'=>array('url'),'conditions'=>array('id'=>$id)));
+            /*
             $hash = md5($data['MetaTag']['url']);
             Cache::delete('Metatags.'.$hash, 'meta');
-            Cache::delete('Metatags.'.$hash, 'metafp');
+            Cache::delete('Metatags.'.$hash, 'metafp');*/
+            $hash_url = $this->cacheFileNameGenerate($data['MetaTag']['url']);
+            Cache::delete('Metatags.'.$hash_url, 'meta');
         }
         return $result;
     }
@@ -154,9 +160,12 @@ class MetaTag extends AppModel {
             //только что вставленной записи
             $id = $this->getLastInsertID();
             $data = $this->find('first',array('fields'=>array('url'),'conditions'=>array('id'=>$id)));
+            /*
             $hash = md5($data['MetaTag']['url']);
             Cache::delete('Metatags.'.$hash, 'meta');
-            Cache::delete('Metatags.'.$hash, 'metafp');
+            Cache::delete('Metatags.'.$hash, 'metafp');*/
+            $hash_url = $this->cacheFileNameGenerate($data['MetaTag']['url']);
+            Cache::delete('Metatags.'.$hash_url, 'meta');
         }
         return $result;
     }
@@ -172,10 +181,11 @@ class MetaTag extends AppModel {
     public function getMetaTagsByURLMask($url='', $page=1, $perpage=0){
 	$cacheprofile='meta';
 	if($page==1)$cacheprofile='metafp';
-        $md5_url = md5($url);
+        //$hash_url = md5($url);
+        $hash_url = $this->cacheFileNameGenerate($url);
         /*pr('getMetaTagsByURLMask_md5("'.$url.'"): '.$md5_url);*/
         $cacheprofile = 'meta';
-        if (!($metatags = Cache::read('Metatags.'.$md5_url , $cacheprofile)))
+        if (!($metatags = Cache::read('Metatags.'.$hash_url , $cacheprofile)))
         {
             
             $metatags = array();
@@ -188,8 +198,7 @@ class MetaTag extends AppModel {
                 $query_options[] = array('OFFSET' => ($page-1)*$perpage);
             }
             $metatags = $this->find('all', $query_options);
-            //Cache::write('Metatags.'.md5($url), $metatags, $cacheprofile);
-            Cache::write('Metatags.'.$md5_url, $metatags, $cacheprofile);
+            Cache::write('Metatags.'.$hash_url, $metatags, $cacheprofile);
             /*
             echo 'cache writed!';
             $fh = fopen('/log.txt', 'a');
@@ -201,5 +210,94 @@ class MetaTag extends AppModel {
         return $metatags;
     }
 
+        /* преобразование входного url в относительный без начального '/',
+         * т.е. очистка url от начальных символов "/", "http://", "www" 
+         * пробелов и '/' по краям
+         * 
+         * @param string $url - строка url для чистки
+         * @return string $url
+         */ 
+       public function toRelativeUrl($url=''){        
+            $url = str_replace('http://www.', '', trim($url));
+            $url = str_replace('http://', '', $url);
+            $url = str_replace($_SERVER['SERVER_NAME'], '', $url);
+            //$url = str_replace(Config::read('App.siteUrl'), '', $url);    
+            //если есть начальный символ "/", удалим его
+            if (strpos($url, '/')==0){
+                $url = substr($url, 1, strlen($url)-1);
+            }
+            //удалим символ '/' в еконце строки если он есть
+            if (strpos($url, '/') == (strlen($url)-1)){
+                $url = substr($url, 0, strlen($url)-1);
+            }
+            return $url;
+        }
+        /* Формирование имени файла кэша на основе url без md5, максимально 
+         * приближенное к маске
+         * например:
+         * "http://www.videoxq.gt/news/index/10" -> "news@index@10"
+         * 
+         * @param string $url - входной url
+         * @param boolean $is_base 
+         * @return string $url - выходной url
+         */
+        public function cacheFileNameGenerate($url = '', $is_base = true){
+            if ($url){
+                //для начала преобразуем в относительный путь
+                $url = $this->toRelativeUrl($url);
+                //заменяем '/' на '@';
+                $url = str_replace('/', '@', $url);
+                //заменяем '#' на '@';
+                $url = str_replace('#', '@', $url);
+                //заменяем '?' на '@';
+                $url = str_replace('?', '@', $url);
+                //заменяем ':' на '#';
+                $url = str_replace(':', '#', $url);
+                //заменяем ',' на '#';
+                $url = str_replace(',', '#', $url);
+                //если текущий урл является базовым то укажем это, добавив в 
+                //конец строки '@'
+                if ($is_base){
+                    //$url .= '@';
+                }
+                //ссылки вида "Controller", "Controller@index" (прчем "@index" -
+                //это крайний элемент url) будем считать 
+                //идентичными, поэтому отсекаем от "@index"
+                if (strpos($url, '@index')==(strlen($url)-6) ){
+                    $url = trim (str_replace('@index', '', $url)); 
+                }
+                //и аналогично 
+                //ссылки вида "Controller", "Controller@view" (прчем "@view" -
+                //это крайний элемент url) будем считать 
+                //идентичными, поэтому отсекаем от "@view"
+                if (strpos($url, '@view')==(strlen($url)-5) ){
+                    $url = trim (str_replace('@view', '', $url)); 
+                }
+                    
+            }
+            return $url;
+        }
+        
+        /* возвращает массив с именами найденых файлов кэша, для указанного url 
+         * 
+         * @param string $url - входной url
+         * @param 
+         * @return array $cacheFileNames - найденые файлы кэша
+         * 
+         */ 
+        public function findCacheFilesByUrl($url = ''){
+            uses('Folder');
+            $Folder =& new Folder();
+            
+            $cacheFileNames = array();
+            if ($url){
+                $cacheCfg = Cache::config('meta');
+                $path = $cacheCfg['settings']['path'];
+                $Folder->cd($path);
+                $cacheFileNames = $Folder->find('/cache_metatags'.$url.'/');
+            }
+            return $cacheFileNames;
+        }    
+    
 }
 ?>

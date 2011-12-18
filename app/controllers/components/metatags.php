@@ -45,63 +45,100 @@ class MetatagsComponent extends Object
 	 * @param string $url - относительный! url
 	 * @return string
 	 */
-	public function fixUrl($url, $argsMap = array())
+        
+        // список аргументов url по умолчанию
+        public $argsMap = array('genre', 'country', 'type');
+                /*$argsMap = array('genre', 'country', 'type', 'year_start', 
+                                'year_end', 'imdb_start', 'imdb_end', 'sort');*/
+        //список аргументов url, у которых игнорируются дополнительные 
+        //параметры, по умолчанию (например "view" будут игнорироваться 
+        //параметры (1992,223) метода view d url'ах "media/view/1992", 
+        //"media/view/223")
+        public $argsWithIgnoredParams = array('view');
+        
+        /*
+         * преобразование url
+         * @params string $url - входной url
+         * @params array of string $argsMap - список аргументов url, которые 
+         *      учитываются при разборе
+         * @params array of string $argsWithIgnoredParams - список аргументов 
+         *      url, у которых игнорируются дополнительные 
+         *      параметры, по умолчанию (например "view" будут игнорироваться 
+         *      параметры (1992,223) метода view d url'ах "media/view/1992", 
+         *      "media/view/223")
+         * @params boolean $ignoreQeryFragment - игнорировать ли дополнительные 
+         *      параметры в url после '?' и '#'
+         * @return string url - выходной url
+         */        
+	public function fixUrl($url, $argsMap = array(), $argsWithIgnoredParams = array(), $ignoreQeryFragment = false)
 	{
                 if (!$argsMap){
-                    //по умолчанию список следующий
-                    $argsMap = array(//КАРТА ИСПОЛЬЗУЕМЫХ АРГУМЕНТОВ (ОСТАЛЬНЫЕ БУДЕМ ИГНОРИРОВАТЬ)
-			'genre', 'country', 'type', 'year_start', 'year_end', 'imdb_start', 'imdb_end', 'sort');
+                    $argsMap = $this->argsMap;
                 }
+                if (!$argsWithIgnoredParams){
+                    $argsWithIgnoredParams = $this->argsWithIgnoredParams;
+                }
+                
 		$urlInfo = parse_url(Configure::read('App.siteUrl') . $url);
 		$path = explode('/', $urlInfo['path']);
-//ОПРЕДЕЛЯЕМ АРГУМЕНТЫ ДЛЯ СОРТИРОВКИ
+                //ОПРЕДЕЛЯЕМ АРГУМЕНТЫ ДЛЯ СОРТИРОВКИ
 		$args = array(); //СЮДА ОТБЕРЕМ АРГУМЕНТЫ
 		$newPath = array(); //СЮДА ОТБЕРЕМ ОСТАЛЬНЫЕ ПАРАМЕТРЫ
+                
+                //сзодадим переменную для хранения предыдущего значения 
+                //элемента url (напрмер view), чтобы отсечь его парметры на 
+                //следующей итерации, при необходимости
+                $prev_arg = '';
 		foreach ($path as $pth)
 		{
-			if (!empty($pth))
-			{
-				if (strpos($pth, ':'))
-				{
-					$p = explode(':', $pth);
-					if (in_array(str_replace('%', '', $p[0]), $argsMap))
-					{
-						$vls = explode(',', $p[1]);
-						sort($vls);
-						$args[] = $p[0]. ':' . implode(',', $vls);//ЗНАЧЕНИЕ АРГУМЕНТА ТОЖЕ СОРТИРУЕМ
-					}
-				}
-				else
-				{
-					$newPath[] = $pth;
-				}
-			}
+                    if (!empty($pth))
+                    {
+                        if (strpos($pth, ':'))
+                        {
+                            $p = explode(':', $pth);
+                            if (in_array(str_replace('%', '', $p[0]), $argsMap))
+                            {
+                                    $vls = explode(',', $p[1]);
+                                    sort($vls);
+                                    $args[] = $p[0]. ':' . implode(',', $vls);//ЗНАЧЕНИЕ АРГУМЕНТА ТОЖЕ СОРТИРУЕМ
+                            }
+                        }
+                        else
+                        {
+                            //если предыдущий аргумет не присутствует в списке 
+                            //ингора параметров для элементов url, то оставим 
+                            //его параметры в url'е
+                            if (!in_array($prev_arg, $argsWithIgnoredParams)){
+                                $newPath[] = $pth;
+                            }
+                            
+                        }
+                        $prev_arg = $pth;
+                    }
 		}
 		sort($args);
 
-//СОБИРАЕМ URL
+                //СОБИРАЕМ URL
 		$original = $url;
 		$url = '';
-		if (!empty($newPath))
-		{
-			$url = '/' . implode('/', $newPath);
+		if (!empty($newPath)){
+                    $url = '/' . implode('/', $newPath);
 		}
 
-		if (!empty($args))
-		{
-			$url .= '/' . implode('/', $args);
+		if (!empty($args)){
+                    $url .= '/' . implode('/', $args);
 		}
+                //игнорировать ли дополнительные параметры в url после '?' и '#'
+                if(!$ignoreQeryFragment){
+                    if (!empty($urlInfo['query'])){
+                        $url .= '?' . $urlInfo['query'];
+                    }
+                    if (!empty($urlInfo['fragment'])){
+                        $url .= '#' . $urlInfo['fragment'];
+                    }                    
+                }
 
-		if (!empty($urlInfo['query']))
-		{
-			$url .= '?' . $urlInfo['query'];
-		}
-		if (!empty($urlInfo['fragment']))
-		{
-			$url .= '#' . $urlInfo['fragment'];
-		}
-		if (empty($url))
-		{
+		if (empty($url)){
 			return $original;
 		}
 		return $url;
@@ -185,14 +222,8 @@ class MetatagsComponent extends Object
 
 	public function get($url, $lang = '')
 	{
-                /*pr('fixUrl("'.$url.'"): '.$this->fixUrl($url));*/
 		$base = $this->db->getMetaTagByURL('');//! ОСНОВНЫЕ ТЭГИ (ПРИСУТСТВУЮЩИЕ НА ВСЕХ СТРАНИЦАХ САЙТА)
-		//$tags = $this->db->getMetaTagByUrl($this->fixUrl($url));
-                //echo "<br>get tags<br>\n";
-                //
-                //КАРТА ИСПОЛЬЗУЕМЫХ АРГУМЕНТОВ
-                $argsMap = array('genre', 'country', 'type'); 
-		$tags = $this->db->getMetaTagsByURLMask($this->fixUrl($url, $argsMap));
+		$tags = $this->db->getMetaTagsByURLMask($this->fixUrl($url));
                 
 		$langFix = '';
 		if (!empty($lang))
@@ -259,4 +290,6 @@ class MetatagsComponent extends Object
 		$this->descriptionTag = '';
 		$this->keywordsTag = '';
 	}
+        
+
 }
