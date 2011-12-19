@@ -228,7 +228,7 @@ class metaTagsController extends AppController {
             
             $url = filter_var($this->data['MetaTag']['url'], FILTER_SANITIZE_STRING);
             $data['url'] = $url;
-            $url = $this->Metatags->toRelativeUrl($url);
+            $url = $this->MetaTag->toRelativeUrl($url);
             $url = $this->Metatags->fixUrl($url);
             
             if ($validate){
