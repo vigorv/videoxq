@@ -1747,7 +1747,14 @@ echo'</pre>';
             $this->render('feedback');
             return;
         }
-
+        
+        //----------------------------------------------------------------------
+        //добавим в готовый массив поле - сгенерированый slug на основе title фильма
+        foreach($films as $key=>$val){
+            $films[$key]['Film']['slug'] = $this->_toSlug($val['Film']['title']);
+        }
+        //----------------------------------------------------------------------
+        
         $this->set('films', $films);
         if (isset($search))
         {
@@ -2316,6 +2323,7 @@ echo'</pre>';
     }
 
     function view($id = null) {
+        
         if (!$id) {
             $this->Session->setFlash(__('Invalid Film', true));
             $this->redirect(array('action'=>'index'));

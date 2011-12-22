@@ -985,7 +985,53 @@ LIMIT 1';
             $this->redirect(array('action' => 'index'));
         }
     }
+    
 
+    public function _toSlug($string){
+        return low(Inflector::slug($this->_toTransit($string),'-'));
+    }
+
+    public function _toTransit($txt, $reverse = false)
+    {
+        $result = '';
+        $t = array(//ТРАНСЛИТ
+            'а'=>'a','б'=>'b','в'=>'v','г'=>'g','д'=>'d','е'=>'e','ё'=>'jo','ж'=>'zh',
+            'з'=>'z','и'=>'i','й'=>'j','к'=>'k','л'=>'l','м'=>'m','н'=>'n','о'=>'o',
+            'п'=>'p','р'=>'r','с'=>'s','т'=>'t','у'=>'u','ф'=>'f','х'=>'h','ц'=>'z',
+            'ч'=>'ch','ш'=>'sh','щ'=>'shj','ъ'=>'','ы'=>'i','ь'=>'j','э'=>'e','ю'=>'ju',
+            'я'=>'ja'
+         );
+
+        if ($reverse)
+        {
+            $t = array_flip($t);//ОБРАТНЫЙ ПЕРЕВОД
+        }
+
+        $t1 = array();//массив в верхнем регистре
+        foreach ($t as $key => $value)
+            $t1[mb_strtoupper($key)] = mb_strtoupper($value);
+
+        $searchCnt = mb_strlen($txt);
+        for($i = 0; $i < $searchCnt; $i++)
+        {
+            $c = mb_substr($txt, $i, 1);
+            if (isset($t[$c]))
+            {
+                $result .= $t[$c];
+                continue;
+            }
+            elseif (isset($t1[$c]))
+            {
+                $result .= $t1[$c];
+                continue;
+            }
+            else
+            {
+                $result .= $c;
+            }
+        }
+        return $result;
+    }    
 }
 
 ?>

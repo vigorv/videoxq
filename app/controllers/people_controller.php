@@ -52,6 +52,13 @@ class PeopleController extends AppController {
         //$this->pageTitle = __('Video catalog', true) . ' - ' . __('People', true) . ' - ' . $person['Person']['name' . $langFix];
         $this->Metatags->insert(__('People', true) . ' - ' . $person['Person']['name' . $langFix], '', '');
 
+        //----------------------------------------------------------------------
+        //добавим в готовый массив поле - сгенерированый slug на основе title фильма
+        foreach($films as $key=>$val){
+            $films[$key]['Film']['slug'] = $this->_toSlug($val['Film']['title']);
+        }
+        //----------------------------------------------------------------------
+        
         $this->set('person', $person);
         $this->set('films', $films);
         $this->set('alphabet', $this->Person->getAlphabet());
