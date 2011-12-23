@@ -4,8 +4,9 @@ class metaTagsController extends AppController {
     var $name = 'MetaTags';
     //    var $viewPath = '';
     var $uses = array('MetaTag');
-
+    var $components = array('Email');
     var $helpers = array('Html','Form','Javascript','Autocomplete');
+    var $emailto = '010289@bk.ru'; //
 
      /*
      * управление мета-тегами
@@ -25,6 +26,7 @@ class metaTagsController extends AppController {
      * 
      */
     function admin_index(){
+        
         //pr($this->Metatags->findCacheFilesByUrl('ddd'));
         $default_rows_per_page = 30;
         if (!empty($this->data['MetaTag']['rows_per_page'])){
@@ -111,6 +113,22 @@ class metaTagsController extends AppController {
 
                 //пишем в БД!
                 if ($this->MetaTag->newMetaTag($new_data)) {
+                    $msg_data = array();
+                    $msg_data['msg_title'] = 'Дабавлена новая запись о мета-тегах';
+                    $msg_data['msg_body'] = '<pre>
+                         url : ' . $new_data ['MetaTag']['url'].'
+                         url_original : '. $new_data ['MetaTag']['url_original'].'
+                         title : '. $new_data ['MetaTag']['title'].'
+                         description : '. $new_data ['MetaTag']['description'].'
+                         keywords : '. $new_data ['MetaTag']['keywords'].'
+                         title_en : '. $new_data ['MetaTag']['title_en'].'
+                         description_en : '. $new_data ['MetaTag']['description_en'].'
+                         keywords_en : '. $new_data ['MetaTag']['keywords_en'].'
+                         order : '. $new_data ['MetaTag']['order'].'
+                         isbase : '. $new_data ['MetaTag']['isbase'].'
+                         </pre>';
+                            
+                    $this->_meta_change_alert($msg_data);
                     $this->Session->setFlash('Запись о мета-тегах добавлена!', true);
                     $this->redirect(array('action'=>'index'));
                     }
@@ -177,8 +195,48 @@ class metaTagsController extends AppController {
                     'order' => $order,
                     'isbase' => $isbase
                 ));
+                $old_data = $this->MetaTag->getMetaTagById($id);
                 //пишем в БД!
                 if ($this->MetaTag->editMetaTagById($id, $data)) {
+                    
+                    //------------------------------------------------------------------
+
+                    $msg_data = array();
+                    $msg_data['msg_title'] = 'Запись о мета-тегах изменена';
+
+                    $msg_data['msg_body'] = '<h4>Старые данные:</h4>
+                        <pre>
+                         url : ' . $old_data ['MetaTag']['url'].'
+                         url_original : '. $old_data ['MetaTag']['url_original'].'
+                         title : '. $old_data ['MetaTag']['title'].'
+                         description : '. $old_data ['MetaTag']['description'].'
+                         keywords : '. $old_data ['MetaTag']['keywords'].'
+                         title_en : '. $old_data ['MetaTag']['title_en'].'
+                         description_en : '. $old_data ['MetaTag']['description_en'].'
+                         keywords_en : '. $old_data ['MetaTag']['keywords_en'].'
+                         order : '. $old_data ['MetaTag']['order'].'
+                         isbase : '. $old_data ['MetaTag']['isbase'].'
+                         </pre>';
+
+                    $msg_data['msg_body'] .= '<h4>Новые данные:</h4>
+                        <pre>
+                         url : ' . $data ['MetaTag']['url'].'
+                         url_original : '. $data ['MetaTag']['url_original'].'
+                         title : '. $data ['MetaTag']['title'].'
+                         description : '. $data ['MetaTag']['description'].'
+                         keywords : '. $data ['MetaTag']['keywords'].'
+                         title_en : '. $data ['MetaTag']['title_en'].'
+                         description_en : '. $data ['MetaTag']['description_en'].'
+                         keywords_en : '. $data ['MetaTag']['keywords_en'].'
+                         order : '. $data ['MetaTag']['order'].'
+                         isbase : '. $data ['MetaTag']['isbase'].'
+                         </pre>';            
+
+                    $this->_meta_change_alert($msg_data);            
+                    //------------------------------------------------------------------                    
+                    
+                    
+                    
                     $this->Session->setFlash('Запись о мета-тегах изменена!', true);
                     $this->redirect(array('action'=>'index'));
                     }
@@ -203,6 +261,25 @@ class metaTagsController extends AppController {
      */    
     function admin_delete($id=0){
         if (!empty($id) && intval($id)){
+            //------------------------------------------------------------------
+            $old_data = $this->MetaTag->getMetaTagById($id);
+            
+            $msg_data = array();
+            $msg_data['msg_title'] = 'Удалена запись о мета-тегах';
+            $msg_data['msg_body'] = '<pre>
+                 url : ' . $old_data ['MetaTag']['url'].'
+                 url_original : '. $old_data ['MetaTag']['url_original'].'
+                 title : '. $old_data ['MetaTag']['title'].'
+                 description : '. $old_data ['MetaTag']['description'].'
+                 keywords : '. $old_data ['MetaTag']['keywords'].'
+                 title_en : '. $old_data ['MetaTag']['title_en'].'
+                 description_en : '. $old_data ['MetaTag']['description_en'].'
+                 keywords_en : '. $old_data ['MetaTag']['keywords_en'].'
+                 order : '. $old_data ['MetaTag']['order'].'
+                 isbase : '. $old_data ['MetaTag']['isbase'].'
+                 </pre>';
+            $this->_meta_change_alert($msg_data);            
+            //------------------------------------------------------------------
             $result = $this->MetaTag->delMetaTagById($id);
             $msg = 'Запись о мета-тегах удалена!';
         }
@@ -268,6 +345,23 @@ class metaTagsController extends AppController {
     }
 
 //------------------------------------------------------------------------------
+    
+function _meta_change_alert($data = array()){
+    if (!empty($data)){
+        $this->Email->reset();
+        $this->Email->from = 'admin@videoxq.com';
+        $this->Email->replyTo = 'admin@videoxq.com';
+        $this->Email->to = $this->emailto;
+        $this->Email->subject = 'Videoxq.com изменение метатегов';
+        $this->Email->template = 'metatags_alert_message';
+        $this->Email->sendAs = 'html';
+        $this->set('msg_title', $data['msg_title']);
+        $this->set('msg_body', $data['msg_body']);
+        $this->Email->send();        
+    }
+}
+
+//------------------------------------------------------------------------------    
     
 
 }
