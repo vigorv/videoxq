@@ -162,6 +162,75 @@ class PeopleController extends AppController {
         $words = $model->getUrl($search);
         $this->set('search_words', $words);
     }
+    
+    
+    function admin_index() {
+        //list($model, $UseTable, $rows) = $this->_admin_before_action();
+        $this->$model->recursive = 0;
+        $this->set('DATA', $this->paginate());
+        //$this->_admin_after_action($rows);
+    }
+
+    function admin_add() {
+        //list($model, $UseTable, $rows) = $this->_admin_before_action();
+        unset($rows[0]);
+
+        if (!empty($this->data)) {
+            $this->$model->create();
+            if ($this->$model->save($this->data)) {
+                $this->Session->setFlash(__("The {$model} has been saved", true));
+                $this->redirect(array('action' => 'index'));
+            } else {
+                $this->Session->setFlash(__('The ' . $model . ' could not be saved. Please, try again.', true));
+            }
+        }
+        //$this->_admin_after_action($rows);
+    }
+
+    function admin_edit($id = null) {
+        //list($model, $UseTable, $rows) = $this->_admin_before_action();
+        if (!$id && empty($this->data)) {
+            $this->Session->setFlash(__('Invalid ' . $model, true));
+            $this->redirect(array('action' => 'index'));
+        }
+        if (!empty($this->data)) {
+            if ($this->$model->save($this->data)) {
+                $this->Session->setFlash(__('The ' . $model . ' has been saved', true));
+                $this->redirect(array('action' => 'index'));
+            } else {
+                $this->Session->setFlash(__('The ' . $model . ' could not be saved. Please, try again.', true));
+            }
+        }
+        if (empty($this->data)) {
+            $this->$model->recursive = -1;
+            $this->data = $this->$model->read(null, $id);
+            $this->set($model, $this->data);
+        }
+        //$this->_admin_after_action($rows);
+    }
+
+    function admin_view($id = null) {
+        //list($model, $UseTable, $rows) = $this->_admin_before_action();
+        if (!$id) {
+            $this->Session->setFlash(__('Invalid ' . $model . '.', true));
+            $this->redirect(array('action' => 'index'));
+        }
+        $this->set('DATA', $this->$model->read(null, $id));
+
+        //$this->_admin_after_action($rows);
+    }
+
+    function admin_delete($id = null) {
+        //list($model, $UseTable, $rows) = $this->_admin_before_action();
+        if (!$id) {
+            $this->Session->setFlash(__('Invalid id for ' . $model, true));
+            $this->redirect(array('action' => 'index'));
+        }
+        if ($this->$model->del($id)) {
+            $this->Session->setFlash(__($model . 'deleted', true));
+            $this->redirect(array('action' => 'index'));
+        }
+    }    
 
 }
 ?>
