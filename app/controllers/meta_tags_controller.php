@@ -81,7 +81,7 @@ class metaTagsController extends AppController {
             //особо проверять не будем - админы ведь рулят изнутри,
             //а не вредители :) да и пустым может быть любое поле!
             $url = filter_var($this->data['MetaTag']['url'], FILTER_SANITIZE_STRING);
-            $url = $this->Metatags->fixUrl($url);
+            //$url = $this->Metatags->fixUrl($url);
             $url_original = filter_var($this->data['MetaTag']['url_original'], FILTER_SANITIZE_STRING);
             if (!$url_original){$url_original = $url;}
             $url = $this->Metatags->fixUrl($url);
@@ -98,7 +98,7 @@ class metaTagsController extends AppController {
 
             if ($validate){
                 //преобразуем url в относительный если нужно
-                $url = $this->MetaTag->toRelativeUrl($url);
+                $url = $this->MetaTag->toRelativeUrl($url, true);
                 //создадим новый массив, а то мало ли что нам там прилетело 
                 //по post
                 $new_data = array('MetaTag' => array(
@@ -185,7 +185,7 @@ class metaTagsController extends AppController {
 
             if ($validate){
                 //преобразуем url в относительный если нужно
-                $url = $this->MetaTag->toRelativeUrl($url);
+                $url = $this->MetaTag->toRelativeUrl($url, true);
                 //создадим новый массив, а то мало ли что нам там прилетело по post
                 $data = array('MetaTag' => array(
                     'id' => $id,
@@ -310,7 +310,7 @@ class metaTagsController extends AppController {
             
             $url = filter_var($this->data['MetaTag']['url'], FILTER_SANITIZE_STRING);
             $data['url'] = $url;
-            $url = $this->MetaTag->toRelativeUrl($url);
+            $url = $this->MetaTag->toRelativeUrl($url, true);
             $url = $this->Metatags->fixUrl($url);
             
             if ($validate){

@@ -268,19 +268,20 @@ class MetaTag extends AppModel {
          * пробелов и '/' по краям
          * 
          * @param string $url - строка url для чистки
+         * @param boolean $first_slash_alllow - оставлять ли начальный слэш
          * @return string $url
          */ 
-       public function toRelativeUrl($url=''){        
+       public function toRelativeUrl($url='', $first_slash_alllow = false){        
             $url = str_replace('http://www.', '', trim($url));
             $url = str_replace('http://', '', $url);
             $url = str_replace($_SERVER['SERVER_NAME'], '', $url);
             //$url = str_replace(Config::read('App.siteUrl'), '', $url);    
             //если есть начальный символ "/", удалим его
-            if (strpos($url, '/')==0){
+            if (strpos($url, '/')==0 && !$first_slash_alllow){
                 $url = substr($url, 1, strlen($url)-1);
             }
-            //удалим символ '/' в еконце строки если он есть
-            if (strpos($url, '/') == (strlen($url)-1)){
+            //удалим символ '/' в еконце строки если он есть и дляна строки > 1
+            if ((strpos($url, '/') == (strlen($url)-1)) && (strlen($url)>1)){
                 $url = substr($url, 0, strlen($url)-1);
             }
             return $url;
