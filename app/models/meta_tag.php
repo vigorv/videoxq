@@ -26,7 +26,7 @@ class MetaTag extends AppModel {
                 'url_original' => ''
                 ));
             $this->conditions = array();
-            //$result = $this->save($data);
+            $result = $this->save($data);
         }
         return $email;
     }
