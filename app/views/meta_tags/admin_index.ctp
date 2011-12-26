@@ -77,6 +77,8 @@ echo '</table>';
 <div style="margin: 5px; overflow: hidden">
 <?php 
     echo $html->link('Проверить результат выборки метатегов для URL', array('action'=>'check'),array('class'=>'a_btn','style'=>'display: block; clear: both'));
+    echo '<br/>';
+    echo $html->link('установка email-адреса для доставки оповещений', array('action'=>'report_set'),array('class'=>'a_btn','style'=>'display: block; clear: both'));    
 ?>
 </div>
 <pre>

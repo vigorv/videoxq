@@ -4,6 +4,59 @@ class MetaTag extends AppModel {
     var $name = 'MetaTag';
     var $hasAndBelongsToMany = array();
 
+    /*
+     * 
+     * 
+     * 
+     * 
+     */
+    public function getEmailTo(){
+        $email = '';
+        $conditions = array('url' => 'emailto');
+        $query_options = array('conditions'=>$conditions);
+        $data = $this->find('all', $query_options);
+        
+        if (!empty($data)){
+            $email= $data[0]['MetaTag']['url_original'];
+        }
+        else{
+            //если записи emailto не существует то создадим ее
+            $data = array('MetaTag' => array(
+                'url' => 'emailto',
+                'url_original' => ''
+                ));
+            $this->conditions = array();
+            $result = $this->save($data);
+        }
+        return $email;
+    }
+    /*
+     * 
+     * 
+     * 
+     * 
+     */
+    public function setEmailTo($email = ''){
+        $conditions = array('url' => 'emailto');
+        /*
+        $data = array('MetaTag' => array(
+            'url_original' => $email
+        ));
+        $this->conditions = array('conditions'=>$conditions);
+        $result = $this->save($data);  
+        */
+        /*
+         $sql = 'UPDATE meta_tags SET url_original=`' . $email
+                . '` WHERE url = `emailto`';
+        $result = $this->query($sql);
+         */
+        $data = array(
+            'url_original' => '"'.$email.'"'
+            );
+        $result = $this->updateAll($data, $conditions);
+        return $result;        
+    }    
+    
     /* возвращает коли-во записей метатегов для указанного URL, если
      * $recurse=true, то смотрит вхождение данного URL в более длинные URL )))
      *
@@ -11,15 +64,15 @@ class MetaTag extends AppModel {
      * @param boolean $recurse - рекурсия,(искать ли вхождение в более длинных
      *                          URL)
      * @return int $metatags_count - кол-во найденых записей
-     */
+     */    
     public function getMetaTagCountByURL($url='', $recurse=false){
 
         $metatags_count = 0;
         if ($recurse) {
-            $conditions = array('url LIKE'=>$url.'%');
+            $conditions = array('url LIKE'=>$url.'%','NOT' => array('url' => 'emailto'));
         }
         else {
-            $conditions = array('url'=>$url);
+            $conditions = array('url'=>$url,'NOT' => array('url' => 'emailto'));
         }
         $query_options = array('conditions'=>$conditions);
         $metatags_count = $this->find('count', $query_options);
@@ -43,7 +96,7 @@ class MetaTag extends AppModel {
         if (!($metatags = Cache::read('Metatags.'.$hash_url, $cacheprofile)))
         {
             $metatags = array();
-            $conditions = array('url'=>$url);
+            $conditions = array('url'=>$url, 'NOT' => array('url' => 'emailto') );
             $query_options = array('conditions'=>$conditions);
             $limit='';
             if ($perpage){
@@ -84,7 +137,7 @@ class MetaTag extends AppModel {
     public function getMetaTagById($id=null){
         $metatags = array();
         if (!empty($id) && intval($id)){
-            $conditions = array('id'=>intval($id));
+            $conditions = array('id'=>intval($id), 'NOT' => array('url' => 'emailto'));
             $query_options = array('conditions'=>$conditions);
             $metatags = $this->find('first', $query_options);
         }
@@ -105,7 +158,7 @@ class MetaTag extends AppModel {
         //если удаление записи было успешно, то почистим кэш!!!
         if ($result){
             //нам нужен url соответствующий этой записи
-            $data = $this->find('first',array('fields'=>array('url'),'conditions'=>array('id'=>$id)));
+            $data = $this->find('first',array('fields'=>array('url'),'conditions'=>array('id'=>$id, 'NOT' => array('url' => 'emailto'))));
             /*
             $hash = md5($data['MetaTag']['url']);
             Cache::delete('Metatags.'.$hash, 'meta');
@@ -126,14 +179,14 @@ class MetaTag extends AppModel {
     public function editMetaTagById($id=null, $data=null){
         $result = false;
         if(!empty($id) && intval($id) && !empty($data)){
-            $conditions = array('id'=>intval($id));
+            $conditions = array('id'=>intval($id), 'NOT' => array('url' => 'emailto'));
             $this->conditions = array('conditions'=>$conditions);
             $result = $this->save($data);
         }
         //если редактирование записи было успешно, то почистим кэш!!!
         if ($result){
             //нам нужен url соответствующий этой записи
-            $data = $this->find('first',array('fields'=>array('url'),'conditions'=>array('id'=>$id)));
+            $data = $this->find('first',array('fields'=>array('url'),'conditions'=>array('id'=>$id, 'NOT' => array('url' => 'emailto'))));
             /*
             $hash = md5($data['MetaTag']['url']);
             Cache::delete('Metatags.'.$hash, 'meta');
@@ -159,7 +212,7 @@ class MetaTag extends AppModel {
             //нам нужен url соответствующий этой записи, для этого узнаем id,
             //только что вставленной записи
             $id = $this->getLastInsertID();
-            $data = $this->find('first',array('fields'=>array('url'),'conditions'=>array('id'=>$id)));
+            $data = $this->find('first',array('fields'=>array('url'),'conditions'=>array('id'=>$id, 'NOT' => array('url' => 'emailto'))));
             /*
             $hash = md5($data['MetaTag']['url']);
             Cache::delete('Metatags.'.$hash, 'meta');
@@ -189,7 +242,7 @@ class MetaTag extends AppModel {
         {
             
             $metatags = array();
-            $conditions = '"' . $url . '" LIKE `MetaTag`.`url`';
+            $conditions = '"' . $url . '" LIKE `MetaTag`.`url` AND `url` != "emailto"';
 
             $query_options = array('conditions'=>$conditions);
             $limit='';
@@ -215,19 +268,20 @@ class MetaTag extends AppModel {
          * пробелов и '/' по краям
          * 
          * @param string $url - строка url для чистки
+         * @param boolean $first_slash_alllow - оставлять ли начальный слэш
          * @return string $url
          */ 
-       public function toRelativeUrl($url=''){        
+       public function toRelativeUrl($url='', $first_slash_alllow = false){        
             $url = str_replace('http://www.', '', trim($url));
             $url = str_replace('http://', '', $url);
             $url = str_replace($_SERVER['SERVER_NAME'], '', $url);
             //$url = str_replace(Config::read('App.siteUrl'), '', $url);    
             //если есть начальный символ "/", удалим его
-            if (strpos($url, '/')==0){
+            if (strpos($url, '/')==0 && !$first_slash_alllow){
                 $url = substr($url, 1, strlen($url)-1);
             }
-            //удалим символ '/' в еконце строки если он есть
-            if (strpos($url, '/') == (strlen($url)-1)){
+            //удалим символ '/' в еконце строки если он есть и дляна строки > 1
+            if ((strpos($url, '/') == (strlen($url)-1)) && (strlen($url)>1)){
                 $url = substr($url, 0, strlen($url)-1);
             }
             return $url;

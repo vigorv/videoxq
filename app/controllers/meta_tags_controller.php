@@ -4,8 +4,9 @@ class metaTagsController extends AppController {
     var $name = 'MetaTags';
     //    var $viewPath = '';
     var $uses = array('MetaTag');
-
+    var $components = array('Email');
     var $helpers = array('Html','Form','Javascript','Autocomplete');
+    var $emailto_enable = true; //
 
      /*
      * управление мета-тегами
@@ -25,6 +26,7 @@ class metaTagsController extends AppController {
      * 
      */
     function admin_index(){
+        
         //pr($this->Metatags->findCacheFilesByUrl('ddd'));
         $default_rows_per_page = 30;
         if (!empty($this->data['MetaTag']['rows_per_page'])){
@@ -46,6 +48,7 @@ class metaTagsController extends AppController {
 
         
         $this->paginate = array(
+        'conditions' => array('NOT' => array('url' => 'emailto')),
         'limit' => $rows_per_page,
         'order' => array(
             'MetaTag.url' => 'asc'
@@ -78,7 +81,7 @@ class metaTagsController extends AppController {
             //особо проверять не будем - админы ведь рулят изнутри,
             //а не вредители :) да и пустым может быть любое поле!
             $url = filter_var($this->data['MetaTag']['url'], FILTER_SANITIZE_STRING);
-            $url = $this->Metatags->fixUrl($url);
+            //$url = $this->Metatags->fixUrl($url);
             $url_original = filter_var($this->data['MetaTag']['url_original'], FILTER_SANITIZE_STRING);
             if (!$url_original){$url_original = $url;}
             $url = $this->Metatags->fixUrl($url);
@@ -90,10 +93,12 @@ class metaTagsController extends AppController {
             $keywords_en = filter_var($this->data['MetaTag']['keywords_en'], FILTER_SANITIZE_STRING);            
             $order = intval($this->data['MetaTag']['order']);
             $isbase = intval($this->data['MetaTag']['isbase']);
+            
+            if($url == 'emailto'){$validate = false;}
 
             if ($validate){
                 //преобразуем url в относительный если нужно
-                $url = $this->MetaTag->toRelativeUrl($url);
+                $url = $this->MetaTag->toRelativeUrl($url, true);
                 //создадим новый массив, а то мало ли что нам там прилетело 
                 //по post
                 $new_data = array('MetaTag' => array(
@@ -111,6 +116,22 @@ class metaTagsController extends AppController {
 
                 //пишем в БД!
                 if ($this->MetaTag->newMetaTag($new_data)) {
+                    $msg_data = array();
+                    $msg_data['msg_title'] = 'Дабавлена новая запись о мета-тегах';
+                    $msg_data['msg_body'] = '<pre>
+                         url : ' . $new_data ['MetaTag']['url'].'
+                         url_original : '. $new_data ['MetaTag']['url_original'].'
+                         title : '. $new_data ['MetaTag']['title'].'
+                         description : '. $new_data ['MetaTag']['description'].'
+                         keywords : '. $new_data ['MetaTag']['keywords'].'
+                         title_en : '. $new_data ['MetaTag']['title_en'].'
+                         description_en : '. $new_data ['MetaTag']['description_en'].'
+                         keywords_en : '. $new_data ['MetaTag']['keywords_en'].'
+                         order : '. $new_data ['MetaTag']['order'].'
+                         isbase : '. $new_data ['MetaTag']['isbase'].'
+                         </pre>';
+                            
+                    $this->_meta_change_alert($msg_data);
                     $this->Session->setFlash('Запись о мета-тегах добавлена!', true);
                     $this->redirect(array('action'=>'index'));
                     }
@@ -159,10 +180,12 @@ class metaTagsController extends AppController {
             $keywords_en = filter_var($this->data['MetaTag']['keywords_en'], FILTER_SANITIZE_STRING);            
             $order = intval($this->data['MetaTag']['order']);
             $isbase = intval($this->data['MetaTag']['isbase']);
+            
+            if($url == 'emailto'){$validate = false;}
 
             if ($validate){
                 //преобразуем url в относительный если нужно
-                $url = $this->MetaTag->toRelativeUrl($url);
+                $url = $this->MetaTag->toRelativeUrl($url, true);
                 //создадим новый массив, а то мало ли что нам там прилетело по post
                 $data = array('MetaTag' => array(
                     'id' => $id,
@@ -177,8 +200,48 @@ class metaTagsController extends AppController {
                     'order' => $order,
                     'isbase' => $isbase
                 ));
+                $old_data = $this->MetaTag->getMetaTagById($id);
                 //пишем в БД!
                 if ($this->MetaTag->editMetaTagById($id, $data)) {
+                    
+                    //------------------------------------------------------------------
+
+                    $msg_data = array();
+                    $msg_data['msg_title'] = 'Запись о мета-тегах изменена';
+
+                    $msg_data['msg_body'] = '<h4>Старые данные:</h4>
+                        <pre>
+                         url : ' . $old_data ['MetaTag']['url'].'
+                         url_original : '. $old_data ['MetaTag']['url_original'].'
+                         title : '. $old_data ['MetaTag']['title'].'
+                         description : '. $old_data ['MetaTag']['description'].'
+                         keywords : '. $old_data ['MetaTag']['keywords'].'
+                         title_en : '. $old_data ['MetaTag']['title_en'].'
+                         description_en : '. $old_data ['MetaTag']['description_en'].'
+                         keywords_en : '. $old_data ['MetaTag']['keywords_en'].'
+                         order : '. $old_data ['MetaTag']['order'].'
+                         isbase : '. $old_data ['MetaTag']['isbase'].'
+                         </pre>';
+
+                    $msg_data['msg_body'] .= '<h4>Новые данные:</h4>
+                        <pre>
+                         url : ' . $data ['MetaTag']['url'].'
+                         url_original : '. $data ['MetaTag']['url_original'].'
+                         title : '. $data ['MetaTag']['title'].'
+                         description : '. $data ['MetaTag']['description'].'
+                         keywords : '. $data ['MetaTag']['keywords'].'
+                         title_en : '. $data ['MetaTag']['title_en'].'
+                         description_en : '. $data ['MetaTag']['description_en'].'
+                         keywords_en : '. $data ['MetaTag']['keywords_en'].'
+                         order : '. $data ['MetaTag']['order'].'
+                         isbase : '. $data ['MetaTag']['isbase'].'
+                         </pre>';            
+
+                    $this->_meta_change_alert($msg_data);            
+                    //------------------------------------------------------------------                    
+                    
+                    
+                    
                     $this->Session->setFlash('Запись о мета-тегах изменена!', true);
                     $this->redirect(array('action'=>'index'));
                     }
@@ -203,6 +266,25 @@ class metaTagsController extends AppController {
      */    
     function admin_delete($id=0){
         if (!empty($id) && intval($id)){
+            //------------------------------------------------------------------
+            $old_data = $this->MetaTag->getMetaTagById($id);
+            
+            $msg_data = array();
+            $msg_data['msg_title'] = 'Удалена запись о мета-тегах';
+            $msg_data['msg_body'] = '<pre>
+                 url : ' . $old_data ['MetaTag']['url'].'
+                 url_original : '. $old_data ['MetaTag']['url_original'].'
+                 title : '. $old_data ['MetaTag']['title'].'
+                 description : '. $old_data ['MetaTag']['description'].'
+                 keywords : '. $old_data ['MetaTag']['keywords'].'
+                 title_en : '. $old_data ['MetaTag']['title_en'].'
+                 description_en : '. $old_data ['MetaTag']['description_en'].'
+                 keywords_en : '. $old_data ['MetaTag']['keywords_en'].'
+                 order : '. $old_data ['MetaTag']['order'].'
+                 isbase : '. $old_data ['MetaTag']['isbase'].'
+                 </pre>';
+            $this->_meta_change_alert($msg_data);            
+            //------------------------------------------------------------------
             $result = $this->MetaTag->delMetaTagById($id);
             $msg = 'Запись о мета-тегах удалена!';
         }
@@ -228,7 +310,7 @@ class metaTagsController extends AppController {
             
             $url = filter_var($this->data['MetaTag']['url'], FILTER_SANITIZE_STRING);
             $data['url'] = $url;
-            $url = $this->MetaTag->toRelativeUrl($url);
+            $url = $this->MetaTag->toRelativeUrl($url, true);
             $url = $this->Metatags->fixUrl($url);
             
             if ($validate){
@@ -268,6 +350,60 @@ class metaTagsController extends AppController {
     }
 
 //------------------------------------------------------------------------------
+    /*
+     * установка email-адреса для доставки оповещений
+     * 
+     */    
+    function admin_report_set(){
+        //инициализируем массив данных для вьюхи
+        $data = array();
+        //по умолчанию email будет выводится из БД
+        //$data['email'] = $this->emailto;
+        $data['email'] = $this->MetaTag->getEmailTo();
+        //если был запрос на смену адреса то попробуем разборать посланные данные
+        if (!empty($this->data))
+        {
+            $validate = true;
+            //проверим входные данные для записи
+            //особо проверять не будем - админы ведь рулят изнутри,
+            //а не вредители :) да и пустым может быть любое поле!
+            
+            $new_email = trim (filter_var($this->data['MetaTag']['email'], FILTER_SANITIZE_STRING));
+            
+            if ($validate && !empty($new_email)){
+                $result = $this->MetaTag->setEmailTo($new_email);
+                $this->Session->setFlash('Email получателя изменен!', true);
+                $data['email'] = $new_email;
+            }
+            else{
+                $this->Session->setFlash('Ошибка. Заполните поля правильно', true);
+                //вернем юзеру его набранные строчки, 
+                //пусть делает работу над ошибками )))))
+                $data = $this->data;
+            }
+        }
+        
+        $this->set('data',$data);
+    }
+
+//------------------------------------------------------------------------------    
+    
+function _meta_change_alert($data = array()){
+    if (!empty($data) && $this->emailto_enable){
+        $this->Email->reset();
+        $this->Email->from = 'admin@videoxq.com';
+        $this->Email->replyTo = 'admin@videoxq.com';
+        $this->Email->to = $this->MetaTag->getEmailTo();
+        $this->Email->subject = 'Videoxq.com изменение метатегов';
+        $this->Email->template = 'metatags_alert_message';
+        $this->Email->sendAs = 'html';
+        $this->set('msg_title', $data['msg_title']);
+        $this->set('msg_body', $data['msg_body']);
+        $this->Email->send();        
+    }
+}
+
+//------------------------------------------------------------------------------    
     
 
 }
