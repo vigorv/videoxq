@@ -6,7 +6,7 @@ class metaTagsController extends AppController {
     var $uses = array('MetaTag');
     var $components = array('Email');
     var $helpers = array('Html','Form','Javascript','Autocomplete');
-    var $emailto = '010289@bk.ru'; //
+    var $emailto_enable = true; //
 
      /*
      * управление мета-тегами
@@ -48,6 +48,7 @@ class metaTagsController extends AppController {
 
         
         $this->paginate = array(
+        'conditions' => array('NOT' => array('url' => 'emailto')),
         'limit' => $rows_per_page,
         'order' => array(
             'MetaTag.url' => 'asc'
@@ -92,6 +93,8 @@ class metaTagsController extends AppController {
             $keywords_en = filter_var($this->data['MetaTag']['keywords_en'], FILTER_SANITIZE_STRING);            
             $order = intval($this->data['MetaTag']['order']);
             $isbase = intval($this->data['MetaTag']['isbase']);
+            
+            if($url == 'emailto'){$validate = false;}
 
             if ($validate){
                 //преобразуем url в относительный если нужно
@@ -177,6 +180,8 @@ class metaTagsController extends AppController {
             $keywords_en = filter_var($this->data['MetaTag']['keywords_en'], FILTER_SANITIZE_STRING);            
             $order = intval($this->data['MetaTag']['order']);
             $isbase = intval($this->data['MetaTag']['isbase']);
+            
+            if($url == 'emailto'){$validate = false;}
 
             if ($validate){
                 //преобразуем url в относительный если нужно
@@ -345,13 +350,50 @@ class metaTagsController extends AppController {
     }
 
 //------------------------------------------------------------------------------
+    /*
+     * установка email-адреса для доставки оповещений
+     * 
+     */    
+    function admin_report_set(){
+        //инициализируем массив данных для вьюхи
+        $data = array();
+        //по умолчанию email будет выводится из БД
+        //$data['email'] = $this->emailto;
+        $data['email'] = $this->MetaTag->getEmailTo();
+        //если был запрос на смену адреса то попробуем разборать посланные данные
+        if (!empty($this->data))
+        {
+            $validate = true;
+            //проверим входные данные для записи
+            //особо проверять не будем - админы ведь рулят изнутри,
+            //а не вредители :) да и пустым может быть любое поле!
+            
+            $new_email = trim (filter_var($this->data['MetaTag']['email'], FILTER_SANITIZE_STRING));
+            
+            if ($validate && !empty($new_email)){
+                $result = $this->MetaTag->setEmailTo($new_email);
+                $this->Session->setFlash('Email получателя изменен!', true);
+                $data['email'] = $new_email;
+            }
+            else{
+                $this->Session->setFlash('Ошибка. Заполните поля правильно', true);
+                //вернем юзеру его набранные строчки, 
+                //пусть делает работу над ошибками )))))
+                $data = $this->data;
+            }
+        }
+        
+        $this->set('data',$data);
+    }
+
+//------------------------------------------------------------------------------    
     
 function _meta_change_alert($data = array()){
-    if (!empty($data)){
+    if (!empty($data) && $this->emailto_enable){
         $this->Email->reset();
         $this->Email->from = 'admin@videoxq.com';
         $this->Email->replyTo = 'admin@videoxq.com';
-        $this->Email->to = $this->emailto;
+        $this->Email->to = $this->MetaTag->getEmailTo();
         $this->Email->subject = 'Videoxq.com изменение метатегов';
         $this->Email->template = 'metatags_alert_message';
         $this->Email->sendAs = 'html';
