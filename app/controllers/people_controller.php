@@ -169,6 +169,186 @@ class PeopleController extends AppController {
         $words = $model->getUrl($search);
         $this->set('search_words', $words);
     }
+    
+    
+    function admin_index() {
+        /*
+        $lang = Configure::read('Config.language');
+	$langFix = '';
+	if ($lang == _ENG_) $langFix = '_' . _ENG_;
+        $this->set('lang', $lang);
+	$this->set('langFix', $langFix);
+        $rows = $this->Person->query('DESCRIBE `persons`');
+        $this->Person->recursive = 0;
+        $this->set('DATA', $this->paginate());
+        
+        
+        $this->adminAtribs = set::merge($this->adminAtribs, $this->_adminAtribs);
+        $usedModels = set::merge($this->Person->belongsTo, $this->Person->hasOne);
+        $usedModels = set::combine($usedModels, "{s}.foreignKey", "{s}.className");
+        $rows = set::combine($rows, "{n}.COLUMNS.Field", "{n}.COLUMNS.Type");
+        
+        $this->set('usedModels', $usedModels);
+        $this->set('model', 'Person');
+        $this->set('rows', $rows);
+        $this->set('actions', $this->adminAtribs['ManageOpions']);
+        $this->set('editRowsSettings', $this->adminAtribs['editRowsSettings']);        
+        
+        */
+        
+        $default_rows_per_page = 30;
+        $lang = Configure::read('Config.language');
+	$langFix = '';
+	if ($lang == _ENG_) {$langFix = '_' . _ENG_;}
+        $this->set('lang', $lang);
+        $this->set('langFix', $langFix);
+
+        if (!empty($this->data['People']['rows_per_page'])){
+            $this->Session->write("PeopleRowsPerPage", $this->data['People']['rows_per_page']);
+        }
+        if (!$this->Session->read("PeopleRowsPerPage")){
+            $this->Session->write("PeopleRowsPerPage", $default_rows_per_page);
+        }
+        $rows_per_page = $this->Session->read("PeopleRowsPerPage");
+        $this->pageTitle = "admin/" . $this->name . "/" . $this->action;
+        
+        
+        
+        if (!empty($this->data['PeopleFilter'])){
+            $this->Session->write("PeopleFilter", $this->data['PeopleFilter']);
+        }
+        if (!$this->Session->read("PeopleFilter")){
+            $this->Session->write("PeopleFilter", array());
+        }
+        $this->data['PeopleFilter'] = $this->Session->read("PeopleFilter");
+        
+        $conditions = array();
+        if (!empty($this->data['PeopleFilter'])){
+            $this->set('PeopleFilter', $this->data['PeopleFilter']);
+            
+            if (!empty($this->data['PeopleFilter']['id'])){
+                $conditions[] = array('Person.id LIKE' => '%'.$this->data['PeopleFilter']['id'].'%');
+            }
+            if (!empty($this->data['PeopleFilter']['name'])){
+                $conditions[] = array('Person.name LIKE' => '%'.$this->data['PeopleFilter']['name'].'%');
+            }
+            if (!empty($this->data['PeopleFilter']['name_en'])){
+                $conditions[] = array('Person.name_en LIKE' => '%'.$this->data['PeopleFilter']['name_en'].'%');
+            }
+            if (!empty($this->data['PeopleFilter']['description'])){
+                $conditions[] = array('Person.description LIKE' => '%'.$this->data['PeopleFilter']['description'].'%');
+            }
+        }        
+        
+        
+        
+
+        $this->paginate = array(
+//                    'page' => 1,
+            'limit' => $rows_per_page,
+            'conditions' => $conditions,
+            'order' => array(
+                'Person.name' => 'asc',
+                'Person.name_en' => 'asc'
+                )
+            );
+        $total_rows_count = $this->Person->find('count', array(
+                                    'conditions' => $conditions,
+                                    'recursive' => 0));
+        $data = $this->paginate('Person');
+
+        $this->set('rows_list', $data);
+        $this->set('rows_per_page', $rows_per_page);
+        $this->set('total_rows_count', $total_rows_count);        
+        
+        
+    }
+
+    function admin_add() {
+
+        $lang = Configure::read('Config.language');
+        $langFix = '';
+        if ($lang == _ENG_) {$langFix = '_' . _ENG_;}
+        $this->set('lang', $lang);
+        $this->set('langFix', $langFix);
+
+        $this->pageTitle = __('Video catalog', true) . ' - ' . __('People', true);
+        if (!empty($this->data['People'])){
+            $validate = true;
+            if(empty($this->data['People']['name']) && empty($this->data['People']['name_en'])){
+                $validate = false;
+            }
+            if ($validate && $this->Person->save($this->data['People'])){
+                $this->Session->setFlash('Запись добавлена.');
+                $this->redirect(array('action' => 'index'));
+            }
+        }
+    }
+
+    function admin_edit($id = null) {
+        $lang = Configure::read('Config.language');
+        $langFix = '';
+        if ($lang == _ENG_) {$langFix = '_' . _ENG_;}
+        $this->set('lang', $lang);
+        $this->set('langFix', $langFix);
+
+        $this->pageTitle = __('Video catalog', true) . ' - ' . __('People', true);        
+        
+        if (!empty($id) && intval($id)) {
+            $id = intval($id);
+            $conditions =  array('id'=>$id);
+            $data = $this->Person->find('first', array(
+                                    'conditions' => $conditions,
+                                    'recursive' => 0));
+            $this->set('People' , $data['Person']);
+        }
+        else if (!empty($this->data['People'])){
+            $validate = true;
+            if(empty($this->data['People']['name']) && empty($this->data['People']['name_en']) && empty($this->data['People']['id'])){
+                $validate = false;
+            }
+            if ($validate){
+                $conditions = array('id'=>intval($this->data['People']['id']));
+                $this->Person->conditions = array('conditions'=>$conditions);
+                if ($this->Person->save($this->data['People'])){
+                    $this->Session->setFlash('Запись изменена.');
+                    $this->redirect(array('action' => 'index'));
+                }                    
+            }            
+        }
+
+
+
+    }
+
+    function admin_view($id = null) {
+        //list($model, $UseTable, $rows) = $this->_admin_before_action();
+        if (!$id) {
+            $this->Session->setFlash(__('Invalid ' . $model . '.', true));
+            $this->redirect(array('action' => 'index'));
+        }
+        $this->set('DATA', $this->$model->read(null, $id));
+
+        //$this->_admin_after_action($rows);
+    }
+
+    function admin_delete($id = null) {
+        if (!empty($id) && intval($id)) {
+            $id = intval($id);
+
+            $lang = Configure::read('Config.language');
+            $langFix = '';
+            if ($lang == _ENG_) {$langFix = '_' . _ENG_;}
+            $this->set('lang', $lang);
+            $this->set('langFix', $langFix);
+            $this->pageTitle = __('Video catalog', true) . ' - ' . __('People', true);
+
+            //$this->_deleteImgByPersonId($id);
+            $this->Person->del($id,true);
+        }
+        $this->Session->setFlash('Запись удалена.');
+        $this->redirect(array('action' => 'index'));
+    }    
 
 }
 ?>
