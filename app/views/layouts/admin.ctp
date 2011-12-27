@@ -68,6 +68,8 @@ echo $html->link('FAQ', array('action'=>'index', 'controller' => 'faq_categories
 echo '<br>';
 echo $html->link('Мета-теги', array('action'=>'index', 'controller' => 'meta_tags', Configure::read('Routing.admin') => true)) . '<br>';
 echo '<br>';
+echo $html->link('Люди', array('action'=>'index', 'controller' => 'people', Configure::read('Routing.admin') => true)) . '<br>';
+echo '<br>';
 echo $html->link('На сайт', '/', array('style'=>'color: red;')) . '<br>';
 echo '<br>';
 echo $html->link('В начало', '/admin', array('style'=>'color: red;')) . '<br>';
