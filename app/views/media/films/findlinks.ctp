@@ -81,6 +81,10 @@ if (count($shareContent) > 0)
 	    	{
 	    		$max++;//КОМПЕНСИРУЕМ МАКС. КОЛ-ВО ВЫВОДИМЫХ ССЫЛОК
 	    		$res['url'] = str_replace($flStr, $flVipStr, $res['url']);
+	    		$ahref = str_replace($flStr, $flVipStr, $ahref);
+	    		
+	    		//if($film['Film']['id']==28632)print_r($res);
+
 	    		if (empty($startFL))
 	    		{
 	    			if ($flCount > 1)
