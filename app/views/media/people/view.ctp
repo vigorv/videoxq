@@ -42,7 +42,7 @@ foreach ($films as $film)
         $pro = $Profession['title'];
     }
 
-    echo '<li><a href="/media/view/' . $Film['id'] . '">' . $Film['title'] . '</a> (' . $Film['year'] . ')</li>' . "\n";
+    echo '<li><a href="/media/view/' . $Film['id'] . '-' . $Film['slug'] . '">' . $Film['title'] . '</a> (' . $Film['year'] . ')</li>' . "\n";
 }
 echo '</ol>';
 }
