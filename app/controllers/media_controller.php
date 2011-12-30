@@ -2433,6 +2433,16 @@ echo'</pre>';
 			$this->Film->contain(array());
 			$similars = $this->Film->findAll(array('Film.id' => $ids), array('Film.id', 'Film.title'));
 		}
+                
+                
+                //----------------------------------------------------------------------
+                //добавим в готовый массив поле - сгенерированый slug на основе title фильма
+                if (!empty($similars)){
+                    foreach($similars as $key=>$val){
+                        $similars[$key]['Film']['slug'] = $this->_toSlug($val['Film']['title']);
+                    }
+                }
+                //----------------------------------------------------------------------
 	    Cache::write('Catalog.film_similar_' . $id, $similars,'media');
 	}
 	$this->set('similars', $similars);
@@ -2579,6 +2589,14 @@ $this->set("catalogVariants", $catalogVariants);
         }
 
         $looksLike = $this->looksLike($film['Film']['title']);
+        //----------------------------------------------------------------------
+        //добавим в готовый массив поле - сгенерированый slug на основе title фильма
+        if (!empty($looksLike)){
+            foreach($looksLike as $key=>$val){
+                $looksLike[$key]['Film']['slug'] = $this->_toSlug($val['Film']['title']);
+            }
+        }
+        //----------------------------------------------------------------------
         $this->set('looksLike', $looksLike);
 
         if(!$film)$this->redirect(array('action'=>'index'));
