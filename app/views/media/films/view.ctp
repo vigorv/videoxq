@@ -579,7 +579,7 @@ if ((!empty($looksLike)) && (count($looksLike) > 1))
 	{
 		if ($l['Film']['id'] <> $Film['id'])
 		{
-			$link = $comma . '<a href="/media/view/' . $l['Film']['id'] . '">' . $l['Film']['title' . $langFix] . '</a>';
+			$link = $comma . '<a href="/media/view/' . $l['Film']['id'] . '-' . $l['Film']['slug'] . '">' . $l['Film']['title' . $langFix] . '</a>';
 			if ($likeCnt++ > 2)
 				$more .= $link;
 			else
@@ -608,7 +608,7 @@ if (!empty($similars))
 	{
 		if ($l['Film']['id'] <> $Film['id'])
 		{
-			$link = $comma . '<a href="/media/view/' . $l['Film']['id'] . '">' . $l['Film']['title' . $langFix] . '</a>';
+			$link = $comma . '<a href="/media/view/' . $l['Film']['id']  . '-' . $l['Film']['slug'] . '">' . $l['Film']['title' . $langFix] . '</a>';
 			if ($likeCnt++ > 2)
 				$more .= $link;
 			else
