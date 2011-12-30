@@ -93,7 +93,7 @@ function to_base($user_ip,$event,$info,$param)
     {
     	$comeback = true;
     }
-    mysql_free_result($res);
+    @mysql_free_result($res);
 
     $event      = mysql_real_escape_string($event);
     $info       = mysql_real_escape_string($info);

@@ -97,17 +97,25 @@ class MediaController extends AppController {
 		if (!$films)
 		{
 	    	$films = $this->Film->getFilmsWithPictures();
+if(0)
+{
 	    	foreach ($films as $key => $film)
 	    	{
+	    		$films[$key]['title']=addslashes($films[$key]['title']);
+	    		$films[$key]['title_en']=addslashes($films[$key]['title_en']);
+	    		
     			$pic = Configure::read('Catalog.imgPath') . $film['p']['file_name'];
 				$films[$key]['p']['file_name'] = $pic;
 	    	}
+}
 		    Cache::write('Catalog.cache_films', $films, 'searchres');
     	}
+
 		shuffle($films);
 		$rfilms = array();
 		for ($i = 0; $i < 500; $i++)
 			$rfilms[] = $films[$i];
+			
    		$this->set('films', $rfilms);
     }
 
@@ -931,6 +939,15 @@ return;//НЕПРАВИЛЬНО РАБОТАЕТ
 	{
 	 $cacheprofile='firstpage';
 	}
+	else
+	{
+	$cacheprofile.="-".($this->passedArgs['page']%10);
+	}
+	if (!empty($this->passedArgs["search"]))
+	{
+	 $cacheprofile='search';
+	}
+	
         //$this->pageTitle = __('Video catalog', true);
         $this->Film->recursive = 1;
 
@@ -1409,7 +1426,7 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
             $countation['Film']['contain'][] = 'Genre';
         }
 
-       	$filmCount = Cache::read('Catalog.' . $postFix . 'count_'.$outCount, $cacheprofile);
+       	$filmCount = Cache::read('Catalog.' . $postFix . 'count_'.$outCount, 'searchres');
 //pr($countation);
 //$countation2 = $pagination;
 //unset ($countation2['Film']['limit']);
@@ -1484,7 +1501,7 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
     		//if ((isset($this->passedArgs['page'])) && $filmCount)
     		if ($filmCount)
     		{
-		    	Cache::write('Catalog.' . $postFix . 'count_'.$outCount, $filmCount, $cacheprofile);
+		    	Cache::write('Catalog.' . $postFix . 'count_'.$outCount, $filmCount, 'searchres');
     		}
 		}
 
@@ -2328,7 +2345,7 @@ echo'</pre>';
             $this->Session->setFlash(__('Invalid Film', true));
             $this->redirect(array('action'=>'index'));
         }
-	if (!$film = Cache::read('Catalog.film_view_' . $id,'media'))
+	if (!$film = Cache::read('Catalog.film_view_' . $id,Cache::set(array('path'=>CACHE.DS.'media'.DS.($id%10).DS,'duration'=>30*24*3600))))
 	    {
 	        $this->Film->recursive = 0;
 /*
@@ -2351,8 +2368,16 @@ echo'</pre>';
 	                                  )
 	                             );
 	        $film = $this->Film->read(null, $id);
-	        Cache::write('Catalog.film_view_' . $id, $film,'media');
+	        Cache::write('Catalog.film_view_' . $id, $film,Cache::set(array('path'=>CACHE.DS.'media'.DS.($id%10).DS,'duration'=>30*24*3600)));
 	    }
+//if($id==31255)
+if(0)
+{
+Configure::write('debug',2);
+print_r($film);
+die();
+}
+	    
 	    if (!$film['Film']['active']) {
 	        $this->Session->setFlash(__('Invalid Film', true));
 	        $this->redirect(array('action'=>'index'));
@@ -2686,7 +2711,7 @@ $this->set("catalogVariants", $catalogVariants);
         	//$vbulletin = $this->Vb->vbInit();
 	        if (!empty($this->data['Vbpost']['pagetext']))
 	        {
-				Cache::delete('Catalog.film_view_' . $id, 'media');
+				Cache::delete('Catalog.film_view_' . $id, Cache::set(array('path'=>CACHE.DS.'media'.DS.($id%10).DS,'duration'=>30*24*3600)));
 
 	        	//БЛАНК СТРУКТУРЫ ПОСТА
 	        	$postData = array('Vbpost' => array());
@@ -3102,7 +3127,7 @@ exit;
 						$result = $this->Thread->Vbpost->save($postInfo);//ОБНОВИЛИ ДАННЫЕ В ВЕТКЕ
 					}
             	}
-            	Cache::delete('Catalog.film_view_' . $id, 'media');
+            	Cache::delete('Catalog.film_view_' . $id, Cache::set(array('path'=>CACHE.DS.'media'.DS.($id%10).DS,'duration'=>30*24*3600)));
 
                 $this->Session->setFlash(__('The Film has been saved', true));
                 $this->redirect(array('action' => 'index'));
@@ -3131,7 +3156,7 @@ exit;
         }
         if ($this->Film->del($id))
         {
-           	Cache::delete('Catalog.film_view_' . $id, 'media');
+           	Cache::delete('Catalog.film_view_' . $id, Cache::set(array('path'=>CACHE.DS.'media'.DS.($id%10).DS,'duration'=>30*24*3600)));
             $this->Session->setFlash(__('Film deleted', true));
             $this->redirect(array('action' => 'index'));
         }
@@ -3150,7 +3175,7 @@ exit;
         $film['Film']['modified'] = date('Y-m-d H:i:s');
         if ($this->Film->save($film))
         {
-            Cache::delete('Catalog.film_view_' . $id, 'media');
+            Cache::delete('Catalog.film_view_' . $id, Cache::set(array('path'=>CACHE.DS.'media'.DS.($id%10).DS,'duration'=>30*24*3600)));
 
             $this->Session->setFlash(__('Film updated', true));
             $this->redirect(array('action' => 'index'));
