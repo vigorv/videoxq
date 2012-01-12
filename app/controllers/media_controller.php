@@ -1371,13 +1371,42 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
 
 //*
 //ФОРМИРОВАНИЕ НАЗВАНИЯ КЭША НА ОСНОВЕ АДРЕСА СТРАНИЦЫ
-		$name = $this->Metatags->fixUrl($this->here);
+                $argsMap = array(
+                            'genre', 
+                            'country', 
+                            'type',
+                            'direction',
+                            'ex',
+                            'search',
+                            'sort',
+                            'imdb_start',
+                            'imdb_end',
+                            'year_start',
+                            'year_end');        
+		$name = $this->Metatags->fixUrl($this->here, $argsMap);
+/*                
 		if (!empty($this->passedArgs['direction']))
 			$name .= '/direction:' . $this->passedArgs['direction'];
 		if (!empty($this->passedArgs['ex']))
 			$name .= '/ex:' . $this->passedArgs['ex'];
 		if (!empty($this->passedArgs['search']))
 			$name .= '/search:' . $this->passedArgs['search'];
+//---                
+                if (!empty($this->passedArgs['sort']))
+			$name .= '/sort:' . $this->passedArgs['sort'];
+                if (!empty($this->passedArgs['country']))
+			$name .= '/country:' . $this->passedArgs['country'];
+                if (!empty($this->passedArgs['type']))
+			$name .= '/type:' . $this->passedArgs['type'];
+                if (!empty($this->passedArgs['imdb_start']))
+			$name .= '/imdb_start:' . $this->passedArgs['imdb_start'];
+                if (!empty($this->passedArgs['imdb_end']))
+			$name .= '/imdb_end:' . $this->passedArgs['imdb_end'];
+                if (!empty($this->passedArgs['year_start']))
+			$name .= '/year_start:' . $this->passedArgs['year_start'];
+                if (!empty($this->passedArgs['year_end']))
+			$name .= '/year_end:' . $this->passedArgs['year_end'];                
+*/                
 
 		$outCount = preg_replace('/[^a-zA-Z0-9]/', '_', transCyrChars2($name));
 		$outCount = preg_replace('/[_]{2,}/', '_', $outCount);
@@ -2341,6 +2370,7 @@ echo'</pre>';
 
     function view($id = null) {
         
+        $id=intval($id);
         if (!$id) {
             $this->Session->setFlash(__('Invalid Film', true));
             $this->redirect(array('action'=>'index'));
