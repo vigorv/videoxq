@@ -1375,14 +1375,26 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
                             'genre', 
                             'country', 
                             'type',
+//                            'ex',
+                            'search',
+                            'imdb_start',
+                            'imdb_end',
+                            'year_start',
+                            'year_end');        
+		$name_for_count = $this->Metatags->fixUrl($this->here, $argsMap);
+                $argsMap = array(
+                            'genre', 
+                            'country', 
+                            'type',
                             'direction',
-                            'ex',
+//                            'ex',
                             'search',
                             'sort',
                             'imdb_start',
                             'imdb_end',
                             'year_start',
-                            'year_end');        
+                            'year_end',
+                            'page');        
 		$name = $this->Metatags->fixUrl($this->here, $argsMap);
 /*                
 		if (!empty($this->passedArgs['direction']))
@@ -1408,17 +1420,18 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
 			$name .= '/year_end:' . $this->passedArgs['year_end'];                
 */                
 
-		$outCount = preg_replace('/[^a-zA-Z0-9]/', '_', transCyrChars2($name));
+		$outCount = preg_replace('/[^a-zA-Z0-9]/', '_', transCyrChars2($name_for_count));
 		$outCount = preg_replace('/[_]{2,}/', '_', $outCount);
 //print_r($outCount);
 //echo'<br />';
 		//$outCount = md5($name);//НАЗВАНИЕ КЭША ДЛЯ СЧЕТЧИКА ГОТОВО
-
+/*
 		if (!empty($this->passedArgs['page']))
 			$name .= '/page:' . $this->passedArgs['page'];
-
+*/
 		$out = preg_replace('/[^a-zA-Z0-9]/', '_', transCyrChars2($name));
 		$out = preg_replace('/[_]{2,}/', '_', $out);
+                
 //print_r($out);
 		//$out = md5($name); //ДЛЯ НАЗВАНИЯ КЭША ВЫБОРКИ ФИЛЬМОВ ЕЩЕ УЧИТЫВАЕМ И СТРАНИЦУ
 
