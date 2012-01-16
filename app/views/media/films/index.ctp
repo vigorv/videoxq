@@ -129,7 +129,7 @@ if (($Film['is_license'] || $isWS) && (!empty($FilmVariant)))
 	if (empty($Film['site_id']))
 	{
 ?>
-        <a href="/media/view/<?= $Film['id']?>">
+        <a href="/media/view/<?= $Film['id']?>-<?= $Film['slug']?>">
             <?
             if (!empty($FilmPicture[0]['file_name']))
                 echo $html->image($imgPath . $FilmPicture[array_rand($FilmPicture)]['file_name'], array('width' => 80));
@@ -153,7 +153,7 @@ if (($Film['is_license'] || $isWS) && (!empty($FilmVariant)))
 			$posterSrc = $Film["poster"];
 		}
 
-		echo '<a href="' . $Film['id'] . '"><img src="' . $posterSrc . '" width="80" /></a>';
+		echo '<a href="' . $Film['id'] . '-' . $Film['slug']. '"><img src="' . $posterSrc . '" width="80" /></a>';
 	}
 ?>
         </div>
@@ -192,7 +192,7 @@ foreach ($Person as $data)
 if (!empty($directors))
 	echo implode(', ', $directors) . '.';
 ?> <?php echo $Film['year'] ?>
-            <span>«<a href="/media/view/<?= $Film['id']?>"><?= $Film['title' . $langFix] ?></a>»</span>
+            <span>«<a href="/media/view/<?= $Film['id']?>-<?= $Film['slug']?>"><?= $Film['title' . $langFix] ?></a>»</span>
              <?php
 shuffle($actors);
 $actors=array_slice($actors,0,3);

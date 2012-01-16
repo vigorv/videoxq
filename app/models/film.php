@@ -1192,13 +1192,10 @@ class Film extends MediaModel {
      * @return array
      */
     public function getFilmsWithPictures() {
-        $lang = Configure::read('Config.language');
         $langFix = '';
-        if ($lang == _ENG_)
-            $langFix = '_en';
         $records = Cache::read('Catalog.filmsWithPictures' . $langFix, 'media');
         if (!$records) {
-            $sql = 'select Film.id, Film.title' . $langFix . ', p.file_name from films as Film
+            $sql = 'select Film.id,Film.title, Film.title_en, p.file_name from films as Film
 	         join film_pictures as p on (p.film_id = Film.id and p.type="poster")
 	         where Film.active = 1 group by Film.id';
 

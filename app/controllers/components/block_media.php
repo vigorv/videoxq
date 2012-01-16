@@ -47,7 +47,7 @@ class BlockMediaComponent extends BlocksParentComponent
 		        $filter['sort']['Film.modified'] = 'by date';
 		        $filter['sort']['Film.year'] = 'by year';
 		        $filter['sort']['Film.hits'] = 'by popularity';
-		        $filter['sort']['Rating.rating'] = 'by rating';
+		        $filter['sort']['MediaRating.rating'] = 'by rating';
 		        $filter['sort']['Film.imdb_rating'] = 'by imdb.com rating';
 			}
 			else
@@ -55,7 +55,7 @@ class BlockMediaComponent extends BlocksParentComponent
 		        $filter['sort']['Film.modified'] = 'по дате добавления';
 		        $filter['sort']['Film.year'] = 'по году выпуска';
 		        $filter['sort']['Film.hits'] = 'по популярности';
-		        $filter['sort']['Rating.rating'] = 'по рейтингу';
+		        $filter['sort']['MediaRating.rating'] = 'по рейтингу';
 		        $filter['sort']['Film.imdb_rating'] = 'по рейтингу imdb.com';
 			}
 /*
