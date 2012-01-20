@@ -60,6 +60,7 @@ class extSiteParser
 	public function parseRow($row)
 	{
 		$data_row = array();
+                $data = array();
 		switch ($this->currentSite)
 		{
 			case "rumedia":
@@ -74,7 +75,7 @@ class extSiteParser
 				$data_row = $this->parseVideoxqRow($row);
 			break;                    
 		}
-		if (!empty($data))
+		if (!empty($data_row))
 		{
                         //создадим маасив с еужными значениями, отфильтровав некорретные данные
                         $data = array();
