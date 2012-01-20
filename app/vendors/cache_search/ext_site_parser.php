@@ -16,7 +16,9 @@
 	["directors"]			=> utf8 string, varchar(255)
 	["actors"]				=> utf8 string, varchar(255)
 	["poster"]				=> utf8 string, varchar(255)
+ 	["site_id"]                             => integer
 	["url"]					=> utf8 string, varchar(255)
+  	["is_license"]				=> integer
 }
  */
 
@@ -38,7 +40,16 @@ class extSiteParser
 	{
 		$this->currentSite = $site;
 	}
-
+	/**
+	 * имя текущего сайта
+	 *
+	 * @param string $site
+	 */
+	public function getCurrentSite()
+	{
+            return $this->currentSite;
+	}
+        
 	/**
 	 * единый метод разбора данных (для унифицированного вызова)
 	 *
@@ -47,30 +58,31 @@ class extSiteParser
 	 */
 	public function parseRow($row)
 	{
-		$data = array();
+		$data_row = array();
 		switch ($this->currentSite)
 		{
 			case "rumedia":
-				$data = $this->parseRumediaRow($row);
+				$data_row = $this->parseRumediaRow($row);
 			break;
 
 			case "animebar":
-				$data = $this->parseAnimebarRow($row);
+				$data_row = $this->parseAnimebarRow($row);
 			break;
                     
 			case "videoxq":
-				$data = $this->parseVideoxqRow($row);
+				$data_row = $this->parseVideoxqRow($row);
 			break;                    
 		}
 		if (!empty($data))
 		{
-			$data['title'] = mb_substr($data['title'], 0, 254, 'utf-8');
-			$data['title_original'] = mb_substr($data['title_original'], 0, 254, 'utf-8');
-			$data['country'] = mb_substr($data['country'], 0, 29, 'utf-8');
-			$data['actors'] = mb_substr($data['actors'], 0, 254, 'utf-8');
-			$data['directors'] = mb_substr($data['directors'], 0, 254, 'utf-8');
-			$data['poster'] = mb_substr($data['poster'], 0, 254, 'utf-8');
-			$data['url'] = mb_substr($data['url'], 0, 254, 'utf-8');
+                        $data = array();
+			$data['title'] = mb_substr($data_row['title'], 0, 254, 'utf-8');
+			$data['title_original'] = mb_substr($data_row['title_original'], 0, 254, 'utf-8');
+			$data['country'] = mb_substr($data_row['country'], 0, 29, 'utf-8');
+			$data['actors'] = mb_substr($data_row['actors'], 0, 254, 'utf-8');
+			$data['directors'] = mb_substr($data_row['directors'], 0, 254, 'utf-8');
+			$data['poster'] = mb_substr($data_row['poster'], 0, 254, 'utf-8');
+			$data['url'] = mb_substr($data_row['url'], 0, 254, 'utf-8');
 		}
 		return $data;
 	}
@@ -247,7 +259,6 @@ class extSiteParser
 
 
 /*
- 
 SELECT
 `Film`.`id` AS `id_original`,
 `Film`.`created` AS `created_original`,
@@ -257,17 +268,30 @@ SELECT
 `Film`.`title_en` AS `title_original`,
 `Film`.`year` AS `year`,
 GROUP_CONCAT(DISTINCT `Country`.`title` SEPARATOR ", ") AS `country`,
-GROUP_CONCAT(DISTINCT DirPerson.name SEPARATOR ", ") AS `directors`,
-1 AS `actors`,
+GROUP_CONCAT(`dir_p`.`name` SEPARATOR ", ") AS `Directors`,
+GROUP_CONCAT(`act_p`.`name` SEPARATOR ", ") AS `Actors`,
 GROUP_CONCAT(DISTINCT Genres.title SEPARATOR ", ") AS `genres`,
-3 AS `site_id`,
+0 AS `site_id`,
 0 AS `poster`,
 0 AS `url`,
 `Film`.`is_license` AS `is_license`
 
+FROM `films` `Film`
 
-FROM 
-`films` AS `Film` 
+LEFT JOIN
+`films_persons` AS `FimlsPersons`
+ON 
+(`Film`.`id` = `FimlsPersons`.`film_id` AND `FimlsPersons`.`profession_id` IN (1,3))
+
+LEFT JOIN
+`persons` AS `dir_p`
+ON 
+(`dir_p`.`id` = `FimlsPersons`.`person_id` AND `FimlsPersons`.`profession_id` = 1 AND `Film`.`id` = `FimlsPersons`.`film_id`)
+
+LEFT JOIN
+persons AS `act_p`
+ON 
+(`act_p`.`id` = `FimlsPersons`.`person_id` AND `FimlsPersons`.`profession_id` = 3 AND `Film`.`id` = `FimlsPersons`.`film_id`)
 
 LEFT JOIN 
 `films_genres` AS `FilmsGenres` 
@@ -288,90 +312,5 @@ LEFT JOIN
 (`FilmsCountries`.`country_id` = `Country`.`id`)
 
 
-LEFT JOIN 
-`films_persons` AS `FilmsPersons` 
-ON 
-(`Film`.`id` = `FilmsPersons`.`film_id`) 
-LEFT JOIN 
-`persons` AS `DirPerson` 
-ON 
-(`FilmsPersons`.`person_id` = `DirPerson`.`id`)
-
-LEFT JOIN 
-`persons_professions` AS `DirPersonsProfessions` 
-ON 
-(`DirPersonsProfessions`.`person_id` = `DirPerson`.`id`  AND
- `DirPersonsProfessions`.`profession_id` = 1
-) 
-
-WHERE
-`DirPersonsProfessions`.`profession_id` = 1  
-
-
-GROUP BY `Film`.`id`
-
-
- */
-
-/*
-(SELECT distinct id_cost
-  FROM Message108 where id_directory=39)
-
- */
-/*
-SELECT
-`Film`.`id` AS `id_original`,
-`Film`.`created` AS `created_original`,
-`Film`.`modified` AS `modified_original`, 
-(`Film`.`active` != 1) AS `hidden`,
-`Film`.`title` AS `title`,
-`Film`.`title_en` AS `title_original`,
-`Film`.`year` AS `year`,
-GROUP_CONCAT(DISTINCT `Country`.`title` SEPARATOR ", ") AS `country`,
-GROUP_CONCAT(DISTINCT DirPerson.name SEPARATOR ", ") AS `directors`,
-1 AS `actors`,
-GROUP_CONCAT(DISTINCT Genres.title SEPARATOR ", ") AS `genres`,
-3 AS `site_id`,
-0 AS `poster`,
-0 AS `url`,
-`Film`.`is_license` AS `is_license`
-
-
-FROM 
-`films` AS `Film` 
-
-LEFT JOIN 
-`films_genres` AS `FilmsGenres` 
-ON 
-(`Film`.`id` = `FilmsGenres`.`film_id`) 
-LEFT JOIN 
-`genres` AS `Genres` 
-ON 
-(`FilmsGenres`.`genre_id` = `Genres`.`id`) 
- 
-LEFT JOIN 
-`countries_films` AS `FilmsCountries` 
-ON 
-(`Film`.`id` = `FilmsCountries`.`film_id`) 
-LEFT JOIN 
-`countries` AS `Country` 
-    ON 
-(`FilmsCountries`.`country_id` = `Country`.`id`)
-
-
-LEFT JOIN 
-`films_persons` AS `FilmsPersons` 
-ON 
-(`Film`.`id` = `FilmsPersons`.`film_id`) 
-LEFT JOIN 
-(
-SELECT * FROM persons
-)
- AS `DirPerson` 
-ON 
-(`FilmsPersons`.`person_id` = `DirPerson`.`id`)
-
-
 GROUP BY `Film`.`id`
  */
-
