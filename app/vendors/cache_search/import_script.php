@@ -88,6 +88,7 @@ foreach ($dbConfig->cachedSites as $site)
             `Film`.`id` AS `id_original`,
             `Film`.`created` AS `created_original`,
             `Film`.`modified` AS `modified_original`, 
+            `Film`.`modified` AS `date`, 
             (`Film`.`active` != 1) AS `hidden`,
             `Film`.`title` AS `title`,
             `Film`.`title_en` AS `title_original`,
