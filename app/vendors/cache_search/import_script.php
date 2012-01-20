@@ -82,7 +82,7 @@ foreach ($dbConfig->cachedSites as $site)
 		mysql_query($sql, $ext);
 //echo $sql;
 	}
-        if ($parser->getCurrentSite == 'videoxq'){
+        if ($parser->getCurrentSite() == 'videoxq'){
             $sql = '
             SELECT
             `Film`.`id` AS `id_original`,
