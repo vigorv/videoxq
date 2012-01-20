@@ -107,7 +107,7 @@ foreach ($dbConfig->cachedSites as $site)
             LEFT JOIN
             `film_pictures` AS `FimlPictures`
             ON 
-            (`Film`.`id` = `FimlPictures`.`film_id` AND `FimlPictures`.`type` = `poster`)
+            (`Film`.`id` = `FimlPictures`.`film_id` AND `FimlPictures`.`type` = "poster")
             
 
             LEFT JOIN
