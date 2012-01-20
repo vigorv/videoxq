@@ -96,12 +96,19 @@ foreach ($dbConfig->cachedSites as $site)
             GROUP_CONCAT(`dir_p`.`name` SEPARATOR ", ") AS `Directors`,
             GROUP_CONCAT(`act_p`.`name` SEPARATOR ", ") AS `Actors`,
             GROUP_CONCAT(DISTINCT Genres.title SEPARATOR ", ") AS `genres`,
-            0 AS `site_id`,
-            0 AS `poster`,
-            0 AS `url`,
+            3 AS `site_id`,
+            `FimlPictures`.`file_name` AS `poster`,
+            "url" AS `url`,
             `Film`.`is_license` AS `is_license`
 
             FROM `films` `Film`
+
+
+            LEFT JOIN
+            `film_pictures` AS `FimlPictures`
+            ON 
+            (`Film`.`id` = `FimlPictures`.`film_id` AND `FimlPictures`.`type` = `poster`)
+            
 
             LEFT JOIN
             `films_persons` AS `FimlsPersons`
