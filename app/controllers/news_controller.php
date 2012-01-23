@@ -872,6 +872,8 @@ exit;
 	 	{
 	 		Cache::delete('News.categoriesFullTree');
 	 	}
+                
+                 exit();
     }
 
     /**
