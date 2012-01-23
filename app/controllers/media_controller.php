@@ -999,29 +999,31 @@ return;//НЕПРАВИЛЬНО РАБОТАЕТ
 //*
 		if ($this->isWS)
 		{
-
-        if (isset($this->passedArgs["sort"]))
-        {
-	        $order=array($this->passedArgs["sort"] => $this->passedArgs["direction"]);
-        }
-        else
-        {
-        	//$order=array('Film.modified' => 'desc');
-	        if ((empty($this->passedArgs['page']) || $this->passedArgs['page'] == 1) && empty($this->passedArgs["search"]) && empty($this->passedArgs["ex"]) && empty($this->passedArgs["type"]) && empty($this->passedArgs["is_license"]))
-	        {
-	        	$isFirstPage = true;
-	        	$rIds = array();
-	        	$maxFilmId = $this->Film->getMaxFilmId();
-	        	for ($i = 0; $i < 40; $i++) //ВЫБИРАЕМ СЛУЧАЙНО С ЗАПАСОМ
-	        	{
-	        		$rIds[] = mt_rand(1, $maxFilmId);
-	        	}
-	        	//$rIds = $this->Film->getRandomIds();
-	        }
-        }
+                    //если указано направление сортировки
+                    if (isset($this->passedArgs["sort"]))
+                    {
+                        $order=array($this->passedArgs["sort"] => $this->passedArgs["direction"]);
+                    }
+                    else
+                    {
+                        //$order=array('Film.modified' => 'desc');
+                        // если параметры поиска пустые то выдаем случайные фильмы - генерируем случайные id для 40 фильмов
+                        if ((empty($this->passedArgs['page']) || $this->passedArgs['page'] == 1) && empty($this->passedArgs["search"]) && empty($this->passedArgs["ex"]) && empty($this->passedArgs["type"]) && empty($this->passedArgs["is_license"]))
+                        {
+                            $isFirstPage = true;
+                            $rIds = array();
+                            $maxFilmId = $this->Film->getMaxFilmId();
+                            for ($i = 0; $i < 40; $i++) //ВЫБИРАЕМ СЛУЧАЙНО С ЗАПАСОМ
+                            {
+                                    $rIds[] = mt_rand(1, $maxFilmId);
+                            }
+                            //$rIds = $this->Film->getRandomIds();
+                        }
+                    }
 
 		}
-//*/
+//*/            
+                // только видимые (активные) фильмы
 		$conditions['Film.active'] = 1;
 		$postFix = '';
 		//if (!$this->isWS && empty($this->params['named']['search']))//ВНЕШНИМ ПОКАЗЫВАЕМ ЛИЦЕНЗИЮ, ПРИ ПОИСКЕ ВЫВОДИМ ВСЕ
@@ -1092,10 +1094,10 @@ return;//НЕПРАВИЛЬНО РАБОТАЕТ
 	if ($this->isWS)
 	{
             if ($isFirstPage)
-		{
+            {
             $pagination['Film']['conditions'][] = array('Film.id' => $rIds);
-//	        $order=array('rand()');
-		}
+            //$order=array('rand()');
+            }
     	}
 //*/
         if (!empty($this->params['named']['genre']))
@@ -1106,7 +1108,12 @@ return;//НЕПРАВИЛЬНО РАБОТАЕТ
             if (strpos($this->params['named']['genre'], ',') !== false)
                 $genres = explode(',', $this->params['named']['genre']);
             //оставляем только 2 категории для уменьшения нагрузки на сервер
-            if(count($genres)>2){$genres=array($genres[0],$genres[1]);$this->params['named']['genre']=implode(',',$genres);$this->passedArgs['genre']=$this->params['named']['genre'];}
+            if(count($genres)>2){
+                $genres=array($genres[0],$genres[1]);
+                $this->params['named']['genre']=implode(',',$genres);
+                $this->passedArgs['genre']=$this->params['named']['genre'];
+            
+            }
 //
             $condition = 'and';
             //$pagination['Film']['sphinx']['filter'][] = array('genre_id', $genres, false);
@@ -1648,10 +1655,14 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
             $animebarResult = 0;
             if ($this->isWS) //ЗАПРОС СЧЕТЧИКА К ДРУГИМ КАТАЛОГАМ
             {
+/*======================================================================
                     $wsmediaResult = $this->searchWsmedia();
                     $animebarResult = $this->searchAnimeBar();
                     $this->set('wsmediaPostCount', count($wsmediaResult));
                     $this->set('animebarPostCount', count($animebarResult));
+ * 
+========================================================================*/
+                
             }
             //---------------------------------------------------------
             /******************************************************/
@@ -1663,6 +1674,9 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
             //$crossSearch = true; //ФЛАГ ДЛЯ ПРОВЕРКИ В ОТОБРАЖЕНИИ
             //$this->Film->union = array_merge($wsmediaResult, $animebarResult);
         /******************************************************/
+            
+            
+            
         }
 
 
@@ -1695,7 +1709,7 @@ echo'</pre>';
 
 		if (empty($search))
 		{
-			unset($pagination['Film']['sphinx']);//СФИНКС ВСЕ РАВНО НЕ БУДЕТ ИСКАТЬ ПО ПУСТОЙ СТРОКЕ
+                    unset($pagination['Film']['sphinx']);//СФИНКС ВСЕ РАВНО НЕ БУДЕТ ИСКАТЬ ПО ПУСТОЙ СТРОКЕ
 
 		}
 
@@ -1706,6 +1720,7 @@ echo'</pre>';
                 //$pagination['Film']['search'] = $starSearch;
                 $this->Film->cacheQueries = false;
     		$films = $this->Film->find('all', $pagination["Film"],null,0);
+                pr($films);
 
 
 //##                //pr ($pagination["Film"]);
@@ -1715,45 +1730,45 @@ echo'</pre>';
     		if (empty($films))
     		{
 
-    			if (!empty($translit))
-    			{
-    				if (!isset($this->params['named']['istranslit']))
-    				{
-		                $this->redirect(array('action' => 'index',
-    	                                  'search' => $translit,
-    	                                  'istranslit' => 1,
-        	                              'controller' => 'media'));
-    				}
-    				else
-    				{
-    					if ($isTranslit)
-    					{
-			                $this->redirect(array('action' => 'index',
-	    	                                  'search' => $translit,
-	    	                                  'istranslit' => 0,
-	        	                              'controller' => 'media'));
-    					}
-    				}
-	    			$pagination['Film']['search'] = $translit;
-		    		$films = $this->Film->find('all', $pagination["Film"]);
-		    		if ($films)
-		    		{
-		    			$this->params['named']['search'] = $translit;
-			    		$transData=array('Transtat' => array('created' => date('Y-m-d H:i:s'), 'search' => mb_substr($translit, 0, 255)));
-			    		//$this->Transtat->useDbConfig = 'productionMedia';
-			    		$this->Transtat->create();
-			    		$this->Transtat->save($transData);
+                    if (!empty($translit))
+                    {
+                            if (!isset($this->params['named']['istranslit']))
+                            {
+                            $this->redirect(array('action' => 'index',
+                                      'search' => $translit,
+                                      'istranslit' => 1,
+                                          'controller' => 'media'));
+                            }
+                            else
+                            {
+                                    if ($isTranslit)
+                                    {
+                                    $this->redirect(array('action' => 'index',
+                                              'search' => $translit,
+                                              'istranslit' => 0,
+                                                  'controller' => 'media'));
+                                    }
+                            }
+                            $pagination['Film']['search'] = $translit;
+                            $films = $this->Film->find('all', $pagination["Film"]);
+                            if ($films)
+                            {
+                                    $this->params['named']['search'] = $translit;
+                                    $transData=array('Transtat' => array('created' => date('Y-m-d H:i:s'), 'search' => mb_substr($translit, 0, 255)));
+                                    //$this->Transtat->useDbConfig = 'productionMedia';
+                                    $this->Transtat->create();
+                                    $this->Transtat->save($transData);
 
-			    		if (!empty($search))
-		    				$this->_logSearchRequest($search);//В ЛОГ ПОИСКОВЫХ ЗАПРОСОВ ПИШЕМ НЕТРАНСЛИРОВАННЫЙ ЗАПРОС
-		    		}
-	    		}
-			}
-			else
-			{
-	    		if (!empty($search))
-	    			$this->_logSearchRequest($search);//В ЛОГ ПОИСКОВЫХ ЗАПРОСОВ ПИШЕМ ТОЛЬКО ПРИ НАЛИЧИИ РЕЗУЛЬТАТОВ ПОИСКА
-			}
+                                    if (!empty($search))
+                                            $this->_logSearchRequest($search);//В ЛОГ ПОИСКОВЫХ ЗАПРОСОВ ПИШЕМ НЕТРАНСЛИРОВАННЫЙ ЗАПРОС
+                            }
+                    }
+                }
+                else{
+                    if (!empty($search))
+                        $this->_logSearchRequest($search);//В ЛОГ ПОИСКОВЫХ ЗАПРОСОВ ПИШЕМ ТОЛЬКО ПРИ НАЛИЧИИ РЕЗУЛЬТАТОВ ПОИСКА
+
+                }
     		//*/
                 /******************************************************/
                 // если был установлен 'union', очистим его - после выборки при
