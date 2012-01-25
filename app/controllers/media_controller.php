@@ -1868,8 +1868,26 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
             $animebarResult = 0;
 //            $this->set('wsmediaPostCount', count($wsmediaResult));
 //            $this->set('animebarPostCount', count($animebarResult));
+            $pagination_cs_film = $pagination["Film"];
+            unset($pagination_cs_film ['contain']['FilmPicture']);
+            unset($pagination_cs_film ['contain'][2]);
+            unset($pagination_cs_film ['contain'][3]);
+            unset($pagination_cs_film ['contain']['Person']);
+            if (!empty($pagination_cs_film ['order']['Film.modified'])) {
+                $pagination_cs_film ['order']['CS_Film.modified_original'] = $pagination_cs_film ['order']['Film.modified'];
+                unset($pagination_cs_film ['order']['Film.modified']);
+                }
+            if (!empty($pagination_cs_film ['conditions']['Film.active'])) {
+                $pagination_cs_film ['conditions']['CS_Film.hidden'] = empty($pagination_cs_film ['conditions']['Film.active'])? 1:0;
+                unset($pagination_cs_film ['conditions']['Film.active']);
+                }                
+            $pagination_cs_film['group'] = 'CS_Film.id';
+            //pr($pagination_cs_film);
             
-            $search_result = $this->CacheSearch->getDataCrossSearchCache($search,'','');
+            
+            //$search_result = $this->CacheSearch->getDataCrossSearchCache($search,'','');
+            $search_result = $this->CacheSearch->find('all', $pagination_cs_film,null,0);
+            //pr($search_result);
             //pr($result); 
             //exit;
             $crossSearch = true; //ФЛАГ ДЛЯ ПРОВЕРКИ В ОТОБРАЖЕНИИ
