@@ -1171,6 +1171,8 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
                                            'foreignKey' => 'film_id'
                                           )
                                         )), false);
+            
+
 
 //
 /*
