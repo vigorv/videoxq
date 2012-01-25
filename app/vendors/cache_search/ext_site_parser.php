@@ -20,6 +20,8 @@
         ["poster"]		=> utf8 string, varchar(255)
 	["url"]			=> utf8 string, varchar(255)
   	["is_license"]		=> integer
+        ["media_rating"]	=> float
+        ["imdb_rating"]		=> float(3,1) 	
 }
  */
 
@@ -92,6 +94,8 @@ class extSiteParser
 			$data['poster'] = mb_substr($data_row['poster'], 0, 254, 'utf-8');
 			$data['url'] = mb_substr($data_row['url'], 0, 254, 'utf-8');
                         $data['is_license'] = intval($data_row['is_license']);
+                        $data['media_rating'] = $data_row['media_rating'];
+                        $data['imdb_rating'] = $data_row['imdb_rating'];
 		}
 		return $data;
 	}
@@ -152,6 +156,8 @@ class extSiteParser
 		}
 		$data['url'] = 'http://rumedia.ws/' . $row['alt_name'] . '.html';
                 $data['is_license'] = 0;
+                $data['media_rating'] = 0;
+                $data['imdb_rating'] = 0;
 		
 		return $data;
 	}
@@ -203,6 +209,8 @@ class extSiteParser
 			$data['poster'] = iconv('windows-1251', 'utf-8//IGNORE', $matches[2]);
 		$data['url'] = 'http://animebar.ru/' . $row['alt_name'] . '.html';
                 $data['is_license'] = 0;
+                $data['media_rating'] = 0;
+                $data['imdb_rating'] = 0;
                 
 		return $data;
 	}
@@ -229,9 +237,11 @@ class extSiteParser
 		$data['country'] = $row['country'];
 		$data['directors'] = $row['directors'];
 		$data['actors']	= $row['actors'];
-                $data['poster'] = 'http://videoxq.com/img/catalog/posters/'.$row['poster'];
-		$data['url'] = 'http://videoxq.com/' . $row['url'];
+                $data['poster'] = 'http://videoxq.com/img/catalog/'.$row['poster'];
+		$data['url'] = 'http://videoxq.com/media/view/' . $row['id_original'];
                 $data['is_license'] = $row['is_license'];
+                $data['media_rating'] = (empty($row['media_rating']))? 0 : $row['media_rating'];
+                $data['imdb_rating'] = (empty($row['imdb_rating']))? 0 : $row['imdb_rating'];
 		
 		return $data;
 	}

@@ -94,13 +94,15 @@ foreach ($dbConfig->cachedSites as $site)
             `Film`.`title_en` AS `title_original`,
             `Film`.`year` AS `year`,
             GROUP_CONCAT(DISTINCT `Country`.`title` SEPARATOR ", ") AS `country`,
-            GROUP_CONCAT(`dir_p`.`name` SEPARATOR ", ") AS `directors`,
-            GROUP_CONCAT(`act_p`.`name` SEPARATOR ", ") AS `actors`,
-            GROUP_CONCAT(DISTINCT Genres.title SEPARATOR ", ") AS `genres`,
+            GROUP_CONCAT(DISTINCT `dir_p`.`name` SEPARATOR ", ") AS `directors`,
+            GROUP_CONCAT(DISTINCT `act_p`.`name` SEPARATOR ", ") AS `actors`,
+            GROUP_CONCAT(DISTINCT `Genres`.`title` SEPARATOR ", ") AS `genres`,
             3 AS `site_id`,
             `FimlPictures`.`file_name` AS `poster`,
             "url" AS `url`,
-            `Film`.`is_license` AS `is_license`
+            `Film`.`is_license` AS `is_license`,
+            `Film`.`imdb_rating` AS `imdb_rating`,
+            `MediaRating`.`rating` AS `media_rating`
 
             FROM `films` `Film`
 
@@ -143,6 +145,12 @@ foreach ($dbConfig->cachedSites as $site)
             `countries` AS `Country` 
                 ON 
             (`FilmsCountries`.`country_id` = `Country`.`id`)
+            
+            LEFT JOIN 
+            `media_ratings` AS `MediaRating` 
+                ON
+            (`MediaRating`.`object_id` = `Film`.`id` AND
+            `MediaRating`.`type` = "film")
 
             GROUP BY `Film`.`id`';
         }
@@ -163,7 +171,7 @@ foreach ($dbConfig->cachedSites as $site)
             }
             
             // смотрим таблиццу кэша на наличие такого фильма в ней
-            $sql = 'SELECT * FROM cache_search WHERE site_id = ' . $site['id'] . ' AND id_original = ' . $data['id_original'];
+            $sql = 'SELECT * FROM cache_searches WHERE site_id = ' . $site['id'] . ' AND id_original = ' . $data['id_original'];
             $locQ = mysql_query($sql, $loc);
             $locR = mysql_fetch_assoc($locQ);
             
@@ -173,7 +181,7 @@ foreach ($dbConfig->cachedSites as $site)
                     //ДОБАВЛЕНИЕ
                     $data['modified'] = date('Y-m-d H:i:s');
                     $data['site_id'] = $site['id'];
-                    $sql = generateInsertSql('cache_search', $data, $loc);
+                    $sql = generateInsertSql('cache_searches', $data, $loc);
                     if (!mysql_query($sql, $loc))
                     {
                             echo 'ERROR. SQL Error - ' . mysql_error($loc) . "\r\n";
@@ -188,7 +196,7 @@ foreach ($dbConfig->cachedSites as $site)
                     {
                             //ОБНОВЛЕНИЕ
                             $data['modified'] = date('Y-m-d H:i:s');
-                            $sql = generateUpdateSql($locR['id_original'], 'cache_search', $data, $loc);
+                            $sql = generateUpdateSql($locR['id_original'], 'cache_searches', $data, $loc);
                             if (!mysql_query($sql, $loc))
                             {
                                     echo 'ERROR. SQL Error - ' . mysql_error($loc) . "\r\n";
