@@ -83,7 +83,7 @@ imdb_rating         float(3,1)
             'conditions'=>$conditions,
             'limit'=>$limit);
         $records = $this->find('all', $query_options);
-        pr($records);
+        //pr($records);
         //exit;
         
             
