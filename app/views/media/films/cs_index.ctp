@@ -77,10 +77,23 @@ if (!empty($s_films))
 ?>
     <div class="moviePreviewWrapper">
 <?php
-//создадим ссылку на вхк фильм, на внешние ссылка уже сформирована
-if($CS_Film['site_id']==3){
-    $CS_Film['url'] = '/media/view/' . $CS_Film['id_original'].'-'.$CS_Film['slug'];
+//создадим ссылку на фильм
+switch ($CS_Film['site_id']){
+    case 1:
+        $CS_Film['url'] = 'http://rumedia.ws/' . $CS_Film['id_original'].'-'.$CS_Film['slug'].'.html';
+        break;
+    case 2:
+        $CS_Film['url'] = 'http://animebar.org/' . $CS_Film['id_original'].'-'.$CS_Film['slug'].'.html';
+        break;
+    case 3:
+        $CS_Film['url'] = '/media/view/' . $CS_Film['id_original'].'-'.$CS_Film['slug'];
+        break;
+    default:
+        break;
 }
+
+
+
 
 if (($CS_Film['is_license']))
 {
@@ -175,7 +188,7 @@ if (!empty($CS_Film['directors'])){
     echo $CS_Film['directors'] . '.';
 }
 	
-?> <?php echo $CS_Film['year'];
+?> <?php echo empty($CS_Film['year'])? '': $CS_Film['year'];
         //echo '<span>«<a href="/media/view/'. $CS_Film['id_original'].'-'. $CS_Film['slug'] .'"><'. $CS_Film['title' . $langFix].'></a>»</span>';
         echo '<span>«<a href="' . $CS_Film['url'] . '">' . $CS_Film['title' . $langFix] . '</a>»</span>';            
         ?>
