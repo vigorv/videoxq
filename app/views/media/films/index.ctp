@@ -74,8 +74,10 @@ if ((count($films) == 0) || (!empty($wsmediaPostCount)) || (!empty($animebarPost
 	}
 }
 //*/
-
-if (!empty($films))
+if(!empty($films_cs)){
+    
+}
+elseif (!empty($films))
 	foreach ($films as $row) {
     	extract($row);
 ?>
