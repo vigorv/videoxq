@@ -1968,21 +1968,11 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
             $crossSearch = true; //ФЛАГ ДЛЯ ПРОВЕРКИ В ОТОБРАЖЕНИИ
             
             
-        }       
-            if (!empty($search_result)){
-                /*
-                $flm = array();
-                foreach($search_result as $key => $row){
-                    $flm[] = array();
-                }
-                */
-                
-            }
-        
-                //Поиск по кэш-таблице
-                
-                $this->Film->cacheQueries = false;
-    		$films = $this->Film->find('all', $pagination["Film"],null,0);
+        } 
+        else{
+            $films = $this->Film->find('all', $pagination["Film"],null,0);
+        }
+
                 //pr($films);
                 // если ничего не нашлось переходим на поиск по транслиту
     		if (empty($films))
