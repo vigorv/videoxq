@@ -114,7 +114,7 @@ class extSiteParser
                 $data['id_original'] = $row['id'];
                 $data['created_original'] = $row['date'];
 		$data['modified_original'] = $row['date'];
-                $data['hidden'] = $row['approve'];
+                $data['hidden'] = empty($row['approve'])? 1:0;
                 $data['title'] = iconv('windows-1251', 'utf-8//IGNORE', $row['title']);
 		$data['title_original'] = iconv('windows-1251', 'utf-8//IGNORE', $row['title2']);
                 $data['year']			= 0;
@@ -154,7 +154,7 @@ class extSiteParser
         	$matches[0] = substr($matches[0],5);
 			$data['poster'] = iconv('windows-1251', 'utf-8//IGNORE', $matches[0]);
 		}
-		$data['url'] = 'http://rumedia.ws/' . $row['alt_name'] . '.html';
+		$data['url'] = 'http://rumedia.ws/' . $row['id_original'] . '-'. $row['alt_name'] . '.html';
                 $data['is_license'] = 0;
                 $data['media_rating'] = 0;
                 $data['imdb_rating'] = 0;
@@ -174,7 +174,7 @@ class extSiteParser
                 $data['id_original'] = $row['id'];
                 $data['created_original'] = $row['date'];
 		$data['modified_original'] = $row['date'];
-		$data['hidden'] = $row['approve'];
+		$data['hidden'] = empty($row['approve'])? 1:0;
                 $data['title'] = iconv('windows-1251', 'utf-8//IGNORE', $row['title']);
                 $data['title_original']	= '';
 		$data['year']			= 0;
@@ -207,7 +207,7 @@ class extSiteParser
 		preg_match('/<img(.*?)src="([^"]{1,})"/', $row['short_story'], $matches);
 		if (!empty($matches[2]))
 			$data['poster'] = iconv('windows-1251', 'utf-8//IGNORE', $matches[2]);
-		$data['url'] = 'http://animebar.ru/' . $row['alt_name'] . '.html';
+		$data['url'] = 'http://animebar.ru/' . $row['id_original'] . '-'. $row['alt_name'] . '.html';
                 $data['is_license'] = 0;
                 $data['media_rating'] = 0;
                 $data['imdb_rating'] = 0;
