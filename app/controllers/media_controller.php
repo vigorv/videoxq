@@ -1823,6 +1823,19 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
                 return $result;
             }
             
+            $limit = 30;
+
+            
+            
+            
+            $pagination_cs_film = array();
+            $pagination_cs_film['CS_Film'] = array();
+            $pagination_cs_film['CS_Film']['contain'] = array();
+            $pagination_cs_film['CS_Film']['order'] = array();
+            $pagination_cs_film['CS_Film']['limit'] = $limit;
+            
+
+            
             
             if (empty($this->params['named']['istranslit']))
             {
@@ -1849,10 +1862,10 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
 
             if (!empty($this->passedArgs['page']))
             {
-            	$pagination['Film']['page'] = $this->passedArgs['page'];
-            	$pagination['Film']['offset'] = ($pagination['Film']['page'] - 1) * $pagination['Film']['limit'];
+            	$pagination_cs_film['CS_Film']['page'] = $this->passedArgs['page'];
+            	$pagination_cs_film['CS_Film']['offset'] = ($pagination_cs_film['CS_Film']['page'] - 1) * $pagination_cs_film['CS_Film']['limit'];
             }
-            $pagination['Film']['search'] = $search;
+            $pagination_cs_film['CS_Film']['search'] = $search;
             $parts = explode(' ', $search);
             $condition = array('or' => array());
 
@@ -1866,30 +1879,41 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
             }
             $wsmediaResult = 0;
             $animebarResult = 0;
-//            $this->set('wsmediaPostCount', count($wsmediaResult));
-//            $this->set('animebarPostCount', count($animebarResult));
-            $pagination_cs_film = $pagination["Film"];
-            unset($pagination_cs_film ['contain']['FilmPicture']);
-            unset($pagination_cs_film ['contain'][2]);
-            unset($pagination_cs_film ['contain'][3]);
-            unset($pagination_cs_film ['contain']['Person']);
-            if (!empty($pagination_cs_film ['order']['Film.modified'])) {
-                $pagination_cs_film ['order']['CS_Film.modified_original'] = $pagination_cs_film ['order']['Film.modified'];
-                unset($pagination_cs_film ['order']['Film.modified']);
-                }
-            if (!empty($pagination_cs_film ['conditions']['Film.active'])) {
-                $pagination_cs_film ['conditions']['CS_Film.hidden'] = empty($pagination_cs_film ['conditions']['Film.active'])? 1:0;
-                unset($pagination_cs_film ['conditions']['Film.active']);
-                }                
-            $pagination_cs_film['group'] = 'CS_Film.id';
+            
+            $cond = array('AND'=>array(
+                        'hidden'=>0, 
+                        array (
+                            'OR' => array ( 
+                                'title LIKE'=>'%'.$search.'%', 
+                                'title_original LIKE'=>'%'.$search.'%'
+                                )
+                            )
+                        ));            
+            $pagination_cs_film['CS_Film']['conditions'] = $cond;
+        
+
+        
+
+            
+            $pagination_cs_film['CS_Film']['group'] = 'CS_Film.id';
+          
             //pr($pagination_cs_film);
-            
-            
             //$search_result = $this->CacheSearch->getDataCrossSearchCache($search,'','');
-            $search_result = $this->CacheSearch->find('all', $pagination_cs_film,null,0);
-            //pr($search_result);
-            //pr($result); 
-            //exit;
+            $this->CacheSearch->cacheQueries = false;
+            $search_result = $this->CacheSearch->find('all', $pagination_cs_film['CS_Film'],null,0);
+            
+            $countation_cs_film = $pagination_cs_film;            
+            unset($countation_cs_film['CS_Film']['limit']);
+            unset($countation_cs_film['CS_Film']['page']);
+            unset($countation_cs_film['CS_Film']['contain']);
+            unset($countation_cs_film['CS_Film']['order']);
+            $count_cs_film = $this->CacheSearch->find('all', $countation_cs_film['CS_Film'],null,0);
+            $cs_filmCount = count($count_cs_film);
+            $pageCount = intval($cs_filmCount / $limit + 1);
+            $this->set('filmCount', $cs_filmCount);
+            $this->set('pageCount', $pageCount);            
+            
+            
             $crossSearch = true; //ФЛАГ ДЛЯ ПРОВЕРКИ В ОТОБРАЖЕНИИ
             
             
