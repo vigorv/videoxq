@@ -1823,6 +1823,9 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
                 return $result;
             }
             
+            
+            
+            
             $limit = 30;
 
             
@@ -1852,14 +1855,63 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
                 $translit = '';
             }
 
-            $sort = ', hits DESC';
+            $order = '';
 
             if (!empty($this->params['named']['sort']))
             {
-                $sort = explode('.', $this->params['named']['sort']);
-                $sort = ', ' . $sort[1] . ' DESC';
+                switch ($this->params['named']['sort']){
+                    case 'Film.imdb_rating':
+                        $order = 'imdb_rating';
+                        break;
+                    case 'MediaRating.rating':
+                        $order = 'media_rating';
+                        break;
+                    case 'Film.hits':
+                        //$order = 'hits';
+                        break;
+                    case 'Film.year':
+                        $order = 'year';
+                        break;
+                    case 'Film.modified':
+                        $order = 'modified_original';
+                        break;
+                    default:
+                        break;
+                }
+                if (!empty($this->params['named']['direction'])){
+                    switch ($this->params['named']['sort']){
+
+                        case 'asc':
+                            $order .= ' ASC';
+                            break;
+                        case 'desc':
+                        default:
+                            $order .= ' DESC';
+                            break;
+                    }
+                    if (!empty($order)){
+                        $pagination_cs_film['CS_Film']['order'] = $order;
+                    }
+                    
+                }
             }
 
+            if (!empty($this->passedArgs['year_start'])){
+            }
+            if (!empty($this->passedArgs['year_end'])){
+            }
+            if (!empty($this->passedArgs['imdb_start'])){
+            }
+            if (!empty($this->passedArgs['imdb_end'])){
+            }
+            if (!empty($this->passedArgs['type'])){
+            }
+            if (!empty($this->passedArgs['country'])){
+            }
+            if (!empty($this->passedArgs['genre'])){
+            }
+
+            
             if (!empty($this->passedArgs['page']))
             {
             	$pagination_cs_film['CS_Film']['page'] = $this->passedArgs['page'];
@@ -1890,12 +1942,11 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
                             )
                         ));            
             $pagination_cs_film['CS_Film']['conditions'] = $cond;
-        
-
-        
-
             
             $pagination_cs_film['CS_Film']['group'] = 'CS_Film.id';
+            
+            $countation_cs_film['CS_Film']['page'] = 
+            
           
             //pr($pagination_cs_film);
             //$search_result = $this->CacheSearch->getDataCrossSearchCache($search,'','');
