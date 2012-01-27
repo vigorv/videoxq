@@ -1828,7 +1828,7 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
             
             
             
-            $limit = 30;
+            $limit = 33;
 
             
             
@@ -2000,7 +2000,7 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
             unset($countation_cs_film['CS_Film']['order']);
             $count_cs_film = $this->CacheSearch->find('all', $countation_cs_film['CS_Film'],null,0);
             $cs_filmCount = count($count_cs_film);
-            $pageCount = intval($cs_filmCount / $limit + 1);
+            $pageCount = ceil($cs_filmCount / $limit);
             $this->set('filmCount', $cs_filmCount);
             $this->set('pageCount', $pageCount);            
 
