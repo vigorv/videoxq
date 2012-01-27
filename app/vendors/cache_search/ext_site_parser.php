@@ -16,6 +16,7 @@
 	["country"]		=> utf8 string, varchar(30)
 	["directors"]           => utf8 string, varchar(255)
 	["actors"]		=> utf8 string, varchar(255)
+        ["genres"]		=> utf8 string, varchar(255)
  	["site_id"]             => integer
         ["poster"]		=> utf8 string, varchar(255)
 	["url"]			=> utf8 string, varchar(255)
@@ -91,6 +92,7 @@ class extSiteParser
 			$data['country'] = mb_substr($data_row['country'], 0, 29, 'utf-8');
 			$data['directors'] = mb_substr($data_row['directors'], 0, 254, 'utf-8');
                         $data['actors'] = mb_substr($data_row['actors'], 0, 254, 'utf-8');
+                        $data['genres'] = mb_substr($data_row['genres'], 0, 254, 'utf-8');
 			$data['poster'] = mb_substr($data_row['poster'], 0, 254, 'utf-8');
 			$data['url'] = mb_substr($data_row['url'], 0, 254, 'utf-8');
                         $data['is_license'] = intval($data_row['is_license']);
@@ -121,6 +123,7 @@ class extSiteParser
                 $data['country']		= '';
 		$data['directors']		= '';
 		$data['actors']			= '';
+                $data['genres']			= '';
                 $xfields = explode('||', $row['xfields']);
 		foreach ($xfields as $xfield)
 		{
@@ -181,6 +184,7 @@ class extSiteParser
 		$data['country']		= '';
 		$data['directors']		= '';
 		$data['actors']			= '';
+                $data['genres']			= '';
 		$xfields = explode('||', $row['xfields']);
 		foreach ($xfields as $xfield)
 		{
@@ -237,6 +241,7 @@ class extSiteParser
 		$data['country'] = $row['country'];
 		$data['directors'] = $row['directors'];
 		$data['actors']	= $row['actors'];
+                $data['genres']	= $row['genres'];
                 $data['poster'] = 'http://videoxq.com/img/catalog/'.$row['poster'];
 		$data['url'] = 'http://videoxq.com/media/view/' . $row['id_original'];
                 $data['is_license'] = $row['is_license'];
@@ -247,61 +252,4 @@ class extSiteParser
 	}
         
 }
-
-
-/*
-SELECT
-`Film`.`id` AS `id_original`,
-`Film`.`created` AS `created_original`,
-`Film`.`modified` AS `modified_original`, 
-(`Film`.`active` != 1) AS `hidden`,
-`Film`.`title` AS `title`,
-`Film`.`title_en` AS `title_original`,
-`Film`.`year` AS `year`,
-GROUP_CONCAT(DISTINCT `Country`.`title` SEPARATOR ", ") AS `country`,
-GROUP_CONCAT(`dir_p`.`name` SEPARATOR ", ") AS `Directors`,
-GROUP_CONCAT(`act_p`.`name` SEPARATOR ", ") AS `Actors`,
-GROUP_CONCAT(DISTINCT Genres.title SEPARATOR ", ") AS `genres`,
-0 AS `site_id`,
-0 AS `poster`,
-0 AS `url`,
-`Film`.`is_license` AS `is_license`
-
-FROM `films` `Film`
-
-LEFT JOIN
-`films_persons` AS `FimlsPersons`
-ON 
-(`Film`.`id` = `FimlsPersons`.`film_id` AND `FimlsPersons`.`profession_id` IN (1,3))
-
-LEFT JOIN
-`persons` AS `dir_p`
-ON 
-(`dir_p`.`id` = `FimlsPersons`.`person_id` AND `FimlsPersons`.`profession_id` = 1 AND `Film`.`id` = `FimlsPersons`.`film_id`)
-
-LEFT JOIN
-persons AS `act_p`
-ON 
-(`act_p`.`id` = `FimlsPersons`.`person_id` AND `FimlsPersons`.`profession_id` = 3 AND `Film`.`id` = `FimlsPersons`.`film_id`)
-
-LEFT JOIN 
-`films_genres` AS `FilmsGenres` 
-ON 
-(`Film`.`id` = `FilmsGenres`.`film_id`) 
-LEFT JOIN 
-`genres` AS `Genres` 
-ON 
-(`FilmsGenres`.`genre_id` = `Genres`.`id`) 
- 
-LEFT JOIN 
-`countries_films` AS `FilmsCountries` 
-ON 
-(`Film`.`id` = `FilmsCountries`.`film_id`) 
-LEFT JOIN 
-`countries` AS `Country` 
-    ON 
-(`FilmsCountries`.`country_id` = `Country`.`id`)
-
-
-GROUP BY `Film`.`id`
- */
+?>
