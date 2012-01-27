@@ -1534,13 +1534,13 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
                     }
                     $countation['Film']['fields'] = array();
                     $countation['Film']['fields'][] = 'count(`Film`.`id`) as countrec' ;
-					if (!empty($this->params['named']['search']))
-					{
-			            $search = (!empty($this->params['named']['search'])) ? trim($this->params['named']['search']) : '';
-			            $countation['Film']['sphinx']['matchMode'] = SPH_MATCH_ALL;
-			            $countation['Film']['sphinx']['index'] = array('videoxq_films');//ИЩЕМ ПО ИНДЕКСУ ФИЛЬМОВ
-			            $countation['Film']['search'] = $search;
-					}
+                    if (!empty($this->params['named']['search']))
+                    {
+                        $search = (!empty($this->params['named']['search'])) ? trim($this->params['named']['search']) : '';
+                        $countation['Film']['sphinx']['matchMode'] = SPH_MATCH_ALL;
+                        $countation['Film']['sphinx']['index'] = array('videoxq_films');//ИЩЕМ ПО ИНДЕКСУ ФИЛЬМОВ
+                        $countation['Film']['search'] = $search;
+                    }
 //pr($countation);
                     $filmCount_arr = $this->Film->find('all', $countation["Film"]);
 
@@ -1788,6 +1788,8 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
 //----------------------------------------------------------------------
 * >A1
 */
+      
+
         $search_result = array();
         if (!empty($this->params['named']['search'])){
             $search = (!empty($this->params['named']['search'])) ? trim($this->params['named']['search']) : '';
@@ -1932,6 +1934,7 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
             $wsmediaResult = 0;
             $animebarResult = 0;
             
+            
             $cond = array('AND'=>array(
                         'hidden'=>0, 
                         array (
@@ -1952,6 +1955,43 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
             //$search_result = $this->CacheSearch->getDataCrossSearchCache($search,'','');
             $this->CacheSearch->cacheQueries = false;
             $search_result = $this->CacheSearch->find('all', $pagination_cs_film['CS_Film'],null,0);
+
+            if (empty($search_result)){
+                if (!empty($translit))
+                    {
+                            if (!isset($this->params['named']['istranslit']))
+                            {
+                            $this->redirect(array('action' => 'index',
+                                      'search' => $translit,
+                                      'istranslit' => 1,
+                                          'controller' => 'media'));
+                            }
+                            else
+                            {
+                                    if ($isTranslit)
+                                    {
+                                    $this->redirect(array('action' => 'index',
+                                              'search' => $translit,
+                                              'istranslit' => 0,
+                                                  'controller' => 'media'));
+                                    }
+                            }
+                           $pagination_cs_film['CS_Film']['search'] = $translit;
+                            $search_result = $this->CacheSearch->find('all', $pagination_cs_film["CS_Film"]);
+                            if ($search_result)
+                            {
+                                    $this->params['named']['search'] = $translit;
+                                    $transData=array('Transtat' => array('created' => date('Y-m-d H:i:s'), 'search' => mb_substr($translit, 0, 255)));
+                                    //$this->Transtat->useDbConfig = 'productionMedia';
+                                    $this->Transtat->create();
+                                    $this->Transtat->save($transData);
+
+                                    if (!empty($search))
+                                            $this->_logSearchRequest($search);//В ЛОГ ПОИСКОВЫХ ЗАПРОСОВ ПИШЕМ НЕТРАНСЛИРОВАННЫЙ ЗАПРОС
+                            }
+                    }                
+            }
+            
             
             $countation_cs_film = $pagination_cs_film;            
             unset($countation_cs_film['CS_Film']['limit']);
@@ -1963,11 +2003,12 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
             $pageCount = intval($cs_filmCount / $limit + 1);
             $this->set('filmCount', $cs_filmCount);
             $this->set('pageCount', $pageCount);            
+
             
             
+    
             $crossSearch = true; //ФЛАГ ДЛЯ ПРОВЕРКИ В ОТОБРАЖЕНИИ
-            
-            
+
         } 
         else{
             $films = $this->Film->find('all', $pagination["Film"],null,0);

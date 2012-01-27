@@ -200,12 +200,9 @@ echo implode(', ', $actors);
 
 ?>
             <em><?php
-            /*
-            	if ($lang == _ENG_)
-            		echo $app->implodeWithParams(' / ', $Genre, 'title_imdb', ' ', 2);
-            	else
-            		echo $app->implodeWithParams(' / ', $Genre, 'title', ' ', 2);
-            */
+                if(!empty($CS_Film['genres'])){
+                    echo $CS_Film['genres'];
+                }
             ?></em>
 <?php
 	}
