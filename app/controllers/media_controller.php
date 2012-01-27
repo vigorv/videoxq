@@ -1825,23 +1825,18 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
                 return $result;
             }
             
-            
-            
-            
-            $limit = 33;
 
-            
-            
+
+            $limit = 33;
             
             $pagination_cs_film = array();
             $pagination_cs_film['CS_Film'] = array();
             $pagination_cs_film['CS_Film']['contain'] = array();
             $pagination_cs_film['CS_Film']['order'] = array();
             $pagination_cs_film['CS_Film']['limit'] = $limit;
-            
 
-            
-            
+
+
             if (empty($this->params['named']['istranslit']))
             {
                 $translit = transCyrChars($search);
@@ -1880,7 +1875,7 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
                     default:
                         break;
                 }
-                if (!empty($this->params['named']['direction'])){
+                if (!empty($this->params['named']['direction']) && !empty($order)){
                     switch ($this->params['named']['sort']){
 
                         case 'asc':
@@ -1897,22 +1892,32 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
                     
                 }
             }
-
+            if (!empty($this->params['named']['is_license'])){
+                $pagination_cs_film['CS_Film']['conditions']['is_license'] = 1;
+            }
             if (!empty($this->passedArgs['year_start'])){
+                $pagination_cs_film['CS_Film']['conditions']['year >='] = $this->passedArgs['year_start'];
             }
             if (!empty($this->passedArgs['year_end'])){
+                $pagination_cs_film['CS_Film']['conditions']['year <='] = $this->passedArgs['year_end'];
             }
             if (!empty($this->passedArgs['imdb_start'])){
+                $pagination_cs_film['CS_Film']['conditions']['imdb_rating >='] = $this->passedArgs['imdb_start'];
             }
             if (!empty($this->passedArgs['imdb_end'])){
+                $pagination_cs_film['CS_Film']['conditions']['imdb_rating <='] = $this->passedArgs['imdb_end'];
             }
             if (!empty($this->passedArgs['type'])){
             }
             if (!empty($this->passedArgs['country'])){
+                $pagination_cs_film['CS_Film']['conditions']['country'] = $this->passedArgs['country'];
             }
             if (!empty($this->passedArgs['genre'])){
+                
             }
 
+
+            
             
             if (!empty($this->passedArgs['page']))
             {
@@ -1934,8 +1939,10 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
             $wsmediaResult = 0;
             $animebarResult = 0;
             
+            $and = empty($pagination_cs_film['CS_Film']['conditions'])? array() : $pagination_cs_film['CS_Film']['conditions'];
             
             $cond = array('AND'=>array(
+                        $and,
                         'hidden'=>0, 
                         array (
                             'OR' => array ( 
