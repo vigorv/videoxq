@@ -215,6 +215,7 @@ echo implode(', ', $actors);
 ?>
 </div>
 <div class="pages">
+   Всего найдено фильмов: <b><?=empty($filmCount)? 0 : $filmCount;?></b>
 </div>
 <?php
 if (!empty($prim))
