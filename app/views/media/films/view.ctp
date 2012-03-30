@@ -287,14 +287,14 @@ $.get("http://flux.itd/media/getbanner/header", function(html){ document.write(h
  * СТАРАЯ СХЕМА ОСНОВАНА НА video_type_id
  * НОВАЯ НА quality_id
  */
-	$neededVideoType = 2; // пока интересует только DVD-качество
 	$neededQuality = 3; // пока интересует только качество MEDIUM
 	foreach ($FilmVariant as $variant)//ПОДСЧЕТ КОЛ-ВА ССЫЛОК НА ФАЙЛЫ
 	{
-		if (($variant['quality_id'] > 0) && ($variant['quality_id'] != $neededQuality))
+
+		if ($variant['quality_id'] == 0)
 			continue;
-		else
-			if ($variant['video_type_id'] != $neededVideoType) continue; //для совместимости со старой схемой качества
+		if ($variant['quality_id'] != $neededQuality)
+			continue;
 
 		if (!empty($variant['FilmFile']))
 		{
@@ -303,6 +303,26 @@ $.get("http://flux.itd/media/getbanner/header", function(html){ document.write(h
 				$firstFileId = $file['id'];
 				$firstFileName = $file['file_name'];
 				$totalFilesCnt++;
+			}
+		}
+	}
+
+	$neededVideoType = 2; // пока интересует только DVD-качество
+	if (empty($firstFileId))//ДЛЯ СОВМЕСТИМОСТИ
+	{
+		foreach ($FilmVariant as $variant)//ПОДСЧЕТ КОЛ-ВА ССЫЛОК НА ФАЙЛЫ
+		{
+			if ($variant['video_type_id'] != $neededVideoType)
+				continue;
+
+			if (!empty($variant['FilmFile']))
+			{
+				foreach ($variant['FilmFile'] as $file)
+				{
+					$firstFileId = $file['id'];
+					$firstFileName = $file['file_name'];
+					$totalFilesCnt++;
+				}
 			}
 		}
 	}
