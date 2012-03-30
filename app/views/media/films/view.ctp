@@ -283,11 +283,18 @@ $.get("http://flux.itd/media/getbanner/header", function(html){ document.write(h
 	$firstFileName = '';
 	$flLinksCnt = 0;
 	$firstLink = '';
-	$neededVideoType = 2; //gjrf пока интересует только DVD-качество
+/**
+ * СТАРАЯ СХЕМА ОСНОВАНА НА video_type_id
+ * НОВАЯ НА quality_id
+ */
+	$neededVideoType = 2; // пока интересует только DVD-качество
+	$neededQuality = 3; // пока интересует только качество MEDIUM
 	foreach ($FilmVariant as $variant)//ПОДСЧЕТ КОЛ-ВА ССЫЛОК НА ФАЙЛЫ
 	{
-		if ($variant['video_type_id'] != $neededVideoType)
+		if (($variant['quality_id'] > 0) && ($variant['quality_id'] != $neededQuality))
 			continue;
+		else
+			if ($variant['video_type_id'] != $neededVideoType) continue; //для совместимости со старой схемой качества
 
 		if (!empty($variant['FilmFile']))
 		{
@@ -457,7 +464,7 @@ $.get("http://flux.itd/media/getbanner/header", function(html){ document.write(h
             }
             else
 */
-/*            
+/*
             {
                 $actors = array_slice($actors, 0, 10);
                 $actors[] = '<a href="#">' . __('more', true) . '...</a>';
@@ -538,7 +545,7 @@ jQuery(document).ready(function() {
 });
 
 </script>
-                
+
 
     <?php
     		}
@@ -677,10 +684,10 @@ $language		= ''; //на случай неустановленной информ
 $translation	= ''; //на случай неустановленной информации о трэке
 $audio_info		= ''; //на случай неустановленной информации о трэке
 //$divxContent	= '';
-$FilmVariant[] = array('video_type_id' => 9);
-$FilmVariant[] = array('video_type_id' => 2);
-$FilmVariant[] = array('video_type_id' => 13);
-$FilmVariant[] = array('video_type_id' => 12);
+$FilmVariant[] = array('video_type_id' => 9, 'quality_id' => 4);
+$FilmVariant[] = array('video_type_id' => 2, 'quality_id' => 3);
+$FilmVariant[] = array('video_type_id' => 13, 'quality_id' => 2);
+$FilmVariant[] = array('video_type_id' => 12, 'quality_id' => 2);
 
 //pr($FilmVariant);
 $panelLinksCnt = array();  $hideVideo = '';
@@ -1389,19 +1396,31 @@ if (!empty($authUser['userid']) || $isWS)
 }
 
 	$currentPanelId = '';
-	if (in_array(intval($variant['video_type_id']), array_keys($HQTypes)))
+	if (in_array(intval($variant['video_type_id']), array_keys($HQTypes))
+		||
+		($variant['quality_id'] == 4)
+	)
 	{
 		$currentPanelId = 'hqpanel';
 	}
-	if (in_array(intval($variant['video_type_id']), array_keys($SQTypes)))
+
+	if (in_array(intval($variant['video_type_id']), array_keys($SQTypes))
+		||
+		($variant['quality_id'] == 3)
+	)
 	{
 		$currentPanelId = 'sqpanel';
 	}
-	if (in_array(intval($variant['video_type_id']), array_keys($mobTypes)))
+	if (in_array(intval($variant['video_type_id']), array_keys($mobTypes))
+		||
+		($variant['quality_id'] == 2)
+	)
 	{
 		$currentPanelId = 'mobpanel';
 	}
-	if (in_array(intval($variant['video_type_id']), array_keys($webTypes)))
+
+	//if (in_array(intval($variant['video_type_id']), array_keys($webTypes)))
+	if (empty($currentPanelId) && empty($variant['video_type_id']))
 	{
 		$currentPanelId = 'webpanel';
 	}

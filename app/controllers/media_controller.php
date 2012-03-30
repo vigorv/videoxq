@@ -9,9 +9,10 @@ class MediaController extends AppController {
     var $uses = array('Film', 'Basket', 'FilmComment', 'SearchLog', 'Feedback', 'Thread', 'Vbpost', 'Vbgroup',
     'Forum', 'Userban', 'Transtat', 'Genre', 'Bookmark', 'CybChat', 'Smile', 'Migration', 'Favorite',
     //'DlePost',
+    'Quality',
     'SimilarFilm',
     'OzonProduct',
-    'CacheSearch'        
+    'CacheSearch'
     );
 
     /**
@@ -104,7 +105,7 @@ class MediaController extends AppController {
                     {
 	    		$films[$key]['title']=addslashes($films[$key]['title']);
 	    		$films[$key]['title_en']=addslashes($films[$key]['title_en']);
-	    		
+
     			$pic = Configure::read('Catalog.imgPath') . $film['p']['file_name'];
 				$films[$key]['p']['file_name'] = $pic;
                     }
@@ -116,7 +117,7 @@ class MediaController extends AppController {
 		$rfilms = array();
 		for ($i = 0; $i < 500; $i++)
 			$rfilms[] = $films[$i];
-			
+
    		$this->set('films', $rfilms);
     }
 
@@ -928,7 +929,7 @@ return;//НЕПРАВИЛЬНО РАБОТАЕТ
 
     function index()
     {
-       
+
 	$cacheprofile='searchres';
 	if (empty($this->passedArgs['page']))
 	{
@@ -948,7 +949,7 @@ return;//НЕПРАВИЛЬНО РАБОТАЕТ
 	{
 	 $cacheprofile='search';
 	}
-	
+
         //$this->pageTitle = __('Video catalog', true);
         $this->Film->recursive = 1;
 
@@ -1023,7 +1024,7 @@ return;//НЕПРАВИЛЬНО РАБОТАЕТ
                     }
 
 		}
-//*/            
+//*/
                 // только видимые (активные) фильмы
 		$conditions['Film.active'] = 1;
 		$postFix = '';
@@ -1113,7 +1114,7 @@ return;//НЕПРАВИЛЬНО РАБОТАЕТ
                 $genres=array($genres[0],$genres[1]);
                 $this->params['named']['genre']=implode(',',$genres);
                 $this->passedArgs['genre']=$this->params['named']['genre'];
-            
+
             }
 //
             $condition = 'and';
@@ -1171,7 +1172,7 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
                                            'foreignKey' => 'film_id'
                                           )
                                         )), false);
-            
+
 
 
 //
@@ -1382,19 +1383,19 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
 //*
 //ФОРМИРОВАНИЕ НАЗВАНИЯ КЭША НА ОСНОВЕ АДРЕСА СТРАНИЦЫ
                 $argsMap = array(
-                            'genre', 
-                            'country', 
+                            'genre',
+                            'country',
                             'type',
 //                            'ex',
                             'search',
                             'imdb_start',
                             'imdb_end',
                             'year_start',
-                            'year_end');        
+                            'year_end');
 		$name_for_count = $this->Metatags->fixUrl($this->here, $argsMap);
                 $argsMap = array(
-                            'genre', 
-                            'country', 
+                            'genre',
+                            'country',
                             'type',
                             'direction',
 //                            'ex',
@@ -1404,16 +1405,16 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
                             'imdb_end',
                             'year_start',
                             'year_end',
-                            'page');        
+                            'page');
 		$name = $this->Metatags->fixUrl($this->here, $argsMap);
-/*                
+/*
 		if (!empty($this->passedArgs['direction']))
 			$name .= '/direction:' . $this->passedArgs['direction'];
 		if (!empty($this->passedArgs['ex']))
 			$name .= '/ex:' . $this->passedArgs['ex'];
 		if (!empty($this->passedArgs['search']))
 			$name .= '/search:' . $this->passedArgs['search'];
-//---                
+//---
                 if (!empty($this->passedArgs['sort']))
 			$name .= '/sort:' . $this->passedArgs['sort'];
                 if (!empty($this->passedArgs['country']))
@@ -1427,8 +1428,8 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
                 if (!empty($this->passedArgs['year_start']))
 			$name .= '/year_start:' . $this->passedArgs['year_start'];
                 if (!empty($this->passedArgs['year_end']))
-			$name .= '/year_end:' . $this->passedArgs['year_end'];                
-*/                
+			$name .= '/year_end:' . $this->passedArgs['year_end'];
+*/
 
 		$outCount = preg_replace('/[^a-zA-Z0-9]/', '_', transCyrChars2($name_for_count));
 		$outCount = preg_replace('/[_]{2,}/', '_', $outCount);
@@ -1441,7 +1442,7 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
 */
 		$out = preg_replace('/[^a-zA-Z0-9]/', '_', transCyrChars2($name));
 		$out = preg_replace('/[_]{2,}/', '_', $out);
-                
+
 //print_r($out);
 		//$out = md5($name); //ДЛЯ НАЗВАНИЯ КЭША ВЫБОРКИ ФИЛЬМОВ ЕЩЕ УЧИТЫВАЕМ И СТРАНИЦУ
 
@@ -1478,14 +1479,14 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
             $countation['Film']['contain'][] = 'Genre';
         }
 
-        
+
 /*==============================================================================
 
        	$filmCount = Cache::read('Catalog.' . $postFix . 'count_'.$outCount, 'searchres');
 
 ===============================================================================*/
-        
-        
+
+
 //pr($countation);
 //$countation2 = $pagination;
 //unset ($countation2['Film']['limit']);
@@ -1560,9 +1561,9 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
     		//if ((isset($this->passedArgs['page'])) && $filmCount)
     		if ($filmCount)
     		{
-/*==============================================================================                    
+/*==============================================================================
 		    	Cache::write('Catalog.' . $postFix . 'count_'.$outCount, $filmCount, 'searchres');
- 
+
  ===============================================================================*/
     		}
             }
@@ -1578,7 +1579,7 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
 //----------------------------------------------------------------------
 /* A1<
  * // временно убираем этот кусок кода
- 
+
         if (!empty($this->params['named']['search']))
         {
 
@@ -1674,7 +1675,7 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
                     $animebarResult = $this->searchAnimeBar();
                     $this->set('wsmediaPostCount', count($wsmediaResult));
                     $this->set('animebarPostCount', count($animebarResult));
-                
+
             }
             //---------------------------------------------------------
             /****************************************************** /
@@ -1707,7 +1708,7 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
 		$posts = array();
 
 
- 		if (!$isFirstPage) 
+ 		if (!$isFirstPage)
 			$films = Cache::read('Catalog.' . $postFix . 'list_'.$out, $cacheprofile);
 
 
@@ -1728,8 +1729,8 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
 
 
 
-                
-                
+
+
     		if (empty($films))
     		{
 
@@ -1773,7 +1774,7 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
 
                 }
 
-                
+
 		//КЭШИРУЕМ ДАЖЕ ЕСЛИ НИЧЕГО НЕ НАЙДЕНО
     		//if (((isset($this->passedArgs['page'])) && $films) || isset($this->passedArgs['search']))
 
@@ -1788,7 +1789,7 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
 //----------------------------------------------------------------------
 * >A1
 */
-      
+
 
         $search_result = array();
         if (!empty($this->params['named']['search'])){
@@ -1824,11 +1825,11 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
                 }
                 return $result;
             }
-            
+
 
 
             $limit = 33;
-            
+
             $pagination_cs_film = array();
             $pagination_cs_film['CS_Film'] = array();
             $pagination_cs_film['CS_Film']['contain'] = array();
@@ -1889,7 +1890,7 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
                     if (!empty($order)){
                         $pagination_cs_film['CS_Film']['order'] = $order;
                     }
-                    
+
                 }
             }
             if (!empty($this->params['named']['is_license'])){
@@ -1913,12 +1914,12 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
                 $pagination_cs_film['CS_Film']['conditions']['country'] = $this->passedArgs['country'];
             }
             if (!empty($this->passedArgs['genre'])){
-                
+
             }
 
 
-            
-            
+
+
             if (!empty($this->passedArgs['page']))
             {
             	$pagination_cs_film['CS_Film']['page'] = $this->passedArgs['page'];
@@ -1938,26 +1939,26 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
             }
             $wsmediaResult = 0;
             $animebarResult = 0;
-            
+
             $and = empty($pagination_cs_film['CS_Film']['conditions'])? array() : $pagination_cs_film['CS_Film']['conditions'];
-            
+
             $cond = array('AND'=>array(
                         $and,
-                        'hidden'=>0, 
+                        'hidden'=>0,
                         array (
-                            'OR' => array ( 
-                                'title LIKE'=>'%'.$search.'%', 
+                            'OR' => array (
+                                'title LIKE'=>'%'.$search.'%',
                                 'title_original LIKE'=>'%'.$search.'%'
                                 )
                             )
-                        ));            
+                        ));
             $pagination_cs_film['CS_Film']['conditions'] = $cond;
-            
+
             $pagination_cs_film['CS_Film']['group'] = 'CS_Film.id';
-            
-            $countation_cs_film['CS_Film']['page'] = 
-            
-          
+
+            $countation_cs_film['CS_Film']['page'] =
+
+
             //pr($pagination_cs_film);
             //$search_result = $this->CacheSearch->getDataCrossSearchCache($search,'','');
             $this->CacheSearch->cacheQueries = false;
@@ -1996,11 +1997,11 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
                                     if (!empty($search))
                                             $this->_logSearchRequest($search);//В ЛОГ ПОИСКОВЫХ ЗАПРОСОВ ПИШЕМ НЕТРАНСЛИРОВАННЫЙ ЗАПРОС
                             }
-                    }                
+                    }
             }
-            
-            
-            $countation_cs_film = $pagination_cs_film;            
+
+
+            $countation_cs_film = $pagination_cs_film;
             unset($countation_cs_film['CS_Film']['limit']);
             unset($countation_cs_film['CS_Film']['page']);
             unset($countation_cs_film['CS_Film']['contain']);
@@ -2009,14 +2010,14 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
             $cs_filmCount = count($count_cs_film);
             $pageCount = ceil($cs_filmCount / $limit);
             $this->set('filmCount', $cs_filmCount);
-            $this->set('pageCount', $pageCount);            
+            $this->set('pageCount', $pageCount);
 
-            
-            
-    
+
+
+
             $crossSearch = true; //ФЛАГ ДЛЯ ПРОВЕРКИ В ОТОБРАЖЕНИИ
 
-        } 
+        }
         else{
             $films = $this->Film->find('all', $pagination["Film"],null,0);
         }
@@ -2072,7 +2073,7 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
 
         if (empty($films) && !empty($search) && empty($wsmediaResult) && empty($animebarResult))
         {
-/*            
+/*
             $this->Film->Person->contain();
             $search = '%' . $this->params['named']['search'] . '%';
             $pagination = array();
@@ -2094,20 +2095,20 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
             $this->data['Feedback']['film'] = $this->params['named']['search'];
             $this->render('feedback');
             return;
- 
+
  */
         }
-        
+
         if (!empty($search)){
             //----------------------------------------------------------------------
             //добавим в готовый массив поле - сгенерированый slug на основе title фильма
             foreach($search_result as $key => $val){
                 $search_result[$key]['CS_Film']['slug'] = $this->_toSlug($val['CS_Film']['title']);
-            }            
+            }
             $this->set('s_films', $search_result);
             $this->set('search', $search);
             $this->render('cs_index');
-        }        
+        }
         elseif (!empty($films)){
             //----------------------------------------------------------------------
             //добавим в готовый массив поле - сгенерированый slug на основе title фильма
@@ -2681,7 +2682,7 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
     }
 
     function view($id = null) {
-        
+
         $id=intval($id);
         if (!$id) {
             $this->Session->setFlash(__('Invalid Film', true));
@@ -2719,7 +2720,7 @@ Configure::write('debug',2);
 print_r($film);
 die();
 }
-	    
+
 	    if (!$film['Film']['active']) {
 	        $this->Session->setFlash(__('Invalid Film', true));
 	        $this->redirect(array('action'=>'index'));
@@ -2800,8 +2801,8 @@ die();
 			$this->Film->contain(array());
 			$similars = $this->Film->findAll(array('Film.id' => $ids), array('Film.id', 'Film.title'));
 		}
-                
-                
+
+
                 //----------------------------------------------------------------------
                 //добавим в готовый массив поле - сгенерированый slug на основе title фильма
                 if (!empty($similars)){
@@ -3249,6 +3250,8 @@ echo'</pre>';
         $exist_film_in_favorites = $this->Favorite->checkExistFilmInFavorites($this->authUser['userid'], $id);
         $this->set('exist_film_in_favorites', $exist_film_in_favorites);
 
+        $qualities = $this->Quality->findAll();
+        $this->set('qualities', $qualities);
     }
 
     /**

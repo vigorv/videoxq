@@ -16,6 +16,12 @@ class FilmVariant extends MediaModel {
                                 'conditions' => '',
                                 'fields' => '',
                                 'order' => ''
+            ),
+            'Quality' => array('className' => 'Quality',
+                                'foreignKey' => 'quality_id',
+                                'conditions' => '',
+                                'fields' => '',
+                                'order' => ''
             )
     );
 
