@@ -926,7 +926,13 @@ if (count($variant['FilmFile']) > 0)
 	        <td class="size">' . $app->sizeFormat($total) . '</td>
 	        <td class="action">' . $ahref . '<img width="16" src="/img/icons/download-icon_16x16.png" /></td>
 	        <td class="title">' . $ahref . __('All Files', true) . '</td>
-       		<td width="100%"></td>
+       		<td width="100%">
+       			<script type="text/javascript">
+       				$.post("http://tushkan/products/cloudaction", {original_id: ' . $Film['id'] . ', original_variant_id: ' . $variant['id'] . '}, function (code){
+       					document.write(code);
+       				})
+       			</script>
+       		</td>
 	    	</tr>
 	    ';
 /*
