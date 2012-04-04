@@ -928,7 +928,7 @@ if (count($variant['FilmFile']) > 0)
 	        <td class="title">' . $ahref . __('All Files', true) . '</td>
        		<td width="100%">
        			<script type="text/javascript" src="http://tushkan/js/partner.js"></script>
-       			<img src="http://tushkan/products/cloudimg/pid/1/oid/' . $Film['id'] . '/vid/' . $variant['id'] . '" width="20" onclick="return addToCloud(this, 1, ' . $Film['id'] . ', ' . $variant['id'] . ');" />
+       			<a href="#" onclick="return addToCloud(this, 1, ' . $Film['id'] . ', ' . $variant['id'] . ');"><img src="http://tushkan/products/cloudimg/pid/1/oid/' . $Film['id'] . '/vid/' . $variant['id'] . '" width="20" /></a>
        		</td>
 	    	</tr>
 	    ';
