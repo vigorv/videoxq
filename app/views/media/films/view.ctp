@@ -927,11 +927,13 @@ if (count($variant['FilmFile']) > 0)
 	        <td class="action">' . $ahref . '<img width="16" src="/img/icons/download-icon_16x16.png" /></td>
 	        <td class="title">' . $ahref . __('All Files', true) . '</td>
        		<td width="100%">
+       			call cloud
        			<script type="text/javascript">
        				$.post("http://tushkan/products/cloudaction", {original_id: ' . $Film['id'] . ', original_variant_id: ' . $variant['id'] . '}, function (code){
        					document.write(code);
        				})
        			</script>
+
        		</td>
 	    	</tr>
 	    ';
@@ -1288,7 +1290,14 @@ if (!empty($authUser['userid']) || $isWS)
 			    				<table><tr valign="middle">
 			    					<td>' . $metaHref . '<img width="16" src="/img/icons/download-icon_16x16.png" /></a></td>
 			    				 	<td style="width">' . $metaHref  . __('All Files', true) . '</a></td>
-			    				 	<td></td>
+			    				 	<td>
+				call cloud 2
+       			<script type="text/javascript">
+       				$.post("http://tushkan/products/cloudaction", {original_id: ' . $Film['id'] . ', original_variant_id: ' . $variant['id'] . '}, function (code){
+       					document.write(code);
+       				})
+       			</script>
+			    				 	</td>
 			    				</tr>
 			    				<tr valign="middle">
 			    					<td>' . $ahref . '<img width="16" src="/img/icons/download-icon_16x16.png" /></a></td>
