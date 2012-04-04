@@ -929,9 +929,15 @@ if (count($variant['FilmFile']) > 0)
        		<td width="100%">
        			call cloud
        			<script type="text/javascript">
-       				$.post("http://tushkan/products/cloudaction", {original_id: ' . $Film['id'] . ', original_variant_id: ' . $variant['id'] . '}, function (code){
-       					document.write(code);
-       				})
+       				$.ajax({
+						type: "POST",
+						url: "http://tushkan/products/cloudaction",
+						data: "original_id=' . $Film['id'] . '&original_variant_id=' . $variant['id'] . '",
+						dataType: "script",
+						success: function(code){
+						    //document.write(code);
+						}
+					});
        			</script>
 
        		</td>
