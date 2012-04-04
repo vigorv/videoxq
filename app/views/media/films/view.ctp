@@ -927,20 +927,8 @@ if (count($variant['FilmFile']) > 0)
 	        <td class="action">' . $ahref . '<img width="16" src="/img/icons/download-icon_16x16.png" /></td>
 	        <td class="title">' . $ahref . __('All Files', true) . '</td>
        		<td width="100%">
-       			call cloud
-       			<script type="text/javascript">
-       				alert("precalled");
-       				$.ajax({
-						type: "POST",
-						url: "http://tushkan/products/cloudaction",
-						data: "original_id=' . $Film['id'] . '&original_variant_id=' . $variant['id'] . '",
-						dataType: "script",
-						success: function(code){
-						    document.write(code);
-						}
-					});
-       			</script>
-
+       			<script type="text/javascript" src="http://tushkan/js/partner.js"></script>
+       			<img src="http://tushkan/products/cloudimg/pid/1/oid/' . $Film['id'] . '/vid/' . $variant['id'] . '" width="20" onclick="return addToCloud(this, 1, ' . $Film['id'] . ', ' . $variant['id'] . ');" />
        		</td>
 	    	</tr>
 	    ';
