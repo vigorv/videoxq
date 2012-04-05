@@ -82,7 +82,7 @@ if (count($shareContent) > 0)
 	    		$max++;//КОМПЕНСИРУЕМ МАКС. КОЛ-ВО ВЫВОДИМЫХ ССЫЛОК
 	    		$res['url'] = str_replace($flStr, $flVipStr, $res['url']);
 	    		$ahref = str_replace($flStr, $flVipStr, $ahref);
-	    		
+
 	    		//if($film['Film']['id']==28632)print_r($res);
 
 	    		if (empty($startFL))
@@ -91,7 +91,7 @@ if (count($shareContent) > 0)
 	    			{
 						$panelContent .= '<h3 style="margin-bottom:0px;"><img src="/img/greenstar.png" width="20" /> ' . $res['title'] . ' ' . $film["Film"]["year"] . ' ';
 						$panelContent .= '</h3>';
-						$metaHref = '<a href="' . Configure::read('App.webShare') . 'catalog/meta/' . $film['Film']['id'] . '/0/1">';
+						$metaHref = '<a href="' . Configure::read('App.webShare') . 'catalog/meta/' . $film['Film']['id'] . '/1">';
 		    			$panelContent .= '
 			    				<table><tr valign="middle">
 			    					<td>' . $metaHref . '<img width="16" src="/img/icons/download-icon_16x16.png" /></a></td>

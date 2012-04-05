@@ -927,10 +927,8 @@ if (count($variant['FilmFile']) > 0)
 	        <td class="action">' . $ahref . '<img width="16" src="/img/icons/download-icon_16x16.png" /></td>
 	        <td class="title">' . $ahref . __('All Files', true) . '</td>
        		<td width="100%">
-       			<script type="text/javascript" src="http://mycloud.anka.ws/js/partner.js"></script>
-       			<a id="cloudLink" href="#" onclick="return addToCloud(this, 1, ' . $Film['id'] . ', ' . $variant['id'] . ');"><img src="http://tushkan/products/cloudimg/pid/1/oid/' . $Film['id'] . '/vid/' . $variant['id'] . '" width="20" /></a>
-       			<iframe id="cloudLinkframe" onload="return cloudFrameResult(this);" valign="center"
-       			width="400" height="100" frameborder="0" scrolling="no" marginwidth="0px" marginheight="0px"></iframe>
+       			<iframe src="http://mycloud.anka.ws/products/addtocloud/pid/1/oid/' . $Film['id'] . '/vid/' . $variant['id'] . '" id="cloudLinkframe" valign="center"
+       			width="200" height="25" frameborder="0" scrolling="no" marginwidth="0px" marginheight="0px"></iframe>
        		</td>
 	    	</tr>
 	    ';
@@ -1283,7 +1281,7 @@ if (!empty($authUser['userid']) || $isWS)
 							$aplay = '<a target="_blank" href="' . $link['link'] . '/1">';//AUTOPLAY
 							$aplay = str_replace('catalog/viewv', 'catalog/file', $aplay);
 
-							$metaHref = '<a href="' . Configure::read('App.webShare') . 'catalog/meta/' . $Film['id'] . '/0/1">';
+							$metaHref = '<a href="' . Configure::read('App.webShare') . 'catalog/meta/' . $Film['id'] . '/1">';
 			    			$panelContent .= '
 			    				<table><tr valign="middle">
 			    					<td>' . $metaHref . '<img width="16" src="/img/icons/download-icon_16x16.png" /></a></td>

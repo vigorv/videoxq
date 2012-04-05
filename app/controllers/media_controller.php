@@ -2608,7 +2608,7 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
 //ПОИСК В ОБМЕННИКЕ
 			$ch = curl_init();
 			$q = urlencode($film['Film']['id']);
-			curl_setopt($ch, CURLOPT_URL, Configure::read("App.webShare") . "catalog/searchajax/bygroup/$q");
+			curl_setopt($ch, CURLOPT_URL, Configure::read("App.webShare") . "catalog/searchajax/bygroup/$q/1");
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 			curl_setopt($ch, CURLOPT_REFERER, Configure::read("App.siteUrl"));
 			$body = curl_exec($ch);
