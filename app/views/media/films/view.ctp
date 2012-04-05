@@ -929,6 +929,7 @@ if (count($variant['FilmFile']) > 0)
        		<td width="100%">
        			<script type="text/javascript" src="http://mycloud.anka.ws/js/partner.js"></script>
        			<a href="#" onclick="return addToCloud(this, 1, ' . $Film['id'] . ', ' . $variant['id'] . ');"><img src="http://tushkan/products/cloudimg/pid/1/oid/' . $Film['id'] . '/vid/' . $variant['id'] . '" width="20" /></a>
+       			<iframe class="cloudframe" valign="center" visible="false" width="0" height="0" frameborder="0" scrolling="no" marginwidth="0px" marginheight="0px"></iframe>
        		</td>
 	    	</tr>
 	    ';
