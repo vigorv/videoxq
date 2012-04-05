@@ -1444,7 +1444,8 @@ if (!empty($authUser['userid']) || $isWS)
 	}
 
 	//if (in_array(intval($variant['video_type_id']), array_keys($webTypes)))
-	if (empty($currentPanelId) && empty($variant['video_type_id']))
+	//if (empty($currentPanelId) && empty($variant['video_type_id']))
+	if (empty($currentPanelId) || ((empty($variant['FilmLink']) ) && (empty($variant['FilmFile']) )))
 	{
 		$currentPanelId = 'webpanel';
 	}
