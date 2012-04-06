@@ -1448,6 +1448,19 @@ if (!empty($authUser['userid']) || $isWS)
 	if (empty($currentPanelId) || ((empty($variant['FilmLink']) ) && (empty($variant['FilmFile']) )))
 	{
 		$currentPanelId = 'webpanel';
+		$webPanelExists = false;
+		//ПРОВЕРЯЕМ ЕСТЬ ДАЛЬШЕ ВАРИАНТ С WEB-ССЫЛКАМИ
+		foreach ($FilmVariant as $fv)
+		{
+			if (!isset($fv['id'])|| !isset($variant['id']) || ($fv['id']  == $variant['id']))
+				continue;
+			if (in_array(intval($fv['video_type_id']), array_keys($webTypes)))
+			{
+				$webPanelExists = true;
+				break;
+			}
+		}
+		if ($webPanelExists) continue;
 	}
 
 	if (!empty($linksCnt))
