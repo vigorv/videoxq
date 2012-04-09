@@ -2090,9 +2090,9 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
         elseif (!empty($films)){
             //----------------------------------------------------------------------
             //добавим в готовый массив поле - сгенерированый slug на основе title фильма
-//            foreach($films as $key => $val){
-//                $films[$key]['Film']['slug'] = $this->_toSlug($val['Film']['title']);
-            //}
+            foreach($films as $key => $val){
+                $films[$key]['Film']['slug'] = $this->_toSlug($val['Film']['title']);
+            }
             //----------------------------------------------------------------------
             $this->set('films', $films);
             $this->render('index');
