@@ -290,7 +290,8 @@ $.get("http://flux.itd/media/getbanner/header", function(html){ document.write(h
 	$neededQuality = 3; // пока интересует только качество MEDIUM
 	foreach ($FilmVariant as $variant)//ПОДСЧЕТ КОЛ-ВА ССЫЛОК НА ФАЙЛЫ
 	{
-
+		if (empty($variant['quality_id']))
+			continue;
 		if ($variant['quality_id'] == 0)
 			continue;
 		if ($variant['quality_id'] != $neededQuality)
