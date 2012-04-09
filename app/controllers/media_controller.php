@@ -1577,9 +1577,8 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
 
 //----------------------------------------------------------------------
 //----------------------------------------------------------------------
-/* A1<
- * // временно убираем этот кусок кода
-
+//* A1<		временно убираем этот кусок кода
+// ОБЫЧНЫЙ ПОИСК
         if (!empty($this->params['named']['search']))
         {
 
@@ -1678,15 +1677,14 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
 
             }
             //---------------------------------------------------------
-            /****************************************************** /
+
             // был поиск !!! теперь нам надо сформировать условие для 'union',
             // которое учтется в при разборе "полёта" в классе dboSource
             // (dbo_source.php ВНИМАНИЕ!!! незабыть, что его редактировали) из
             // библиотеки кейка
-//*
+
             //$crossSearch = true; //ФЛАГ ДЛЯ ПРОВЕРКИ В ОТОБРАЖЕНИИ
             //$this->Film->union = array_merge($wsmediaResult, $animebarResult);
-        /****************************************************** /
         }
 
 
@@ -1707,10 +1705,8 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
 		$films = false;
 		$posts = array();
 
-
  		if (!$isFirstPage)
 			$films = Cache::read('Catalog.' . $postFix . 'list_'.$out, $cacheprofile);
-
 
 		if (empty($search))
 		{
@@ -1720,16 +1716,8 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
 
 		if ($films === false)//ЕСЛИ ЕЩЕ НЕ КЭШИРОВАЛИ
 		{
-
-		//$starSearch = transStarChars($search);
-                //$pagination['Film']['search'] = $starSearch;
-                $this->Film->cacheQueries = false;
+            $this->Film->cacheQueries = false;
     		$films = $this->Film->find('all', $pagination["Film"],null,0);
-
-
-
-
-
 
     		if (empty($films))
     		{
@@ -1774,22 +1762,23 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
 
                 }
 
-
 		//КЭШИРУЕМ ДАЖЕ ЕСЛИ НИЧЕГО НЕ НАЙДЕНО
     		//if (((isset($this->passedArgs['page'])) && $films) || isset($this->passedArgs['search']))
 
                     if (!$isFirstPage)
                     {
-
                             Cache::write('Catalog.' . $postFix . 'list_'.$out, $films, $cacheprofile);
-
                     }
 		}
-//----------------------------------------------------------------------
-//----------------------------------------------------------------------
-* >A1
-*/
 
+//	КОНЕЦ ОБЫЧНОГО ПОИСКА
+//----------------------------------------------------------------------
+//----------------------------------------------------------------------
+// >A1
+//*/
+
+/*		ОТКЛЮЧАЕМ ПЕРЕКРЕСТНЫЙ ПОИСК
+//	ПЕРЕКРЕСТНЫЙ ПОИСК
 
         $search_result = array();
         if (!empty($this->params['named']['search'])){
@@ -1893,7 +1882,6 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
 
                 }
             }
-/*		ОТКЛЮЧАЕМ ПЕРЕКРЕСТНЫЙ ПОИСК
             if (!empty($this->params['named']['is_license'])){
                 $pagination_cs_film['CS_Film']['conditions']['is_license'] = 1;
             }
@@ -2014,7 +2002,6 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
             $this->set('pageCount', $pageCount);
 
             $crossSearch = true; //ФЛАГ ДЛЯ ПРОВЕРКИ В ОТОБРАЖЕНИИ
-//*/
         }
         else{
             $films = $this->Film->find('all', $pagination["Film"],null,0);
@@ -2022,9 +2009,8 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
 
                 //pr($films);
                 // если ничего не нашлось переходим на поиск по транслиту
-    		if (empty($films))
+    		if (empty($films) && (1 == 0))
     		{
-                    /*
                     if (!empty($translit))
                     {
                             if (!isset($this->params['named']['istranslit']))
@@ -2058,13 +2044,13 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
                                             $this->_logSearchRequest($search);//В ЛОГ ПОИСКОВЫХ ЗАПРОСОВ ПИШЕМ НЕТРАНСЛИРОВАННЫЙ ЗАПРОС
                             }
                     }
-                    */
                 }
                 else{
                     if (!empty($search))
                         $this->_logSearchRequest($search);//В ЛОГ ПОИСКОВЫХ ЗАПРОСОВ ПИШЕМ ТОЛЬКО ПРИ НАЛИЧИИ РЕЗУЛЬТАТОВ ПОИСКА
                 }
-
+//	КОНЕЦ ПЕРЕКРЕСТНОГО ПОИСКА
+//*/
     	$this->set('crossSearch', $crossSearch);
 
         // если ничего не нашлось, а поиск был, то ищем по именам
