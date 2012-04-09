@@ -1687,24 +1687,19 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
             //$this->Film->union = array_merge($wsmediaResult, $animebarResult);
         }
 
-
         if (!empty($this->passedArgs['page']))
         {
 //            $this->pageTitle .= ' ' . __('page', true) . ' ' . $this->passedArgs['page'];
             $this->Metatags->insert(__('page', true) . ' ' . $this->passedArgs['page'], '', '');
         }
 
-
-
 		if (!empty($this->passedArgs['page']) && empty($this->params['named']['search']))
 		{
 			$pagination['Film']['offset'] = (abs($this->passedArgs['page'])-1) * $pagination["Film"]['limit'];
 		}
 
-
 		$films = false;
 		$posts = array();
-
  		if (!$isFirstPage)
 			$films = Cache::read('Catalog.' . $postFix . 'list_'.$out, $cacheprofile);
 
@@ -2102,7 +2097,6 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
             $this->set('films', $films);
             $this->render('index');
         }
-        pr($films);
     }
 
     function rocket($pageName = 'favorites', $param = '')
