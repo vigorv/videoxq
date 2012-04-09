@@ -2012,11 +2012,9 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
             $pageCount = ceil($cs_filmCount / $limit);
             $this->set('filmCount', $cs_filmCount);
             $this->set('pageCount', $pageCount);
-//*/
-
-
 
             $crossSearch = true; //ФЛАГ ДЛЯ ПРОВЕРКИ В ОТОБРАЖЕНИИ
+//*/
         }
         else{
             $films = $this->Film->find('all', $pagination["Film"],null,0);
@@ -2099,7 +2097,7 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
  */
         }
 
-        if (!empty($search)){
+        if (!empty($search) && $crossSearch){
             //----------------------------------------------------------------------
             //добавим в готовый массив поле - сгенерированый slug на основе title фильма
             foreach($search_result as $key => $val){
