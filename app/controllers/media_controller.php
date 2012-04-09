@@ -1713,9 +1713,8 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
 			unset($pagination['Film']['sphinx']);//СФИНКС ВСЕ РАВНО НЕ БУДЕТ ИСКАТЬ ПО ПУСТОЙ СТРОКЕ
 		}
 
-//		if ($films === false)//ЕСЛИ ЕЩЕ НЕ КЭШИРОВАЛИ
+		if ($films === false)//ЕСЛИ ЕЩЕ НЕ КЭШИРОВАЛИ
 		{
-pr($pagination["Film"]);
             $this->Film->cacheQueries = false;
     		$films = $this->Film->find('all', $pagination["Film"],null,0);
 
@@ -2096,13 +2095,14 @@ pr($pagination["Film"]);
         elseif (!empty($films)){
             //----------------------------------------------------------------------
             //добавим в готовый массив поле - сгенерированый slug на основе title фильма
-            foreach($films as $key => $val){
-                $films[$key]['Film']['slug'] = $this->_toSlug($val['Film']['title']);
-            }
+//            foreach($films as $key => $val){
+//                $films[$key]['Film']['slug'] = $this->_toSlug($val['Film']['title']);
+            //}
             //----------------------------------------------------------------------
             $this->set('films', $films);
             $this->render('index');
         }
+        pr($films);
     }
 
     function rocket($pageName = 'favorites', $param = '')
