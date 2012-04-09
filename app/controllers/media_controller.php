@@ -1876,6 +1876,7 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
                     default:
                         break;
                 }
+/*		ОТКЛЮЧАЕМ ПЕРЕКРЕСТНЫЙ ПОИСК
                 if (!empty($this->params['named']['direction']) && !empty($order)){
                     switch ($this->params['named']['sort']){
 
@@ -2016,7 +2017,7 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
 
 
             $crossSearch = true; //ФЛАГ ДЛЯ ПРОВЕРКИ В ОТОБРАЖЕНИИ
-
+//*/
         }
         else{
             $films = $this->Film->find('all', $pagination["Film"],null,0);

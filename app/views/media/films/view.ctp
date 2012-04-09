@@ -927,12 +927,11 @@ if (count($variant['FilmFile']) > 0)
 	        <td class="action">' . $ahref . '<img width="16" src="/img/icons/download-icon_16x16.png" /></td>
 	        <td class="title">' . $ahref . __('All Files', true) . '</td>
        		<td width="100%">
-       			<iframe src="http://mycloud.anka.ws/products/addtocloud/pid/1/oid/' . $Film['id'] . '/vid/' . $variant['id'] . '" id="cloudLinkframe" valign="center"
-       			width="200" height="25" frameborder="0" scrolling="no" marginwidth="0px" marginheight="0px"></iframe>
        		</td>
 	    	</tr>
 	    ';
-//       			visible="false" width="0" height="0" frameborder="0" scrolling="no" marginwidth="0px" marginheight="0px"></iframe>
+//       			<iframe src="http://mycloud.anka.ws/products/addtocloud/pid/1/oid/' . $Film['id'] . '/vid/' . $variant['id'] . '" id="cloudLinkframe" valign="center"
+//       			width="200" height="25" frameborder="0" scrolling="no" marginwidth="0px" marginheight="0px"></iframe>
 /*
 //ДОБАВЛЯЕМ ССЫЛКУ НА ФАЙЛ .metalink
 	    $panelContent .= '</td>
