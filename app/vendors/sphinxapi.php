@@ -197,7 +197,7 @@ class SphinxClient
 	function SphinxClient ()
 	{
 		// per-client-object settings
-		$this->_host		= "localhost";
+		$this->_host		= "127.0.0.1";
 		$this->_port		= 3312;
 
 		// per-query settings
@@ -868,7 +868,7 @@ class SphinxClient
 					if ( $type==SPH_ATTR_FLOAT )
 					{
 						list(,$uval) = unpack ( "N*", substr ( $response, $p, 4 ) ); $p += 4;
-						list(,$fval) = unpack ( "f*", pack ( "L", $uval ) ); 
+						list(,$fval) = unpack ( "f*", pack ( "L", $uval ) );
 						$attrvals[$attr] = $fval;
 						continue;
 					}

@@ -283,10 +283,17 @@ $.get("http://flux.itd/media/getbanner/header", function(html){ document.write(h
 	$firstFileName = '';
 	$flLinksCnt = 0;
 	$firstLink = '';
-	$neededVideoType = 2; //gjrf пока интересует только DVD-качество
+/**
+ * СТАРАЯ СХЕМА ОСНОВАНА НА video_type_id
+ * НОВАЯ НА quality_id
+ */
+	$neededQuality = 3; // пока интересует только качество MEDIUM
 	foreach ($FilmVariant as $variant)//ПОДСЧЕТ КОЛ-ВА ССЫЛОК НА ФАЙЛЫ
 	{
-		if ($variant['video_type_id'] != $neededVideoType)
+
+		if ($variant['quality_id'] == 0)
+			continue;
+		if ($variant['quality_id'] != $neededQuality)
 			continue;
 
 		if (!empty($variant['FilmFile']))
@@ -296,6 +303,26 @@ $.get("http://flux.itd/media/getbanner/header", function(html){ document.write(h
 				$firstFileId = $file['id'];
 				$firstFileName = $file['file_name'];
 				$totalFilesCnt++;
+			}
+		}
+	}
+
+	$neededVideoType = 2; // пока интересует только DVD-качество
+	if (empty($firstFileId))//ДЛЯ СОВМЕСТИМОСТИ
+	{
+		foreach ($FilmVariant as $variant)//ПОДСЧЕТ КОЛ-ВА ССЫЛОК НА ФАЙЛЫ
+		{
+			if ($variant['video_type_id'] != $neededVideoType)
+				continue;
+
+			if (!empty($variant['FilmFile']))
+			{
+				foreach ($variant['FilmFile'] as $file)
+				{
+					$firstFileId = $file['id'];
+					$firstFileName = $file['file_name'];
+					$totalFilesCnt++;
+				}
 			}
 		}
 	}
@@ -457,7 +484,7 @@ $.get("http://flux.itd/media/getbanner/header", function(html){ document.write(h
             }
             else
 */
-/*            
+/*
             {
                 $actors = array_slice($actors, 0, 10);
                 $actors[] = '<a href="#">' . __('more', true) . '...</a>';
@@ -538,7 +565,7 @@ jQuery(document).ready(function() {
 });
 
 </script>
-                
+
 
     <?php
     		}
@@ -677,10 +704,10 @@ $language		= ''; //на случай неустановленной информ
 $translation	= ''; //на случай неустановленной информации о трэке
 $audio_info		= ''; //на случай неустановленной информации о трэке
 //$divxContent	= '';
-$FilmVariant[] = array('video_type_id' => 9);
-$FilmVariant[] = array('video_type_id' => 2);
-$FilmVariant[] = array('video_type_id' => 13);
-$FilmVariant[] = array('video_type_id' => 12);
+$FilmVariant[] = array('video_type_id' => 9, 'quality_id' => 4);
+$FilmVariant[] = array('video_type_id' => 2, 'quality_id' => 3);
+$FilmVariant[] = array('video_type_id' => 13, 'quality_id' => 2);
+$FilmVariant[] = array('video_type_id' => 12, 'quality_id' => 2);
 
 //pr($FilmVariant);
 $panelLinksCnt = array();  $hideVideo = '';
@@ -899,9 +926,12 @@ if (count($variant['FilmFile']) > 0)
 	        <td class="size">' . $app->sizeFormat($total) . '</td>
 	        <td class="action">' . $ahref . '<img width="16" src="/img/icons/download-icon_16x16.png" /></td>
 	        <td class="title">' . $ahref . __('All Files', true) . '</td>
-       		<td width="100%"></td>
+       		<td width="100%">
+       		</td>
 	    	</tr>
 	    ';
+//       			<iframe src="http://mycloud.anka.ws/products/addtocloud/pid/1/oid/' . $Film['id'] . '/vid/' . $variant['id'] . '" id="cloudLinkframe" valign="center"
+//       			width="200" height="25" frameborder="0" scrolling="no" marginwidth="0px" marginheight="0px"></iframe>
 /*
 //ДОБАВЛЯЕМ ССЫЛКУ НА ФАЙЛ .metalink
 	    $panelContent .= '</td>
@@ -1250,7 +1280,7 @@ if (!empty($authUser['userid']) || $isWS)
 							$aplay = '<a target="_blank" href="' . $link['link'] . '/1">';//AUTOPLAY
 							$aplay = str_replace('catalog/viewv', 'catalog/file', $aplay);
 
-							$metaHref = '<a href="' . Configure::read('App.webShare') . 'catalog/meta/' . $Film['id'] . '/0/1">';
+							$metaHref = '<a href="' . Configure::read('App.webShare') . 'catalog/meta/' . $Film['id'] . '/1">';
 			    			$panelContent .= '
 			    				<table><tr valign="middle">
 			    					<td>' . $metaHref . '<img width="16" src="/img/icons/download-icon_16x16.png" /></a></td>
@@ -1389,21 +1419,47 @@ if (!empty($authUser['userid']) || $isWS)
 }
 
 	$currentPanelId = '';
-	if (in_array(intval($variant['video_type_id']), array_keys($HQTypes)))
+	if (in_array(intval($variant['video_type_id']), array_keys($HQTypes))
+		||
+		($variant['quality_id'] == 4)
+	)
 	{
 		$currentPanelId = 'hqpanel';
 	}
-	if (in_array(intval($variant['video_type_id']), array_keys($SQTypes)))
+
+	if (in_array(intval($variant['video_type_id']), array_keys($SQTypes))
+		||
+		($variant['quality_id'] == 3)
+	)
 	{
 		$currentPanelId = 'sqpanel';
 	}
-	if (in_array(intval($variant['video_type_id']), array_keys($mobTypes)))
+	if (in_array(intval($variant['video_type_id']), array_keys($mobTypes))
+		||
+		($variant['quality_id'] == 2)
+	)
 	{
 		$currentPanelId = 'mobpanel';
 	}
-	if (in_array(intval($variant['video_type_id']), array_keys($webTypes)))
+
+	//if (in_array(intval($variant['video_type_id']), array_keys($webTypes)))
+	//if (empty($currentPanelId) && empty($variant['video_type_id']))
+	if (empty($currentPanelId) || ((empty($variant['FilmLink']) ) && (empty($variant['FilmFile']) )))
 	{
 		$currentPanelId = 'webpanel';
+		$webPanelExists = false;
+		//ПРОВЕРЯЕМ ЕСТЬ ДАЛЬШЕ ВАРИАНТ С WEB-ССЫЛКАМИ
+		foreach ($FilmVariant as $fv)
+		{
+			if (!isset($fv['id'])|| !isset($variant['id']) || ($fv['id']  == $variant['id']))
+				continue;
+			if (in_array(intval($fv['video_type_id']), array_keys($webTypes)))
+			{
+				$webPanelExists = true;
+				break;
+			}
+		}
+		if ($webPanelExists) continue;
 	}
 
 	if (!empty($linksCnt))
