@@ -1715,7 +1715,7 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
 
 //		if ($films === false)//ЕСЛИ ЕЩЕ НЕ КЭШИРОВАЛИ
 		{
-pr(pagination["Film"]);
+pr($pagination["Film"]);
             $this->Film->cacheQueries = false;
     		$films = $this->Film->find('all', $pagination["Film"],null,0);
 
