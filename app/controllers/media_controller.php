@@ -1710,11 +1710,10 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
 
 		if (empty($search))
 		{
-                    unset($pagination['Film']['sphinx']);//СФИНКС ВСЕ РАВНО НЕ БУДЕТ ИСКАТЬ ПО ПУСТОЙ СТРОКЕ
-
+			unset($pagination['Film']['sphinx']);//СФИНКС ВСЕ РАВНО НЕ БУДЕТ ИСКАТЬ ПО ПУСТОЙ СТРОКЕ
 		}
 
-		if ($films === false)//ЕСЛИ ЕЩЕ НЕ КЭШИРОВАЛИ
+//		if ($films === false)//ЕСЛИ ЕЩЕ НЕ КЭШИРОВАЛИ
 		{
             $this->Film->cacheQueries = false;
     		$films = $this->Film->find('all', $pagination["Film"],null,0);
