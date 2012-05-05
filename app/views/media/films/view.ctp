@@ -1600,9 +1600,9 @@ if (!empty($authUser['userid']) || $isWS)
 					</script>
 					<br /><input type="button" class="greenButton" onclick="return yaSearch()" value="' . __('Find', true) . '" />
 			';
+			$allPanels['ozonpanel'] = __('Buy on', true) .  ' ozon.ru';
+			$maxLinksPanel = 'ozonpanel';
 		}
-		$allPanels['ozonpanel'] = __('Buy on', true) .  ' ozon.ru';
-		$maxLinksPanel = 'ozonpanel';
 	}
 	if(!empty($FilmPartnerobj))
 	{
