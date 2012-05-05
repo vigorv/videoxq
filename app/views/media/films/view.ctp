@@ -18,9 +18,14 @@
 	}
     }
 //$isRus = true; //ПОИСК ПО ГУГЛУ ОТКЛЮЧАЕМ ДЛЯ ВСЕХ ФИЛЬМОВ
+$maxLinks = 100;
 
-
-if ($isWS)
+if ($loadLicOnly && !$film['Film']['is_license'])
+{
+	$geoIsGood = false;//$geoIsGood - ОЗНАЧАЕТ ДОСТУПЕН ЛИ ДЛЯ СКАЧИВАНИЯ ДАННЫЙ ФИЛЬМ В РЕГИОНЕ ПОЛЬЗОВАТЕЛЯ
+	$allowDownload = false;
+}
+else
 {
 	$geoIsGood = true;//$geoIsGood - ОЗНАЧАЕТ ДОСТУПЕН ЛИ ДЛЯ СКАЧИВАНИЯ ДАННЫЙ ФИЛЬМ В РЕГИОНЕ ПОЛЬЗОВАТЕЛЯ
 	$allowDownload = true;
@@ -1595,10 +1600,9 @@ if (!empty($authUser['userid']) || $isWS)
 					</script>
 					<br /><input type="button" class="greenButton" onclick="return yaSearch()" value="' . __('Find', true) . '" />
 			';
+		}
 		$allPanels['ozonpanel'] = __('Buy on', true) .  ' ozon.ru';
 		$maxLinksPanel = 'ozonpanel';
-
-		}
 	}
 	if(!empty($FilmPartnerobj))
 	{
@@ -1755,6 +1759,7 @@ else
 
 	if (!empty($allPanels))
 	{
+		$linksContent = '<a name="panels"></a><table width="800" cellspacing="0" cellpadding="3" border="0">' . $linksContent;
 		foreach ($allPanels as $key => $value)
 		{
 			$linksCntStr = '';
@@ -1802,28 +1807,31 @@ else
 				$("#" + curPanel + "folder").addClass("unfocusedpanel");
 			}
 		}
+		else
+			return false;
 		curPanel = id;
 		$("#" + curPanel + "folder").addClass("focusedpanel");
 		$("#panelcontent").html($("#" + curPanel).html());
-
-		$("a[rel=video]").fancybox({
-	        "zoomSpeedIn":  0,
-	        "zoomSpeedOut": 0,
-	        "overlayShow":  true,
-	        "overlayOpacity": 0.8,
-	        "showNavArrows": false,
-			"onComplete": function() { $(this.href + " a").trigger("click"); return false; }
-		});
 
 		return false;
 	}
 	curPanel = \'\';
 	focusPanel(\'' . $maxLinksPanel . '\');
+
+	$("a[rel=video]").fancybox({
+        "zoomSpeedIn":  0,
+        "zoomSpeedOut": 0,
+        "overlayShow":  true,
+        "overlayOpacity": 0.8,
+        "showNavArrows": false,
+		"onComplete": function() { $(this.href + " a").trigger("click"); return false; }
+	});
 -->
 </script>
 	';
 //	$linksContent = $yandexLink;
 	$yandexLink = $linksContent;
+
 echo $linksContent;
 
 }

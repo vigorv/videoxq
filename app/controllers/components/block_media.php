@@ -58,17 +58,18 @@ class BlockMediaComponent extends BlocksParentComponent
 		        $filter['sort']['MediaRating.rating'] = 'по рейтингу';
 		        $filter['sort']['Film.imdb_rating'] = 'по рейтингу imdb.com';
 			}
-/*
-			if ($this->controller->isWS)
+//*
+			$licOnly = $this->controller->getLicOnly();
+			if ($licOnly)
 			{
-	        	$filter['genres'] = $this->controller->Film->Genre->getGenresWithFilmCount($lang);
+	        	$filter['genres'] = $this->controller->Film->Genre->getGenresWithLicFilmCount($lang);
 	    	}
 	        else
 	        {
-	        	$filter['genres'] = $this->controller->Film->Genre->getGenresWithLicFilmCount($lang);
+	        	$filter['genres'] = $this->controller->Film->Genre->getGenresWithFilmCount($lang);
 	    	}
 //*/
-//*
+/*
         	$filter['genres'] = $this->controller->Film->Genre->getGenresWithFilmCount($lang);
 //*/
 	        $filter['countries'] = $this->controller->Film->Country->getCountriesWithFilmCount();
