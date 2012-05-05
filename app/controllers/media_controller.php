@@ -826,12 +826,14 @@ return;//НЕПРАВИЛЬНО РАБОТАЕТ
 
 	function searchWsmedia()
 	{
-		return $this->searchSphinxIndex('rumedia_post');
+		//return $this->searchSphinxIndex('rumedia_post');
+		return null;
 	}
 
 	function searchAnimeBar()
 	{
 		return $this->searchSphinxIndex('animebar_post');
+		return null;
 	}
 
 	function searchSphinxIndex($indexName)
@@ -1030,14 +1032,13 @@ return;//НЕПРАВИЛЬНО РАБОТАЕТ
 		$postFix = '';
 		//if (!$this->isWS && empty($this->params['named']['search']))//ВНЕШНИМ ПОКАЗЫВАЕМ ЛИЦЕНЗИЮ, ПРИ ПОИСКЕ ВЫВОДИМ ВСЕ
 
-		/*
-		ОДИНАКОВАЯ ВЫБОРКА И ДЛЯ ВНЕШНИХ И ДЛЯ ВНУТР
-		if (!$this->isWS)//ВНЕШНИМ ПОКАЗЫВАЕМ ТОЛЬКО ЛИЦЕНЗИЮ
+		$licOnly = $this->getLicOnly();
+		
+		if ($licOnly)
 		{
 			$conditions['Film.is_license'] = 1;
 			$postFix = 'Licensed';
 		}
-		*/
 /*
         if (!empty($this->passedArgs['page']))
         {
@@ -2506,9 +2507,10 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
     	$film = array();
 		if (!empty($filmId))
 		{
+                        Cache::delete('Catalog.film_view_' . $film['Film']['id'], 'media');
+                        
 			$film = $this->Film->find(array('Film.id' => intval($filmId)));
 
-			Cache::delete('Catalog.film_view_' . $film['Film']['id'], 'media');
 /*
 			$ch = curl_init();
 			$q = urlencode($film['Film']['id'] . ' ' . __('download', true));
@@ -2626,7 +2628,7 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
 					$links[] = array('FilmLink' => array(
 						//"link"	=> $res->visibleUrl,
 						"link"	=> substr($res->url, 0, 250),
-						"zone"	=> 'web',//НАШЛИ В ИНТЕРНЕТ
+						"zone"	=> '',//НАШЛИ В ИНТЕРНЕТ web (поле не используется пока)
 						"film_variant_id"	=> $variantId,
 						"title"	=> $res->title,
 						"descr"	=> $res->content,
@@ -2638,6 +2640,22 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
 			$this->Film->FilmVariant->FilmLink->create();
 			$this->Film->FilmVariant->FilmLink->saveAll($links, array('validate' => false, 'atomic' => false));
 
+	                $this->Film->contain(array('FilmType',
+                                     'Genre',
+                                     'Thread',
+                                     'FilmPicture' => array('conditions' => array('type <>' => 'smallposter')),
+    	                             'Country',
+    		                     'FilmVariant' => array('FilmLink', 'FilmFile' => array('order' => 'file_name'), 'VideoType', 'Track' => array('Language', 'Translation')),
+        	                     'MediaRating',
+        	                     //'FilmPartnerobj',
+        	                     //'FilmComment' => array('order' => 'FilmComment.created ASC',
+        		                //'conditions' => array('FilmComment.hidden' => 0))
+        	            	    )
+        	                );
+        	        $id = $filmId;
+        	        $film = $this->Film->read(null, $id);
+        	        Cache::write('Catalog.film_view_' . $id, $film,Cache::set(array('path'=>CACHE.DS.'media'.DS.($id%10).DS,'duration'=>30*24*3600)));
+        	                                                                                                                                                                                                                                                                                                                                                                                        	                                                                        	        
 			$this->set('googleContent', $googleContent);
 		}
 		$this->set('film', $film);
@@ -2703,6 +2721,23 @@ die();
 	        $this->Session->setFlash(__('Invalid Film', true));
 	        $this->redirect(array('action'=>'index'));
 	    }
+	    
+	    $licOnly = $this->getLicOnly();
+	    if ($licOnly && !$film['Film']['is_license'])
+	    {
+                $this->Session->setFlash(__('Invalid Film', true));
+                $this->redirect(array('action'=>'index'));
+    	    }
+    	    
+        if ($this->isWS)//ВНУТРЕННИЕ
+        {
+            $loadLicOnly = !($this->visibilityOptions[_LF_ENABLE_LOAD_] & _LF_MASK_WS_);
+        }
+        else//ВНЕШНИЕ
+        {
+            $loadLicOnly = !($this->visibilityOptions[_LF_ENABLE_LOAD_] & _LF_MASK_INET_);
+        }
+        $this->set("loadLicOnly", $loadLicOnly);    	
 
         App::import('Vendor', 'Utils'); //ДЛЯ КОНВЕРТИРОВАНИЯ ТЭГОВ UBB
 

@@ -1,4 +1,6 @@
 <?php
+//echo 'content1=' . count($shareContent);
+//echo 'content2=' . count($googleContent);
 function msgBox($txt)
 {
 	return '
@@ -19,6 +21,26 @@ if ($isWS)
 	$geoIsGood = true;
 }
 
+//ДЛЯ ОТЕЧЕСТВЕННЫХ ФИЛЬМОВ ПОИСК ПО ГУГЛУ ОТКЛЮЧАЕМ
+    $isRus = false;
+//echo 'year=' . $film['year'];
+    foreach ($film["Country"] as $cntr)
+    {
+        if (
+    	    //($cntr['id'] == 4) || //СССР
+    	    ($cntr['id'] == 7)
+    	)
+        {
+	    if ($film['Film']['year'] >= 2005)	    
+	    {
+//echo $film['Film']['year'];
+		$isRus = true;
+	    }
+            break;
+	}
+    }
+//$isRus = true; //ПОИСК ПО ГУГЛУ ОТКЛЮЧАЕМ ДЛЯ ВСЕХ ФИЛЬМОВ
+                                                                
 if (($geoIsGood) && ($film["Film"]['is_license']) && ($authUser['userid']))
 {
 	$isWS = true;
@@ -30,7 +52,7 @@ echo '
 $notFound = true;
 $notFoundMsg = __('Links not found', true);
 
-if (count($shareContent) > 0)
+if ((count($shareContent) > 0) && !$isRus)
 {
 	$notFound = false;
 	echo '
@@ -93,33 +115,33 @@ if (count($shareContent) > 0)
 						$panelContent .= '</h3>';
 						$metaHref = '<a href="' . Configure::read('App.webShare') . 'catalog/meta/' . $film['Film']['id'] . '/1">';
 		    			$panelContent .= '
-			    				<table><tr valign="middle">
-			    					<td>' . $metaHref . '<img width="16" src="/img/icons/download-icon_16x16.png" /></a></td>
-			    				 	<td style="width">' . $metaHref  . __('All Files', true) . '</a></td>
+			    				<table style="padding-bottom:15px;" cellspacing="0" cellpadding="0" border="0"><tr valign="middle">
+			    					<td style="padding-right:5px;">' . $metaHref . '<img width="16" src="/img/icons/download-icon_16x16.png" /></a></td>
+			    				 	<td style="padding-right:5px;">' . $metaHref  . __('All Files', true) . '</a></td>
 			    				 	<td></td>
 			    				</tr>';
 		    			$panelContent .= '<tr valign="middle">
-			    					<td>' . $ahref . '<img width="16" src="/img/icons/download-icon_16x16.png" /></a></td>
-			    				 	<td>' . $ahref . $res['filename'] . '</a></td>
-			    				 	<td>' . $aplay . '<img width="16" src="/img/icons/play-icon_16x16.png" /></a></td>
+			    					<td style="padding-right:5px;">' . $ahref . '<img width="16" src="/img/icons/download-icon_16x16.png" /></a></td>
+			    				 	<td style="padding-right:5px;">' . $ahref . $res['filename'] . '</a></td>
+			    				 	<td style="padding-right:5px;">' . $aplay . '<img width="16" src="/img/icons/play-icon_16x16.png" /></a></td>
 			    				</tr>';
 	    			}
 	    			else
 	    			{
-						$panelContent .= '<table><tr valign="middle">
-			    					<td><img src="/img/greenstar.png" width="20" /></td>
-			    					<td>' . $ahref . '<img width="16" src="/img/icons/download-icon_16x16.png" /></a></td>
-			    				 	<td><h3 style="margin-bottom:0px;">' . $ahref . $res['title'] . '</a> ' . $film["Film"]["year"] . '</h3></td>
-			    				 	<td>' . $aplay . '<img width="16" src="/img/icons/play-icon_16x16.png" /></a></td>
+						$panelContent .= '<table style="padding-bottom:15px;" cellspacing="0" cellpadding="0" border="0"><tr valign="middle">
+			    					<td style="padding-right:5px;"><img src="/img/greenstar.png" width="20" /></td>
+			    					<td style="padding-right:5px;">' . $ahref . '<img width="16" src="/img/icons/download-icon_16x16.png" /></a></td>
+			    				 	<td style="padding-right:5px;"><h3 style="margin-bottom:0px;">' . $ahref . $res['title'] . '</a> ' . $film["Film"]["year"] . '</h3></td>
+			    				 	<td style="padding-right:5px;">' . $aplay . '<img width="16" src="/img/icons/play-icon_16x16.png" /></a></td>
 			    				</tr></table>';
 	    			}
 	    		}
 	    		else
 	    		{
-						$panelContent .= '<tr valign="middle">
-			    					<td>' . $ahref . '<img width="16" src="/img/icons/download-icon_16x16.png" /></a></td>
-			    				 	<td>' . $ahref . $res['filename'] . '</a></td>
-			    				 	<td>' . $aplay . '<img width="16" src="/img/icons/play-icon_16x16.png" /></a></td>
+						$panelContent .= '<tr style="padding-bottom:5px;" valign="middle">
+			    					<td style="padding-right:5px;">' . $ahref . '<img width="16" src="/img/icons/download-icon_16x16.png" /></a></td>
+			    				 	<td style="padding-right:5px;">' . $ahref . $res['filename'] . '</a></td>
+			    				 	<td style="padding-right:5px;">' . $aplay . '<img width="16" src="/img/icons/play-icon_16x16.png" /></a></td>
 			    				</tr>';
 	    		}
 	    	}
@@ -144,7 +166,7 @@ if (count($shareContent) > 0)
 				$panelContent .= '</table>';
 			}
 			$startFL = 0;
-			if (!$isWS)//ДЛЯ ВС ССЫЛКИ НА СТОРОННИЕ РЕСУРСЫ НЕ ВЫДАЕМ
+//			if (!$isWS)//ДЛЯ ВС ССЫЛКИ НА СТОРОННИЕ РЕСУРСЫ НЕ ВЫДАЕМ
 			{
 				$panelContent .= '<h3 style="margin-bottom:0px;"><img src="/img/blackstar.png" width="20" />  <a target="_blank" href="' . $res['url'] . '">' . $res['title'] . '</a></h3>';
 				$panelContent .= '<p>' . $res['content'] . '</p>';
@@ -154,7 +176,8 @@ if (count($shareContent) > 0)
 	echo $panelContent;
 }
 
-if ((count($googleContent) > 0) && (!$isWS))//ДЛЯ ВС ССЫЛКИ НА СТОРОННИЕ РЕСУРСЫ НЕ ВЫДАЕМ
+
+if ((count($googleContent) > 0) && !$isRus && !$isWS)//ДЛЯ ВС ССЫЛКИ НА СТОРОННИЕ РЕСУРСЫ НЕ ВЫДАЕМ
 {
 	$notFound = false;
 	$max = Configure::read('App.webLinksCount');
@@ -167,7 +190,7 @@ if ((count($googleContent) > 0) && (!$isWS))//ДЛЯ ВС ССЫЛКИ НА СТ
 	}
 }
 
-if ($notFound)
+if ($notFound || $isRus)
 {
 	//echo'<h3>' . __('No results for your search', true) . '</h3>';
 	echo'<h3>' . $notFoundMsg . '</h3>';

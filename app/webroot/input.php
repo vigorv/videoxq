@@ -102,11 +102,11 @@ function to_base($user_ip,$event,$info,$param)
     $result = mysql_query($sql);
     mysql_close();
 
-    if ($comeback)
-    {
-		header('location: http://rumedia.ws/?_openstat=dmtrO3Zra2s7Mjsz');
-		exit;
-    }
+//    if ($comeback)
+//    {/
+//		header('location: http://rumedia.ws/?_openstat=dmtrO3Zra2s7Mjsz');
+//		exit;
+//    }
 }
 
 if($user_ip=='188.134.85.122'){header('location: http://ivi.ru/');exit(0);}

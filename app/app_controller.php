@@ -2,6 +2,13 @@
 
 DEFINE("_RUS_", "ru");
 DEFINE("_ENG_", "en");
+
+DEFINE("_LF_ENABLE_VIEW_", 0);
+DEFINE("_LF_ENABLE_LOAD_", 1);
+DEFINE("_LF_MASK_WS_", 1);
+DEFINE("_LF_MASK_INET_", 2);
+DEFINE("_VISIBILITY_OPTIONS_FILE_", $_SERVER['DOCUMENT_ROOT'] . '/../tmp/visibility.flg');
+
 define('DEFAULT_LANGUAGE', _RUS_);
 
 class AppController extends Controller {
@@ -46,6 +53,19 @@ class AppController extends Controller {
      */
     public $BlockBanner;
     public $onlineUsers = array();
+
+public function getLicOnly()
+{
+    if ($this->isWS)//ВНУТРЕННИЕ
+    {
+        $licOnly = !($this->visibilityOptions[_LF_ENABLE_VIEW_] & _LF_MASK_WS_);
+    }
+    else//ВНЕШНИЕ
+    {
+        $licOnly = !($this->visibilityOptions[_LF_ENABLE_VIEW_] & _LF_MASK_INET_);
+    }
+    return $licOnly;                                                                                                                                        
+}                                                                                                                                        
 
 //ОПРЕДЕЛЕНИЕ ГЕОГРАФИИ ПОЛЬЗОВАТЕЛЯ, УЧАСТВУЮЩЕГО В ЛОТЕРЕЕ (ИМЯ ФУНКЦИИ ХРАНИМ В ТАБЛИЦЕ ЛОТЕРЕЙ)
     public function isInBarnaulLottery() {
@@ -132,6 +152,17 @@ class AppController extends Controller {
             $isWS = false;
         }
         $this->isWS = $isWS;
+
+	$visibilityOptions = array(0, 0);
+	if (file_exists(_VISIBILITY_OPTIONS_FILE_))
+	{
+	    $visibilityOptions = explode("\n", file_get_contents(_VISIBILITY_OPTIONS_FILE_));
+	}
+	if (count($visibilityOptions) < 2)
+	{
+	    $visibilityOptions = array(0, 0);
+	}
+	$this->visibilityOptions = $visibilityOptions;
 
         Configure::write('App.siteName', __("Patent Media", true));
         Configure::write('App.mailFrom', __("Patent Media", true) . ' ' . Configure::read('App.mailFrom'));

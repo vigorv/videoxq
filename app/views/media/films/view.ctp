@@ -1,5 +1,24 @@
 <?php
     extract($film);
+//print_r($film);
+    $isRus = false;
+    foreach ($Country as $cntr)
+    {
+	if (
+	    //($cntr['id'] == 4) || //СССР
+	    ($cntr['id'] == 7))
+	{
+//echo $cntr['id'];
+	    if ($Film['year'] >= 2005)
+	    {
+//echo $Film['year'];
+		$isRus = true;
+	    }
+	    break;
+	}
+    }
+//$isRus = true; //ПОИСК ПО ГУГЛУ ОТКЛЮЧАЕМ ДЛЯ ВСЕХ ФИЛЬМОВ
+
 
 if ($isWS)
 {
@@ -328,8 +347,13 @@ $.get("http://flux.itd/media/getbanner/header", function(html){ document.write(h
 		}
 	}
 
-	foreach ($FilmVariant as $variant)//ПОДСЧЕТ КОЛ-ВА ССЫЛОК НА ОБМЕННИК
+	foreach ($FilmVariant as $fvk => $variant)//ПОДСЧЕТ КОЛ-ВА ССЫЛОК НА ОБМЕННИК
 	{
+	    if ($isRus)
+	    {
+		unset($FilmVariant[$fvk]['FilmLink']);
+	    }
+	    else
 		if (!empty($variant['FilmLink']))
 		{
 			foreach ($variant['FilmLink'] as $link)
@@ -1206,7 +1230,7 @@ if (!empty($authUser['userid']) || $isWS)
 	echo '</h4>';
 		}
 
-	if (count($variant['FilmLink']) > 0)
+	if ((count($variant['FilmLink']) > 0)&&(!$isRus))
 	{
 
 		$variant['video_type_id'] = 12;//ПРИНУДИТЕЛЬНО ДОБАВЛЯЕМ НА ПАНЕЛЬ WEB
@@ -1405,7 +1429,8 @@ if (!empty($authUser['userid']) || $isWS)
 			}
 
 			$linksCnt++;
-			if ($link['zone'] == 'web')
+			//if ($link['zone'] == 'web')
+			if (!$isFL)
 			{
 				$maxWebLinksCount--;
 			}

@@ -86,6 +86,52 @@ class UtilsController extends AppController
         $this->translations[] = "секта Володарского";
     }
 
+    /*
+	действие настройки видимости фильмов для внутр. и внешн. пользователей
+    */
+    function admin_visibility()
+    {
+	$fileName = _VISIBILITY_OPTIONS_FILE_;
+	$masks = array();
+//echo $fileName;	
+	$f = fopen($fileName, 'r+');
+	if ($f)
+	{
+	    $masks = array(0, 0); //ПО УМОЛЧАНИЮ НЕЛЬЗЯ НИ СМОТРЕТЬ ОПИСАНИЕ НИ СКАЧАТЬ ПО ССЫЛКЕ
+//	    $content = fread($f, filesize($fileName));
+	    if (filesize($fileName) > 0) $content = fread($f, filesize($fileName));
+	    if (!empty($content))
+	    {
+		//ЧИТАЕМ МАСКИ ИЗ ФАЙЛА
+		$masks = explode("\n", $content);
+	    }
+	    else
+	    {
+		$masks = array(0, 0); //ПО УМОЛЧАНИЮ НЕЛЬЗЯ НИ СМОТРЕТЬ ОПИСАНИЕ НИ СКАЧАТЬ ПО ССЫЛКЕ
+	    }
+	    if ($_SERVER['REQUEST_METHOD'] == 'POST')
+	    {
+		if (!empty($_POST['masks']))
+		{
+		    //ГОТОВИМ МАСКИ
+		    $post = $_POST['masks'];
+		    $viewMask = (empty($post[0][0]) ? 0 : $post[0][0]) | (empty($post[0][1]) ? 0 : $post[0][1]);
+		    $loadMask = (empty($post[1][0]) ? 0 : $post[1][0]) | (empty($post[1][1]) ? 0 : $post[1][1]);
+		    $masks = array($viewMask, $loadMask);
+		}
+		else
+		    $masks = array(0, 0); //ПО УМОЛЧАНИЮ НЕЛЬЗЯ НИ СМОТРЕТЬ ОПИСАНИЕ НИ СКАЧАТЬ ПО ССЫЛКЕ		    
+		//СОХРАНЯЕМ МАСКИ В ФАЙЛ
+		fseek($f, 0);
+		fwrite($f, implode("\n", $masks));
+	    }		
+	    fclose($f);
+	}
+        $this->layout = 'admin';
+        $this->set("masks", $masks);
+	$this->set("fileName", $fileName);
+    }
+    
     function myinfo()
     {
     	$this->layout = 'plain';
