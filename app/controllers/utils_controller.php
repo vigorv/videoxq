@@ -93,7 +93,7 @@ class UtilsController extends AppController
     {
 	$fileName = _VISIBILITY_OPTIONS_FILE_;
 	$masks = array();
-//echo $fileName;	
+//echo $fileName;
 	$f = fopen($fileName, 'r+');
 	if ($f)
 	{
@@ -120,18 +120,19 @@ class UtilsController extends AppController
 		    $masks = array($viewMask, $loadMask);
 		}
 		else
-		    $masks = array(0, 0); //ПО УМОЛЧАНИЮ НЕЛЬЗЯ НИ СМОТРЕТЬ ОПИСАНИЕ НИ СКАЧАТЬ ПО ССЫЛКЕ		    
+		    $masks = array(0, 0); //ПО УМОЛЧАНИЮ НЕЛЬЗЯ НИ СМОТРЕТЬ ОПИСАНИЕ НИ СКАЧАТЬ ПО ССЫЛКЕ
 		//СОХРАНЯЕМ МАСКИ В ФАЙЛ
 		fseek($f, 0);
 		fwrite($f, implode("\n", $masks));
-	    }		
+		cache::clear(false, "block");
+	    }
 	    fclose($f);
 	}
         $this->layout = 'admin';
         $this->set("masks", $masks);
 	$this->set("fileName", $fileName);
     }
-    
+
     function myinfo()
     {
     	$this->layout = 'plain';
@@ -169,7 +170,7 @@ class UtilsController extends AppController
         ini_set('memory_limit', '1G');
         $this->Film->migratePoster($date);
     }
-    
+
     function people($date = null)
     {
         ini_set('memory_limit', '1G');
@@ -244,7 +245,7 @@ class UtilsController extends AppController
 		//ОБНОВЛЕНИЕ rss.xml
 		system('wget -O ' . $_SERVER['DOCUMENT_ROOT'] . '/app/webroot/rss.xml http://www.videoxq.com/media/rsslist');
     }
-    
+
     function migrate_upd_posters(){
         ini_set('memory_limit', '2300M');
         set_time_limit(50000000000);
