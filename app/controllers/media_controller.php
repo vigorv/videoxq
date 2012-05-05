@@ -985,7 +985,11 @@ return;//НЕПРАВИЛЬНО РАБОТАЕТ
         }
 
         $isFirstPage = false;//ДЛЯ СЛУЧАЙНОЙ ВЫБОРКИ ПЕРВОЙ СТРАНИЦЫ ОСОБЫЕ ДЕЙСТВИЯ
-        if ($this->isWS)
+		$postFix = '';
+		//if (!$this->isWS && empty($this->params['named']['search']))//ВНЕШНИМ ПОКАЗЫВАЕМ ЛИЦЕНЗИЮ, ПРИ ПОИСКЕ ВЫВОДИМ ВСЕ
+
+		$licOnly = $this->getLicOnly();
+        if (!$licOnly)
         {
         	$order=array('Film.modified' => 'desc');
         }
@@ -1001,7 +1005,7 @@ return;//НЕПРАВИЛЬНО РАБОТАЕТ
 
 		$conditions = array();
 //*
-		if ($this->isWS)
+		if (!$licOnly)
 		{
                     //если указано направление сортировки
                     if (isset($this->passedArgs["sort"]))
@@ -1029,11 +1033,7 @@ return;//НЕПРАВИЛЬНО РАБОТАЕТ
 //*/
                 // только видимые (активные) фильмы
 		$conditions['Film.active'] = 1;
-		$postFix = '';
-		//if (!$this->isWS && empty($this->params['named']['search']))//ВНЕШНИМ ПОКАЗЫВАЕМ ЛИЦЕНЗИЮ, ПРИ ПОИСКЕ ВЫВОДИМ ВСЕ
 
-		$licOnly = $this->getLicOnly();
-		
 		if ($licOnly)
 		{
 			$conditions['Film.is_license'] = 1;
@@ -2508,7 +2508,7 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
 		if (!empty($filmId))
 		{
                         Cache::delete('Catalog.film_view_' . $film['Film']['id'], 'media');
-                        
+
 			$film = $this->Film->find(array('Film.id' => intval($filmId)));
 
 /*
@@ -2655,7 +2655,7 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
         	        $id = $filmId;
         	        $film = $this->Film->read(null, $id);
         	        Cache::write('Catalog.film_view_' . $id, $film,Cache::set(array('path'=>CACHE.DS.'media'.DS.($id%10).DS,'duration'=>30*24*3600)));
-        	                                                                                                                                                                                                                                                                                                                                                                                        	                                                                        	        
+
 			$this->set('googleContent', $googleContent);
 		}
 		$this->set('film', $film);
@@ -2721,14 +2721,14 @@ die();
 	        $this->Session->setFlash(__('Invalid Film', true));
 	        $this->redirect(array('action'=>'index'));
 	    }
-	    
+
 	    $licOnly = $this->getLicOnly();
 	    if ($licOnly && !$film['Film']['is_license'])
 	    {
                 $this->Session->setFlash(__('Invalid Film', true));
                 $this->redirect(array('action'=>'index'));
     	    }
-    	    
+
         if ($this->isWS)//ВНУТРЕННИЕ
         {
             $loadLicOnly = !($this->visibilityOptions[_LF_ENABLE_LOAD_] & _LF_MASK_WS_);
@@ -2737,7 +2737,7 @@ die();
         {
             $loadLicOnly = !($this->visibilityOptions[_LF_ENABLE_LOAD_] & _LF_MASK_INET_);
         }
-        $this->set("loadLicOnly", $loadLicOnly);    	
+        $this->set("loadLicOnly", $loadLicOnly);
 
         App::import('Vendor', 'Utils'); //ДЛЯ КОНВЕРТИРОВАНИЯ ТЭГОВ UBB
 

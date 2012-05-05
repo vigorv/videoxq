@@ -29,7 +29,8 @@ class BlockMediaComponent extends BlocksParentComponent
         $cache = '+1 day';
 
         $postFix = '';
-        if (!$this->controller->isWS)
+		$licOnly = $this->controller->getLicOnly();
+        if ($licOnly)
         {
         	$postFix = 'Licensed';
         }
@@ -59,7 +60,6 @@ class BlockMediaComponent extends BlocksParentComponent
 		        $filter['sort']['Film.imdb_rating'] = 'по рейтингу imdb.com';
 			}
 //*
-			$licOnly = $this->controller->getLicOnly();
 			if ($licOnly)
 			{
 	        	$filter['genres'] = $this->controller->Film->Genre->getGenresWithLicFilmCount($lang);
