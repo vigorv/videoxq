@@ -1561,7 +1561,7 @@ if (!empty($authUser['userid']) || $isWS)
 			}
 			else
 			{
-				if (!$flCount)
+				if (empty($flCount))
 				{
 					$panelContent = '
 					<script type="text/javascript">
