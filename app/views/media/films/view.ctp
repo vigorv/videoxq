@@ -1559,6 +1559,19 @@ if (!empty($authUser['userid']) || $isWS)
 					';
 				}
 			}
+			else
+			{
+				if (!$flCount)
+				{
+					$panelContent = '
+					<script type="text/javascript">
+					<!--
+						findLinks();
+					-->
+					</script>
+					';
+				}
+			}
 		break;
 	}
 

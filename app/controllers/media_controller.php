@@ -2507,9 +2507,8 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
     	$film = array();
 		if (!empty($filmId))
 		{
-                        Cache::delete('Catalog.film_view_' . $film['Film']['id'], 'media');
-
 			$film = $this->Film->find(array('Film.id' => intval($filmId)));
+            Cache::delete('Catalog.film_view_' . $film['Film']['id'], 'media');
 
 /*
 			$ch = curl_init();
