@@ -953,9 +953,9 @@ if (count($variant['FilmFile']) > 0)
 
 	    $ahref = '<a title="' . __('All Files', true) . '" target="_blank" href="/media/meta/' . $Film['id'] . '/' . $variant['id'] . '/' . $variant['video_type_id'] . '">';
 	    $myCloud = '';
-	    if (!empty($authUser['username']) && ($authUser['username'] == 'vanoveb'))
+	    if (!empty($authUserGroups) && in_array(1, $authUserGroups))//ОБЛАЧКО ПОКАЗЫВАЕМ ТОЛЬКО ДЛЯ АДМИНОВ
 		    $myCloud = '
-       			<iframe src="http://nsk54.com:82/products/addtocloud/pid/1/oid/' . $Film['id'] . '/vid/' . $variant['id'] . '" id="cloudLinkframe" valign="center"
+       			<iframe src="http://myicloud.ws/products/addtocloud/pid/1/oid/' . $Film['id'] . '/vid/' . $variant['id'] . '" id="cloudLinkframe" valign="center"
        			width="200" height="25" frameborder="0" scrolling="no" marginwidth="0px" marginheight="0px"></iframe>
 		    ';
 
