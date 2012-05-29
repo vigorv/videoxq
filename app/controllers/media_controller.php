@@ -4122,4 +4122,56 @@ if (--$limit == 0) {
         pr($result);
     }
 
+    /**
+     * перенаправление на адрес скачивания или онлайн просмотра для ссылок с MyiCloud
+     *
+     * @param integer	$filmId		- мдентификатор фильма
+     * @param string	$quality	- качество (low, medium итд)
+     * @param string	$fName		- имя файла без расширения
+     * @param integer	$loadTp		- тип скачивания 1 - онлайн; 0 - скачивание
+     */
+    public function cloudlink($filmId, $quality, $fName, $loadTp = 0)
+    {
+    	$this->layout = 'ajax';
+		$film = Cache::read('Catalog.film_view_' . $filmId, 'media');
+		if (!$film)
+		{
+	        $this->Film->recursive = 0;
+	        $this->Film->contain(array('FilmType',
+	                                     'Genre',
+	                                     'Thread',
+	                                     'FilmPicture' => array('conditions' => array('type <>' => 'smallposter')),
+	                                     'Country',
+	                                     'FilmVariant' => array('FilmFile' => array('order' => 'file_name'), 'VideoType', 'Track' => array('Language', 'Translation')),
+	                                     'MediaRating',
+	                                  )
+	                             );
+	        $film = $this->Film->read(null, $filmId);
+		    Cache::write('Catalog.film_view_' . $filmId, $film,'media');
+		}
+
+		$url = '';
+		if (!empty($film['FilmVariant']))
+		{
+			foreach ($film['FilmVariant'] as $variant)
+			{
+				if (!empty($variant['FilmFile']))
+				{
+					foreach($variant['FilmFile'] as $f)
+					{
+						if (preg_match('/[\/]*' . $quality . '\/' . $fName . '(.*?)/', $f['file_name']))
+						{
+							$url = Film::set_input_server($film['Film']['dir']) . '/' . $f['file_name'];
+							if ($loadTp)
+							{
+								//ПРЕОБРАЗУЕМ ССЫЛКУ В ССЫЛКУ ДЛЯ ОНЛАЙН-ПОСМОТРА
+							}
+							$this->redirect($url, null, true);
+						}
+					}
+				}
+			}
+		}
+   }
+
 }
