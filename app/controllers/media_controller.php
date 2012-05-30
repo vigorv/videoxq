@@ -4172,6 +4172,17 @@ if (--$limit == 0) {
 				}
 			}
 		}
-   }
+	}
 
+	/**
+	 * удалить кэш фильма по идентификатору
+	 *
+	 * @param integer $filmId - МД фильма
+	 */
+	public function clearcache($filmId = 0)
+	{
+    	$this->layout = 'ajax';
+		$film = Cache::delete('Catalog.film_view_' . intval($filmId), 'media');
+		$this->render('ajax');
+	}
 }
