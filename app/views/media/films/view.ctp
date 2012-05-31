@@ -1456,25 +1456,32 @@ if (!empty($authUser['userid']) || $isWS)
 }
 
 	$currentPanelId = '';
-	if (in_array(intval($variant['video_type_id']), array_keys($HQTypes))
-		||
-		($variant['quality_id'] == 4)
-	)
+	//ПРОВЕРКА КАЧЕСТВА ПО СПИСКУ
+	if (in_array(intval($variant['video_type_id']), array_keys($HQTypes)))
 	{
 		$currentPanelId = 'hqpanel';
 	}
-
-	if (in_array(intval($variant['video_type_id']), array_keys($SQTypes))
-		||
-		($variant['quality_id'] == 3)
-	)
+	if (in_array(intval($variant['video_type_id']), array_keys($SQTypes)))
 	{
 		$currentPanelId = 'sqpanel';
 	}
-	if (in_array(intval($variant['video_type_id']), array_keys($mobTypes))
-		||
-		($variant['quality_id'] == 2)
-	)
+	if (in_array(intval($variant['video_type_id']), array_keys($mobTypes)))
+	{
+		$currentPanelId = 'mobpanel';
+	}
+
+	//В СЛУЧАЕ ОДНОВРЕМЕННОГО УКАЗАНИЯ КАЧЕСТВА ПО СПИСКУ(в array) И ПО quality_id
+	//ПО quality_id УСЛОВИЕ ВАЖННЕЕ, ПО ЭТОМУ ПЕРЕУСТАНАВЛИВАЕМ $currentPanelId ПРИ ВЫПОЛНЕНИИ УСЛОВИЯ
+	//ПРОВЕРКА КАЧЕСТВА ПО quality_id
+	if ($variant['quality_id'] == 4)
+	{
+		$currentPanelId = 'hqpanel';
+	}
+	if ($variant['quality_id'] == 3)
+	{
+		$currentPanelId = 'sqpanel';
+	}
+	if ($variant['quality_id'] == 2)
 	{
 		$currentPanelId = 'mobpanel';
 	}
