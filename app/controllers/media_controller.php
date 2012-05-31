@@ -130,7 +130,7 @@ class MediaController extends AppController {
 		if (!empty($filmId))
 		{
 			//$film = $this->Film->find(array('Film.id' => $filmId), null, null, 1);
-			$film = Cache::read('Catalog.film_view_' . $filmId, 'media');
+			$film = Cache::read('Catalog.film_view_' . $filmId, Cache::set(array('path'=>CACHE.DS.'media'.DS.($filmId%10).DS,'duration'=>30*24*3600)));
 			if (!$film)
 			{
 		        $this->Film->recursive = 0;
@@ -144,7 +144,7 @@ class MediaController extends AppController {
 		                                  )
 		                             );
 		        $film = $this->Film->read(null, $filmId);
-			    Cache::write('Catalog.film_view_' . $filmId, $film,'media');
+			    Cache::write('Catalog.film_view_' . $filmId, $film,Cache::set(array('path'=>CACHE.DS.'media'.DS.($filmId%10).DS,'duration'=>30*24*3600)));
 			}
 		}
 		else
@@ -874,7 +874,7 @@ return;//НЕПРАВИЛЬНО РАБОТАЕТ
 			$this->redirect('/media');
 		}
 
-		if (!$film = Cache::read('Catalog.film_view_' . $id,'media'))
+		if (!$film = Cache::read('Catalog.film_view_' . $id,Cache::set(array('path'=>CACHE.DS.'media'.DS.($id%10).DS,'duration'=>30*24*3600))))
 	    {
 	        $this->Film->recursive = 0;
 	        $this->Film->contain(array('FilmType',
@@ -887,7 +887,7 @@ return;//НЕПРАВИЛЬНО РАБОТАЕТ
 	                                  )
 	                             );
 	        $film = $this->Film->read(null, $id);
-		    Cache::write('Catalog.film_view_' . $id, $film,'media');
+		    Cache::write('Catalog.film_view_' . $id, $film,Cache::set(array('path'=>CACHE.DS.'media'.DS.($id%10).DS,'duration'=>30*24*3600)));
 	    }
 
 	    if (!$film['Film']['active']) {
@@ -2468,7 +2468,7 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
             $this->Session->setFlash(__('Invalid Film', true));
             $this->redirect(array('action'=>'index'));
         }
-		if (!$film = Cache::read('Catalog.film_view_' . $id,'media'))
+		if (!$film = Cache::read('Catalog.film_view_' . $id,Cache::set(array('path'=>CACHE.DS.'media'.DS.($id%10).DS,'duration'=>30*24*3600))))
 	    {
 	        $this->Film->recursive = 0;
 	        $this->Film->contain(array('FilmType',
@@ -2483,7 +2483,7 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
 	                                  )
 	                             );
 	        $film = $this->Film->read(null, $id);
-		    Cache::write('Catalog.film_view_' . $id, $film, 'media');
+		    Cache::write('Catalog.film_view_' . $id, $film, Cache::set(array('path'=>CACHE.DS.'media'.DS.($id%10).DS,'duration'=>30*24*3600)));
 	    }
 		$ozons = Cache::read('Catalog.ozon_' . $id, 'ozon');
 		if (empty($ozons))//ЕСЛИ СПИСОК ТОВАРОВ ПУСТ
@@ -2508,7 +2508,8 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
 		if (!empty($filmId))
 		{
 			$film = $this->Film->find(array('Film.id' => intval($filmId)));
-            Cache::delete('Catalog.film_view_' . $film['Film']['id'], 'media');
+
+            Cache::delete('Catalog.film_view_' . $film['Film']['id'], Cache::set(array('path'=>CACHE.DS.'media'.DS.($film['Film']['id']%10).DS,'duration'=>30*24*3600)));
 
 /*
 			$ch = curl_init();
@@ -4133,7 +4134,7 @@ if (--$limit == 0) {
     public function cloudlink($filmId, $quality, $fName, $loadTp = 0)
     {
     	$this->layout = 'ajax';
-		$film = Cache::read('Catalog.film_view_' . $filmId, 'media');
+		$film = Cache::read('Catalog.film_view_' . $filmId, Cache::set(array('path'=>CACHE.DS.'media'.DS.($filmId%10).DS,'duration'=>30*24*3600)));
 		if (!$film)
 		{
 	        $this->Film->recursive = 0;
@@ -4147,7 +4148,7 @@ if (--$limit == 0) {
 	                                  )
 	                             );
 	        $film = $this->Film->read(null, $filmId);
-		    Cache::write('Catalog.film_view_' . $filmId, $film,'media');
+		    Cache::write('Catalog.film_view_' . $filmId, $film,Cache::set(array('path'=>CACHE.DS.'media'.DS.($filmId%10).DS,'duration'=>30*24*3600)));
 		}
 
 		$url = '';
@@ -4182,7 +4183,7 @@ if (--$limit == 0) {
 	public function clearcache($filmId = 0)
 	{
     	$this->layout = 'ajax';
-		$film = Cache::delete('Catalog.film_view_' . intval($filmId), 'media');
+		$film = Cache::delete('Catalog.film_view_' . intval($filmId), Cache::set(array('path'=>CACHE.DS.'media'.DS.(intval($filmId)%10).DS,'duration'=>30*24*3600)));
 		$this->render('ajax');
 	}
 }
