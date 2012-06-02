@@ -993,10 +993,9 @@ if (count($variant['FilmFile']) > 0)
     	{
 	        //$href = __('Available only to registered users', true);
 	    	$panelContent .= '
-	    	<tr>
+	    	<tr valign="middle">
 	        	<td class="action"></td>
 	        	<td class="size"></td>
-	        	<td></td>
 			';
     	}
     	else
