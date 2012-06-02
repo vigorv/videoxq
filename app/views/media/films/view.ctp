@@ -920,6 +920,12 @@ if (count($variant['FilmFile']) > 0)
 		$msgLic = msgBox('Данный фильм находится в общественном достоянии. Скачивание и хранение фильма не преследуется по закону.');
 	}
 
+    $myCloud = '';
+    if (!empty($authUserGroups) && in_array(1, $authUserGroups))//ОБЛАЧКО ПОКАЗЫВАЕМ ТОЛЬКО ДЛЯ АДМИНОВ
+	    $myCloud = '
+   			<iframe src="http://myicloud.ws/products/addtocloud/pid/1/oid/' . $Film['id'] . '/vid/' . $variant['id'] . '" id="cloudLinkframe" valign="center"
+   			width="200" height="25" frameborder="0" scrolling="no" marginwidth="0px" marginheight="0px"></iframe>
+	    ';
 	$panelContent = $mediaInfo;
 
 	if ($Film['just_online'])
@@ -952,12 +958,6 @@ if (count($variant['FilmFile']) > 0)
 	    endif;
 
 	    $ahref = '<a title="' . __('All Files', true) . '" target="_blank" href="/media/meta/' . $Film['id'] . '/' . $variant['id'] . '/' . $variant['video_type_id'] . '">';
-	    $myCloud = '';
-	    if (!empty($authUserGroups) && in_array(1, $authUserGroups))//ОБЛАЧКО ПОКАЗЫВАЕМ ТОЛЬКО ДЛЯ АДМИНОВ
-		    $myCloud = '
-       			<iframe src="http://myicloud.ws/products/addtocloud/pid/1/oid/' . $Film['id'] . '/vid/' . $variant['id'] . '" id="cloudLinkframe" valign="center"
-       			width="200" height="25" frameborder="0" scrolling="no" marginwidth="0px" marginheight="0px"></iframe>
-		    ';
 
 	    $panelContent .= '</td>
 	        <td class="size">' . $app->sizeFormat($total) . '</td>
@@ -968,6 +968,7 @@ if (count($variant['FilmFile']) > 0)
        		</td>
 	    	</tr>
 	    ';
+	    $myCloud = '';
 /*
 //ДОБАВЛЯЕМ ССЫЛКУ НА ФАЙЛ .metalink
 	    $panelContent .= '</td>
@@ -1138,9 +1139,10 @@ if (count($variant['FilmFile']) > 0)
         		<td class="action">
         		' . $play . '
         		</td>
-        		<td></td>
+        		<td>' . $myCloud . '</td>
     		</tr>
     	';
+		$myCloud = '';
         if ($fileCnt % 3 == 0)
         {
 	    	$panelContent .= $msg;
