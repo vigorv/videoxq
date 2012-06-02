@@ -993,7 +993,7 @@ if (count($variant['FilmFile']) > 0)
     	{
 	        //$href = __('Available only to registered users', true);
 	    	$panelContent .= '
-	    	<tr valign="middle">
+	    	<tr>
 	        	<td class="action"></td>
 	        	<td class="size"></td>
 			';
@@ -1137,7 +1137,7 @@ if (count($variant['FilmFile']) > 0)
         		<td class="action">
         		' . $play . '
         		</td>
-        		<td>' . $myCloud . '</td>
+        		<td style="padding-top:-5px;">' . $myCloud . '</td>
     		</tr>
     	';
 		$myCloud = '';
