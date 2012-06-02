@@ -1137,7 +1137,7 @@ if (count($variant['FilmFile']) > 0)
         		<td class="action">
         		' . $play . '
         		</td>
-        		<td style="padding-top:-5px;">' . $myCloud . '</td>
+        		<td class="cloud">' . $myCloud . '</td>
     		</tr>
     	';
 		$myCloud = '';
