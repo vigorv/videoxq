@@ -997,7 +997,6 @@ if (count($variant['FilmFile']) > 0)
 	        	<td class="action"></td>
 	        	<td class="size"></td>
 	        	<td></td>
-		        <td class="title">
 			';
     	}
     	else
