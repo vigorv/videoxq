@@ -31,16 +31,16 @@ if ($isWS)
     	    ($cntr['id'] == 7)
     	)
         {
-	    if ($film['Film']['year'] >= 2005)	    
+	    if ($film['Film']['year'] >= 2005)
 	    {
 //echo $film['Film']['year'];
-		$isRus = true;
+//		$isRus = true;
 	    }
             break;
 	}
     }
 //$isRus = true; //ПОИСК ПО ГУГЛУ ОТКЛЮЧАЕМ ДЛЯ ВСЕХ ФИЛЬМОВ
-                                                                
+
 if (($geoIsGood) && ($film["Film"]['is_license']) && ($authUser['userid']))
 {
 	$isWS = true;

@@ -12,7 +12,7 @@
 	    if ($Film['year'] >= 2005)
 	    {
 //echo $Film['year'];
-		$isRus = true;
+//		$isRus = true;
 	    }
 	    break;
 	}
