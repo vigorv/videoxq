@@ -1027,7 +1027,7 @@ exit;
 
 /* будем использовать другой способ - удаление всех тегов, не входящих в список разрешенных
  */         //список разрешенных тегов
-            $allowed_tags = '<p><a><div><span><ul><li><ol><b><br><strong><table><tr><th><td>';
+            $allowed_tags = '<p><a><div><span><ul><li><ol><b><br><strong><table><tr><th><td><img>';
             $this->data['News']['stxt'] = strip_tags($this->data['News']['stxt'], $allowed_tags);
             $this->data['News']['txt'] = strip_tags($this->data['News']['txt'], $allowed_tags);
 
