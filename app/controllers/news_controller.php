@@ -872,7 +872,7 @@ exit;
 	 	{
 	 		Cache::delete('News.categoriesFullTree');
 	 	}
-                
+
                  exit();
     }
 
@@ -1014,7 +1014,7 @@ exit;
  * этот способ пока отменяется, так как обреает не корректно следующие строки
  * <font color="red" size="11">dfdsf</font> <font color="red">dfdsf</font>
  * <font size="11">dfdsf</font>
- * 
+ *
         	//ВЫРЕЗАЕМ ТЭГИ ФОНТОВ
         	$this->data['News']['stxt'] = preg_replace('/<font face[^>]{1,}>/imU', '', $this->data['News']['stxt']);
         	$this->data['News']['stxt'] = preg_replace('/<font size[^>]{1,}>/imU', '', $this->data['News']['stxt']);
@@ -1022,16 +1022,16 @@ exit;
         	$this->data['News']['txt'] = preg_replace('/<font face[^>]{1,}>/imU', '', $this->data['News']['txt']);
         	$this->data['News']['txt'] = preg_replace('/<font size[^>]{1,}>/imU', '', $this->data['News']['txt']);
         	$this->data['News']['txt'] = str_ireplace('</font>', '', $this->data['News']['txt']);
- 
+
  */
-                
+
 /* будем использовать другой способ - удаление всех тегов, не входящих в список разрешенных
- */         //список разрешенных тегов       
-            $allowed_tags = '<p><div><span><ul><li><ol><b><br><strong><table><tr><th><td>';
+ */         //список разрешенных тегов
+            $allowed_tags = '<p><a><div><span><ul><li><ol><b><br><strong><table><tr><th><td>';
             $this->data['News']['stxt'] = strip_tags($this->data['News']['stxt'], $allowed_tags);
             $this->data['News']['txt'] = strip_tags($this->data['News']['txt'], $allowed_tags);
-   
-                
+
+
             if ($this->News->save($this->data)) {
 
             	if ($this->data['News']['id'])
