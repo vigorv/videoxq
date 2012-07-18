@@ -1939,7 +1939,7 @@ if (isset($authUser['username']))// && (($authUser['username'] == 'vanoveb') || 
 	}
 
 	//if (isOperaTurbo())
-	if ($isOpera)//ЗНАЧЕНИЕ ОПРЕДЕЛЕНО В AppController
+	if ($isOpera || isOperaTurbo())//ЗНАЧЕНИЕ ОПРЕДЕЛЕНО В AppController
 	{
 		//$browser = strtolower(get_browser(null, true));
 		//if (strpos($browser, 'opera') === true)
