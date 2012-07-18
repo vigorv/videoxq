@@ -8264,6 +8264,9 @@ msgstr "и затем"
 msgid "get links"
 msgstr "получить ссылки"
 
+msgid "active option 'Opera Turbo' of your browser may cause undesired site working"
+msgstr "включенная опция 'Opera Turbo' вашего браузера может привести к неправильной работе сайта"
+
 msgid "search_link"
 msgstr "http://yandex.ru/yandsearch?text="
 
