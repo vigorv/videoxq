@@ -2013,7 +2013,8 @@ if (isset($authUser['username']))// && (($authUser['username'] == 'vanoveb') || 
 //echo $divxContent;
 if (!empty($operaMsg))
 	echo $operaMsg;
-echo $linksContent;
+else
+	echo $linksContent;
 
 ?>
     <h4><?php __('Pictures'); ?>:</h4>
