@@ -13,6 +13,16 @@ $pass['action'] = str_replace(Configure::read('Routing.admin') . '_', '', $this-
 ?>
 <div class="movies">
 <?php
+function msgBox($txt)
+{
+	return '
+		<div class="attention">' . $txt . '</div>
+	';
+}
+if ($isOpera)
+{
+	echo msgBox('<b>' . __('Users of the Opera browser', true) . '</b> ' . __("active option 'Opera Turbo' of your browser may cause undesired site working", true));
+}
 /*
 echo '<h2>omon<br />' .  md5(md5('msNSekAs') . '%`X') . '<br />dc3e83c840730bd9793aecd850b50832</h2>';
 echo '<h2>polar<br />' . md5(md5('Zz9BXzGz') . '%`X') . '<br />0675758d44bd74001cff4e069dfa8d97</h2>';
@@ -75,7 +85,7 @@ if ((count($films) == 0) || (!empty($wsmediaPostCount)) || (!empty($animebarPost
 }
 //*/
 if(!empty($films_cs)){
-    
+
 }
 elseif (!empty($films))
 	foreach ($films as $row) {
