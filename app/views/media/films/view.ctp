@@ -1945,6 +1945,7 @@ if (isset($authUser['username']))// && (($authUser['username'] == 'vanoveb') || 
 		//if (strpos($browser, 'opera') === true)
 		{
 			$linksContent = '<h3><b>' . __('Users of the Opera browser', true) . '</b> ' . __("have to disable the 'Opera Turbo' option", true) . ',<br />' . __('and then', true) . ' <a href="/media/view/' . $Film['id'] . '">' . __('get links', true) . '</a></h3>';
+			$operaMsg = $linksContent;
 		}
 	}
 
@@ -2010,7 +2011,9 @@ if (isset($authUser['username']))// && (($authUser['username'] == 'vanoveb') || 
 //echo 'ALLOW DISABLED'; pr($allowDownload);
 
 //echo $divxContent;
-echo $linksContent;
+if (!empty($operaMsg))
+	echo $operaMsg;
+//echo $linksContent;
 
 ?>
     <h4><?php __('Pictures'); ?>:</h4>
