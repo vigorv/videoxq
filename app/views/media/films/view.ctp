@@ -1944,7 +1944,7 @@ if (isset($authUser['username']))// && (($authUser['username'] == 'vanoveb') || 
 		//$browser = strtolower(get_browser(null, true));
 		//if (strpos($browser, 'opera') === true)
 		{
-			$linksContent = msgBox('<b>' . __('Users of the Opera browser', true) . '</b> ' . __("have to disable the 'Opera Turbo' option", true) . ',<br />' . __('and then', true) . ' <a href="/media/view/' . $Film['id'] . '">' . __('get links', true) . '</a>');
+			$linksContent = msgBox('<div class="bordered"><b>' . __('Users of the Opera browser', true) . '</b> ' . __("have to disable the 'Opera Turbo' option", true) . ',<br />' . __('and then', true) . ' <a href="/media/view/' . $Film['id'] . '">' . __('get links', true) . '</a></div>');
 			$operaMsg = $linksContent;
 		}
 	}

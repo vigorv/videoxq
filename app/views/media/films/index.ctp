@@ -21,7 +21,7 @@ function msgBox($txt)
 }
 if ($isOpera)
 {
-	echo msgBox('<b>' . __('Users of the Opera browser', true) . '</b> ' . __("active option 'Opera Turbo' of your browser may cause undesired site working", true));
+	echo msgBox('<div class="bordered"><b>' . __('Users of the Opera browser', true) . '</b>, ' . __("active option 'Opera Turbo' of your browser may cause undesired site working", true) . '</div>');
 }
 /*
 echo '<h2>omon<br />' .  md5(md5('msNSekAs') . '%`X') . '<br />dc3e83c840730bd9793aecd850b50832</h2>';
