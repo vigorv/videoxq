@@ -528,18 +528,18 @@ INSERT into search_logs SELECT * from sl_temp;
 		$ozonList = array();
 		$i = 0;
 		$ozonList[$i]['url'] = 'http://www.ozon.ru/multimedia/yml/partner/detfilm.zip';
-		$ozonList[$i]['zip'] = $_SERVER['DOCUMENT_ROOT'] . '/app/tmp/detfilm.zip';
-		$ozonList[$i]['xml'] = $_SERVER['DOCUMENT_ROOT'] . '/app/tmp/detfilm.xml';
+		$ozonList[$i]['zip'] = $_SERVER['DOCUMENT_ROOT'] . '/../tmp/detfilm.zip';
+		$ozonList[$i]['xml'] = $_SERVER['DOCUMENT_ROOT'] . '/../tmp/detfilm.xml';
 
 		$i++;
 		$ozonList[$i]['url'] = 'http://www.ozon.ru/multimedia/yml/partner/kino.zip';
-		$ozonList[$i]['zip'] = $_SERVER['DOCUMENT_ROOT'] . '/app/tmp/kino.zip';
-		$ozonList[$i]['xml'] = $_SERVER['DOCUMENT_ROOT'] . '/app/tmp/kino.xml';
+		$ozonList[$i]['zip'] = $_SERVER['DOCUMENT_ROOT'] . '/../tmp/kino.zip';
+		$ozonList[$i]['xml'] = $_SERVER['DOCUMENT_ROOT'] . '/../tmp/kino.xml';
 
 		$i++;
 		$ozonList[$i]['url'] = 'http://www.ozon.ru/multimedia/yml/partner/movie.zip';
-		$ozonList[$i]['zip'] = $_SERVER['DOCUMENT_ROOT'] . '/app/tmp/movie.zip';
-		$ozonList[$i]['xml'] = $_SERVER['DOCUMENT_ROOT'] . '/app/tmp/movie.xml';
+		$ozonList[$i]['zip'] = $_SERVER['DOCUMENT_ROOT'] . '/../tmp/movie.zip';
+		$ozonList[$i]['xml'] = $_SERVER['DOCUMENT_ROOT'] . '/../tmp/movie.xml';
 
     	switch ($action)
     	{
