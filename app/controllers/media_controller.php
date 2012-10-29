@@ -826,7 +826,7 @@ return;//НЕПРАВИЛЬНО РАБОТАЕТ
 
 	function searchWsmedia()
 	{
-		//return $this->searchSphinxIndex('rumedia_post');
+		return $this->searchSphinxIndex('rumedia_post');
 		return null;
 	}
 
