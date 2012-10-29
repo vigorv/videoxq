@@ -2078,6 +2078,11 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
  */
         }
 
+        if (!empty($search))
+        {
+            $this->set('search', $search);
+        }
+
         if (!empty($search) && $crossSearch){
             //----------------------------------------------------------------------
             //добавим в готовый массив поле - сгенерированый slug на основе title фильма
@@ -2085,7 +2090,6 @@ join genres g2 on g2.id = fg2.genre_id and g2.id = 23
                 $search_result[$key]['CS_Film']['slug'] = $this->_toSlug($val['CS_Film']['title']);
             }
             $this->set('s_films', $search_result);
-            $this->set('search', $search);
             $this->render('cs_index');
         }
         elseif (!empty($films)){
