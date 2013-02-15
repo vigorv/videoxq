@@ -58,15 +58,15 @@ if ((count($films) == 0) || (!empty($wsmediaPostCount)) || (!empty($animebarPost
 		}
 		if (!empty($wsmediaPostCount))
 		{
-			/*echo '
+			echo '
 			<form method="post" name=wsmform action="http://rumedia.ws">
 				<input type="hidden" name="do" value="search" />
 				<input type="hidden" name="subaction" value="search" />
 				<input type="hidden" name="nsk54" value="search" />
 				<input type="hidden" name="story" value="' . $search . '" />
 			</form>
-			';*/
-			$cLinks[] = '<a href="http://rumedia.ws/index.php?do=search&subaction=search&story='.$search.'">RuMedia '.$wsmediaPostCount.' '. __('matches', true) . '</a>';
+			';
+			$cLinks[] = "<a href=\"http://rumedia.ws\" onclick=\"document.wsmform.submit(); return false;\">RuMedia $wsmediaPostCount " . __('matches', true) . "</a>";
 		}
 		if (!empty($animebarPostCount))
 		{
