@@ -2,6 +2,8 @@
 
 
 error_reporting(0);
+
+define("UTIL_DATA","1");
 require_once('conf.php');
 require_once('lib/edb.class.php');
 
