@@ -23,7 +23,7 @@ if (isset($_REQUEST['item_id'])){
         $sql = 'SELECT file_name, type FROM film_pictures WHERE film_id = ' . $item_id.' ORDER BY  `film_pictures`.`type` ASC ';
         $film['pictures'] = $db->q($sql);
         if ($film['pictures'])
-            $film['image'] = $film['pictures'][0];
+            $film['image'] = @$film['pictures'][0]['file_name'];
         $sql = 'SELECT p.name,p.name_en,p.description,p.url, fp.role, fp.profession_id FROM `persons` p INNER JOIN `films_persons` fp ON p.id = fp.person_id WHERE fp.film_id ='.$item_id;
         $film['persons'] = $db->q($sql);
         $sql = 'SELECT p.title FROM `publishers` p INNER JOIN `films_publishers` fp ON p.id = fp.publisher_id WHERE fp.film_id='.$item_id;
